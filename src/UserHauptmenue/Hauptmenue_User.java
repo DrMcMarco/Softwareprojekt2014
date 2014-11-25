@@ -261,9 +261,10 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     }
                 }
                     
-            }else if(node.equals("Artikel verwalten"))
-        }
+            }else if(node.equals("Artikel verwalten")){
+            }
 
+    }
     }
      
     @Override
