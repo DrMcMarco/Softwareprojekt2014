@@ -227,6 +227,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
 
     private void hauptmenueAdmin_TreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hauptmenueAdmin_TreeMouseClicked
         node = (DefaultMutableTreeNode) hauptmenueAdmin_Tree.getLastSelectedPathComponent();
+        //FEHLER!
         //node =  hauptmenueAdmin_Tree.get;
         //TreePath Path = node.getNewLeadSelectionPath(); 
         if(evt.getClickCount() == 2){
