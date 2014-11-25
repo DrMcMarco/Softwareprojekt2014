@@ -12,4 +12,25 @@ package DAO;
  */
 public class ApplicationException extends Exception {
     
+    private String title;
+
+    public ApplicationException() {
+    }
+
+    public ApplicationException(String title, String message) {
+        super(message);
+        this.title = title;
+    }
+
+    public ApplicationException(String title, String message, Throwable cause) {
+        super(message, cause);
+        this.title = title;
+    }
+
+    public ApplicationException(String title, Throwable cause) {
+        super(cause);
+        this.title = title;
+    }
+    
+    
 }
