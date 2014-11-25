@@ -5,11 +5,13 @@
  */
 
 package DAO;
-
+import javax.persistence.*;
 /**
  *
  * @author Simon <Simon.Simon at your.org>
  */
 public class DataAccessObject {
+    
+    private EntityManager em;
     
 }
