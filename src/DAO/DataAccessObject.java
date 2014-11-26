@@ -5,9 +5,8 @@
  */
 
 package DAO;
-//import 
-import javax.accessibility.*;
-import javax.activation.*;
+//import
+import javax.persistence.*;
 /**
  *
  * @author Simon <Simon.Simon at your.org>
