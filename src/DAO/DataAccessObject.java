@@ -14,4 +14,9 @@ public class DataAccessObject {
     
     private EntityManager em;
     
+    public DataAccessObject() {
+        this.em = Persistence.createEntityManagerFactory(
+            "Softwareprojekt2014PU").createEntityManager();
+    }
+    
 }
