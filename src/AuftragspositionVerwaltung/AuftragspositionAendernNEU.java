@@ -94,7 +94,7 @@ public class AuftragspositionAendernNEU extends javax.swing.JInternalFrame {
 
         AuftragskopfID_jLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         AuftragskopfID_jLabel.setLabelFor(AuftragskopfID_jTextField);
-        AuftragskopfID_jLabel.setText("Auftragskopf-ID :");
+        AuftragskopfID_jLabel.setText("Auftragskopf :");
         AuftragskopfID_jLabel.setToolTipText("");
 
         Enter_jButton.setText("Enter");
