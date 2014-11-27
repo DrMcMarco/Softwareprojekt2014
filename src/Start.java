@@ -1,6 +1,8 @@
 import AuftragskopfVerwaltung.*;
 import AuftragspositionVerwaltung.*;
 import ArtikelVerwalten.*;
+import DAO.ApplicationException;
+import DAO.Parser;
 import GeschäftspartnerVerwalten.*;
 import ZahlungskonditionenVerwalten.*;
 import UserHauptmenue.Hauptmenue_User;
@@ -381,8 +383,16 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_BenutzerhandbuchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_BenutzerhandbuchActionPerformed
-        JOptionPane.showMessageDialog(rootPane, "Benutzerhandbuch.", "Informationen",
+//        JOptionPane.showMessageDialog(rootPane, "Benutzerhandbuch.", "Informationen",
+//                JOptionPane.INFORMATION_MESSAGE); "nr:123, datum:123 , andere:ete,kat:asd "
+        Parser parser = new Parser();
+        try {
+            parser.parse("nr:123, datum:123 , andere:ete,kat:asd ", "test");
+        } catch (ApplicationException ae) {
+            JOptionPane.showMessageDialog(rootPane, "" + ae.getMessage(), "Informationen",
                 JOptionPane.INFORMATION_MESSAGE);
+        }
+        
     }//GEN-LAST:event_jMI_BenutzerhandbuchActionPerformed
     /**
      * ActionPerformed in der die AuftrgaskopfAnlegen Maske aufgerufen wird
