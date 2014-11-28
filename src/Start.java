@@ -387,7 +387,7 @@ public class Start extends javax.swing.JFrame {
 //                JOptionPane.INFORMATION_MESSAGE); "nr:123, datum:123 , andere:ete,kat:asd "
         Parser parser = new Parser();
         try {
-            parser.parse("nr:123, datum:123 , andere:ete,kat:asd ", "test");
+            parser.parse("nr:123, datum:123 , typ:bar.status:freigegeben ", "test");
         } catch (ApplicationException ae) {
             JOptionPane.showMessageDialog(rootPane, "" + ae.getMessage(), "Informationen",
                 JOptionPane.INFORMATION_MESSAGE);
