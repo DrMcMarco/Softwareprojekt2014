@@ -6,6 +6,7 @@
 
 package DAO;
 
+import DTO.test;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -13,6 +14,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -32,13 +35,15 @@ public class Parser {
     /**
      * Konstante zur Trennung der einzelnen Sucheingaben
      */
-    private static final String TRENNZEICHENEINGABE = ",";
+    private static final String SPLITINPUT = ",";
     /**
      * Konstante zur Trennung der einzelnen Querys
      */
-    private static final String TRENNZEICHENQUERY = ":";
-    
-    private static final HashMap<String, String> BEZEICHNER = new 
+    private static final String SPLITQUERY = ":";
+    /**
+     * Hashmap mit allen Schlüßelwörtern
+     */
+    private static final HashMap<String, String> IDENTIFIER = new 
             HashMap<String, String>() {{
               put("nr","ID");
               put("name","NAME");
@@ -60,6 +65,8 @@ public class Parser {
      *         DB-Attributnamen zur weiteren Generierung der SQL-Statements
      * @throws ApplicationException Sollten Eingaben ungültig sein,
      *         so wird eine AE geworfen.
+     * 
+     * TODO: prüfung auf illegale zeichen, und nicht einhaltung der regeln
      */
     public HashMap<String, String> parse(String input, String table) 
             throws ApplicationException {
@@ -68,7 +75,6 @@ public class Parser {
         StringTokenizer st = null;
         //Evt. andere Collection nehmen?
         HashMap<String, String> searchQuerys = new HashMap<>();
-        Iterator<Entry<String, String>> iterator = null;
         String inputNoSpace = "";
         String searchIdentifier = null;
         String databaseIdentifier = null;
@@ -81,20 +87,20 @@ public class Parser {
         }
         //Initialisiere StringTokenizer
         st = new StringTokenizer(input);
-        //Durchlaufe solange wie Tokens vorhanden sind
+        //Durchlaufe alle Token
         while (st.hasMoreTokens()) {
             inputNoSpace += st.nextToken();
         }
         //Speicher alle praefixe in das array unter gegebenen Trennzeichen
-        praefixList = inputNoSpace.split(TRENNZEICHENEINGABE);
+        praefixList = inputNoSpace.split(SPLITINPUT);
         //Iteriere über alle Suchattribute
         for (String praefix : praefixList) {
             //Identifiziere das Attribut nach dem gesucht werden soll
-            searchIdentifier = praefix.split(TRENNZEICHENQUERY)[0];
+            searchIdentifier = praefix.split(SPLITQUERY)[0];
             //Identifiziere den Wert nach dem gesucht werden soll
-            value = praefix.split(TRENNZEICHENQUERY)[1];
+            value = praefix.split(SPLITQUERY)[1];
             //Ermittle den Datenbanken Namen aus der Hashmap
-            databaseIdentifier = BEZEICHNER.get(searchIdentifier);
+            databaseIdentifier = IDENTIFIER.get(searchIdentifier);
             //Prüfe, ob der User eine gültige Eingabe gemacht hat.
             if (databaseIdentifier == null) {
                 throw new ApplicationException("Fehler", 
@@ -103,6 +109,7 @@ public class Parser {
             //Attribute als DB-Spalten Namen speichern
             searchQuerys.put(databaseIdentifier, value);
         }
+        
         return searchQuerys;
     }
     

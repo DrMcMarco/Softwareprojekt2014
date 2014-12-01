@@ -6,11 +6,14 @@
 
 package DAO;
 //import
+import DTO.test;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.*;
 /**
  *
@@ -35,12 +38,12 @@ public class DataAccessObject {
      * @throws DAO.ApplicationException Die Exception wird durchgereicht
      */
     public Collection<?> searchQuery(String input, String table) 
-            throws ApplicationException, ClassNotFoundException, 
-            InstantiationException, IllegalAccessException {
+            throws ApplicationException {
         //Datendeklaration
         HashMap<String, String> dbIdentifier = null;
         Iterator<Entry<String, String>> iterator = null;
         String sqlQuery = null;
+        Class<?> classIdentify = null;
         Parser parser = new Parser();
         //Parse den Suchausdruck und hole die DB-Attr. Namen
         dbIdentifier = parser.parse(input, table);
@@ -49,9 +52,15 @@ public class DataAccessObject {
             throw new ApplicationException("Fehler", 
                     "Beim Parsen ist ein Fehler aufgetreten!");
         }
-        Class<?> t = Class.forName(table);
-        Object o = t.newInstance();
-        //em.fin
+        
+        try {
+            classIdentify = Class.forName("DTO." + table);
+            if (table.equals("test")) {
+                
+            }
+        } catch (ClassNotFoundException ex) {
+            throw new ApplicationException("Fehler", ex.getMessage());
+        }
         return new ArrayList<>();
     }
     
