@@ -14,4 +14,5 @@ package Interfaces;
  */
 public interface InterfaceViewsFunctionality {
     public void zuruecksetzen();
+    public void ueberpruefen();
 }
