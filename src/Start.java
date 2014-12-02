@@ -535,6 +535,7 @@ public class Start extends javax.swing.JFrame {
         jif.setLocation(width, height);
         jif.setVisible(true);
     }
+    
 
     /**
      * @param args the command line arguments
