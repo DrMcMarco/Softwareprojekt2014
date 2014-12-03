@@ -133,6 +133,9 @@
             </Property>
             <Property name="label" type="java.lang.String" value="Anmelden"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Anmelde_buttonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

@@ -2,6 +2,7 @@ import AuftragskopfVerwaltung.*;
 import AuftragspositionVerwaltung.*;
 import ArtikelVerwalten.*;
 import DAO.ApplicationException;
+import DAO.DataAccessObject;
 import DAO.Parser;
 import GeschäftspartnerVerwalten.*;
 import ZahlungskonditionenVerwalten.*;
@@ -47,6 +48,8 @@ public class Start extends javax.swing.JFrame {
     ZahlungskonditionAnlegen zahlungskonditionanlegen;
     ZahlungskonditionAnzeigen zahlungskonditionanzeigen;
     ZahlungskonditionenAEndernEinstieg zahlungskonditionaendern;
+    
+    DataAccessObject DAO;
     
     //Hilfsvariablen
     Dimension desktopSize;//Speichervariable für die Größe der DesktopPane
@@ -112,6 +115,9 @@ public class Start extends javax.swing.JFrame {
         zahlungskonditionanlegen.setVisible(false);
         zahlungskonditionanzeigen.setVisible(false);
         zahlungskonditionaendern.setVisible(false);
+        
+        //Erstmal zu Testzwecken, kommt noch woanders hin
+        DAO = new DataAccessObject();  
     }
 
     /**

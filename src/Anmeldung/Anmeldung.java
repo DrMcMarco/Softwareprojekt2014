@@ -61,6 +61,11 @@ public class Anmeldung extends javax.swing.JInternalFrame {
 
         Anmelde_button.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Anmelde_button.setLabel("Anmelden");
+        Anmelde_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Anmelde_buttonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -120,6 +125,10 @@ public class Anmeldung extends javax.swing.JInternalFrame {
     private void Passwort_jTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Passwort_jTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Passwort_jTextFieldActionPerformed
+
+    private void Anmelde_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Anmelde_buttonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Anmelde_buttonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
