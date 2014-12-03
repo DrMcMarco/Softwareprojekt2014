@@ -130,7 +130,7 @@ public class Anmeldung extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_Anmelde_buttonActionPerformed
 
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Button Anmelde_button;
     private javax.swing.JLabel Benutzername_Label;

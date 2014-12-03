@@ -8,15 +8,9 @@ package DAO;
 //import
 import DTO.Benutzer;
 import java.io.UnsupportedEncodingException;
-import java.security.AlgorithmParameters;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import DTO.test;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -24,7 +18,6 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.*;
-import sun.misc.BASE64Encoder;
 /**
  *
  * @author Simon <Simon.Simon at your.org>
@@ -74,15 +67,27 @@ public class DataAccessObject {
         return new ArrayList<>();
     }
     
+    /**
+     * Loginfunktion
+     * @param username Benutzername
+     * @param password Passwort
+     * @return gibt an ob der Login erfolgreich war oder nicht
+     * @throws DAO.ApplicationException Die Exception wird durchgereicht
+     */
     public boolean doLogin(String username, String password) throws ApplicationException {
         
         boolean loginSuccessful = false;
+        //Suche Benutzer anhand des Benutzernames in der Datenbank
         Benutzer benutzer = em.find(Benutzer.class, username);
         
+        //Benutzer wurde nicht gefunden
         if(benutzer == null) {
+            //Werfe ApplicationException, implizit Funktionsabbruch
             throw new ApplicationException("Meldung", "Der angegebene Benutzer wurde nicht gefunden");
         }
         
+        //Eingegebenes Passwort(als MD5 Hash) stimmt nicht dem Passwort in der Datenbank
+        //(ebenfalls MD5 Hash) überein
         if(benutzer.getPasswort().equals(getHash(password))) {
             loginSuccessful = true;
         }
@@ -90,14 +95,21 @@ public class DataAccessObject {
         return loginSuccessful;
     }
     
+    /**
+     * Methode zur Generierung eines MD5 Hashs aus dem Passwort
+     * @param password Eingegebenes Passwort
+     * @return MD5 Hash des Passwortes
+     */
     private String getHash(String password) {
       
         String digest = null;
         try {
+            //Instanzierung des Hash Dienstes
             MessageDigest md = MessageDigest.getInstance("MD5");
+            //Erstellung des Hashs
             byte[] hash = md.digest(password.getBytes("UTF-8"));
            
-            //converting byte array to Hexadecimal String
+            //Konvertierung des Byte Arrays in einen Hexadezimalstring
             StringBuilder sb = new StringBuilder(2*hash.length);
             for(byte b : hash){
                 sb.append(String.format("%02x", b&0xff));
