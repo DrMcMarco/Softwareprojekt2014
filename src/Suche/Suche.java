@@ -5,12 +5,13 @@
  */
 
 package Suche;
-
+import Interfaces.*;
+import javax.swing.JTextField;
 /**
  *
  * @author Luca
  */
-public class Suche extends javax.swing.JInternalFrame {
+public class Suche extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality{
 
     /**
      * Creates new form Suche
@@ -57,11 +58,6 @@ public class Suche extends javax.swing.JInternalFrame {
         Auswaehlen_jButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         Auswaehlen_jButton.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         Auswaehlen_jButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        Auswaehlen_jButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Auswaehlen_jButtonActionPerformed(evt);
-            }
-        });
         Button_jToolBar.add(Auswaehlen_jButton);
 
         Anzeige_jButton.setText("Anzeigen");
@@ -85,6 +81,14 @@ public class Suche extends javax.swing.JInternalFrame {
 
         Suchfeld_jTextField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         Suchfeld_jTextField.setText("Suchfeld");
+        Suchfeld_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                Suchfeld_jTextFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                Suchfeld_jTextFieldFocusLost(evt);
+            }
+        });
 
         jSeparator1.setEnabled(false);
 
@@ -179,9 +183,41 @@ public class Suche extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void Auswaehlen_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Auswaehlen_jButtonActionPerformed
+    /*
+     Beim wählen des Eingabefeldes, wird alles selektiert.
+     */
+    private void Suchfeld_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_Suchfeld_jTextFieldFocusGained
+        Suchfeld_jTextField.selectAll();
+    }//GEN-LAST:event_Suchfeld_jTextFieldFocusGained
+
+    private void Suchfeld_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_Suchfeld_jTextFieldFocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_Auswaehlen_jButtonActionPerformed
+    }//GEN-LAST:event_Suchfeld_jTextFieldFocusLost
+
+    /**
+     * Schnittstellenmethode mit der alle Eingabefelder zurückgesetzt werden
+     */
+    @Override
+    public void zuruecksetzen() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /*
+     Schnittstellenmethode mit der geprüft wird ob alle Eingaben getätigt worden sind.
+     */
+    @Override
+    public void ueberpruefen() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /*
+     Schnittstellenmethode mit der die Eingaben beim FocusLost auf Richtigkeit 
+     geprüft werden.
+     */
+    @Override
+    public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

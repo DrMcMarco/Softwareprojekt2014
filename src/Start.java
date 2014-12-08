@@ -1,11 +1,7 @@
-import AuftragskopfVerwaltung.*;
-import AuftragspositionVerwaltung.*;
-import ArtikelVerwalten.*;
+import GUI_Internalframes.*;
 import DAO.ApplicationException;
 import DAO.DataAccessObject;
 import DAO.Parser;
-import GeschäftspartnerVerwalten.*;
-import ZahlungskonditionenVerwalten.*;
 import UserHauptmenue.Hauptmenue_User;
 import java.awt.Dimension;
 import javax.swing.JInternalFrame;
@@ -32,21 +28,21 @@ public class Start extends javax.swing.JFrame {
 
     AuftragskopfAnlegen auftragskopfanlegen;
     AuftragskopfAendern auftragskopfaendern;
-    AuftragskopfAnzeigen auftragskopfanzeigen;
+//    AuftragskopfAnzeigen auftragskopfanzeigen;
 
     AuftragspositionAendern auftragsspositionaender;
     AuftragspositionAnzeigen auftragsspositionanzeigen;
 
     ArtikelAnlegen artikelanlegen;
     ArtikelAEndernEinstieg artikelaendern;
-    ArtikelAnzeigen artikelanzeigen;
+//    ArtikelAnzeigen artikelanzeigen;
 
     GeschaeftspartnerAnlegen geschaeftspartneranlegen;
     GeschaeftspartnerAnzeigen geschaeftspartneranzeigen;
     GeschaeftspartnerAEndernEinstieg geschaeftspartneraendern;
 
     ZahlungskonditionAnlegen zahlungskonditionanlegen;
-    ZahlungskonditionAnzeigen zahlungskonditionanzeigen;
+//    ZahlungskonditionAnzeigen zahlungskonditionanzeigen;
     ZahlungskonditionenAEndernEinstieg zahlungskonditionaendern;
     
     DataAccessObject DAO;
@@ -68,18 +64,18 @@ public class Start extends javax.swing.JFrame {
         hauptmenueuser = new Hauptmenue_User();
 
         auftragskopfanlegen = new AuftragskopfAnlegen();
-        auftragskopfanzeigen = new AuftragskopfAnzeigen();
+//        auftragskopfanzeigen = new AuftragskopfAnzeigen();
         auftragskopfaendern = new AuftragskopfAendern();
         auftragsspositionanzeigen = new AuftragspositionAnzeigen();
         auftragsspositionaender = new AuftragspositionAendern();
         artikelanlegen = new ArtikelAnlegen();
-        artikelanzeigen = new ArtikelAnzeigen();
+//        artikelanzeigen = new ArtikelAnzeigen();
         artikelaendern = new ArtikelAEndernEinstieg();
         geschaeftspartneranlegen = new GeschaeftspartnerAnlegen();
         geschaeftspartneranzeigen = new GeschaeftspartnerAnzeigen();
         geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg();
         zahlungskonditionanlegen = new ZahlungskonditionAnlegen();
-        zahlungskonditionanzeigen = new ZahlungskonditionAnzeigen();
+//        zahlungskonditionanzeigen = new ZahlungskonditionAnzeigen();
         zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg();
         // Zuweisung der Masken an die Hauptansicht
 
@@ -88,32 +84,32 @@ public class Start extends javax.swing.JFrame {
 //        hauptmenueuser.setLayer();
         desktopPane.add(auftragskopfanlegen);
         desktopPane.add(auftragskopfaendern);
-        desktopPane.add(auftragskopfanzeigen);
+//        desktopPane.add(auftragskopfanzeigen);
         desktopPane.add(auftragsspositionanzeigen);
         desktopPane.add(auftragsspositionaender);
         desktopPane.add(artikelanlegen);
-        desktopPane.add(artikelanzeigen);
+//        desktopPane.add(artikelanzeigen);
         desktopPane.add(artikelaendern);
         desktopPane.add(geschaeftspartneranlegen);
         desktopPane.add(geschaeftspartneranzeigen);
         desktopPane.add(geschaeftspartneraendern);
         desktopPane.add(zahlungskonditionanlegen);
-        desktopPane.add(zahlungskonditionanzeigen);
+//        desktopPane.add(zahlungskonditionanzeigen);
         desktopPane.add(zahlungskonditionaendern);
 
         auftragskopfaendern.setVisible(false);
         auftragskopfanlegen.setVisible(false);
-        auftragskopfanzeigen.setVisible(false);
+//        auftragskopfanzeigen.setVisible(false);
         auftragsspositionaender.setVisible(false);
         auftragsspositionanzeigen.setVisible(false);
         artikelanlegen.setVisible(false);
-        artikelanzeigen.setVisible(false);
+//        artikelanzeigen.setVisible(false);
         artikelaendern.setVisible(false);
         geschaeftspartneranlegen.setVisible(false);
         geschaeftspartneraendern.setVisible(false);
         geschaeftspartneranzeigen.setVisible(false);
         zahlungskonditionanlegen.setVisible(false);
-        zahlungskonditionanzeigen.setVisible(false);
+//        zahlungskonditionanzeigen.setVisible(false);
         zahlungskonditionaendern.setVisible(false);
         
         //Erstmal zu Testzwecken, kommt noch woanders hin
@@ -391,6 +387,7 @@ public class Start extends javax.swing.JFrame {
     private void jMI_BenutzerhandbuchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_BenutzerhandbuchActionPerformed
 //        JOptionPane.showMessageDialog(rootPane, "Benutzerhandbuch.", "Informationen",
 //                JOptionPane.INFORMATION_MESSAGE); "nr:123, datum:123 , andere:ete,kat:asd "
+        
         Parser parser = new Parser();
         try {
             parser.parse("nr:123, datum:123 , typ:bar,status:freigegeben ", "test");
@@ -422,7 +419,7 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_AuftragskopfAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragskopfAnzeigenActionPerformed
-        setCenterJIF(auftragskopfanzeigen);
+//        setCenterJIF(auftragskopfanzeigen);
     }//GEN-LAST:event_jMI_AuftragskopfAnzeigenActionPerformed
 
     /**
@@ -467,7 +464,7 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_ArtikelAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ArtikelAnzeigenActionPerformed
-        setCenterJIF(artikelanzeigen);
+//        setCenterJIF(artikelanzeigen);
     }//GEN-LAST:event_jMI_ArtikelAnzeigenActionPerformed
 
     /**
@@ -524,7 +521,7 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_ZKAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ZKAnzeigenActionPerformed
-        setCenterJIF(zahlungskonditionanzeigen);
+//        setCenterJIF(zahlungskonditionanzeigen);
     }//GEN-LAST:event_jMI_ZKAnzeigenActionPerformed
 
     /**

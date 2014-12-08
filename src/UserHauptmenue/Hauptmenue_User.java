@@ -4,22 +4,13 @@
  * and open the template in the editor.
  */
 package UserHauptmenue;
+import GUI_Internalframes.*;
 
 import ArtikelVerwalten.ArtikelAEndernEinstieg;
 import ArtikelVerwalten.ArtikelAnlegen;
 import ArtikelVerwalten.ArtikelAnzeigen;
-import AuftragskopfVerwaltung.AuftragskopfAendern;
-import AuftragskopfVerwaltung.AuftragskopfAnlegen;
-import AuftragskopfVerwaltung.AuftragskopfAnzeigen;
-import AuftragspositionVerwaltung.AuftragspositionAendern;
-import AuftragspositionVerwaltung.AuftragspositionAnzeigen;
-import GeschäftspartnerVerwalten.GeschaeftspartnerAEndernEinstieg;
-import GeschäftspartnerVerwalten.GeschaeftspartnerAnlegen;
-import GeschäftspartnerVerwalten.GeschaeftspartnerAnzeigen;
+
 import Interfaces.*;
-import ZahlungskonditionenVerwalten.ZahlungskonditionAnlegen;
-import ZahlungskonditionenVerwalten.ZahlungskonditionAnzeigen;
-import ZahlungskonditionenVerwalten.ZahlungskonditionenAEndernEinstieg;
 import javax.swing.JInternalFrame;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -33,7 +24,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
 
     AuftragskopfAnlegen auftragskopfanlegen;
     AuftragskopfAendern auftragskopfaendern;
-    AuftragskopfAnzeigen auftragskopfanzeigen;
+//    AuftragskopfAnzeigen auftragskopfanzeigen;
 
     AuftragspositionAendern auftragsspositionaender;
     AuftragspositionAnzeigen auftragsspositionanzeigen;
@@ -47,7 +38,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
     GeschaeftspartnerAEndernEinstieg geschaeftspartneraendern;
 
     ZahlungskonditionAnlegen zahlungskonditionanlegen;
-    ZahlungskonditionAnzeigen zahlungskonditionanzeigen;
+//    ZahlungskonditionAnzeigen zahlungskonditionanzeigen;
     ZahlungskonditionenAEndernEinstieg zahlungskonditionaendern;
     
     
@@ -64,7 +55,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
     public Hauptmenue_User() {
         initComponents();
         auftragskopfanlegen = new AuftragskopfAnlegen();
-        auftragskopfanzeigen = new AuftragskopfAnzeigen();
+//        auftragskopfanzeigen = new AuftragskopfAnzeigen();
         auftragskopfaendern = new AuftragskopfAendern();
         auftragsspositionanzeigen = new AuftragspositionAnzeigen();
         auftragsspositionaender = new AuftragspositionAendern();
@@ -75,7 +66,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
         geschaeftspartneranzeigen = new GeschaeftspartnerAnzeigen();
         geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg();
         zahlungskonditionanlegen = new ZahlungskonditionAnlegen();
-        zahlungskonditionanzeigen = new ZahlungskonditionAnzeigen();
+//        zahlungskonditionanzeigen = new ZahlungskonditionAnzeigen();
         zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg();
     }
 
@@ -231,7 +222,8 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
         //node =  hauptmenueAdmin_Tree.get;
         //TreePath Path = node.getNewLeadSelectionPath(); 
         if(evt.getClickCount() == 2){
-            openJtreeNodes(node);
+//            openJtreeNodes(node);
+//            openJtreeNodes(node);
         }
 //        openJtreeNodes(node);
         System.out.println(evt.getClickCount());
@@ -243,7 +235,8 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
     }//GEN-LAST:event_hauptmenueAdmin_TreeTreeExpanded
 
     @Override
-    public void openJtreeNodes(DefaultMutableTreeNode node) {
+//    public void openJtreeNodes(DefaultMutableTreeNode node) {
+    public void openJtreeNodes(String node) {
         if(node != null){
             if(node.equals("Auftrag verwalten")){
                 if(node.equals("Auftragskopf")){
@@ -252,7 +245,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     }else if(node.equals("Ändern")){
                         auftragskopfaendern.setVisible(true);
                     }else if(node.equals("Anzeigen")){
-                        auftragskopfanzeigen.setVisible(true);
+//                        auftragskopfanzeigen.setVisible(true);
                     }
                 }else if(node.equals("Auftragsposition")){
                     if(node.equals("Ändern")){
@@ -268,6 +261,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
     }
     }
      
+    
     @Override
     public void setInternalFrameVisible(JInternalFrame frame){
 //        if( frame.getName().equals("Auftragskopf"))

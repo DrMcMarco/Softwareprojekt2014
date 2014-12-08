@@ -3,8 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import AuftragskopfVerwaltung.*;
-import AuftragspositionVerwaltung.*;
+import GUI_Internalframes.*;
 import Suche.*;
 import UserHauptmenue.Hauptmenue_User;
 import AdminHauptmenue.Hauptmenue_Admin;
@@ -28,7 +27,7 @@ public class StartAdmin extends javax.swing.JFrame {
 
     AuftragskopfAnlegen auftragskopfanlegen;
     AuftragskopfAendern auftragskopfaendern;
-    AuftragskopfAnzeigen auftragskopfanzeigen;
+//    AuftragskopfAnzeigen auftragskopfanzeigen;
 
     /**
      * Creates new form Start
@@ -36,11 +35,11 @@ public class StartAdmin extends javax.swing.JFrame {
     public StartAdmin() {
         initComponents();
         auftragskopfanlegen = new AuftragskopfAnlegen();
-        auftragskopfanzeigen = new AuftragskopfAnzeigen();
+//        auftragskopfanzeigen = new AuftragskopfAnzeigen();
         auftragskopfaendern = new AuftragskopfAendern();
         desktopPane.add(auftragskopfanlegen);
         desktopPane.add(auftragskopfaendern);
-        desktopPane.add(auftragskopfanzeigen);
+//        desktopPane.add(auftragskopfanzeigen);
 //        auftragskopfaendern.setVisible(true);
 
     }
