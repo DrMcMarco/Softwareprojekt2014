@@ -58,7 +58,7 @@ public class DataAccessObject {
         
         try {
             classIdentify = Class.forName("DTO." + table);
-            if (table.equals("test")) {
+            if (table.equals("Artikel")) {
                 
             }
         } catch (ClassNotFoundException ex) {
@@ -111,7 +111,7 @@ public class DataAccessObject {
            
             //Konvertierung des Byte Arrays in einen Hexadezimalstring
             StringBuilder sb = new StringBuilder(2*hash.length);
-            for(byte b : hash){
+            for (byte b : hash) {
                 sb.append(String.format("%02x", b&0xff));
             }
           
