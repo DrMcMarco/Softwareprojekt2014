@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
 //  Insanzvariablen eines Artikels
-    private int artikelnummer;
+    private int artikelnummerTEST;
     private String artikelname;
     private String artikelbeschreibung;
     private String kategorie;
@@ -88,7 +88,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
 //  Methode, die die Eingaben zurücksetzt, beim Zurücksetzen wird auch die Hintergrundfarbe zurückgesetzt  
     public final void setzeFormularZurueck() {
-        jTF_Artikelnummer.setText("" + artikelnummer);
+        jTF_Artikelnummer.setText("" + artikelnummerTEST);
         jTF_Artikelname.setText("");
         jTF_Artikelname.setBackground(JTF_FARBE_STANDARD);
         jTA_Artikelbeschreibung.setText("");
@@ -486,11 +486,11 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
             mwst = (String) jCB_MwST.getSelectedItem();
             bestandsmengeFREI = jTF_Bestandsmenge_FREI.getText();
 //          Artikel wird in ArrayList für Artikel hinzugefuegt     
-            artikelListe.add(new Artikel(artikelnummer, artikelname, artikelbeschreibung, kategorie, einzelwert, bestellwert, mwst, bestandsmengeFREI, "0", "0", "0"));
+            artikelListe.add(new Artikel(artikelnummerTEST, artikelname, artikelbeschreibung, kategorie, einzelwert, bestellwert, mwst, bestandsmengeFREI, "0", "0", "0"));
 //          provisorisch wird der Artikel ausgegeben  
             System.out.println(artikelListe.get(artikelListe.size() - 1).toString());
 //          die artikelnummer wird erhöht  
-            artikelnummer++;
+            artikelnummerTEST++;
 //          das Formular wird zurueckgesetzt  
             setzeFormularZurueck();
         } else {
