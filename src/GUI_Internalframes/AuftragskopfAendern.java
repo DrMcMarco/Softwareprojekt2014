@@ -1,8 +1,10 @@
 package GUI_Internalframes;
 
-import UserVerwaltung.*;
 import Documents.*;
 import Interfaces.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -15,7 +17,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
     /*
      Syntax
      */
-    private static final String auftragskopfID_syntax = "\\d{1,9}?";
+    private static final String auftragskopfID_syntax = "|\\d{1,9}?";
 
     /*
      Augabetexte für Meldungen
@@ -23,12 +25,25 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
     String fehlermeldung_titel = "Fehlerhafte Eingabe";
     String fehlermeldungAuftragskopfIDtext = "\"Die eingegebene Auftragskopf-ID ist nicht gültig! "
             + "\\n Bitte geben Sie eine gültige Auftragskopf-ID ein. (z.B. 1 oder 999999999)\"";
+    String fehlermeldungUnvollstaendig = "Es wurden nicht alle Eingaben getätigt.\n"
+            + "Bitte geben Sie die benötigte Eingabe in dem markierten Eingabefeld ein.";
+
+    /*
+     Speichervariablen
+     */
+    ArrayList<Component> fehleingabefelder;
+
+    /*
+     Variablen für Farben
+     */
+    Color warningfarbe = Color.YELLOW;
 
     /**
      * Creates new form Fenster
      */
     public AuftragskopfAendern() {
         initComponents();
+        fehleingabefelder = new ArrayList<>();
     }
 
     /**
@@ -110,6 +125,11 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         });
 
         weiter_jButton.setText("Weiter");
+        weiter_jButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                weiter_jButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -153,7 +173,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
     private void auftragskopfID_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_auftragskopfID_jTextFieldFocusGained
         auftragskopfID_jTextField.selectAll();
     }//GEN-LAST:event_auftragskopfID_jTextFieldFocusGained
-    
+
     /**
      * Beim Focuslost des Eingabefeldes für die Auftragskopf-ID, wird auf die
      * Richtigkeit der Eingabe geprüft und gibt gegebenen falls eine
@@ -162,20 +182,35 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
      * @param evt
      */
     private void auftragskopfID_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_auftragskopfID_jTextFieldFocusLost
-        if (evt.isTemporary()) {
-            return;
-        }
         ueberpruefungVonFocusLost(auftragskopfID_jTextField, auftragskopfID_syntax,
                 fehlermeldung_titel, fehlermeldungAuftragskopfIDtext);
 
     }//GEN-LAST:event_auftragskopfID_jTextFieldFocusLost
 
     /**
+     * Auszuführende Aktion beim betätigen des "Weiter"-Buttons. Es wird geprüft
+     * ob das eingabefeld leer ist und wenn ja wird eine Meldung ausgegeben in
+     * der der Benutzer darauf hingewiesen wird, dass eine Eingabe zur weiteren
+     * Durchführung fehlt. Das Eingabefeld mit der fehlenden Eingabe wird
+     * farblich markiert.
+     */
+    private void weiter_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_weiter_jButtonActionPerformed
+        ueberpruefen();//Überprüft ob Eingabefelder leer sind.
+        if (fehleingabefelder.isEmpty()) {//Bei ausgefüllten Eingabenfeldern
+            //Suchfunktion nach der eingegebenen Auftragskopf-ID 
+        } else {//Wenn Eingaben fehlen.
+            fehlEingabenMarkierung(fehleingabefelder, fehlermeldung_titel,
+                    fehlermeldungUnvollstaendig, warningfarbe);//Meldung wird ausgegeben und
+            // Felde wird markiert in der die Eingabe fehlt.
+        }
+    }//GEN-LAST:event_weiter_jButtonActionPerformed
+
+    /**
      * Schnittstellenmethode mit der alle Eingabefelder zurückgesetzt werden
      */
     @Override
     public void zuruecksetzen() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        auftragskopfID_jTextField.setText("");
     }
 
     /*
@@ -183,23 +218,57 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
      */
     @Override
     public void ueberpruefen() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (auftragskopfID_jTextField.getText().equals("")) {
+            fehleingabefelder.add(auftragskopfID_jTextField);
+        }
     }
 
-    /*
-     Schnittstellenmethode mit der die Eingaben beim FocusLost auf Richtigkeit 
-     geprüft werden.
+    /**
+     * Schnittstellenmethode mit der die Eingaben beim FocusLost auf Richtigkeit
+     * geprüft werden.
+     *
+     * @param textfield, das zu übergeben JTextfield, indem der Focusgesetzt
+     * ist.
+     * @param syntax, String mit dem eine Eingabe auf das richtige Format hin
+     * geprüft wird.
+     * @param fehlermelgungtitel, Srting der den Titel der Fehlmeldung enthält.
+     * @param fehlermeldung, String der die Fehlmeldung enthält.
      */
     @Override
     public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
-        if(textfield.getText().equals("")){
-            
-        }else if (!textfield.getText().matches(syntax)) {
+        if (textfield.getText().equals("")) {
+
+        } else if (!textfield.getText().matches(syntax)) {
             JOptionPane.showMessageDialog(null, fehlermeldung,
                     fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
             textfield.requestFocusInWindow();
             textfield.selectAll();
         }
+    }
+
+    /**
+     * Schnittstellenmethode mit der die Eingabefelder die nicht ausgefüllt
+     * worden sind, farblich markiert werden und eine Meldung ausgegeben wird,
+     * inder der Benutzer darauf hingewiesen wird, alle Eingaben zu tätigen.
+     *
+     * @param list, Arraylist in der die Components die keine Eingaben erhalten
+     * haben, gespeichert sind.
+     * @param fehlermelgungtitel, Srting der den Titel der Fehlmeldung enthält.
+     * @param fehlermeldung, String der die Fehlmeldung enthält.
+     * @param farbe, Color in der der Hintergrund der Components markiert werden
+     * soll
+     */
+    @Override
+    public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
+        //Meldung die darauf hinweist das nicht alle Eingaben getätigt worden sind.
+        JOptionPane.showMessageDialog(null, fehlermeldung,
+                fehlermelgungtitel, JOptionPane.WARNING_MESSAGE);
+        list.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
+        // Alle leeren Eingabefelder werden farblich markiert.
+        for (int i = 0; i <= list.size() - 1; i++) {
+            list.get(i).setBackground(farbe);
+        }
+        list.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
     }
 
 

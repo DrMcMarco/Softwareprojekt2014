@@ -28,10 +28,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      Syntax
      */
     private static final String preis_syntax = "|(\\d*,?\\d{1,2})|(\\d{0,3}(\\.\\d{3})*,?\\d{1,2})";
-    private static final String materialnummer_syntax = "\\d{8}?";
-    private static final String positionsnummer_syntax = "\\d{1,9}?";
+    private static final String materialnummer_syntax = "|\\d{8}?";
+    private static final String positionsnummer_syntax = "|\\d{1,9}?";
     private static final String datum_syntax = "\\d{2}\\.\\d{2}\\.\\d{4}?";
-    private static final String geschaeftspartner_syntax = "[GP][-]\\d{8}?";
+    private static final String geschaeftspartner_syntax = "|\\d{1,8}?";
 
 
     /*
@@ -713,9 +713,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      * @param evt
      */
     private void auftragswert_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_auftragswert_jTextFieldFocusLost
-        if (evt.isTemporary()) {
-            return;
-        }
         ueberpruefungVonFocusLost(auftragswert_jTextField, preis_syntax,
                 fehlermeldung_titel, fehlermeldungPreis_text);
 
@@ -729,9 +726,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      * @param evt
      */
     private void einzelwert_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_einzelwert_jTextFieldFocusLost
-        if (evt.isTemporary()) {
-            return;
-        }
         ueberpruefungVonFocusLost(einzelwert_jTextField, preis_syntax,
                 fehlermeldung_titel, fehlermeldungPreis_text);
     }//GEN-LAST:event_einzelwert_jTextFieldFocusLost
@@ -749,9 +743,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      * @param evt
      */
     private void materialnummer_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_materialnummer_jTextFieldFocusLost
-        if (evt.isTemporary()) {
-            return;
-        }
         ueberpruefungVonFocusLost(materialnummer_jTextField, materialnummer_syntax,
                 fehlermeldung_titel, fehlermeldungMaterial_text);
     }//GEN-LAST:event_materialnummer_jTextFieldFocusLost
@@ -764,9 +755,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      * @param evt
      */
     private void positionsnummer_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_positionsnummer_jTextFieldFocusLost
-        if (evt.isTemporary()) {
-            return;
-        }
         ueberpruefungVonFocusLost(positionsnummer_jTextField, positionsnummer_syntax,
                 fehlermeldung_titel, fehlermeldungPositionsnummer_text);
     }//GEN-LAST:event_positionsnummer_jTextFieldFocusLost
@@ -788,27 +776,26 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         if (fehlendeEingaben.isEmpty()) {
             if (fehlendeEingabenAuftragsposition.isEmpty()) {
                 //Auftragskopf und Position anlegen
+                
+                
+                zuruecksetzen();
             } else {
                 if () {//Wenn nicht mindestens eine Auftragsposition zum Auftragskopf angelegt worden ist
-                    //Meldung die darauf hinweist das nicht alle Eingaben getätigt worden sind.
-                    JOptionPane.showMessageDialog(null, fehlermeldung_unvollstaendig_keineauftragsposZumAKopf_text,
-                            fehlermeldung_unvollstaendig_titel, JOptionPane.WARNING_MESSAGE);
-                    fehlendeEingabenAuftragsposition.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
-                    // Alle leeren Eingabefelder werden farblich markiert.
-                    for (int i = 0; i <= fehlendeEingabenAuftragsposition.size() - 1; i++) {
-                        fehlendeEingabenAuftragsposition.get(i).setBackground(warningfarbe);
-                    }
-                    fehlendeEingabenAuftragsposition.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
+                    // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
+                    // getätigt worden sind
+                    fehlEingabenMarkierung(fehlendeEingabenAuftragsposition,
+                            fehlermeldung_unvollstaendig_titel,
+                            fehlermeldung_unvollstaendig_keineauftragsposZumAKopf_text,
+                            warningfarbe);
                 } else {//Eine Auftragsposition ist bereits angelegt.
                     if (fehlendeEingabenAuftragsposition.size() != 5) {// Es wurden nicht vollständig Eingaben
                         //für die Auftragsposition getätigt und in mindestens einem Eingabefeld ist eine Eingabe
                         // getätigt worden.
 
-                       
                         int antwort = JOptionPane.showConfirmDialog(rootPane, fehlermeldung_unvollstaendig,
                                 fehlermeldung_unvollstaendig_titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                         //Falls bejaht wird und man eine weitere Auftragsposition anlegen möchte
-                        if (antwort == JOptionPane.YES_OPTION) {  
+                        if (antwort == JOptionPane.YES_OPTION) {
                             fehlendeEingabenAuftragsposition.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
                             // Alle leeren Eingabefelder werden farblich markiert.
                             for (int i = 0; i <= fehlendeEingabenAuftragsposition.size() - 1; i++) {
@@ -816,45 +803,31 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                             }
                             fehlendeEingabenAuftragsposition.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
                         } else {
-                             //Keine Reaktion
+                            //Keine Reaktion
                         }
-                        fehlendeEingabenAuftragsposition.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
                         // Alle leeren Eingabefelder werden farblich markiert.
+                        fehlendeEingabenAuftragsposition.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
                         for (int i = 0; i <= fehlendeEingabenAuftragsposition.size() - 1; i++) {
                             fehlendeEingabenAuftragsposition.get(i).setBackground(warningfarbe);
                         }
                         fehlendeEingabenAuftragsposition.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
-                    }else{
-                        
-                    }
+                    } else {
 
-                    //Meldung die darauf hinweist das nicht alle Eingaben getätigt worden sind.
-                    JOptionPane.showMessageDialog(null, fehlermeldung_unvollstaendig_auftragsposition_text,
-                            fehlermeldung_unvollstaendig_titel, JOptionPane.WARNING_MESSAGE);
-                    fehlendeEingabenAuftragsposition.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
-                    // Alle leeren Eingabefelder werden farblich markiert.
-                    for (int i = 0; i <= fehlendeEingabenAuftragsposition.size() - 1; i++) {
-                        fehlendeEingabenAuftragsposition.get(i).setBackground(warningfarbe);
                     }
-                    fehlendeEingabenAuftragsposition.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
+                    // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
+                    // getätigt worden sind
+                    fehlEingabenMarkierung(fehlendeEingabenAuftragsposition,
+                            fehlermeldung_unvollstaendig_titel,
+                            fehlermeldung_unvollstaendig_auftragsposition_text,
+                            warningfarbe);
                 }
             }
-//            If(/*Mindestens eine Auftragsposition zum Auftragskopf ist vorhanden*/){
-//
-//            }else{
-//                    
-//            }
-
         } else {
-            //Meldung die darauf hinweist das nicht alle Eingaben getätigt worden sind.
-            JOptionPane.showMessageDialog(null, fehlermeldung_unvollstaendig_auftragskopf_text,
-                    fehlermeldung_unvollstaendig_titel, JOptionPane.WARNING_MESSAGE);
-            fehlendeEingaben.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
-            // Alle leeren Eingabefelder werden farblich markiert.
-            for (int i = 0; i <= fehlendeEingaben.size() - 1; i++) {
-                fehlendeEingaben.get(i).setBackground(warningfarbe);
-            }
-            fehlendeEingaben.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
+            // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
+            // getätigt worden sind
+            fehlEingabenMarkierung(fehlendeEingaben,
+                    fehlermeldung_unvollstaendig_titel,
+                    fehlermeldung_unvollstaendig_auftragskopf_text, warningfarbe);
         }
     }//GEN-LAST:event_jB_SpeichernActionPerformed
 
@@ -863,9 +836,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     }//GEN-LAST:event_geschaeftspartner_jFormattedTextFieldFocusGained
 
     private void geschaeftspartner_jFormattedTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_geschaeftspartner_jFormattedTextFieldFocusLost
-        if (evt.isTemporary()) {
-            return;
-        }
         System.out.println(geschaeftspartner_jFormattedTextField.getText());
         System.out.println(geschaeftspartner_syntax);
         ueberpruefungVonFocusLost(geschaeftspartner_jFormattedTextField, geschaeftspartner_syntax,
@@ -873,7 +843,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     }//GEN-LAST:event_geschaeftspartner_jFormattedTextFieldFocusLost
 
     /**
-     * Schnittstellenmethode mit der alle Eingabefelder zurückgesetzt werden
+     * Schnittstellenmethode mit der alle Eingabefelder zurückgesetzt werden.
      */
     @Override
     public void zuruecksetzen() {
@@ -886,8 +856,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         erfassungsdatum_auftragsposition_jFormattedTextField.setText(date.simpleDateFormat());
     }
 
-    /*
-     Schnittstellenmethode mit der geprüft wird ob alle Eingaben getätigt worden sind.
+    /**
+     * Schnittstellenmethode mit der geprüft wird ob alle Eingaben getätigt
+     * worden sind.
      */
     @Override
     public void ueberpruefen() {
@@ -927,20 +898,53 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 //        }
     }
 
-    /*
-     Schnittstellenmethode mit der die Eingaben beim FocusLost auf Richtigkeit 
-     geprüft werden.
+    /**
+     * Schnittstellenmethode mit der die Eingaben beim FocusLost auf Richtigkeit
+     * geprüft werden.
+     *
+     * @param textfield, das zu übergeben JTextfield, indem der Focusgesetzt
+     * ist.
+     * @param syntax, String mit dem eine Eingabe auf das richtige Format hin
+     * geprüft wird.
+     * @param fehlermelgungtitel, Srting der den Titel der Fehlmeldung enthält.
+     * @param fehlermeldung, String der die Fehlmeldung enthält.
      */
     @Override
     public void ueberpruefungVonFocusLost(JTextField textfield, String syntax,
             String fehlermelgungtitel, String fehlermeldung) {
         if (textfield.getText().equals("")) {
 
-        }else if (!textfield.getText().matches(syntax)) {
+        } else if (!textfield.getText().matches(syntax)) {
             JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
             textfield.requestFocusInWindow();
             textfield.selectAll();
-        }  
+        }
+    }
+
+    /**
+     * Schnittstellenmethode mit der die Eingabefelder die nicht ausgefüllt
+     * worden sind, farblich markiert werden und eine Meldung ausgegeben wird,
+     * inder der Benutzer darauf hingewiesen wird, alle Eingaben zu tätigen.
+     *
+     * @param list, Arraylist in der die Components die keine Eingaben erhalten
+     * haben, gespeichert sind.
+     * @param fehlermelgungtitel, Srting der den Titel der Fehlmeldung enthält.
+     * @param fehlermeldung, String der die Fehlmeldung enthält.
+     * @param farbe, Color in der der Hintergrund der Components markiert werden
+     * soll
+     */
+    @Override
+    public void fehlEingabenMarkierung(ArrayList<Component> list,
+            String fehlermelgungtitel, String fehlermeldung, Color farbe) {
+        //Meldung die darauf hinweist das nicht alle Eingaben getätigt worden sind.
+        JOptionPane.showMessageDialog(null, fehlermeldung,
+                fehlermelgungtitel, JOptionPane.WARNING_MESSAGE);
+        list.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
+        // Alle leeren Eingabefelder werden farblich markiert.
+        for (int i = 0; i <= list.size() - 1; i++) {
+            list.get(i).setBackground(farbe);
+        }
+        list.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
     }
 
 
