@@ -4,20 +4,20 @@
  * and open the template in the editor.
  */
 
-package UserVerwaltung;
+package GUI_Internalframes;
 
 /**
  *
  * @author Tahir
  */
-public class User_aenderView extends javax.swing.JInternalFrame {
+public class User_anlegen extends javax.swing.JInternalFrame {
     
 //    private ArtikelAnlegen a;
 
     /**
      * Creates new form Fenster
      */
-    public User_aenderView() {
+    public User_anlegen() {
         initComponents();
 //        this.getContentPane().add(a);
     }
@@ -43,14 +43,15 @@ public class User_aenderView extends javax.swing.JInternalFrame {
         passwort_jLabel = new javax.swing.JLabel();
         benutzername_jTextField = new javax.swing.JTextField();
         passwort_jTextField = new javax.swing.JTextField();
-        jTextField1 = new javax.swing.JTextField();
+        statuszeile_jTextField = new javax.swing.JTextField();
         passwort_Generieren_jButton = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("User ändern");
+        setTitle("User anlegen");
+        setEnabled(false);
         setPreferredSize(new java.awt.Dimension(600, 250));
         setRequestFocusEnabled(false);
         try {
@@ -75,9 +76,11 @@ public class User_aenderView extends javax.swing.JInternalFrame {
         jToolBar1.add(jB_Speichern);
 
         jB_Anzeigen.setText("Anzeige/Ändern");
+        jB_Anzeigen.setEnabled(false);
         jToolBar1.add(jB_Anzeigen);
 
         jB_Loeschen.setText("Löschen");
+        jB_Loeschen.setEnabled(false);
         jToolBar1.add(jB_Loeschen);
 
         jB_Suchen.setText("Suchen");
@@ -95,8 +98,8 @@ public class User_aenderView extends javax.swing.JInternalFrame {
 
         passwort_jTextField.setText("jTextField2");
 
-        jTextField1.setText("Statuszeile");
-        jTextField1.setEnabled(false);
+        statuszeile_jTextField.setText("Statuszeile");
+        statuszeile_jTextField.setEnabled(false);
 
         passwort_Generieren_jButton.setText("Passwort generieren");
 
@@ -120,7 +123,7 @@ public class User_aenderView extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(passwort_Generieren_jButton)))
                 .addContainerGap(67, Short.MAX_VALUE))
-            .addComponent(jTextField1)
+            .addComponent(statuszeile_jTextField)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,10 +142,9 @@ public class User_aenderView extends javax.swing.JInternalFrame {
                         .addComponent(passwort_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(passwort_Generieren_jButton)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(statuszeile_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        getAccessibleContext().setAccessibleName("User aendern");
         getAccessibleContext().setAccessibleDescription("");
 
         pack();
@@ -159,10 +161,10 @@ public class User_aenderView extends javax.swing.JInternalFrame {
     private javax.swing.JButton jB_Suchen;
     private javax.swing.JButton jB_Zurueck;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JButton passwort_Generieren_jButton;
     private javax.swing.JLabel passwort_jLabel;
     private javax.swing.JTextField passwort_jTextField;
+    private javax.swing.JTextField statuszeile_jTextField;
     // End of variables declaration//GEN-END:variables
 }

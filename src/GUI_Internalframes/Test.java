@@ -4,9 +4,12 @@
  * and open the template in the editor.
  */
 
-package GeschäftspartnerVerwalten;
+package GUI_Internalframes;
 
-import ArtikelVerwalten.*;
+import GUI_Internalframes.ZahlungskonditionAnlegen;
+import GUI_Internalframes.ArtikelAnlegen;
+import GUI_Internalframes.GeschaeftspartnerAnlegen;
+import GUI_Internalframes.ArtikelAEndernEinstieg;
 
 /**
  *
@@ -14,26 +17,24 @@ import ArtikelVerwalten.*;
  */
 public class Test extends javax.swing.JFrame {
     
-    private GeschaeftspartnerAEndernEinstieg geschaeftspartnerAendernEinstieg;
+    private ArtikelAEndernEinstieg artikelAendernEinstieg;
+    private ArtikelAnlegen artikelAnlegen;
+    private ZahlungskonditionAnlegen zahlungskonditionAnlegen;
     private GeschaeftspartnerAnlegen geschaeftspartnerAnlegen;
-    private GeschaeftspartnerAEndern geschaeftspartnerAEndern;
-    private GeschaeftspartnerAnzeigen geschaeftspartnerAnzeigen;
     
     /**
      * Creates new form Test
      */
     public Test() {
         initComponents();
-        geschaeftspartnerAendernEinstieg = new GeschaeftspartnerAEndernEinstieg();
+        artikelAendernEinstieg = new ArtikelAEndernEinstieg();       
+        artikelAnlegen = new ArtikelAnlegen();
+        zahlungskonditionAnlegen = new ZahlungskonditionAnlegen();
         geschaeftspartnerAnlegen = new GeschaeftspartnerAnlegen();
-        geschaeftspartnerAEndern = new GeschaeftspartnerAEndern();
-        geschaeftspartnerAnzeigen = new GeschaeftspartnerAnzeigen();
         desktopPane.add(geschaeftspartnerAnlegen);
-        desktopPane.add(geschaeftspartnerAendernEinstieg);
-        desktopPane.add(geschaeftspartnerAEndern);
-        desktopPane.add(geschaeftspartnerAnzeigen);
-//        this.geschaeftspartnerAendernEinstieg.setBounds(200, 130, 580, 300);
-        
+        desktopPane.add(zahlungskonditionAnlegen);
+        desktopPane.add(artikelAnlegen);
+        desktopPane.add(artikelAendernEinstieg);
     }
 
     /**
@@ -68,6 +69,11 @@ public class Test extends javax.swing.JFrame {
 
         openMenuItem.setMnemonic('o');
         openMenuItem.setText("Open");
+        openMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(openMenuItem);
 
         saveMenuItem.setMnemonic('s');
@@ -134,7 +140,7 @@ public class Test extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 719, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 830, Short.MAX_VALUE)
         );
 
         pack();
@@ -143,6 +149,10 @@ public class Test extends javax.swing.JFrame {
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
         System.exit(0);
     }//GEN-LAST:event_exitMenuItemActionPerformed
+
+    private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
+       geschaeftspartnerAnlegen.setVisible(true);
+    }//GEN-LAST:event_openMenuItemActionPerformed
 
     /**
      * @param args the command line arguments

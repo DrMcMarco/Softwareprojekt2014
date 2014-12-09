@@ -8,6 +8,9 @@ package GUI_Internalframes;
 import Objects.*;
 import javax.swing.JOptionPane;
 import Documents.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.util.ArrayList;
 import javax.swing.JTextField;
 
 /**
@@ -28,17 +31,42 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     private static final String materialnummer_syntax = "\\d{8}?";
     private static final String positionsnummer_syntax = "\\d{1,9}?";
     private static final String datum_syntax = "\\d{2}\\.\\d{2}\\.\\d{4}?";
+    private static final String geschaeftspartner_syntax = "[GP][-]\\d{8}?";
+
 
     /*
-     Augabetexte für Meldungen
+     Ausgabetexte für Meldungen
      */
     String fehlermeldung_titel = "Fehlerhafte Eingabe";
+    String fehlermeldung_unvollstaendig_titel = "Fehlerhafte Eingabe";
+    String fehlermeldung_unvollstaendig_auftragskopf_text = "Es wurden nicht alle Eingaben getätigt.\n"
+            + "Bitte geben Sie die benötigten Eingaben für den Auftragskopf in die markierten Eingabefelder ein.";
+    String fehlermeldung_unvollstaendig_auftragsposition_text = "Es wurden nicht alle Eingaben getätigt.\n"
+            + "Bitte geben Sie die benötigten Eingaben für eine Auftragsposition in die markierten Eingabefelder ein.";
+    String fehlermeldung_unvollstaendig_keineauftragsposZumAKopf_text = "Es muss mindestens eine Auftragsposition"
+            + "zum Auftragskopf angelegt "
+            + "\n werden, damit Sie einen Auftrag anlegen können.\n Bitte geben sie alle nötigen Eingaben ein.";
+    String fehlermeldung_unvollstaendig = "Es wurden unvollständig Eingaben für eine Auftragsposition getätigt.\n"
+            + "Wollen Sie eine Auftragsposition zum Auftragskopf anlegen?.";
     String fehlermeldungPreis_text = "Der eingegebene Preis ist nicht richtig! "
-            + "/n Bitte geben Sie den Preis richtig ein. (z.B. 99,99 oder 99.999,99)";
+            + "\n Bitte geben Sie den Preis richtig ein. (z.B. 99,99 oder 99.999,99)";
     String fehlermeldungMaterial_text = "Die eingegebene Materialnummer ist nicht richtig! "
-            + "/n Bitte geben Sie eine gültige Materialnummer, die aus acht Ziffern besteht, ein. (z.B. 1234567)";
+            + "\n Bitte geben Sie eine gültige Materialnummer, die aus acht Ziffern besteht, ein. (z.B. 1234567)";
     String fehlermeldungPositionsnummer_text = "Die eingegebene Positionsnummer ist nicht richtig! "
-            + "/n Bitte geben Sie eine gültige Positionsnummer ein. (z.B. 1 oder 999999999)";
+            + "\n Bitte geben Sie eine gültige Positionsnummer ein. (z.B. 1 oder 999999999)";
+    String fehlermeldungGeschaeftspartnerID_text = "Keine Gültige Geschäftspartner-ID. \n"
+            + " Bitte geben sie eine gültige Geschäftspartner-ID ein.";
+
+    /*
+     Speichervariablen
+     */
+    ArrayList<Component> fehlendeEingaben;// ArrayList für Eingabefelder des Auftragkopfes.
+    ArrayList<Component> fehlendeEingabenAuftragsposition;// ArrayList für die Eingabefelder der Auftragsposition.
+
+    /*
+     Variablen für Farben
+     */
+    Color warningfarbe = Color.YELLOW;
 
     /**
      * Creates new form AuftragskopfAnlegen
@@ -46,6 +74,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     public AuftragskopfAnlegen() {
         date = new DateObject();
         initComponents();
+
+        //Initialisierung der Speichervariblen
+        fehlendeEingaben = new ArrayList<Component>();
+        fehlendeEingabenAuftragsposition = new ArrayList<Component>();
 
         /*
          Voreingaben werden in die Eingabefelder gesetzt.
@@ -99,7 +131,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         auftragsID_jLabel = new javax.swing.JLabel();
         geschaeftspartnerID_jLabel = new javax.swing.JLabel();
         auftragstext_jLabel = new javax.swing.JLabel();
-        geschaeftspartner_jTextField = new javax.swing.JTextField();
         auftragskopfID_jTextField = new javax.swing.JTextField();
         erfassungsdatum_jLabel = new javax.swing.JLabel();
         erfassungsdatum_jFormattedTextField = new javax.swing.JFormattedTextField();
@@ -137,6 +168,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         menge_jTextField = new javax.swing.JTextField();
         einzelwert_jTextField = new javax.swing.JTextField();
         erfassungsdatum_auftragsposition_jFormattedTextField = new javax.swing.JFormattedTextField();
+        geschaeftspartner_jFormattedTextField = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(true);
@@ -155,6 +187,11 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         jToolBar1.add(jB_Abbrechen);
 
         jB_Speichern.setText("Speichern");
+        jB_Speichern.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_SpeichernActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_Speichern);
 
         jB_Anzeigen.setText("Anzeige/Ändern");
@@ -179,19 +216,11 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         auftragsID_jLabel.setText("Auftragskopf-ID:");
 
         geschaeftspartnerID_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        geschaeftspartnerID_jLabel.setLabelFor(geschaeftspartner_jTextField);
         geschaeftspartnerID_jLabel.setText("Geschäftspartner-ID :");
 
         auftragstext_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         auftragstext_jLabel.setLabelFor(auftragstext_jTextArea);
         auftragstext_jLabel.setText("Auftragstext :");
-
-        geschaeftspartner_jTextField.setEnabled(false);
-        geschaeftspartner_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                geschaeftspartner_jTextFieldFocusGained(evt);
-            }
-        });
 
         auftragskopfID_jTextField.setText("jTextField2");
         auftragskopfID_jTextField.setEnabled(false);
@@ -370,10 +399,25 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             }
         });
 
+        erfassungsdatum_auftragsposition_jFormattedTextField.setEditable(false);
         erfassungsdatum_auftragsposition_jFormattedTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM))));
         erfassungsdatum_auftragsposition_jFormattedTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 erfassungsdatum_auftragsposition_jFormattedTextFieldFocusGained(evt);
+            }
+        });
+
+        try {
+            geschaeftspartner_jFormattedTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("GP-########")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        geschaeftspartner_jFormattedTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                geschaeftspartner_jFormattedTextFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                geschaeftspartner_jFormattedTextFieldFocusLost(evt);
             }
         });
 
@@ -396,8 +440,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(auftragswert_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(auftragswert_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)))
+                                                .addComponent(auftragswert_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(19, 19, 19)))
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(eurosymbol_jLabel)
                                             .addGroup(layout.createSequentialGroup()
@@ -417,9 +461,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                                                         .addComponent(auftragsID_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(geschaeftspartnerID_jLabel))
                                                     .addGap(22, 22, 22)
-                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                        .addComponent(geschaeftspartner_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(auftragskopfID_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(auftragskopfID_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(geschaeftspartner_jFormattedTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                                 .addGroup(layout.createSequentialGroup()
                                                     .addGap(141, 141, 141)
                                                     .addComponent(abschlussdatum_jFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -498,8 +542,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(auftragsart_jComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(geschaeftspartner_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(geschaeftspartnerID_jLabel)))
+                                .addComponent(geschaeftspartnerID_jLabel)
+                                .addComponent(geschaeftspartner_jFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(auftragsID_jLabel)
@@ -583,13 +627,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     }// </editor-fold>//GEN-END:initComponents
 
     /*
-     Selektier das Eingabefeld des Geschäftspartners
-     */
-    private void geschaeftspartner_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_geschaeftspartner_jTextFieldFocusGained
-        geschaeftspartner_jTextField.selectAll();
-    }//GEN-LAST:event_geschaeftspartner_jTextFieldFocusGained
-    
-    /*
      Selektier das Eingabefeld des Auftragswerts
      */
     private void auftragswert_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_auftragswert_jTextFieldFocusGained
@@ -603,7 +640,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         lieferdatum_jFormattedTextField.setText("");
         lieferdatum_jFormattedTextField.selectAll();
     }//GEN-LAST:event_lieferdatum_jFormattedTextFieldFocusGained
-    
+
     /*
      Selektier das Eingabefeld des Abschlussdatums
      */
@@ -611,7 +648,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         abschlussdatum_jFormattedTextField.setText("");
         abschlussdatum_jFormattedTextField.selectAll();
     }//GEN-LAST:event_abschlussdatum_jFormattedTextFieldFocusGained
-    
+
     /*
      Selektier das Eingabefeld der Auftragspositions-ID
      */
@@ -619,7 +656,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         auftragspositionsID_jTextField.setText("");
         auftragspositionsID_jTextField.selectAll();
     }//GEN-LAST:event_auftragspositionsID_jTextFieldFocusGained
-    
+
     /*
      Selektier das Eingabefeld der Positionsnummer
      */
@@ -627,7 +664,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         positionsnummer_jTextField.setText("");
         positionsnummer_jTextField.selectAll();
     }//GEN-LAST:event_positionsnummer_jTextFieldFocusGained
-    
+
     /*
      Selektier das Eingabefeld der Materialnummer
      */
@@ -635,7 +672,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         materialnummer_jTextField.setText("");
         materialnummer_jTextField.selectAll();
     }//GEN-LAST:event_materialnummer_jTextFieldFocusGained
-    
+
     /*
      Selektier das Eingabefeld der Menge
      */
@@ -643,7 +680,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         menge_jTextField.setText("");
         menge_jTextField.selectAll();
     }//GEN-LAST:event_menge_jTextFieldFocusGained
-    
+
     /*
      Selektier das Eingabefeld des Einzelwerts
      */
@@ -653,9 +690,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     }//GEN-LAST:event_einzelwert_jTextFieldFocusGained
 
     /**
-     * ActionPerformed für die Combox der Auftragsarten.
-     * Die Combobox für die Zahlungskonditionen wird nur freigegeben 
-     * wenn in der Auftragsart nicht "Barauftrag" gewählt wird.
+     * ActionPerformed für die Combox der Auftragsarten. Die Combobox für die
+     * Zahlungskonditionen wird nur freigegeben wenn in der Auftragsart nicht
+     * "Barauftrag" gewählt wird.
      *
      * @param evt
      */
@@ -667,6 +704,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             zahlungskonditionen_jComboBox.setEnabled(false);
         }
     }//GEN-LAST:event_auftragsart_jComboBoxActionPerformed
+
     /**
      * Beim Focuslost des Eingabefeldes für den Auftragswert, wird auf die
      * Richtigkeit der Eingabe geprüft und gibt gegebenen falls eine
@@ -740,6 +778,100 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         auftragstext_jTextArea.selectAll();
     }//GEN-LAST:event_auftragstext_jTextAreaFocusGained
 
+    /*
+     Action beim betätigen des Speicher-Buttons.
+     Es wird die Prüfmethode aufgerufen die wieder gibt ob irgendwelche Eingaben 
+     nicht getätigt worden sind und markiert diese farblich.
+     */
+    private void jB_SpeichernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SpeichernActionPerformed
+        ueberpruefen();
+        if (fehlendeEingaben.isEmpty()) {
+            if (fehlendeEingabenAuftragsposition.isEmpty()) {
+                //Auftragskopf und Position anlegen
+            } else {
+                if () {//Wenn nicht mindestens eine Auftragsposition zum Auftragskopf angelegt worden ist
+                    //Meldung die darauf hinweist das nicht alle Eingaben getätigt worden sind.
+                    JOptionPane.showMessageDialog(null, fehlermeldung_unvollstaendig_keineauftragsposZumAKopf_text,
+                            fehlermeldung_unvollstaendig_titel, JOptionPane.WARNING_MESSAGE);
+                    fehlendeEingabenAuftragsposition.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
+                    // Alle leeren Eingabefelder werden farblich markiert.
+                    for (int i = 0; i <= fehlendeEingabenAuftragsposition.size() - 1; i++) {
+                        fehlendeEingabenAuftragsposition.get(i).setBackground(warningfarbe);
+                    }
+                    fehlendeEingabenAuftragsposition.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
+                } else {//Eine Auftragsposition ist bereits angelegt.
+                    if (fehlendeEingabenAuftragsposition.size() != 5) {// Es wurden nicht vollständig Eingaben
+                        //für die Auftragsposition getätigt und in mindestens einem Eingabefeld ist eine Eingabe
+                        // getätigt worden.
+
+                       
+                        int antwort = JOptionPane.showConfirmDialog(rootPane, fehlermeldung_unvollstaendig,
+                                fehlermeldung_unvollstaendig_titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        //Falls bejaht wird und man eine weitere Auftragsposition anlegen möchte
+                        if (antwort == JOptionPane.YES_OPTION) {  
+                            fehlendeEingabenAuftragsposition.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
+                            // Alle leeren Eingabefelder werden farblich markiert.
+                            for (int i = 0; i <= fehlendeEingabenAuftragsposition.size() - 1; i++) {
+                                fehlendeEingabenAuftragsposition.get(i).setBackground(warningfarbe);
+                            }
+                            fehlendeEingabenAuftragsposition.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
+                        } else {
+                             //Keine Reaktion
+                        }
+                        fehlendeEingabenAuftragsposition.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
+                        // Alle leeren Eingabefelder werden farblich markiert.
+                        for (int i = 0; i <= fehlendeEingabenAuftragsposition.size() - 1; i++) {
+                            fehlendeEingabenAuftragsposition.get(i).setBackground(warningfarbe);
+                        }
+                        fehlendeEingabenAuftragsposition.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
+                    }else{
+                        
+                    }
+
+                    //Meldung die darauf hinweist das nicht alle Eingaben getätigt worden sind.
+                    JOptionPane.showMessageDialog(null, fehlermeldung_unvollstaendig_auftragsposition_text,
+                            fehlermeldung_unvollstaendig_titel, JOptionPane.WARNING_MESSAGE);
+                    fehlendeEingabenAuftragsposition.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
+                    // Alle leeren Eingabefelder werden farblich markiert.
+                    for (int i = 0; i <= fehlendeEingabenAuftragsposition.size() - 1; i++) {
+                        fehlendeEingabenAuftragsposition.get(i).setBackground(warningfarbe);
+                    }
+                    fehlendeEingabenAuftragsposition.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
+                }
+            }
+//            If(/*Mindestens eine Auftragsposition zum Auftragskopf ist vorhanden*/){
+//
+//            }else{
+//                    
+//            }
+
+        } else {
+            //Meldung die darauf hinweist das nicht alle Eingaben getätigt worden sind.
+            JOptionPane.showMessageDialog(null, fehlermeldung_unvollstaendig_auftragskopf_text,
+                    fehlermeldung_unvollstaendig_titel, JOptionPane.WARNING_MESSAGE);
+            fehlendeEingaben.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
+            // Alle leeren Eingabefelder werden farblich markiert.
+            for (int i = 0; i <= fehlendeEingaben.size() - 1; i++) {
+                fehlendeEingaben.get(i).setBackground(warningfarbe);
+            }
+            fehlendeEingaben.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
+        }
+    }//GEN-LAST:event_jB_SpeichernActionPerformed
+
+    private void geschaeftspartner_jFormattedTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_geschaeftspartner_jFormattedTextFieldFocusGained
+        geschaeftspartner_jFormattedTextField.selectAll();
+    }//GEN-LAST:event_geschaeftspartner_jFormattedTextFieldFocusGained
+
+    private void geschaeftspartner_jFormattedTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_geschaeftspartner_jFormattedTextFieldFocusLost
+        if (evt.isTemporary()) {
+            return;
+        }
+        System.out.println(geschaeftspartner_jFormattedTextField.getText());
+        System.out.println(geschaeftspartner_syntax);
+        ueberpruefungVonFocusLost(geschaeftspartner_jFormattedTextField, geschaeftspartner_syntax,
+                fehlermeldung_titel, fehlermeldungGeschaeftspartnerID_text);
+    }//GEN-LAST:event_geschaeftspartner_jFormattedTextFieldFocusLost
+
     /**
      * Schnittstellenmethode mit der alle Eingabefelder zurückgesetzt werden
      */
@@ -753,13 +885,46 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         erfassungsdatum_jFormattedTextField.setText(date.simpleDateFormat());
         erfassungsdatum_auftragsposition_jFormattedTextField.setText(date.simpleDateFormat());
     }
-    
+
     /*
      Schnittstellenmethode mit der geprüft wird ob alle Eingaben getätigt worden sind.
      */
     @Override
     public void ueberpruefen() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (geschaeftspartner_jFormattedTextField.getText().equals("")) {
+            fehlendeEingaben.add(geschaeftspartner_jFormattedTextField);
+        }
+        if (auftragswert_jTextField.getText().equals("")) {
+            fehlendeEingaben.add(auftragswert_jTextField);
+        }
+        if (auftragstext_jTextArea.getText().equals("")) {
+            fehlendeEingaben.add(auftragstext_jTextArea);
+        }
+        if (lieferdatum_jFormattedTextField.getText().equals("")) {
+            fehlendeEingaben.add(lieferdatum_jFormattedTextField);
+        }
+        if (abschlussdatum_jFormattedTextField.getText().equals("")) {
+            fehlendeEingaben.add(abschlussdatum_jFormattedTextField);
+        }
+        // Auf Vollständigkeit der Eingaben für die Auftragsposition prüfen
+        if (auftragspositionsID_jTextField.getText().equals("")) {
+            fehlendeEingabenAuftragsposition.add(auftragspositionsID_jTextField);
+        }
+        if (positionsnummer_jTextField.getText().equals("")) {
+            fehlendeEingabenAuftragsposition.add(positionsnummer_jTextField);
+        }
+        if (materialnummer_jTextField.getText().equals("")) {
+            fehlendeEingabenAuftragsposition.add(materialnummer_jTextField);
+        }
+        if (menge_jTextField.getText().equals("")) {
+            fehlendeEingabenAuftragsposition.add(menge_jTextField);
+        }
+        if (einzelwert_jTextField.getText().equals("")) {
+            fehlendeEingabenAuftragsposition.add(einzelwert_jTextField);
+        }
+//        if (erfassungsdatum_auftragsposition_jFormattedTextField.getText().equals("")) {
+//            fehlendeEingabenAuftragsposition.add(erfassungsdatum_auftragsposition_jFormattedTextField);
+//        }
     }
 
     /*
@@ -769,13 +934,13 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     @Override
     public void ueberpruefungVonFocusLost(JTextField textfield, String syntax,
             String fehlermelgungtitel, String fehlermeldung) {
-        if (!textfield.getText().matches(syntax)) {
+        if (textfield.getText().equals("")) {
+
+        }else if (!textfield.getText().matches(syntax)) {
             JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
             textfield.requestFocusInWindow();
             textfield.selectAll();
-        } else if (textfield.getText().equals("")) {
-
-        }
+        }  
     }
 
 
@@ -809,7 +974,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     private javax.swing.JLabel eurosymbol_jLabel;
     private javax.swing.JRadioButton freigegeben_jRadioButton;
     private javax.swing.JLabel geschaeftspartnerID_jLabel;
-    private javax.swing.JTextField geschaeftspartner_jTextField;
+    private javax.swing.JFormattedTextField geschaeftspartner_jFormattedTextField;
     private javax.swing.JButton jB_Abbrechen;
     private javax.swing.JButton jB_Anzeigen;
     private javax.swing.JButton jB_Loeschen;

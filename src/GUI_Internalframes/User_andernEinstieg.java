@@ -4,20 +4,20 @@
  * and open the template in the editor.
  */
 
-package UserVerwaltung;
+package GUI_Internalframes;
 
 /**
  *
  * @author Tahir
  */
-public class User_anzeigen extends javax.swing.JInternalFrame {
+public class User_andernEinstieg extends javax.swing.JInternalFrame {
     
 //    private ArtikelAnlegen a;
 
     /**
      * Creates new form Fenster
      */
-    public User_anzeigen() {
+    public User_andernEinstieg() {
         initComponents();
 //        this.getContentPane().add(a);
     }
@@ -39,19 +39,18 @@ public class User_anzeigen extends javax.swing.JInternalFrame {
         jB_Loeschen = new javax.swing.JButton();
         jB_Suchen = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        benutzername_jLabel = new javax.swing.JLabel();
-        passwort_jLabel = new javax.swing.JLabel();
-        benutzername_jTextField = new javax.swing.JTextField();
-        passwort_jTextField = new javax.swing.JTextField();
         jTextField1 = new javax.swing.JTextField();
-        passwort_generieren_jButton = new javax.swing.JButton();
+        BenutzerID_jLabel = new javax.swing.JLabel();
+        BenutzerID_jTextField = new javax.swing.JTextField();
+        Enter_jButton = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
         setTitle("User ändern");
-        setPreferredSize(new java.awt.Dimension(600, 250));
+        setEnabled(false);
+        setPreferredSize(new java.awt.Dimension(600, 400));
         setRequestFocusEnabled(false);
         try {
             setSelected(true);
@@ -76,6 +75,7 @@ public class User_anzeigen extends javax.swing.JInternalFrame {
         jToolBar1.add(jB_Speichern);
 
         jB_Anzeigen.setText("Anzeige/Ändern");
+        jB_Anzeigen.setEnabled(false);
         jToolBar1.add(jB_Anzeigen);
 
         jB_Loeschen.setText("Löschen");
@@ -87,67 +87,48 @@ public class User_anzeigen extends javax.swing.JInternalFrame {
 
         jSeparator1.setEnabled(false);
 
-        benutzername_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        benutzername_jLabel.setText("Benutzername : ");
-
-        passwort_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        passwort_jLabel.setText("Passwort          :");
-
-        benutzername_jTextField.setText("jTextField1");
-        benutzername_jTextField.setEnabled(false);
-
-        passwort_jTextField.setText("jTextField2");
-        passwort_jTextField.setEnabled(false);
-
+        jTextField1.setEditable(false);
         jTextField1.setText("Statuszeile");
         jTextField1.setEnabled(false);
 
-        passwort_generieren_jButton.setText("Passwort generieren");
-        passwort_generieren_jButton.setEnabled(false);
+        BenutzerID_jLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        BenutzerID_jLabel.setLabelFor(BenutzerID_jTextField);
+        BenutzerID_jLabel.setText("Benutzer-ID :");
+        BenutzerID_jLabel.setToolTipText("");
+
+        Enter_jButton.setText("Weiter");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jSeparator1)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(benutzername_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(150, 150, 150)
-                        .addComponent(benutzername_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(passwort_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(passwort_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(passwort_generieren_jButton)))
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(BenutzerID_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(BenutzerID_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Enter_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35))
             .addComponent(jTextField1)
+            .addComponent(jSeparator1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(benutzername_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(benutzername_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(passwort_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(passwort_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(passwort_generieren_jButton)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(82, 82, 82)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BenutzerID_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BenutzerID_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Enter_jButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        getAccessibleContext().setAccessibleName("User aendern");
         getAccessibleContext().setAccessibleDescription("");
 
         pack();
@@ -155,8 +136,9 @@ public class User_anzeigen extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel benutzername_jLabel;
-    private javax.swing.JTextField benutzername_jTextField;
+    private javax.swing.JLabel BenutzerID_jLabel;
+    private javax.swing.JTextField BenutzerID_jTextField;
+    private javax.swing.JButton Enter_jButton;
     private javax.swing.JButton jB_Abbrechen;
     private javax.swing.JButton jB_Anzeigen;
     private javax.swing.JButton jB_Loeschen;
@@ -166,8 +148,5 @@ public class User_anzeigen extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JButton passwort_generieren_jButton;
-    private javax.swing.JLabel passwort_jLabel;
-    private javax.swing.JTextField passwort_jTextField;
     // End of variables declaration//GEN-END:variables
 }

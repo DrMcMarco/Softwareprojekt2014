@@ -1,9 +1,7 @@
 package GUI_Internalframes;
 
-import Objects.Artikel;
-import Documents.NamenDocument;
-import Documents.PreisDocument;
-import Documents.ZahlenDocument;
+import ArtikelVerwalten.Artikel;
+import Documents.UniversalDocument;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
@@ -17,14 +15,7 @@ import javax.swing.JOptionPane;
 public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
 //  Insanzvariablen eines Artikels
-    private int artikelnummerTEST;
-    private String artikelname;
-    private String artikelbeschreibung;
-    private String kategorie;
-    private String einzelwert;
-    private String bestellwert;
-    private String mwst;
-    private String bestandsmengeFREI;
+    private int artikelnummer;
 
 //  ArrayList, um fehlerhafte Componenten zu speichern.    
     private ArrayList<Component> fehlerhafteComponenten;
@@ -34,10 +25,9 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     private final Color JCB_FARBE_STANDARD = new Color(214, 217, 223);
     private final Color JTF_FARBE_STANDARD = new Color(255, 255, 255);
 //  Insantzvariablen für die Farben von fehlerhaften Componenten         
-    private final Color FARBE_FEHLERHAFT = new Color(255, 239, 219);
+    private final Color FARBE_FEHLERHAFT = new Color(255,165,79);
 //  Insantzvariablen für reguläre Ausdrücke, um Prüfungen durchzuführen          
     private final String PREUFUNG_PREIS = "|(\\d*,?\\d{1,2})|(\\d{0,3}(\\.\\d{3})*,?\\d{1,2})";
-    private final String PREUFUNG_BESTANDSMENGE = "|(\\d{8})";
 //  Insantzvariablen für die Meldungen         
     private final String MELDUNG_PFLICHTFELDER_TITEL = "Felder nicht ausgefüllt";
     private final String MELDUNG_PFLICHTFELDER_TEXT = "Einige Felder wurden nicht ausgefüllt! Bitte füllen Sie diese aus!";
@@ -50,10 +40,10 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         initComponents();
         fehlerhafteComponenten = new ArrayList<>();
         artikelListe = new ArrayList<>();
-        jTF_Artikelname.setDocument(new NamenDocument());
-        jTF_Einzelwert.setDocument(new PreisDocument());
-        jTF_Bestellwert.setDocument(new PreisDocument());
-        jTF_Bestandsmenge_FREI.setDocument(new ZahlenDocument());
+        jTF_Artikelname.setDocument(new UniversalDocument("-.´", true));
+        jTF_Einzelwert.setDocument(new UniversalDocument("0123456789.,", false));
+        jTF_Bestellwert.setDocument(new UniversalDocument("0123456789.,", false));
+        jTF_Bestandsmenge_FREI.setDocument(new UniversalDocument("0123456789", false));
     }
 
 //  Methode für die Überprüfung der Daten. Falls ein Textfeld nicht gefüllt ist, wird sie der ArrayList für 
@@ -88,7 +78,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
 //  Methode, die die Eingaben zurücksetzt, beim Zurücksetzen wird auch die Hintergrundfarbe zurückgesetzt  
     public final void setzeFormularZurueck() {
-        jTF_Artikelnummer.setText("" + artikelnummerTEST);
+        jTF_Artikelnummer.setText("" + artikelnummer);
         jTF_Artikelname.setText("");
         jTF_Artikelname.setBackground(JTF_FARBE_STANDARD);
         jTA_Artikelbeschreibung.setText("");
@@ -165,7 +155,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
         setTitle("Artikel anlegen");
-        setPreferredSize(new java.awt.Dimension(500, 630));
+        setPreferredSize(new java.awt.Dimension(500, 830));
         setRequestFocusEnabled(false);
         setVisible(true);
 
@@ -468,7 +458,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+
     /*
      * Methode für das Speichern der Daten. 
      */
@@ -478,6 +468,14 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 //      falls fehlerhafteComponenten leer ist (es sind keine fehlerhaften Componenten verfuegbar), 
 //      werden die Eingaben in die entsprechenden Variablen gespeichert
         if (fehlerhafteComponenten.isEmpty()) {
+            String artikelname;
+            String artikelbeschreibung;
+            String kategorie;
+            String einzelwert;
+            String bestellwert;
+            String mwst;
+            String bestandsmengeFREI;
+            
             artikelname = jTF_Artikelname.getText();
             artikelbeschreibung = jTA_Artikelbeschreibung.getText();
             kategorie = (String) jCB_Kategorie.getSelectedItem();
@@ -486,11 +484,11 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
             mwst = (String) jCB_MwST.getSelectedItem();
             bestandsmengeFREI = jTF_Bestandsmenge_FREI.getText();
 //          Artikel wird in ArrayList für Artikel hinzugefuegt     
-            artikelListe.add(new Artikel(artikelnummerTEST, artikelname, artikelbeschreibung, kategorie, einzelwert, bestellwert, mwst, bestandsmengeFREI, "0", "0", "0"));
+            artikelListe.add(new Artikel(artikelnummer, artikelname, artikelbeschreibung, kategorie, einzelwert, bestellwert, mwst, bestandsmengeFREI, "0", "0", "0"));
 //          provisorisch wird der Artikel ausgegeben  
             System.out.println(artikelListe.get(artikelListe.size() - 1).toString());
 //          die artikelnummer wird erhöht  
-            artikelnummerTEST++;
+            artikelnummer++;
 //          das Formular wird zurueckgesetzt  
             setzeFormularZurueck();
         } else {

@@ -192,13 +192,13 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
      */
     @Override
     public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
-        if (!textfield.getText().matches(syntax)) {
+        if(textfield.getText().equals("")){
+            
+        }else if (!textfield.getText().matches(syntax)) {
             JOptionPane.showMessageDialog(null, fehlermeldung,
                     fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
             textfield.requestFocusInWindow();
             textfield.selectAll();
-        }else if(textfield.getText().equals("")){
-            
         }
     }
 

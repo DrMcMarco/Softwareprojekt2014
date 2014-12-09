@@ -6,9 +6,6 @@
 package UserHauptmenue;
 import GUI_Internalframes.*;
 
-import ArtikelVerwalten.ArtikelAEndernEinstieg;
-import ArtikelVerwalten.ArtikelAnlegen;
-import ArtikelVerwalten.ArtikelAnzeigen;
 
 import Interfaces.*;
 import javax.swing.JInternalFrame;
@@ -31,10 +28,8 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
 
     ArtikelAnlegen artikelanlegen;
     ArtikelAEndernEinstieg artikelaendern;
-    ArtikelAnzeigen artikelanzeigen;
 
     GeschaeftspartnerAnlegen geschaeftspartneranlegen;
-    GeschaeftspartnerAnzeigen geschaeftspartneranzeigen;
     GeschaeftspartnerAEndernEinstieg geschaeftspartneraendern;
 
     ZahlungskonditionAnlegen zahlungskonditionanlegen;
@@ -60,13 +55,10 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
         auftragsspositionanzeigen = new AuftragspositionAnzeigen();
         auftragsspositionaender = new AuftragspositionAendern();
         artikelanlegen = new ArtikelAnlegen();
-        artikelanzeigen = new ArtikelAnzeigen();
         artikelaendern = new ArtikelAEndernEinstieg();
         geschaeftspartneranlegen = new GeschaeftspartnerAnlegen();
-        geschaeftspartneranzeigen = new GeschaeftspartnerAnzeigen();
         geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg();
         zahlungskonditionanlegen = new ZahlungskonditionAnlegen();
-//        zahlungskonditionanzeigen = new ZahlungskonditionAnzeigen();
         zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg();
     }
 
