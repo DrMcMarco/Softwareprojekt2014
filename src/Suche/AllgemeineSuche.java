@@ -6,6 +6,9 @@
 
 package Suche;
 import Interfaces.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.util.ArrayList;
 import javax.swing.JTextField;
 /**
  *
@@ -209,6 +212,11 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
     public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    @Override
+    public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 
     
 
