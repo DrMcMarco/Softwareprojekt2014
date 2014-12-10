@@ -38,7 +38,8 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="jToolBar1" alignment="0" max="32767" attributes="0"/>
           <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
-          <Group type="102" attributes="0">
+          <Component id="statuszeile_jTextField" alignment="0" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
@@ -48,14 +49,13 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="passwort_jPasswordTextField" pref="210" max="32767" attributes="0"/>
-                  <Component id="benutzername_jTextField" max="32767" attributes="0"/>
+                  <Component id="benutzername_jTextField" pref="210" max="32767" attributes="0"/>
+                  <Component id="passwort_jTextField" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="passwort_Generieren_jButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="67" max="32767" attributes="0"/>
           </Group>
-          <Component id="statuszeile_jTextField" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -69,20 +69,13 @@
                   <Component id="benutzername_jLabel" min="-2" pref="20" max="-2" attributes="0"/>
                   <Component id="benutzername_jTextField" min="-2" max="-2" attributes="0"/>
               </Group>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
-                      <Component id="passwort_Generieren_jButton" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="passwort_jPasswordTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="passwort_jLabel" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="passwort_jLabel" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                  <Component id="passwort_jTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="passwort_Generieren_jButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="92" max="32767" attributes="0"/>
+              <EmptySpace pref="90" max="32767" attributes="0"/>
               <Component id="statuszeile_jTextField" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -119,6 +112,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Speichern"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jB_SpeichernActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jB_Anzeigen">
           <Properties>
@@ -164,6 +160,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="jTextField1"/>
       </Properties>
+      <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="benutzername_jTextFieldFocusGained"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="statuszeile_jTextField">
       <Properties>
@@ -175,11 +174,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Passwort generieren"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="passwort_Generieren_jButtonActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JPasswordField" name="passwort_jPasswordTextField">
+    <Component class="javax.swing.JTextField" name="passwort_jTextField">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jPasswordField1"/>
+        <Property name="text" type="java.lang.String" value="jTextField1"/>
       </Properties>
+      <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="passwort_jTextFieldFocusGained"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

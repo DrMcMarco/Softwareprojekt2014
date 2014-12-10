@@ -1,26 +1,115 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package GUI_Internalframes;
+
+import java.awt.Component;
+import java.util.ArrayList;
+import Interfaces.*;
+import java.awt.Color;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
  * @author Luca Terrasi
- * 
+ *
  * 10.12.2014 Dokumentation und Logik
  */
-public class User_anlegen extends javax.swing.JInternalFrame {
-    
+public class User_anlegen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
+
+    /*
+     Speichervariablen
+     */
+    ArrayList<Component> fehlendeEingaben;// ArrayList für Eingabefelder.
+
+    /*
+     Variablen für Farben
+     */
+    Color warningfarbe = Color.YELLOW;
+    Color hintergrundfarbe = Color.WHITE;
+
+    /*
+     Ausgabetexte für Meldungen
+     */
+    String fehlermeldung_titel = "Fehlerhafte Eingabe";
+    String fehlermeldung_text = "Es sind nicht alle Eingaben getätigt worden.\n"
+            + "Bitte geben Sie alle Eingaben ein um fortzufahren.";
 
     /**
      * Creates new form Fenster
      */
     public User_anlegen() {
         initComponents();
-//        this.getContentPane().add(a);
+
+        //Initialisierung der Speichervariblen
+        fehlendeEingaben = new ArrayList<Component>();
+    }
+
+    /**
+     * Schnittstellenmethode mit der alle Eingabefelder zurückgesetzt werden.
+     */
+    @Override
+    public void zuruecksetzen() {
+        //Eingabefelder erhalten einen leeren String
+        benutzername_jTextField.setText("");
+        passwort_jTextField.setText("");
+    }
+
+    /**
+     * Schnittstellenmethode mit der geprüft wird ob alle Eingaben getätigt
+     * worden sind.
+     */
+    @Override
+    public void ueberpruefen() {
+        //IF-Anweisungen mit denen geprüft wird welche Eingabefelder keine Eingabe 
+        // erhalten haben. Diese Eingabefelder werden in passende Speichervariablen festgehalten.
+
+        //Eingabefelder für Auftragskopf werden in Variable "fehlendeEingaben" festgehalten.
+        if (benutzername_jTextField.getText().equals("")) {
+            fehlendeEingaben.add(benutzername_jTextField);
+        } else if (passwort_jTextField.getText().equals("")) {
+            fehlendeEingaben.add(passwort_jTextField);
+        }
+    }
+
+    /**
+     * Schnittstellenmethode mit der die Eingaben beim FocusLost auf Richtigkeit
+     * geprüft werden.
+     *
+     * @param textfield, das zu übergeben JTextfield, indem der Focusgesetzt
+     * ist.
+     * @param syntax, String mit dem eine Eingabe auf das richtige Format hin
+     * geprüft wird.
+     * @param fehlermelgungtitel, Srting der den Titel der Fehlmeldung enthält.
+     * @param fehlermeldung, String der die Fehlmeldung enthält.
+     */
+    @Override
+    public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
+
+    }
+
+    /**
+     * Schnittstellenmethode mit der die Eingabefelder die nicht ausgefüllt
+     * worden sind, farblich markiert werden und eine Meldung ausgegeben wird,
+     * inder der Benutzer darauf hingewiesen wird, alle Eingaben zu tätigen.
+     *
+     * @param list, Arraylist in der die Components die keine Eingaben erhalten
+     * haben, gespeichert sind.
+     * @param fehlermelgungtitel, Srting der den Titel der Fehlmeldung enthält.
+     * @param fehlermeldung, String der die Fehlmeldung enthält.
+     * @param farbe, Color in der der Hintergrund der Components markiert werden
+     * soll
+     */
+    @Override
+    public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
+        //Meldung die darauf hinweist das nicht alle Eingaben getätigt worden sind.
+        JOptionPane.showMessageDialog(null, fehlermeldung,
+                fehlermelgungtitel, JOptionPane.WARNING_MESSAGE);
+        list.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
+        // Alle leeren Eingabefelder werden farblich markiert.
+        for (int i = 0; i <= list.size() - 1; i++) {
+            list.get(i).setBackground(farbe);
+        }
+
+        list.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
     }
 
     /**
@@ -45,7 +134,7 @@ public class User_anlegen extends javax.swing.JInternalFrame {
         benutzername_jTextField = new javax.swing.JTextField();
         statuszeile_jTextField = new javax.swing.JTextField();
         passwort_Generieren_jButton = new javax.swing.JButton();
-        passwort_jPasswordTextField = new javax.swing.JPasswordField();
+        passwort_jTextField = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -74,6 +163,11 @@ public class User_anlegen extends javax.swing.JInternalFrame {
         jToolBar1.add(jB_Abbrechen);
 
         jB_Speichern.setText("Speichern");
+        jB_Speichern.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_SpeichernActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_Speichern);
 
         jB_Anzeigen.setText("Anzeige/Ändern");
@@ -96,13 +190,28 @@ public class User_anlegen extends javax.swing.JInternalFrame {
         passwort_jLabel.setText("Passwort          :");
 
         benutzername_jTextField.setText("jTextField1");
+        benutzername_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                benutzername_jTextFieldFocusGained(evt);
+            }
+        });
 
         statuszeile_jTextField.setText("Statuszeile");
         statuszeile_jTextField.setEnabled(false);
 
         passwort_Generieren_jButton.setText("Passwort generieren");
+        passwort_Generieren_jButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwort_Generieren_jButtonActionPerformed(evt);
+            }
+        });
 
-        passwort_jPasswordTextField.setText("jPasswordField1");
+        passwort_jTextField.setText("jTextField1");
+        passwort_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                passwort_jTextFieldFocusGained(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -110,6 +219,7 @@ public class User_anlegen extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jSeparator1)
+            .addComponent(statuszeile_jTextField)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -118,12 +228,11 @@ public class User_anlegen extends javax.swing.JInternalFrame {
                     .addComponent(benutzername_jLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(passwort_jPasswordTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-                    .addComponent(benutzername_jTextField))
+                    .addComponent(benutzername_jTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                    .addComponent(passwort_jTextField))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(passwort_Generieren_jButton)
                 .addContainerGap(67, Short.MAX_VALUE))
-            .addComponent(statuszeile_jTextField)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,16 +244,12 @@ public class User_anlegen extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(benutzername_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(benutzername_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(passwort_Generieren_jButton))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(passwort_jPasswordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(passwort_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(passwort_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwort_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwort_Generieren_jButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
                 .addComponent(statuszeile_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -152,6 +257,60 @@ public class User_anlegen extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    /**
+     * Es wird ein Passwort wird den anzulegenden User generiert. Das generierte
+     * PAsswort erscheint im Eingabefeld.
+     *
+     * @param evt
+     */
+    private void passwort_Generieren_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwort_Generieren_jButtonActionPerformed
+        //Algo zum passwortgenerieren
+
+        // übergabe des passworts in das eingabefeld.
+    }//GEN-LAST:event_passwort_Generieren_jButtonActionPerformed
+
+    /**
+     * Selektiert das Eingabefeld des Benutzernamens
+     *
+     * @param evt
+     */
+    private void benutzername_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_benutzername_jTextFieldFocusGained
+        benutzername_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
+        benutzername_jTextField.setText("");//Übergabe eines leeren Strings an das Eingabefeld
+    }//GEN-LAST:event_benutzername_jTextFieldFocusGained
+
+    /**
+     * Selektiert das Eingabefeld des Passworts
+     *
+     * @param evt
+     */
+    private void passwort_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwort_jTextFieldFocusGained
+        passwort_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
+        passwort_jTextField.setText("");//Übergabe eines leeren Strings an das Eingabefeld
+    }//GEN-LAST:event_passwort_jTextFieldFocusGained
+
+    /**
+     * Beim Speichern wird geprüft ob alle notwendigen Eingaben vorhanden sind.
+     * Wenn diese vorhadnen sind, wird ein User mit seinem dazugehörigem
+     * Passwort angelegt. Falls Eingaben fehlen, wird eine Warnmeldung
+     * ausgegeben und es wird dem User farblich gezeigt, wo die fehlenden
+     * Eingabe getätigt werden müssen.
+     *
+     * @param evt
+     */
+    private void jB_SpeichernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SpeichernActionPerformed
+        //Aufruf der Schnittstellenmethode um auf Vollständigkeit der Eingaben zu prüfen.
+        ueberpruefen();
+        if (fehlendeEingaben.isEmpty()) {
+
+            //User anlegen
+            zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+        } else {
+            fehlEingabenMarkierung(fehlendeEingaben, fehlermeldung_titel,
+                    fehlermeldung_text, warningfarbe);
+        }
+    }//GEN-LAST:event_jB_SpeichernActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -167,7 +326,7 @@ public class User_anlegen extends javax.swing.JInternalFrame {
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JButton passwort_Generieren_jButton;
     private javax.swing.JLabel passwort_jLabel;
-    private javax.swing.JPasswordField passwort_jPasswordTextField;
+    private javax.swing.JTextField passwort_jTextField;
     private javax.swing.JTextField statuszeile_jTextField;
     // End of variables declaration//GEN-END:variables
 }
