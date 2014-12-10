@@ -38,7 +38,7 @@ public class Start extends javax.swing.JFrame {
 //    ArtikelAnzeigen artikelanzeigen;
 
     GeschaeftspartnerAnlegen geschaeftspartneranlegen;
-    GeschaeftspartnerAnzeigen geschaeftspartneranzeigen;
+//    GeschaeftspartnerAnzeigen geschaeftspartneranzeigen;
     GeschaeftspartnerAEndernEinstieg geschaeftspartneraendern;
 
     ZahlungskonditionAnlegen zahlungskonditionanlegen;
@@ -72,7 +72,7 @@ public class Start extends javax.swing.JFrame {
 //        artikelanzeigen = new ArtikelAnzeigen();
         artikelaendern = new ArtikelAEndernEinstieg();
         geschaeftspartneranlegen = new GeschaeftspartnerAnlegen();
-        geschaeftspartneranzeigen = new GeschaeftspartnerAnzeigen();
+//        geschaeftspartneranzeigen = new GeschaeftspartnerAnzeigen();
         geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg();
         zahlungskonditionanlegen = new ZahlungskonditionAnlegen();
 //        zahlungskonditionanzeigen = new ZahlungskonditionAnzeigen();
@@ -91,7 +91,7 @@ public class Start extends javax.swing.JFrame {
 //        desktopPane.add(artikelanzeigen);
         desktopPane.add(artikelaendern);
         desktopPane.add(geschaeftspartneranlegen);
-        desktopPane.add(geschaeftspartneranzeigen);
+//        desktopPane.add(geschaeftspartneranzeigen);
         desktopPane.add(geschaeftspartneraendern);
         desktopPane.add(zahlungskonditionanlegen);
 //        desktopPane.add(zahlungskonditionanzeigen);
@@ -107,7 +107,7 @@ public class Start extends javax.swing.JFrame {
         artikelaendern.setVisible(false);
         geschaeftspartneranlegen.setVisible(false);
         geschaeftspartneraendern.setVisible(false);
-        geschaeftspartneranzeigen.setVisible(false);
+//        geschaeftspartneranzeigen.setVisible(false);
         zahlungskonditionanlegen.setVisible(false);
 //        zahlungskonditionanzeigen.setVisible(false);
         zahlungskonditionaendern.setVisible(false);
@@ -491,7 +491,7 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_GPAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_GPAnzeigenActionPerformed
-       setCenterJIF(geschaeftspartneranzeigen);
+//       setCenterJIF(geschaeftspartneranzeigen);
     }//GEN-LAST:event_jMI_GPAnzeigenActionPerformed
 
     /**

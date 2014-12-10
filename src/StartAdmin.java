@@ -7,7 +7,6 @@ import GUI_Internalframes.*;
 import Suche.*;
 import UserHauptmenue.Hauptmenue_User;
 import AdminHauptmenue.Hauptmenue_Admin;
-import UserVerwaltung.*;
 import javax.swing.JOptionPane;
 
 /**
