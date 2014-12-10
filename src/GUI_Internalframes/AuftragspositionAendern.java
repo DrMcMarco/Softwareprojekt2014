@@ -33,6 +33,12 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
     private static final String auftragspositionsID_syntax = "\\d{1,9}?";
 
     /*
+     Variablen für Farben
+     */
+    Color warningfarbe = Color.YELLOW;
+    Color hintergrundfarbe = Color.WHITE;
+
+    /*
      Augabetexte für Meldungen
      */
     String fehlermeldung_titel = "Fehlerhafte Eingabe";
@@ -41,7 +47,7 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
     String fehlermeldungAuftragspositionIDtext = "\"Die eingegebene Auftragspositions-ID ist nicht gültig! "
             + "\\n Bitte geben Sie eine gültige AuftragspositionID_jTextField ein. (z.B. 1 oder 999999999)\"";
     String fehlermeldung_unvollständig = "Fehlerhafte Eingabe";
-    String fehlermeldungVollstaendigkeitAuftragskopf = " Es wurde keine Auftragskopf-Id eingegeben./n"
+    String fehlermeldungVollstaendigkeitAuftragskopf = " Es wurde keine Auftragskopf-Id eingegeben.\n"
             + "Bitte geben sie eine Auftragskopf-Id ein.";
 
     /**
@@ -140,6 +146,11 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
         });
 
         Enter_jButton.setText("Enter");
+        Enter_jButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Enter_jButtonActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setLabelFor(AuftragspositionID_jTextField);
@@ -204,6 +215,8 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
      * @param evt
      */
     private void AuftragskopfID_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_AuftragskopfID_jTextFieldFocusGained
+        AuftragskopfID_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
+        AuftragskopfID_jTextField.setText("");//Übergabe eines leeren Strings an das Eingabefeld
         AuftragskopfID_jTextField.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_AuftragskopfID_jTextFieldFocusGained
 
@@ -213,6 +226,8 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
      * @param evt
      */
     private void AuftragspositionID_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_AuftragspositionID_jTextFieldFocusGained
+        AuftragspositionID_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
+        AuftragspositionID_jTextField.setText("");//Übergabe eines leeren Strings an das Eingabefeld
         AuftragspositionID_jTextField.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_AuftragspositionID_jTextFieldFocusGained
 
@@ -241,6 +256,22 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
         ueberpruefungVonFocusLost(AuftragspositionID_jTextField, auftragspositionsID_syntax,
                 fehlermeldung_titel, fehlermeldungAuftragspositionIDtext);
     }//GEN-LAST:event_AuftragspositionID_jTextFieldFocusLost
+
+    // Falls alle Eingaben getätigt wurden sind, wird nach der gesuchten Auftragsposition
+    // gesucht.
+    private void Enter_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Enter_jButtonActionPerformed
+        ueberpruefen();
+        if (fehlendeEingaben.isEmpty()) {
+
+            //Suche starten
+            zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+        } else {//Wenn Eingaben fehlen.
+            // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
+            // getätigt worden sind
+            fehlEingabenMarkierung(fehlendeEingaben, fehlermeldung_titel,
+                    fehlermeldungAuftragskopfIDtext, warningfarbe);//Meldung wird ausgegeben und          
+        }
+    }//GEN-LAST:event_Enter_jButtonActionPerformed
 
     /**
      * Schnittstellenmethode mit der alle Eingabefelder zurückgesetzt werden
