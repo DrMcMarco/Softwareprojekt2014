@@ -208,10 +208,12 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
      * @param evt
      */
     private void weiter_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_weiter_jButtonActionPerformed
-        ueberpruefen();//Überprüft ob Eingabefelder leer sind.
+        //Aufruf der Schnittstellenmethode um auf Vollständigkeit der Eingaben zu prüfen.
+        ueberpruefen();
         if (fehleingabefelder.isEmpty()) {//Bei ausgefüllten Eingabenfeldern
 
             //Suchfunktion nach der eingegebenen Auftragskopf-ID 
+            zuruecksetzen();//Methode die bestimmte Eingabefelder leert
         } else {//Wenn Eingaben fehlen.
             // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
             // getätigt worden sind
@@ -240,7 +242,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
     public void ueberpruefen() {
         //IF-Anweisungen mit denen geprüft wird welche eingabefelder keine Eingabe 
         // erhalten haben. Diese Eingabefelder werden in passende Speichervariablen festgehalten.
-        
+
         //Eingabefeld für Auftragskopf werden in Variable "fehleingabefelder" feestgehalten.
         if (auftragskopfID_jTextField.getText().equals("")) {
             fehleingabefelder.add(auftragskopfID_jTextField);
