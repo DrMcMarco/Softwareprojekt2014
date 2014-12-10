@@ -846,7 +846,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             if (fehlendeEingabenAuftragsposition.isEmpty()) {
                 //Auftragskopf und Position anlegen
 
-                zuruecksetzen();
+                zuruecksetzen();//Methode die bestimmte Eingabefelder leert
             } else {
                 int k = 2;
                 if (k == 2) {//Wenn nicht mindestens eine Auftragsposition zum Auftragskopf angelegt worden ist
