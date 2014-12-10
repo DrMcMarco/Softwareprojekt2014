@@ -19,7 +19,7 @@ import javax.swing.JTextField;
 /**
  *
  * @author Luca Terrasi
- * 
+ *
  * 10.12.2014 Dokumentation und Logik
  */
 public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
@@ -34,6 +34,12 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      Speichervariablen
      */
     ArrayList<Component> fehlendeEingaben;// ArrayList für Eingabefelder des Auftragkopfes.
+
+    /*
+     Variablen für Farben
+     */
+    Color warningfarbe = Color.YELLOW;
+    Color hintergrundfarbe = Color.WHITE;
 
     /*
      Syntax
@@ -72,14 +78,14 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
 
         //Initialisierung der Speichervariblen
         fehlendeEingaben = new ArrayList<Component>();
-        
+
         //Zuweisung der Documents
-        auftragspositionsID_jTextField.setDocument(new UniversalDocument("0123456789",false));
-        positionsnummer_jTextField.setDocument(new UniversalDocument("0123456789",false));
-        materialnummer_jTextField.setDocument(new UniversalDocument("0123456789",false));
-        menge_jTextField.setDocument(new UniversalDocument("0123456789",false));
-        einzelwert_jTextField.setDocument(new UniversalDocument("0123456789,.",false));
-                
+        auftragspositionsID_jTextField.setDocument(new UniversalDocument("0123456789", false));
+        positionsnummer_jTextField.setDocument(new UniversalDocument("0123456789", false));
+        materialnummer_jTextField.setDocument(new UniversalDocument("0123456789", false));
+        menge_jTextField.setDocument(new UniversalDocument("0123456789", false));
+        einzelwert_jTextField.setDocument(new UniversalDocument("0123456789,.", false));
+
     }
 
     /**
@@ -314,6 +320,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      * @param evt
      */
     private void auftragspositionsID_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_auftragspositionsID_jTextFieldFocusGained
+        auftragspositionsID_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
         auftragspositionsID_jTextField.setText("");//Eingabefeld erhält einen leeren String
         auftragspositionsID_jTextField.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_auftragspositionsID_jTextFieldFocusGained
@@ -324,6 +331,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      * @param evt
      */
     private void positionsnummer_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_positionsnummer_jTextFieldFocusGained
+        positionsnummer_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
         positionsnummer_jTextField.setText("");//Eingabefeld erhält einen leeren String
         positionsnummer_jTextField.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_positionsnummer_jTextFieldFocusGained
@@ -334,6 +342,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      * @param evt
      */
     private void materialnummer_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_materialnummer_jTextFieldFocusGained
+        materialnummer_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
         materialnummer_jTextField.setText("");//Eingabefeld erhält einen leeren String
         materialnummer_jTextField.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_materialnummer_jTextFieldFocusGained
@@ -344,6 +353,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      * @param evt
      */
     private void menge_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_menge_jTextFieldFocusGained
+        menge_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
         menge_jTextField.setText("");//Eingabefeld erhält einen leeren String
         menge_jTextField.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_menge_jTextFieldFocusGained
@@ -354,6 +364,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      * @param evt
      */
     private void einzelwert_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_einzelwert_jTextFieldFocusGained
+        einzelwert_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
         einzelwert_jTextField.setText("");//Eingabefeld erhält einen leeren String
         einzelwert_jTextField.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_einzelwert_jTextFieldFocusGained
@@ -364,6 +375,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      * @param evt
      */
     private void erfassungsdatum_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_erfassungsdatum_jTextFieldFocusGained
+        erfassungsdatum_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
         erfassungsdatum_jTextField.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_erfassungsdatum_jTextFieldFocusGained
 
