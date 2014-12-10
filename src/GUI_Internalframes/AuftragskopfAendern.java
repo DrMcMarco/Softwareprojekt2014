@@ -39,6 +39,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
      Variablen für Farben
      */
     Color warningfarbe = Color.YELLOW;
+    Color hintergrundfarbe = Color.WHITE;
 
     /**
      * Creates new form Fenster
@@ -181,6 +182,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
      Beim wählen des Eingabefeldes, wird alles selektiert.
      */
     private void auftragskopfID_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_auftragskopfID_jTextFieldFocusGained
+        auftragskopfID_jTextField.setBackground(hintergrundfarbe);
         auftragskopfID_jTextField.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_auftragskopfID_jTextFieldFocusGained
 
