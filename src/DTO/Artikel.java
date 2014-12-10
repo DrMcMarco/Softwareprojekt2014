@@ -19,7 +19,7 @@ public class Artikel implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private long ArtikelID;
+    private long Id;
     
     @ManyToOne
     @JoinColumn(name = "Kategorie")
@@ -54,11 +54,11 @@ public class Artikel implements Serializable {
     }
 
     public long getArtikelID() {
-        return ArtikelID;
+        return Id;
     }
 
     public void setArtikelID(long ArtikelID) {
-        this.ArtikelID = ArtikelID;
+        this.Id = ArtikelID;
     }
 
     public Artikelkategorie getKategorie() {
@@ -144,7 +144,7 @@ public class Artikel implements Serializable {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 79 * hash + (int) (this.ArtikelID ^ (this.ArtikelID >>> 32));
+        hash = 79 * hash + (int) (this.Id ^ (this.Id >>> 32));
         hash = 79 * hash + Objects.hashCode(this.Kategorie);
         hash = 79 * hash + Objects.hashCode(this.Artikeltext);
         hash = 79 * hash + Objects.hashCode(this.Bestelltext);
@@ -170,7 +170,7 @@ public class Artikel implements Serializable {
             return false;
         }
         final Artikel other = (Artikel) obj;
-        if (this.ArtikelID != other.ArtikelID) {
+        if (this.Id != other.Id) {
             return false;
         }
         if (!Objects.equals(this.Kategorie, other.Kategorie)) {
@@ -211,7 +211,7 @@ public class Artikel implements Serializable {
 
     @Override
     public String toString() {
-        return "Artikel{" + "ArtikelID=" + ArtikelID + ", Kategorie=" + 
+        return "Artikel{" + "ArtikelID=" + Id + ", Kategorie=" + 
                 Kategorie + ", Artikeltext=" + Artikeltext + ", Bestelltext=" + 
                 Bestelltext + ", Verkaufswert=" + Verkaufswert + 
                 ", Einkaufswert=" + Einkaufswert + ", MwST=" + MwST + 

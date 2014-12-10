@@ -64,7 +64,7 @@ public class DataAccessObject {
                     "Beim Parsen ist ein Fehler aufgetreten!");
         }
         //Sql-Statement Dynamisch erzeugen
-        sqlQuery = "SELECT ST FROM " + table + " ST WHERE ST.";
+        sqlQuery = "SELECT ST FROM " + table + " ST WHERE ";
         iterator = dbIdentifier.entrySet().iterator();
         
         while (iterator.hasNext()) {
@@ -76,10 +76,16 @@ public class DataAccessObject {
             key = (String) entry.getKey();
             value = (String) entry.getValue();
             //Sql-Statement erweitern
-            sqlQuery += (key + " = " + value);
+            sqlQuery += ("ST." + key + " = " + value);
+        }
+        Artikel a = null;
+        try {
+            //sqlResultSet = (HashSet<?>) em.createQuery(sqlQuery).getResultList();
+            a = (Artikel) em.createQuery(sqlQuery).getSingleResult();
+        } catch(Exception e) {
+            throw new ApplicationException("", e.getMessage());
         }
         
-        sqlResultSet = (HashSet<?>) em.createQuery(sqlQuery);
         
         
         if (table.equals("Artikel")) {
@@ -90,6 +96,10 @@ public class DataAccessObject {
     }
     
     /**
+     * Methode zur Erzeugung eines Artikels.
+     * 
+     * !Überlegung die Kategorie als String zu übergeben und von hier aus
+     * das Objekt aus der DB suchen!
      * 
      * @param Kategorie
      * @param Artikeltext
@@ -101,28 +111,53 @@ public class DataAccessObject {
      * @param Reserviert
      * @param Zulauf
      * @param Verkauft 
+     * @throws DAO.ApplicationException Die Exception wird durchgereicht
      */
     public void createItem(Artikelkategorie Kategorie, String Artikeltext, 
             String Bestelltext, double Verkaufswert, double Einkaufswert, 
-            double MwST, int Frei, int Reserviert, int Zulauf, int Verkauft) {
+            double MwST, int Frei, int Reserviert, int Zulauf, int Verkauft) 
+            throws ApplicationException {
+        Artikel item = new Artikel(Kategorie, Artikeltext, Bestelltext, 
+                Verkaufswert, Einkaufswert, MwST, Frei, Reserviert, 
+                Zulauf, Verkauft);
+        //Prüfen, ob das Objekt erstellt wurde
+        if (item == null) {
+            throw new ApplicationException("Fehler", 
+                    "Die Werte waren ungültig!");
+        }
+        //Transaktion starten
+        em.getTransaction().begin();
+        //Objekt persistieren
+        em.persist(item);
+        //Transaktion abschliessen
+        em.getTransaction().commit();
         
     }
     
     /**
-     * 
-     * @param Kategoriename
-     * @param Beschreibung
-     * @param Kommentar
-     * @param LKZ 
+     * Methode zur Erzeugung von Artikelkategorien
+     * @param Kategoriename Name der Kategorie
+     * @param Beschreibung Kategoriebeschreibung
+     * @param Kommentar Kommentar zur Kategorie
+     * @param LKZ Löschkennzeichen
+     * @throws DAO.ApplicationException Die Exception wird durchgereicht
      */
     public void createCategory(String Kategoriename, 
-            String Beschreibung, String Kommentar, boolean LKZ) {
+            String Beschreibung, String Kommentar, boolean LKZ) 
+            throws ApplicationException {
+        //Objekt erzeugen
         Artikelkategorie cat = new Artikelkategorie(Kategoriename, Beschreibung,
                 Kommentar, LKZ);
-        
+        //Prüfen, ob das Objekt erstellt wurde
+        if (cat == null) {
+            throw new ApplicationException("Fehler", 
+                    "Die Werte waren ungültig!");
+        }
+        //Transaktion starten
         em.getTransaction().begin();
-        
+        //Objekt persistieren
         em.persist(cat);
+        //Transaktion abschliessen
         em.getTransaction().commit();
     }
     
@@ -151,13 +186,45 @@ public class DataAccessObject {
     }
     
     /**
+     * 
+     * @param name
+     * @return
+     * @throws ApplicationException 
+     */
+    public Artikelkategorie getCategory(String name) 
+            throws ApplicationException {
+        String sqlQuery = null;
+        Artikelkategorie cat = null;
+        if (name == null)
+            throw new ApplicationException("Fehler", 
+                    "Geben Sie eine Kategorie an!");
+        sqlQuery = 
+                "SELECT ST FROM Artikelkategorie ST WHERE ST.Kategoriename = '" + 
+                name + "'";
+        try {
+            cat = (Artikelkategorie) em.createQuery(sqlQuery).getSingleResult();
+        } catch (Exception e) {
+            throw new ApplicationException("Fehler", e.getMessage());
+        }
+        
+        
+        if (cat == null)
+            throw new ApplicationException("Fehler", 
+                    "Es wurde keine Kategorie gefunden!");
+        
+        return cat;
+    }
+    
+    
+    /**
      * Loginfunktion
      * @param username Benutzername
      * @param password Passwort
      * @return gibt an ob der Login erfolgreich war oder nicht
      * @throws DAO.ApplicationException Die Exception wird durchgereicht
      */
-    public boolean doLogin(String username, String password) throws ApplicationException {
+    public boolean doLogin(String username, String password) 
+            throws ApplicationException {
         
         boolean loginSuccessful = false;
         //Suche Benutzer anhand des Benutzernames in der Datenbank
@@ -166,11 +233,12 @@ public class DataAccessObject {
         //Benutzer wurde nicht gefunden
         if(benutzer == null) {
             //Werfe ApplicationException, implizit Funktionsabbruch
-            throw new ApplicationException("Meldung", "Der angegebene Benutzer wurde nicht gefunden");
+            throw new ApplicationException("Meldung", 
+                    "Der angegebene Benutzer wurde nicht gefunden");
         }
         
-        //Eingegebenes Passwort(als MD5 Hash) stimmt nicht dem Passwort in der Datenbank
-        //(ebenfalls MD5 Hash) überein
+        //Eingegebenes Passwort(als MD5 Hash) stimmt nicht dem Passwort in der 
+        //Datenbank (ebenfalls MD5 Hash) überein
         if(benutzer.getPasswort().equals(getHash(password))) {
             loginSuccessful = true;
         }

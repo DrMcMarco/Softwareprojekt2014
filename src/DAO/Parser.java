@@ -45,15 +45,16 @@ public class Parser {
      */
     private static final HashMap<String, String> IDENTIFIER = new 
             HashMap<String, String>() {{
-              put("nr","ID");
-              put("name","NAME");
-              put("vname","VORNAME");
-              put("datum","ERFASSUNGSDATUM");
+              put("nr","Id");
+              put("name","Name");
+              put("katname", "Kategoriename");
+              put("vname","Vorname");
+              put("datum","Erfassungsdatum");
               put("status","STATUS");
-              put("frei","BESTANDSMENGEFREI");
-              put("res","BESTANDSMENGERESERVIERT");
-              put("zul","BESTANDSMENGEZULAUF");
-              put("ver","BESTANDSMENGEVERKAUFT");
+              put("frei","Frei");
+              put("res","Reserviert");
+              put("zul","Zulauf");
+              put("ver","Verkauft");
               put("typ","AUFTRAGSART");
             }};
     

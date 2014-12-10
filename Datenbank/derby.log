@@ -1,7 +1,7 @@
-Wed Dec 10 12:57:29 CET 2014 : Apache Derby Network Server 10.10.1.3 - (1557168) wurde gestartet und ist bereit, Verbindungen auf Port 1527 zu akzeptieren.
+Wed Dec 10 17:23:27 CET 2014 : Apache Derby Network Server 10.10.1.3 - (1557168) wurde gestartet und ist bereit, Verbindungen auf Port 1527 zu akzeptieren.
 ----------------------------------------------------------------
-Wed Dec 10 12:57:47 CET 2014:
-Booten von Derby-Version The Apache Software Foundation - Apache Derby - 10.10.1.3 - (1557168): Instanz a816c00e-014a-340f-a85d-000027118261
+Wed Dec 10 17:23:38 CET 2014:
+Booten von Derby-Version The Apache Software Foundation - Apache Derby - 10.10.1.3 - (1557168): Instanz a816c00e-014a-3503-2a21-000027118261
 für Datenbankverzeichnis C:\Users\Kerstin\Documents\Studium\5. Semester\SPWI\Softwareprojekt2014\Datenbank\SWPDB mit Class Loader sun.misc.Launcher$AppClassLoader@1d44bcfa
 Geladen aus file:/C:/Program%20Files/Java/jdk1.8.0_20/db/lib/derby.jar
 java.vendor=Oracle Corporation
@@ -12,5 +12,3 @@ os.arch=amd64
 os.version=6.3
 derby.system.home=C:\Users\Kerstin\Documents\Studium\5. Semester\SPWI\Softwareprojekt2014\Datenbank
 Datenbank-Class Loader wurde gestartet - derby.database.classpath=''
-----------------------------------------------------------------
-Wed Dec 10 14:21:35 CET 2014: Derby-Engine wird heruntergefahren

@@ -2,6 +2,7 @@ import GUI_Internalframes.*;
 import DAO.ApplicationException;
 import DAO.DataAccessObject;
 import DAO.Parser;
+import DTO.Artikelkategorie;
 import UserHauptmenue.Hauptmenue_User;
 import java.awt.Dimension;
 import javax.swing.JInternalFrame;
@@ -114,9 +115,13 @@ public class Start extends javax.swing.JFrame {
         
         //Erstmal zu Testzwecken, kommt noch woanders hin
         DAO = new DataAccessObject(); 
-        try {
-        DAO.searchQuery("nr:12,res:2", "Artikel");
-        }catch (Exception e) {}
+        
+//        try {
+////            DAO.createCategory("Kat1", "test", "test", false);
+////            Artikelkategorie cat = DAO.getCategory("Kat1");
+////            DAO.createItem(cat, "", "", 2.5, 1.5, 19, 5, 0, 0, 0);
+//        DAO.searchQuery("nr:651", "Artikel");
+//        }catch (Exception e) {}
     }
 
     /**
