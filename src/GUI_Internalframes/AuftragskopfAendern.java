@@ -10,7 +10,9 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author Luca
+ * @author Luca Terrasi
+ *
+ * 10.12.2014 Dokumentation und Logik
  */
 public class AuftragskopfAendern extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
@@ -43,7 +45,15 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
      */
     public AuftragskopfAendern() {
         initComponents();
+        /*
+         Initialisierung von Variablen
+         */
         fehleingabefelder = new ArrayList<>();
+
+        /*
+         Zuweisung von verschiedenen Documents 
+         */
+        auftragskopfID_jTextField.setDocument(new UniversalDocument("0123456789", false));
     }
 
     /**
@@ -171,7 +181,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
      Beim wählen des Eingabefeldes, wird alles selektiert.
      */
     private void auftragskopfID_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_auftragskopfID_jTextFieldFocusGained
-        auftragskopfID_jTextField.selectAll();
+        auftragskopfID_jTextField.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_auftragskopfID_jTextFieldFocusGained
 
     /**
@@ -182,6 +192,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
      * @param evt
      */
     private void auftragskopfID_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_auftragskopfID_jTextFieldFocusLost
+        // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
         ueberpruefungVonFocusLost(auftragskopfID_jTextField, auftragskopfID_syntax,
                 fehlermeldung_titel, fehlermeldungAuftragskopfIDtext);
 
@@ -193,31 +204,44 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
      * der der Benutzer darauf hingewiesen wird, dass eine Eingabe zur weiteren
      * Durchführung fehlt. Das Eingabefeld mit der fehlenden Eingabe wird
      * farblich markiert.
+     *
+     * @param evt
      */
     private void weiter_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_weiter_jButtonActionPerformed
         ueberpruefen();//Überprüft ob Eingabefelder leer sind.
         if (fehleingabefelder.isEmpty()) {//Bei ausgefüllten Eingabenfeldern
+
             //Suchfunktion nach der eingegebenen Auftragskopf-ID 
         } else {//Wenn Eingaben fehlen.
+            // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
+            // getätigt worden sind
             fehlEingabenMarkierung(fehleingabefelder, fehlermeldung_titel,
                     fehlermeldungUnvollstaendig, warningfarbe);//Meldung wird ausgegeben und
-            // Felde wird markiert in der die Eingabe fehlt.
+
         }
     }//GEN-LAST:event_weiter_jButtonActionPerformed
 
     /**
      * Schnittstellenmethode mit der alle Eingabefelder zurückgesetzt werden
+     *
      */
     @Override
     public void zuruecksetzen() {
+        //Eingabefelder erhalten einen leeren String
         auftragskopfID_jTextField.setText("");
     }
 
-    /*
-     Schnittstellenmethode mit der geprüft wird ob alle Eingaben getätigt worden sind.
+    /**
+     * Schnittstellenmethode mit der geprüft wird ob alle Eingaben getätigt
+     * worden sind.
+     *
      */
     @Override
     public void ueberpruefen() {
+        //IF-Anweisungen mit denen geprüft wird welche eingabefelder keine Eingabe 
+        // erhalten haben. Diese Eingabefelder werden in passende Speichervariablen festgehalten.
+        
+        //Eingabefeld für Auftragskopf werden in Variable "fehleingabefelder" feestgehalten.
         if (auftragskopfID_jTextField.getText().equals("")) {
             fehleingabefelder.add(auftragskopfID_jTextField);
         }
@@ -236,11 +260,11 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
      */
     @Override
     public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
-        if (textfield.getText().equals("")) {
-
-        } else if (!textfield.getText().matches(syntax)) {
+        if (!textfield.getText().matches(syntax)) {//Falls Eingabe nicht mit der Syntax übereinstimmt.
+            //Ausgabe einer Fehlermeldung
             JOptionPane.showMessageDialog(null, fehlermeldung,
                     fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
+            //Mit dem Focus in das übergebene Eingabefeld springen
             textfield.requestFocusInWindow();
             textfield.selectAll();
         }

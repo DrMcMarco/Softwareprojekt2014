@@ -8,11 +8,12 @@ package GUI_Internalframes;
 
 /**
  *
- * @author Tahir
+ * @author Luca Terrasi
+ * 
+ * 10.12.2014 Dokumentation und Logik
  */
 public class User_anlegen extends javax.swing.JInternalFrame {
     
-//    private ArtikelAnlegen a;
 
     /**
      * Creates new form Fenster
@@ -42,9 +43,9 @@ public class User_anlegen extends javax.swing.JInternalFrame {
         benutzername_jLabel = new javax.swing.JLabel();
         passwort_jLabel = new javax.swing.JLabel();
         benutzername_jTextField = new javax.swing.JTextField();
-        passwort_jTextField = new javax.swing.JTextField();
         statuszeile_jTextField = new javax.swing.JTextField();
         passwort_Generieren_jButton = new javax.swing.JButton();
+        passwort_jPasswordTextField = new javax.swing.JPasswordField();
 
         setClosable(true);
         setIconifiable(true);
@@ -96,12 +97,12 @@ public class User_anlegen extends javax.swing.JInternalFrame {
 
         benutzername_jTextField.setText("jTextField1");
 
-        passwort_jTextField.setText("jTextField2");
-
         statuszeile_jTextField.setText("Statuszeile");
         statuszeile_jTextField.setEnabled(false);
 
         passwort_Generieren_jButton.setText("Passwort generieren");
+
+        passwort_jPasswordTextField.setText("jPasswordField1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -110,18 +111,17 @@ public class User_anlegen extends javax.swing.JInternalFrame {
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jSeparator1)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(benutzername_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(150, 150, 150)
-                        .addComponent(benutzername_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(passwort_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(passwort_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(passwort_Generieren_jButton)))
+                        .addGap(16, 16, 16)
+                        .addComponent(passwort_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(benutzername_jLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(passwort_jPasswordTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                    .addComponent(benutzername_jTextField))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(passwort_Generieren_jButton)
                 .addContainerGap(67, Short.MAX_VALUE))
             .addComponent(statuszeile_jTextField)
         );
@@ -135,13 +135,16 @@ public class User_anlegen extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(benutzername_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(benutzername_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(passwort_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(passwort_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(passwort_Generieren_jButton)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(passwort_Generieren_jButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(passwort_jPasswordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(passwort_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
                 .addComponent(statuszeile_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -164,7 +167,7 @@ public class User_anlegen extends javax.swing.JInternalFrame {
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JButton passwort_Generieren_jButton;
     private javax.swing.JLabel passwort_jLabel;
-    private javax.swing.JTextField passwort_jTextField;
+    private javax.swing.JPasswordField passwort_jPasswordTextField;
     private javax.swing.JTextField statuszeile_jTextField;
     // End of variables declaration//GEN-END:variables
 }

@@ -7,7 +7,7 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author Luca
+ * @author Luca Terrasi 
  *
  * Schnittstelle für die einzelnen Masken in denen die gleichen Methoden
  * aufgerufen werden müssen
@@ -17,7 +17,6 @@ public interface InterfaceViewsFunctionality {
      * Methode mit der die Eingaben aus den Eingabefeldern gelöscht werden und 
      * die Eingabefelder wieder leer sind.
      */
-
     public void zuruecksetzen();
 
     /*

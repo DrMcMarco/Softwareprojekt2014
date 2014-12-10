@@ -39,21 +39,20 @@
           <Component id="jToolBar1" alignment="0" max="32767" attributes="0"/>
           <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
           <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="benutzername_jLabel" min="-2" pref="160" max="-2" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="150" pref="150" max="-2" attributes="0"/>
-                      <Component id="benutzername_jTextField" min="-2" pref="210" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                       <Component id="passwort_jLabel" min="-2" pref="150" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="passwort_jTextField" min="-2" pref="210" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="passwort_Generieren_jButton" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="benutzername_jLabel" max="32767" attributes="0"/>
               </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="passwort_jPasswordTextField" pref="210" max="32767" attributes="0"/>
+                  <Component id="benutzername_jTextField" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="passwort_Generieren_jButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="67" max="32767" attributes="0"/>
           </Group>
           <Component id="statuszeile_jTextField" alignment="0" max="32767" attributes="0"/>
@@ -70,15 +69,20 @@
                   <Component id="benutzername_jLabel" min="-2" pref="20" max="-2" attributes="0"/>
                   <Component id="benutzername_jTextField" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="passwort_jLabel" min="-2" pref="20" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="passwort_jTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="passwort_Generieren_jButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                      <Component id="passwort_Generieren_jButton" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="passwort_jPasswordTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="passwort_jLabel" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="99" max="32767" attributes="0"/>
+              <EmptySpace pref="92" max="32767" attributes="0"/>
               <Component id="statuszeile_jTextField" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -161,11 +165,6 @@
         <Property name="text" type="java.lang.String" value="jTextField1"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="passwort_jTextField">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField2"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JTextField" name="statuszeile_jTextField">
       <Properties>
         <Property name="text" type="java.lang.String" value="Statuszeile"/>
@@ -175,6 +174,11 @@
     <Component class="javax.swing.JButton" name="passwort_Generieren_jButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Passwort generieren"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="passwort_jPasswordTextField">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jPasswordField1"/>
       </Properties>
     </Component>
   </SubComponents>

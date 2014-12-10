@@ -173,9 +173,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="AuftragspositionID_jTextField">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Auftragsposition_jTextField"/>
-      </Properties>
       <Events>
         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="AuftragspositionID_jTextFieldFocusGained"/>
         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="AuftragspositionID_jTextFieldFocusLost"/>

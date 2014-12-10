@@ -6,27 +6,42 @@
 package GUI_Internalframes;
 
 import Documents.*;
-import Objects.*;
+import GUI_Internalframes.*;
 import Interfaces.*;
 import java.awt.Color;
 import java.awt.Component;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
  *
- * @author Luca
+ * @author Luca Terrasi
+ * 
+ * 10.12.2014 Dokumentation und Logik
  */
 public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
     /*
+     Varibalendefinition
+     */
+    public Date heute;// heutiges Datum
+    public SimpleDateFormat format; //Umwandler für Datum
+
+    /*
+     Speichervariablen
+     */
+    ArrayList<Component> fehlendeEingaben;// ArrayList für Eingabefelder des Auftragkopfes.
+
+    /*
      Syntax
      */
-    private static final String auftragspositionsID_syntax = "\\d{1,9}?";
-    private static final String positionsnummer_syntax = "\\d{1,9}?";
-    private static final String material_syntax = "\\d{1,9}?";
-    private static final String menge_syntax = "\\d{1,9}?";
+    private static final String auftragspositionsID_syntax = "|\\d{1,9}?";
+    private static final String positionsnummer_syntax = "|\\d{1,9}?";
+    private static final String material_syntax = "|\\d{1,9}?";
+    private static final String menge_syntax = "|\\d{1,9}?";
     private static final String einzelwert_syntax = "|(\\d*,?\\d{1,2})|(\\d{0,3}(\\.\\d{3})*,?\\d{1,2})";
 
     /*
@@ -49,7 +64,22 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      */
     public AuftragspositionAnzeigen() {
         initComponents();
-        erfassungsdatum_jTextField.setText(DateObject.simpleDateFormat());
+
+        heute = new Date();
+
+        // Variable, die ein Datum in ein vorgegebenes Format umwandelt.
+        format = new SimpleDateFormat("dd.MM.yyyy");// Format dd.MM.yyyy
+
+        //Initialisierung der Speichervariblen
+        fehlendeEingaben = new ArrayList<Component>();
+        
+        //Zuweisung der Documents
+        auftragspositionsID_jTextField.setDocument(new UniversalDocument("0123456789",false));
+        positionsnummer_jTextField.setDocument(new UniversalDocument("0123456789",false));
+        materialnummer_jTextField.setDocument(new UniversalDocument("0123456789",false));
+        menge_jTextField.setDocument(new UniversalDocument("0123456789",false));
+        einzelwert_jTextField.setDocument(new UniversalDocument("0123456789,.",false));
+                
     }
 
     /**
@@ -278,56 +308,68 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /*
-     Beim wählen des Eingabefeldes, wird alles leer gesetzt und selektiert.
+    /**
+     * Beim wählen des Eingabefeldes, wird alles leer gesetzt und selektiert.
+     *
+     * @param evt
      */
     private void auftragspositionsID_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_auftragspositionsID_jTextFieldFocusGained
-        auftragspositionsID_jTextField.setText("");
-        auftragspositionsID_jTextField.selectAll();
+        auftragspositionsID_jTextField.setText("");//Eingabefeld erhält einen leeren String
+        auftragspositionsID_jTextField.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_auftragspositionsID_jTextFieldFocusGained
 
-    /*
-     Beim wählen des Eingabefeldes, wird alles leer gesetzt und selektiert.
+    /**
+     * Beim wählen des Eingabefeldes, wird alles leer gesetzt und selektiert.
+     *
+     * @param evt
      */
     private void positionsnummer_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_positionsnummer_jTextFieldFocusGained
-        positionsnummer_jTextField.setText("");
-        positionsnummer_jTextField.selectAll();
+        positionsnummer_jTextField.setText("");//Eingabefeld erhält einen leeren String
+        positionsnummer_jTextField.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_positionsnummer_jTextFieldFocusGained
 
-    /*
-     Beim wählen des Eingabefeldes, wird alles leer gesetzt und selektiert.
+    /**
+     * Beim wählen des Eingabefeldes, wird alles leer gesetzt und selektiert.
+     *
+     * @param evt
      */
     private void materialnummer_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_materialnummer_jTextFieldFocusGained
-        materialnummer_jTextField.setText("");
-        materialnummer_jTextField.selectAll();
+        materialnummer_jTextField.setText("");//Eingabefeld erhält einen leeren String
+        materialnummer_jTextField.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_materialnummer_jTextFieldFocusGained
 
-    /*
-     Beim wählen des Eingabefeldes, wird alles leer gesetzt und selektiert.
+    /**
+     * Beim wählen des Eingabefeldes, wird alles leer gesetzt und selektiert.
+     *
+     * @param evt
      */
     private void menge_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_menge_jTextFieldFocusGained
-        menge_jTextField.setText("");
-        menge_jTextField.selectAll();
+        menge_jTextField.setText("");//Eingabefeld erhält einen leeren String
+        menge_jTextField.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_menge_jTextFieldFocusGained
 
-    /*
-     Beim wählen des Eingabefeldes, wird alles leer gesetzt und selektiert.
+    /**
+     * Beim wählen des Eingabefeldes, wird alles leer gesetzt und selektiert.
+     *
+     * @param evt
      */
     private void einzelwert_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_einzelwert_jTextFieldFocusGained
-        einzelwert_jTextField.setText("");
-        einzelwert_jTextField.selectAll();
+        einzelwert_jTextField.setText("");//Eingabefeld erhält einen leeren String
+        einzelwert_jTextField.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_einzelwert_jTextFieldFocusGained
 
-    /*
-     Beim wählen des Eingabefeldes, wird alles selektiert.
+    /**
+     * Beim wählen des Eingabefeldes, wird alles selektiert.
+     *
+     * @param evt
      */
     private void erfassungsdatum_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_erfassungsdatum_jTextFieldFocusGained
-        erfassungsdatum_jTextField.selectAll();
+        erfassungsdatum_jTextField.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_erfassungsdatum_jTextFieldFocusGained
 
     /**
-     * Beim Focuslost des Eingabefeldes für die Auftragspostions-ID, wird auf die
-     * Richtigkeit der Eingabe geprüft und gibt gegebenen falls eine
+     * Beim Focuslost des Eingabefeldes für die Auftragspostions-ID, wird auf
+     * die Richtigkeit der Eingabe geprüft und gibt gegebenen falls eine
      * Fehlermeldung aus. Dabei springt man zurück in das Eingabefeld.
      *
      * @param evt
@@ -336,6 +378,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         if (evt.isTemporary()) {
             return;
         }
+        // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
         ueberpruefungVonFocusLost(auftragspositionsID_jTextField, auftragspositionsID_syntax,
                 fehlermeldung_titel, fehlermeldunAuftragspositionsIDtext);
     }//GEN-LAST:event_auftragspositionsID_jTextFieldFocusLost
@@ -351,6 +394,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         if (evt.isTemporary()) {
             return;
         }
+        // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
         ueberpruefungVonFocusLost(positionsnummer_jTextField, positionsnummer_syntax,
                 fehlermeldung_titel, fehlermeldungPositionsnummertext);
     }//GEN-LAST:event_positionsnummer_jTextFieldFocusLost
@@ -366,6 +410,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         if (evt.isTemporary()) {
             return;
         }
+        // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
         ueberpruefungVonFocusLost(materialnummer_jTextField, material_syntax,
                 fehlermeldung_titel, fehlermeldungMaterialnummertext);
     }//GEN-LAST:event_materialnummer_jTextFieldFocusLost
@@ -381,6 +426,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         if (evt.isTemporary()) {
             return;
         }
+        // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
         ueberpruefungVonFocusLost(menge_jTextField, menge_syntax,
                 fehlermeldung_titel, fehlermeldungMengetext);
     }//GEN-LAST:event_menge_jTextFieldFocusLost
@@ -396,6 +442,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         if (evt.isTemporary()) {
             return;
         }
+        // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
         ueberpruefungVonFocusLost(einzelwert_jTextField, einzelwert_syntax,
                 fehlermeldung_titel, fehlermeldungEinzelwerttext);
     }//GEN-LAST:event_einzelwert_jTextFieldFocusLost
@@ -405,7 +452,14 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      */
     @Override
     public void zuruecksetzen() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //Eingabefelder erhalten einen leeren String
+        auftragspositionsID_jTextField.setText("");
+        positionsnummer_jTextField.setText("");
+        materialnummer_jTextField.setText("");
+        menge_jTextField.setText("");
+        einzelwert_jTextField.setText("");
+        //Eingabefeld für das Erfassungsdatum erhält das heutige Datum
+        erfassungsdatum_jTextField.setText(format.format(heute));
     }
 
     /*
@@ -413,28 +467,77 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      */
     @Override
     public void ueberpruefen() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //IF-Anweisungen mit denen geprüft wird welche Eingabefelder keine Eingabe 
+        // erhalten haben. Diese Eingabefelder werden in passende Speichervariablen festgehalten
+
+        //Eingabefelder für Auftragsposition werden in Variable "fehlendeEingaben" festgehalten.
+        if (auftragspositionsID_jTextField.getText().equals("")) {
+            fehlendeEingaben.add(auftragspositionsID_jTextField);
+        }
+        if (positionsnummer_jTextField.getText().equals("")) {
+            fehlendeEingaben.add(positionsnummer_jTextField);
+        }
+        if (materialnummer_jTextField.getText().equals("")) {
+            fehlendeEingaben.add(materialnummer_jTextField);
+        }
+        if (menge_jTextField.getText().equals("")) {
+            fehlendeEingaben.add(menge_jTextField);
+        }
+        if (einzelwert_jTextField.getText().equals("")) {
+            fehlendeEingaben.add(einzelwert_jTextField);
+        }
+        if (erfassungsdatum_jTextField.getText().equals("")) {
+            fehlendeEingaben.add(erfassungsdatum_jTextField);
+        }
     }
 
-    /*
-     Schnittstellenmethode mit der die Eingaben beim FocusLost auf Richtigkeit 
-     geprüft werden.
+    /**
+     * Schnittstellenmethode mit der die Eingaben beim FocusLost auf Richtigkeit
+     * geprüft werden.
+     *
+     * @param textfield, das zu übergeben JTextfield, indem der Focusgesetzt
+     * ist.
+     * @param syntax, String mit dem eine Eingabe auf das richtige Format hin
+     * geprüft wird.
+     * @param fehlermelgungtitel, Srting der den Titel der Fehlmeldung enthält.
+     * @param fehlermeldung, String der die Fehlmeldung enthält.
      */
     @Override
     public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
-        if(textfield.getText().equals("")){
-            
-        }else if (!textfield.getText().matches(syntax)) {
+        if (!textfield.getText().matches(syntax)) {
+            //Ausgabe einer Fehlermeldung
             JOptionPane.showMessageDialog(null, fehlermeldung,
                     fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
+            //Mit dem Focus in das übergebene Eingabefeld springen
             textfield.requestFocusInWindow();
             textfield.selectAll();
         }
     }
 
+    /**
+     * Schnittstellenmethode mit der die Eingabefelder die nicht ausgefüllt
+     * worden sind, farblich markiert werden und eine Meldung ausgegeben wird,
+     * inder der Benutzer darauf hingewiesen wird, alle Eingaben zu tätigen.
+     *
+     * @param list, Arraylist in der die Components die keine Eingaben erhalten
+     * haben, gespeichert sind.
+     * @param fehlermelgungtitel, Srting der den Titel der Fehlmeldung enthält.
+     * @param fehlermeldung, String der die Fehlmeldung enthält.
+     * @param farbe, Color in der der Hintergrund der Components markiert werden
+     * soll
+     */
     @Override
     public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //Meldung die darauf hinweist das nicht alle Eingaben getätigt worden sind.
+        JOptionPane.showMessageDialog(null, fehlermeldung,
+                fehlermelgungtitel, JOptionPane.WARNING_MESSAGE);
+        list.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
+        // Alle leeren Eingabefelder werden farblich markiert.
+        for (int i = 0; i <= list.size() - 1; i++) {
+            list.get(i).setBackground(farbe);
+        }
+
+        list.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
     }
 
 

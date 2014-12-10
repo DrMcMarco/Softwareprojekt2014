@@ -69,40 +69,42 @@
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="1" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Group type="103" groupAlignment="1" attributes="0">
-                                                      <Component id="auftragsID_jLabel" alignment="1" min="-2" pref="117" max="-2" attributes="0"/>
-                                                      <Component id="geschaeftspartnerID_jLabel" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <EmptySpace min="22" pref="22" max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="auftragskopfID_jTextField" min="-2" pref="207" max="-2" attributes="0"/>
-                                                      <Component id="geschaeftspartner_jFormattedTextField" alignment="1" min="-2" pref="207" max="-2" attributes="0"/>
-                                                  </Group>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <EmptySpace min="-2" pref="141" max="-2" attributes="0"/>
-                                                  <Component id="abschlussdatum_jFormattedTextField" min="-2" pref="208" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <EmptySpace min="-2" pref="140" max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="1" attributes="0">
-                                                      <Component id="lieferdatum_jFormattedTextField" min="-2" pref="208" max="-2" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <Group type="103" groupAlignment="1" attributes="0">
+                                                          <Component id="auftragsID_jLabel" alignment="1" min="-2" pref="117" max="-2" attributes="0"/>
+                                                          <Component id="geschaeftspartnerID_jLabel" min="-2" max="-2" attributes="0"/>
+                                                      </Group>
+                                                      <EmptySpace min="22" pref="22" max="-2" attributes="0"/>
                                                       <Group type="103" groupAlignment="0" attributes="0">
-                                                          <Component id="erfassungsdatum_jFormattedTextField" min="-2" pref="207" max="-2" attributes="0"/>
-                                                          <Component id="jScrollPane1" min="-2" pref="207" max="-2" attributes="0"/>
+                                                          <Component id="auftragskopfID_jTextField" min="-2" pref="207" max="-2" attributes="0"/>
+                                                          <Component id="geschaeftspartner_jTextField" alignment="1" min="-2" pref="207" max="-2" attributes="0"/>
+                                                      </Group>
+                                                  </Group>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <EmptySpace min="-2" pref="140" max="-2" attributes="0"/>
+                                                      <Group type="103" groupAlignment="1" attributes="0">
+                                                          <Component id="lieferdatum_jFormattedTextField" min="-2" pref="208" max="-2" attributes="0"/>
+                                                          <Group type="103" groupAlignment="0" attributes="0">
+                                                              <Component id="erfassungsdatum_jFormattedTextField" min="-2" pref="207" max="-2" attributes="0"/>
+                                                              <Component id="jScrollPane1" min="-2" pref="207" max="-2" attributes="0"/>
+                                                          </Group>
                                                       </Group>
                                                   </Group>
                                               </Group>
+                                              <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="103" alignment="1" groupAlignment="0" attributes="0">
                                               <Component id="positionsnummer_jTextField" alignment="0" min="-2" pref="208" max="-2" attributes="0"/>
                                               <Component id="auftragspositionsID_jTextField" min="-2" pref="208" max="-2" attributes="0"/>
                                               <Component id="materialnummer_jTextField" alignment="0" min="-2" pref="208" max="-2" attributes="0"/>
                                           </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="-2" pref="140" max="-2" attributes="0"/>
+                                              <Component id="abschlussdatum_jFormattedTextField" min="-2" pref="209" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" attributes="0">
                                               <Component id="status_jLabel" min="-2" max="-2" attributes="0"/>
@@ -192,7 +194,7 @@
                           <Component id="auftragsart_jComboBox" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="geschaeftspartnerID_jLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="geschaeftspartner_jFormattedTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="geschaeftspartner_jTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -357,6 +359,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Neue Position anlegen"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="NeuePosition_jButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="auftragsID_jLabel">
       <Properties>
@@ -407,7 +412,9 @@
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="erfassungsdatum_jFormattedTextField">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jFormattedTextField1"/>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+          <Format subtype="0" type="1"/>
+        </Property>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
@@ -453,6 +460,7 @@
       </Properties>
       <Events>
         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="lieferdatum_jFormattedTextFieldFocusGained"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="lieferdatum_jFormattedTextFieldFocusLost"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="abschlussdatum_jLabel">
@@ -475,6 +483,7 @@
       </Properties>
       <Events>
         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="abschlussdatum_jFormattedTextFieldFocusGained"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="abschlussdatum_jFormattedTextFieldFocusLost"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="auftragswert_jLabel">
@@ -734,15 +743,13 @@
         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="erfassungsdatum_auftragsposition_jFormattedTextFieldFocusGained"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JFormattedTextField" name="geschaeftspartner_jFormattedTextField">
+    <Component class="javax.swing.JTextField" name="geschaeftspartner_jTextField">
       <Properties>
-        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
-          <Format format="GP-########" subtype="-1" type="5"/>
-        </Property>
+        <Property name="text" type="java.lang.String" value="jTextField1"/>
       </Properties>
       <Events>
-        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="geschaeftspartner_jFormattedTextFieldFocusGained"/>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="geschaeftspartner_jFormattedTextFieldFocusLost"/>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="geschaeftspartner_jTextFieldFocusGained"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="geschaeftspartner_jTextFieldFocusLost"/>
       </Events>
     </Component>
   </SubComponents>
