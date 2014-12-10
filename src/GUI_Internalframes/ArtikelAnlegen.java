@@ -1,6 +1,6 @@
 package GUI_Internalframes;
 
-import ArtikelVerwalten.Artikel;
+import GUI_Internalframes.*;
 import Documents.UniversalDocument;
 import java.awt.Color;
 import java.awt.Component;
@@ -20,7 +20,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 //  ArrayList, um fehlerhafte Componenten zu speichern.    
     private ArrayList<Component> fehlerhafteComponenten;
 //  ArrayList, um angelegte Artikel zu speichern     
-    public ArrayList<Artikel> artikelListe;
+    public ArrayList<Component> artikelListe;
 //  Insantzvariablen für die standard Farben der Componenten    
     private final Color JCB_FARBE_STANDARD = new Color(214, 217, 223);
     private final Color JTF_FARBE_STANDARD = new Color(255, 255, 255);
@@ -483,8 +483,12 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
             bestellwert = jTF_Bestellwert.getText();
             mwst = (String) jCB_MwST.getSelectedItem();
             bestandsmengeFREI = jTF_Bestandsmenge_FREI.getText();
-//          Artikel wird in ArrayList für Artikel hinzugefuegt     
-            artikelListe.add(new Artikel(artikelnummer, artikelname, artikelbeschreibung, kategorie, einzelwert, bestellwert, mwst, bestandsmengeFREI, "0", "0", "0"));
+//          Artikel wird in ArrayList für Artikel hinzugefuegt    
+            
+            
+//            artikelListe.add(new Artikel(artikelnummer, artikelname, artikelbeschreibung, kategorie, einzelwert, bestellwert, mwst, bestandsmengeFREI, "0", "0", "0"));
+
+
 //          provisorisch wird der Artikel ausgegeben  
             System.out.println(artikelListe.get(artikelListe.size() - 1).toString());
 //          die artikelnummer wird erhöht  

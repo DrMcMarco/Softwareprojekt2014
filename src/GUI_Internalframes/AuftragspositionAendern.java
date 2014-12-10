@@ -5,9 +5,11 @@
  */
 package GUI_Internalframes;
 
-import UserVerwaltung.*;
 import Documents.*;
 import Interfaces.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -269,6 +271,11 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
             textfield.requestFocusInWindow();
             textfield.selectAll();
         }
+    }
+
+    @Override
+    public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 
