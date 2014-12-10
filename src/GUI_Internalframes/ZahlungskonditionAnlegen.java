@@ -1,6 +1,6 @@
 package GUI_Internalframes;
 
-import ArtikelVerwalten.Zahlungskondition;
+import GUI_Internalframes.*;
 import java.awt.Color;
 import java.awt.Component;
 import java.text.DateFormat;
@@ -29,7 +29,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
 //  ArrayList, um fehlerhafte Componenten zu speichern.    
     private ArrayList<Component> fehlerhafteComponenten;
 //  ArrayList, um angelegte Artikel zu speichern     
-    public ArrayList<Zahlungskondition> zkListe;
+    public ArrayList<Component> zkListe;
 //  Insantzvariablen für die standard Farben der Componenten    
     private final Color JCB_FARBE_STANDARD = new Color(214, 217, 223);
     private final Color JTF_FARBE_STANDARD = new Color(255, 255, 255);
@@ -605,7 +605,11 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
             String skonto1 = (String) jCB_Skonto1.getSelectedItem();
             String skonto2 = (String) jCB_Skonto2.getSelectedItem();
 //          Artikel wird in ArrayList für Artikel hinzugefuegt     
-            zkListe.add(new Zahlungskondition("" + zknummer, auftragsart, lieferzeitSOFORT, sperrzeitWUNSCH, "" + skontozeit1, "" + skontozeit2, skonto1, skonto2, "" + mahnzeitzeit1, "" + mahnzeitzeit2, "" + mahnzeitzeit3));
+            
+            
+//            zkListe.add(new Zahlungskondition("" + zknummer, auftragsart, lieferzeitSOFORT, sperrzeitWUNSCH, "" + skontozeit1, "" + skontozeit2, skonto1, skonto2, "" + mahnzeitzeit1, "" + mahnzeitzeit2, "" + mahnzeitzeit3));
+
+
 //          provisorisch wird der Artikel ausgegeben  
             System.out.println(zkListe.get(zkListe.size() - 1).toString());
 //          die artikelnummer wird erhöht  
