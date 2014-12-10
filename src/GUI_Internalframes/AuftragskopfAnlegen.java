@@ -780,7 +780,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 
                 zuruecksetzen();
             } else {
-                if () {//Wenn nicht mindestens eine Auftragsposition zum Auftragskopf angelegt worden ist
+                if (true) {//Wenn nicht mindestens eine Auftragsposition zum Auftragskopf angelegt worden ist
                     // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
                     // getätigt worden sind
                     fehlEingabenMarkierung(fehlendeEingabenAuftragsposition,

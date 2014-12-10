@@ -38,8 +38,9 @@ public class Artikel implements Serializable {
     public Artikel() {
     }
 
-    public Artikel(long ArtikelID, Artikelkategorie Kategorie, String Artikeltext, String Bestelltext, double Verkaufswert, double Einkaufswert, double MwST, int Frei, int Reserviert, int Zulauf, int Verkauft) {
-        this.ArtikelID = ArtikelID;
+    public Artikel(Artikelkategorie Kategorie, String Artikeltext, 
+            String Bestelltext, double Verkaufswert, double Einkaufswert, 
+            double MwST, int Frei, int Reserviert, int Zulauf, int Verkauft) {
         this.Kategorie = Kategorie;
         this.Artikeltext = Artikeltext;
         this.Bestelltext = Bestelltext;
@@ -147,9 +148,12 @@ public class Artikel implements Serializable {
         hash = 79 * hash + Objects.hashCode(this.Kategorie);
         hash = 79 * hash + Objects.hashCode(this.Artikeltext);
         hash = 79 * hash + Objects.hashCode(this.Bestelltext);
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this.Verkaufswert) ^ (Double.doubleToLongBits(this.Verkaufswert) >>> 32));
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this.Einkaufswert) ^ (Double.doubleToLongBits(this.Einkaufswert) >>> 32));
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this.MwST) ^ (Double.doubleToLongBits(this.MwST) >>> 32));
+        hash = 79 * hash + (int) (Double.doubleToLongBits(this.Verkaufswert) ^ 
+                (Double.doubleToLongBits(this.Verkaufswert) >>> 32));
+        hash = 79 * hash + (int) (Double.doubleToLongBits(this.Einkaufswert) ^ 
+                (Double.doubleToLongBits(this.Einkaufswert) >>> 32));
+        hash = 79 * hash + (int) (Double.doubleToLongBits(this.MwST) ^ 
+                (Double.doubleToLongBits(this.MwST) >>> 32));
         hash = 79 * hash + this.Frei;
         hash = 79 * hash + this.Reserviert;
         hash = 79 * hash + this.Zulauf;
@@ -178,13 +182,16 @@ public class Artikel implements Serializable {
         if (!Objects.equals(this.Bestelltext, other.Bestelltext)) {
             return false;
         }
-        if (Double.doubleToLongBits(this.Verkaufswert) != Double.doubleToLongBits(other.Verkaufswert)) {
+        if (Double.doubleToLongBits(this.Verkaufswert) != 
+                Double.doubleToLongBits(other.Verkaufswert)) {
             return false;
         }
-        if (Double.doubleToLongBits(this.Einkaufswert) != Double.doubleToLongBits(other.Einkaufswert)) {
+        if (Double.doubleToLongBits(this.Einkaufswert) != 
+                Double.doubleToLongBits(other.Einkaufswert)) {
             return false;
         }
-        if (Double.doubleToLongBits(this.MwST) != Double.doubleToLongBits(other.MwST)) {
+        if (Double.doubleToLongBits(this.MwST) != 
+                Double.doubleToLongBits(other.MwST)) {
             return false;
         }
         if (this.Frei != other.Frei) {
@@ -204,7 +211,12 @@ public class Artikel implements Serializable {
 
     @Override
     public String toString() {
-        return "Artikel{" + "ArtikelID=" + ArtikelID + ", Kategorie=" + Kategorie + ", Artikeltext=" + Artikeltext + ", Bestelltext=" + Bestelltext + ", Verkaufswert=" + Verkaufswert + ", Einkaufswert=" + Einkaufswert + ", MwST=" + MwST + ", Frei=" + Frei + ", Reserviert=" + Reserviert + ", Zulauf=" + Zulauf + ", Verkauft=" + Verkauft + '}';
+        return "Artikel{" + "ArtikelID=" + ArtikelID + ", Kategorie=" + 
+                Kategorie + ", Artikeltext=" + Artikeltext + ", Bestelltext=" + 
+                Bestelltext + ", Verkaufswert=" + Verkaufswert + 
+                ", Einkaufswert=" + Einkaufswert + ", MwST=" + MwST + 
+                ", Frei=" + Frei + ", Reserviert=" + Reserviert + ", Zulauf=" 
+                + Zulauf + ", Verkauft=" + Verkauft + '}';
     }
     
     

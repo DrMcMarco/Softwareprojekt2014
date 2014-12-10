@@ -6,13 +6,19 @@
 
 package DAO;
 //import
+import DTO.Artikel;
+import DTO.Artikelkategorie;
+import DTO.Auftragsart;
 import DTO.Benutzer;
+import DTO.Status;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.logging.Level;
@@ -44,9 +50,11 @@ public class DataAccessObject {
             throws ApplicationException {
         //Datendeklaration
         HashMap<String, String> dbIdentifier = null;
+        HashSet<?> sqlResultSet = null;
+        String key, value = null;
         Iterator<Entry<String, String>> iterator = null;
+        Entry entry = null;
         String sqlQuery = null;
-        Class<?> classIdentify = null;
         Parser parser = new Parser();
         //Parse den Suchausdruck und hole die DB-Attr. Namen
         dbIdentifier = parser.parse(input, table);
@@ -55,16 +63,91 @@ public class DataAccessObject {
             throw new ApplicationException("Fehler", 
                     "Beim Parsen ist ein Fehler aufgetreten!");
         }
+        //Sql-Statement Dynamisch erzeugen
+        sqlQuery = "SELECT ST FROM " + table + " ST WHERE ST.";
+        iterator = dbIdentifier.entrySet().iterator();
         
-        try {
-            classIdentify = Class.forName("DTO." + table);
-            if (table.equals("Artikel")) {
-                
-            }
-        } catch (ClassNotFoundException ex) {
-            throw new ApplicationException("Fehler", ex.getMessage());
+        while (iterator.hasNext()) {
+            //Nach dem ersten durchlauf muss ein And angeknüpft werden
+            if (entry != null)
+                sqlQuery += " AND ";
+            //Eintrag aus der Map holen und die Daten auslesen
+            entry = iterator.next();
+            key = (String) entry.getKey();
+            value = (String) entry.getValue();
+            //Sql-Statement erweitern
+            sqlQuery += (key + " = " + value);
         }
-        return new ArrayList<>();
+        
+        sqlResultSet = (HashSet<?>) em.createQuery(sqlQuery);
+        
+        
+        if (table.equals("Artikel")) {
+            
+        }
+
+        return sqlResultSet;
+    }
+    
+    /**
+     * 
+     * @param Kategorie
+     * @param Artikeltext
+     * @param Bestelltext
+     * @param Verkaufswert
+     * @param Einkaufswert
+     * @param MwST
+     * @param Frei
+     * @param Reserviert
+     * @param Zulauf
+     * @param Verkauft 
+     */
+    public void createItem(Artikelkategorie Kategorie, String Artikeltext, 
+            String Bestelltext, double Verkaufswert, double Einkaufswert, 
+            double MwST, int Frei, int Reserviert, int Zulauf, int Verkauft) {
+        
+    }
+    
+    /**
+     * 
+     * @param Kategoriename
+     * @param Beschreibung
+     * @param Kommentar
+     * @param LKZ 
+     */
+    public void createCategory(String Kategoriename, 
+            String Beschreibung, String Kommentar, boolean LKZ) {
+        Artikelkategorie cat = new Artikelkategorie(Kategoriename, Beschreibung,
+                Kommentar, LKZ);
+        
+        em.getTransaction().begin();
+        
+        em.persist(cat);
+        em.getTransaction().commit();
+    }
+    
+    /**
+     * 
+     * @param Auftragstext
+     * @param Auftragsart
+     * @param Wert
+     * @param Status
+     * @param Abschlussdatum
+     * @param Erfassungsdatum
+     * @param Lieferdatum 
+     */
+    public void createOrderHead(String Auftragstext, Auftragsart Auftragsart, 
+            double Wert, Status Status, Date Abschlussdatum, 
+            Date Erfassungsdatum, Date Lieferdatum) {
+        
+    }
+    
+    /**
+     * 
+     * @param Status 
+     */
+    public void createStatus(String Status) {
+        
     }
     
     /**

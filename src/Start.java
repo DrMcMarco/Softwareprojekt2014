@@ -113,7 +113,10 @@ public class Start extends javax.swing.JFrame {
         zahlungskonditionaendern.setVisible(false);
         
         //Erstmal zu Testzwecken, kommt noch woanders hin
-        DAO = new DataAccessObject();  
+        DAO = new DataAccessObject(); 
+        try {
+        DAO.searchQuery("nr:12,res:2", "Artikel");
+        }catch (Exception e) {}
     }
 
     /**
