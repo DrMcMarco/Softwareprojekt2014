@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author Luca
+ * @author Luca Terrasi
  */
 public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements Interfaces.InterfaceViewsFunctionality {
 
