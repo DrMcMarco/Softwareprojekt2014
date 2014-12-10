@@ -178,12 +178,14 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /*
-     Beim wählen des Eingabefeldes, wird alles selektiert.
+    
+    /**
+     * Beim wählen des Eingabefeldes, wird alles selektiert.
+     * @param evt
      */
     private void auftragskopfID_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_auftragskopfID_jTextFieldFocusGained
-        auftragskopfID_jTextField.setBackground(hintergrundfarbe);
-        auftragskopfID_jTextField.selectAll();//Selektion des Eingabefeldes
+        auftragskopfID_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
+        auftragskopfID_jTextField.setText("");//Übergabe eines leeren Strings an das Eingabefeld
     }//GEN-LAST:event_auftragskopfID_jTextFieldFocusGained
 
     /**
