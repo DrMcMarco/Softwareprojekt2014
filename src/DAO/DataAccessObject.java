@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,7 +51,7 @@ public class DataAccessObject {
             throws ApplicationException {
         //Datendeklaration
         HashMap<String, String> dbIdentifier = null;
-        HashSet<?> sqlResultSet = null;
+        List<?> sqlResultSet = null;
         String key, value = null;
         Iterator<Entry<String, String>> iterator = null;
         Entry entry = null;
@@ -80,11 +81,12 @@ public class DataAccessObject {
         }
         Artikel a = null;
         try {
-            //sqlResultSet = (HashSet<?>) em.createQuery(sqlQuery).getResultList();
-            a = (Artikel) em.createQuery(sqlQuery).getSingleResult();
+            sqlResultSet = em.createQuery(sqlQuery).getResultList();
+            if (sqlResultSet == null)
+                a = (Artikel) em.createQuery(sqlQuery).getSingleResult();
         } catch(Exception e) {
             throw new ApplicationException("", e.getMessage());
-        }
+        } 
         
         
         
