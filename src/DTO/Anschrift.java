@@ -47,8 +47,11 @@ public class Anschrift implements Serializable {
     public Anschrift() {
     }
 
-    public Anschrift(long AnschriftID, String Name, String Vorname, String Titel, String Strasse, String Hausnummer, String PLZ, String Ort, String Staat, String Telefon, String FAX, String Email, Date Geburtsdatum, Date Erfassungsdatum) {
-        this.AnschriftID = AnschriftID;
+    public Anschrift(ATyp AnschriftTyp, String Name, String Vorname,
+            String Titel, String Strasse, String Hausnummer, String PLZ,
+            String Ort, String Staat, String Telefon, String FAX, String Email,
+            Date Geburtsdatum, Date Erfassungsdatum) {
+        this.AnschriftTyp = AnschriftTyp;
         this.Name = Name;
         this.Vorname = Vorname;
         this.Titel = Titel;
@@ -68,8 +71,12 @@ public class Anschrift implements Serializable {
         return AnschriftID;
     }
 
-    public void setAnschriftID(long AnschriftID) {
-        this.AnschriftID = AnschriftID;
+    public ATyp getAnschriftTyp() {
+        return AnschriftTyp;
+    }
+
+    public void setAnschriftTyp(ATyp AnschriftTyp) {
+        this.AnschriftTyp = AnschriftTyp;
     }
 
     public String getName() {

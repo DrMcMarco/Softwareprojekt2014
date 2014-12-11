@@ -28,19 +28,14 @@ public class ATyp implements java.io.Serializable {
     public ATyp() {
     }
 
-    public ATyp(long TypID, String Beschreibung) {
-        this.TypID = TypID;
+    public ATyp(String Beschreibung) {
         this.Beschreibung = Beschreibung;
     }
 
     public long getTypID() {
         return TypID;
     }
-
-    public void setTypID(long TypID) {
-        this.TypID = TypID;
-    }
-
+    
     public ArrayList<Anschrift> getAnschriftsliste() {
         return Anschriftsliste;
     }

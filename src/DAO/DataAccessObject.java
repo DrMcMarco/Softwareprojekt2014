@@ -6,6 +6,8 @@
 
 package DAO;
 //import
+import DTO.ATyp;
+import DTO.Anschrift;
 import DTO.Artikel;
 import DTO.Artikelkategorie;
 import DTO.Auftragsart;
@@ -15,6 +17,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -94,13 +97,14 @@ public class DataAccessObject {
 
         return sqlResultSet;
     }
+//<editor-fold defaultstate="collapsed" desc="create-Methoden">
     
     /**
      * Methode zur Erzeugung eines Artikels.
-     * 
+     *
      * !Überlegung die Kategorie als String zu übergeben und von hier aus
      * das Objekt aus der DB suchen!
-     * 
+     *
      * @param Kategorie
      * @param Artikeltext
      * @param Bestelltext
@@ -110,19 +114,19 @@ public class DataAccessObject {
      * @param Frei
      * @param Reserviert
      * @param Zulauf
-     * @param Verkauft 
+     * @param Verkauft
      * @throws DAO.ApplicationException Die Exception wird durchgereicht
      */
-    public void createItem(Artikelkategorie Kategorie, String Artikeltext, 
-            String Bestelltext, double Verkaufswert, double Einkaufswert, 
-            double MwST, int Frei, int Reserviert, int Zulauf, int Verkauft) 
+    public void createItem(Artikelkategorie Kategorie, String Artikeltext,
+            String Bestelltext, double Verkaufswert, double Einkaufswert,
+            double MwST, int Frei, int Reserviert, int Zulauf, int Verkauft)
             throws ApplicationException {
-        Artikel item = new Artikel(Kategorie, Artikeltext, Bestelltext, 
-                Verkaufswert, Einkaufswert, MwST, Frei, Reserviert, 
+        Artikel item = new Artikel(Kategorie, Artikeltext, Bestelltext,
+                Verkaufswert, Einkaufswert, MwST, Frei, Reserviert,
                 Zulauf, Verkauft);
         //Prüfen, ob das Objekt erstellt wurde
         if (item == null) {
-            throw new ApplicationException("Fehler", 
+            throw new ApplicationException("Fehler",
                     "Die Werte waren ungültig!");
         }
         //Transaktion starten
@@ -142,15 +146,15 @@ public class DataAccessObject {
      * @param LKZ Löschkennzeichen
      * @throws DAO.ApplicationException Die Exception wird durchgereicht
      */
-    public void createCategory(String Kategoriename, 
-            String Beschreibung, String Kommentar, boolean LKZ) 
+    public void createCategory(String Kategoriename,
+            String Beschreibung, String Kommentar, boolean LKZ)
             throws ApplicationException {
         //Objekt erzeugen
         Artikelkategorie cat = new Artikelkategorie(Kategoriename, Beschreibung,
                 Kommentar, LKZ);
         //Prüfen, ob das Objekt erstellt wurde
         if (cat == null) {
-            throw new ApplicationException("Fehler", 
+            throw new ApplicationException("Fehler",
                     "Die Werte waren ungültig!");
         }
         //Transaktion starten
@@ -162,44 +166,116 @@ public class DataAccessObject {
     }
     
     /**
-     * 
+     *
      * @param Auftragstext
      * @param Auftragsart
      * @param Wert
      * @param Status
      * @param Abschlussdatum
      * @param Erfassungsdatum
-     * @param Lieferdatum 
+     * @param Lieferdatum
      */
-    public void createOrderHead(String Auftragstext, Auftragsart Auftragsart, 
-            double Wert, Status Status, Date Abschlussdatum, 
+    public void createOrderHead(String Auftragstext, Auftragsart Auftragsart,
+            double Wert, Status Status, Date Abschlussdatum,
             Date Erfassungsdatum, Date Lieferdatum) {
         
     }
     
     /**
-     * 
-     * @param Status 
+     * Methode zur Erzeugung eines Status
+     * @param Status
+     * @throws ApplicationException
      */
-    public void createStatus(String Status) {
+    public void createStatus(String Status)
+            throws ApplicationException {
         
+        //Neues Status-Objekt anlegen
+        Status state = new Status();
+        //Attribute setzen
+        state.setStatus(Status);
+        
+        //Wenn bei der Erzeugung des Objektes ein Fehler auftritt
+        if (state == null) {
+            throw new ApplicationException("Fehler",
+                    "Bei der Erzeugung des Status ist ein Fehler aufgetreten");
+        }
+        
+        //Transaktion starten
+        em.getTransaction().begin();
+        //Objekt persistieren
+        em.persist(state);
+        //Transaktion abschließen
+        em.getTransaction().commit();
     }
     
     /**
-     * 
-     * @param name
-     * @return
+     * Methode zur Erzeugung einer Anschrift
+     * @param AnschriftTyp
+     * @param Name
+     * @param Vorname
+     * @param Titel
+     * @param Strasse
+     * @param Hausnummer
+     * @param PLZ
+     * @param Ort
+     * @param Staat
+     * @param Telefon
+     * @param Fax
+     * @param Email
+     * @param Geburtsdatum
      * @throws ApplicationException 
      */
-    public Artikelkategorie getCategory(String name) 
+    public void createAdress(ATyp AnschriftTyp, String Name, String Vorname,
+            String Titel, String Strasse, String Hausnummer, String PLZ,
+            String Ort, String Staat, String Telefon, String Fax,
+            String Email, Date Geburtsdatum) throws ApplicationException {
+        
+        //In der Anschrift wird zusätzlich ein Erfassungsdatum gehalten.
+        //Das Erfassungsdatum ist gleich dem Systemdatum.
+        Calendar cal = Calendar.getInstance();
+        Date Erfassungsdatum = cal.getTime();
+        
+        //Erzeugung des persistenten Anschrift-Objektes
+        Anschrift anschrift = new Anschrift(AnschriftTyp, Name, Vorname, Titel,
+                Strasse, Hausnummer, PLZ, Ort, Staat, Telefon, Fax, Email,
+                Geburtsdatum, Erfassungsdatum);
+        
+        //Wenn bei der Erzeugung ein Fehler auftritt
+        if(anschrift == null) {
+            throw new ApplicationException("Fehler",
+                    "Beim Anlegen der Anschrift ist ein Fehler aufgetreten");
+        }
+        
+        //Transaktion starten
+        em.getTransaction().begin();
+        //Objekt persistieren
+        em.persist(em);
+        //Transaktion schließen
+        em.getTransaction().commit();
+    }
+    
+//</editor-fold>
+  
+//<editor-fold defaultstate="collapsed" desc="update-Methoden">
+//Subject to change
+//</editor-fold>
+    
+//<editor-fold defaultstate="collapsed" desc="get-Methoden">
+    /**
+     *
+     * @param name
+     * @return
+     * @throws ApplicationException
+     */
+    public Artikelkategorie getCategory(String name)
             throws ApplicationException {
         String sqlQuery = null;
         Artikelkategorie cat = null;
         if (name == null)
-            throw new ApplicationException("Fehler", 
+            throw new ApplicationException("Fehler",
                     "Geben Sie eine Kategorie an!");
-        sqlQuery = 
-                "SELECT ST FROM Artikelkategorie ST WHERE ST.Kategoriename = '" + 
+        sqlQuery =
+                "SELECT ST FROM Artikelkategorie ST WHERE ST.Kategoriename = '" +
                 name + "'";
         try {
             cat = (Artikelkategorie) em.createQuery(sqlQuery).getSingleResult();
@@ -209,12 +285,71 @@ public class DataAccessObject {
         
         
         if (cat == null)
-            throw new ApplicationException("Fehler", 
+            throw new ApplicationException("Fehler",
                     "Es wurde keine Kategorie gefunden!");
         
         return cat;
     }
     
+    /**
+     * Methode zum Holen eine Artikels
+     * @param Artikelnummer Nummer(ID) eines Artikels
+     * @return Das persistente Objekt dieses Artikels
+     * @throws ApplicationException wenn der Artikel nicht gefunden wird
+     */
+    public Artikel getItem(long Artikelnummer)
+            throws ApplicationException {
+        
+        //Suche den Artikel mit der angegebenen ID aus der Datenbank
+        Artikel item = em.find(Artikel.class, Artikelnummer);
+        
+        //Artikel existiert nicht
+        if (item == null) {
+            throw new ApplicationException("Fehler",
+                    "Es wurde kein Artikel gefunden!");
+        }
+        
+        return item;
+    }
+    
+    /**
+     * Methode zum Holen eines Anschriftstyps
+     * @param Beschreibung Name des Anschriftstyps
+     * @return Persistentes Anschriftstyp-Objekt
+     * @throws ApplicationException wenn der Anschriftstyp nicht gefunden werden
+     *         kann
+     */
+    public ATyp getAdresstypeByName(String Beschreibung) 
+            throws ApplicationException {
+        
+        ATyp typ = null;
+        try {
+            //Query zum Suchen eines Anschriftstyps anhand der Beschreibung
+            Query query = em.createQuery("SELECT t FROM ATyp t WHERE "
+                    + "T.Beschreibung LIKE :beschreibung")
+                    .setParameter("beschreibung", Beschreibung);
+            
+            //Nur der erste Treffer soll geholt werden
+            typ = (ATyp) query.getSingleResult();
+            
+            //Wenn kein Objekt gefunden wurde
+            if(typ == null) {
+                throw new ApplicationException("Fehler",
+                        "Anschriftstyp wurde nicht gefunden");
+            }
+            
+            return typ;
+        //Wenn bei der Ausführung der Query was schief geht  
+        } catch (Exception e) {
+            throw new ApplicationException("Fehler", e.getMessage());
+        }
+    }
+    
+//</editor-fold>
+    
+//<editor-fold defaultstate="collapsed" desc="remove-Methoden">
+//Subject to change
+//</editor-fold>
     
     /**
      * Loginfunktion
@@ -251,7 +386,7 @@ public class DataAccessObject {
      * @param password Eingegebenes Passwort
      * @return MD5 Hash des Passwortes
      */
-    private String getHash(String password) {
+    private String getHash(String password) throws ApplicationException {
       
         String digest = null;
         try {
@@ -271,8 +406,7 @@ public class DataAccessObject {
             return digest;
             
         } catch (UnsupportedEncodingException | NoSuchAlgorithmException ex) {
-            Logger.getLogger(DataAccessObject.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            throw new ApplicationException("Fehler", ex.getMessage());
         }
     }
 }
