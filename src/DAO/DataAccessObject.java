@@ -11,11 +11,15 @@ import DTO.Anschrift;
 import DTO.Artikel;
 import DTO.Artikelkategorie;
 import DTO.Auftragsart;
+import DTO.Auftragskopf;
+import DTO.Auftragsposition;
 import DTO.Benutzer;
 import DTO.Status;
+import DTO.Zahlungskondition;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -82,20 +86,16 @@ public class DataAccessObject {
             //Sql-Statement erweitern
             sqlQuery += ("ST." + key + " = " + value);
         }
-        Artikel a = null;
+
         try {
+            //Ergebnis aus der DB laden und als Liste speichern
             sqlResultSet = em.createQuery(sqlQuery).getResultList();
-            if (sqlResultSet == null)
-                a = (Artikel) em.createQuery(sqlQuery).getSingleResult();
+            
         } catch(Exception e) {
-            throw new ApplicationException("", e.getMessage());
+            throw new ApplicationException("Fehler", 
+                    "Die Daten konnten nicht geladen werden!");
         } 
         
-        
-        
-        if (table.equals("Artikel")) {
-            
-        }
 
         return sqlResultSet;
     }
@@ -181,6 +181,12 @@ public class DataAccessObject {
             double Wert, Status Status, Date Abschlussdatum,
             Date Erfassungsdatum, Date Lieferdatum) {
         
+        ArrayList<Auftragsposition> position = new ArrayList<>();
+        //Kunde erstellen
+        //Auftragskopf order = new Auftragskopf
+        
+        
+        
     }
     
     /**
@@ -251,9 +257,47 @@ public class DataAccessObject {
         //Transaktion starten
         em.getTransaction().begin();
         //Objekt persistieren
-        em.persist(em);
+        em.persist(anschrift);
         //Transaktion schließen
         em.getTransaction().commit();
+    }
+    
+    /**
+     * 
+     * @param Auftragsart
+     * @param LieferzeitSofort
+     * @param SperrzeitWunsch
+     * @param Skontozeit1
+     * @param Skontozeit2
+     * @param Skonto1
+     * @param Skonto2
+     * @param Mahnzeit1
+     * @param Mahnzeit2
+     * @param Mahnzeit3
+     * @throws ApplicationException 
+     */
+    public void createPaymentConditions(Auftragsart Auftragsart, 
+            double LieferzeitSofort, double SperrzeitWunsch, double Skontozeit1,
+            double Skontozeit2, double Skonto1, double Skonto2, 
+            double Mahnzeit1, double Mahnzeit2, double Mahnzeit3) 
+            throws ApplicationException {
+        
+        Zahlungskondition conditions = new Zahlungskondition(Auftragsart, 
+                LieferzeitSofort, SperrzeitWunsch, Skontozeit1, Skontozeit2, 
+                Skonto1, Skonto2, Mahnzeit1, Mahnzeit2, Mahnzeit3);
+        
+        if (conditions == null) {
+            throw new ApplicationException("Fehler", 
+                    "Die Daten sind fehlerhaft!");
+        }
+        
+        //Transaktion starten
+        em.getTransaction().begin();
+        //Objekt persistieren
+        em.persist(conditions);
+        //Transaktion schließen
+        em.getTransaction().commit();
+        
     }
     
 //</editor-fold>
@@ -263,6 +307,62 @@ public class DataAccessObject {
 //</editor-fold>
     
 //<editor-fold defaultstate="collapsed" desc="get-Methoden">
+    
+    /**
+     * 
+     * @param id
+     * @return
+     * @throws ApplicationException 
+     */
+    public Zahlungskondition getPaymentConditionsById(long id) 
+            throws ApplicationException {
+        //Konditionen aus der DB laden
+        Zahlungskondition conditions = em.find(Zahlungskondition.class, id);
+        //Prüfen, ob Daten gefunden worden sind
+        if (conditions == null) {
+            throw new ApplicationException("Fehler", 
+                    "Keine Zahlungskonditionen gefunden!");
+        }
+        
+        return conditions;
+    }
+    
+    /**
+     * 
+     * @param type
+     * @return
+     * @throws ApplicationException 
+     */
+    public Zahlungskondition getPaymentConditionsByType(Auftragsart type) 
+            throws ApplicationException {
+        String sqlQuery = null;
+        Zahlungskondition conditions = null;
+        //Prüfe, ob eine Auftragsart übergeben wurde
+        if (type == null) {
+            throw new ApplicationException("Fehler", 
+                    "Übergeben Sie eine gültige Auftragsart!");
+        }
+        //Sql-Statement erstellen
+        sqlQuery =
+                "SELECT ST FROM Zahlungskondition ST WHERE ST.Auftragsart = '" +
+                type.getAuftragsart() + "'";
+        
+        try {
+            //Konditionen aus der DB Laden
+            conditions = (Zahlungskondition) 
+                    em.createQuery(sqlQuery).getSingleResult();
+        } catch (Exception e) {
+            throw new ApplicationException("Fehler", e.getMessage());
+        }
+        
+        //Prüfen, ob was gefunden wurde
+        if (conditions == null)
+            throw new ApplicationException("Fehler",
+                    "Es wurde keine Kategorie gefunden!");
+        
+        return conditions;
+    }
+    
     /**
      *
      * @param name

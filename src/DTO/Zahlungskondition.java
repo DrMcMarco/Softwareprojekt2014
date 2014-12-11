@@ -36,7 +36,10 @@ public class Zahlungskondition implements Serializable {
     public Zahlungskondition() {
     }
 
-    public Zahlungskondition(Auftragsart Auftragsart, double LieferzeitSofort, double SperrzeitWunsch, double Skontozeit1, double Skontozeit2, double Skonto1, double Skonto2, double Mahnzeit1, double Mahnzeit2, double Mahnzeit3) {
+    public Zahlungskondition(Auftragsart Auftragsart, double LieferzeitSofort, 
+            double SperrzeitWunsch, double Skontozeit1, double Skontozeit2, 
+            double Skonto1, double Skonto2, double Mahnzeit1, double Mahnzeit2, 
+            double Mahnzeit3) {
         this.Auftragsart = Auftragsart;
         this.LieferzeitSofort = LieferzeitSofort;
         this.SperrzeitWunsch = SperrzeitWunsch;

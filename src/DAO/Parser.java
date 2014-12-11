@@ -6,7 +6,6 @@
 
 package DAO;
 
-import DTO.test;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -50,12 +49,12 @@ public class Parser {
               put("katname", "Kategoriename");
               put("vname","Vorname");
               put("datum","Erfassungsdatum");
-              put("status","STATUS");
+              put("status","Status");
               put("frei","Frei");
               put("res","Reserviert");
               put("zul","Zulauf");
               put("ver","Verkauft");
-              put("typ","AUFTRAGSART");
+              put("typ","Auftragsart");
             }};
     
     /**
