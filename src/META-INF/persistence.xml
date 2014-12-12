@@ -6,14 +6,16 @@
     <class>DTO.Artikelkategorie</class>
     <class>DTO.Benutzer</class>
     <class>DTO.Auftragsposition</class>
-    <class>DTO.ATyp</class>
     <class>DTO.Auftragskopf</class>
     <class>DTO.Zahlungskondition</class>
     <class>DTO.Auftragsart</class>
-    <class>DTO.GPTyp</class>
     <class>DTO.Status</class>
     <class>DTO.Anschrift</class>
     <class>DTO.Geschaeftspartner</class>
+    <class>DTO.Kunde</class>
+    <class>DTO.Lieferant</class>
+    <class>DTO.Lieferanschrift</class>
+    <class>DTO.Rechnungsanschrift</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/SWPDB"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

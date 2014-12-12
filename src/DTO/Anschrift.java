@@ -16,15 +16,14 @@ import javax.persistence.*;
  */
 
 @Entity
-public class Anschrift implements Serializable {
+@Inheritance
+@DiscriminatorColumn(name = "Typ")
+@Table(name = "Anschrift")
+public abstract class Anschrift implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long AnschriftID;
-    
-    @ManyToOne
-    @JoinColumn(name = "Typ")
-    private ATyp AnschriftTyp;
     
     private String Name;
     private String Vorname;
@@ -47,11 +46,10 @@ public class Anschrift implements Serializable {
     public Anschrift() {
     }
 
-    public Anschrift(ATyp AnschriftTyp, String Name, String Vorname,
+    public Anschrift(String Name, String Vorname,
             String Titel, String Strasse, String Hausnummer, String PLZ,
             String Ort, String Staat, String Telefon, String FAX, String Email,
             Date Geburtsdatum, Date Erfassungsdatum) {
-        this.AnschriftTyp = AnschriftTyp;
         this.Name = Name;
         this.Vorname = Vorname;
         this.Titel = Titel;
@@ -69,14 +67,6 @@ public class Anschrift implements Serializable {
 
     public long getAnschriftID() {
         return AnschriftID;
-    }
-
-    public ATyp getAnschriftTyp() {
-        return AnschriftTyp;
-    }
-
-    public void setAnschriftTyp(ATyp AnschriftTyp) {
-        this.AnschriftTyp = AnschriftTyp;
     }
 
     public String getName() {

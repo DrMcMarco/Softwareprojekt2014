@@ -6,7 +6,6 @@
 
 package DAO;
 //import
-import DTO.ATyp;
 import DTO.Anschrift;
 import DTO.Artikel;
 import DTO.Artikelkategorie;
@@ -14,6 +13,11 @@ import DTO.Auftragsart;
 import DTO.Auftragskopf;
 import DTO.Auftragsposition;
 import DTO.Benutzer;
+import DTO.Geschaeftspartner;
+import DTO.Kunde;
+import DTO.Lieferanschrift;
+import DTO.Lieferant;
+import DTO.Rechnungsanschrift;
 import DTO.Status;
 import DTO.Zahlungskondition;
 import java.io.UnsupportedEncodingException;
@@ -233,7 +237,7 @@ public class DataAccessObject {
      * @param Geburtsdatum
      * @throws ApplicationException 
      */
-    public void createAdress(ATyp AnschriftTyp, String Name, String Vorname,
+    public Anschrift createAdress(String typ, String Name, String Vorname,
             String Titel, String Strasse, String Hausnummer, String PLZ,
             String Ort, String Staat, String Telefon, String Fax,
             String Email, Date Geburtsdatum) throws ApplicationException {
@@ -243,10 +247,24 @@ public class DataAccessObject {
         Calendar cal = Calendar.getInstance();
         Date Erfassungsdatum = cal.getTime();
         
-        //Erzeugung des persistenten Anschrift-Objektes
-        Anschrift anschrift = new Anschrift(AnschriftTyp, Name, Vorname, Titel,
-                Strasse, Hausnummer, PLZ, Ort, Staat, Telefon, Fax, Email,
-                Geburtsdatum, Erfassungsdatum);
+        Anschrift anschrift = null;
+        
+        if (typ.equals("Lieferadresse")) {
+        
+            //Erzeugung des persistenten Anschrift-Objektes
+            anschrift = new Lieferanschrift(Name, Vorname, Titel,
+                    Strasse, Hausnummer, PLZ, Ort, Staat, Telefon, Fax, Email,
+                    Geburtsdatum, Erfassungsdatum);
+        } else if (typ.equals("Rechnungsadresse")) {
+            
+            //Erzeugung des persistenten Anschrift-Objektes
+            anschrift = new Rechnungsanschrift(Name, Vorname, Titel,
+                    Strasse, Hausnummer, PLZ, Ort, Staat, Telefon, Fax, Email,
+                    Geburtsdatum, Erfassungsdatum);
+        } else {
+            throw new ApplicationException("Fehler", 
+                    "Der angegebene Adresstyp existiert nicht");
+        }
         
         //Wenn bei der Erzeugung ein Fehler auftritt
         if(anschrift == null) {
@@ -254,12 +272,7 @@ public class DataAccessObject {
                     "Beim Anlegen der Anschrift ist ein Fehler aufgetreten");
         }
         
-        //Transaktion starten
-        em.getTransaction().begin();
-        //Objekt persistieren
-        em.persist(anschrift);
-        //Transaktion schließen
-        em.getTransaction().commit();
+        return anschrift;
     }
     
     /**
@@ -298,6 +311,48 @@ public class DataAccessObject {
         //Transaktion schließen
         em.getTransaction().commit();
         
+    }
+    
+    public void createBusinessPartner(String Typ, Anschrift Lieferadresse, 
+            Anschrift Rechnungsadresse, double Kreditlimit, boolean LKZ) 
+            throws ApplicationException {
+        
+        try {
+        
+            Geschaeftspartner geschaeftspartner = null;
+        
+            if (Typ.equals("Kunde")) {
+                geschaeftspartner = new Kunde(Lieferadresse, Rechnungsadresse, 
+                        Kreditlimit, LKZ);
+            } else if (Typ.equals("Lieferant")) {
+                geschaeftspartner = new Lieferant(Lieferadresse, Rechnungsadresse, 
+                        Kreditlimit, LKZ);
+            } else {
+                throw new ApplicationException("Fehler", 
+                        "Der angegebene Geschäftspartnertyp existiert nicht.");
+            }
+        
+            if (geschaeftspartner == null) {
+                throw new ApplicationException("Fehler", 
+                        "Bei der Erzeugung des Kunde ist ein Fehler aufgetreten");
+            }
+        
+            em.getTransaction().begin();
+        
+            if (Lieferadresse.equals(Rechnungsadresse)) {
+                em.persist(Lieferadresse);
+            } else {
+                em.persist(Lieferadresse);
+                em.persist(Rechnungsadresse);
+            }
+        
+            em.persist(geschaeftspartner);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw new ApplicationException("Fehler", 
+                    "Beim Speichern der Daten ist ein Fehler aufgetreten");
+        }
     }
     
 //</editor-fold>
@@ -414,37 +469,16 @@ public class DataAccessObject {
         return item;
     }
     
-    /**
-     * Methode zum Holen eines Anschriftstyps
-     * @param Beschreibung Name des Anschriftstyps
-     * @return Persistentes Anschriftstyp-Objekt
-     * @throws ApplicationException wenn der Anschriftstyp nicht gefunden werden
-     *         kann
-     */
-    public ATyp getAdresstypeByName(String Beschreibung) 
-            throws ApplicationException {
+    public Kunde getCustomer(long Kundennummer) throws ApplicationException {
         
-        ATyp typ = null;
-        try {
-            //Query zum Suchen eines Anschriftstyps anhand der Beschreibung
-            Query query = em.createQuery("SELECT t FROM ATyp t WHERE "
-                    + "T.Beschreibung LIKE :beschreibung")
-                    .setParameter("beschreibung", Beschreibung);
-            
-            //Nur der erste Treffer soll geholt werden
-            typ = (ATyp) query.getSingleResult();
-            
-            //Wenn kein Objekt gefunden wurde
-            if(typ == null) {
-                throw new ApplicationException("Fehler",
-                        "Anschriftstyp wurde nicht gefunden");
-            }
-            
-            return typ;
-        //Wenn bei der Ausführung der Query was schief geht  
-        } catch (Exception e) {
-            throw new ApplicationException("Fehler", e.getMessage());
+        Kunde kunde = em.find(Kunde.class, Kundennummer);
+        
+        if (kunde == null) {
+            throw new ApplicationException("Fehler", 
+                    "Der Kunde konnte nicht gefunden werden");
         }
+        
+        return kunde;
     }
     
 //</editor-fold>

@@ -15,15 +15,14 @@ import javax.persistence.*;
  */
 
 @Entity
-public class Geschaeftspartner implements Serializable {
+@Inheritance
+@DiscriminatorColumn(name = "Typ")
+@Table(name = "Geschäftspartner")
+public abstract class Geschaeftspartner implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long GeschaeftspartnerID;
-    
-    @OneToOne
-    @JoinColumn(name = "Typ")
-    private GPTyp GeschaeftspartnerTyp;
     
     @OneToOne
     private Anschrift Lieferadresse;
@@ -39,9 +38,8 @@ public class Geschaeftspartner implements Serializable {
         
     }
 
-    public Geschaeftspartner(long GeschaeftspartnerID, GPTyp GeschaeftspartnerTyp, Anschrift Lieferadresse, Anschrift Rechnungsadresse, double Kreditlimit, boolean LKZ) {
-        this.GeschaeftspartnerID = GeschaeftspartnerID;
-        this.GeschaeftspartnerTyp = GeschaeftspartnerTyp;
+    public Geschaeftspartner(Anschrift Lieferadresse, 
+            Anschrift Rechnungsadresse, double Kreditlimit, boolean LKZ) {
         this.Lieferadresse = Lieferadresse;
         this.Rechnungsadresse = Rechnungsadresse;
         this.Kreditlimit = Kreditlimit;
@@ -54,14 +52,6 @@ public class Geschaeftspartner implements Serializable {
 
     public void setGeschaeftspartnerID(long GeschaeftspartnerID) {
         this.GeschaeftspartnerID = GeschaeftspartnerID;
-    }
-
-    public GPTyp getGeschaeftspartnerTyp() {
-        return GeschaeftspartnerTyp;
-    }
-
-    public void setGeschaeftspartnerTyp(GPTyp GeschaeftspartnerTyp) {
-        this.GeschaeftspartnerTyp = GeschaeftspartnerTyp;
     }
 
     public Anschrift getLieferadresse() {
@@ -99,11 +89,12 @@ public class Geschaeftspartner implements Serializable {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 83 * hash + (int) (this.GeschaeftspartnerID ^ (this.GeschaeftspartnerID >>> 32));
-        hash = 83 * hash + Objects.hashCode(this.GeschaeftspartnerTyp);
+        hash = 83 * hash + (int) (this.GeschaeftspartnerID ^ 
+                (this.GeschaeftspartnerID >>> 32));
         hash = 83 * hash + Objects.hashCode(this.Lieferadresse);
         hash = 83 * hash + Objects.hashCode(this.Rechnungsadresse);
-        hash = 83 * hash + (int) (Double.doubleToLongBits(this.Kreditlimit) ^ (Double.doubleToLongBits(this.Kreditlimit) >>> 32));
+        hash = 83 * hash + (int) (Double.doubleToLongBits(this.Kreditlimit) ^ 
+                (Double.doubleToLongBits(this.Kreditlimit) >>> 32));
         hash = 83 * hash + (this.LKZ ? 1 : 0);
         return hash;
     }
@@ -120,16 +111,14 @@ public class Geschaeftspartner implements Serializable {
         if (this.GeschaeftspartnerID != other.GeschaeftspartnerID) {
             return false;
         }
-        if (!Objects.equals(this.GeschaeftspartnerTyp, other.GeschaeftspartnerTyp)) {
-            return false;
-        }
         if (!Objects.equals(this.Lieferadresse, other.Lieferadresse)) {
             return false;
         }
         if (!Objects.equals(this.Rechnungsadresse, other.Rechnungsadresse)) {
             return false;
         }
-        if (Double.doubleToLongBits(this.Kreditlimit) != Double.doubleToLongBits(other.Kreditlimit)) {
+        if (Double.doubleToLongBits(this.Kreditlimit) != 
+                Double.doubleToLongBits(other.Kreditlimit)) {
             return false;
         }
         if (this.LKZ != other.LKZ) {

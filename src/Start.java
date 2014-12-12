@@ -2,9 +2,13 @@ import GUI_Internalframes.*;
 import DAO.ApplicationException;
 import DAO.DataAccessObject;
 import DAO.Parser;
+import DTO.Anschrift;
 import DTO.Artikelkategorie;
+import DTO.Geschaeftspartner;
+import DTO.Kunde;
 import UserHauptmenue.Hauptmenue_User;
 import java.awt.Dimension;
+import java.util.Date;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 
