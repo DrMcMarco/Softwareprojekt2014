@@ -8,7 +8,6 @@
     <class>DTO.Auftragsposition</class>
     <class>DTO.Auftragskopf</class>
     <class>DTO.Zahlungskondition</class>
-    <class>DTO.Auftragsart</class>
     <class>DTO.Status</class>
     <class>DTO.Anschrift</class>
     <class>DTO.Geschaeftspartner</class>
@@ -16,6 +15,10 @@
     <class>DTO.Lieferant</class>
     <class>DTO.Lieferanschrift</class>
     <class>DTO.Rechnungsanschrift</class>
+    <class>DTO.Barauftragskopf</class>
+    <class>DTO.Bestellauftragskopf</class>
+    <class>DTO.Sofortauftragskopf</class>
+    <class>DTO.Terminauftragskopf</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/SWPDB"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
