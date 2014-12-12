@@ -19,10 +19,6 @@ public class Zahlungskondition implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long ZahlungskonditionID;
     
-    @ManyToOne
-    @JoinColumn(name = "Auftragsart")
-    private Auftragsart Auftragsart;
-    
     private double LieferzeitSofort;
     private double SperrzeitWunsch;
     private double Skontozeit1;
@@ -36,11 +32,10 @@ public class Zahlungskondition implements Serializable {
     public Zahlungskondition() {
     }
 
-    public Zahlungskondition(Auftragsart Auftragsart, double LieferzeitSofort, 
+    public Zahlungskondition(double LieferzeitSofort, 
             double SperrzeitWunsch, double Skontozeit1, double Skontozeit2, 
             double Skonto1, double Skonto2, double Mahnzeit1, double Mahnzeit2, 
             double Mahnzeit3) {
-        this.Auftragsart = Auftragsart;
         this.LieferzeitSofort = LieferzeitSofort;
         this.SperrzeitWunsch = SperrzeitWunsch;
         this.Skontozeit1 = Skontozeit1;
@@ -54,14 +49,6 @@ public class Zahlungskondition implements Serializable {
 
     public long getZahlungskonditionID() {
         return ZahlungskonditionID;
-    }
-
-    public Auftragsart getAuftragsart() {
-        return Auftragsart;
-    }
-
-    public void setAuftragsart(Auftragsart Auftragsart) {
-        this.Auftragsart = Auftragsart;
     }
 
     public double getLieferzeitSofort() {
@@ -140,7 +127,6 @@ public class Zahlungskondition implements Serializable {
     public int hashCode() {
         int hash = 3;
         hash = 67 * hash + (int) (this.ZahlungskonditionID ^ (this.ZahlungskonditionID >>> 32));
-        hash = 67 * hash + Objects.hashCode(this.Auftragsart);
         hash = 67 * hash + (int) (Double.doubleToLongBits(this.LieferzeitSofort) ^ (Double.doubleToLongBits(this.LieferzeitSofort) >>> 32));
         hash = 67 * hash + (int) (Double.doubleToLongBits(this.SperrzeitWunsch) ^ (Double.doubleToLongBits(this.SperrzeitWunsch) >>> 32));
         hash = 67 * hash + (int) (Double.doubleToLongBits(this.Skontozeit1) ^ (Double.doubleToLongBits(this.Skontozeit1) >>> 32));
@@ -163,9 +149,6 @@ public class Zahlungskondition implements Serializable {
         }
         final Zahlungskondition other = (Zahlungskondition) obj;
         if (this.ZahlungskonditionID != other.ZahlungskonditionID) {
-            return false;
-        }
-        if (!Objects.equals(this.Auftragsart, other.Auftragsart)) {
             return false;
         }
         if (Double.doubleToLongBits(this.LieferzeitSofort) != Double.doubleToLongBits(other.LieferzeitSofort)) {

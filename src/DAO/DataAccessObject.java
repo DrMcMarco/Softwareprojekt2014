@@ -9,7 +9,6 @@ package DAO;
 import DTO.Anschrift;
 import DTO.Artikel;
 import DTO.Artikelkategorie;
-import DTO.Auftragsart;
 import DTO.Auftragskopf;
 import DTO.Auftragsposition;
 import DTO.Benutzer;
@@ -181,7 +180,7 @@ public class DataAccessObject {
      * @param Erfassungsdatum
      * @param Lieferdatum
      */
-    public void createOrderHead(String Auftragstext, Auftragsart Auftragsart,
+    public void createOrderHead(String Auftragstext,
             double Wert, Status Status, Date Abschlussdatum,
             Date Erfassungsdatum, Date Lieferdatum) {
         
@@ -289,15 +288,15 @@ public class DataAccessObject {
      * @param Mahnzeit3
      * @throws ApplicationException 
      */
-    public void createPaymentConditions(Auftragsart Auftragsart, 
-            double LieferzeitSofort, double SperrzeitWunsch, double Skontozeit1,
+    public void createPaymentConditions( double LieferzeitSofort, 
+            double SperrzeitWunsch, double Skontozeit1,
             double Skontozeit2, double Skonto1, double Skonto2, 
             double Mahnzeit1, double Mahnzeit2, double Mahnzeit3) 
             throws ApplicationException {
         
-        Zahlungskondition conditions = new Zahlungskondition(Auftragsart, 
-                LieferzeitSofort, SperrzeitWunsch, Skontozeit1, Skontozeit2, 
-                Skonto1, Skonto2, Mahnzeit1, Mahnzeit2, Mahnzeit3);
+        Zahlungskondition conditions = new Zahlungskondition(LieferzeitSofort, 
+                SperrzeitWunsch, Skontozeit1, Skontozeit2, Skonto1, Skonto2, 
+                Mahnzeit1, Mahnzeit2, Mahnzeit3);
         
         if (conditions == null) {
             throw new ApplicationException("Fehler", 
@@ -382,41 +381,41 @@ public class DataAccessObject {
         return conditions;
     }
     
-    /**
-     * 
-     * @param type
-     * @return
-     * @throws ApplicationException 
-     */
-    public Zahlungskondition getPaymentConditionsByType(Auftragsart type) 
-            throws ApplicationException {
-        String sqlQuery = null;
-        Zahlungskondition conditions = null;
-        //Prüfe, ob eine Auftragsart übergeben wurde
-        if (type == null) {
-            throw new ApplicationException("Fehler", 
-                    "Übergeben Sie eine gültige Auftragsart!");
-        }
-        //Sql-Statement erstellen
-        sqlQuery =
-                "SELECT ST FROM Zahlungskondition ST WHERE ST.Auftragsart = '" +
-                type.getAuftragsart() + "'";
-        
-        try {
-            //Konditionen aus der DB Laden
-            conditions = (Zahlungskondition) 
-                    em.createQuery(sqlQuery).getSingleResult();
-        } catch (Exception e) {
-            throw new ApplicationException("Fehler", e.getMessage());
-        }
-        
-        //Prüfen, ob was gefunden wurde
-        if (conditions == null)
-            throw new ApplicationException("Fehler",
-                    "Es wurde keine Kategorie gefunden!");
-        
-        return conditions;
-    }
+//    /**
+//     * 
+//     * @param type
+//     * @return
+//     * @throws ApplicationException 
+//     */
+//    public Zahlungskondition getPaymentConditionsByType(Auftragsart type) 
+//            throws ApplicationException {
+//        String sqlQuery = null;
+//        Zahlungskondition conditions = null;
+//        //Prüfe, ob eine Auftragsart übergeben wurde
+//        if (type == null) {
+//            throw new ApplicationException("Fehler", 
+//                    "Übergeben Sie eine gültige Auftragsart!");
+//        }
+//        //Sql-Statement erstellen
+//        sqlQuery =
+//                "SELECT ST FROM Zahlungskondition ST WHERE ST.Auftragsart = '" +
+//                type.getAuftragsart() + "'";
+//        
+//        try {
+//            //Konditionen aus der DB Laden
+//            conditions = (Zahlungskondition) 
+//                    em.createQuery(sqlQuery).getSingleResult();
+//        } catch (Exception e) {
+//            throw new ApplicationException("Fehler", e.getMessage());
+//        }
+//        
+//        //Prüfen, ob was gefunden wurde
+//        if (conditions == null)
+//            throw new ApplicationException("Fehler",
+//                    "Es wurde keine Kategorie gefunden!");
+//        
+//        return conditions;
+//    }
     
     /**
      *
