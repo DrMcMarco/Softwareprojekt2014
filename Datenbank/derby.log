@@ -12,3 +12,5 @@ os.arch=amd64
 os.version=6.3
 derby.system.home=C:\Users\Kerstin\Documents\Studium\5. Semester\SPWI\Softwareprojekt2014\Datenbank
 Datenbank-Class Loader wurde gestartet - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Dec 15 15:21:22 CET 2014: Derby-Engine wird heruntergefahren
