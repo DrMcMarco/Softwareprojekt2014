@@ -112,6 +112,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         }
         if (skontozeit1 == 0) {
             System.out.println(((JSpinner.NumberEditor) jSP_Skontozeit1.getEditor()).getTextField().getText());
+            System.out.println(jSP_Skontozeit1.getBackground());
             fehlerhafteComponenten.add(jSP_Skontozeit1);
             ((JSpinner.NumberEditor) jSP_Skontozeit1.getEditor()).getTextField().setBackground(FARBE_FEHLERHAFT);
             System.out.println(((JSpinner.NumberEditor) jSP_Skontozeit1.getEditor()).getTextField().getBackground());

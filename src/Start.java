@@ -1,14 +1,12 @@
+
 import GUI_Internalframes.*;
 import DAO.ApplicationException;
 import DAO.DataAccessObject;
 import DAO.Parser;
-import DTO.Anschrift;
-import DTO.Artikelkategorie;
-import DTO.Geschaeftspartner;
-import DTO.Kunde;
 import UserHauptmenue.Hauptmenue_User;
+import java.awt.Component;
 import java.awt.Dimension;
-import java.util.Date;
+import java.util.ArrayList;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 
@@ -49,9 +47,9 @@ public class Start extends javax.swing.JFrame {
     ZahlungskonditionAnlegen zahlungskonditionanlegen;
 //    ZahlungskonditionAnzeigen zahlungskonditionanzeigen;
     ZahlungskonditionenAEndernEinstieg zahlungskonditionaendern;
-    
+
     DataAccessObject DAO;
-    
+
     //Hilfsvariablen
     Dimension desktopSize;//Speichervariable für die Größe der DesktopPane
     Dimension jInternalFrameSize;//Speichervariable für die Größe des InternalFrames
@@ -59,6 +57,8 @@ public class Start extends javax.swing.JFrame {
     //Stringvariablen für die einzelnen Meldungen die ausgegeben werden können.
     private final String Beenden_Meldung = "Wollen sie wirklich das Programm beenden und sich abmelden?";
     private final String Beenden_Meldung_Typ = "Programm beenden";
+
+    private ArrayList<Component> list;
 
     /**
      * Creates new form Start
@@ -85,21 +85,20 @@ public class Start extends javax.swing.JFrame {
         // Zuweisung der Masken an die Hauptansicht
 
         desktopPane.add(hauptmenueuser);
-        setCenterJIF(hauptmenueuser);//Methodenaufruf um die übergebene Maske zentral darzustellen
-//        hauptmenueuser.setLayer();
+
+//        setCenterJIF(hauptmenueuser);//Methodenaufruf um die übergebene Maske zentral darzustellen
+//        jPanel.add((hauptmenueuser.setVisible(false)));
+        jPanel.add(auftragskopfanlegen);
+
         desktopPane.add(auftragskopfanlegen);
         desktopPane.add(auftragskopfaendern);
-//        desktopPane.add(auftragskopfanzeigen);
         desktopPane.add(auftragsspositionanzeigen);
         desktopPane.add(auftragsspositionaender);
         desktopPane.add(artikelanlegen);
-//        desktopPane.add(artikelanzeigen);
         desktopPane.add(artikelaendern);
         desktopPane.add(geschaeftspartneranlegen);
-//        desktopPane.add(geschaeftspartneranzeigen);
         desktopPane.add(geschaeftspartneraendern);
         desktopPane.add(zahlungskonditionanlegen);
-//        desktopPane.add(zahlungskonditionanzeigen);
         desktopPane.add(zahlungskonditionaendern);
 
         auftragskopfaendern.setVisible(false);
@@ -108,24 +107,22 @@ public class Start extends javax.swing.JFrame {
         auftragsspositionaender.setVisible(false);
         auftragsspositionanzeigen.setVisible(false);
         artikelanlegen.setVisible(false);
-//        artikelanzeigen.setVisible(false);
         artikelaendern.setVisible(false);
         geschaeftspartneranlegen.setVisible(false);
         geschaeftspartneraendern.setVisible(false);
-//        geschaeftspartneranzeigen.setVisible(false);
         zahlungskonditionanlegen.setVisible(false);
-//        zahlungskonditionanzeigen.setVisible(false);
         zahlungskonditionaendern.setVisible(false);
-        
+
         //Erstmal zu Testzwecken, kommt noch woanders hin
-        DAO = new DataAccessObject(); 
-        
+        DAO = new DataAccessObject();
+
 //        try {
 ////            DAO.createCategory("Kat1", "test", "test", false);
 ////            Artikelkategorie cat = DAO.getCategory("Kat1");
 ////            DAO.createItem(cat, "", "", 2.5, 1.5, 19, 5, 0, 0, 0);
 //        DAO.searchQuery("nr:651", "Artikel");
 //        }catch (Exception e) {}
+        list = new ArrayList<Component>();
     }
 
     /**
@@ -138,6 +135,7 @@ public class Start extends javax.swing.JFrame {
     private void initComponents() {
 
         desktopPane = new javax.swing.JDesktopPane();
+        jPanel = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         jM_Navigation = new javax.swing.JMenu();
         jM_AuftragVerwalten = new javax.swing.JMenu();
@@ -172,6 +170,20 @@ public class Start extends javax.swing.JFrame {
                 formWindowClosing(evt);
             }
         });
+
+        javax.swing.GroupLayout jPanelLayout = new javax.swing.GroupLayout(jPanel);
+        jPanel.setLayout(jPanelLayout);
+        jPanelLayout.setHorizontalGroup(
+            jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1000, Short.MAX_VALUE)
+        );
+        jPanelLayout.setVerticalGroup(
+            jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 780, Short.MAX_VALUE)
+        );
+
+        desktopPane.add(jPanel);
+        jPanel.setBounds(0, 0, 1000, 780);
 
         jM_Navigation.setMnemonic('n');
         jM_Navigation.setText("Navigation");
@@ -367,6 +379,14 @@ public class Start extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    public void setComponent(Component component) {
+        if (list.listIterator().previous() == null) {
+            list.add(component);
+            component.setVisible(true);
+        }else{
+            
+        }
+    }
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // Erzeugen eine Meldung mit Abfrage
@@ -399,15 +419,15 @@ public class Start extends javax.swing.JFrame {
     private void jMI_BenutzerhandbuchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_BenutzerhandbuchActionPerformed
 //        JOptionPane.showMessageDialog(rootPane, "Benutzerhandbuch.", "Informationen",
 //                JOptionPane.INFORMATION_MESSAGE); "nr:123, datum:123 , andere:ete,kat:asd "
-        
+
         Parser parser = new Parser();
         try {
             parser.parse("nr:123, datum:123 , typ:bar,status:freigegeben ", "test");
         } catch (ApplicationException ae) {
             JOptionPane.showMessageDialog(rootPane, "" + ae.getMessage(), "Informationen",
-                JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.INFORMATION_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_jMI_BenutzerhandbuchActionPerformed
     /**
      * ActionPerformed in der die AuftrgaskopfAnlegen Maske aufgerufen wird
@@ -440,7 +460,7 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_AuftragsposAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragsposAEndernActionPerformed
-       setCenterJIF(auftragsspositionaender);
+        setCenterJIF(auftragsspositionaender);
     }//GEN-LAST:event_jMI_AuftragsposAEndernActionPerformed
 
     /**
@@ -449,7 +469,7 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_AuftragsposAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragsposAnzeigenActionPerformed
-       setCenterJIF(auftragsspositionanzeigen);
+        setCenterJIF(auftragsspositionanzeigen);
     }//GEN-LAST:event_jMI_AuftragsposAnzeigenActionPerformed
 
     /**
@@ -458,7 +478,7 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_ArtikelAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ArtikelAnlegenActionPerformed
-       setCenterJIF(artikelanlegen);
+        setCenterJIF(artikelanlegen);
     }//GEN-LAST:event_jMI_ArtikelAnlegenActionPerformed
 
     /**
@@ -467,7 +487,7 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_ArtikelAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ArtikelAEndernActionPerformed
-       setCenterJIF(artikelaendern);
+        setCenterJIF(artikelaendern);
     }//GEN-LAST:event_jMI_ArtikelAEndernActionPerformed
 
     /**
@@ -513,7 +533,7 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_ZKAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ZKAnlegenActionPerformed
-       setCenterJIF(zahlungskonditionanlegen);
+        setCenterJIF(zahlungskonditionanlegen);
     }//GEN-LAST:event_jMI_ZKAnlegenActionPerformed
 
     /**
@@ -550,7 +570,6 @@ public class Start extends javax.swing.JFrame {
         jif.setLocation(width, height);
         jif.setVisible(true);
     }
-    
 
     /**
      * @param args the command line arguments
@@ -614,6 +633,7 @@ public class Start extends javax.swing.JFrame {
     private javax.swing.JMenu jM_Logout;
     private javax.swing.JMenu jM_Navigation;
     private javax.swing.JMenu jM_ZKVerwalten;
+    private javax.swing.JPanel jPanel;
     private javax.swing.JMenuBar menuBar;
     // End of variables declaration//GEN-END:variables
 
