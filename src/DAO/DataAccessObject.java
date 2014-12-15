@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.persistence.*;
 /**
@@ -531,5 +532,12 @@ public class DataAccessObject {
         } catch (UnsupportedEncodingException | NoSuchAlgorithmException ex) {
             throw new ApplicationException("Fehler", ex.getMessage());
         }
+    }
+    
+    public boolean checkItemStock(HashMap<Long, Integer> itemMap, Status state) 
+            throws ApplicationException {
+        
+        
+        return true;
     }
 }
