@@ -1,14 +1,14 @@
-Fri Dec 12 16:22:49 CET 2014 : Apache Derby Network Server 10.10.1.1 - (1458268) wurde gestartet und ist bereit, Verbindungen auf Port 1527 zu akzeptieren.
+Mon Dec 15 13:57:34 CET 2014 : Apache Derby Network Server 10.10.1.3 - (1557168) wurde gestartet und ist bereit, Verbindungen auf Port 1527 zu akzeptieren.
 ----------------------------------------------------------------
-Fri Dec 12 16:22:50 CET 2014:
-Booten von Derby-Version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): Instanz a816c00e-014a-3f18-5db2-ffffe236495e
-für Datenbankverzeichnis C:\Users\Marco\Documents\NetBeansProjects\Softwareprojekt2014\Datenbank\SWPDB mit Class Loader sun.misc.Launcher$AppClassLoader@144bcfa
-Geladen aus file:/C:/Program%20Files/Java/jdk1.8.0_25/db/lib/derby.jar
+Mon Dec 15 13:58:05 CET 2014:
+Booten von Derby-Version The Apache Software Foundation - Apache Derby - 10.10.1.3 - (1557168): Instanz a816c00e-014a-4e06-7091-000027118261
+für Datenbankverzeichnis C:\Users\Kerstin\Documents\Studium\5. Semester\SPWI\Softwareprojekt2014\Datenbank\SWPDB mit Class Loader sun.misc.Launcher$AppClassLoader@1d44bcfa
+Geladen aus file:/C:/Program%20Files/Java/jdk1.8.0_20/db/lib/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_25-b18
-user.dir=C:\Program Files\Java\jdk1.8.0_25\db
+java.runtime.version=1.8.0_20-b26
+user.dir=C:\Program Files\Java\jdk1.8.0_20\db
 os.name=Windows 8.1
-os.arch=x86
+os.arch=amd64
 os.version=6.3
-derby.system.home=C:\Users\Marco\Documents\NetBeansProjects\Softwareprojekt2014\Datenbank
+derby.system.home=C:\Users\Kerstin\Documents\Studium\5. Semester\SPWI\Softwareprojekt2014\Datenbank
 Datenbank-Class Loader wurde gestartet - derby.database.classpath=''

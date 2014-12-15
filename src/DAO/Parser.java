@@ -7,38 +7,24 @@
 package DAO;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map.Entry;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Simon <Simon.Simon at your.org>
- * Mögliche Präfixe zur Suche
- * Input: NR = Kundennummer
- *        NAME = Artikelname
- *        DATUM = Auftragskopfeingangsdatum
- *        STATUS = Auftragskopfstatus
- *        TYPE = Auftragsart
- *        FREI = Artikelbestandfrei
- *        RES = Artikelbestandreserviert
- *        ZUL = Artikelbestandzulauf
- *        VER = Artikelbestandverkauft
+ * Klasse Parser
  */
 public class Parser {
     /**
      * Konstante zur Trennung der einzelnen Sucheingaben
      */
-    private static final String SPLITINPUT = ",";
+    private static final String SPLITINPUT = ";";
     /**
      * Konstante zur Trennung der einzelnen Querys
      */
-    private static final String SPLITQUERY = ":";
+    private static final String[] SPLITOPERATOR = {"<=" , ">=", "<>", "<",
+                                                ">", "="};
     /**
      * Hashmap mit allen Schlüßelwörtern
      */
@@ -46,14 +32,22 @@ public class Parser {
             HashMap<String, String>() {{
               put("nr","Id");
               put("name","Name");
-              put("katname", "Kategoriename");
-              put("vname","Vorname");
-              put("datum","Erfassungsdatum");
-              put("status","Status");
+//************Artikel spezifische Eingaben              
+              put("atext","Artikeltext");
+              put("btext","Bestelltext");
+              put("wert","Einkaufswert");
+              put("name","Name");
+              put("mwst","Mwst");
+              put("akat","Kategorie");
               put("frei","Frei");
               put("res","Reserviert");
               put("zul","Zulauf");
               put("ver","Verkauft");
+//***********              
+              put("kategorie", "Kategoriename");
+              put("vname","Vorname");
+              put("datum","Erfassungsdatum");
+              put("status","Status");
               put("typ","Auftragsart");
             }};
     
@@ -68,13 +62,14 @@ public class Parser {
      * 
      * TODO: prüfung auf illegale zeichen, und nicht einhaltung der regeln
      */
-    public HashMap<String, String> parse(String input, String table) 
+    public ArrayList<String> parse(String input, String table) 
             throws ApplicationException {
         //Daten Deklaration
         String[] praefixList = null;
         StringTokenizer st = null;
         //Evt. andere Collection nehmen?
         HashMap<String, String> searchQuerys = new HashMap<>();
+        ArrayList<String> result = new ArrayList<>();
         String inputNoSpace = "";
         String searchIdentifier = null;
         String databaseIdentifier = null;
@@ -95,23 +90,36 @@ public class Parser {
         praefixList = inputNoSpace.split(SPLITINPUT);
         //Iteriere über alle Suchattribute
         for (String praefix : praefixList) {
-            //Identifiziere das Attribut nach dem gesucht werden soll
-            searchIdentifier = praefix.split(SPLITQUERY)[0];
-            //Identifiziere den Wert nach dem gesucht werden soll
-            value = praefix.split(SPLITQUERY)[1];
-            //Ermittle den Datenbanken Namen aus der Hashmap
-            databaseIdentifier = IDENTIFIER.get(searchIdentifier);
-            //Prüfe, ob der User eine gültige Eingabe gemacht hat.
-            if (databaseIdentifier == null) {
-                throw new ApplicationException("Fehler", 
+            //Iteriere über alle Operatoren
+            for (String split : SPLITOPERATOR) {
+                //Identifiziere das Attribut nach dem gesucht werden soll
+                searchIdentifier = praefix.split(split)[0];
+                //Wenn Operator gefunden wurde führen wir fort
+                if (praefix.split(split).length > 1) {
+                    //Identifiziere den Wert nach dem gesucht werden soll
+                    value = praefix.split(split)[1];
+                    //Ermittle den Datenbanken Namen aus der Hashmap
+                    databaseIdentifier = IDENTIFIER.get(searchIdentifier);
+                    //Prüfe, ob der User eine gültige Eingabe gemacht hat.
+                    if (databaseIdentifier == null) {
+                        throw new ApplicationException("Fehler", 
                         "Das Suchkürzel: " + searchIdentifier + " ist Falsch!");
-            }
-            //Attribute als DB-Spalten Namen speichern
-            searchQuerys.put(databaseIdentifier, value);
+                    }
+                    result.add(databaseIdentifier + " " + split + " " + value);
+                    //Beende die 2. Schleife sobald ein Operator gefunden wurde.
+                    break;
+                }
+            }//Überprüfung, wenn alle operatoren durchlaufen sind und keiner
+            //gefunden werden konnte -> Falsche Operator eingabe -> Fehler
         }
         
-        return searchQuerys;
+        return result;
     }
     
-    
+    public boolean checkInput(String input) {
+        
+        
+        
+        return true;
+    }
 }

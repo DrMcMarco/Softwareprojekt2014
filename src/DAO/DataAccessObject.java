@@ -22,18 +22,11 @@ import DTO.Zahlungskondition;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.*;
 /**
  *
@@ -43,7 +36,7 @@ public class DataAccessObject {
     /**
      * EntityManager verwaltet alle Persistenten Klassen
      */
-    private EntityManager em;
+    private final EntityManager em;
     
     public DataAccessObject() {
         this.em = Persistence.createEntityManagerFactory(
@@ -60,11 +53,9 @@ public class DataAccessObject {
     public Collection<?> searchQuery(String input, String table) 
             throws ApplicationException {
         //Datendeklaration
-        HashMap<String, String> dbIdentifier = null;
+        ArrayList<String> dbIdentifier = null;
+        Auftragskopf headOrder = null;
         List<?> sqlResultSet = null;
-        String key, value = null;
-        Iterator<Entry<String, String>> iterator = null;
-        Entry entry = null;
         String sqlQuery = null;
         Parser parser = new Parser();
         //Parse den Suchausdruck und hole die DB-Attr. Namen
@@ -76,18 +67,15 @@ public class DataAccessObject {
         }
         //Sql-Statement Dynamisch erzeugen
         sqlQuery = "SELECT ST FROM " + table + " ST WHERE ";
-        iterator = dbIdentifier.entrySet().iterator();
-        
-        while (iterator.hasNext()) {
-            //Nach dem ersten durchlauf muss ein And angeknüpft werden
-            if (entry != null)
+        //Iteriere über alle Input Einträge
+        for (int i = 0; i < dbIdentifier.size(); i++) {
+            //Hole Abfrage aus der Liste
+            sqlQuery += ("ST." + dbIdentifier.get(i));
+            //Prüfe, ob mehrere Einträge vorhanden sind, diese müssen mit AND
+            //Verknüpft werden.Beim letzten durchlauf wird kein AND mehr gesetzt
+            if (dbIdentifier.size() > 1 && i < dbIdentifier.size() - 1) {
                 sqlQuery += " AND ";
-            //Eintrag aus der Map holen und die Daten auslesen
-            entry = iterator.next();
-            key = (String) entry.getKey();
-            value = (String) entry.getValue();
-            //Sql-Statement erweitern
-            sqlQuery += ("ST." + key + " = " + value);
+            }
         }
 
         try {
@@ -96,7 +84,7 @@ public class DataAccessObject {
             
         } catch(Exception e) {
             throw new ApplicationException("Fehler", 
-                    "Die Daten konnten nicht geladen werden!");
+                    "Die Daten konnten nicht gefunden werden!");
         } 
         
 
