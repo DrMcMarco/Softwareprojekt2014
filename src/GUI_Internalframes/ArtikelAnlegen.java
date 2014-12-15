@@ -4,17 +4,21 @@ import GUI_Internalframes.*;
 import Documents.UniversalDocument;
 import java.awt.Color;
 import java.awt.Component;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
- * Diese Klasse stellt die GUI, um Artikel verwalten zu können, dar.
+ * GUI Klasse für Artikel verwalten.
  *
  * @author Tahir
  */
 public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
-//  Insanzvariablen eines Artikels
+    /*
+     * Instanzvariablen der Klasse. 
+     */
     private int artikelnummer;
 
 //  ArrayList, um fehlerhafte Componenten zu speichern.    
@@ -25,30 +29,38 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     private final Color JCB_FARBE_STANDARD = new Color(214, 217, 223);
     private final Color JTF_FARBE_STANDARD = new Color(255, 255, 255);
 //  Insantzvariablen für die Farben von fehlerhaften Componenten         
-    private final Color FARBE_FEHLERHAFT = new Color(255,165,79);
+    private final Color FARBE_FEHLERHAFT = new Color(255, 165, 79);
 //  Insantzvariablen für reguläre Ausdrücke, um Prüfungen durchzuführen          
     private final String PREUFUNG_PREIS = "|(\\d*,?\\d{1,2})|(\\d{0,3}(\\.\\d{3})*,?\\d{1,2})";
 //  Insantzvariablen für die Meldungen         
     private final String MELDUNG_PFLICHTFELDER_TITEL = "Felder nicht ausgefüllt";
     private final String MELDUNG_PFLICHTFELDER_TEXT = "Einige Felder wurden nicht ausgefüllt! Bitte füllen Sie diese aus!";
+    private NumberFormat nf;
 
     /**
      * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die
-     * Documents
+     * Documents.
      */
     public ArtikelAnlegen() {
         initComponents();
         fehlerhafteComponenten = new ArrayList<>();
         artikelListe = new ArrayList<>();
+
+        nf = NumberFormat.getInstance();
+        nf.setMinimumFractionDigits(2);
+        nf.setMaximumFractionDigits(2);
+//        Documente werden gesetzt
         jTF_Artikelname.setDocument(new UniversalDocument("-.´", true));
         jTF_Einzelwert.setDocument(new UniversalDocument("0123456789.,", false));
         jTF_Bestellwert.setDocument(new UniversalDocument("0123456789.,", false));
         jTF_Bestandsmenge_FREI.setDocument(new UniversalDocument("0123456789", false));
     }
 
-//  Methode für die Überprüfung der Daten. Falls ein Textfeld nicht gefüllt ist, wird sie der ArrayList für 
-//  fehlerhafte Componenten hinzugefuegt. Falls bei eine Compobox der selektierte Index auf 0 ("Bitte auswählen")
-//  steht, wird diese ebenfalls in die ArrayList uebernommen  
+    /*
+     * Methode für die Überprüfung der Daten. Falls ein Textfeld nicht gefüllt ist, wird sie der ArrayList für   
+     * fehlerhafte Componenten hinzugefuegt. Falls bei eine Compobox der selektierte Index auf 0 ("Bitte auswählen")
+     * steht, wird diese ebenfalls in die ArrayList uebernommen 
+     */
     private void ueberpruefeFormular() {
         if (jTF_Artikelname.getText().equals("")) {
             fehlerhafteComponenten.add(jTF_Artikelname);
@@ -76,7 +88,9 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         }
     }
 
-//  Methode, die die Eingaben zurücksetzt, beim Zurücksetzen wird auch die Hintergrundfarbe zurückgesetzt  
+    /*
+     * Methode, die die Eingaben zurücksetzt, beim Zurücksetzen wird auch die Hintergrundfarbe zurückgesetzt. 
+     */
     public final void setzeFormularZurueck() {
         jTF_Artikelnummer.setText("" + artikelnummer);
         jTF_Artikelname.setText("");
@@ -475,7 +489,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
             String bestellwert;
             String mwst;
             String bestandsmengeFREI;
-            
+
             artikelname = jTF_Artikelname.getText();
             artikelbeschreibung = jTA_Artikelbeschreibung.getText();
             kategorie = (String) jCB_Kategorie.getSelectedItem();
@@ -484,11 +498,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
             mwst = (String) jCB_MwST.getSelectedItem();
             bestandsmengeFREI = jTF_Bestandsmenge_FREI.getText();
 //          Artikel wird in ArrayList für Artikel hinzugefuegt    
-            
-            
+
 //            artikelListe.add(new Artikel(artikelnummer, artikelname, artikelbeschreibung, kategorie, einzelwert, bestellwert, mwst, bestandsmengeFREI, "0", "0", "0"));
-
-
 //          provisorisch wird der Artikel ausgegeben  
             System.out.println(artikelListe.get(artikelListe.size() - 1).toString());
 //          die artikelnummer wird erhöht  
@@ -510,48 +521,89 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jB_SpeichernActionPerformed
 
+    /*
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
+     */
     private void jTF_ArtikelnameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_ArtikelnameFocusLost
         if (!jTF_Artikelname.getText().equals("")) {
             jTF_Artikelname.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jTF_ArtikelnameFocusLost
-
+    /*
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
+     */
     private void jCB_KategorieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCB_KategorieActionPerformed
         if (jCB_Kategorie.getSelectedIndex() != 0) {
             jCB_Kategorie.setBackground(JCB_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jCB_KategorieActionPerformed
-
+    /*
+     * Methode wür die Überprüfung der Eingabe des Einzelwertes.
+     */
     private void jTF_EinzelwertFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_EinzelwertFocusLost
+//            Prüfung, ob die Eingabe ein Preis ist
         if (!jTF_Einzelwert.getText().matches(PREUFUNG_PREIS)) {
+//            Eingabe ist kein Preis, also wird eine Fehlermeldung ausgegeben
             String meldung = "Der eingegebene Preisr ist nicht richtig! \n Bitte geben Sie eine richtige Preis ein. (z.B. 99,99 oder 999.999,99)";
             String titel = "Fehlerhafte Eingabe";
             JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+//            Focus wird auf das Feld für die Eingabe des Einzelwertes gesetzt und der Eingabefeld wird auf leer gesetzt.
             jTF_Einzelwert.requestFocusInWindow();
             jTF_Einzelwert.setText("");
         } else if (!jTF_Einzelwert.getText().equals("")) {
-            jTF_Einzelwert.setBackground(JTF_FARBE_STANDARD);
+//            Eingabe ist ein Preis
+            try {
+//            Eingabe wird in ein double geparst    
+                double einzelwert = nf.parse(jTF_Einzelwert.getText()).doubleValue();
+//            der format wird angepasst und ausgegeben, Hintergrund des Feldes wird auf normalgestzt    
+                jTF_Einzelwert.setText(nf.format(einzelwert));
+                jTF_Einzelwert.setBackground(JTF_FARBE_STANDARD);
+            } catch (ParseException ex) {
+//            Fehler beim Parsen
+                System.out.println("Fehler in der Methode jTF_EinzelwertFocusLost()");
+                System.out.println(ex.getMessage());
+            }
         }
     }//GEN-LAST:event_jTF_EinzelwertFocusLost
-
+    /*
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
+     */
     private void jTF_BestellwertFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_BestellwertFocusLost
+//            Prüfung, ob die Eingabe ein Preis ist
         if (!jTF_Bestellwert.getText().matches(PREUFUNG_PREIS)) {
+//            Eingabe ist kein Preis, also wird eine Fehlermeldung ausgegeben            
             String meldung = "Der eingegebene Preisr ist nicht richtig! \n Bitte geben Sie eine richtige Preis ein. (z.B. 99,99 oder 999.999,99)";
             String titel = "Fehlerhafte Eingabe";
             JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+//            Focus wird auf das Feld für die Eingabe des Einzelwertes gesetzt und der Eingabefeld wird auf leer gesetzt.            
             jTF_Bestellwert.requestFocusInWindow();
             jTF_Bestellwert.setText("");
         } else if (!jTF_Bestellwert.getText().equals("")) {
-            jTF_Bestellwert.setBackground(JTF_FARBE_STANDARD);
+//            Eingabe ist ein Preis           
+            try {
+//            Eingabe wird in ein double geparst                 
+                double bestellwert = nf.parse(jTF_Bestellwert.getText()).doubleValue();
+//            der format wird angepasst und ausgegeben, Hintergrund des Feldes wird auf normalgestzt                  
+                jTF_Bestellwert.setText(nf.format(bestellwert));
+                jTF_Bestellwert.setBackground(JTF_FARBE_STANDARD);
+            } catch (ParseException ex) {
+//            Fehler beim Parsen             
+                System.out.println("Fehler in der Methode jTF_BestellwertFocusLost()");
+                System.out.println(ex.getMessage());
+            }
         }
     }//GEN-LAST:event_jTF_BestellwertFocusLost
-
+    /*
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
+     */
     private void jCB_MwSTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCB_MwSTActionPerformed
         if (jCB_MwST.getSelectedIndex() != 0) {
             jCB_MwST.setBackground(JCB_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jCB_MwSTActionPerformed
-
+    /*
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
+     */
     private void jTF_Bestandsmenge_FREIFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_Bestandsmenge_FREIFocusLost
 //       if(!jTF_Bestandsmenge_FREI.getText().matches(PREUFUNG_BESTANDSMENGE)) {
 //            String meldung = "Die eingegebene Bestandsmenge ist nicht richtig! \n Bitte geben Sie eine richtige Preis ein. (z.B. 99,99 oder 999.999,99)";
@@ -564,7 +616,9 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
             jTF_Bestandsmenge_FREI.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jTF_Bestandsmenge_FREIFocusLost
-
+    /*
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
+     */
     private void jTA_ArtikelbeschreibungFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTA_ArtikelbeschreibungFocusLost
         if (!jTA_Artikelbeschreibung.getText().equals("")) {
             jTA_Artikelbeschreibung.setBackground(JTF_FARBE_STANDARD);

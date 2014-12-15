@@ -4,13 +4,20 @@ import GUI_Internalframes.*;
 import java.awt.Color;
 import java.awt.Component;
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.text.DateFormatter;
 import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -35,11 +42,14 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     private final Color JTF_FARBE_STANDARD = new Color(255, 255, 255);
 //  Insantzvariablen für die Farben von fehlerhaften Componenten         
 //    private final Color FARBE_FEHLERHAFT = new Color(255, 239, 219);
-    private final Color FARBE_FEHLERHAFT = new Color(255,165,79);
+    private final Color FARBE_FEHLERHAFT = new Color(255, 165, 79);
 //  Insantzvariablen für die Meldungen         
     private final String MELDUNG_PFLICHTFELDER_TITEL = "Felder nicht ausgefüllt";
     private final String MELDUNG_PFLICHTFELDER_TEXT = "Einige Felder wurden nicht ausgefüllt! Bitte füllen Sie diese aus!";
 
+    private final SimpleDateFormat FORMAT = new SimpleDateFormat("dd.mm.yyyy");
+
+    Calendar cal = Calendar.getInstance();
     private String aktuellesDatum;
 
     /**
@@ -57,19 +67,31 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
 
         DateFormat df_jTF = DateFormat.getDateInstance();
         df_jTF.setLenient(false);
-        DateFormatter dform1 = new DateFormatter(df_jTF);
+//        DateFormatter dform1 = new DateFormatter(df_jTF);
         DateFormatter dform2 = new DateFormatter(df_jTF);
-        dform1.setOverwriteMode(true);
+//        dform1.setOverwriteMode(true);
         dform2.setOverwriteMode(true);
-        dform1.setAllowsInvalid(false);
+//        dform1.setAllowsInvalid(false);
         dform2.setAllowsInvalid(false);
-        DefaultFormatterFactory dff1 = new DefaultFormatterFactory(dform1);
+//        DefaultFormatterFactory dff1 = new DefaultFormatterFactory(dform1);
         DefaultFormatterFactory dff2 = new DefaultFormatterFactory(dform2);
-        jFTF_LieferzeitSOFORT.setFormatterFactory(dff1);
-        jFTF_LieferzeitSOFORT.setText(aktuellesDatum);
+//        jFTF_LieferzeitSOFORT.setFormatterFactory(dff1);
+//        jFTF_LieferzeitSOFORT.setText(aktuellesDatum);
         jFTF_SperrzeitWUNSCH.setFormatterFactory(dff2);
         jFTF_SperrzeitWUNSCH.setText(aktuellesDatum);
 
+        MaskFormatter mf = null;
+        try {
+            mf = new MaskFormatter("##.##.####");
+        } catch (ParseException e) {
+            System.out.println(e.toString());
+        }
+        mf.setValueContainsLiteralCharacters(false);
+        mf.setPlaceholder("########");
+        mf.setPlaceholderCharacter('#');
+        mf.setOverwriteMode(true);
+        DefaultFormatterFactory dff = new DefaultFormatterFactory(mf);
+        jFTF_LieferzeitSOFORT.setFormatterFactory(dff);
     }
 
     private void ueberpruefeFormular() {
@@ -92,7 +114,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
             System.out.println(((JSpinner.NumberEditor) jSP_Skontozeit1.getEditor()).getTextField().getText());
             fehlerhafteComponenten.add(jSP_Skontozeit1);
             ((JSpinner.NumberEditor) jSP_Skontozeit1.getEditor()).getTextField().setBackground(FARBE_FEHLERHAFT);
-            System.out.println( ((JSpinner.NumberEditor) jSP_Skontozeit1.getEditor()).getTextField().getBackground());
+            System.out.println(((JSpinner.NumberEditor) jSP_Skontozeit1.getEditor()).getTextField().getBackground());
         }
         if (skontozeit2 == 0) {
             fehlerhafteComponenten.add(jSP_Skontozeit2);
@@ -276,6 +298,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel9.setText("Sperrzeit WUNSCH:");
 
+        jFTF_LieferzeitSOFORT.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
         jFTF_LieferzeitSOFORT.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jFTF_LieferzeitSOFORTFocusLost(evt);
@@ -548,9 +571,34 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jCB_AuftragsartActionPerformed
 
     private void jFTF_LieferzeitSOFORTFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFTF_LieferzeitSOFORTFocusLost
-        if (!jFTF_LieferzeitSOFORT.getText().equals("")) {
-            jFTF_LieferzeitSOFORT.setBackground(JTF_FARBE_STANDARD);
-
+        String eingabeLieferzeit = jFTF_LieferzeitSOFORT.getText();
+        String eingabeJahr = eingabeLieferzeit.substring(6, eingabeLieferzeit.length());
+        if (eingabeJahr.length() == 4 && eingabeJahr.startsWith("20")) {
+            try {
+                Date tempAktDate = FORMAT.parse(aktuellesDatum);
+                Date tempLiefDate = FORMAT.parse(eingabeLieferzeit);
+//                ?
+//                ? 
+//                ?
+                if (tempAktDate.getTime() > tempLiefDate.getTime()) {
+                    String meldung = "Das eingegebene Lieferdatumdatum liegt in der Vergangenheit! \nDas Lieferdatum muss in der Zukunft liegen.";
+                    String titel = "Fehlerhafte Eingabe";
+                    JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+                    jFTF_LieferzeitSOFORT.requestFocusInWindow();
+                    jFTF_LieferzeitSOFORT.setText("##.##.####");
+                } else {
+                    jFTF_LieferzeitSOFORT.setBackground(JTF_FARBE_STANDARD);
+                }
+            } catch (ParseException ex) {
+                System.out.println(ex.getMessage());
+            }
+        } else {
+            // eingabe Ungültig z.B. 19999;
+            String meldung = "Das eingegebene Lieferdatum ist in nicht gültig! \nBitte geben Sie ein gültiges Lieferdatm Datum ein. (z.B. " + aktuellesDatum + ")";
+            String titel = "Fehlerhafte Eingabe";
+            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+            jFTF_LieferzeitSOFORT.requestFocusInWindow();
+            jFTF_LieferzeitSOFORT.setText("");
         }
     }//GEN-LAST:event_jFTF_LieferzeitSOFORTFocusLost
 
@@ -605,11 +653,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
             String skonto1 = (String) jCB_Skonto1.getSelectedItem();
             String skonto2 = (String) jCB_Skonto2.getSelectedItem();
 //          Artikel wird in ArrayList für Artikel hinzugefuegt     
-            
-            
+
 //            zkListe.add(new Zahlungskondition("" + zknummer, auftragsart, lieferzeitSOFORT, sperrzeitWUNSCH, "" + skontozeit1, "" + skontozeit2, skonto1, skonto2, "" + mahnzeitzeit1, "" + mahnzeitzeit2, "" + mahnzeitzeit3));
-
-
 //          provisorisch wird der Artikel ausgegeben  
             System.out.println(zkListe.get(zkListe.size() - 1).toString());
 //          die artikelnummer wird erhöht  

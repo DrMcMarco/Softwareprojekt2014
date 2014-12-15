@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GUI_Internalframes;
 
 import Documents.UniversalDocument;
@@ -19,6 +14,7 @@ import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 import javax.swing.text.DateFormatter;
 import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -37,7 +33,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     private final Color JTF_FARBE_STANDARD = new Color(255, 255, 255);
 //  Insantzvariablen für die Farben von fehlerhaften Componenten         
 //    private final Color FARBE_FEHLERHAFT = new Color(255, 239, 219);
-    private final Color FARBE_FEHLERHAFT = new Color(255,165,79);
+    private final Color FARBE_FEHLERHAFT = new Color(255, 165, 79);
 //  Insantzvariablen für die Meldungen         
     private final String MELDUNG_PFLICHTFELDER_TITEL = "Felder nicht ausgefüllt";
     private final String MELDUNG_PFLICHTFELDER_TEXT = "Einige Felder wurden nicht ausgefüllt! Bitte füllen Sie diese aus!";
@@ -49,13 +45,14 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     private final String PRUEFUNG_TELEFON = "|^([+][ ]?[1-9][0-9][ ]?[-]?[ ]?|[(]?[0][ ]?)[0-9]{3,4}[-)/ ]?[ ]?[1-9][-0-9 ]{3,16}$";
 
     private int geschaeftspartnerNr = 1;
-    private final SimpleDateFormat FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    private final SimpleDateFormat FORMAT = new SimpleDateFormat("dd.mm.yyyy");
 
     private NumberFormat nf;
     Calendar cal = Calendar.getInstance();
 
     /**
-     * Creates new form Fenster
+     * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die
+     * Documents.
      */
     public GeschaeftspartnerAnlegen() {
         initComponents();
@@ -89,19 +86,36 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         DateFormat df_jTF = DateFormat.getDateInstance();
         df_jTF.setLenient(false);
         DateFormatter dform1 = new DateFormatter(df_jTF);
-        DateFormatter dform2 = new DateFormatter(df_jTF);
+//        DateFormatter dform2 = new DateFormatter(df_jTF);
         dform1.setOverwriteMode(true);
-        dform2.setOverwriteMode(true);
+//        dform2.setOverwriteMode(true);
         dform1.setAllowsInvalid(false);
-        dform2.setAllowsInvalid(false);
+//        dform2.setAllowsInvalid(false);
         DefaultFormatterFactory dff1 = new DefaultFormatterFactory(dform1);
-        DefaultFormatterFactory dff2 = new DefaultFormatterFactory(dform2);
+//        DefaultFormatterFactory dff2 = new DefaultFormatterFactory(dform2);
         jFTF_Erfassungsdatum.setFormatterFactory(dff1);
         jFTF_Erfassungsdatum.setText(aktuellesDatum);
-        jFTF_Geburtsdatum.setFormatterFactory(dff2);
-        jFTF_Geburtsdatum.setText(aktuellesDatum);
+//        jFTF_Geburtsdatum.setFormatterFactory(dff2);
+
+        MaskFormatter mf = null;
+        try {
+            mf = new MaskFormatter("##.##.####");
+        } catch (ParseException e) {
+            System.out.println(e.toString());
+        }
+        mf.setValueContainsLiteralCharacters(false);
+        mf.setPlaceholder("########");
+        mf.setPlaceholderCharacter('#');
+        mf.setOverwriteMode(true);
+        DefaultFormatterFactory dff = new DefaultFormatterFactory(mf);
+        jFTF_Geburtsdatum.setFormatterFactory(dff);
+        jFTF_Geburtsdatum.setText("tt.mm.jjjj");
     }
 
+    /*
+     * Methode die überprüft, welche Componenten fehlerhaft sind.
+     * Fehlerhafte Componenten werden in einer ArrayList gespeichert.
+     */
     private void ueberpruefeFormular() {
         if (jCB_Titel.getSelectedIndex() == 0) {
             fehlerhafteComponenten.add(jCB_Titel);
@@ -155,6 +169,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         }
     }
 
+    /*
+     * Methode, die die das Formular zurücksetzt.
+     */
     public final void setzeFormularZurueck() {
         jTF_Geschaeftspartnernummer.setText("" + geschaeftspartnerNr);
         jCHB_Kunde.setSelected(false);
@@ -414,6 +431,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
 
         jFTF_Erfassungsdatum.setEditable(false);
 
+        jFTF_Geburtsdatum.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
         jFTF_Geburtsdatum.setToolTipText("Format: TT:MM:JJJJ");
         jFTF_Geburtsdatum.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -716,7 +734,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /*
+     * Methode um die Lieferanschrift gleich die Anschrift zu setzen. 
+     */
     private void jCHB_WieAnschriftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCHB_WieAnschriftActionPerformed
         if (jCHB_WieAnschrift.isSelected()) {
             if (!jTF_StrasseAnschrift.getText().equals("") && !jTF_HausnummerAnschrift.getText().equals("")
@@ -753,19 +773,25 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
             jTF_OrtLieferanschrift.setEnabled(true);
         }
     }//GEN-LAST:event_jCHB_WieAnschriftActionPerformed
-
+    /*
+     * Methode, um den Typ des Geschäftspartners zu wählen.
+     */
     private void jCHB_KundeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCHB_KundeActionPerformed
         if (jCHB_Kunde.isSelected()) {
             jCHB_Lieferant.setSelected(false);
         }
     }//GEN-LAST:event_jCHB_KundeActionPerformed
-
+    /*
+     * Methode, um den Typ des Geschäftspartners zu wählen.
+     */
     private void jCHB_LieferantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCHB_LieferantActionPerformed
         if (jCHB_Lieferant.isSelected()) {
             jCHB_Kunde.setSelected(false);
         }
     }//GEN-LAST:event_jCHB_LieferantActionPerformed
-
+    /*
+     * Methode, die beim Drucken auf Speichern ausgeführt wird.
+     */
     private void jB_SpeichernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SpeichernActionPerformed
         //      zunaechst werdne die Eingaben ueberprueft.    
         ueberpruefeFormular();
@@ -864,26 +890,35 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         }
 
     }//GEN-LAST:event_jB_SpeichernActionPerformed
-
+    /*
+     * Methode die prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
+     */
     private void jCB_TitelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCB_TitelActionPerformed
         if (jCB_Titel.getSelectedIndex() != 0) {
             jCB_Titel.setBackground(JCB_FARBE_STANDARD);
             jTF_Statuszeile.setText("");
         }
     }//GEN-LAST:event_jCB_TitelActionPerformed
-
+    /*
+     * Methode die prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
+     */
     private void jTF_NameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_NameFocusLost
         if (!jTF_Name.getText().equals("")) {
             jTF_Name.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jTF_NameFocusLost
-
+    /*
+     * Methode die prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
+     */
     private void jTF_VornameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_VornameFocusLost
         if (!jTF_Vorname.getText().equals("")) {
             jTF_Vorname.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jTF_VornameFocusLost
-
+    /*
+     * Methode prüft, ob Eingabe getätigt wurde. Wenn Eingabe korrekt ist, wird der Hintergrund in standard gefärbt.
+     * Wenn nicht, wird eine Meldung ausgegeben.
+     */
     private void jTF_TelefonFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_TelefonFocusLost
         if (!jTF_Telefon.getText().matches(PRUEFUNG_TELEFON)) {
             String meldung = "Die eingegebene Telefonnummer ist nicht richtig! \n Bitte geben Sie eine richtige Telefonnummer ein. (z.B. 1234123)";
@@ -895,7 +930,10 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
             jTF_Telefon.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jTF_TelefonFocusLost
-
+    /*
+     * Methode prüft, ob Eingabe getätigt wurde. Wenn Eingabe korrekt ist, wird der Hintergrund in standard gefärbt.
+     * Wenn nicht, wird eine Meldung ausgegeben.
+     */
     private void jTF_FaxFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_FaxFocusLost
         if (!jTF_Fax.getText().matches(PRUEFUNG_TELEFON)) {
             String meldung = "Die eingegebene Faxnummer ist nicht richtig! \n Bitte geben Sie eine richtige Faxnummer ein. (z.B. 1234123)";
@@ -907,7 +945,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
             jTF_Fax.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jTF_FaxFocusLost
-
+    /*
+     * Methode die prüft, ob das einegegebene Geburtsdatum gültig ist.
+     */
     private void jFTF_GeburtsdatumFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFTF_GeburtsdatumFocusLost
         String eingabeGeburtsdatum = jFTF_Geburtsdatum.getText();
         String eingabeJahr = eingabeGeburtsdatum.substring(6, eingabeGeburtsdatum.length());
@@ -925,19 +965,19 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
 
 //                System.out.println(temp.getTime());
 //                System.out.println(temp1.getTime());
-                if (tempGebuDate.getTime() >= tempAktDate.getTime()) {
+                if (tempGebuDate.getTime() > tempAktDate.getTime()) {
                     String meldung = "Das eingegebene Geburtsdatum ist in der Zukunft! \nBitte geben Sie ein gültiges Geburtsdatm Datum ein. (z.B. 01.01.1980)";
                     String titel = "Fehlerhafte Eingabe";
                     JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
                     jFTF_Geburtsdatum.requestFocusInWindow();
-                    jFTF_Geburtsdatum.setText(aktuellesDatum);
+                    jFTF_Geburtsdatum.setText("tt.mm.jjjj");
 //                } else if (tempGebuDate.getTime() + achtzehn > tempAktDate.getTime()) {
                 } else if (tempGebuDate.getTime() > dateBefore18Years.getTime()) {
                     String meldung = "Der eingebene Geschäftspartner ist nicht volljährig!";
                     String titel = "Fehlerhafte Eingabe";
                     JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
                     jFTF_Geburtsdatum.requestFocusInWindow();
-                    jFTF_Geburtsdatum.setText(aktuellesDatum);
+                    jFTF_Geburtsdatum.setText("tt.mm.jjjj");
                 } else {
                     jFTF_Geburtsdatum.setBackground(JTF_FARBE_STANDARD);
                 }
@@ -952,18 +992,48 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
             jFTF_Geburtsdatum.requestFocusInWindow();
             jFTF_Geburtsdatum.setText("");
         }
-
-//        if (jFTF_Geburtsdatum.getText().equals("01.01.1900")) {
-//            String meldung = "Das eingegebene Datum ist nicht richtig! \n Bitte geben Sie ein richtiges Datum ein. (z.B. 1234123)";
-//            String titel = "Fehlerhafte Eingabe";
-//            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+//        Lucas Code:
+//        Date heute = new Date();
+//        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+//        format.setLenient(false);
+//        Date datum;
+//        
+//        SimpleDateFormat formatjahr = new SimpleDateFormat("yyyy");
+//        SimpleDateFormat formatdatum = new SimpleDateFormat("dd.MM.yyyy");
+//        int aktuellesjahr = Integer.parseInt(formatjahr.format(heute));
+//        int geburtsjahr = 0;
+//        Date geburtstag_Datum;
+//        try {
+//            datum = format.parse(jFTF_Geburtsdatum.getText());
+//            geburtstag_Datum = formatdatum.parse(jFTF_Geburtsdatum.getText());
+//            geburtsjahr = Integer.parseInt(formatjahr.format(geburtstag_Datum));
+//            
+//            if (datum.after(heute)) {
+//                JOptionPane.showMessageDialog(rootPane, "Datum darf nicht in der "
+//                        + "Zukunft liegen", "Fehler",
+//                        JOptionPane.WARNING_MESSAGE);
+//                jFTF_Geburtsdatum.requestFocusInWindow();
+//                jFTF_Geburtsdatum.selectAll();
+//            } else if (!(aktuellesjahr - geburtsjahr >= 18)) {
+//                JOptionPane.showMessageDialog(rootPane, " Der Geschäftspartner muss mindestens"
+//                        + " 18 Jahre alt "
+//                        + " sein.", "Fehler ", JOptionPane.WARNING_MESSAGE);
+//                jFTF_Geburtsdatum.requestFocusInWindow();
+//                jFTF_Geburtsdatum.selectAll();
+//            }
+//            
+//        } catch (ParseException e) {
+//            JOptionPane.showMessageDialog(rootPane, "Gültiges Datum eingeben", "Fehler",
+//                    JOptionPane.WARNING_MESSAGE);
 //            jFTF_Geburtsdatum.requestFocusInWindow();
-//            jFTF_Geburtsdatum.setText("");
-//        } else {
-//            jFTF_Geburtsdatum.setBackground(JTF_FARBE_STANDARD);
+//            jFTF_Geburtsdatum.selectAll();
 //        }
-    }//GEN-LAST:event_jFTF_GeburtsdatumFocusLost
 
+    }//GEN-LAST:event_jFTF_GeburtsdatumFocusLost
+    /*
+     * Methode prüft, ob Eingabe getätigt wurde. Wenn Eingabe korrekt ist, wird der Hintergrund in standard gefärbt.
+     * Wenn nicht, wird eine Meldung ausgegeben.
+     */
     private void jTF_eMailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_eMailFocusLost
         if (!jTF_eMail.getText().matches(PRUEFUNG_EMAIL)) {
             String meldung = "Die einegebene eMail ist nicht richtig! \nBitte geben Sie eine richtige eMail Adresse ein. (z.B. abc@abc.de)";
@@ -975,7 +1045,10 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
             jTF_eMail.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jTF_eMailFocusLost
-
+    /*
+     * Methode prüft, ob Eingabe getätigt wurde. Wenn Eingabe korrekt ist, wird der Hintergrund in standard gefärbt.
+     * Wenn nicht, wird eine Meldung ausgegeben.
+     */
     private void jTF_KreditlimitFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_KreditlimitFocusLost
         if (!jTF_Kreditlimit.getText().matches(PRUEFUNG_PREIS)) {
             String meldung = "Der eingegebene Preis ist nicht richtig! \n Bitte geben Sie einen richtigen Preis ein. (z.B. 9,99 oder 12.123,99)";
@@ -994,19 +1067,26 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_jTF_KreditlimitFocusLost
-
+    /*
+     * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
+     */
     private void jTF_StrasseAnschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_StrasseAnschriftFocusLost
         if (!jTF_StrasseAnschrift.getText().equals("")) {
             jTF_StrasseAnschrift.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jTF_StrasseAnschriftFocusLost
-
+    /*
+     * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
+     */
     private void jTF_StrasseLieferanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_StrasseLieferanschriftFocusLost
         if (!jTF_StrasseLieferanschrift.getText().equals("")) {
             jTF_StrasseLieferanschrift.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jTF_StrasseLieferanschriftFocusLost
-
+    /*
+     * Methode prüft, ob Eingabe getätigt wurde. Wenn Eingabe korrekt ist, wird der Hintergrund in standard gefärbt.
+     * Wenn nicht, wird eine Meldung ausgegeben.
+     */
     private void jTF_HausnummerAnschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_HausnummerAnschriftFocusLost
         if (!jTF_HausnummerAnschrift.getText().matches(PRUEFUNG_HAUSNUMMER)) {
             String meldung = "Die eingegebene Hausnummer ist nicht richtig! \n Bitte geben Sie eine richtige Hausnummer ein. (z.B. 10A oder 10)";
@@ -1018,7 +1098,10 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
             jTF_HausnummerAnschrift.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jTF_HausnummerAnschriftFocusLost
-
+    /*
+     * Methode prüft, ob Eingabe getätigt wurde. Wenn Eingabe korrekt ist, wird der Hintergrund in standard gefärbt.
+     * Wenn nicht, wird eine Meldung ausgegeben.
+     */
     private void jTF_HausnummerLieferanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_HausnummerLieferanschriftFocusLost
         if (!jTF_HausnummerLieferanschrift.getText().matches(PRUEFUNG_HAUSNUMMER)) {
             String meldung = "Die eingegebene Hausnummer ist nicht richtig! \n Bitte geben Sie eine richtige Hausnummer ein. (z.B. 10A oder 10)";
@@ -1030,7 +1113,10 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
             jTF_HausnummerLieferanschrift.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jTF_HausnummerLieferanschriftFocusLost
-
+    /*
+     * Methode prüft, ob Eingabe getätigt wurde. Wenn Eingabe korrekt ist, wird der Hintergrund in standard gefärbt.
+     * Wenn nicht, wird eine Meldung ausgegeben.
+     */
     private void jTF_PLZAnschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_PLZAnschriftFocusLost
         if (!jTF_PLZAnschrift.getText().matches(PRUEFUNG_PLZ)) {
             String meldung = "Die eingegebene Postleitzahl ist nicht richtig! \n Bitte geben Sie eine richtige Postleitzahl ein. (z.B. 45968)";
@@ -1042,7 +1128,10 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
             jTF_PLZAnschrift.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jTF_PLZAnschriftFocusLost
-
+    /*
+     * Methode prüft, ob Eingabe getätigt wurde. Wenn Eingabe korrekt ist, wird der Hintergrund in standard gefärbt.
+     * Wenn nicht, wird eine Meldung ausgegeben.
+     */
     private void jTF_PLZLieferanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_PLZLieferanschriftFocusLost
         if (!jTF_PLZLieferanschrift.getText().matches(PRUEFUNG_PLZ)) {
             String meldung = "Die eingegebene Postleitzahl ist nicht richtig! \n Bitte geben Sie eine richtige Postleitzahl ein. (z.B. 45968)";
@@ -1054,75 +1143,109 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
             jTF_PLZLieferanschrift.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jTF_PLZLieferanschriftFocusLost
-
+    /*
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
+     */
     private void jTF_OrtAnschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_OrtAnschriftFocusLost
         if (!jTF_OrtAnschrift.getText().equals("")) {
             jTF_OrtAnschrift.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jTF_OrtAnschriftFocusLost
-
+    /*
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
+     */
     private void jTF_OrtLieferanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_OrtLieferanschriftFocusLost
         if (!jTF_OrtLieferanschrift.getText().equals("")) {
             jTF_OrtLieferanschrift.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jTF_OrtLieferanschriftFocusLost
-
+    /*
+     * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
+     */
     private void jTF_NameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_NameFocusGained
         jTF_Name.selectAll();
     }//GEN-LAST:event_jTF_NameFocusGained
-
+    /*
+     * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
+     */
     private void jTF_VornameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_VornameFocusGained
         jTF_Vorname.selectAll();
     }//GEN-LAST:event_jTF_VornameFocusGained
-
+    /*
+     * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
+     */
     private void jTF_TelefonFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_TelefonFocusGained
         jTF_Telefon.selectAll();
     }//GEN-LAST:event_jTF_TelefonFocusGained
-
+    /*
+     * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
+     */
     private void jTF_FaxFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_FaxFocusGained
         jTF_Fax.selectAll();
     }//GEN-LAST:event_jTF_FaxFocusGained
-
+    /*
+     * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
+     */
     private void jTF_eMailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_eMailFocusGained
         jTF_eMail.selectAll();
     }//GEN-LAST:event_jTF_eMailFocusGained
-
+    /*
+     * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
+     */
     private void jTF_KreditlimitFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_KreditlimitFocusGained
         jTF_Kreditlimit.selectAll();
     }//GEN-LAST:event_jTF_KreditlimitFocusGained
-
+    /*
+     * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
+     */
     private void jTF_StrasseAnschriftFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_StrasseAnschriftFocusGained
         jTF_StrasseAnschrift.selectAll();
     }//GEN-LAST:event_jTF_StrasseAnschriftFocusGained
-
+    /*
+     * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
+     */
     private void jTF_StrasseLieferanschriftFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_StrasseLieferanschriftFocusGained
         jTF_StrasseLieferanschrift.selectAll();
     }//GEN-LAST:event_jTF_StrasseLieferanschriftFocusGained
-
+    /*
+     * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
+     */
     private void jTF_HausnummerAnschriftFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_HausnummerAnschriftFocusGained
         jTF_HausnummerAnschrift.selectAll();
     }//GEN-LAST:event_jTF_HausnummerAnschriftFocusGained
-
+    /*
+     * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
+     */
     private void jTF_HausnummerLieferanschriftFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_HausnummerLieferanschriftFocusGained
         jTF_HausnummerLieferanschrift.selectAll();
     }//GEN-LAST:event_jTF_HausnummerLieferanschriftFocusGained
-
+    /*
+     * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
+     */
     private void jTF_PLZAnschriftFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_PLZAnschriftFocusGained
         jTF_PLZAnschrift.selectAll();
     }//GEN-LAST:event_jTF_PLZAnschriftFocusGained
-
+    /*
+     * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
+     */
     private void jTF_PLZLieferanschriftFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_PLZLieferanschriftFocusGained
         jTF_PLZLieferanschrift.selectAll();
     }//GEN-LAST:event_jTF_PLZLieferanschriftFocusGained
-
+    /*
+     * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
+     */
     private void jTF_OrtAnschriftFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_OrtAnschriftFocusGained
         jTF_OrtAnschrift.selectAll();
     }//GEN-LAST:event_jTF_OrtAnschriftFocusGained
-
+    /*
+     * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
+     */
     private void jTF_OrtLieferanschriftFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_OrtLieferanschriftFocusGained
         jTF_OrtLieferanschrift.selectAll();
     }//GEN-LAST:event_jTF_OrtLieferanschriftFocusGained
-
+    /*
+     * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
+     */
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         this.setVisible(false);
         this.setzeFormularZurueck();
