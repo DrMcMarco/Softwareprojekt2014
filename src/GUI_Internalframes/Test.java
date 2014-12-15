@@ -6,9 +6,7 @@
 
 package GUI_Internalframes;
 
-import GUI_Internalframes.ZahlungskonditionAnlegen;
-import GUI_Internalframes.ArtikelAnlegen;
-import GUI_Internalframes.GeschaeftspartnerAnlegen;
+import GUI_Internalframes.ArtikelAEndernEinstieg;
 import GUI_Internalframes.ArtikelAEndernEinstieg;
 
 /**
