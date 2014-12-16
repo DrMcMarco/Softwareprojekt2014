@@ -172,34 +172,61 @@ public class DataAccessObject {
         em.getTransaction().commit();
     }
     
+    /**
+     * Methode zur Erzeugung eines Auftragskopfes und seinen Positionen
+     * @param Typ Typ des Auftrags (möglich sind: Barauftrag, Sofortauftrag, Terminauftrag, Bestellauftrag)
+     * @param Artikel HashMap die ein Artikel(ArtikelID) und die bestellte Menge enthält
+     * @param Auftragstext 
+     * @param GeschaeftspartnerID Eindeutige Nummer eines Geschäftspartners
+     * @param ZahlungskonditionID Eindeute Nummer einer Zahlungskondition
+     * @param Wert Wert des Auftrages
+     * @param Status Status des Auftrags
+     * @param Abschlussdatum Auftragsabschlussdatum
+     * @param Lieferdatum Datum der Lieferung
+     * @throws ApplicationException 
+     */
     public void createOrderHead(String Typ, HashMap<Long, Integer> Artikel, 
             String Auftragstext, long GeschaeftspartnerID,
             long ZahlungskonditionID, double Wert, String Status, 
             Date Abschlussdatum, Date Lieferdatum) 
             throws ApplicationException {
         
+        //Hole den Geschäftspartner anhand der ID aus der Datenbank
         Geschaeftspartner businessPartner = em.find(Geschaeftspartner.class, 
                 GeschaeftspartnerID);
         
+        //Prüfe ob der Geschäftspartner mit dieser ID existiert
         if(businessPartner == null) {
             throw new ApplicationException("Fehler", 
                     "Der angegebene Kunde konnte nicht gefunden werden.");
         }
         
-        Zahlungskondition paymentCondition = this.getPaymentConditionsById(ZahlungskonditionID);
+        //Hole Zahlungskondition anhand der ID aus der Datenbank
+        Zahlungskondition paymentCondition = em.find(Zahlungskondition.class,
+                ZahlungskonditionID);
         
+        //Prüfe ob die Zahlungskondition mit dieser ID existiert
         if(paymentCondition == null) {
             throw new ApplicationException("Fehler", 
                     "Zahlungskondition konnte nicht gefunden werden.");
         }
         
+        //Suche den Status anhand des Namnes in der Datenbank
         Status state = this.getStatusByName(Status);
         
+        //Prüfen ob ein Status mit diesem Namen existiert
+        if (state == null) {
+            throw new ApplicationException("Fehler", 
+                    "Status konnte nicht gefunden werden");
+        }
+        
+        //Hole das aktuelle Systemdatum
         Calendar cal = Calendar.getInstance();
         Date Erfassungsdatum = cal.getTime();
         
         Auftragskopf orderhead = null;
         
+        //Anhand des übergebenen Typs wird ein entsprechendes Objekt erzeugt
         if(Typ.equals("Barauftrag")) {
             orderhead = new Barauftragskopf(Auftragstext, Wert, businessPartner,
                     state, Abschlussdatum, Erfassungsdatum, Lieferdatum);
@@ -215,32 +242,45 @@ public class DataAccessObject {
             orderhead = new Bestellauftragskopf(Auftragstext, Wert, 
                     businessPartner, state, paymentCondition, 
                     Abschlussdatum, Erfassungsdatum, Lieferdatum);
+        //Wenn keine gültige Auftragsart übergeben wurde
         } else {
             throw new ApplicationException("Fehler", "Ungültige Auftragsart!");
         }
         
+        //Prüfe ob der Auftragskopf nicht erstellt worden ist
         if (orderhead == null) {
             throw new ApplicationException("Fehler", 
                     "Fehler bei der Erzeugung des Auftragskopfes");
         }
         
+        //Hole alle ID aus der Artikelliste
         Set<Long> artikelIDS = Artikel.keySet();
         
+        //Für jede ID...
         for (long ID : artikelIDS) {
             
+            //...wird der entsprechende Artikel in der Datenbank gesucht
             Artikel artikel = em.find(Artikel.class, ID);
             
+            //Es wird geprüft ob der Artikel existiert
             if(artikel == null) {
                 throw new ApplicationException("Fehler", "Der angegebene Artikel konne nicht gefunden werden");
             }
             
+            //Der gefundene Artikel und die bestellte Menge wird der 
+            //Positionsliste des Auftrags hinzugefügt
             orderhead.addPosition(artikel, Artikel.get(ID));
             
         }
         try {
+            
+            //Transaktion starten
             em.getTransaction().begin();
+            //Auftragskopf persistieren
             em.persist(orderhead);
+            //Transaktion schließen
             em.getTransaction().commit();
+            
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -248,7 +288,7 @@ public class DataAccessObject {
     
     /**
      * Methode zur Erzeugung eines Status
-     * @param Status
+     * @param Status Name des Status
      * @throws ApplicationException
      */
     public void createStatus(String Status)
@@ -275,7 +315,7 @@ public class DataAccessObject {
     
     /**
      * Methode zur Erzeugung einer Anschrift
-     * @param AnschriftTyp
+     * @param Typ Art der Anschrift (Rechnungs-/Lieferanschrift)
      * @param Name
      * @param Vorname
      * @param Titel
@@ -288,9 +328,10 @@ public class DataAccessObject {
      * @param Fax
      * @param Email
      * @param Geburtsdatum
+     * @return anschrift Erzeugtes Objekt vom Typ Anschrift
      * @throws ApplicationException 
      */
-    public Anschrift createAdress(String typ, String Name, String Vorname,
+    public Anschrift createAdress(String Typ, String Name, String Vorname,
             String Titel, String Strasse, String Hausnummer, String PLZ,
             String Ort, String Staat, String Telefon, String Fax,
             String Email, Date Geburtsdatum) throws ApplicationException {
@@ -302,18 +343,21 @@ public class DataAccessObject {
         
         Anschrift anschrift = null;
         
-        if (typ.equals("Lieferadresse")) {
+        //Anhand des übergebenen Typs wird ein entsprechendes Objekt erzeugt
+        if (Typ.equals("Lieferadresse")) {
         
             //Erzeugung des persistenten Anschrift-Objektes
             anschrift = new Lieferanschrift(Name, Vorname, Titel,
                     Strasse, Hausnummer, PLZ, Ort, Staat, Telefon, Fax, Email,
                     Geburtsdatum, Erfassungsdatum, false);
-        } else if (typ.equals("Rechnungsadresse")) {
+        } else if (Typ.equals("Rechnungsadresse")) {
             
             //Erzeugung des persistenten Anschrift-Objektes
             anschrift = new Rechnungsanschrift(Name, Vorname, Titel,
                     Strasse, Hausnummer, PLZ, Ort, Staat, Telefon, Fax, Email,
                     Geburtsdatum, Erfassungsdatum, false);
+            
+        //Wenn der Typ ungültig ist
         } else {
             throw new ApplicationException("Fehler", 
                     "Der angegebene Adresstyp existiert nicht");
@@ -342,15 +386,15 @@ public class DataAccessObject {
      * @param Mahnzeit3
      * @throws ApplicationException 
      */
-    public void createPaymentConditions( double LieferzeitSofort, 
-            double SperrzeitWunsch, double Skontozeit1,
+    public void createPaymentConditions(String Auftragsart, 
+            double LieferzeitSofort, double SperrzeitWunsch, double Skontozeit1,
             double Skontozeit2, double Skonto1, double Skonto2, 
             double Mahnzeit1, double Mahnzeit2, double Mahnzeit3) 
             throws ApplicationException {
         
-        Zahlungskondition conditions = new Zahlungskondition(LieferzeitSofort, 
-                SperrzeitWunsch, Skontozeit1, Skontozeit2, Skonto1, Skonto2, 
-                Mahnzeit1, Mahnzeit2, Mahnzeit3);
+        Zahlungskondition conditions = new Zahlungskondition(Auftragsart, 
+                LieferzeitSofort, SperrzeitWunsch, Skontozeit1, Skontozeit2, 
+                Skonto1, Skonto2, Mahnzeit1, Mahnzeit2, Mahnzeit3);
         
         if (conditions == null) {
             throw new ApplicationException("Fehler", 
@@ -366,6 +410,17 @@ public class DataAccessObject {
         
     }
     
+    
+    /**
+     * Methode zur Erzeugung von Geschäftspartnern
+     * 
+     * @param Typ Typ des Geschäftspartners(Kunde, Lieferant)
+     * @param Lieferadresse
+     * @param Rechnungsadresse
+     * @param Kreditlimit
+     * @param LKZ
+     * @throws ApplicationException 
+     */
     public void createBusinessPartner(String Typ, Anschrift Lieferadresse, 
             Anschrift Rechnungsadresse, double Kreditlimit, boolean LKZ) 
             throws ApplicationException {
@@ -374,34 +429,61 @@ public class DataAccessObject {
         
             Geschaeftspartner geschaeftspartner = null;
         
+            //Anhand des übergebenen Typs wird ein entsprechendes Objekt erzeugt
             if (Typ.equals("Kunde")) {
                 geschaeftspartner = new Kunde(Lieferadresse, Rechnungsadresse, 
                         Kreditlimit, LKZ);
             } else if (Typ.equals("Lieferant")) {
                 geschaeftspartner = new Lieferant(Lieferadresse, Rechnungsadresse, 
                         Kreditlimit, LKZ);
+                
+            //Wenn der Geschäftspartnertyp ungültig ist
             } else {
                 throw new ApplicationException("Fehler", 
                         "Der angegebene Geschäftspartnertyp existiert nicht.");
             }
         
+            //Prüft ob der Geschäftspartner existiert
             if (geschaeftspartner == null) {
                 throw new ApplicationException("Fehler", 
                         "Bei der Erzeugung des Kunde ist ein Fehler aufgetreten");
             }
         
+            //Transaktion starten
             em.getTransaction().begin();
         
-            if (Lieferadresse.equals(Rechnungsadresse)) {
+            //Prüft ob die Lieferanschrift gleich der Rechnungsanschrift
+            if (Lieferadresse.equals(Rechnungsadresse) || 
+                    em.find(Anschrift.class, 
+                            Lieferadresse.getAnschriftID()) == null) {
+                
+                //In diesem Fall muss nur eine Adresse persistiert werden
                 em.persist(Lieferadresse);
+                
+            //Ist Lieferanschrift ungleich Rechnungsanschrift...
             } else {
-                em.persist(Lieferadresse);
-                em.persist(Rechnungsadresse);
+                //...wird geprüft ob die Lieferanschrift schon existiert
+                if (em.find(Anschrift.class, Lieferadresse.getAnschriftID()) == null) {
+                    //Wenn nicht, wird die Adresse erzeugt
+                    em.persist(Lieferadresse);
+                }
+                //Es wird ebenfalls geprüft ob die Rechnungsadresse schon existiert
+                if (em.find(Anschrift.class, Rechnungsadresse.getAnschriftID()) == null) {    
+                    //Wenn nicht, wird diese auc hhier erzeugt
+                    em.persist(Rechnungsadresse);
+                }
             }
         
+            //Nachdem die Anschriften persistent sind, wird der der
+            //Geschäftspartner persistent gemacht
             em.persist(geschaeftspartner);
+            
+            //Transaktion schließen
             em.getTransaction().commit();
+            
         } catch (Exception e) {
+            
+            //Transaktion wird im Fehlerfall rückgängig gemacht
             em.getTransaction().rollback();
             throw new ApplicationException("Fehler", 
                     "Beim Speichern der Daten ist ein Fehler aufgetreten");

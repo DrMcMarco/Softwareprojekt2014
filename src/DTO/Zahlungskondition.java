@@ -19,6 +19,7 @@ public class Zahlungskondition implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long ZahlungskonditionID;
     
+    private String Auftragsart;
     private double LieferzeitSofort;
     private double SperrzeitWunsch;
     private double Skontozeit1;
@@ -32,10 +33,11 @@ public class Zahlungskondition implements Serializable {
     public Zahlungskondition() {
     }
 
-    public Zahlungskondition(double LieferzeitSofort, 
+    public Zahlungskondition(String Auftragsart, double LieferzeitSofort, 
             double SperrzeitWunsch, double Skontozeit1, double Skontozeit2, 
             double Skonto1, double Skonto2, double Mahnzeit1, double Mahnzeit2, 
             double Mahnzeit3) {
+        this.Auftragsart = Auftragsart;
         this.LieferzeitSofort = LieferzeitSofort;
         this.SperrzeitWunsch = SperrzeitWunsch;
         this.Skontozeit1 = Skontozeit1;
@@ -50,6 +52,15 @@ public class Zahlungskondition implements Serializable {
     public long getZahlungskonditionID() {
         return ZahlungskonditionID;
     }
+
+    public String getAuftragsart() {
+        return Auftragsart;
+    }
+
+    public void setAuftragsart(String Auftragsart) {
+        this.Auftragsart = Auftragsart;
+    }
+    
 
     public double getLieferzeitSofort() {
         return LieferzeitSofort;
