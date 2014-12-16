@@ -118,10 +118,7 @@ public class DataAccessObject {
             double MwST, int Frei, int Reserviert, int Zulauf, int Verkauft)
             throws ApplicationException {
         //Suche die Artikelkategorie anhand des Kategorienamen
-        Artikelkategorie cat = em.createQuery(
-               "Select ST FROM Artikelkategorie ST WHERE ST.Kategoriename = '" +
-                        Kategorie + "' ", 
-                Artikelkategorie.class).getSingleResult();
+        Artikelkategorie cat = this.getCategory(Kategorie);
         
         if (cat == null) {
             throw new ApplicationException("Fehler",
@@ -407,13 +404,12 @@ public class DataAccessObject {
         em.persist(conditions);
         //Transaktion schließen
         em.getTransaction().commit();
-        
     }
     
     
     /**
      * Methode zur Erzeugung von Geschäftspartnern
-     * 
+     * Es muss zuerst eine Anschrift geholt oder angelegt werden
      * @param Typ Typ des Geschäftspartners(Kunde, Lieferant)
      * @param Lieferadresse
      * @param Rechnungsadresse
