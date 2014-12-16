@@ -623,6 +623,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
                         jFTF_LieferzeitSOFORT.requestFocusInWindow();
                         jFTF_LieferzeitSOFORT.selectAll();
 //                        jFTF_LieferzeitSOFORT.removeAll();
+                        jFTF_LieferzeitSOFORT.setValue(null);
                     } else {
                         jFTF_LieferzeitSOFORT.setBackground(JTF_FARBE_STANDARD);
                     }
@@ -633,13 +634,15 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
                 // eingabe Ungültig z.B. 19999;
                 JOptionPane.showMessageDialog(null, TEXT_LIEFERZEIT_2 + "(z.B. " + aktuellesDatum + ")", TITEL_FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
                 jFTF_LieferzeitSOFORT.requestFocusInWindow();
-                jFTF_LieferzeitSOFORT.setText("##.##.####");
+//                jFTF_LieferzeitSOFORT.setText("##.##.####");
+                jFTF_LieferzeitSOFORT.setValue(null);
             }
         } else {
-            jFTF_LieferzeitSOFORT.setText("12.12.2018");
+//            jFTF_LieferzeitSOFORT.setText("12.12.2018");
+            jFTF_LieferzeitSOFORT.setValue(null);
         }
     }//GEN-LAST:event_jFTF_LieferzeitSOFORTFocusLost
-    
+
     /*
      * Methode, die prüft, ob das eingegebene Sperrdatum gültig ist. 
      */
@@ -657,7 +660,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
                     if (tempAktDate.getTime() > tempLiefDate.getTime()) {
                         JOptionPane.showMessageDialog(null, TEXT_SPERRZEIT, TITEL_FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
                         jFTF_SperrzeitWUNSCH.requestFocusInWindow();
-                        jFTF_SperrzeitWUNSCH.setText("##.##.####");
+//                        jFTF_SperrzeitWUNSCH.setText("##.##.####");
+                        jFTF_SperrzeitWUNSCH.setValue(null);
                     } else {
                         jFTF_SperrzeitWUNSCH.setBackground(JTF_FARBE_STANDARD);
                     }
@@ -668,10 +672,12 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
                 // eingabe Ungültig z.B. 19999;
                 JOptionPane.showMessageDialog(null, TEXT_SPERRZEIT_2 + "(z.B. " + aktuellesDatum + ")", TITEL_FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
                 jFTF_SperrzeitWUNSCH.requestFocusInWindow();
-                jFTF_SperrzeitWUNSCH.setText("##.##.####");
+//                jFTF_SperrzeitWUNSCH.setText("##.##.####");
+                jFTF_SperrzeitWUNSCH.setValue(null);
             }
         } else {
-            jFTF_SperrzeitWUNSCH.setText("##.##.####");
+//            jFTF_SperrzeitWUNSCH.setText("##.##.####");
+            jFTF_SperrzeitWUNSCH.setValue(null);
         }
 //        if (!jFTF_SperrzeitWUNSCH.getText().equals("")) {
 //            jFTF_SperrzeitWUNSCH.setBackground(JTF_FARBE_STANDARD);
