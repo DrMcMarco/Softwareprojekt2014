@@ -49,9 +49,9 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
      */
     public Hauptmenue_User() {
         initComponents();
-        auftragskopfanlegen = new AuftragskopfAnlegen();
+//        auftragskopfanlegen = new AuftragskopfAnlegen();
 //        auftragskopfanzeigen = new AuftragskopfAnzeigen();
-        auftragskopfaendern = new AuftragskopfAendern();
+//        auftragskopfaendern = new AuftragskopfAendern();
         auftragsspositionanzeigen = new AuftragspositionAnzeigen();
         auftragsspositionaender = new AuftragspositionAendern();
         artikelanlegen = new ArtikelAnlegen();
