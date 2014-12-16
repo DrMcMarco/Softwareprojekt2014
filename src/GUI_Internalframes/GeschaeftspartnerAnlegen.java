@@ -109,7 +109,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         mf.setOverwriteMode(true);
         DefaultFormatterFactory dff = new DefaultFormatterFactory(mf);
         jFTF_Geburtsdatum.setFormatterFactory(dff);
-        jFTF_Geburtsdatum.setText("tt.mm.jjjj");
+        jFTF_Geburtsdatum.setText("##.##.####");
     }
 
     /*
@@ -339,7 +339,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("Typ:");
 
-        jTF_Geschaeftspartnernummer.setText("00000000001");
+        jTF_Geschaeftspartnernummer.setText("1");
         jTF_Geschaeftspartnernummer.setEnabled(false);
 
         jCHB_Kunde.setText("Kunde");
@@ -951,46 +951,50 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     private void jFTF_GeburtsdatumFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFTF_GeburtsdatumFocusLost
         String eingabeGeburtsdatum = jFTF_Geburtsdatum.getText();
         String eingabeJahr = eingabeGeburtsdatum.substring(6, eingabeGeburtsdatum.length());
-        if (eingabeJahr.length() == 4 && (eingabeJahr.startsWith("20") || eingabeJahr.startsWith("19"))) {
-            try {
-                Date tempAktDate = FORMAT.parse(aktuellesDatum);
-                Date tempGebuDate = FORMAT.parse(eingabeGeburtsdatum);
+        if (!jFTF_Geburtsdatum.getText().equals("##.##.####")) {
+            if (eingabeJahr.length() == 4 && (eingabeJahr.startsWith("20") || eingabeJahr.startsWith("19"))) {
+                try {
+                    Date tempAktDate = FORMAT.parse(aktuellesDatum);
+                    Date tempGebuDate = FORMAT.parse(eingabeGeburtsdatum);
 //                Date temp = FORMAT.parse("09.12.1996");
 //                Date temp1 = FORMAT.parse("09.12.2014");
 //                long achtzehn = temp1.getTime() - temp.getTime();
 
-                cal.setTime(tempAktDate);
-                cal.add(Calendar.YEAR, -18);
-                Date dateBefore18Years = cal.getTime();
+                    cal.setTime(tempAktDate);
+                    cal.add(Calendar.YEAR, -18);
+                    Date dateBefore18Years = cal.getTime();
 
 //                System.out.println(temp.getTime());
 //                System.out.println(temp1.getTime());
-                if (tempGebuDate.getTime() > tempAktDate.getTime()) {
-                    String meldung = "Das eingegebene Geburtsdatum ist in der Zukunft! \nBitte geben Sie ein gültiges Geburtsdatm Datum ein. (z.B. 01.01.1980)";
-                    String titel = "Fehlerhafte Eingabe";
-                    JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-                    jFTF_Geburtsdatum.requestFocusInWindow();
-                    jFTF_Geburtsdatum.setText("tt.mm.jjjj");
+                    if (tempGebuDate.getTime() > tempAktDate.getTime()) {
+                        String meldung = "Das eingegebene Geburtsdatum ist in der Zukunft! \nBitte geben Sie ein gültiges Geburtsdatm Datum ein. (z.B. 01.01.1980)";
+                        String titel = "Fehlerhafte Eingabe";
+                        JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+                        jFTF_Geburtsdatum.requestFocusInWindow();
+                        jFTF_Geburtsdatum.setText("##.##.####");
 //                } else if (tempGebuDate.getTime() + achtzehn > tempAktDate.getTime()) {
-                } else if (tempGebuDate.getTime() > dateBefore18Years.getTime()) {
-                    String meldung = "Der eingebene Geschäftspartner ist nicht volljährig!";
-                    String titel = "Fehlerhafte Eingabe";
-                    JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-                    jFTF_Geburtsdatum.requestFocusInWindow();
-                    jFTF_Geburtsdatum.setText("tt.mm.jjjj");
-                } else {
-                    jFTF_Geburtsdatum.setBackground(JTF_FARBE_STANDARD);
+                    } else if (tempGebuDate.getTime() > dateBefore18Years.getTime()) {
+                        String meldung = "Der eingebene Geschäftspartner ist nicht volljährig!";
+                        String titel = "Fehlerhafte Eingabe";
+                        JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+                        jFTF_Geburtsdatum.requestFocusInWindow();
+                        jFTF_Geburtsdatum.setText("##.##.####");
+                    } else {
+                        jFTF_Geburtsdatum.setBackground(JTF_FARBE_STANDARD);
+                    }
+                } catch (ParseException ex) {
+                    System.out.println(ex.getMessage());
                 }
-            } catch (ParseException ex) {
-                System.out.println(ex.getMessage());
+            } else {
+                // eingabe Ungültig z.B. 19999;
+                String meldung = "Das eingegebene Geburtsdatum ist in nicht gültig! \nBitte geben Sie ein gültiges Geburtsdatm Datum ein. (z.B. 01.01.1990)";
+                String titel = "Fehlerhafte Eingabe";
+                JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+                jFTF_Geburtsdatum.requestFocusInWindow();
+                jFTF_Geburtsdatum.setText("");
             }
         } else {
-            // eingabe Ungültig z.B. 19999;
-            String meldung = "Das eingegebene Geburtsdatum ist in nicht gültig! \nBitte geben Sie ein gültiges Geburtsdatm Datum ein. (z.B. 01.01.1990)";
-            String titel = "Fehlerhafte Eingabe";
-            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-            jFTF_Geburtsdatum.requestFocusInWindow();
-            jFTF_Geburtsdatum.setText("");
+            jFTF_Geburtsdatum.setText("##.##.####");
         }
 //        Lucas Code:
 //        Date heute = new Date();

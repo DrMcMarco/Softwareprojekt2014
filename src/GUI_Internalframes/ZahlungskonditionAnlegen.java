@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
-import javax.swing.text.DateFormatter;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 
@@ -22,7 +21,7 @@ import javax.swing.text.MaskFormatter;
 public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
 //  Insanzvariablen eines Artikels
 
-    private int zknummer;
+    private int zknummer = 1;
     private int skontozeit1;
     private int skontozeit2;
     private int mahnzeitzeit1;
@@ -40,8 +39,14 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
 //    private final Color FARBE_FEHLERHAFT = new Color(255, 239, 219);
     private final Color FARBE_FEHLERHAFT = new Color(255, 165, 79);
 //  Insantzvariablen für die Meldungen         
-    private final String MELDUNG_PFLICHTFELDER_TITEL = "Felder nicht ausgefüllt";
-    private final String MELDUNG_PFLICHTFELDER_TEXT = "Einige Felder wurden nicht ausgefüllt! Bitte füllen Sie diese aus!";
+    private final String TITEL_PFLICHTFELDER = "Felder nicht ausgefüllt";
+    private final String TEXT_PFLICHTFELDER = "Einige Felder wurden nicht ausgefüllt! Bitte füllen Sie diese aus!";
+    private final String TEXT_LIEFERZEIT = "Das eingegebene Lieferdatumdatum liegt in der Vergangenheit! \nDas Lieferdatum muss in der Zukunft liegen.";
+    private final String TITEL_FEHLERHAFTE_EINGABE = "Fehlerhafte Eingabe";
+    private final String TEXT_LIEFERZEIT_2 = "Das eingegebene Lieferdatum ist in nicht gültig! \nBitte geben Sie ein gültiges Lieferdatm Datum ein. (z.B. 16.12.2014)";
+    private final String TEXT_SPERRZEIT = "Die eingegebene Sperrzeit liegt in der Vergangenheit! \nDas Lieferdatum muss in der Zukunft liegen.";
+    private final String TEXT_SPERRZEIT_2 = "Die eingegebene Sperrzeit ist in nicht gültig! \nBitte geben Sie eine gültige Sperrzeit ein.";
+    private final String STATUSZEILE = "Zahlungskondition wurde angelegt!";
 
     private final SimpleDateFormat FORMAT = new SimpleDateFormat("dd.mm.yyyy");
 
@@ -49,7 +54,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     private String aktuellesDatum;
 
     /**
-     * Creates new form Fenster
+     * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die
+     * Documents.
      */
     public ZahlungskonditionAnlegen() {
         initComponents();
@@ -99,9 +105,14 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         mf1.setPlaceholderCharacter('#');
         mf1.setOverwriteMode(true);
         DefaultFormatterFactory dff1 = new DefaultFormatterFactory(mf1);
-        jFTF_SperrzeitWUNSCH.setText(aktuellesDatum);
+        jFTF_SperrzeitWUNSCH.setFormatterFactory(dff1);
     }
 
+    /*
+     * Methode für die Überprüfung der Daten. Falls ein Textfeld nicht gefüllt ist, wird sie der ArrayList für   
+     * fehlerhafte Componenten hinzugefuegt. Falls bei eine Compobox der selektierte Index auf 0 ("Bitte auswählen")
+     * steht, wird diese ebenfalls in die ArrayList uebernommen 
+     */
     private void ueberpruefeFormular() {
         skontozeit1 = ((Number) jSP_Skontozeit1.getValue()).intValue();
         skontozeit2 = ((Number) jSP_Skontozeit2.getValue()).intValue();
@@ -112,18 +123,18 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         if (jCB_Auftragsart.getSelectedIndex() == 0) {
             fehlerhafteComponenten.add(jCB_Auftragsart);
         }
-        if (jFTF_LieferzeitSOFORT.getText().equals("")) {
+        if (jFTF_LieferzeitSOFORT.getText().equals("##.##.####")) {
             fehlerhafteComponenten.add(jFTF_LieferzeitSOFORT);
         }
-        if (jFTF_SperrzeitWUNSCH.getText().equals("")) {
+        if (jFTF_SperrzeitWUNSCH.getText().equals("##.##.####")) {
             fehlerhafteComponenten.add(jFTF_SperrzeitWUNSCH);
         }
         if (skontozeit1 == 0) {
-            System.out.println(((JSpinner.NumberEditor) jSP_Skontozeit1.getEditor()).getTextField().getText());
-            System.out.println(jSP_Skontozeit1.getBackground());
+//            System.out.println(((JSpinner.NumberEditor) jSP_Skontozeit1.getEditor()).getTextField().getText());
+//            System.out.println(jSP_Skontozeit1.getBackground());
             fehlerhafteComponenten.add(jSP_Skontozeit1);
             ((JSpinner.NumberEditor) jSP_Skontozeit1.getEditor()).getTextField().setBackground(FARBE_FEHLERHAFT);
-            System.out.println(((JSpinner.NumberEditor) jSP_Skontozeit1.getEditor()).getTextField().getBackground());
+//            System.out.println(((JSpinner.NumberEditor) jSP_Skontozeit1.getEditor()).getTextField().getBackground());
         }
         if (skontozeit2 == 0) {
             fehlerhafteComponenten.add(jSP_Skontozeit2);
@@ -145,6 +156,9 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         }
     }
 
+    /*
+     * Methode, die die Eingaben zurücksetzt, beim Zurücksetzen wird auch die Hintergrundfarbe zurückgesetzt. 
+     */
     public final void setzeFormularZurueck() {
         jTF_ZahlungskonditionID.setText("" + zknummer);
         jCB_Auftragsart.setSelectedIndex(0);
@@ -267,7 +281,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel1.setText("Auftragsart:");
 
-        jTF_ZahlungskonditionID.setText("0000000001");
+        jTF_ZahlungskonditionID.setText("1");
         jTF_ZahlungskonditionID.setEnabled(false);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -311,6 +325,11 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         jFTF_LieferzeitSOFORT.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jFTF_LieferzeitSOFORTFocusLost(evt);
+            }
+        });
+        jFTF_LieferzeitSOFORT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFTF_LieferzeitSOFORTActionPerformed(evt);
             }
         });
 
@@ -547,23 +566,25 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel14)
                         .addComponent(jSP_Mahnzeit1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel15)
-                        .addComponent(jSP_Mahnzeit2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jLabel11))
+                        .addGap(11, 11, 11)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel15)
+                            .addComponent(jSP_Mahnzeit2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
+                        .addComponent(jLabel10)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel16)
-                            .addComponent(jSP_Mahnzeit3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                            .addComponent(jSP_Mahnzeit3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel11)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
                 .addComponent(jTF_Statuszeile1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -572,6 +593,9 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /*
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
+     */
     private void jCB_AuftragsartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCB_AuftragsartActionPerformed
         if (jCB_Auftragsart.getSelectedIndex() != 0) {
             jCB_Auftragsart.setBackground(JCB_FARBE_STANDARD);
@@ -579,105 +603,137 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jCB_AuftragsartActionPerformed
 
+    /*
+     * Methode, die prüft, ob das eingegebene Lieferdatum gültig ist. 
+     */
     private void jFTF_LieferzeitSOFORTFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFTF_LieferzeitSOFORTFocusLost
         String eingabeLieferzeit = jFTF_LieferzeitSOFORT.getText();
         String eingabeJahr = eingabeLieferzeit.substring(6, eingabeLieferzeit.length());
-        if (eingabeJahr.length() == 4 && eingabeJahr.startsWith("20")) {
-            try {
-                Date tempAktDate = FORMAT.parse(aktuellesDatum);
-                Date tempLiefDate = FORMAT.parse(eingabeLieferzeit);
+        if (!jFTF_LieferzeitSOFORT.getText().equals("##.##.####")) {
+
+            if (eingabeJahr.length() == 4 && eingabeJahr.startsWith("20")) {
+                try {
+                    Date tempAktDate = FORMAT.parse(aktuellesDatum);
+                    Date tempLiefDate = FORMAT.parse(eingabeLieferzeit);
 //                ?
 //                ? 
 //                ?
-                if (tempAktDate.getTime() > tempLiefDate.getTime()) {
-                    String meldung = "Das eingegebene Lieferdatumdatum liegt in der Vergangenheit! \nDas Lieferdatum muss in der Zukunft liegen.";
-                    String titel = "Fehlerhafte Eingabe";
-                    JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-                    jFTF_LieferzeitSOFORT.requestFocusInWindow();
-                    jFTF_LieferzeitSOFORT.setText("##.##.####");
-                } else {
-                    jFTF_LieferzeitSOFORT.setBackground(JTF_FARBE_STANDARD);
+                    if (tempAktDate.getTime() > tempLiefDate.getTime()) {
+                        JOptionPane.showMessageDialog(null, TEXT_LIEFERZEIT, TITEL_FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
+                        jFTF_LieferzeitSOFORT.requestFocusInWindow();
+                        jFTF_LieferzeitSOFORT.selectAll();
+//                        jFTF_LieferzeitSOFORT.removeAll();
+                    } else {
+                        jFTF_LieferzeitSOFORT.setBackground(JTF_FARBE_STANDARD);
+                    }
+                } catch (ParseException ex) {
+                    System.out.println(ex.getMessage());
                 }
-            } catch (ParseException ex) {
-                System.out.println(ex.getMessage());
+            } else {
+                // eingabe Ungültig z.B. 19999;
+                JOptionPane.showMessageDialog(null, TEXT_LIEFERZEIT_2 + "(z.B. " + aktuellesDatum + ")", TITEL_FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
+                jFTF_LieferzeitSOFORT.requestFocusInWindow();
+                jFTF_LieferzeitSOFORT.setText("##.##.####");
             }
         } else {
-            // eingabe Ungültig z.B. 19999;
-            String meldung = "Das eingegebene Lieferdatum ist in nicht gültig! \nBitte geben Sie ein gültiges Lieferdatm Datum ein. (z.B. " + aktuellesDatum + ")";
-            String titel = "Fehlerhafte Eingabe";
-            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-            jFTF_LieferzeitSOFORT.requestFocusInWindow();
-            jFTF_LieferzeitSOFORT.setText("");
+            jFTF_LieferzeitSOFORT.setText("12.12.2018");
         }
     }//GEN-LAST:event_jFTF_LieferzeitSOFORTFocusLost
-
+    
+    /*
+     * Methode, die prüft, ob das eingegebene Sperrdatum gültig ist. 
+     */
     private void jFTF_SperrzeitWUNSCHFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFTF_SperrzeitWUNSCHFocusLost
         String eingabeSperrzeit = jFTF_SperrzeitWUNSCH.getText();
         String eingabeJahr = eingabeSperrzeit.substring(6, eingabeSperrzeit.length());
-        if (eingabeJahr.length() == 4 && eingabeJahr.startsWith("20")) {
-            try {
-                Date tempAktDate = FORMAT.parse(aktuellesDatum);
-                Date tempLiefDate = FORMAT.parse(eingabeSperrzeit);
+        if (!jFTF_SperrzeitWUNSCH.getText().equals("##.##.####")) {
+            if (eingabeJahr.length() == 4 && eingabeJahr.startsWith("20")) {
+                try {
+                    Date tempAktDate = FORMAT.parse(aktuellesDatum);
+                    Date tempLiefDate = FORMAT.parse(eingabeSperrzeit);
 //                ?
 //                ? 
 //                ?
-                if (tempAktDate.getTime() > tempLiefDate.getTime()) {
-                    String meldung = "Die eingegebene Sperrzeit liegt in der Vergangenheit! \nDas Lieferdatum muss in der Zukunft liegen.";
-                    String titel = "Fehlerhafte Eingabe";
-                    JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-                    jFTF_SperrzeitWUNSCH.requestFocusInWindow();
-                    jFTF_SperrzeitWUNSCH.setText("##.##.####");
-                } else {
-                    jFTF_SperrzeitWUNSCH.setBackground(JTF_FARBE_STANDARD);
+                    if (tempAktDate.getTime() > tempLiefDate.getTime()) {
+                        JOptionPane.showMessageDialog(null, TEXT_SPERRZEIT, TITEL_FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
+                        jFTF_SperrzeitWUNSCH.requestFocusInWindow();
+                        jFTF_SperrzeitWUNSCH.setText("##.##.####");
+                    } else {
+                        jFTF_SperrzeitWUNSCH.setBackground(JTF_FARBE_STANDARD);
+                    }
+                } catch (ParseException ex) {
+                    System.out.println(ex.getMessage());
                 }
-            } catch (ParseException ex) {
-                System.out.println(ex.getMessage());
+            } else {
+                // eingabe Ungültig z.B. 19999;
+                JOptionPane.showMessageDialog(null, TEXT_SPERRZEIT_2 + "(z.B. " + aktuellesDatum + ")", TITEL_FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
+                jFTF_SperrzeitWUNSCH.requestFocusInWindow();
+                jFTF_SperrzeitWUNSCH.setText("##.##.####");
             }
         } else {
-            // eingabe Ungültig z.B. 19999;
-            String meldung = "Die eingegebene Sperrzeit ist in nicht gültig! \nBitte geben Sie eine gültige Sperrzeit ein. (z.B. " + aktuellesDatum + ")";
-            String titel = "Fehlerhafte Eingabe";
-            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-            jFTF_SperrzeitWUNSCH.requestFocusInWindow();
-            jFTF_SperrzeitWUNSCH.setText("");
+            jFTF_SperrzeitWUNSCH.setText("##.##.####");
         }
 //        if (!jFTF_SperrzeitWUNSCH.getText().equals("")) {
 //            jFTF_SperrzeitWUNSCH.setBackground(JTF_FARBE_STANDARD);
 //        }
     }//GEN-LAST:event_jFTF_SperrzeitWUNSCHFocusLost
 
+    /*
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
+     */
     private void jSP_Skontozeit1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jSP_Skontozeit1PropertyChange
         jSP_Skontozeit1.setBackground(JTF_FARBE_STANDARD);
     }//GEN-LAST:event_jSP_Skontozeit1PropertyChange
 
+    /*
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
+     */
     private void jSP_Skontozeit2PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jSP_Skontozeit2PropertyChange
         jSP_Skontozeit2.setBackground(JTF_FARBE_STANDARD);
     }//GEN-LAST:event_jSP_Skontozeit2PropertyChange
 
+    /*
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
+     */
     private void jCB_Skonto1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCB_Skonto1ActionPerformed
         if (jCB_Skonto1.getSelectedIndex() != 0) {
             jCB_Skonto1.setBackground(JCB_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jCB_Skonto1ActionPerformed
 
+    /*
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
+     */
     private void jCB_Skonto2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCB_Skonto2ActionPerformed
         if (jCB_Skonto2.getSelectedIndex() != 0) {
             jCB_Skonto2.setBackground(JCB_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jCB_Skonto2ActionPerformed
 
+    /*
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
+     */
     private void jSP_Mahnzeit1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jSP_Mahnzeit1PropertyChange
         jSP_Mahnzeit1.setBackground(JTF_FARBE_STANDARD);
     }//GEN-LAST:event_jSP_Mahnzeit1PropertyChange
 
+    /*
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
+     */
     private void jSP_Mahnzeit2PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jSP_Mahnzeit2PropertyChange
         jSP_Mahnzeit2.setBackground(JTF_FARBE_STANDARD);
     }//GEN-LAST:event_jSP_Mahnzeit2PropertyChange
 
+    /*
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
+     */
     private void jSP_Mahnzeit3PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jSP_Mahnzeit3PropertyChange
         jSP_Mahnzeit3.setBackground(JTF_FARBE_STANDARD);
     }//GEN-LAST:event_jSP_Mahnzeit3PropertyChange
 
+    /*
+     * Methode für das Speichern der Daten. 
+     */
     private void jB_SpeichernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SpeichernActionPerformed
         //      zunaechst werdne die Eingaben ueberprueft.    
         ueberpruefeFormular();
@@ -697,13 +753,14 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
 //            System.out.println(zkListe.get(zkListe.size() - 1).toString());
 //          die artikelnummer wird erhöht  
 //            zknummer++;
-            jTF_Statuszeile1.setText("Zahlungskondition wurde angelegt!");
+            System.out.println(STATUSZEILE);
+            jTF_Statuszeile1.setText(STATUSZEILE);
 //          das Formular wird zurueckgesetzt  
             setzeFormularZurueck();
         } else {
 //          fehlerhafteComponenten ist nicht leer (es sind fehlerhafte Componenten vorhanden)
 //          eine Meldung wird ausgegeben  
-            JOptionPane.showMessageDialog(null, MELDUNG_PFLICHTFELDER_TEXT, MELDUNG_PFLICHTFELDER_TITEL, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, TEXT_PFLICHTFELDER, TITEL_PFLICHTFELDER, JOptionPane.ERROR_MESSAGE);
 //          an die erste fehlerhafte Componenten wird der Focus gesetzt  
             fehlerhafteComponenten.get(0).requestFocusInWindow();
 //          ueber die fehlerhaften Komponenten wird iteriert und bei allen fehlerhaften Componenten wird der Hintergrund in der fehlerhaften Farbe gefaerbt 
@@ -714,6 +771,11 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
             fehlerhafteComponenten.clear();
         }
     }//GEN-LAST:event_jB_SpeichernActionPerformed
+
+    private void jFTF_LieferzeitSOFORTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFTF_LieferzeitSOFORTActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jFTF_LieferzeitSOFORTActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
