@@ -14,6 +14,7 @@ import javax.swing.text.DateFormatter;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import Interfaces.*;
+import JFrames.*;
 
 /**
  *
@@ -23,7 +24,8 @@ import Interfaces.*;
  * 10.12.2014, Terrasi, Dokumentation und Logiküberarbetung
  */
 public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
-
+    Component c;
+    GUIFactory factory;
     /*
      Varibalendefinition
      */
@@ -85,9 +87,11 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     /**
      * Creates new form AuftragskopfAnlegen
      */
-    public AuftragskopfAnlegen() {
+    public AuftragskopfAnlegen(GUIFactory factory) {
         initComponents();
-
+        
+        this.factory = factory;
+        
         heute = new Date();
         lieferdatum = null;
         abschlussdatum = null;
@@ -202,6 +206,11 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         jToolBar1.setEnabled(false);
 
         jB_Zurueck.setText("Zurück");
+        jB_Zurueck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_ZurueckActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_Zurueck);
 
         jB_Abbrechen.setText("Abbrechen");
@@ -508,7 +517,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                                 .addGap(140, 140, 140)
                                                 .addComponent(abschlussdatum_jFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(status_jLabel)
@@ -1073,6 +1081,13 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         
         
     }//GEN-LAST:event_NeuePosition_jButtonActionPerformed
+
+    private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
+        c = null;   
+        c = this.factory.zurueckButton();
+        this.setVisible(false);
+        c.setVisible(true);
+    }//GEN-LAST:event_jB_ZurueckActionPerformed
 
     /**
      * Schnittstellenmethode mit der alle Eingabefelder zurückgesetzt werden.

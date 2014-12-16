@@ -1,5 +1,6 @@
 package GUI_Internalframes;
 
+import JFrames.GUIFactory;
 import Documents.*;
 import Interfaces.*;
 import java.awt.Color;
@@ -15,12 +16,13 @@ import javax.swing.JTextField;
  * 10.12.2014 Dokumentation und Logik
  */
 public class AuftragskopfAendern extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
-
+    Component c;
+    
     /*
      Syntax
      */
     private static final String auftragskopfID_syntax = "|\\d{1,9}?";
-
+    GUIFactory factory ;
     /*
      Augabetexte für Meldungen
      */
@@ -44,8 +46,10 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
     /**
      * Creates new form Fenster
      */
-    public AuftragskopfAendern() {
+    public AuftragskopfAendern(GUIFactory factory) {
         initComponents();
+        this.factory = factory;
+        
         /*
          Initialisierung von Variablen
          */
@@ -98,6 +102,11 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
 
         jB_Zurueck.setText("Zurück");
         jB_Zurueck.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jB_Zurueck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_ZurueckActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_Zurueck);
 
         jB_Abbrechen.setText("Abbrechen");
@@ -226,6 +235,13 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
 
         }
     }//GEN-LAST:event_weiter_jButtonActionPerformed
+
+    private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
+        c = null;   
+        c = this.factory.zurueckButton();
+        this.setVisible(false);
+        c.setVisible(true);
+    }//GEN-LAST:event_jB_ZurueckActionPerformed
 
     /**
      * Schnittstellenmethode mit der alle Eingabefelder zurückgesetzt werden
