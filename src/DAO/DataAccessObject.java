@@ -378,6 +378,19 @@ public class DataAccessObject {
         return conditions;
     }
     
+    /**
+     * 
+     * @return
+     * @throws ApplicationException 
+     */
+    public Collection<Artikelkategorie> getAllCategories() 
+            throws ApplicationException {
+
+        return this.em.createQuery("SELECT ST FROM Artikelkategorie ST", 
+                Artikelkategorie.class).getResultList();
+        
+    }
+    
 //    /**
 //     * 
 //     * @param type
