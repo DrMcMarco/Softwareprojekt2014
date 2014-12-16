@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import JFrames.*;
+import DAO.*;
 
 /**
  * GUI Klasse für Artikel verwalten.
@@ -17,6 +19,8 @@ import javax.swing.JOptionPane;
  */
 public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
+    GUIFactory factory;
+    DataAccessObject dao;
     /*
      * Instanzvariablen der Klasse. 
      */
@@ -49,6 +53,11 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
      */
     public ArtikelAnlegen() {
         initComponents();
+        
+        this.factory = factory;
+        this.dao = this.factory.getDAO();
+        
+        
         fehlerhafteComponenten = new ArrayList<>();
         artikelListe = new ArrayList<>();
         kategorien = new ArrayList<>();
@@ -521,18 +530,29 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
             artikelname = jTF_Artikelname.getText();
             artikelbeschreibung = jTA_Artikelbeschreibung.getText();
             kategorie = (String) jCB_Kategorie.getSelectedItem();
-                System.out.println("Geschäftspartner: \n"
-                        + "Artikelnummer:                  " + artikelnummer + "\n"
-                        + "Artikelname:                    " + artikelname + "\n"
-                        + "Artikelbeschreibung:            " + artikelbeschreibung + "\n"
-                        + "Kategorie:                      " + kategorie + "\n"
-                        + "Einzelwert:                     " + einzelwert + "\n"
-                        + "Bestellwert:                    " + bestellwert + "\n"
-                        + "MwSt:                           " + mwst + "\n"
-                        + "Bestangsmenge FREI:             " + bestandsmengeFREI + "\n"
-                        + "Bestangsmenge RESERVIERT:       " + bestandsmengeRESERVIERT + "\n"
-                        + "Bestangsmenge ZULAUF:           " + bestandsmengeZULAUF + "\n"
-                        + "Bestangsmenge VERKAUFT:         " + bestandsmengeVERKAUFT + "\n");
+            
+            try{
+            this.dao.createItem(kategorie, artikelname, artikelbeschreibung, 
+                    einzelwert, bestellwert, mwst, bestandsmengeFREI,
+                    bestandsmengeRESERVIERT, bestandsmengeZULAUF, 
+                    bestandsmengeVERKAUFT);
+                
+            }catch(ApplicationException e){
+                System.out.println(e.getMessage());
+            }
+            
+//                System.out.println("Geschäftspartner: \n"
+//                        + "Artikelnummer:                  " + artikelnummer + "\n"
+//                        + "Artikelname:                    " + artikelname + "\n"
+//                        + "Artikelbeschreibung:            " + artikelbeschreibung + "\n"
+//                        + "Kategorie:                      " + kategorie + "\n"
+//                        + "Einzelwert:                     " + einzelwert + "\n"
+//                        + "Bestellwert:                    " + bestellwert + "\n"
+//                        + "MwSt:                           " + mwst + "\n"
+//                        + "Bestangsmenge FREI:             " + bestandsmengeFREI + "\n"
+//                        + "Bestangsmenge RESERVIERT:       " + bestandsmengeRESERVIERT + "\n"
+//                        + "Bestangsmenge ZULAUF:           " + bestandsmengeZULAUF + "\n"
+//                        + "Bestangsmenge VERKAUFT:         " + bestandsmengeVERKAUFT + "\n");
 //          Artikel wird in ArrayList für Artikel hinzugefuegt    
 
 //            artikelListe.add(new Artikel(artikelnummer, artikelname, artikelbeschreibung, kategorie, einzelwert, bestellwert, mwst, bestandsmengeFREI, "0", "0", "0"));
