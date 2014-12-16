@@ -7,6 +7,7 @@ package GUI_Internalframes;
 
 import Documents.*;
 import Interfaces.*;
+import JFrames.GUIFactory;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
@@ -17,7 +18,8 @@ import javax.swing.JTextField;
  *
  * @author Luca Terrasi
  *
- * 10.12.2014 Dokumentation und Logik
+ * 10.12.2014 Terrasi, Dokumentation und Logik
+ * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
  */
 public class AuftragspositionAendern extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
@@ -25,6 +27,9 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
      Speichervariablen
      */
     ArrayList<Component> fehlendeEingaben;// ArrayList für Eingabefelder des Auftragkopfes.
+
+    Component c;
+    GUIFactory factory;
 
     /*
      Syntax
@@ -53,8 +58,10 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
     /**
      * Creates new form Fenster
      */
-    public AuftragspositionAendern() {
+    public AuftragspositionAendern(GUIFactory factory) {
         initComponents();
+
+        this.factory = factory;
 
         //Initialisierung der Speichervariblen
         fehlendeEingaben = new ArrayList<>();
@@ -107,6 +114,11 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
 
         jB_Zurueck.setText("Zurück");
         jB_Zurueck.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jB_Zurueck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_ZurueckActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_Zurueck);
 
         jB_Abbrechen.setText("Abbrechen");
@@ -272,6 +284,21 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
                     fehlermeldungAuftragskopfIDtext, warningfarbe);//Meldung wird ausgegeben und          
         }
     }//GEN-LAST:event_Enter_jButtonActionPerformed
+
+    /**
+     * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird. Es wird von
+     * der Guifactory die letzte aufgerufene Component abgefragt wodurch man die
+     * jetzige Component verlässt und zur übergebnen Component zurück kehrt.
+     *
+     * @param evt
+     */
+    private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
+        c = null;   //Initialisierung der Componentspeichervariable
+        //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
+        c = this.factory.zurueckButton();
+        this.setVisible(false);// Internalframe wird nicht mehr dargestellt
+        c.setVisible(true);// Übergebene Component wird sichtbar gemacht
+    }//GEN-LAST:event_jB_ZurueckActionPerformed
 
     /**
      * Schnittstellenmethode mit der alle Eingabefelder zurückgesetzt werden

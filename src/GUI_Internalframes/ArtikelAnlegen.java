@@ -16,9 +16,11 @@ import DAO.*;
  * GUI Klasse für Artikel verwalten.
  *
  * @author Tahir
+ * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
  */
 public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
+    Component c;
     GUIFactory factory;
     DataAccessObject dao;
     /*
@@ -204,6 +206,11 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
         jB_Zurueck.setText("Zurück");
         jB_Zurueck.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jB_Zurueck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_ZurueckActionPerformed(evt);
+            }
+        });
         jTB_Menueleiste.add(jB_Zurueck);
 
         jB_Abbrechen.setText("Abbrechen");
@@ -488,7 +495,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
                     .addComponent(jLabel18)
                     .addComponent(jTF_Bestandsmenge_VERKAUFT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel21))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jTF_Statuszeile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -676,6 +683,22 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
             jTA_Artikelbeschreibung.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jTA_ArtikelbeschreibungFocusLost
+
+    
+    /**
+     * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird.
+     * Es wird von der Guifactory die letzte aufgerufene Component abgefragt 
+     * wodurch man die jetzige Component verlässt und zur übergebnen Component 
+     * zurück kehrt.
+     * @param evt 
+     */
+    private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
+        c = null;   //Initialisierung der Componentspeichervariable
+        //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
+        c = this.factory.zurueckButton(); 
+        this.setVisible(false);// Internalframe wird nicht mehr dargestellt
+        c.setVisible(true);// Übergebene Component wird sichtbar gemacht
+    }//GEN-LAST:event_jB_ZurueckActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

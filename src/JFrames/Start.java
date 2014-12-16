@@ -25,7 +25,8 @@ import javax.swing.JOptionPane;
  * Daten anlegen,ändern oder sich anzeigen lassen kann.
  *
  *
- *
+ * 10.12.2014 Terrasi,Erstellung
+ * 16.12.2014 Terrasi, Überarbeitung und Zuweisung der Navigationsfunktion
  */
 public class Start extends javax.swing.JFrame {
 
@@ -74,7 +75,6 @@ public class Start extends javax.swing.JFrame {
     public Start() {
         initComponents();
         factory = new GUIFactory();
-//        liste = new ArrayList<>();
         dao = new DataAccessObject();
         factory.setDAO(dao);
         
@@ -85,24 +85,21 @@ public class Start extends javax.swing.JFrame {
 
         auftragskopfanlegen = new AuftragskopfAnlegen(factory);
         auftragskopfaendern = new AuftragskopfAendern(factory);
-        auftragsspositionanzeigen = new AuftragspositionAnzeigen();
-        auftragsspositionaender = new AuftragspositionAendern();
+        auftragsspositionaender = new AuftragspositionAendern(factory);
+        auftragsspositionanzeigen = new AuftragspositionAnzeigen(factory);
         artikelanlegen = new ArtikelAnlegen(factory);
+        artikelaendern = new ArtikelAEndernEinstieg(factory);
 //        artikelanzeigen = new ArtikelAnzeigen();
-        artikelaendern = new ArtikelAEndernEinstieg();
-        geschaeftspartneranlegen = new GeschaeftspartnerAnlegen();
+        geschaeftspartneranlegen = new GeschaeftspartnerAnlegen(factory);
 //        geschaeftspartneranzeigen = new GeschaeftspartnerAnzeigen();
-        geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg();
-        zahlungskonditionanlegen = new ZahlungskonditionAnlegen();
+        geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg(factory);
+        zahlungskonditionanlegen = new ZahlungskonditionAnlegen(factory);
 //        zahlungskonditionanzeigen = new ZahlungskonditionAnzeigen();
-        zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg();
-        // Zuweisung der Masken an die Hauptansicht
+        zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg(factory);
+        
 
+// Zuweisung der Masken an die Hauptansicht
         desktopPane.add(hauptmenueuser);
-//        jPanel.add(hauptmenueuser);
-//        setCenterJIF(hauptmenueuser);//Methodenaufruf um die übergebene Maske zentral darzustellen
-//        setComponent(hauptmenueuser);
-
         desktopPane.add(auftragskopfanlegen);
         desktopPane.add(auftragskopfaendern);
         desktopPane.add(auftragsspositionanzeigen);
@@ -172,8 +169,6 @@ public class Start extends javax.swing.JFrame {
         jMI_Logout = new javax.swing.JMenuItem();
         jM_Hilfe = new javax.swing.JMenu();
         jMI_Benutzerhandbuch = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Hauptmeü");
@@ -362,18 +357,6 @@ public class Start extends javax.swing.JFrame {
 
         menuBar.add(jM_Hilfe);
 
-        jMenu1.setText("jMenu1");
-
-        jMenuItem1.setText("jMenuItem1");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem1);
-
-        menuBar.add(jMenu1);
-
         setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -390,23 +373,6 @@ public class Start extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-//    public void setComponent(Component component) {
-//
-//        if (liste.isEmpty()) {
-//            jToolBar.setVisible(false);
-//            liste.add(component);
-//            System.out.println(liste);
-//            setCenterJIF(component);
-//            component.setVisible(true);
-//        } else {
-//            jToolBar.setVisible(true);
-//            liste.get(liste.size() - 1).setVisible(false);
-//            liste.add(component);
-//            setCenterJIF(component);
-//            component.setVisible(true);
-//        }
-//
-//    }
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // Erzeugen eine Meldung mit Abfrage
@@ -455,9 +421,13 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_AuftragskopfAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragskopfAnlegenActionPerformed
+//        if(factory.getComponent() == null){
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
         setCenterJIF(auftragskopfanlegen);
+//        }else{
+//            factory.
+//        }
     }//GEN-LAST:event_jMI_AuftragskopfAnlegenActionPerformed
     /**
      * ActionPerformed in der die AuftrgaskopfAendern Maske aufgerufen wird
@@ -487,6 +457,8 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_AuftragsposAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragsposAEndernActionPerformed
+        factory.setComponent(hauptmenueuser);
+        hauptmenueuser.setVisible(false);
         setCenterJIF(auftragsspositionaender);
     }//GEN-LAST:event_jMI_AuftragsposAEndernActionPerformed
 
@@ -496,6 +468,8 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_AuftragsposAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragsposAnzeigenActionPerformed
+        factory.setComponent(hauptmenueuser);
+        hauptmenueuser.setVisible(false);
         setCenterJIF(auftragsspositionanzeigen);
     }//GEN-LAST:event_jMI_AuftragsposAnzeigenActionPerformed
 
@@ -516,6 +490,8 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_ArtikelAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ArtikelAEndernActionPerformed
+        factory.setComponent(hauptmenueuser);
+        hauptmenueuser.setVisible(false);
         setCenterJIF(artikelaendern);
     }//GEN-LAST:event_jMI_ArtikelAEndernActionPerformed
 
@@ -534,6 +510,8 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_GPAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_GPAnlegenActionPerformed
+        factory.setComponent(hauptmenueuser);
+        hauptmenueuser.setVisible(false);
         setCenterJIF(geschaeftspartneranlegen);
     }//GEN-LAST:event_jMI_GPAnlegenActionPerformed
 
@@ -543,6 +521,8 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_GPAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_GPAEndernActionPerformed
+        factory.setComponent(hauptmenueuser);
+        hauptmenueuser.setVisible(false);
         setCenterJIF(geschaeftspartneraendern);
     }//GEN-LAST:event_jMI_GPAEndernActionPerformed
 
@@ -562,6 +542,8 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_ZKAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ZKAnlegenActionPerformed
+        factory.setComponent(hauptmenueuser);
+        hauptmenueuser.setVisible(false);
         setCenterJIF(zahlungskonditionanlegen);
     }//GEN-LAST:event_jMI_ZKAnlegenActionPerformed
 
@@ -572,6 +554,8 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_ZKAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ZKAEndernActionPerformed
+        factory.setComponent(hauptmenueuser);
+        hauptmenueuser.setVisible(false);
         setCenterJIF(zahlungskonditionaendern);
     }//GEN-LAST:event_jMI_ZKAEndernActionPerformed
 
@@ -585,21 +569,7 @@ public class Start extends javax.swing.JFrame {
 //        setCenterJIF(zahlungskonditionanzeigen);
     }//GEN-LAST:event_jMI_ZKAnzeigenActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
 
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-//    public void zurueckButton(){
-//        try {
-//            liste.get(liste.size() - 1).setVisible(false);
-//            liste.remove(liste.size() - 1);
-//            liste.get(liste.size() - 1).setVisible(true);
-//            System.out.println("zzzzz");
-//        } catch (ArrayIndexOutOfBoundsException e) {
-//            System.out.println("Es gibt keine weitere Maske.");
-//            return;
-//        }
-//    }
     /**
      * Methode setCenterJIF Methode ermittelt das Zentrum der DesktopPane und
      * setzt das übergebene Internalframe auf die ermittelten Koordinaten.
@@ -677,8 +647,6 @@ public class Start extends javax.swing.JFrame {
     private javax.swing.JMenu jM_Logout;
     private javax.swing.JMenu jM_Navigation;
     private javax.swing.JMenu jM_ZKVerwalten;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuBar menuBar;
     // End of variables declaration//GEN-END:variables
 

@@ -8,10 +8,13 @@ package GUI_Internalframes;
 
 import GUI_Internalframes.ArtikelAEndernEinstieg;
 import GUI_Internalframes.ArtikelAEndernEinstieg;
+import JFrames.*;
 
 /**
  *
  * @author Tahir
+ * 
+ * 16.12.2014 Terrasi,Auskommentieren von Internalframeinitialisierungen
  */
 public class Test extends javax.swing.JFrame {
     
@@ -25,10 +28,10 @@ public class Test extends javax.swing.JFrame {
      */
     public Test() {
         initComponents();
-        artikelAendernEinstieg = new ArtikelAEndernEinstieg();       
+//        artikelAendernEinstieg = new ArtikelAEndernEinstieg();       
 //        artikelAnlegen = new ArtikelAnlegen();
-        zahlungskonditionAnlegen = new ZahlungskonditionAnlegen();
-        geschaeftspartnerAnlegen = new GeschaeftspartnerAnlegen();
+//        zahlungskonditionAnlegen = new ZahlungskonditionAnlegen();
+//        geschaeftspartnerAnlegen = new GeschaeftspartnerAnlegen();
         desktopPane.add(geschaeftspartnerAnlegen);
         desktopPane.add(zahlungskonditionAnlegen);
 //        desktopPane.add(artikelAnlegen);

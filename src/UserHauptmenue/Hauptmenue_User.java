@@ -52,14 +52,14 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
 //        auftragskopfanlegen = new AuftragskopfAnlegen();
 //        auftragskopfanzeigen = new AuftragskopfAnzeigen();
 //        auftragskopfaendern = new AuftragskopfAendern();
-        auftragsspositionanzeigen = new AuftragspositionAnzeigen();
-        auftragsspositionaender = new AuftragspositionAendern();
-        artikelanlegen = new ArtikelAnlegen();
-        artikelaendern = new ArtikelAEndernEinstieg();
-        geschaeftspartneranlegen = new GeschaeftspartnerAnlegen();
-        geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg();
-        zahlungskonditionanlegen = new ZahlungskonditionAnlegen();
-        zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg();
+//        auftragsspositionanzeigen = new AuftragspositionAnzeigen();
+//        auftragsspositionaender = new AuftragspositionAendern();
+////        artikelanlegen = new ArtikelAnlegen();
+//        artikelaendern = new ArtikelAEndernEinstieg();
+//        geschaeftspartneranlegen = new GeschaeftspartnerAnlegen();
+//        geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg();
+//        zahlungskonditionanlegen = new ZahlungskonditionAnlegen();
+//        zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg();
     }
 
     /**

@@ -26,8 +26,8 @@ public class StartAdmin extends javax.swing.JFrame {
     private final String Beenden_Meldung = "Wollen sie wirklich das Programm beenden und sich abmelden?";
     private final String Beenden_Meldung_Typ = "Programm beenden";
 
-    AuftragskopfAnlegen auftragskopfanlegen;
-    AuftragskopfAendern auftragskopfaendern;
+//    AuftragskopfAnlegen auftragskopfanlegen;
+//    AuftragskopfAendern auftragskopfaendern;
 //    AuftragskopfAnzeigen auftragskopfanzeigen;
 
     /**
@@ -35,11 +35,11 @@ public class StartAdmin extends javax.swing.JFrame {
      */
     public StartAdmin() {
         initComponents();
-        auftragskopfanlegen = new AuftragskopfAnlegen();
+//        auftragskopfanlegen = new AuftragskopfAnlegen();
 //        auftragskopfanzeigen = new AuftragskopfAnzeigen();
-        auftragskopfaendern = new AuftragskopfAendern();
-        desktopPane.add(auftragskopfanlegen);
-        desktopPane.add(auftragskopfaendern);
+//        auftragskopfaendern = new AuftragskopfAendern();
+//        desktopPane.add(auftragskopfanlegen);
+//        desktopPane.add(auftragskopfaendern);
 //        desktopPane.add(auftragskopfanzeigen);
 //        auftragskopfaendern.setVisible(true);
 
@@ -274,14 +274,12 @@ public class StartAdmin extends javax.swing.JFrame {
      */
     private void jMI_AuftragskopfAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragskopfAnlegenActionPerformed
         // Aufruf der AuftragskopfAnlegen Maske.
-        auftragskopfanlegen.setVisible(true);
     }//GEN-LAST:event_jMI_AuftragskopfAnlegenActionPerformed
     /**
      * Aktion in der die Auftragskopfändern Maske aufgerufen wird
      */
     private void jMI_AuftragkopfAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragkopfAEndernActionPerformed
         // Aufruf der AuftragskopfAendern Maske.
-        auftragskopfaendern.setVisible(true);
     }//GEN-LAST:event_jMI_AuftragkopfAEndernActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing

@@ -1,5 +1,6 @@
 package GUI_Internalframes;
 
+import JFrames.GUIFactory;
 import java.awt.Color;
 import java.awt.Component;
 import java.text.DateFormat;
@@ -17,10 +18,18 @@ import javax.swing.text.MaskFormatter;
 /**
  *
  * @author Tahir
+ *
+ * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
  */
 public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
-//  Insanzvariablen eines Artikels
 
+    /*
+     Hilfsvariablen
+     */
+    Component c;
+    GUIFactory factory;
+
+//  Insanzvariablen eines Artikels
     private int zknummer = 1;
     private int skontozeit1;
     private int skontozeit2;
@@ -57,8 +66,10 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
      * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die
      * Documents.
      */
-    public ZahlungskonditionAnlegen() {
+    public ZahlungskonditionAnlegen(GUIFactory factory) {
         initComponents();
+
+        this.factory = factory;
 
         fehlerhafteComponenten = new ArrayList<>();
         zkListe = new ArrayList<>();
@@ -255,6 +266,11 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
 
         jB_Zurueck.setText("Zurück");
         jB_Zurueck.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jB_Zurueck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_ZurueckActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_Zurueck);
 
         jB_Abbrechen.setText("Abbrechen");
@@ -782,6 +798,21 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
 
     }//GEN-LAST:event_jFTF_LieferzeitSOFORTActionPerformed
+
+    /**
+     * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird. Es wird von
+     * der Guifactory die letzte aufgerufene Component abgefragt wodurch man die
+     * jetzige Component verlässt und zur übergebnen Component zurück kehrt.
+     *
+     * @param evt
+     */
+    private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
+        c = null;   //Initialisierung der Componentspeichervariable
+        //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
+        c = this.factory.zurueckButton();
+        this.setVisible(false);// Internalframe wird nicht mehr dargestellt
+        c.setVisible(true);// Übergebene Component wird sichtbar gemacht
+    }//GEN-LAST:event_jB_ZurueckActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
