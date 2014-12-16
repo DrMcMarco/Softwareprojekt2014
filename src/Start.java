@@ -379,14 +379,7 @@ public class Start extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    public void setComponent(Component component) {
-        if (list.listIterator().previous() == null) {
-            list.add(component);
-            component.setVisible(true);
-        }else{
-            
-        }
-    }
+   
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // Erzeugen eine Meldung mit Abfrage
