@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
 import javax.swing.JTextField;
+import DAO.*;
 
 /**
  *
@@ -52,4 +53,5 @@ public interface InterfaceViewsFunctionality {
     public void fehlEingabenMarkierung(ArrayList<Component> list,
             String fehlermelgungtitel, String fehlermeldung, Color farbe);
 
+  
 }
