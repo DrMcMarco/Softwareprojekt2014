@@ -6,6 +6,8 @@ import java.awt.Component;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -24,6 +26,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     private ArrayList<Component> fehlerhafteComponenten;
 //  ArrayList, um angelegte Artikel zu speichern     
     public ArrayList<Component> artikelListe;
+    public ArrayList<String> kategorien;
 //  Insantzvariablen für die standard Farben der Componenten    
     private final Color JCB_FARBE_STANDARD = new Color(214, 217, 223);
     private final Color JTF_FARBE_STANDARD = new Color(255, 255, 255);
@@ -48,6 +51,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         initComponents();
         fehlerhafteComponenten = new ArrayList<>();
         artikelListe = new ArrayList<>();
+        kategorien = new ArrayList<>();
 
         nf = NumberFormat.getInstance();
         nf.setMinimumFractionDigits(2);
@@ -57,6 +61,10 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jTF_Einzelwert.setDocument(new UniversalDocument("0123456789.,", false));
         jTF_Bestellwert.setDocument(new UniversalDocument("0123456789.,", false));
         jTF_Bestandsmenge_FREI.setDocument(new UniversalDocument("0123456789", false));
+    }
+    
+    private void ladeArtikelkategorie() {
+//        kategorien = DAO
     }
 
     /*
@@ -488,23 +496,48 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
             String artikelname;
             String artikelbeschreibung;
             String kategorie;
-            String einzelwert;
-            String bestellwert;
-            String mwst;
-            String bestandsmengeFREI;
+            double einzelwert = 0;
+            double bestellwert = 0;
+            double mwst = 0;
+            int bestandsmengeFREI = 0;
+            int bestandsmengeRESERVIERT = 0;
+            int bestandsmengeZULAUF = 0;
+            int bestandsmengeVERKAUFT = 0;
+//            String einzelwert;
+//            String bestellwert;
+//            String mwst;
+//            String bestandsmengeFREI;
+            try {
 
+                einzelwert = nf.parse(jTF_Einzelwert.getText()).doubleValue();
+                bestellwert = nf.parse(jTF_Bestellwert.getText()).doubleValue();
+
+                mwst = nf.parse((String) jCB_MwST.getSelectedItem()).doubleValue();
+                bestandsmengeFREI = nf.parse(jTF_Bestandsmenge_FREI.getText()).intValue();
+            } catch (ParseException ex) {
+                System.out.println("Fehler beim Parsen in der Klasse ArtikelAnlegen!");
+            }
+//
             artikelname = jTF_Artikelname.getText();
             artikelbeschreibung = jTA_Artikelbeschreibung.getText();
             kategorie = (String) jCB_Kategorie.getSelectedItem();
-            einzelwert = jTF_Einzelwert.getText();
-            bestellwert = jTF_Bestellwert.getText();
-            mwst = (String) jCB_MwST.getSelectedItem();
-            bestandsmengeFREI = jTF_Bestandsmenge_FREI.getText();
+                System.out.println("Geschäftspartner: \n"
+                        + "Artikelnummer:                  " + artikelnummer + "\n"
+                        + "Artikelname:                    " + artikelname + "\n"
+                        + "Artikelbeschreibung:            " + artikelbeschreibung + "\n"
+                        + "Kategorie:                      " + kategorie + "\n"
+                        + "Einzelwert:                     " + einzelwert + "\n"
+                        + "Bestellwert:                    " + bestellwert + "\n"
+                        + "MwSt:                           " + mwst + "\n"
+                        + "Bestangsmenge FREI:             " + bestandsmengeFREI + "\n"
+                        + "Bestangsmenge RESERVIERT:       " + bestandsmengeRESERVIERT + "\n"
+                        + "Bestangsmenge ZULAUF:           " + bestandsmengeZULAUF + "\n"
+                        + "Bestangsmenge VERKAUFT:         " + bestandsmengeVERKAUFT + "\n");
 //          Artikel wird in ArrayList für Artikel hinzugefuegt    
 
 //            artikelListe.add(new Artikel(artikelnummer, artikelname, artikelbeschreibung, kategorie, einzelwert, bestellwert, mwst, bestandsmengeFREI, "0", "0", "0"));
 //          provisorisch wird der Artikel ausgegeben  
-            System.out.println(artikelListe.get(artikelListe.size() - 1).toString());
+//            System.out.println(artikelListe.get(artikelListe.size() - 1).toString());
 //          die artikelnummer wird erhöht  
             artikelnummer++;
             jTF_Statuszeile.setText(STATUSZEILE);
