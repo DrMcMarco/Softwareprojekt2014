@@ -51,12 +51,17 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
      * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die
      * Documents.
      */
-    public ArtikelAnlegen() {
+    public ArtikelAnlegen(GUIFactory factory) {
         initComponents();
         
         this.factory = factory;
         this.dao = this.factory.getDAO();
-        
+        try{
+            
+        this.dao.createCategory("Kategorie 1", "eine Kategoriebeschreibung", "Test", false);
+        }catch(ApplicationException e){
+            System.out.println(e.getMessage());
+        }
         
         fehlerhafteComponenten = new ArrayList<>();
         artikelListe = new ArrayList<>();
@@ -189,7 +194,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
         setTitle("Artikel anlegen");
-        setPreferredSize(new java.awt.Dimension(500, 830));
+        setPreferredSize(new java.awt.Dimension(500, 630));
         setRequestFocusEnabled(false);
         setVisible(true);
 
