@@ -1,6 +1,5 @@
 package GUI_Internalframes;
 
-import GUI_Internalframes.*;
 import Documents.UniversalDocument;
 import java.awt.Color;
 import java.awt.Component;
@@ -205,7 +204,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel1.setText("Artikelname:");
 
-        jTF_Artikelnummer.setText("0000000001");
+        jTF_Artikelnummer.setText("1");
         jTF_Artikelnummer.setEnabled(false);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -605,13 +604,6 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
      * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
      */
     private void jTF_Bestandsmenge_FREIFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_Bestandsmenge_FREIFocusLost
-//       if(!jTF_Bestandsmenge_FREI.getText().matches(PREUFUNG_BESTANDSMENGE)) {
-//            String meldung = "Die eingegebene Bestandsmenge ist nicht richtig! \n Bitte geben Sie eine richtige Preis ein. (z.B. 99,99 oder 999.999,99)";
-//            String titel = "Fehlerhafte Eingabe";
-//            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-//            jTF_Einzelwert.requestFocusInWindow();
-//            jTF_Einzelwert.setText("");
-//        } else 
         if (!jTF_Bestandsmenge_FREI.getText().equals("")) {
             jTF_Bestandsmenge_FREI.setBackground(JTF_FARBE_STANDARD);
         }
