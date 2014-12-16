@@ -26,12 +26,12 @@ public class Test extends javax.swing.JFrame {
     public Test() {
         initComponents();
         artikelAendernEinstieg = new ArtikelAEndernEinstieg();       
-        artikelAnlegen = new ArtikelAnlegen();
+//        artikelAnlegen = new ArtikelAnlegen();
         zahlungskonditionAnlegen = new ZahlungskonditionAnlegen();
         geschaeftspartnerAnlegen = new GeschaeftspartnerAnlegen();
         desktopPane.add(geschaeftspartnerAnlegen);
         desktopPane.add(zahlungskonditionAnlegen);
-        desktopPane.add(artikelAnlegen);
+//        desktopPane.add(artikelAnlegen);
         desktopPane.add(artikelAendernEinstieg);
     }
 
