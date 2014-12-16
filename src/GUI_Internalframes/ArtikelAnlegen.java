@@ -32,8 +32,12 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 //  Insantzvariablen für reguläre Ausdrücke, um Prüfungen durchzuführen          
     private final String PREUFUNG_PREIS = "|(\\d*,?\\d{1,2})|(\\d{0,3}(\\.\\d{3})*,?\\d{1,2})";
 //  Insantzvariablen für die Meldungen         
-    private final String MELDUNG_PFLICHTFELDER_TITEL = "Felder nicht ausgefüllt";
-    private final String MELDUNG_PFLICHTFELDER_TEXT = "Einige Felder wurden nicht ausgefüllt! Bitte füllen Sie diese aus!";
+    private final String TITEL_PFLICHTFELDER = "Felder nicht ausgefüllt";
+    private final String TEXT_PFLICHTFELDER = "Einige Felder wurden nicht ausgefüllt! Bitte füllen Sie diese aus!";
+    private final String TEXT_EINZELWERT = "Der eingegebene Preisr ist nicht richtig! \n Bitte geben Sie eine richtige Preis ein. (z.B. 99,99 oder 999.999,99)";
+    private final String TITEL_FEHLERHAFTE_EINGABE = "Fehlerhafte Eingabe";
+    private final String STATUSZEILE = "Artikel wurde angelegt!";
+
     private NumberFormat nf;
 
     /**
@@ -503,12 +507,13 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
             System.out.println(artikelListe.get(artikelListe.size() - 1).toString());
 //          die artikelnummer wird erhöht  
             artikelnummer++;
+            jTF_Statuszeile.setText(STATUSZEILE);
 //          das Formular wird zurueckgesetzt  
             setzeFormularZurueck();
         } else {
 //          fehlerhafteComponenten ist nicht leer (es sind fehlerhafte Componenten vorhanden)
 //          eine Meldung wird ausgegeben  
-            JOptionPane.showMessageDialog(null, MELDUNG_PFLICHTFELDER_TEXT, MELDUNG_PFLICHTFELDER_TITEL, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, TEXT_PFLICHTFELDER, TITEL_PFLICHTFELDER, JOptionPane.ERROR_MESSAGE);
 //          an die erste fehlerhafte Componenten wird der Focus gesetzt  
             fehlerhafteComponenten.get(0).requestFocusInWindow();
 //          ueber die fehlerhaften Komponenten wird iteriert und bei allen fehlerhaften Componenten wird der Hintergrund in der fehlerhaften Farbe gefaerbt 
@@ -526,6 +531,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     private void jTF_ArtikelnameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_ArtikelnameFocusLost
         if (!jTF_Artikelname.getText().equals("")) {
             jTF_Artikelname.setBackground(JTF_FARBE_STANDARD);
+            jTF_Statuszeile.setText("");
         }
     }//GEN-LAST:event_jTF_ArtikelnameFocusLost
     /*
@@ -543,9 +549,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 //            Prüfung, ob die Eingabe ein Preis ist
         if (!jTF_Einzelwert.getText().matches(PREUFUNG_PREIS)) {
 //            Eingabe ist kein Preis, also wird eine Fehlermeldung ausgegeben
-            String meldung = "Der eingegebene Preisr ist nicht richtig! \n Bitte geben Sie eine richtige Preis ein. (z.B. 99,99 oder 999.999,99)";
-            String titel = "Fehlerhafte Eingabe";
-            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, TEXT_EINZELWERT, TITEL_FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
 //            Focus wird auf das Feld für die Eingabe des Einzelwertes gesetzt und der Eingabefeld wird auf leer gesetzt.
             jTF_Einzelwert.requestFocusInWindow();
             jTF_Einzelwert.setText("");
@@ -571,9 +575,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 //            Prüfung, ob die Eingabe ein Preis ist
         if (!jTF_Bestellwert.getText().matches(PREUFUNG_PREIS)) {
 //            Eingabe ist kein Preis, also wird eine Fehlermeldung ausgegeben            
-            String meldung = "Der eingegebene Preisr ist nicht richtig! \n Bitte geben Sie eine richtige Preis ein. (z.B. 99,99 oder 999.999,99)";
-            String titel = "Fehlerhafte Eingabe";
-            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, TEXT_EINZELWERT, TITEL_FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
 //            Focus wird auf das Feld für die Eingabe des Einzelwertes gesetzt und der Eingabefeld wird auf leer gesetzt.            
             jTF_Bestellwert.requestFocusInWindow();
             jTF_Bestellwert.setText("");
