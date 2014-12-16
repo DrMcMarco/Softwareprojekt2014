@@ -96,9 +96,6 @@ public class DataAccessObject {
     /**
      * Methode zur Erzeugung eines Artikels.
      *
-     * !Überlegung die Kategorie als String zu übergeben und von hier aus
-     * das Objekt aus der DB suchen!
-     *
      * @param Kategorie
      * @param Artikeltext
      * @param Bestelltext
@@ -111,11 +108,22 @@ public class DataAccessObject {
      * @param Verkauft
      * @throws DAO.ApplicationException Die Exception wird durchgereicht
      */
-    public void createItem(Artikelkategorie Kategorie, String Artikeltext,
+    public void createItem(String Kategorie, String Artikeltext,
             String Bestelltext, double Verkaufswert, double Einkaufswert,
             double MwST, int Frei, int Reserviert, int Zulauf, int Verkauft)
             throws ApplicationException {
-        Artikel item = new Artikel(Kategorie, Artikeltext, Bestelltext,
+        //Suche die Artikelkategorie anhand des Kategorienamen
+        Artikelkategorie cat = em.createQuery(
+               "Select ST FROM Artikelkategorie ST WHERE ST.Kategoriename = '" +
+                        Kategorie + "' ", 
+                Artikelkategorie.class).getSingleResult();
+        
+        if (cat == null) {
+            throw new ApplicationException("Fehler",
+                    "Der Kategoriename existiert nicht!");
+        }
+        
+        Artikel item = new Artikel(cat, Artikeltext, Bestelltext,
                 Verkaufswert, Einkaufswert, MwST, Frei, Reserviert,
                 Zulauf, Verkauft);
         //Prüfen, ob das Objekt erstellt wurde
