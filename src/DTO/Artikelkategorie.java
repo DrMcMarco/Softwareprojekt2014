@@ -6,7 +6,6 @@
 package DTO;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import javax.persistence.*;
 
 /**
@@ -91,12 +90,8 @@ public class Artikelkategorie implements java.io.Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 67 * hash + (int) (this.Id ^ (this.Id >>> 32));
-        hash = 67 * hash + Objects.hashCode(this.Kategoriename);
-        hash = 67 * hash + Objects.hashCode(this.Beschreibung);
-        hash = 67 * hash + Objects.hashCode(this.Kommentar);
-        hash = 67 * hash + (this.LKZ ? 1 : 0);
+        int hash = 3;
+        hash = 11 * hash + (int) (this.Id ^ (this.Id >>> 32));
         return hash;
     }
 
@@ -112,21 +107,6 @@ public class Artikelkategorie implements java.io.Serializable {
         if (this.Id != other.Id) {
             return false;
         }
-        if (!Objects.equals(this.Kategoriename, other.Kategoriename)) {
-            return false;
-        }
-        if (!Objects.equals(this.Beschreibung, other.Beschreibung)) {
-            return false;
-        }
-        if (!Objects.equals(this.Kommentar, other.Kommentar)) {
-            return false;
-        }
-        if (this.LKZ != other.LKZ) {
-            return false;
-        }
         return true;
     }
-    
-    
-    
 }

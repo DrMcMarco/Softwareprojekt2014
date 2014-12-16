@@ -29,6 +29,10 @@ public abstract class Auftragskopf implements Serializable {
     
     private double Wert;
     
+    @OneToOne
+    @JoinColumn(name = "Geschäftspartner")
+    private Geschaeftspartner Geschaeftspartner;
+    
     @ManyToOne
     @JoinColumn(name = "Status")
     private Status Status;
@@ -42,19 +46,23 @@ public abstract class Auftragskopf implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date Lieferdatum;
     
-    @OneToMany(mappedBy = "Auftrag")
+    @OneToMany(mappedBy = "Auftrag", cascade = CascadeType.ALL)
     private ArrayList<Auftragsposition> Positionsliste;
 
     public Auftragskopf() {
     }
 
-    public Auftragskopf(String Auftragstext, double Wert, Status Status, Date Abschlussdatum, Date Erfassungsdatum, Date Lieferdatum) {
+    public Auftragskopf(String Auftragstext, double Wert,
+            Geschaeftspartner Geschaeftspartner, Status Status, 
+            Date Abschlussdatum, Date Erfassungsdatum, Date Lieferdatum) {
         this.Auftragstext = Auftragstext;
         this.Wert = Wert;
+        this.Geschaeftspartner = Geschaeftspartner;
         this.Status = Status;
         this.Abschlussdatum = Abschlussdatum;
         this.Erfassungsdatum = Erfassungsdatum;
         this.Lieferdatum = Lieferdatum;
+        this.Positionsliste = new ArrayList<>();
     }
 
     public long getAuftragskopfID() {
@@ -77,6 +85,14 @@ public abstract class Auftragskopf implements Serializable {
         this.Wert = Wert;
     }
 
+    public Geschaeftspartner getGeschaeftspartner() {
+        return Geschaeftspartner;
+    }
+
+    public void setGeschaeftspartner(Geschaeftspartner Geschaeftspartner) {
+        this.Geschaeftspartner = Geschaeftspartner;
+    }
+    
     public Status getStatus() {
         return Status;
     }
@@ -116,17 +132,21 @@ public abstract class Auftragskopf implements Serializable {
     public void setPositionsliste(ArrayList<Auftragsposition> Positionsliste) {
         this.Positionsliste = Positionsliste;
     }
+    
+    public void addPosition(Artikel artikel, int Menge) {
+        Auftragsposition ap = new Auftragsposition();
+        ap.setAuftrag(this);
+        ap.setArtikel(artikel);
+        ap.setMenge(Menge);
+        ap.setEinzelwert(artikel.getVerkaufswert()*Menge);
+        ap.setErfassungsdatum(this.Erfassungsdatum);
+        this.Positionsliste.add(ap);
+    }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 79 * hash + (int) (this.AuftragskopfID ^ (this.AuftragskopfID >>> 32));
-        hash = 79 * hash + Objects.hashCode(this.Auftragstext);
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this.Wert) ^ (Double.doubleToLongBits(this.Wert) >>> 32));
-        hash = 79 * hash + Objects.hashCode(this.Status);
-        hash = 79 * hash + Objects.hashCode(this.Abschlussdatum);
-        hash = 79 * hash + Objects.hashCode(this.Erfassungsdatum);
-        hash = 79 * hash + Objects.hashCode(this.Lieferdatum);
+        hash = 37 * hash + (int) (this.AuftragskopfID ^ (this.AuftragskopfID >>> 32));
         return hash;
     }
 
@@ -142,27 +162,8 @@ public abstract class Auftragskopf implements Serializable {
         if (this.AuftragskopfID != other.AuftragskopfID) {
             return false;
         }
-        if (!Objects.equals(this.Auftragstext, other.Auftragstext)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.Wert) != Double.doubleToLongBits(other.Wert)) {
-            return false;
-        }
-        if (!Objects.equals(this.Status, other.Status)) {
-            return false;
-        }
-        if (!Objects.equals(this.Abschlussdatum, other.Abschlussdatum)) {
-            return false;
-        }
-        if (!Objects.equals(this.Erfassungsdatum, other.Erfassungsdatum)) {
-            return false;
-        }
-        if (!Objects.equals(this.Lieferdatum, other.Lieferdatum)) {
-            return false;
-        }
         return true;
     }
-    
     
     
 }

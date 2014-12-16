@@ -23,11 +23,12 @@ public class Sofortauftragskopf extends Auftragskopf {
         
     }
     
-    public Sofortauftragskopf(String Auftragstext, double Wert, Status Status, 
+    public Sofortauftragskopf(String Auftragstext, double Wert, 
+            Geschaeftspartner Geschaeftspartner, Status Status, 
             Zahlungskondition Zahlungskondition, Date Abschlussdatum, 
             Date Erfassungsdatum, Date Lieferdatum) {
-        super(Auftragstext, Wert, Status, Abschlussdatum, Erfassungsdatum, 
-                Lieferdatum);
+        super(Auftragstext, Wert, Geschaeftspartner, Status, Abschlussdatum, 
+                Erfassungsdatum, Lieferdatum);
         this.Zahlungskondition = Zahlungskondition;
     }
 

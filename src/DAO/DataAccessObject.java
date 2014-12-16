@@ -11,13 +11,17 @@ import DTO.Artikel;
 import DTO.Artikelkategorie;
 import DTO.Auftragskopf;
 import DTO.Auftragsposition;
+import DTO.Barauftragskopf;
 import DTO.Benutzer;
+import DTO.Bestellauftragskopf;
 import DTO.Geschaeftspartner;
 import DTO.Kunde;
 import DTO.Lieferanschrift;
 import DTO.Lieferant;
 import DTO.Rechnungsanschrift;
+import DTO.Sofortauftragskopf;
 import DTO.Status;
+import DTO.Terminauftragskopf;
 import DTO.Zahlungskondition;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -28,6 +32,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.*;
 /**
  *
@@ -125,7 +130,7 @@ public class DataAccessObject {
         
         Artikel item = new Artikel(cat, Artikeltext, Bestelltext,
                 Verkaufswert, Einkaufswert, MwST, Frei, Reserviert,
-                Zulauf, Verkauft);
+                Zulauf, Verkauft, false);
         //Prüfen, ob das Objekt erstellt wurde
         if (item == null) {
             throw new ApplicationException("Fehler",
@@ -167,26 +172,78 @@ public class DataAccessObject {
         em.getTransaction().commit();
     }
     
-    /**
-     *
-     * @param Auftragstext
-     * @param Auftragsart
-     * @param Wert
-     * @param Status
-     * @param Abschlussdatum
-     * @param Erfassungsdatum
-     * @param Lieferdatum
-     */
-    public void createOrderHead(String Auftragstext,
-            double Wert, Status Status, Date Abschlussdatum,
-            Date Erfassungsdatum, Date Lieferdatum) {
+    public void createOrderHead(String Typ, HashMap<Long, Integer> Artikel, 
+            String Auftragstext, long GeschaeftspartnerID,
+            long ZahlungskonditionID, double Wert, String Status, 
+            Date Abschlussdatum, Date Lieferdatum) 
+            throws ApplicationException {
         
-        ArrayList<Auftragsposition> position = new ArrayList<>();
-        //Kunde erstellen
-        //Auftragskopf order = new Auftragskopf
+        Geschaeftspartner businessPartner = em.find(Geschaeftspartner.class, 
+                GeschaeftspartnerID);
         
+        if(businessPartner == null) {
+            throw new ApplicationException("Fehler", 
+                    "Der angegebene Kunde konnte nicht gefunden werden.");
+        }
         
+        Zahlungskondition paymentCondition = this.getPaymentConditionsById(ZahlungskonditionID);
         
+        if(paymentCondition == null) {
+            throw new ApplicationException("Fehler", 
+                    "Zahlungskondition konnte nicht gefunden werden.");
+        }
+        
+        Status state = this.getStatusByName(Status);
+        
+        Calendar cal = Calendar.getInstance();
+        Date Erfassungsdatum = cal.getTime();
+        
+        Auftragskopf orderhead = null;
+        
+        if(Typ.equals("Barauftrag")) {
+            orderhead = new Barauftragskopf(Auftragstext, Wert, businessPartner,
+                    state, Abschlussdatum, Erfassungsdatum, Lieferdatum);
+        } else if(Typ.equals("Sofortauftrag")) {
+            orderhead = new Sofortauftragskopf(Auftragstext, Wert, 
+                    businessPartner, state, paymentCondition, 
+                    Abschlussdatum, Erfassungsdatum, Lieferdatum);
+        } else if(Typ.equals("Terminauftrag")) {
+            orderhead = new Terminauftragskopf(Auftragstext, Wert, 
+                    businessPartner, state, paymentCondition, 
+                    Abschlussdatum, Erfassungsdatum, Lieferdatum);
+        } else if(Typ.equals("Bestellauftrag")) {
+            orderhead = new Bestellauftragskopf(Auftragstext, Wert, 
+                    businessPartner, state, paymentCondition, 
+                    Abschlussdatum, Erfassungsdatum, Lieferdatum);
+        } else {
+            throw new ApplicationException("Fehler", "Ungültige Auftragsart!");
+        }
+        
+        if (orderhead == null) {
+            throw new ApplicationException("Fehler", 
+                    "Fehler bei der Erzeugung des Auftragskopfes");
+        }
+        
+        Set<Long> artikelIDS = Artikel.keySet();
+        
+        for (long ID : artikelIDS) {
+            
+            Artikel artikel = em.find(Artikel.class, ID);
+            
+            if(artikel == null) {
+                throw new ApplicationException("Fehler", "Der angegebene Artikel konne nicht gefunden werden");
+            }
+            
+            orderhead.addPosition(artikel, Artikel.get(ID));
+            
+        }
+        try {
+            em.getTransaction().begin();
+            em.persist(orderhead);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
     
     /**
@@ -250,13 +307,13 @@ public class DataAccessObject {
             //Erzeugung des persistenten Anschrift-Objektes
             anschrift = new Lieferanschrift(Name, Vorname, Titel,
                     Strasse, Hausnummer, PLZ, Ort, Staat, Telefon, Fax, Email,
-                    Geburtsdatum, Erfassungsdatum);
+                    Geburtsdatum, Erfassungsdatum, false);
         } else if (typ.equals("Rechnungsadresse")) {
             
             //Erzeugung des persistenten Anschrift-Objektes
             anschrift = new Rechnungsanschrift(Name, Vorname, Titel,
                     Strasse, Hausnummer, PLZ, Ort, Staat, Telefon, Fax, Email,
-                    Geburtsdatum, Erfassungsdatum);
+                    Geburtsdatum, Erfassungsdatum, false);
         } else {
             throw new ApplicationException("Fehler", 
                     "Der angegebene Adresstyp existiert nicht");
@@ -488,6 +545,30 @@ public class DataAccessObject {
         }
         
         return kunde;
+    }
+    
+    public Status getStatusByName(String name) throws ApplicationException {
+        
+        Query query = null;
+        Status status = null;
+        if (name == null)
+            throw new ApplicationException("Fehler",
+                    "Geben Sie eine Kategorie an!");
+        query = em.createQuery("SELECT ST FROM Status ST "
+                + "WHERE ST.Status LIKE :name").setParameter("name", name);
+        try {
+            status = (Status) query.getSingleResult();
+        } catch (Exception e) {
+            throw new ApplicationException("Fehler", e.getMessage());
+        }
+        
+        if (status == null)
+            throw new ApplicationException("Fehler",
+                    "Es wurde kein Status gefunden!");
+        
+        return status;
+        
+        
     }
     
 //</editor-fold>

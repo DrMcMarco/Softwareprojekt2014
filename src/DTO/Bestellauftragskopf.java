@@ -23,11 +23,12 @@ public class Bestellauftragskopf extends Auftragskopf {
         
     }
     
-    public Bestellauftragskopf(String Auftragstext, double Wert, Status Status, 
+    public Bestellauftragskopf(String Auftragstext, double Wert, 
+            Geschaeftspartner Geschaeftspartner, Status Status, 
             Zahlungskondition Zahlungskondition, Date Abschlussdatum, 
             Date Erfassungsdatum, Date Lieferdatum) {
-        super(Auftragstext, Wert, Status, Abschlussdatum, Erfassungsdatum, 
-                Lieferdatum);
+        super(Auftragstext, Wert, Geschaeftspartner, Status, Abschlussdatum, 
+                Erfassungsdatum, Lieferdatum);
         this.Zahlungskondition = Zahlungskondition;
     }
 
@@ -37,5 +38,16 @@ public class Bestellauftragskopf extends Auftragskopf {
 
     public void setZahlungskondition(Zahlungskondition Zahlungskondition) {
         this.Zahlungskondition = Zahlungskondition;
+    }
+    
+    @Override
+    public void addPosition(Artikel artikel, int Menge) {
+        Auftragsposition ap = new Auftragsposition();
+        ap.setAuftrag(this);
+        ap.setArtikel(artikel);
+        ap.setMenge(Menge);
+        ap.setEinzelwert(artikel.getEinkaufswert()*Menge);
+        ap.setErfassungsdatum(super.getErfassungsdatum());
+        super.getPositionsliste().add(ap);
     }
 }

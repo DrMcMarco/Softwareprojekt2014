@@ -42,6 +42,8 @@ public abstract class Anschrift implements Serializable {
     
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date Erfassungsdatum;
+    
+    private boolean LKZ;
 
     public Anschrift() {
     }
@@ -49,7 +51,7 @@ public abstract class Anschrift implements Serializable {
     public Anschrift(String Name, String Vorname,
             String Titel, String Strasse, String Hausnummer, String PLZ,
             String Ort, String Staat, String Telefon, String FAX, String Email,
-            Date Geburtsdatum, Date Erfassungsdatum) {
+            Date Geburtsdatum, Date Erfassungsdatum, boolean LKZ) {
         this.Name = Name;
         this.Vorname = Vorname;
         this.Titel = Titel;
@@ -63,6 +65,7 @@ public abstract class Anschrift implements Serializable {
         this.Email = Email;
         this.Geburtsdatum = Geburtsdatum;
         this.Erfassungsdatum = Erfassungsdatum;
+        this.LKZ = LKZ;
     }
 
     public long getAnschriftID() {
@@ -173,23 +176,18 @@ public abstract class Anschrift implements Serializable {
         this.Erfassungsdatum = Erfassungsdatum;
     }
 
+    public boolean isLKZ() {
+        return LKZ;
+    }
+
+    public void setLKZ(boolean LKZ) {
+        this.LKZ = LKZ;
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 67 * hash + (int) (this.AnschriftID ^ (this.AnschriftID >>> 32));
-        hash = 67 * hash + Objects.hashCode(this.Name);
-        hash = 67 * hash + Objects.hashCode(this.Vorname);
-        hash = 67 * hash + Objects.hashCode(this.Titel);
-        hash = 67 * hash + Objects.hashCode(this.Strasse);
-        hash = 67 * hash + Objects.hashCode(this.Hausnummer);
-        hash = 67 * hash + Objects.hashCode(this.PLZ);
-        hash = 67 * hash + Objects.hashCode(this.Ort);
-        hash = 67 * hash + Objects.hashCode(this.Staat);
-        hash = 67 * hash + Objects.hashCode(this.Telefon);
-        hash = 67 * hash + Objects.hashCode(this.FAX);
-        hash = 67 * hash + Objects.hashCode(this.Email);
-        hash = 67 * hash + Objects.hashCode(this.Geburtsdatum);
-        hash = 67 * hash + Objects.hashCode(this.Erfassungsdatum);
+        hash = 61 * hash + (int) (this.AnschriftID ^ (this.AnschriftID >>> 32));
         return hash;
     }
 
@@ -205,47 +203,10 @@ public abstract class Anschrift implements Serializable {
         if (this.AnschriftID != other.AnschriftID) {
             return false;
         }
-        if (!Objects.equals(this.Name, other.Name)) {
-            return false;
-        }
-        if (!Objects.equals(this.Vorname, other.Vorname)) {
-            return false;
-        }
-        if (!Objects.equals(this.Titel, other.Titel)) {
-            return false;
-        }
-        if (!Objects.equals(this.Strasse, other.Strasse)) {
-            return false;
-        }
-        if (!Objects.equals(this.Hausnummer, other.Hausnummer)) {
-            return false;
-        }
-        if (!Objects.equals(this.PLZ, other.PLZ)) {
-            return false;
-        }
-        if (!Objects.equals(this.Ort, other.Ort)) {
-            return false;
-        }
-        if (!Objects.equals(this.Staat, other.Staat)) {
-            return false;
-        }
-        if (!Objects.equals(this.Telefon, other.Telefon)) {
-            return false;
-        }
-        if (!Objects.equals(this.FAX, other.FAX)) {
-            return false;
-        }
-        if (!Objects.equals(this.Email, other.Email)) {
-            return false;
-        }
-        if (!Objects.equals(this.Geburtsdatum, other.Geburtsdatum)) {
-            return false;
-        }
-        if (!Objects.equals(this.Erfassungsdatum, other.Erfassungsdatum)) {
-            return false;
-        }
         return true;
     }
+    
+    
 
     @Override
     public String toString() {

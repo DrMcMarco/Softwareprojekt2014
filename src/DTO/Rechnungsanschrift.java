@@ -23,9 +23,9 @@ public class Rechnungsanschrift extends Anschrift {
     public Rechnungsanschrift(String Name, String Vorname, String Titel, 
             String Strasse, String Hausnummer, String PLZ, String Ort, 
             String Staat, String Telefon, String FAX, String Email, 
-            Date Geburtsdatum, Date Erfassungsdatum) {
+            Date Geburtsdatum, Date Erfassungsdatum, boolean LKZ) {
         super(Name, Vorname, Titel, Strasse, Hausnummer, PLZ, Ort, Staat, 
-                Telefon, FAX, Email, Geburtsdatum, Erfassungsdatum);
+                Telefon, FAX, Email, Geburtsdatum, Erfassungsdatum, LKZ);
     }
     
 }

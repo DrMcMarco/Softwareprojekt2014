@@ -88,14 +88,12 @@ public abstract class Geschaeftspartner implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 83 * hash + (int) (this.GeschaeftspartnerID ^ 
-                (this.GeschaeftspartnerID >>> 32));
-        hash = 83 * hash + Objects.hashCode(this.Lieferadresse);
-        hash = 83 * hash + Objects.hashCode(this.Rechnungsadresse);
-        hash = 83 * hash + (int) (Double.doubleToLongBits(this.Kreditlimit) ^ 
-                (Double.doubleToLongBits(this.Kreditlimit) >>> 32));
-        hash = 83 * hash + (this.LKZ ? 1 : 0);
+        int hash = 7;
+        hash = 89 * hash + (int) (this.GeschaeftspartnerID ^ (this.GeschaeftspartnerID >>> 32));
+        hash = 89 * hash + Objects.hashCode(this.Lieferadresse);
+        hash = 89 * hash + Objects.hashCode(this.Rechnungsadresse);
+        hash = 89 * hash + (int) (Double.doubleToLongBits(this.Kreditlimit) ^ (Double.doubleToLongBits(this.Kreditlimit) >>> 32));
+        hash = 89 * hash + (this.LKZ ? 1 : 0);
         return hash;
     }
 
@@ -117,8 +115,7 @@ public abstract class Geschaeftspartner implements Serializable {
         if (!Objects.equals(this.Rechnungsadresse, other.Rechnungsadresse)) {
             return false;
         }
-        if (Double.doubleToLongBits(this.Kreditlimit) != 
-                Double.doubleToLongBits(other.Kreditlimit)) {
+        if (Double.doubleToLongBits(this.Kreditlimit) != Double.doubleToLongBits(other.Kreditlimit)) {
             return false;
         }
         if (this.LKZ != other.LKZ) {
@@ -126,7 +123,6 @@ public abstract class Geschaeftspartner implements Serializable {
         }
         return true;
     }
-    
     
     
 }

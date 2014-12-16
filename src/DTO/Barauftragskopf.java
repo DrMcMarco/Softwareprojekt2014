@@ -20,9 +20,11 @@ public class Barauftragskopf extends Auftragskopf {
         
     }
     
-    public Barauftragskopf(String Auftragstext, double Wert, Status Status, 
+    public Barauftragskopf(String Auftragstext, double Wert, 
+            Geschaeftspartner Geschaeftspartner, Status Status, 
             Date Abschlussdatum, Date Erfassungsdatum, Date Lieferdatum) {
-        super(Auftragstext, Wert, Status, Abschlussdatum, Erfassungsdatum, Lieferdatum);
+        super(Auftragstext, Wert, Geschaeftspartner, Status, Abschlussdatum, 
+                Erfassungsdatum, Lieferdatum);
     }
     
 }

@@ -126,16 +126,7 @@ public class Zahlungskondition implements Serializable {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 67 * hash + (int) (this.ZahlungskonditionID ^ (this.ZahlungskonditionID >>> 32));
-        hash = 67 * hash + (int) (Double.doubleToLongBits(this.LieferzeitSofort) ^ (Double.doubleToLongBits(this.LieferzeitSofort) >>> 32));
-        hash = 67 * hash + (int) (Double.doubleToLongBits(this.SperrzeitWunsch) ^ (Double.doubleToLongBits(this.SperrzeitWunsch) >>> 32));
-        hash = 67 * hash + (int) (Double.doubleToLongBits(this.Skontozeit1) ^ (Double.doubleToLongBits(this.Skontozeit1) >>> 32));
-        hash = 67 * hash + (int) (Double.doubleToLongBits(this.Skontozeit2) ^ (Double.doubleToLongBits(this.Skontozeit2) >>> 32));
-        hash = 67 * hash + (int) (Double.doubleToLongBits(this.Skonto1) ^ (Double.doubleToLongBits(this.Skonto1) >>> 32));
-        hash = 67 * hash + (int) (Double.doubleToLongBits(this.Skonto2) ^ (Double.doubleToLongBits(this.Skonto2) >>> 32));
-        hash = 67 * hash + (int) (Double.doubleToLongBits(this.Mahnzeit1) ^ (Double.doubleToLongBits(this.Mahnzeit1) >>> 32));
-        hash = 67 * hash + (int) (Double.doubleToLongBits(this.Mahnzeit2) ^ (Double.doubleToLongBits(this.Mahnzeit2) >>> 32));
-        hash = 67 * hash + (int) (Double.doubleToLongBits(this.Mahnzeit3) ^ (Double.doubleToLongBits(this.Mahnzeit3) >>> 32));
+        hash = 37 * hash + (int) (this.ZahlungskonditionID ^ (this.ZahlungskonditionID >>> 32));
         return hash;
     }
 
@@ -151,36 +142,8 @@ public class Zahlungskondition implements Serializable {
         if (this.ZahlungskonditionID != other.ZahlungskonditionID) {
             return false;
         }
-        if (Double.doubleToLongBits(this.LieferzeitSofort) != Double.doubleToLongBits(other.LieferzeitSofort)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.SperrzeitWunsch) != Double.doubleToLongBits(other.SperrzeitWunsch)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.Skontozeit1) != Double.doubleToLongBits(other.Skontozeit1)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.Skontozeit2) != Double.doubleToLongBits(other.Skontozeit2)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.Skonto1) != Double.doubleToLongBits(other.Skonto1)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.Skonto2) != Double.doubleToLongBits(other.Skonto2)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.Mahnzeit1) != Double.doubleToLongBits(other.Mahnzeit1)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.Mahnzeit2) != Double.doubleToLongBits(other.Mahnzeit2)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.Mahnzeit3) != Double.doubleToLongBits(other.Mahnzeit3)) {
-            return false;
-        }
         return true;
     }
-    
-    
+
     
 }

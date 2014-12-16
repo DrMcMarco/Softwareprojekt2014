@@ -40,9 +40,8 @@ public class Auftragsposition implements java.io.Serializable {
     public Auftragsposition() {
     }
 
-    public Auftragsposition(Auftragskopf Auftrag, long Positionsnummer, Artikel Artikel, int Menge, double Einzelwert, Date Erfassungsdatum) {
+    public Auftragsposition(Auftragskopf Auftrag, Artikel Artikel, int Menge, double Einzelwert, Date Erfassungsdatum) {
         this.Auftrag = Auftrag;
-        this.Positionsnummer = Positionsnummer;
         this.Artikel = Artikel;
         this.Menge = Menge;
         this.Einzelwert = Einzelwert;
@@ -100,12 +99,9 @@ public class Auftragsposition implements java.io.Serializable {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 19 * hash + Objects.hashCode(this.Auftrag);
-        hash = 19 * hash + (int) (this.Positionsnummer ^ (this.Positionsnummer >>> 32));
-        hash = 19 * hash + Objects.hashCode(this.Artikel);
-        hash = 19 * hash + this.Menge;
-        hash = 19 * hash + (int) (Double.doubleToLongBits(this.Einzelwert) ^ (Double.doubleToLongBits(this.Einzelwert) >>> 32));
-        hash = 19 * hash + Objects.hashCode(this.Erfassungsdatum);
+        hash = 97 * hash + Objects.hashCode(this.Auftrag);
+        hash = 97 * hash + (int) (this.Positionsnummer ^ (this.Positionsnummer >>> 32));
+        hash = 97 * hash + Objects.hashCode(this.Artikel);
         return hash;
     }
 
@@ -125,15 +121,6 @@ public class Auftragsposition implements java.io.Serializable {
             return false;
         }
         if (!Objects.equals(this.Artikel, other.Artikel)) {
-            return false;
-        }
-        if (this.Menge != other.Menge) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.Einzelwert) != Double.doubleToLongBits(other.Einzelwert)) {
-            return false;
-        }
-        if (!Objects.equals(this.Erfassungsdatum, other.Erfassungsdatum)) {
             return false;
         }
         return true;
