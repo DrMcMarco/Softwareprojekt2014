@@ -76,6 +76,9 @@ public class Start extends javax.swing.JFrame {
         factory = new GUIFactory();
 //        liste = new ArrayList<>();
         dao = new DataAccessObject();
+        factory.setDAO(dao);
+        
+        
         //Initialisierung der einzelnen Masken.
         hauptmenueuser = new Hauptmenue_User();
         hauptmenueuser.setName("HauptmenüUser");
@@ -84,7 +87,7 @@ public class Start extends javax.swing.JFrame {
         auftragskopfaendern = new AuftragskopfAendern(factory);
         auftragsspositionanzeigen = new AuftragspositionAnzeigen();
         auftragsspositionaender = new AuftragspositionAendern();
-        artikelanlegen = new ArtikelAnlegen();
+        artikelanlegen = new ArtikelAnlegen(factory);
 //        artikelanzeigen = new ArtikelAnzeigen();
         artikelaendern = new ArtikelAEndernEinstieg();
         geschaeftspartneranlegen = new GeschaeftspartnerAnlegen();
@@ -377,11 +380,11 @@ public class Start extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 780, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 900, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
         );
 
         pack();
@@ -502,6 +505,8 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_ArtikelAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ArtikelAnlegenActionPerformed
+        factory.setComponent(hauptmenueuser);
+        hauptmenueuser.setVisible(false);
         setCenterJIF(artikelanlegen);
     }//GEN-LAST:event_jMI_ArtikelAnlegenActionPerformed
 
