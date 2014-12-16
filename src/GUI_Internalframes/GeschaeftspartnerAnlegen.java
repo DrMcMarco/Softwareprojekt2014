@@ -994,7 +994,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                 jFTF_Geburtsdatum.setText("");
             }
         } else {
-            jFTF_Geburtsdatum.setText("##.##.####");
+            //jFTF_Geburtsdatum.setText("01.01.1990");
+            jFTF_Geburtsdatum.setValue(null);
         }
 //        Lucas Code:
 //        Date heute = new Date();
