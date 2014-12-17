@@ -14,7 +14,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
  * @author Luca
  */
 public interface InterfaceJTreeFunction {
-//    public void openJtreeNodes(DefaultMutableTreeNode node);
-    public void openJtreeNodes(String node);
+    public void openJtreeNodes(DefaultMutableTreeNode node);
+//    public void openJtreeNodes(String node);
     public void setInternalFrameVisible(JInternalFrame frame);
 }

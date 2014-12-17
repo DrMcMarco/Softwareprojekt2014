@@ -1,7 +1,7 @@
-Wed Dec 17 00:16:11 CET 2014 : Apache Derby Network Server 10.10.1.2 - (1495037) wurde gestartet und ist bereit, Verbindungen auf Port 1527 zu akzeptieren.
+Wed Dec 17 13:43:52 CET 2014 : Apache Derby Network Server 10.10.1.2 - (1495037) wurde gestartet und ist bereit, Verbindungen auf Port 1527 zu akzeptieren.
 ----------------------------------------------------------------
-Wed Dec 17 00:16:11 CET 2014:
-Booten von Derby-Version The Apache Software Foundation - Apache Derby - 10.10.1.2 - (1495037): Instanz a816c00e-014a-5563-2d2f-ffffe7a4d18f
+Wed Dec 17 13:43:53 CET 2014:
+Booten von Derby-Version The Apache Software Foundation - Apache Derby - 10.10.1.2 - (1495037): Instanz a816c00e-014a-5846-a463-ffffe7a4d18f
 für Datenbankverzeichnis C:\Users\Luca\Documents\NetBeansProjects\Softwareprojekt2014\Datenbank\SWPDB mit Class Loader sun.misc.Launcher$AppClassLoader@1d44bcfa
 Geladen aus file:/C:/Program%20Files/Java/jdk1.8.0/db/lib/derby.jar
 java.vendor=Oracle Corporation

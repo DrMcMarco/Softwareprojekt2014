@@ -9,7 +9,7 @@ import GUI_Internalframes.*;
 
 import Interfaces.*;
 import javax.swing.JInternalFrame;
-
+import JFrames.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
@@ -18,7 +18,12 @@ import javax.swing.tree.TreePath;
  * @author Luca
  */
 public class Hauptmenue_User extends javax.swing.JInternalFrame implements InterfaceJTreeFunction {
-
+    /*
+    Hilfsvariablen
+    */
+    GUIFactory factory;
+    
+    
     AuftragskopfAnlegen auftragskopfanlegen;
     AuftragskopfAendern auftragskopfaendern;
 //    AuftragskopfAnzeigen auftragskopfanzeigen;
@@ -47,8 +52,9 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
     /**
      * Creates new form test
      */
-    public Hauptmenue_User() {
+    public Hauptmenue_User(GUIFactory factory) {
         initComponents();
+        this.factory = factory;
 //        auftragskopfanlegen = new AuftragskopfAnlegen();
 //        auftragskopfanzeigen = new AuftragskopfAnzeigen();
 //        auftragskopfaendern = new AuftragskopfAendern();
@@ -132,13 +138,6 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
         treeNode1.add(treeNode2);
         hauptmenueAdmin_Tree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         hauptmenueAdmin_Tree.setName("Navigation"); // NOI18N
-        hauptmenueAdmin_Tree.addTreeExpansionListener(new javax.swing.event.TreeExpansionListener() {
-            public void treeCollapsed(javax.swing.event.TreeExpansionEvent evt) {
-            }
-            public void treeExpanded(javax.swing.event.TreeExpansionEvent evt) {
-                hauptmenueAdmin_TreeTreeExpanded(evt);
-            }
-        });
         hauptmenueAdmin_Tree.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 hauptmenueAdmin_TreeMouseClicked(evt);
@@ -214,26 +213,27 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
         //node =  hauptmenueAdmin_Tree.get;
         //TreePath Path = node.getNewLeadSelectionPath(); 
         if(evt.getClickCount() == 2){
-//            openJtreeNodes(node);
+            openJtreeNodes(node);
 //            openJtreeNodes(node);
         }
 //        openJtreeNodes(node);
-        System.out.println(evt.getClickCount());
+//        System.out.println(evt.getClickCount());
         System.out.println(node);
     }//GEN-LAST:event_hauptmenueAdmin_TreeMouseClicked
 
-    private void hauptmenueAdmin_TreeTreeExpanded(javax.swing.event.TreeExpansionEvent evt) {//GEN-FIRST:event_hauptmenueAdmin_TreeTreeExpanded
-        // TODO add your handling code here:
-    }//GEN-LAST:event_hauptmenueAdmin_TreeTreeExpanded
-
     @Override
-//    public void openJtreeNodes(DefaultMutableTreeNode node) {
-    public void openJtreeNodes(String node) {
+    public void openJtreeNodes(DefaultMutableTreeNode node) {
+//    public void openJtreeNodes(String node) {
+        System.out.println("111111");
         if(node != null){
+            System.out.println("999999999");
             if(node.equals("Auftrag verwalten")){
+                System.out.println("aaaaaaa");
                 if(node.equals("Auftragskopf")){
+                    System.out.println("bbbbbbbbbbb");
                     if(node.equals("Anlegen")){
                         auftragskopfanlegen.setVisible(true);
+                        System.out.println("ccccccccc");
                     }else if(node.equals("Ändern")){
                         auftragskopfaendern.setVisible(true);
                     }else if(node.equals("Anzeigen")){

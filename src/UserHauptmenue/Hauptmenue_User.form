@@ -70,7 +70,6 @@
             <Property name="name" type="java.lang.String" value="Navigation" noResource="true"/>
           </Properties>
           <Events>
-            <EventHandler event="treeExpanded" listener="javax.swing.event.TreeExpansionListener" parameters="javax.swing.event.TreeExpansionEvent" handler="hauptmenueAdmin_TreeTreeExpanded"/>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="hauptmenueAdmin_TreeMouseClicked"/>
           </Events>
         </Component>

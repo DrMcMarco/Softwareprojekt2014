@@ -80,7 +80,7 @@ public class Start extends javax.swing.JFrame {
         
         
         //Initialisierung der einzelnen Masken.
-        hauptmenueuser = new Hauptmenue_User();
+        hauptmenueuser = new Hauptmenue_User(factory);
         hauptmenueuser.setName("HauptmenüUser");
 
         auftragskopfanlegen = new AuftragskopfAnlegen(factory);

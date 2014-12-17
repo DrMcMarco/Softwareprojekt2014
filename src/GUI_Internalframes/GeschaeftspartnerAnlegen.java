@@ -1,5 +1,7 @@
 package GUI_Internalframes;
 
+import DAO.ApplicationException;
+import DTO.*;
 import DAO.DataAccessObject;
 import Documents.UniversalDocument;
 import JFrames.GUIFactory;
@@ -30,6 +32,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     GUIFactory factory;
     DataAccessObject dao;
 
+    Anschrift anschrift;
+    Anschrift lieferanschrift;
+
     private String aktuellesDatum;
 
 //  ArrayList, um fehlerhafte Componenten zu speichern.    
@@ -58,6 +63,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     private NumberFormat nf;
     Calendar cal = Calendar.getInstance();
 
+    Date tempGebuDate;
+
     /**
      * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die
      * Documents.
@@ -67,6 +74,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         fehlerhafteComponenten = new ArrayList<>();
         this.factory = factory;
         this.dao = factory.getDAO();
+        anschrift = null;
+        lieferanschrift = null;
         nf = NumberFormat.getInstance();
 
         nf.setMinimumFractionDigits(2);
@@ -816,7 +825,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         String vorname;
         String telefon;
         String fax;
-        String geburtsdatum;
+//        Date geburtsdatum;
         String erfassungsdatum;
         String eMail;
         String kreditlimit;
@@ -842,7 +851,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                 vorname = jTF_Vorname.getText();
                 telefon = jTF_Telefon.getText();
                 fax = jTF_Fax.getText();
-                geburtsdatum = jFTF_Geburtsdatum.getText();
+//                geburtsdatum = jFTF_Geburtsdatum.getText();
                 erfassungsdatum = jFTF_Erfassungsdatum.getText();
                 eMail = jTF_eMail.getText();
                 kreditlimit = jTF_Kreditlimit.getText();
@@ -850,38 +859,68 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                 hausnummerAnschrift = jTF_HausnummerAnschrift.getText();
                 plzAnschrift = jTF_PLZAnschrift.getText();
                 ortAnschrift = jTF_OrtAnschrift.getText();
+                double k = 0;
+                try {
+                    k = nf.parse(jTF_Kreditlimit.getText()).doubleValue();
+                } catch (ParseException e) {
+                    System.out.println(e.getMessage());
+                }
+                try {
+                    anschrift = this.dao.createAdress("Rechnungsadresse", name, vorname,
+                            titel, strasseAnschrift, hausnummerAnschrift, plzAnschrift,
+                            ortAnschrift, "Deutschland", telefon, fax, eMail, tempGebuDate);
+
+                } catch (ApplicationException e) {
+                    System.out.println(e.getMessage());
+                }
+
                 if (jCHB_WieAnschrift.isSelected()) {
-                    strasseLieferanschrift = strasseAnschrift;
-                    hausnummerLieferanschrift = hausnummerAnschrift;
-                    plzLieferanschrift = plzAnschrift;
-                    ortLieferanschrift = ortAnschrift;
+//                    strasseLieferanschrift = strasseAnschrift;
+//                    hausnummerLieferanschrift = hausnummerAnschrift;
+//                    plzLieferanschrift = plzAnschrift;
+//                    ortLieferanschrift = ortAnschrift;
+                    lieferanschrift = anschrift;
                 } else {
                     strasseLieferanschrift = jTF_StrasseLieferanschrift.getText();
                     hausnummerLieferanschrift = jTF_HausnummerLieferanschrift.getText();
                     plzLieferanschrift = jTF_PLZLieferanschrift.getText();
                     ortLieferanschrift = jTF_OrtLieferanschrift.getText();
+                    try {
+                        lieferanschrift = this.dao.createAdress("Lieferadresse", name, vorname,
+                                titel, strasseLieferanschrift, hausnummerLieferanschrift, plzLieferanschrift,
+                                ortLieferanschrift, "Deutschland", telefon, fax, eMail, tempGebuDate);
+
+                    } catch (ApplicationException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+                try{
+                    
+                this.dao.createBusinessPartner(typ, lieferanschrift, anschrift,k, false);
+                }catch(ApplicationException e){
+                    System.out.println(e.getMessage());
                 }
 
-                System.out.println("Geschäftspartner: \n"
-                        + "Geschäftspartnernummer:      " + geschaeftspartnerNr + "\n"
-                        + "Typ:                         " + typ + "\n"
-                        + "Titel:                       " + titel + "\n"
-                        + "Name:                        " + name + "\n"
-                        + "Vorname:                     " + vorname + "\n"
-                        + "Telefon:                     " + telefon + "\n"
-                        + "Fax:                         " + fax + "\n"
-                        + "Geburtsdatum:                " + geburtsdatum + "\n"
-                        + "Erfassungsdatum:             " + erfassungsdatum + "\n"
-                        + "eMail:                       " + eMail + "\n"
-                        + "Kreditlimit:                 " + kreditlimit + "\n"
-                        + "Straße Anschrift:            " + strasseAnschrift + "\n"
-                        + "Hausnummer Anschrift:        " + hausnummerAnschrift + "\n"
-                        + "PLZ Anschrift:               " + plzAnschrift + "\n"
-                        + "Ort Anschrift:               " + ortAnschrift + "\n"
-                        + "Straße LAnschrift:           " + strasseLieferanschrift + "\n"
-                        + "Hausnummer LAnschrift:       " + hausnummerLieferanschrift + "\n"
-                        + "PLZ LAnschrift:              " + plzLieferanschrift + "\n"
-                        + "Ort LAnschrift:              " + ortLieferanschrift + "\n");
+//                System.out.println("Geschäftspartner: \n"
+//                        + "Geschäftspartnernummer:      " + geschaeftspartnerNr + "\n"
+//                        + "Typ:                         " + typ + "\n"
+//                        + "Titel:                       " + titel + "\n"
+//                        + "Name:                        " + name + "\n"
+//                        + "Vorname:                     " + vorname + "\n"
+//                        + "Telefon:                     " + telefon + "\n"
+//                        + "Fax:                         " + fax + "\n"
+//                        //                        + "Geburtsdatum:                " + geburtsdatum + "\n"
+//                        + "Erfassungsdatum:             " + erfassungsdatum + "\n"
+//                        + "eMail:                       " + eMail + "\n"
+//                        + "Kreditlimit:                 " + kreditlimit + "\n"
+//                        + "Straße Anschrift:            " + strasseAnschrift + "\n"
+//                        + "Hausnummer Anschrift:        " + hausnummerAnschrift + "\n"
+//                        + "PLZ Anschrift:               " + plzAnschrift + "\n"
+//                        + "Ort Anschrift:               " + ortAnschrift + "\n"
+//                        + "Straße LAnschrift:           " + strasseLieferanschrift + "\n"
+//                        + "Hausnummer LAnschrift:       " + hausnummerLieferanschrift + "\n"
+//                        + "PLZ LAnschrift:              " + plzLieferanschrift + "\n"
+//                        + "Ort LAnschrift:              " + ortLieferanschrift + "\n");
 
                 geschaeftspartnerNr++;
                 setzeFormularZurueck();
@@ -970,7 +1009,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
             if (eingabeJahr.length() == 4 && (eingabeJahr.startsWith("20") || eingabeJahr.startsWith("19"))) {
                 try {
                     Date tempAktDate = FORMAT.parse(aktuellesDatum);
-                    Date tempGebuDate = FORMAT.parse(eingabeGeburtsdatum);
+                    tempGebuDate = FORMAT.parse(eingabeGeburtsdatum);
 //                Date temp = FORMAT.parse("09.12.1996");
 //                Date temp1 = FORMAT.parse("09.12.2014");
 //                long achtzehn = temp1.getTime() - temp.getTime();
