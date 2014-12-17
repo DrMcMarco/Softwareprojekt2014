@@ -21,7 +21,7 @@ import javax.persistence.*;
 public abstract class Geschaeftspartner implements Serializable {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long GeschaeftspartnerID;
     
     @OneToOne

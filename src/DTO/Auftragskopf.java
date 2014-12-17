@@ -22,7 +22,7 @@ import javax.persistence.*;
 public abstract class Auftragskopf implements Serializable {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long AuftragskopfID;
     
     private String Auftragstext;

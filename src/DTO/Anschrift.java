@@ -22,7 +22,7 @@ import javax.persistence.*;
 public abstract class Anschrift implements Serializable {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long AnschriftID;
     
     private String Name;

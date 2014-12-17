@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class Zahlungskondition implements Serializable {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long ZahlungskonditionID;
     
     private String Auftragsart;

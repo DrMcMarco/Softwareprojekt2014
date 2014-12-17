@@ -17,7 +17,7 @@ import javax.persistence.*;
 public class Status implements Serializable {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long StatusID;
     
     private String Status;

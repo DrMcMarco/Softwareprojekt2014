@@ -17,7 +17,7 @@ import javax.persistence.*;
 public class Artikelkategorie implements java.io.Serializable {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long Id;
     
     private String Kategoriename;
