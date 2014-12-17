@@ -1,5 +1,6 @@
 package GUI_Internalframes;
 
+import DAO.DataAccessObject;
 import javax.swing.JOptionPane;
 import Documents.*;
 import java.awt.Color;
@@ -27,6 +28,7 @@ import JFrames.*;
 public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
     Component c;
     GUIFactory factory;
+        DataAccessObject dao;
     /*
      Varibalendefinition
      */
@@ -92,6 +94,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         initComponents();
         
         this.factory = factory;
+        this.dao = factory.getDAO();
         
         heute = new Date();
         lieferdatum = null;

@@ -1,5 +1,6 @@
 package GUI_Internalframes;
 
+import DAO.DataAccessObject;
 import JFrames.GUIFactory;
 import java.awt.Color;
 import java.awt.Component;
@@ -28,7 +29,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
      */
     Component c;
     GUIFactory factory;
-
+    DataAccessObject dao;
 //  Insanzvariablen eines Artikels
     private int zknummer = 1;
     private int skontozeit1;
@@ -70,6 +71,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         initComponents();
 
         this.factory = factory;
+        this.dao = factory.getDAO();
 
         fehlerhafteComponenten = new ArrayList<>();
         zkListe = new ArrayList<>();
@@ -321,7 +323,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel8.setText("Zahlungskondition-ID:");
 
-        jCB_Auftragsart.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Bitte auswählen", "Sofortauftrag", "Terminauftrag", "Bestellauftrag" }));
+        jCB_Auftragsart.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Bitte auswählen", "Barauftrag", "Sofortauftrag", "Terminauftrag", "Bestellauftrag" }));
         jCB_Auftragsart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCB_AuftragsartActionPerformed(evt);

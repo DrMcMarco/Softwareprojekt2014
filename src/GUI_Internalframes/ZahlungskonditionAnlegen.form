@@ -387,11 +387,12 @@
     <Component class="javax.swing.JComboBox" name="jCB_Auftragsart">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
+          <StringArray count="5">
             <StringItem index="0" value="Bitte ausw&#xe4;hlen"/>
-            <StringItem index="1" value="Sofortauftrag"/>
-            <StringItem index="2" value="Terminauftrag"/>
-            <StringItem index="3" value="Bestellauftrag"/>
+            <StringItem index="1" value="Barauftrag"/>
+            <StringItem index="2" value="Sofortauftrag"/>
+            <StringItem index="3" value="Terminauftrag"/>
+            <StringItem index="4" value="Bestellauftrag"/>
           </StringArray>
         </Property>
       </Properties>
