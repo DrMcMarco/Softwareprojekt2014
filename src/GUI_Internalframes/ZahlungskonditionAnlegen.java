@@ -1,5 +1,6 @@
 package GUI_Internalframes;
 
+import DAO.ApplicationException;
 import DAO.DataAccessObject;
 import Documents.UniversalDocument;
 import JFrames.GUIFactory;
@@ -69,7 +70,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     Calendar cal = Calendar.getInstance();
     private String aktuellesDatum;
 
-    private final String PRUEFUNG_TAGE = "|[0-9]{2}";
+    private final String PRUEFUNG_TAGE = "|[0-9]{1,2}";
     private NumberFormat nf;
 
     /**
@@ -81,8 +82,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
 
         nf = NumberFormat.getInstance();
 
-//        this.factory = factory;
-//        this.dao = factory.getDAO();
+        this.factory = factory;
+        this.dao = factory.getDAO();
         fehlerhafteComponenten = new ArrayList<>();
         zkListe = new ArrayList<>();
 
@@ -824,10 +825,16 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
                 mahnzeit1 = ((Number) jSP_Mahnzeit1.getValue()).doubleValue();
                 mahnzeit2 = ((Number) jSP_Mahnzeit2.getValue()).doubleValue();
                 mahnzeit3 = ((Number) jSP_Mahnzeit3.getValue()).doubleValue();
+                
+                this.dao.createPaymentConditions(auftragsart, lieferzeitSOFORT, 
+                        sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, 
+                        skonto2, mahnzeit1, mahnzeit2, mahnzeit3);
 
 //          Artikel wird in ArrayList für Artikel hinzugefuegt     
             } catch (ParseException ex) {
                 System.out.println(ex.getMessage());
+            } catch (ApplicationException ax) {
+                System.out.println(ax.getMessage());
             }
 
 //            zkListe.add(new Zahlungskondition("" + zknummer, auftragsart, lieferzeitSOFORT, sperrzeitWUNSCH, "" + skontozeit1, "" + skontozeit2, skonto1, skonto2, "" + mahnzeitzeit1, "" + mahnzeitzeit2, "" + mahnzeitzeit3));
