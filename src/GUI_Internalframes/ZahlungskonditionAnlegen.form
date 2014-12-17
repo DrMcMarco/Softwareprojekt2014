@@ -401,6 +401,11 @@
       </Events>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="jFTF_SperrzeitWUNSCH">
+      <Properties>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+          <Format subtype="0" type="0"/>
+        </Property>
+      </Properties>
       <Events>
         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jFTF_SperrzeitWUNSCHFocusLost"/>
       </Events>
@@ -416,7 +421,7 @@
     <Component class="javax.swing.JFormattedTextField" name="jFTF_LieferzeitSOFORT">
       <Properties>
         <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-          <Format subtype="0" type="1"/>
+          <Format subtype="0" type="0"/>
         </Property>
       </Properties>
       <Events>

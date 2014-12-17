@@ -1,16 +1,20 @@
 package GUI_Internalframes;
 
 import DAO.DataAccessObject;
+import Documents.UniversalDocument;
 import JFrames.GUIFactory;
 import java.awt.Color;
 import java.awt.Component;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.text.DefaultFormatterFactory;
@@ -51,10 +55,12 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
 //  Insantzvariablen für die Meldungen         
     private final String TITEL_PFLICHTFELDER = "Felder nicht ausgefüllt";
     private final String TEXT_PFLICHTFELDER = "Einige Felder wurden nicht ausgefüllt! Bitte füllen Sie diese aus!";
-    private final String TEXT_LIEFERZEIT = "Das eingegebene Lieferdatumdatum liegt in der Vergangenheit! \nDas Lieferdatum muss in der Zukunft liegen.";
+//    private final String TEXT_LIEFERZEIT = "Das eingegebene Lieferdatumdatum liegt in der Vergangenheit! \nDas Lieferdatum muss in der Zukunft liegen.";
+    private final String TEXT_LIEFERZEIT = "Bitte geben Sie eine zweistellige Lieferzeit ein!";
     private final String TITEL_FEHLERHAFTE_EINGABE = "Fehlerhafte Eingabe";
     private final String TEXT_LIEFERZEIT_2 = "Das eingegebene Lieferdatum ist in nicht gültig! \nBitte geben Sie ein gültiges Lieferdatm Datum ein. (z.B. 16.12.2014)";
-    private final String TEXT_SPERRZEIT = "Die eingegebene Sperrzeit liegt in der Vergangenheit! \nDas Lieferdatum muss in der Zukunft liegen.";
+//    private final String TEXT_SPERRZEIT = "Die eingegebene Sperrzeit liegt in der Vergangenheit! \nDas Lieferdatum muss in der Zukunft liegen.";
+    private final String TEXT_SPERRZEIT = "Bitte geben Sie eine zweistellige Sperrzeit ein!";
     private final String TEXT_SPERRZEIT_2 = "Die eingegebene Sperrzeit ist in nicht gültig! \nBitte geben Sie eine gültige Sperrzeit ein.";
     private final String STATUSZEILE = "Zahlungskondition wurde angelegt!";
 
@@ -63,6 +69,9 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     Calendar cal = Calendar.getInstance();
     private String aktuellesDatum;
 
+    private final String PRUEFUNG_TAGE = "|[0-9]{2}";
+    private NumberFormat nf;
+
     /**
      * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die
      * Documents.
@@ -70,15 +79,19 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     public ZahlungskonditionAnlegen(GUIFactory factory) {
         initComponents();
 
-        this.factory = factory;
-        this.dao = factory.getDAO();
+        nf = NumberFormat.getInstance();
 
+//        this.factory = factory;
+//        this.dao = factory.getDAO();
         fehlerhafteComponenten = new ArrayList<>();
         zkListe = new ArrayList<>();
 
         GregorianCalendar aktuellesDaum = new GregorianCalendar();
         DateFormat df_aktuellesDatum = DateFormat.getDateInstance(DateFormat.MEDIUM);    //05.12.2014     
         aktuellesDatum = df_aktuellesDatum.format(aktuellesDaum.getTime());
+
+        jFTF_LieferzeitSOFORT.setDocument(new UniversalDocument("0123456789", false));
+        jFTF_SperrzeitWUNSCH.setDocument(new UniversalDocument("0123456789", false));
 
 //        DateFormat df_jTF = DateFormat.getDateInstance();
 //        df_jTF.setLenient(false);
@@ -94,31 +107,31 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
 ////        jFTF_LieferzeitSOFORT.setText(aktuellesDatum);
 //        jFTF_SperrzeitWUNSCH.setFormatterFactory(dff2);
 //        jFTF_SperrzeitWUNSCH.setText(aktuellesDatum);
-        MaskFormatter mf = null;
-        try {
-            mf = new MaskFormatter("##.##.####");
-        } catch (ParseException e) {
-            System.out.println(e.toString());
-        }
-//        mf.setValueContainsLiteralCharacters(false);
-        mf.setPlaceholder("########");
-        mf.setPlaceholderCharacter('#');
-        mf.setOverwriteMode(true);
-        DefaultFormatterFactory dff = new DefaultFormatterFactory(mf);
-        jFTF_LieferzeitSOFORT.setFormatterFactory(dff);
-
-        MaskFormatter mf1 = null;
-        try {
-            mf1 = new MaskFormatter("##.##.####");
-        } catch (ParseException e) {
-            System.out.println(e.toString());
-        }
-//        mf.setValueContainsLiteralCharacters(false);
-        mf1.setPlaceholder("########");
-        mf1.setPlaceholderCharacter('#');
-        mf1.setOverwriteMode(true);
-        DefaultFormatterFactory dff1 = new DefaultFormatterFactory(mf1);
-        jFTF_SperrzeitWUNSCH.setFormatterFactory(dff1);
+//        MaskFormatter mf = null;
+//        try {
+//            mf = new MaskFormatter("##.##.####");
+//        } catch (ParseException e) {
+//            System.out.println(e.toString());
+//        }
+////        mf.setValueContainsLiteralCharacters(false);
+//        mf.setPlaceholder("########");
+//        mf.setPlaceholderCharacter('#');
+//        mf.setOverwriteMode(true);
+//        DefaultFormatterFactory dff = new DefaultFormatterFactory(mf);
+//        jFTF_LieferzeitSOFORT.setFormatterFactory(dff);
+//
+//        MaskFormatter mf1 = null;
+//        try {
+//            mf1 = new MaskFormatter("##.##.####");
+//        } catch (ParseException e) {
+//            System.out.println(e.toString());
+//        }
+////        mf.setValueContainsLiteralCharacters(false);
+//        mf1.setPlaceholder("########");
+//        mf1.setPlaceholderCharacter('#');
+//        mf1.setOverwriteMode(true);
+//        DefaultFormatterFactory dff1 = new DefaultFormatterFactory(mf1);
+//        jFTF_SperrzeitWUNSCH.setFormatterFactory(dff1);
     }
 
     /*
@@ -136,10 +149,12 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         if (jCB_Auftragsart.getSelectedIndex() == 0) {
             fehlerhafteComponenten.add(jCB_Auftragsart);
         }
-        if (jFTF_LieferzeitSOFORT.getText().equals("##.##.####")) {
+//        if (jFTF_LieferzeitSOFORT.getText().equals("##.##.####")) {
+        if (jFTF_LieferzeitSOFORT.getText().equals("")) {
             fehlerhafteComponenten.add(jFTF_LieferzeitSOFORT);
         }
-        if (jFTF_SperrzeitWUNSCH.getText().equals("##.##.####")) {
+//        if (jFTF_SperrzeitWUNSCH.getText().equals("##.##.####")) {
+        if (jFTF_SperrzeitWUNSCH.getText().equals("")) {
             fehlerhafteComponenten.add(jFTF_SperrzeitWUNSCH);
         }
         if (skontozeit1 == 0) {
@@ -177,8 +192,10 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         jCB_Auftragsart.setSelectedIndex(0);
         jCB_Auftragsart.setBackground(JCB_FARBE_STANDARD);
 //        jFTF_LieferzeitSOFORT.setText(aktuellesDatum);
+        jFTF_LieferzeitSOFORT.setText("");
         jFTF_LieferzeitSOFORT.setBackground(JTF_FARBE_STANDARD);
 //        jFTF_SperrzeitWUNSCH.setText(aktuellesDatum);
+        jFTF_SperrzeitWUNSCH.setText("");
         jFTF_SperrzeitWUNSCH.setBackground(JTF_FARBE_STANDARD);
         jSP_Skontozeit1.setValue(0);
         jSP_Skontozeit1.setBackground(JTF_FARBE_STANDARD);
@@ -330,6 +347,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
             }
         });
 
+        jFTF_SperrzeitWUNSCH.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
         jFTF_SperrzeitWUNSCH.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jFTF_SperrzeitWUNSCHFocusLost(evt);
@@ -339,7 +357,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel9.setText("Sperrzeit WUNSCH:");
 
-        jFTF_LieferzeitSOFORT.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        jFTF_LieferzeitSOFORT.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
         jFTF_LieferzeitSOFORT.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jFTF_LieferzeitSOFORTFocusLost(evt);
@@ -625,39 +643,48 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
      * Methode, die prüft, ob das eingegebene Lieferdatum gültig ist. 
      */
     private void jFTF_LieferzeitSOFORTFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFTF_LieferzeitSOFORTFocusLost
-        String eingabeLieferzeit = jFTF_LieferzeitSOFORT.getText();
-        String eingabeJahr = eingabeLieferzeit.substring(6, eingabeLieferzeit.length());
-        if (!jFTF_LieferzeitSOFORT.getText().equals("##.##.####")) {
+//        String eingabeLieferzeit = jFTF_LieferzeitSOFORT.getText();
+//        String eingabeJahr = eingabeLieferzeit.substring(6, eingabeLieferzeit.length());
+//        if (!jFTF_LieferzeitSOFORT.getText().equals("##.##.####")) {
+//
+//            if (eingabeJahr.length() == 4 && eingabeJahr.startsWith("20")) {
+//                try {
+//                    Date tempAktDate = FORMAT.parse(aktuellesDatum);
+//                    Date tempLiefDate = FORMAT.parse(eingabeLieferzeit);
+////                ?
+////                ? 
+////                ?
+//                    if (tempAktDate.getTime() > tempLiefDate.getTime()) {
+//                        JOptionPane.showMessageDialog(null, TEXT_LIEFERZEIT, TITEL_FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
+//                        jFTF_LieferzeitSOFORT.requestFocusInWindow();
+//                        jFTF_LieferzeitSOFORT.selectAll();
+////                        jFTF_LieferzeitSOFORT.removeAll();
+//                        jFTF_LieferzeitSOFORT.setValue(null);
+//                    } else {
+//                        jFTF_LieferzeitSOFORT.setBackground(JTF_FARBE_STANDARD);
+//                    }
+//                } catch (ParseException ex) {
+//                    System.out.println(ex.getMessage());
+//                }
+//            } else {
+//                // eingabe Ungültig z.B. 19999;
+//                JOptionPane.showMessageDialog(null, TEXT_LIEFERZEIT_2 + "(z.B. " + aktuellesDatum + ")", TITEL_FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
+//                jFTF_LieferzeitSOFORT.requestFocusInWindow();
+////                jFTF_LieferzeitSOFORT.setText("##.##.####");
+//                jFTF_LieferzeitSOFORT.setValue(null);
+//            }
+//        } else {
+////            jFTF_LieferzeitSOFORT.setText("12.12.2018");
+//            jFTF_LieferzeitSOFORT.setValue(null);
+//        }
 
-            if (eingabeJahr.length() == 4 && eingabeJahr.startsWith("20")) {
-                try {
-                    Date tempAktDate = FORMAT.parse(aktuellesDatum);
-                    Date tempLiefDate = FORMAT.parse(eingabeLieferzeit);
-//                ?
-//                ? 
-//                ?
-                    if (tempAktDate.getTime() > tempLiefDate.getTime()) {
-                        JOptionPane.showMessageDialog(null, TEXT_LIEFERZEIT, TITEL_FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
-                        jFTF_LieferzeitSOFORT.requestFocusInWindow();
-                        jFTF_LieferzeitSOFORT.selectAll();
-//                        jFTF_LieferzeitSOFORT.removeAll();
-                        jFTF_LieferzeitSOFORT.setValue(null);
-                    } else {
-                        jFTF_LieferzeitSOFORT.setBackground(JTF_FARBE_STANDARD);
-                    }
-                } catch (ParseException ex) {
-                    System.out.println(ex.getMessage());
-                }
-            } else {
-                // eingabe Ungültig z.B. 19999;
-                JOptionPane.showMessageDialog(null, TEXT_LIEFERZEIT_2 + "(z.B. " + aktuellesDatum + ")", TITEL_FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
-                jFTF_LieferzeitSOFORT.requestFocusInWindow();
-//                jFTF_LieferzeitSOFORT.setText("##.##.####");
-                jFTF_LieferzeitSOFORT.setValue(null);
-            }
-        } else {
-//            jFTF_LieferzeitSOFORT.setText("12.12.2018");
+        if (!jFTF_LieferzeitSOFORT.getText().matches(PRUEFUNG_TAGE)) {
+            JOptionPane.showMessageDialog(null, TEXT_LIEFERZEIT, TITEL_FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
+            jFTF_LieferzeitSOFORT.requestFocusInWindow();
+            jFTF_LieferzeitSOFORT.setText("");
             jFTF_LieferzeitSOFORT.setValue(null);
+        } else if (!jFTF_LieferzeitSOFORT.getText().equals("")) {
+            jFTF_LieferzeitSOFORT.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jFTF_LieferzeitSOFORTFocusLost
 
@@ -665,41 +692,49 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
      * Methode, die prüft, ob das eingegebene Sperrdatum gültig ist. 
      */
     private void jFTF_SperrzeitWUNSCHFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFTF_SperrzeitWUNSCHFocusLost
-        String eingabeSperrzeit = jFTF_SperrzeitWUNSCH.getText();
-        String eingabeJahr = eingabeSperrzeit.substring(6, eingabeSperrzeit.length());
-        if (!jFTF_SperrzeitWUNSCH.getText().equals("##.##.####")) {
-            if (eingabeJahr.length() == 4 && eingabeJahr.startsWith("20")) {
-                try {
-                    Date tempAktDate = FORMAT.parse(aktuellesDatum);
-                    Date tempLiefDate = FORMAT.parse(eingabeSperrzeit);
-//                ?
-//                ? 
-//                ?
-                    if (tempAktDate.getTime() > tempLiefDate.getTime()) {
-                        JOptionPane.showMessageDialog(null, TEXT_SPERRZEIT, TITEL_FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
-                        jFTF_SperrzeitWUNSCH.requestFocusInWindow();
-//                        jFTF_SperrzeitWUNSCH.setText("##.##.####");
-                        jFTF_SperrzeitWUNSCH.setValue(null);
-                    } else {
-                        jFTF_SperrzeitWUNSCH.setBackground(JTF_FARBE_STANDARD);
-                    }
-                } catch (ParseException ex) {
-                    System.out.println(ex.getMessage());
-                }
-            } else {
-                // eingabe Ungültig z.B. 19999;
-                JOptionPane.showMessageDialog(null, TEXT_SPERRZEIT_2 + "(z.B. " + aktuellesDatum + ")", TITEL_FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
-                jFTF_SperrzeitWUNSCH.requestFocusInWindow();
-//                jFTF_SperrzeitWUNSCH.setText("##.##.####");
-                jFTF_SperrzeitWUNSCH.setValue(null);
-            }
-        } else {
-//            jFTF_SperrzeitWUNSCH.setText("##.##.####");
-            jFTF_SperrzeitWUNSCH.setValue(null);
-        }
-//        if (!jFTF_SperrzeitWUNSCH.getText().equals("")) {
-//            jFTF_SperrzeitWUNSCH.setBackground(JTF_FARBE_STANDARD);
+//        String eingabeSperrzeit = jFTF_SperrzeitWUNSCH.getText();
+//        String eingabeJahr = eingabeSperrzeit.substring(6, eingabeSperrzeit.length());
+//        if (!jFTF_SperrzeitWUNSCH.getText().equals("##.##.####")) {
+//            if (eingabeJahr.length() == 4 && eingabeJahr.startsWith("20")) {
+//                try {
+//                    Date tempAktDate = FORMAT.parse(aktuellesDatum);
+//                    Date tempLiefDate = FORMAT.parse(eingabeSperrzeit);
+////                ?
+////                ? 
+////                ?
+//                    if (tempAktDate.getTime() > tempLiefDate.getTime()) {
+//                        JOptionPane.showMessageDialog(null, TEXT_SPERRZEIT, TITEL_FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
+//                        jFTF_SperrzeitWUNSCH.requestFocusInWindow();
+////                        jFTF_SperrzeitWUNSCH.setText("##.##.####");
+//                        jFTF_SperrzeitWUNSCH.setValue(null);
+//                    } else {
+//                        jFTF_SperrzeitWUNSCH.setBackground(JTF_FARBE_STANDARD);
+//                    }
+//                } catch (ParseException ex) {
+//                    System.out.println(ex.getMessage());
+//                }
+//            } else {
+//                // eingabe Ungültig z.B. 19999;
+//                JOptionPane.showMessageDialog(null, TEXT_SPERRZEIT_2 + "(z.B. " + aktuellesDatum + ")", TITEL_FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
+//                jFTF_SperrzeitWUNSCH.requestFocusInWindow();
+////                jFTF_SperrzeitWUNSCH.setText("##.##.####");
+//                jFTF_SperrzeitWUNSCH.setValue(null);
+//            }
+//        } else {
+////            jFTF_SperrzeitWUNSCH.setText("##.##.####");
+//            jFTF_SperrzeitWUNSCH.setValue(null);
 //        }
+////        if (!jFTF_SperrzeitWUNSCH.getText().equals("")) {
+////            jFTF_SperrzeitWUNSCH.setBackground(JTF_FARBE_STANDARD);
+////        }
+        if (!jFTF_SperrzeitWUNSCH.getText().matches(PRUEFUNG_TAGE)) {
+            JOptionPane.showMessageDialog(null, TEXT_SPERRZEIT, TITEL_FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
+            jFTF_SperrzeitWUNSCH.requestFocusInWindow();
+            jFTF_SperrzeitWUNSCH.setText("");
+            jFTF_SperrzeitWUNSCH.setValue(null);
+        } else if (!jFTF_SperrzeitWUNSCH.getText().equals("")) {
+            jFTF_SperrzeitWUNSCH.setBackground(JTF_FARBE_STANDARD);
+        }
     }//GEN-LAST:event_jFTF_SperrzeitWUNSCHFocusLost
 
     /*
@@ -766,19 +801,53 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         if (fehlerhafteComponenten.isEmpty()) {
 
             String auftragsart = (String) jCB_Auftragsart.getSelectedItem();
-            String lieferzeitSOFORT = jFTF_LieferzeitSOFORT.getText();
-            String sperrzeitWUNSCH = jFTF_SperrzeitWUNSCH.getText();
-            String skonto1 = (String) jCB_Skonto1.getSelectedItem();
-            String skonto2 = (String) jCB_Skonto2.getSelectedItem();
+            double lieferzeitSOFORT = 0;
+            double sperrzeitWunsch = 0;
+            double skontozeit1 = 0;
+            double skontozeit2 = 0;
+            double skonto1 = 0;
+            double skonto2 = 0;
+            double mahnzeit1 = 0;
+            double mahnzeit2 = 0;
+            double mahnzeit3 = 0;
+//            String lieferzeitSOFORT = jFTF_LieferzeitSOFORT.getText();
+//            String sperrzeitWUNSCH = jFTF_SperrzeitWUNSCH.getText();
+//            String skonto1 = (String) jCB_Skonto1.getSelectedItem();
+//            String skonto2 = (String) jCB_Skonto2.getSelectedItem();
+            try {
+                lieferzeitSOFORT = nf.parse(jFTF_LieferzeitSOFORT.getText()).doubleValue();
+                sperrzeitWunsch = nf.parse(jFTF_SperrzeitWUNSCH.getText()).doubleValue();
+                skonto1 = nf.parse((String) jCB_Skonto1.getSelectedItem()).doubleValue();
+                skonto2 = nf.parse((String) jCB_Skonto2.getSelectedItem()).doubleValue();
+                skontozeit1 = ((Number) jSP_Skontozeit1.getValue()).doubleValue();
+                skontozeit2 = ((Number) jSP_Skontozeit2.getValue()).doubleValue();
+                mahnzeit1 = ((Number) jSP_Mahnzeit1.getValue()).doubleValue();
+                mahnzeit2 = ((Number) jSP_Mahnzeit2.getValue()).doubleValue();
+                mahnzeit3 = ((Number) jSP_Mahnzeit3.getValue()).doubleValue();
+
 //          Artikel wird in ArrayList für Artikel hinzugefuegt     
+            } catch (ParseException ex) {
+                System.out.println(ex.getMessage());
+            }
 
 //            zkListe.add(new Zahlungskondition("" + zknummer, auftragsart, lieferzeitSOFORT, sperrzeitWUNSCH, "" + skontozeit1, "" + skontozeit2, skonto1, skonto2, "" + mahnzeitzeit1, "" + mahnzeitzeit2, "" + mahnzeitzeit3));
 //          provisorisch wird der Artikel ausgegeben  
 //            System.out.println(zkListe.get(zkListe.size() - 1).toString());
-//          die artikelnummer wird erhöht  
-//            zknummer++;
+//          die artikelnummer wird erhöht 
+            System.out.println(zknummer);
+            System.out.println(auftragsart);
+            System.out.println(lieferzeitSOFORT);
+            System.out.println(sperrzeitWunsch);
+            System.out.println(skonto1);
+            System.out.println(skonto2);
+            System.out.println(skontozeit1);
+            System.out.println(skontozeit2);
+            System.out.println(mahnzeit1);
+            System.out.println(mahnzeit2);
+            System.out.println(mahnzeit3);
             System.out.println(STATUSZEILE);
             jTF_Statuszeile1.setText(STATUSZEILE);
+            zknummer++;
 //          das Formular wird zurueckgesetzt  
             setzeFormularZurueck();
         } else {

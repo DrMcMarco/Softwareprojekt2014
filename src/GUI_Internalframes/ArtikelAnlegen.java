@@ -58,12 +58,12 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         
         this.factory = factory;
         this.dao = this.factory.getDAO();
-        try{
+//        try{
             
-        this.dao.createCategory("Kategorie 1", "eine Kategoriebeschreibung", "Test", false);
-        }catch(ApplicationException e){
-            System.out.println(e.getMessage());
-        }
+//        this.dao.createCategory("Kategorie 1", "eine Kategoriebeschreibung", "Test", false);
+//        }catch(ApplicationException e){
+//            System.out.println(e.getMessage());
+//        }
         
         fehlerhafteComponenten = new ArrayList<>();
         artikelListe = new ArrayList<>();
