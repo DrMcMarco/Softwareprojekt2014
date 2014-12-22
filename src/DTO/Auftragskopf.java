@@ -5,9 +5,12 @@
  */
 package DTO;
 
+import DAO.ApplicationException;
+import JFrames.GUIFactory;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Objects;
 import javax.persistence.*;
 
@@ -97,9 +100,8 @@ public abstract class Auftragskopf implements Serializable {
         return Status;
     }
 
-    public void setStatus(Status Status) {
-        this.Status = Status;
-    }
+    
+    
 
     public Date getAbschlussdatum() {
         return Abschlussdatum;
@@ -138,7 +140,7 @@ public abstract class Auftragskopf implements Serializable {
         ap.setAuftrag(this);
         ap.setArtikel(artikel);
         ap.setMenge(Menge);
-        ap.setEinzelwert(artikel.getVerkaufswert()*Menge);
+        ap.setEinzelwert(artikel.getVerkaufswert() * Menge);
         ap.setErfassungsdatum(this.Erfassungsdatum);
         this.Positionsliste.add(ap);
     }
@@ -165,5 +167,123 @@ public abstract class Auftragskopf implements Serializable {
         return true;
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 11.11.14 sch angelegt                                    */
+    /*----------------------------------------------------------*/
+    /**
+     * Setzt den Status eines Auftrags
+     * Je nach Status wird eine Verfügbarkeitsprüfung 
+     * und eine Bestandsführung angestoßen
+     * @param status Der Status in den der Auftrag versetzt werden soll
+     * @throws ApplicationException reicht die Exception weiter
+     */
+    public void setStatus(Status status) throws ApplicationException {
+        
+        if (status.getStatus().equals("erfasst")) {
+            this.Status = status;
+        } else {
+            if (this.pruefeVerfügbarkeit(status.getStatus())) {
+                this.setzeBestand(status.getStatus());
+                this.Status = status;
+            }
+        }
+    }
     
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 11.11.14 sch angelegt                                    */
+    /*----------------------------------------------------------*/
+    /**
+     * 
+     * @throws ApplicationException 
+     */
+    private void setzeBestand(String status) throws ApplicationException {
+        GUIFactory.getDAO().setzeArtikelBestand(this.Positionsliste, status);
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 11.11.14 sch angelegt                                    */
+    /*----------------------------------------------------------*/
+    /**
+     * Führt eine Verfügbarkeitsprüfung in Abhängigkeit des Auftragsstatus und
+     * Auftragsart durch
+     * @return True: Der Bestand ist hinreichend für die Bestellmenge
+     *         False: Der Bestand ist nicht hinreichen für die Bestellmenge
+     * @throws ApplicationException Wirft eine Exception falls das Kreditlimit
+     *                              Des Kunden nicht ausreichend ist.
+     */
+    private boolean pruefeVerfügbarkeit(String status) 
+            throws ApplicationException {
+        //Flag, ob Bestand verfügbar ist.
+        boolean verfuegbar = false;
+        //Prüfe, ob es sich, um eine Bestellung handelt
+        if (this instanceof Bestellauftragskopf) {
+            if (status.equals("abgeschlossen")) {
+                for (int i = 0; i < this.Positionsliste.size() && !verfuegbar; 
+                        i++) {
+                    //Setze Flag, ob der Zulauf hinreichend für den Abschluss
+                    //Des Bestellauftrages ist und der Bestand auf Frei
+                    //Übertragen werden kann
+                    verfuegbar = 
+                            this.Positionsliste.get(i).getArtikel().getZulauf() 
+                            >= this.Positionsliste.get(i).getMenge();
+                }
+            } else {
+                //Bei einer Bestellung wird nur der Zulauf erhöht
+                //Es bestehen keine Abhängigkeiten
+                verfuegbar = true;
+            }
+        //Alle anderen Auftragsarten
+        } else {
+            //Prüfe Kreditlimit des Kunden (Limit >= Auftragswert)
+            if (this.pruefeKreditlimit()) {
+                //Prüfe, welcher Status gesetzt werden soll
+                if (status.equals("freigegeben")) {
+                    //Durchlaufe alle Positionen des Auftrags
+                    for (int i = 0; i < this.Positionsliste.size() && 
+                            !verfuegbar; i++) {
+                        //Setze das Flag nach den Kriterium, ob die Anzahl Frei
+                        //kleiner o. gleich der Menge 
+                        //aus der Bestellung entspricht
+                        verfuegbar = 
+                                this.Positionsliste.get(i).getArtikel().getFrei() <= 
+                                this.Positionsliste.get(i).getMenge(); 
+                    }
+                } else if (status.equals("abgeschlossen")) {
+                    //Durchlaufe alle Positionen des Auftrags
+                    for (int i = 0; i < this.Positionsliste.size() && 
+                            !verfuegbar; i++) {
+                        //Setze das Flag nach den Kriterium, ob die Anzahl Frei
+                        //kleiner o. gleich der Menge aus der Bestellung entspricht
+                        verfuegbar = 
+                                this.Positionsliste.get(i).getArtikel().getReserviert() <= 
+                                this.Positionsliste.get(i).getMenge(); 
+                    }
+                }
+            //Kreditlimit ist nicht hinreichend
+            } else {
+                throw new ApplicationException("Fehler", "Das Kreditlimit " + 
+                        "reicht nicht aus!");
+            }
+        }
+        return verfuegbar;
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 11.11.14 sch angelegt                                    */
+    /*----------------------------------------------------------*/
+    /**
+     * Das Kreditlimit wird gegen den Auftragswert (Gesamtwert aller Positionen
+     * inklusive Steuern) geprüft.
+     * 
+     * @return True: Kreditlimit ist größer oder gleich dem Auftragswert
+     *         False: Kreditlimit ist kleiner dem Auftragswert
+     */
+    public boolean pruefeKreditlimit() {
+        return this.Geschaeftspartner.getKreditlimit() >= this.Wert;
+    }
 }

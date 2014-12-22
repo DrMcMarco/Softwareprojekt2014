@@ -49,55 +49,64 @@ public class DataAccessObject {
             "Softwareprojekt2014PU").createEntityManager();
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 11.11.14 sch angelegt                                    */
+    /*----------------------------------------------------------*/
     /**
      * Methode zur dynamischen Suche
-     * @param input Sucheingabe 
-     * @param table Tabelle in der gesucht werden soll
+     * @param eingabe Sucheingabe 
+     * @param tabelle Tabelle in der gesucht werden soll
      * @return gibt eine Collection<?> zurück mit allen gefunden Datensätzen
      * @throws DAO.ApplicationException Die Exception wird durchgereicht
      */
-    public Collection<?> searchQuery(String input, String table) 
+    public Collection<?> searchQuery(String eingabe, String tabelle) 
             throws ApplicationException {
         //Datendeklaration
         ArrayList<String> dbIdentifier = null;
         Auftragskopf headOrder = null;
         List<?> sqlResultSet = null;
-        String sqlQuery = null;
+        String sqlAbfrage = null;
         Parser parser = new Parser();
         //Parse den Suchausdruck und hole die DB-Attr. Namen
-        dbIdentifier = parser.parse(input, table);
+        dbIdentifier = parser.parse(eingabe, tabelle);
         //Prüfe, ob das Parsen erfolgreich war.
         if (dbIdentifier == null) {
             throw new ApplicationException("Fehler", 
                     "Beim Parsen ist ein Fehler aufgetreten!");
         }
         //Sql-Statement Dynamisch erzeugen
-        sqlQuery = "SELECT ST FROM " + table + " ST WHERE ";
+        sqlAbfrage = "SELECT ST FROM " + tabelle + " ST WHERE ";
         //Iteriere über alle Input Einträge
         for (int i = 0; i < dbIdentifier.size(); i++) {
             //Hole Abfrage aus der Liste
-            sqlQuery += ("ST." + dbIdentifier.get(i));
+            sqlAbfrage += ("ST." + dbIdentifier.get(i));
             //Prüfe, ob mehrere Einträge vorhanden sind, diese müssen mit AND
             //Verknüpft werden.Beim letzten durchlauf wird kein AND mehr gesetzt
             if (dbIdentifier.size() > 1 && i < dbIdentifier.size() - 1) {
-                sqlQuery += " AND ";
+                sqlAbfrage += " AND ";
             }
         }
 
         try {
             //Ergebnis aus der DB laden und als Liste speichern
-            sqlResultSet = em.createQuery(sqlQuery).getResultList();
+            sqlResultSet = em.createQuery(sqlAbfrage).getResultList();
             
         } catch(Exception e) {
             throw new ApplicationException("Fehler", 
                     "Die Daten konnten nicht gefunden werden!");
-        } 
+        }
         
 
         return sqlResultSet;
     }
 //<editor-fold defaultstate="collapsed" desc="create-Methoden">
     
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 11.11.14 sch angelegt                                    */
+    /*----------------------------------------------------------*/
     /**
      * Methode zur Erzeugung eines Artikels.
      *
@@ -142,6 +151,10 @@ public class DataAccessObject {
         
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 11.11.14 sch angelegt                                    */
+    /*----------------------------------------------------------*/
     /**
      * Methode zur Erzeugung von Artikelkategorien
      * @param Kategoriename Name der Kategorie
@@ -369,6 +382,10 @@ public class DataAccessObject {
         return anschrift;
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 11.11.14 sch angelegt                                    */
+    /*----------------------------------------------------------*/
     /**
      * 
      * @param Auftragsart
@@ -489,11 +506,72 @@ public class DataAccessObject {
 //</editor-fold>
   
 //<editor-fold defaultstate="collapsed" desc="update-Methoden">
-//Subject to change
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 11.11.14 sch angelegt                                    */
+    /*----------------------------------------------------------*/
+    /**
+     * Passt den Artikelbestand gemäß dem übergebenen Status an.
+     * @param positionen Alle Positionen deren Artikelbestand angepasst werden
+     * @param bestandsart Bestand der verändert werden soll
+     * @throws ApplicationException Wirft eine ApplicationException bei Fehlern
+     */
+    public void setzeArtikelBestand(Collection<Auftragsposition> positionen, 
+            String bestandsart) throws ApplicationException {
+        
+        try {
+            //Transaktion starten
+            em.getTransaction().begin();
+            //Iteriere über alle Positionen
+            for (Auftragsposition position : positionen) {
+                //Prüfe, ob es sich um einen Zulauf an Artikeln handelt
+                if (bestandsart.equals("Zulauf")) {
+                    //Erhöhe die Menge des Benstandszulauf
+                    position.getArtikel().setZulauf(position.getArtikel()
+                            .getZulauf() + position.getMenge());
+                } else if (bestandsart.equals("Reserviert")) {
+                    //Verringer die Anzahl von Bestandfrei
+                    position.getArtikel().setFrei(position.getArtikel().
+                            getFrei() - position.getMenge());
+                    //Und Erhöhe den Reservierbestand
+                    position.getArtikel().setReserviert(position.getArtikel().
+                            getReserviert() + position.getMenge());
+                } else if (bestandsart.equals("Frei")) {
+                    //Verringer die Anzahl von Bestandzulauf
+                    position.getArtikel().setZulauf(position.getArtikel().
+                            getZulauf() - position.getMenge());
+                    //Und Erhöhe den Freibestand
+                    position.getArtikel().setFrei(position.getArtikel().
+                            getFrei() + position.getMenge());
+                } else if (bestandsart.equals("Verkauft")) {
+                    //Verringer den Bestandreserviert
+                    position.getArtikel().setReserviert(position.getArtikel()
+                            .getReserviert() - position.getMenge());
+                    //Und Erhöhe den Verkauftbestand
+                    position.getArtikel().setVerkauft(position.getArtikel()
+                            .getFrei() + position.getMenge());
+                }
+                    
+                //Artikel persistieren
+                em.persist(position.getArtikel());
+            }
+            //Commit Ausführen
+            em.getTransaction().commit();
+        } catch (Exception exc) {
+            throw new ApplicationException("Fehler", "Der Bestand konnte " + 
+                    "nicht in der Datenbank angepasst werden!");
+        }
+    }
+    
 //</editor-fold>
     
 //<editor-fold defaultstate="collapsed" desc="get-Methoden">
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 11.11.14 sch angelegt                                    */
+    /*----------------------------------------------------------*/
     /**
      * 
      * @param id
@@ -513,6 +591,10 @@ public class DataAccessObject {
         return conditions;
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 11.11.14 sch angelegt                                    */
+    /*----------------------------------------------------------*/
     /**
      * 
      * @return
@@ -562,6 +644,10 @@ public class DataAccessObject {
 //        return conditions;
 //    }
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 11.11.14 sch angelegt                                    */
+    /*----------------------------------------------------------*/
     /**
      *
      * @param name
@@ -714,10 +800,5 @@ public class DataAccessObject {
         }
     }
     
-    public boolean checkItemStock(HashMap<Long, Integer> itemMap, Status state) 
-            throws ApplicationException {
-        
-        
-        return true;
-    }
+    
 }

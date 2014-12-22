@@ -40,7 +40,8 @@ public class Auftragsposition implements java.io.Serializable {
     public Auftragsposition() {
     }
 
-    public Auftragsposition(Auftragskopf Auftrag, Artikel Artikel, int Menge, double Einzelwert, Date Erfassungsdatum) {
+    public Auftragsposition(Auftragskopf Auftrag, Artikel Artikel, int Menge, 
+            double Einzelwert, Date Erfassungsdatum) {
         this.Auftrag = Auftrag;
         this.Artikel = Artikel;
         this.Menge = Menge;

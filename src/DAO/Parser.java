@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
+/*----------------------------------------------------------*/
+/* Datum Name Was                                           */
+/* 11.11.14 sch angelegt                                    */
+/*----------------------------------------------------------*/
 /**
  *
  * @author Simon <Simon.Simon at your.org>
@@ -23,7 +27,7 @@ public class Parser {
     /**
      * Konstante zur Trennung der einzelnen Querys
      */
-    private static final String[] SPLITOPERATOR = {"<=" , ">=", "<>", "<",
+    private static final String[] OPERATOR = {"<=" , ">=", "<>", "<",
                                                 ">", "="};
     /**
      * Hashmap mit allen Schlüßelwörtern
@@ -32,7 +36,7 @@ public class Parser {
             HashMap<String, String>() {{
               put("nr","Id");
               put("name","Name");
-//************Artikel spezifische Eingaben              
+/*------------Artikel spezifische Eingaben----------------------*/              
               put("atext","Artikeltext");
               put("btext","Bestelltext");
               put("wert","Einkaufswert");
@@ -51,6 +55,10 @@ public class Parser {
               put("typ","Auftragsart");
             }};
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 11.11.14 sch angelegt                                    */
+    /*----------------------------------------------------------*/
     /**
      * Parst den übergebenen String und gibt die DB-Attributnamen zurück
      * @param input Sucheingabe
@@ -91,7 +99,7 @@ public class Parser {
         //Iteriere über alle Suchattribute
         for (String praefix : praefixList) {
             //Iteriere über alle Operatoren
-            for (String split : SPLITOPERATOR) {
+            for (String split : OPERATOR) {
                 //Identifiziere das Attribut nach dem gesucht werden soll
                 searchIdentifier = praefix.split(split)[0];
                 //Wenn Operator gefunden wurde führen wir fort
@@ -115,7 +123,10 @@ public class Parser {
         
         return result;
     }
-    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 11.11.14 sch angelegt                                    */
+    /*----------------------------------------------------------*/
     public boolean checkInput(String input) {
         
         

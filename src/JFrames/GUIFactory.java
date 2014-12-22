@@ -12,10 +12,10 @@ import java.util.ArrayList;
  * 
  * 16.12.2014 Terrasi, Erstellung
  */
-public class GUIFactory {
+public  class  GUIFactory {
     
-    ArrayList<Component> liste;
-    private DataAccessObject DAO;
+    static ArrayList<Component> liste;
+    private static DataAccessObject DAO;
      
     
     public GUIFactory(){
@@ -49,7 +49,7 @@ public class GUIFactory {
     /**
      * @return the DAO
      */
-    public DataAccessObject getDAO() {
+    public static DataAccessObject getDAO() {
         return DAO;
     }
     

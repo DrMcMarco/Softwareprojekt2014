@@ -32,7 +32,9 @@ public class Auftragsart implements Serializable {
     public Auftragsart() {
     }
 
-    public Auftragsart(long AuftragsartID, String Auftragsart, ArrayList<Auftragskopf> Auftragsliste, ArrayList<Zahlungskondition> ZKListe) {
+    public Auftragsart(long AuftragsartID, String Auftragsart, 
+            ArrayList<Auftragskopf> Auftragsliste, 
+            ArrayList<Zahlungskondition> ZKListe) {
         this.AuftragsartID = AuftragsartID;
         this.Auftragsart = Auftragsart;
     }
