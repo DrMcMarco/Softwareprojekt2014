@@ -593,7 +593,7 @@ public class DataAccessObject {
                             .getReserviert() - position.getMenge());
                     //Und Erhöhe den Verkauftbestand
                     position.getArtikel().setVerkauft(position.getArtikel()
-                            .getFrei() + position.getMenge());
+                            .getVerkauft() + position.getMenge());
                 } else if (bestandsart.equals("RueckgaengigBestellung")) {
                     //Verringer die Anzahl von Bestandzulauf
                     position.getArtikel().setZulauf(position.getArtikel().

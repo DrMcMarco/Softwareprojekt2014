@@ -5,6 +5,7 @@ import DAO.ApplicationException;
 import DAO.DataAccessObject;
 import DAO.Parser;
 import DTO.Artikel;
+import DTO.Auftragskopf;
 import DTO.Kunde;
 import DTO.Sofortauftragskopf;
 import DTO.Status;
@@ -135,9 +136,9 @@ public class Start extends javax.swing.JFrame {
         
         try {
 //            Kunde k = (Kunde) dao.getCustomer(1);
-//            Status stat = dao.getStatusByName("erfasst");
-//            Status statneu = dao.getStatusByName("freigegeben");
-//            Status statneu2 = dao.getStatusByName("abgeschlossen");
+            Status stat = dao.getStatusByName("erfasst");
+            Status statneu = dao.getStatusByName("freigegeben");
+            Status statneu2 = dao.getStatusByName("abgeschlossen");
 //            Artikel a = dao.getItem(1);
 //            Artikel a2 = dao.getItem(2);
 //            Zahlungskondition zahlkon = dao.getPaymentConditionsById(1);
@@ -153,15 +154,16 @@ public class Start extends javax.swing.JFrame {
 ////            dao.createStatus("freigegeben");
 ////            dao.createStatus("abgeschlossen");
 ////            dao.createPaymentConditions("Sofortauftrag", 1, 2, 2, 2, 4, 5, 2, 3, 4);
-            HashMap<Long, Integer> map = new HashMap<>();
-            map.put(new Long(1), new Integer(4));
-            map.put(new Long(2), new Integer(4));
-            dao.createOrderHead("Sofortauftrag", map, "auftragtext", 1, 1, 12.0, "erfasst", new Date(), new Date());
-              
-//            auftrag.setStatus(statneu);
-//            auftrag.setStatus(stat);
-//            auftrag.setStatus(statneu2);
-            
+//            HashMap<Long, Integer> map = new HashMap<>();
+//            map.put(new Long(1), new Integer(4));
+//            map.put(new Long(2), new Integer(4));
+//            dao.createOrderHead("Bestellauftrag", map, "auftragtext", 1, 1, 12.0, "erfasst", new Date(), new Date());
+//            Auftragskopf auftrag = dao.getOrderHead(4);
+//            auftrag.setStatus(statneu);//freigegeben
+//            auftrag.setStatus(stat);    //erfasst
+//            //auftrag.setStatus(statneu2);//abgeschlossen
+//            auftrag.setStatus(statneu);//freigegeben
+//            auftrag.setStatus(statneu2);//abgeschlossen
         }catch (Exception e) {
             System.out.println("" + e.getMessage());
         }

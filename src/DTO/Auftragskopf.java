@@ -175,7 +175,7 @@ public abstract class Auftragskopf implements Serializable {
      * @param status Der Status in den der Auftrag versetzt werden soll
      * @throws ApplicationException reicht die Exception weiter
      * 
-     * TODO: Was ist wenn der Auftrag zurück in erfasst zurück gesetzt wird?
+     * TODO:Was ist wenn wir von erfasst direkt auf abschliessen gehen?
      */
     public void setStatus(Status status) throws ApplicationException {
         
@@ -196,6 +196,13 @@ public abstract class Auftragskopf implements Serializable {
         else if (this.Status.getStatus().equals("abgeschlossen")) {
             throw new ApplicationException("Fehler", "Der Auftrag kann " + 
                     "in keinen anderen Status mehr versetzt werden!");
+        }
+        //Für den Fall, dass der Status direkt von erfasst in abgeschlossen
+        //überführt werden soll, wird eine Exception geworfen
+        else if (this.Status.getStatus().equals("erfasst") && 
+                status.getStatus().equals("abgeschlossen")) {
+            throw new ApplicationException("Fehler", "Der Auftrag kann " + 
+                    "nicht von erfasst nach abgeschlossen versetzt werden!");
         }
         //Für den Fall, dass ein Auftrag zurück in den Erfasst Status gesetzt 
         //werden soll, müssen alle Materialbuchungen rückgängig gemacht werden
@@ -233,7 +240,7 @@ public abstract class Auftragskopf implements Serializable {
                         this.setzeBestand("Verkauft");
                     }
                 }
-                //Zum Schluss übernehmen wir den Status
+                //Zum Schluss übernehmen wir den Status muss noch persistiert werden!
                 this.Status = status;
             }
         }
@@ -267,11 +274,11 @@ public abstract class Auftragskopf implements Serializable {
     private boolean pruefeVerfügbarkeit(String status) 
             throws ApplicationException {
         //Flag, ob Bestand verfügbar ist.
-        boolean verfuegbar = false;
+        boolean verfuegbar = true;
         //Prüfe, ob es sich, um eine Bestellung handelt
         if (this instanceof Bestellauftragskopf) {
             if (status.equals("abgeschlossen")) {
-                for (int i = 0; i < this.Positionsliste.size() && !verfuegbar; 
+                for (int i = 0; i < this.Positionsliste.size() && verfuegbar; 
                         i++) {
                     //Setze Flag, ob der Zulauf hinreichend für den Abschluss
                     //Des Bestellauftrages ist und der Bestand auf Frei
@@ -293,23 +300,25 @@ public abstract class Auftragskopf implements Serializable {
                 if (status.equals("freigegeben")) {
                     //Durchlaufe alle Positionen des Auftrags
                     for (int i = 0; i < this.Positionsliste.size() && 
-                            !verfuegbar; i++) {
+                            verfuegbar; i++) {
                         //Setze das Flag nach den Kriterium, ob die Anzahl Frei
                         //kleiner o. gleich der Menge 
                         //aus der Bestellung entspricht
                         verfuegbar = 
-                                this.Positionsliste.get(i).getArtikel().getFrei() >= 
+                                this.Positionsliste.get(i).getArtikel().
+                                        getFrei() >= 
                                 this.Positionsliste.get(i).getMenge(); 
                     }
                 } else if (status.equals("abgeschlossen")) {
                     //Durchlaufe alle Positionen des Auftrags
                     for (int i = 0; i < this.Positionsliste.size() && 
-                            !verfuegbar; i++) {
+                            verfuegbar; i++) {
                         //Setze das Flag nach den Kriterium, ob die Anzahl Frei
-                        //kleiner o. gleich der Menge aus der Bestellung entspricht
+                        //kleiner gleich der Menge aus der Bestellung entspricht
                         verfuegbar = 
-                                this.Positionsliste.get(i).getArtikel().getReserviert() >= 
-                                this.Positionsliste.get(i).getMenge(); 
+                                this.Positionsliste.get(i).getArtikel().
+                                        getReserviert() >= 
+                                this.Positionsliste.get(i).getMenge();
                     }
                 }
             //Kreditlimit ist nicht hinreichend
