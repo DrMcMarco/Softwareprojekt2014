@@ -235,6 +235,7 @@ public class DataAccessObject {
         Date Erfassungsdatum = cal.getTime();
         
         Auftragskopf orderhead = null;
+        ArrayList<Auftragsposition> positionen = new ArrayList<>();
         
         //Anhand des übergebenen Typs wird ein entsprechendes Objekt erzeugt
         if(Typ.equals("Barauftrag")) {
@@ -263,36 +264,78 @@ public class DataAccessObject {
                     "Fehler bei der Erzeugung des Auftragskopfes");
         }
         
-        //Hole alle ID aus der Artikelliste
-        Set<Long> artikelIDS = Artikel.keySet();
-        
-        //Für jede ID...
-        for (long ID : artikelIDS) {
-            
-            //...wird der entsprechende Artikel in der Datenbank gesucht
-            Artikel artikel = em.find(Artikel.class, ID);
-            
-            //Es wird geprüft ob der Artikel existiert
-            if(artikel == null) {
-                throw new ApplicationException("Fehler", "Der angegebene Artikel konne nicht gefunden werden");
-            }
-            
-            //Der gefundene Artikel und die bestellte Menge wird der 
-            //Positionsliste des Auftrags hinzugefügt
-            orderhead.addPosition(artikel, Artikel.get(ID));
-            
-        }
         try {
             
             //Transaktion starten
             em.getTransaction().begin();
             //Auftragskopf persistieren
             em.persist(orderhead);
-            //Transaktion schließen
+            
+            //Hole alle ID aus der Artikelliste
+            Set<Long> artikelIDS = Artikel.keySet();
+        
+            //Für jede ID...
+            for (long ID : artikelIDS) {
+            
+                //...wird der entsprechende Artikel in der Datenbank gesucht
+                Artikel artikel = em.find(Artikel.class, ID);
+            
+                //Es wird geprüft ob der Artikel existiert
+                if(artikel == null) {
+                throw new ApplicationException("Fehler", "Der angegebene Artikel konne nicht gefunden werden");
+                }
+            
+                //Neue Position anlegen
+                Auftragsposition ap = new Auftragsposition();
+                
+                //Verweis auf den gerade erstellten Auftrag
+                ap.setAuftrag(orderhead);
+                
+                //Verweis auf den jweiligen Artikel
+                ap.setArtikel(artikel);
+                
+                //Handelt es sich um einen Bestellauftrag ergibt sich der
+                //Wert der Position aus dem Einkaufswert mal der Menge
+                if (orderhead instanceof Bestellauftragskopf) {
+                    ap.setEinzelwert(artikel.getEinkaufswert() * Artikel.get(ID));
+                    
+                //In allen anderen Fällen ergibt sich der Wert der Position aus
+                //dem Verkaufswert mal der Menge
+                } else {
+                    ap.setEinzelwert(artikel.getVerkaufswert() * Artikel.get(ID));    
+                }
+                
+                //Setzen der Menge
+                ap.setMenge(Artikel.get(ID));
+                
+                //Setzen des Erfasungsdatums
+                ap.setErfassungsdatum(Erfassungsdatum);
+            
+                //Füge die Position zur Liste aller Positionen hinzu
+                positionen.add(ap);
+                
+                //Persistiere die angelegte Position
+                em.persist(ap);
+            }
+            
+            //Füge die Liste aller Positionen dem Auftrag hinzu
+            //Dadurch kann man über den Auftrag auf die hinterlegten Positionen
+            //zugreifen
+            orderhead.setPositionsliste(positionen);
+            
+            //Persistieren den Auftrag mit der Positionsliste
+            em.persist(orderhead);
+            
+            //Transaktion beenden
             em.getTransaction().commit();
             
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            
+            //Falls ein Fehler auftritt, mache die Transaktion rückgängig
+            //(Auftragskopf + Positionen) und gebe eine Fehlermeldung aus
+            em.getTransaction().rollback();
+            throw new ApplicationException("Fehler", 
+                    "Fehler beim persistieren der Daten");
         }
     }
     
@@ -741,9 +784,26 @@ public class DataAccessObject {
             throw new ApplicationException("Fehler",
                     "Es wurde kein Status gefunden!");
         
-        return status;
+        return status; 
+    }
+    
+    /**
+     * Methode zum Holen von Aufträgen
+     * @param Auftragsnummer Einzigartige Nummer des Auftrags
+     * @return Der persistente Auftrag
+     * @throws ApplicationException falls der Auftrag nicht gefunden werden kann
+     */
+    public Auftragskopf getOrderHead(long Auftragsnummer) throws ApplicationException {
         
+        //Persistente Abbildung des Auftrags holen
+        Auftragskopf auftragskopf = em.find(Auftragskopf.class, Auftragsnummer);
         
+        //Falls der Auftrag nicht existiert
+        if (auftragskopf == null) {
+            throw new ApplicationException("Fehler", "Der Auftrag konnte nicht gefunden werden");
+        }
+        
+        return auftragskopf;
     }
     
 //</editor-fold>
