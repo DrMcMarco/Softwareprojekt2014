@@ -61,11 +61,11 @@ public abstract class Auftragskopf implements Serializable {
         this.Auftragstext = Auftragstext;
         this.Wert = Wert;
         this.Geschaeftspartner = Geschaeftspartner;
-        this.Status = Status;
         this.Abschlussdatum = Abschlussdatum;
         this.Erfassungsdatum = Erfassungsdatum;
         this.Lieferdatum = Lieferdatum;
         this.Positionsliste = new ArrayList<>();
+        this.Status = Status;
     }
 
     public long getAuftragskopfID() {
@@ -99,9 +99,6 @@ public abstract class Auftragskopf implements Serializable {
     public Status getStatus() {
         return Status;
     }
-
-    
-    
 
     public Date getAbschlussdatum() {
         return Abschlussdatum;
@@ -177,14 +174,66 @@ public abstract class Auftragskopf implements Serializable {
      * und eine Bestandsführung angestoßen
      * @param status Der Status in den der Auftrag versetzt werden soll
      * @throws ApplicationException reicht die Exception weiter
+     * 
+     * TODO: Was ist wenn der Auftrag zurück in erfasst zurück gesetzt wird?
      */
     public void setStatus(Status status) throws ApplicationException {
         
-        if (status.getStatus().equals("erfasst")) {
+        //Prüfe zu aller erst, ob ein Status übergeben worden ist
+        if (status == null) {
+            throw new ApplicationException("Fehler", "Der Status wurde " + 
+                    "nicht übergeben!");
+        }
+        
+        //Der Status wird erstmalig auf erfasst gesetzt.
+        //Hier muss noch keine Bestandsführung durchgeführt werden, da 
+        //die Materialien erst ab freigegeben gebucht werden.
+        if (status.getStatus().equals("erfasst") && this.Status == null) {
+            this.Status = status;
+        }
+        //Wenn der Auftrag bereits im Status Abgeschlossen ist,
+        //ist es nicht mehr möglich ihn zu ändern
+        else if (this.Status.getStatus().equals("abgeschlossen")) {
+            throw new ApplicationException("Fehler", "Der Auftrag kann " + 
+                    "in keinen anderen Status mehr versetzt werden!");
+        }
+        //Für den Fall, dass ein Auftrag zurück in den Erfasst Status gesetzt 
+        //werden soll, müssen alle Materialbuchungen rückgängig gemacht werden
+        else if (status.getStatus().equals("erfasst")) {
+            //Handelt es sich um eine Bestellung unserer Seits
+            if (this instanceof Bestellauftragskopf) {
+                //Wir setzen den vorgemerkten Bestand vom Zulauf wieder zurück
+                this.setzeBestand("RueckgaengigBestellung");
+            } else {
+                //Wir erniedrigen den Bestand von reserviert wieder
+                //und erhöhen den Freibestand
+                this.setzeBestand("RueckgaengigVerkauf");
+            }
+            //Zum Schluss übernehmen wir den Status
             this.Status = status;
         } else {
+            //Prüfe zunächst die Verfügbarkeit
             if (this.pruefeVerfügbarkeit(status.getStatus())) {
-                this.setzeBestand(status.getStatus());
+                //Handelt es sich um eine Bestellung unserer Seits
+                if (this instanceof Bestellauftragskopf) {
+                    //Bei Freigegeben werden die Bestände unter Zulauf erhöht
+                    if (status.getStatus().equals("freigegeben")) {
+                        this.setzeBestand("Zulauf");
+                    //Bei abgeschlossen werden sie von Zulauf auf Frei gebucht
+                    } else if (status.getStatus().equals("abgeschlossen")) {
+                        this.setzeBestand("Frei");
+                    }
+                //Bei einer Kundenbestellung
+                } else {
+                    //Bei freigegeben werden die Bestände auf Reserviert gebucht
+                    if (status.getStatus().equals("freigegeben")) {
+                        this.setzeBestand("Reserviert");
+                    //Bei abgeschlossen Buchen wir von Reserviert auf Verkauft
+                    } else if (status.getStatus().equals("abgeschlossen")) {
+                        this.setzeBestand("Verkauft");
+                    }
+                }
+                //Zum Schluss übernehmen wir den Status
                 this.Status = status;
             }
         }
@@ -199,8 +248,8 @@ public abstract class Auftragskopf implements Serializable {
      * 
      * @throws ApplicationException 
      */
-    private void setzeBestand(String status) throws ApplicationException {
-        GUIFactory.getDAO().setzeArtikelBestand(this.Positionsliste, status);
+    private void setzeBestand(String statusArt) throws ApplicationException {
+        GUIFactory.getDAO().setzeArtikelBestand(this.Positionsliste, statusArt);
     }
     
     /*----------------------------------------------------------*/
@@ -249,7 +298,7 @@ public abstract class Auftragskopf implements Serializable {
                         //kleiner o. gleich der Menge 
                         //aus der Bestellung entspricht
                         verfuegbar = 
-                                this.Positionsliste.get(i).getArtikel().getFrei() <= 
+                                this.Positionsliste.get(i).getArtikel().getFrei() >= 
                                 this.Positionsliste.get(i).getMenge(); 
                     }
                 } else if (status.equals("abgeschlossen")) {
@@ -259,7 +308,7 @@ public abstract class Auftragskopf implements Serializable {
                         //Setze das Flag nach den Kriterium, ob die Anzahl Frei
                         //kleiner o. gleich der Menge aus der Bestellung entspricht
                         verfuegbar = 
-                                this.Positionsliste.get(i).getArtikel().getReserviert() <= 
+                                this.Positionsliste.get(i).getArtikel().getReserviert() >= 
                                 this.Positionsliste.get(i).getMenge(); 
                     }
                 }

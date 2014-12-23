@@ -551,6 +551,17 @@ public class DataAccessObject {
                     //Und Erhöhe den Verkauftbestand
                     position.getArtikel().setVerkauft(position.getArtikel()
                             .getFrei() + position.getMenge());
+                } else if (bestandsart.equals("RueckgaengigBestellung")) {
+                    //Verringer die Anzahl von Bestandzulauf
+                    position.getArtikel().setZulauf(position.getArtikel().
+                            getZulauf() - position.getMenge());
+                } else if (bestandsart.equals("RueckgaengigVerkauf")) {
+                    //Verringer die Anzahl von Bestandreserviert
+                    position.getArtikel().setReserviert(position.getArtikel()
+                            .getReserviert() - position.getMenge());
+                    //Und Erhöhe den Freibestand
+                    position.getArtikel().setFrei(position.getArtikel()
+                            .getFrei() + position.getMenge());
                 }
                     
                 //Artikel persistieren

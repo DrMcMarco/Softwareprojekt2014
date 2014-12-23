@@ -5,6 +5,7 @@
  */
 package DTO;
 
+import DAO.ApplicationException;
 import java.util.Date;
 import javax.persistence.*;
 /**

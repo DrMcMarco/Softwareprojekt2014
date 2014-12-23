@@ -1,16 +1,23 @@
 package JFrames;
 
 
-import GUI_Internalframes.*;
-import Interfaces.InterfaceViewsFunctionality;
 import DAO.ApplicationException;
 import DAO.DataAccessObject;
 import DAO.Parser;
+import DTO.Artikel;
+import DTO.Kunde;
+import DTO.Sofortauftragskopf;
+import DTO.Status;
+import DTO.Zahlungskondition;
+import GUI_Internalframes.*;
+import Interfaces.InterfaceViewsFunctionality;
 import UserHauptmenue.Hauptmenue_User;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import static java.util.Collections.list;
+import java.util.Date;
+import java.util.HashMap;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 
@@ -125,12 +132,39 @@ public class Start extends javax.swing.JFrame {
 
         //Erstmal zu Testzwecken, kommt noch woanders hin
 //        DAO = new DataAccessObject();
-//        try {
-////            DAO.createCategory("Kat1", "test", "test", false);
-////            Artikelkategorie cat = DAO.getCategory("Kat1");
-////            DAO.createItem(cat, "", "", 2.5, 1.5, 19, 5, 0, 0, 0);
-//        DAO.searchQuery("nr:651", "Artikel");
-//        }catch (Exception e) {}
+        
+        try {
+//            Kunde k = (Kunde) dao.getCustomer(1);
+//            Status stat = dao.getStatusByName("erfasst");
+//            Status statneu = dao.getStatusByName("freigegeben");
+//            Status statneu2 = dao.getStatusByName("abgeschlossen");
+//            Artikel a = dao.getItem(1);
+//            Artikel a2 = dao.getItem(2);
+//            Zahlungskondition zahlkon = dao.getPaymentConditionsById(1);
+//            Sofortauftragskopf auftrag = new Sofortauftragskopf("Auftragtest",
+//                    0, k, stat, zahlkon, new Date(), new Date(), new Date());
+//            auftrag.addPosition(a, 4);
+//            auftrag.addPosition(a, 4);
+////            dao.createCategory("Kategorie 1", "besc", "asd", false);
+////            dao.createItem("Kategorie 1", "Artikel1", "test1", 12, 11, 19, 5, 0, 0, 0);
+////            dao.createItem("Kategorie 1", "Artikel2", "test2", 13, 11, 19, 5, 0, 0, 0);
+////            
+////            dao.createStatus("erfasst");
+////            dao.createStatus("freigegeben");
+////            dao.createStatus("abgeschlossen");
+////            dao.createPaymentConditions("Sofortauftrag", 1, 2, 2, 2, 4, 5, 2, 3, 4);
+            HashMap<Long, Integer> map = new HashMap<>();
+            map.put(new Long(1), new Integer(4));
+            map.put(new Long(2), new Integer(4));
+            dao.createOrderHead("Sofortauftrag", map, "auftragtext", 1, 1, 12.0, "erfasst", new Date(), new Date());
+              
+//            auftrag.setStatus(statneu);
+//            auftrag.setStatus(stat);
+//            auftrag.setStatus(statneu2);
+            
+        }catch (Exception e) {
+            System.out.println("" + e.getMessage());
+        }
     }
 
     /**
