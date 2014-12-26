@@ -175,7 +175,6 @@ public abstract class Auftragskopf implements Serializable {
      * @param status Der Status in den der Auftrag versetzt werden soll
      * @throws ApplicationException reicht die Exception weiter
      * 
-     * TODO:Was ist wenn wir von erfasst direkt auf abschliessen gehen?
      */
     public void setStatus(Status status) throws ApplicationException {
         

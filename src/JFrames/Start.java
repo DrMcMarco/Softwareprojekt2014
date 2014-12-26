@@ -136,9 +136,9 @@ public class Start extends javax.swing.JFrame {
         
         try {
 //            Kunde k = (Kunde) dao.getCustomer(1);
-            Status stat = dao.getStatusByName("erfasst");
-            Status statneu = dao.getStatusByName("freigegeben");
-            Status statneu2 = dao.getStatusByName("abgeschlossen");
+//            Status stat = dao.getStatusByName("erfasst");
+//            Status statneu = dao.getStatusByName("freigegeben");
+//            Status statneu2 = dao.getStatusByName("abgeschlossen");
 //            Artikel a = dao.getItem(1);
 //            Artikel a2 = dao.getItem(2);
 //            Zahlungskondition zahlkon = dao.getPaymentConditionsById(1);

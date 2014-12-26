@@ -618,6 +618,21 @@ public class DataAccessObject {
         }
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 11.11.14 sch angelegt                                    */
+    /*----------------------------------------------------------*/
+    /**
+     * Setzt den Status eines Auftrags in erfasst,freigegeben und abgeschlossen.
+     * TODO: die Artikel änderung und die übertragen des status muss in einer
+     * transaktion ablaufen
+     * @param auftrag
+     * @param status 
+     */
+    public void setzeAuftragsstatus(Auftragskopf auftrag, Status status) {
+        
+    }
+    
 //</editor-fold>
     
 //<editor-fold defaultstate="collapsed" desc="get-Methoden">
