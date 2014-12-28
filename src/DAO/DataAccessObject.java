@@ -560,12 +560,10 @@ public class DataAccessObject {
      * @param bestandsart Bestand der verändert werden soll
      * @throws ApplicationException Wirft eine ApplicationException bei Fehlern
      */
-    public void setzeArtikelBestand(Collection<Auftragsposition> positionen, 
+    private void setzeArtikelBestand(Collection<Auftragsposition> positionen, 
             String bestandsart) throws ApplicationException {
         
         try {
-            //Transaktion starten
-            em.getTransaction().begin();
             //Iteriere über alle Positionen
             for (Auftragsposition position : positionen) {
                 //Prüfe, ob es sich um einen Zulauf an Artikeln handelt
@@ -610,8 +608,7 @@ public class DataAccessObject {
                 //Artikel persistieren
                 em.persist(position.getArtikel());
             }
-            //Commit Ausführen
-            em.getTransaction().commit();
+            
         } catch (Exception exc) {
             throw new ApplicationException("Fehler", "Der Bestand konnte " + 
                     "nicht in der Datenbank angepasst werden!");
@@ -624,13 +621,106 @@ public class DataAccessObject {
     /*----------------------------------------------------------*/
     /**
      * Setzt den Status eines Auftrags in erfasst,freigegeben und abgeschlossen.
-     * TODO: die Artikel änderung und die übertragen des status muss in einer
+     * Es werden Fehlerfälle abgefangen und anschliessend je nach auftragsart
+     * eine Verfügbarkeitsprüfung durchgeführt und die Artikelbestände angepasst
+     * Die Anpassung der Bestände und der Status des Auftrags wird in einer
+     * Transaktion abgehandelt.
+     * 
      * transaktion ablaufen
      * @param auftrag
      * @param status 
+     * @throws DAO.ApplicationException 
      */
-    public void setzeAuftragsstatus(Auftragskopf auftrag, Status status) {
+    public void setzeAuftragsstatus(Auftragskopf auftrag, Status status) 
+            throws ApplicationException {
+        //Prüfe zu aller erst, ob ein Status übergeben worden ist
+        if (status == null) {
+            throw new ApplicationException("Fehler", "Der Status wurde " + 
+                    "nicht übergeben!");
+        }
         
+        try {
+            //Transaktion starten
+            em.getTransaction().begin();
+
+            //Der Status wird erstmalig auf erfasst gesetzt.
+            //Hier muss noch keine Bestandsführung durchgeführt werden, da 
+            //die Materialien erst ab freigegeben gebucht werden.
+            if (status.getStatus().equals("erfasst") && 
+                    auftrag.getStatus() == null) {
+                auftrag.setStatus(status);
+            }
+            //Wenn der Auftrag bereits im Status Abgeschlossen ist,
+            //ist es nicht mehr möglich ihn zu ändern
+            else if (auftrag.getStatus().getStatus().equals("abgeschlossen")) {
+                throw new ApplicationException("Fehler", "Der Auftrag kann " + 
+                        "in keinen anderen Status mehr versetzt werden!");
+            }
+            //Für den Fall, dass der Status direkt von erfasst in abgeschlossen
+            //überführt werden soll, wird eine Exception geworfen
+            else if (auftrag.getStatus().getStatus().equals("erfasst") && 
+                    status.getStatus().equals("abgeschlossen")) {
+                throw new ApplicationException("Fehler", "Der Auftrag kann " + 
+                        "nicht von erfasst nach abgeschlossen "
+                        + "versetzt werden!");
+            }
+            //Für den Fall, dass ein Auftrag zurück in den Erfasst Status  
+            //gesetzt werden soll, müssen alle Materialbuchungen 
+            //rückgängig gemacht werden.
+            else if (status.getStatus().equals("erfasst")) {
+                //Handelt es sich um eine Bestellung unserer Seits
+                if (auftrag instanceof Bestellauftragskopf) {
+                    //Wir setzen den vorgemerkten Bestand 
+                    //vom Zulauf wieder zurück
+                    this.setzeArtikelBestand(auftrag.getPositionsliste(), 
+                            "RueckgaengigBestellung");
+                } else {
+                    //Wir erniedrigen den Bestand von reserviert wieder
+                    //und erhöhen den Freibestand
+                    this.setzeArtikelBestand(auftrag.getPositionsliste(), 
+                            "RueckgaengigVerkauf");
+                }
+                //Zum Schluss übernehmen wir den Status
+                auftrag.setStatus(status);
+            } else {
+                //Prüfe zunächst die Verfügbarkeit
+                if (auftrag.pruefeVerfügbarkeit(status.getStatus())) {
+                    //Handelt es sich um eine Bestellung unserer Seits
+                    if (auftrag instanceof Bestellauftragskopf) {
+                        //Bei Freigegeben werden die Bestände 
+                        //unter Zulauf erhöht
+                        if (status.getStatus().equals("freigegeben")) {
+                            this.setzeArtikelBestand(
+                                    auftrag.getPositionsliste(), "Zulauf");
+                        //Bei abgeschlossen werden sie von 
+                        //Zulauf auf Frei gebucht
+                        } else if (status.getStatus().equals("abgeschlossen")) {
+                            this.setzeArtikelBestand(
+                                    auftrag.getPositionsliste(), "Frei");
+                        }
+                    //Bei einer Kundenbestellung
+                    } else {
+                        //Bei freigegeben werden die Bestände
+                        //auf Reserviert gebucht
+                        if (status.getStatus().equals("freigegeben")) {
+                            this.setzeArtikelBestand(
+                                    auftrag.getPositionsliste(), "Reserviert");
+                        //Bei abgeschlossen Buchen wir von 
+                        //Reserviert auf Verkauft
+                        } else if (status.getStatus().equals("abgeschlossen")) {
+                            this.setzeArtikelBestand(
+                                    auftrag.getPositionsliste(), "Verkauft");
+                        }
+                    }
+                    //Zum Schluss übernehmen wir den Status
+                    auftrag.setStatus(status);
+                }
+            }
+            //Commit Ausführen
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            throw new ApplicationException("Fehler", e.getMessage());
+        }
     }
     
 //</editor-fold>

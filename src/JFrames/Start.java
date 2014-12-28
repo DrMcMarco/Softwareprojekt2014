@@ -159,11 +159,11 @@ public class Start extends javax.swing.JFrame {
 //            map.put(new Long(2), new Integer(4));
 //            dao.createOrderHead("Bestellauftrag", map, "auftragtext", 1, 1, 12.0, "erfasst", new Date(), new Date());
 //            Auftragskopf auftrag = dao.getOrderHead(4);
-//            auftrag.setStatus(statneu);//freigegeben
-//            auftrag.setStatus(stat);    //erfasst
+//            dao.setzeAuftragsstatus(auftrag, statneu);//freigegeben
+//            dao.setzeAuftragsstatus(auftrag, stat);    //erfasst
 //            //auftrag.setStatus(statneu2);//abgeschlossen
-//            auftrag.setStatus(statneu);//freigegeben
-//            auftrag.setStatus(statneu2);//abgeschlossen
+//            dao.setzeAuftragsstatus(auftrag, statneu);//freigegeben
+//            dao.setzeAuftragsstatus(auftrag, statneu2);//abgeschlossen
         }catch (Exception e) {
             System.out.println("" + e.getMessage());
         }

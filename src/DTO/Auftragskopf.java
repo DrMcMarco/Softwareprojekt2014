@@ -170,92 +170,11 @@ public abstract class Auftragskopf implements Serializable {
     /*----------------------------------------------------------*/
     /**
      * Setzt den Status eines Auftrags
-     * Je nach Status wird eine Verfügbarkeitsprüfung 
-     * und eine Bestandsführung angestoßen
      * @param status Der Status in den der Auftrag versetzt werden soll
-     * @throws ApplicationException reicht die Exception weiter
      * 
      */
-    public void setStatus(Status status) throws ApplicationException {
-        
-        //Prüfe zu aller erst, ob ein Status übergeben worden ist
-        if (status == null) {
-            throw new ApplicationException("Fehler", "Der Status wurde " + 
-                    "nicht übergeben!");
-        }
-        
-        //Der Status wird erstmalig auf erfasst gesetzt.
-        //Hier muss noch keine Bestandsführung durchgeführt werden, da 
-        //die Materialien erst ab freigegeben gebucht werden.
-        if (status.getStatus().equals("erfasst") && this.Status == null) {
-            this.Status = status;
-        }
-        //Wenn der Auftrag bereits im Status Abgeschlossen ist,
-        //ist es nicht mehr möglich ihn zu ändern
-        else if (this.Status.getStatus().equals("abgeschlossen")) {
-            throw new ApplicationException("Fehler", "Der Auftrag kann " + 
-                    "in keinen anderen Status mehr versetzt werden!");
-        }
-        //Für den Fall, dass der Status direkt von erfasst in abgeschlossen
-        //überführt werden soll, wird eine Exception geworfen
-        else if (this.Status.getStatus().equals("erfasst") && 
-                status.getStatus().equals("abgeschlossen")) {
-            throw new ApplicationException("Fehler", "Der Auftrag kann " + 
-                    "nicht von erfasst nach abgeschlossen versetzt werden!");
-        }
-        //Für den Fall, dass ein Auftrag zurück in den Erfasst Status gesetzt 
-        //werden soll, müssen alle Materialbuchungen rückgängig gemacht werden
-        else if (status.getStatus().equals("erfasst")) {
-            //Handelt es sich um eine Bestellung unserer Seits
-            if (this instanceof Bestellauftragskopf) {
-                //Wir setzen den vorgemerkten Bestand vom Zulauf wieder zurück
-                this.setzeBestand("RueckgaengigBestellung");
-            } else {
-                //Wir erniedrigen den Bestand von reserviert wieder
-                //und erhöhen den Freibestand
-                this.setzeBestand("RueckgaengigVerkauf");
-            }
-            //Zum Schluss übernehmen wir den Status
-            this.Status = status;
-        } else {
-            //Prüfe zunächst die Verfügbarkeit
-            if (this.pruefeVerfügbarkeit(status.getStatus())) {
-                //Handelt es sich um eine Bestellung unserer Seits
-                if (this instanceof Bestellauftragskopf) {
-                    //Bei Freigegeben werden die Bestände unter Zulauf erhöht
-                    if (status.getStatus().equals("freigegeben")) {
-                        this.setzeBestand("Zulauf");
-                    //Bei abgeschlossen werden sie von Zulauf auf Frei gebucht
-                    } else if (status.getStatus().equals("abgeschlossen")) {
-                        this.setzeBestand("Frei");
-                    }
-                //Bei einer Kundenbestellung
-                } else {
-                    //Bei freigegeben werden die Bestände auf Reserviert gebucht
-                    if (status.getStatus().equals("freigegeben")) {
-                        this.setzeBestand("Reserviert");
-                    //Bei abgeschlossen Buchen wir von Reserviert auf Verkauft
-                    } else if (status.getStatus().equals("abgeschlossen")) {
-                        this.setzeBestand("Verkauft");
-                    }
-                }
-                //Zum Schluss übernehmen wir den Status muss noch persistiert werden!
-                this.Status = status;
-            }
-        }
-    }
-    
-    
-    /*----------------------------------------------------------*/
-    /* Datum Name Was                                           */
-    /* 11.11.14 sch angelegt                                    */
-    /*----------------------------------------------------------*/
-    /**
-     * 
-     * @throws ApplicationException 
-     */
-    private void setzeBestand(String statusArt) throws ApplicationException {
-        GUIFactory.getDAO().setzeArtikelBestand(this.Positionsliste, statusArt);
+    public void setStatus(Status status) {
+        this.Status = status;
     }
     
     /*----------------------------------------------------------*/
@@ -265,12 +184,13 @@ public abstract class Auftragskopf implements Serializable {
     /**
      * Führt eine Verfügbarkeitsprüfung in Abhängigkeit des Auftragsstatus und
      * Auftragsart durch
+     * @param status
      * @return True: Der Bestand ist hinreichend für die Bestellmenge
      *         False: Der Bestand ist nicht hinreichen für die Bestellmenge
      * @throws ApplicationException Wirft eine Exception falls das Kreditlimit
      *                              Des Kunden nicht ausreichend ist.
      */
-    private boolean pruefeVerfügbarkeit(String status) 
+    public boolean pruefeVerfügbarkeit(String status) 
             throws ApplicationException {
         //Flag, ob Bestand verfügbar ist.
         boolean verfuegbar = true;
