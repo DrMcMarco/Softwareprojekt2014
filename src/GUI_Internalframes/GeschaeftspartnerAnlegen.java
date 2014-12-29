@@ -46,7 +46,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     private final Color JTF_FARBE_STANDARD = new Color(255, 255, 255);
 //  Insantzvariablen für die Farben von fehlerhaften Componenten         
 //    private final Color FARBE_FEHLERHAFT = new Color(255, 239, 219);
-    private final Color FARBE_FEHLERHAFT = new Color(255, 165, 79);
+//    private final Color FARBE_FEHLERHAFT = new Color(255, 165, 79);
+    private final Color FARBE_FEHLERHAFT = Color.YELLOW;
 //  Insantzvariablen für die Meldungen         
     private final String MELDUNG_PFLICHTFELDER_TITEL = "Felder nicht ausgefüllt";
     private final String MELDUNG_PFLICHTFELDER_TEXT = "Einige Felder wurden nicht ausgefüllt! Bitte füllen Sie diese aus!";
@@ -58,12 +59,16 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     private final String PRUEFUNG_TELEFON = "|^([+][ ]?[1-9][0-9][ ]?[-]?[ ]?|[(]?[0][ ]?)[0-9]{3,4}[-)/ ]?[ ]?[1-9][-0-9 ]{3,16}$";
 
     private int geschaeftspartnerNr = 1;
-    private final SimpleDateFormat FORMAT = new SimpleDateFormat("dd.mm.yyyy");
+    private final SimpleDateFormat FORMAT;
 
     private NumberFormat nf;
     Calendar cal = Calendar.getInstance();
 
+    Date eingabeDatum;
+
     Date tempGebuDate;
+
+    private int anzahlFehlerhafterComponenten = 16;
 
     /**
      * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die
@@ -74,6 +79,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         fehlerhafteComponenten = new ArrayList<>();
         this.factory = factory;
         this.dao = factory.getDAO();
+        FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+        FORMAT.setLenient(false);
         anschrift = null;
         lieferanschrift = null;
         nf = NumberFormat.getInstance();
@@ -151,7 +158,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         if (jTF_Fax.getText().equals("")) {
             fehlerhafteComponenten.add(jTF_Fax);
         }
-        if (jFTF_Geburtsdatum.getText().equals(aktuellesDatum)) {
+        if (jFTF_Geburtsdatum.getText().equals("##.##.####")) {
             fehlerhafteComponenten.add(jFTF_Geburtsdatum);
         }
         if (jTF_eMail.getText().equals("")) {
@@ -186,6 +193,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                 fehlerhafteComponenten.add(jTF_OrtLieferanschrift);
             }
         }
+
+        anzahlFehlerhafterComponenten = fehlerhafteComponenten.size();
+        System.out.println(anzahlFehlerhafterComponenten);
     }
 
     /*
@@ -205,7 +215,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_Telefon.setBackground(JTF_FARBE_STANDARD);
         jTF_Fax.setText("");
         jTF_Fax.setBackground(JTF_FARBE_STANDARD);
-        jFTF_Geburtsdatum.setText(aktuellesDatum);
+        jFTF_Geburtsdatum.setValue(null);
         jFTF_Geburtsdatum.setBackground(JTF_FARBE_STANDARD);
         jTF_eMail.setText("");
         jTF_eMail.setBackground(JTF_FARBE_STANDARD);
@@ -225,6 +235,26 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_HausnummerLieferanschrift.setBackground(JTF_FARBE_STANDARD);
         jTF_PLZLieferanschrift.setBackground(JTF_FARBE_STANDARD);
         jTF_OrtLieferanschrift.setBackground(JTF_FARBE_STANDARD);
+    }
+
+    private void beendenEingabeNachfrage() {
+        ueberpruefeFormular();
+        if (fehlerhafteComponenten.size() < anzahlFehlerhafterComponenten) {
+            String meldung = "Möchten Sie die Eingaben verwerfen? Klicken Sie auf JA, wenn Sie die Eingaben verwerfen möchten.";
+            String titel = "Achtung Eingaben gehen verloren!";
+            int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (antwort == JOptionPane.YES_OPTION) {
+                fehlerhafteComponenten.clear();
+                this.setVisible(false);
+                setzeFormularZurueck();
+            } else {
+                fehlerhafteComponenten.clear();
+            }
+        } else {
+            this.setVisible(false);
+            setzeFormularZurueck();
+            fehlerhafteComponenten.clear();
+        }
     }
 
     /**
@@ -331,6 +361,11 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jToolBar1.add(jB_Zurueck);
 
         jB_Abbrechen.setText("Abbrechen");
+        jB_Abbrechen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_AbbrechenActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_Abbrechen);
 
         jB_Speichern.setText("Speichern");
@@ -343,9 +378,11 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
 
         jB_Anzeigen.setText("Anzeige/Ändern");
         jB_Anzeigen.setActionCommand("Anzeigen/Ändern");
+        jB_Anzeigen.setEnabled(false);
         jToolBar1.add(jB_Anzeigen);
 
         jB_Loeschen.setText("Löschen");
+        jB_Loeschen.setEnabled(false);
         jToolBar1.add(jB_Loeschen);
 
         jB_Suchen.setText("Suchen");
@@ -454,6 +491,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         });
 
         jFTF_Erfassungsdatum.setEditable(false);
+        jFTF_Erfassungsdatum.setEnabled(false);
+        jFTF_Erfassungsdatum.setFocusable(false);
 
         jFTF_Geburtsdatum.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
         jFTF_Geburtsdatum.setToolTipText("Format: TT:MM:JJJJ");
@@ -875,53 +914,52 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                 }
 
                 if (jCHB_WieAnschrift.isSelected()) {
-//                    strasseLieferanschrift = strasseAnschrift;
-//                    hausnummerLieferanschrift = hausnummerAnschrift;
-//                    plzLieferanschrift = plzAnschrift;
-//                    ortLieferanschrift = ortAnschrift;
+                    strasseLieferanschrift = strasseAnschrift;
+                    hausnummerLieferanschrift = hausnummerAnschrift;
+                    plzLieferanschrift = plzAnschrift;
+                    ortLieferanschrift = ortAnschrift;
                     lieferanschrift = anschrift;
                 } else {
                     strasseLieferanschrift = jTF_StrasseLieferanschrift.getText();
                     hausnummerLieferanschrift = jTF_HausnummerLieferanschrift.getText();
                     plzLieferanschrift = jTF_PLZLieferanschrift.getText();
                     ortLieferanschrift = jTF_OrtLieferanschrift.getText();
-                    try {
-                        lieferanschrift = this.dao.createAdress("Lieferadresse", name, vorname,
-                                titel, strasseLieferanschrift, hausnummerLieferanschrift, plzLieferanschrift,
-                                ortLieferanschrift, "Deutschland", telefon, fax, eMail, tempGebuDate);
-
-                    } catch (ApplicationException e) {
-                        System.out.println(e.getMessage());
-                    }
+//                    try {
+//                        lieferanschrift = this.dao.createAdress("Lieferadresse", name, vorname,
+//                                titel, strasseLieferanschrift, hausnummerLieferanschrift, plzLieferanschrift,
+//                                ortLieferanschrift, "Deutschland", telefon, fax, eMail, tempGebuDate);
+//
+//                    } catch (ApplicationException e) {
+//                        System.out.println(e.getMessage());
+//                    }
                 }
-                try{
-                    
-                this.dao.createBusinessPartner(typ, lieferanschrift, anschrift,k, false);
-                }catch(ApplicationException e){
-                    System.out.println(e.getMessage());
-                }
+//                try {
+//
+//                    this.dao.createBusinessPartner(typ, lieferanschrift, anschrift, k, false);
+//                } catch (ApplicationException e) {
+//                    System.out.println(e.getMessage());
+//                }
 
-//                System.out.println("Geschäftspartner: \n"
-//                        + "Geschäftspartnernummer:      " + geschaeftspartnerNr + "\n"
-//                        + "Typ:                         " + typ + "\n"
-//                        + "Titel:                       " + titel + "\n"
-//                        + "Name:                        " + name + "\n"
-//                        + "Vorname:                     " + vorname + "\n"
-//                        + "Telefon:                     " + telefon + "\n"
-//                        + "Fax:                         " + fax + "\n"
-//                        //                        + "Geburtsdatum:                " + geburtsdatum + "\n"
-//                        + "Erfassungsdatum:             " + erfassungsdatum + "\n"
-//                        + "eMail:                       " + eMail + "\n"
-//                        + "Kreditlimit:                 " + kreditlimit + "\n"
-//                        + "Straße Anschrift:            " + strasseAnschrift + "\n"
-//                        + "Hausnummer Anschrift:        " + hausnummerAnschrift + "\n"
-//                        + "PLZ Anschrift:               " + plzAnschrift + "\n"
-//                        + "Ort Anschrift:               " + ortAnschrift + "\n"
-//                        + "Straße LAnschrift:           " + strasseLieferanschrift + "\n"
-//                        + "Hausnummer LAnschrift:       " + hausnummerLieferanschrift + "\n"
-//                        + "PLZ LAnschrift:              " + plzLieferanschrift + "\n"
-//                        + "Ort LAnschrift:              " + ortLieferanschrift + "\n");
-
+                System.out.println("Geschäftspartner: \n"
+                        + "Geschäftspartnernummer:      " + geschaeftspartnerNr + "\n"
+                        + "Typ:                         " + typ + "\n"
+                        + "Titel:                       " + titel + "\n"
+                        + "Name:                        " + name + "\n"
+                        + "Vorname:                     " + vorname + "\n"
+                        + "Telefon:                     " + telefon + "\n"
+                        + "Fax:                         " + fax + "\n"
+                        + "Geburtsdatum:                " + eingabeDatum + "\n"
+                        + "Erfassungsdatum:             " + erfassungsdatum + "\n"
+                        + "eMail:                       " + eMail + "\n"
+                        + "Kreditlimit:                 " + kreditlimit + "\n"
+                        + "Straße Anschrift:            " + strasseAnschrift + "\n"
+                        + "Hausnummer Anschrift:        " + hausnummerAnschrift + "\n"
+                        + "PLZ Anschrift:               " + plzAnschrift + "\n"
+                        + "Ort Anschrift:               " + ortAnschrift + "\n"
+                        + "Straße LAnschrift:           " + strasseLieferanschrift + "\n"
+                        + "Hausnummer LAnschrift:       " + hausnummerLieferanschrift + "\n"
+                        + "PLZ LAnschrift:              " + plzLieferanschrift + "\n"
+                        + "Ort LAnschrift:              " + ortLieferanschrift + "\n");
                 geschaeftspartnerNr++;
                 setzeFormularZurueck();
 
@@ -1003,91 +1041,87 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
      * Methode die prüft, ob das einegegebene Geburtsdatum gültig ist.
      */
     private void jFTF_GeburtsdatumFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFTF_GeburtsdatumFocusLost
-        String eingabeGeburtsdatum = jFTF_Geburtsdatum.getText();
-        String eingabeJahr = eingabeGeburtsdatum.substring(6, eingabeGeburtsdatum.length());
+//        String eingabeGeburtsdatum = jFTF_Geburtsdatum.getText();
+//        String eingabeJahr = eingabeGeburtsdatum.substring(6, eingabeGeburtsdatum.length());
+//        if (!jFTF_Geburtsdatum.getText().equals("##.##.####")) {
+//            if (eingabeJahr.length() == 4 && (eingabeJahr.startsWith("20") || eingabeJahr.startsWith("19"))) {
+//                try {
+//                    Date tempAktDate = FORMAT.parse(aktuellesDatum);
+//                    tempGebuDate = FORMAT.parse(eingabeGeburtsdatum);
+////                Date temp = FORMAT.parse("09.12.1996");
+////                Date temp1 = FORMAT.parse("09.12.2014");
+////                long achtzehn = temp1.getTime() - temp.getTime();
+//
+//                    cal.setTime(tempAktDate);
+//                    cal.add(Calendar.YEAR, -18);
+//                    Date dateBefore18Years = cal.getTime();
+//
+////                System.out.println(temp.getTime());
+////                System.out.println(temp1.getTime());
+//                    if (tempGebuDate.getTime() > tempAktDate.getTime()) {
+//                        String meldung = "Das eingegebene Geburtsdatum ist in der Zukunft! \nBitte geben Sie ein gültiges Geburtsdatm Datum ein. (z.B. 01.01.1980)";
+//                        String titel = "Fehlerhafte Eingabe";
+//                        JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+//                        jFTF_Geburtsdatum.requestFocusInWindow();
+//                        jFTF_Geburtsdatum.setText("##.##.####");
+////                } else if (tempGebuDate.getTime() + achtzehn > tempAktDate.getTime()) {
+//                    } else if (tempGebuDate.getTime() > dateBefore18Years.getTime()) {
+//                        String meldung = "Der eingebene Geschäftspartner ist nicht volljährig!";
+//                        String titel = "Fehlerhafte Eingabe";
+//                        JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+//                        jFTF_Geburtsdatum.requestFocusInWindow();
+//                        jFTF_Geburtsdatum.setText("##.##.####");
+//                    } else {
+//                        jFTF_Geburtsdatum.setBackground(JTF_FARBE_STANDARD);
+//                    }
+//                } catch (ParseException ex) {
+//                    System.out.println(ex.getMessage());
+//                }
+//            } else {
+//                // eingabe Ungültig z.B. 19999;
+//                String meldung = "Das eingegebene Geburtsdatum ist in nicht gültig! \nBitte geben Sie ein gültiges Geburtsdatm Datum ein. (z.B. 01.01.1990)";
+//                String titel = "Fehlerhafte Eingabe";
+//                JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+//                jFTF_Geburtsdatum.requestFocusInWindow();
+//                jFTF_Geburtsdatum.setText("");
+//            }
+//        } else {
+//            //jFTF_Geburtsdatum.setText("01.01.1990");
+//            jFTF_Geburtsdatum.setValue(null);
+//        }
+
         if (!jFTF_Geburtsdatum.getText().equals("##.##.####")) {
-            if (eingabeJahr.length() == 4 && (eingabeJahr.startsWith("20") || eingabeJahr.startsWith("19"))) {
-                try {
-                    Date tempAktDate = FORMAT.parse(aktuellesDatum);
-                    tempGebuDate = FORMAT.parse(eingabeGeburtsdatum);
-//                Date temp = FORMAT.parse("09.12.1996");
-//                Date temp1 = FORMAT.parse("09.12.2014");
-//                long achtzehn = temp1.getTime() - temp.getTime();
+            Date heute;
+            try {
+                eingabeDatum = FORMAT.parse(jFTF_Geburtsdatum.getText());
+                heute = FORMAT.parse(aktuellesDatum);
 
-                    cal.setTime(tempAktDate);
-                    cal.add(Calendar.YEAR, -18);
-                    Date dateBefore18Years = cal.getTime();
+                cal.setTime(heute);
+                cal.add(Calendar.YEAR, -18);
+                Date dateBefore18Years = cal.getTime();
 
-//                System.out.println(temp.getTime());
-//                System.out.println(temp1.getTime());
-                    if (tempGebuDate.getTime() > tempAktDate.getTime()) {
-                        String meldung = "Das eingegebene Geburtsdatum ist in der Zukunft! \nBitte geben Sie ein gültiges Geburtsdatm Datum ein. (z.B. 01.01.1980)";
-                        String titel = "Fehlerhafte Eingabe";
-                        JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-                        jFTF_Geburtsdatum.requestFocusInWindow();
-                        jFTF_Geburtsdatum.setText("##.##.####");
-//                } else if (tempGebuDate.getTime() + achtzehn > tempAktDate.getTime()) {
-                    } else if (tempGebuDate.getTime() > dateBefore18Years.getTime()) {
-                        String meldung = "Der eingebene Geschäftspartner ist nicht volljährig!";
-                        String titel = "Fehlerhafte Eingabe";
-                        JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-                        jFTF_Geburtsdatum.requestFocusInWindow();
-                        jFTF_Geburtsdatum.setText("##.##.####");
-                    } else {
-                        jFTF_Geburtsdatum.setBackground(JTF_FARBE_STANDARD);
-                    }
-                } catch (ParseException ex) {
-                    System.out.println(ex.getMessage());
+                if (eingabeDatum.after(heute)) {
+                    String meldung = "Das eingegebene Geburtsdatum ist in der Zukunft! \nBitte geben Sie ein gültiges Geburtsdatm Datum ein. (z.B. 01.01.1980)";
+                    String titel = "Fehlerhafte Eingabe";
+                    JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+                    jFTF_Geburtsdatum.setValue(null);
+                } else if (eingabeDatum.after(dateBefore18Years)) {
+                    String meldung = "Der eingebene Geschäftspartner ist nicht volljährig!";
+                    String titel = "Fehlerhafte Eingabe";
+                    JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+                    jFTF_Geburtsdatum.requestFocusInWindow();
+                    jFTF_Geburtsdatum.setValue(null);
+                } else {
+                    jFTF_Geburtsdatum.setBackground(JTF_FARBE_STANDARD);
                 }
-            } else {
-                // eingabe Ungültig z.B. 19999;
-                String meldung = "Das eingegebene Geburtsdatum ist in nicht gültig! \nBitte geben Sie ein gültiges Geburtsdatm Datum ein. (z.B. 01.01.1990)";
+            } catch (ParseException e) {
+                String meldung = "Das eingegebene Datum ist nicht gülitig! \nBitte geben Sie ein gültiges Geburtsdatm Datum ein. (z.B. 01.01.1980)";
                 String titel = "Fehlerhafte Eingabe";
                 JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
                 jFTF_Geburtsdatum.requestFocusInWindow();
-                jFTF_Geburtsdatum.setText("");
+                jFTF_Geburtsdatum.setValue(null);
             }
-        } else {
-            //jFTF_Geburtsdatum.setText("01.01.1990");
-            jFTF_Geburtsdatum.setValue(null);
         }
-//        Lucas Code:
-//        Date heute = new Date();
-//        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-//        format.setLenient(false);
-//        Date datum;
-//        
-//        SimpleDateFormat formatjahr = new SimpleDateFormat("yyyy");
-//        SimpleDateFormat formatdatum = new SimpleDateFormat("dd.MM.yyyy");
-//        int aktuellesjahr = Integer.parseInt(formatjahr.format(heute));
-//        int geburtsjahr = 0;
-//        Date geburtstag_Datum;
-//        try {
-//            datum = format.parse(jFTF_Geburtsdatum.getText());
-//            geburtstag_Datum = formatdatum.parse(jFTF_Geburtsdatum.getText());
-//            geburtsjahr = Integer.parseInt(formatjahr.format(geburtstag_Datum));
-//            
-//            if (datum.after(heute)) {
-//                JOptionPane.showMessageDialog(rootPane, "Datum darf nicht in der "
-//                        + "Zukunft liegen", "Fehler",
-//                        JOptionPane.WARNING_MESSAGE);
-//                jFTF_Geburtsdatum.requestFocusInWindow();
-//                jFTF_Geburtsdatum.selectAll();
-//            } else if (!(aktuellesjahr - geburtsjahr >= 18)) {
-//                JOptionPane.showMessageDialog(rootPane, " Der Geschäftspartner muss mindestens"
-//                        + " 18 Jahre alt "
-//                        + " sein.", "Fehler ", JOptionPane.WARNING_MESSAGE);
-//                jFTF_Geburtsdatum.requestFocusInWindow();
-//                jFTF_Geburtsdatum.selectAll();
-//            }
-//            
-//        } catch (ParseException e) {
-//            JOptionPane.showMessageDialog(rootPane, "Gültiges Datum eingeben", "Fehler",
-//                    JOptionPane.WARNING_MESSAGE);
-//            jFTF_Geburtsdatum.requestFocusInWindow();
-//            jFTF_Geburtsdatum.selectAll();
-//        }
-
     }//GEN-LAST:event_jFTF_GeburtsdatumFocusLost
     /*
      * Methode prüft, ob Eingabe getätigt wurde. Wenn Eingabe korrekt ist, wird der Hintergrund in standard gefärbt.
@@ -1306,8 +1340,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
      * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
      */
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
-        this.setVisible(false);
-        this.setzeFormularZurueck();
+//        this.setVisible(false);
+        beendenEingabeNachfrage();
+//        this.setzeFormularZurueck();
     }//GEN-LAST:event_formInternalFrameClosing
 
     /**
@@ -1323,7 +1358,12 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         c = this.factory.zurueckButton();
         this.setVisible(false);// Internalframe wird nicht mehr dargestellt
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
+        this.setzeFormularZurueck();
     }//GEN-LAST:event_jB_ZurueckActionPerformed
+
+    private void jB_AbbrechenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AbbrechenActionPerformed
+        beendenEingabeNachfrage();
+    }//GEN-LAST:event_jB_AbbrechenActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_Abbrechen;

@@ -264,6 +264,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Abbrechen"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jB_AbbrechenActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jB_Speichern">
           <Properties>
@@ -277,11 +280,13 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Anzeige/&#xc4;ndern"/>
             <Property name="actionCommand" type="java.lang.String" value="Anzeigen/&#xc4;ndern"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jB_Loeschen">
           <Properties>
             <Property name="text" type="java.lang.String" value="L&#xf6;schen"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jB_Suchen">
@@ -466,6 +471,8 @@
     <Component class="javax.swing.JFormattedTextField" name="jFTF_Erfassungsdatum">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
+        <Property name="enabled" type="boolean" value="false"/>
+        <Property name="focusable" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="jFTF_Geburtsdatum">
