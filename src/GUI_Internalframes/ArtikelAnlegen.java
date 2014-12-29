@@ -15,8 +15,7 @@ import DAO.*;
 /**
  * GUI Klasse für Artikel verwalten.
  *
- * @author Tahir
- * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
+ * @author Tahir 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
  */
 public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
@@ -26,7 +25,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     /*
      * Instanzvariablen der Klasse. 
      */
-    private int artikelnummer;
+    private int artikelnummer = 1;
 
 //  ArrayList, um fehlerhafte Componenten zu speichern.    
     private ArrayList<Component> fehlerhafteComponenten;
@@ -36,8 +35,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 //  Insantzvariablen für die standard Farben der Componenten    
     private final Color JCB_FARBE_STANDARD = new Color(214, 217, 223);
     private final Color JTF_FARBE_STANDARD = new Color(255, 255, 255);
-//  Insantzvariablen für die Farben von fehlerhaften Componenten         
-    private final Color FARBE_FEHLERHAFT = new Color(255, 165, 79);
+//  Insantzvariablen für die Farben von fehlerhaften Componenten     
+    private final Color FARBE_FEHLERHAFT = Color.YELLOW;
 //  Insantzvariablen für reguläre Ausdrücke, um Prüfungen durchzuführen          
     private final String PREUFUNG_PREIS = "|(\\d*,?\\d{1,2})|(\\d{0,3}(\\.\\d{3})*,?\\d{1,2})";
 //  Insantzvariablen für die Meldungen         
@@ -47,7 +46,11 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     private final String TITEL_FEHLERHAFTE_EINGABE = "Fehlerhafte Eingabe";
     private final String STATUSZEILE = "Artikel wurde angelegt!";
 
+    private final int anzahlFehlerhafterComponenten;
+
     private NumberFormat nf;
+
+    private ArrayList<Component> alleComponenten;
 
     /**
      * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die
@@ -55,16 +58,19 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
      */
     public ArtikelAnlegen(GUIFactory factory) {
         initComponents();
-        
+//        ArtikelAnzeigen Test
+        alleComponenten = new ArrayList<>();
+        fuelleArrayListMitAllenComponenten();
+        anzahlFehlerhafterComponenten = alleComponenten.size();
+//        ArtikelAnzeigen Test
         this.factory = factory;
         this.dao = this.factory.getDAO();
 //        try{
-            
+
 //        this.dao.createCategory("Kategorie 1", "eine Kategoriebeschreibung", "Test", false);
 //        }catch(ApplicationException e){
 //            System.out.println(e.getMessage());
 //        }
-        
         fehlerhafteComponenten = new ArrayList<>();
         artikelListe = new ArrayList<>();
         kategorien = new ArrayList<>();
@@ -78,7 +84,26 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jTF_Bestellwert.setDocument(new UniversalDocument("0123456789.,", false));
         jTF_Bestandsmenge_FREI.setDocument(new UniversalDocument("0123456789", false));
     }
-    
+
+    private void fuelleArrayListMitAllenComponenten() {
+        alleComponenten.add(jTF_Artikelname);
+        alleComponenten.add(jTA_Artikelbeschreibung);
+        alleComponenten.add(jCB_Kategorie);
+        alleComponenten.add(jTF_Einzelwert);
+        alleComponenten.add(jTF_Bestellwert);
+        alleComponenten.add(jCB_MwST);
+        alleComponenten.add(jTF_Bestandsmenge_FREI);
+        alleComponenten.add(jTF_Bestandsmenge_RES);
+        alleComponenten.add(jTF_Bestandsmenge_ZULAUF);
+        alleComponenten.add(jTF_Bestandsmenge_VERKAUFT);
+    }
+
+    public void setzeArtikelAnlegenInArtikelAnzeigen() {
+        for (int i = 0; i < alleComponenten.size(); i++) {
+            alleComponenten.get(i).setEnabled(false);
+        }
+    }
+
     private void ladeArtikelkategorie() {
 //        kategorien = DAO
     }
@@ -134,6 +159,26 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jCB_MwST.setBackground(JCB_FARBE_STANDARD);
         jTF_Bestandsmenge_FREI.setText("");
         jTF_Bestandsmenge_FREI.setBackground(JTF_FARBE_STANDARD);
+    }
+
+    private void beendenEingabeNachfrage() {
+        ueberpruefeFormular();
+        if (fehlerhafteComponenten.size() < anzahlFehlerhafterComponenten) {
+            String meldung = "Möchten Sie die Eingaben verwerfen? Klicken Sie auf JA, wenn Sie die Eingaben verwerfen möchten.";
+            String titel = "Achtung Eingaben gehen verloren!";
+            int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (antwort == JOptionPane.YES_OPTION) {
+                fehlerhafteComponenten.clear();
+                this.setVisible(false);
+                setzeFormularZurueck();
+            } else {
+                fehlerhafteComponenten.clear();
+            }
+        } else {
+            this.setVisible(false);
+            setzeFormularZurueck();
+            fehlerhafteComponenten.clear();
+        }
     }
 
     /**
@@ -192,13 +237,30 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jTextField4.setText("jTextField4");
 
         setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setIconifiable(true);
-        setMaximizable(true);
         setResizable(true);
         setTitle("Artikel anlegen");
         setPreferredSize(new java.awt.Dimension(500, 630));
         setRequestFocusEnabled(false);
         setVisible(true);
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jTB_Menueleiste.setBorder(null);
         jTB_Menueleiste.setRollover(true);
@@ -214,6 +276,11 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jTB_Menueleiste.add(jB_Zurueck);
 
         jB_Abbrechen.setText("Abbrechen");
+        jB_Abbrechen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_AbbrechenActionPerformed(evt);
+            }
+        });
         jTB_Menueleiste.add(jB_Abbrechen);
 
         jB_Speichern.setText("Speichern");
@@ -226,9 +293,11 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
         jB_Anzeigen.setText("Anzeige/Ändern");
         jB_Anzeigen.setActionCommand("Anzeigen/Ändern");
+        jB_Anzeigen.setEnabled(false);
         jTB_Menueleiste.add(jB_Anzeigen);
 
         jB_Loeschen.setText("Löschen");
+        jB_Loeschen.setEnabled(false);
         jTB_Menueleiste.add(jB_Loeschen);
 
         jB_Suchen.setText("Suchen");
@@ -425,7 +494,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jCB_Kategorie, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(172, Short.MAX_VALUE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -495,9 +564,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
                     .addComponent(jLabel18)
                     .addComponent(jTF_Bestandsmenge_VERKAUFT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel21))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTF_Statuszeile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addComponent(jTF_Statuszeile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -542,29 +610,28 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
             artikelname = jTF_Artikelname.getText();
             artikelbeschreibung = jTA_Artikelbeschreibung.getText();
             kategorie = (String) jCB_Kategorie.getSelectedItem();
-            
-            try{
-            this.dao.createItem(kategorie, artikelname, artikelbeschreibung, 
-                    einzelwert, bestellwert, mwst, bestandsmengeFREI,
-                    bestandsmengeRESERVIERT, bestandsmengeZULAUF, 
-                    bestandsmengeVERKAUFT);
-                
-            }catch(ApplicationException e){
-                System.out.println(e.getMessage());
-            }
-            
-//                System.out.println("Geschäftspartner: \n"
-//                        + "Artikelnummer:                  " + artikelnummer + "\n"
-//                        + "Artikelname:                    " + artikelname + "\n"
-//                        + "Artikelbeschreibung:            " + artikelbeschreibung + "\n"
-//                        + "Kategorie:                      " + kategorie + "\n"
-//                        + "Einzelwert:                     " + einzelwert + "\n"
-//                        + "Bestellwert:                    " + bestellwert + "\n"
-//                        + "MwSt:                           " + mwst + "\n"
-//                        + "Bestangsmenge FREI:             " + bestandsmengeFREI + "\n"
-//                        + "Bestangsmenge RESERVIERT:       " + bestandsmengeRESERVIERT + "\n"
-//                        + "Bestangsmenge ZULAUF:           " + bestandsmengeZULAUF + "\n"
-//                        + "Bestangsmenge VERKAUFT:         " + bestandsmengeVERKAUFT + "\n");
+
+//            try{
+//            this.dao.createItem(kategorie, artikelname, artikelbeschreibung, 
+//                    einzelwert, bestellwert, mwst, bestandsmengeFREI,
+//                    bestandsmengeRESERVIERT, bestandsmengeZULAUF, 
+//                    bestandsmengeVERKAUFT);
+//                
+//            }catch(ApplicationException e){
+//                System.out.println(e.getMessage());
+//            }
+            System.out.println("Geschäftspartner: \n"
+                    + "Artikelnummer:                  " + artikelnummer + "\n"
+                    + "Artikelname:                    " + artikelname + "\n"
+                    + "Artikelbeschreibung:            " + artikelbeschreibung + "\n"
+                    + "Kategorie:                      " + kategorie + "\n"
+                    + "Einzelwert:                     " + einzelwert + "\n"
+                    + "Bestellwert:                    " + bestellwert + "\n"
+                    + "MwSt:                           " + mwst + "\n"
+                    + "Bestangsmenge FREI:             " + bestandsmengeFREI + "\n"
+                    + "Bestangsmenge RESERVIERT:       " + bestandsmengeRESERVIERT + "\n"
+                    + "Bestangsmenge ZULAUF:           " + bestandsmengeZULAUF + "\n"
+                    + "Bestangsmenge VERKAUFT:         " + bestandsmengeVERKAUFT + "\n");
 //          Artikel wird in ArrayList für Artikel hinzugefuegt    
 
 //            artikelListe.add(new Artikel(artikelnummer, artikelname, artikelbeschreibung, kategorie, einzelwert, bestellwert, mwst, bestandsmengeFREI, "0", "0", "0"));
@@ -684,21 +751,28 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jTA_ArtikelbeschreibungFocusLost
 
-    
     /**
-     * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird.
-     * Es wird von der Guifactory die letzte aufgerufene Component abgefragt 
-     * wodurch man die jetzige Component verlässt und zur übergebnen Component 
-     * zurück kehrt.
-     * @param evt 
+     * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird. Es wird von
+     * der Guifactory die letzte aufgerufene Component abgefragt wodurch man die
+     * jetzige Component verlässt und zur übergebnen Component zurück kehrt.
+     *
+     * @param evt
      */
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
         c = null;   //Initialisierung der Componentspeichervariable
         //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-        c = this.factory.zurueckButton(); 
+        c = this.factory.zurueckButton();
         this.setVisible(false);// Internalframe wird nicht mehr dargestellt
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        beendenEingabeNachfrage();
+    }//GEN-LAST:event_formInternalFrameClosing
+
+    private void jB_AbbrechenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AbbrechenActionPerformed
+        beendenEingabeNachfrage();
+    }//GEN-LAST:event_jB_AbbrechenActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
