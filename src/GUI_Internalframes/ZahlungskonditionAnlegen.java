@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 
@@ -52,7 +53,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     private final Color JTF_FARBE_STANDARD = new Color(255, 255, 255);
 //  Insantzvariablen für die Farben von fehlerhaften Componenten         
 //    private final Color FARBE_FEHLERHAFT = new Color(255, 239, 219);
-    private final Color FARBE_FEHLERHAFT = new Color(255, 165, 79);
+    private final Color FARBE_FEHLERHAFT = Color.YELLOW;
 //  Insantzvariablen für die Meldungen         
     private final String TITEL_PFLICHTFELDER = "Felder nicht ausgefüllt";
     private final String TEXT_PFLICHTFELDER = "Einige Felder wurden nicht ausgefüllt! Bitte füllen Sie diese aus!";
@@ -72,6 +73,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
 
     private final String PRUEFUNG_TAGE = "|[0-9]{1,2}";
     private NumberFormat nf;
+
+    private final int anzahlFehlerhafterComponenten = 10;
 
     /**
      * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die
@@ -159,13 +162,22 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
             fehlerhafteComponenten.add(jFTF_SperrzeitWUNSCH);
         }
         if (skontozeit1 == 0) {
+            JTextField tf = ((JSpinner.DefaultEditor) jSP_Skontozeit1.getEditor()).getTextField();
+            tf.setBackground(Color.red);
+//            tf.setText("2");
+            System.out.println(tf.getBackground());
+
 //            System.out.println(((JSpinner.NumberEditor) jSP_Skontozeit1.getEditor()).getTextField().getText());
 //            System.out.println(jSP_Skontozeit1.getBackground());
             fehlerhafteComponenten.add(jSP_Skontozeit1);
-            ((JSpinner.NumberEditor) jSP_Skontozeit1.getEditor()).getTextField().setBackground(FARBE_FEHLERHAFT);
+//            ((JSpinner.NumberEditor) jSP_Skontozeit1.getEditor()).getTextField().setBackground(FARBE_FEHLERHAFT);
 //            System.out.println(((JSpinner.NumberEditor) jSP_Skontozeit1.getEditor()).getTextField().getBackground());
         }
         if (skontozeit2 == 0) {
+            JTextField tf = ((JSpinner.DefaultEditor) jSP_Skontozeit2.getEditor()).getTextField();
+            tf.setBackground(Color.red);
+//            tf.setText("12");
+            System.out.println(tf.getBackground());
             fehlerhafteComponenten.add(jSP_Skontozeit2);
         }
         if (jCB_Skonto1.getSelectedIndex() == 0) {
@@ -212,6 +224,26 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         jSP_Mahnzeit2.setBackground(JTF_FARBE_STANDARD);
         jSP_Mahnzeit3.setValue(0);
         jSP_Mahnzeit3.setBackground(JTF_FARBE_STANDARD);
+    }
+
+    private void beendenEingabeNachfrage() {
+        ueberpruefeFormular();
+        if (fehlerhafteComponenten.size() < anzahlFehlerhafterComponenten) {
+            String meldung = "Möchten Sie die Eingaben verwerfen? Klicken Sie auf JA, wenn Sie die Eingaben verwerfen möchten.";
+            String titel = "Achtung Eingaben gehen verloren!";
+            int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (antwort == JOptionPane.YES_OPTION) {
+                fehlerhafteComponenten.clear();
+                this.setVisible(false);
+                setzeFormularZurueck();
+            } else {
+                fehlerhafteComponenten.clear();
+            }
+        } else {
+            this.setVisible(false);
+            setzeFormularZurueck();
+            fehlerhafteComponenten.clear();
+        }
     }
 
     /**
@@ -273,12 +305,30 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         jTF_Statuszeile.setEnabled(false);
 
         setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
         setTitle("Zahlungskonditonen anlegen");
         setPreferredSize(new java.awt.Dimension(500, 720));
         setVisible(true);
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jToolBar1.setBorder(null);
         jToolBar1.setRollover(true);
@@ -294,6 +344,11 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         jToolBar1.add(jB_Zurueck);
 
         jB_Abbrechen.setText("Abbrechen");
+        jB_Abbrechen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_AbbrechenActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_Abbrechen);
 
         jB_Speichern.setText("Speichern");
@@ -306,12 +361,19 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
 
         jB_Anzeigen.setText("Anzeige/Ändern");
         jB_Anzeigen.setActionCommand("Anzeigen/Ändern");
+        jB_Anzeigen.setEnabled(false);
         jToolBar1.add(jB_Anzeigen);
 
         jB_Loeschen.setText("Löschen");
+        jB_Loeschen.setEnabled(false);
         jToolBar1.add(jB_Loeschen);
 
         jB_Suchen.setText("Suchen");
+        jB_Suchen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_SuchenActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_Suchen);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -825,9 +887,9 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
                 mahnzeit1 = ((Number) jSP_Mahnzeit1.getValue()).doubleValue();
                 mahnzeit2 = ((Number) jSP_Mahnzeit2.getValue()).doubleValue();
                 mahnzeit3 = ((Number) jSP_Mahnzeit3.getValue()).doubleValue();
-                
-                this.dao.createPaymentConditions(auftragsart, lieferzeitSOFORT, 
-                        sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, 
+
+                this.dao.createPaymentConditions(auftragsart, lieferzeitSOFORT,
+                        sperrzeitWunsch, skontozeit1, skontozeit2, skonto1,
                         skonto2, mahnzeit1, mahnzeit2, mahnzeit3);
 
 //          Artikel wird in ArrayList für Artikel hinzugefuegt     
@@ -892,6 +954,22 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
+    private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
+//        System.out.println(((JSpinner.DefaultEditor) jSP_Mahnzeit1.getEditor()).getTextField().getBackground());
+//        ((JSpinner.DefaultEditor) jSP_Mahnzeit1.getEditor()).getTextField().setBackground(Color.RED);
+        JTextField tf = ((JSpinner.DefaultEditor) jSP_Mahnzeit1.getEditor()).getTextField();
+        tf.setDisabledTextColor(Color.red);
+//        tf.setText("12");
+        System.out.println(((JSpinner.DefaultEditor) jSP_Mahnzeit1.getEditor()).getTextField().getBackground());
+    }//GEN-LAST:event_jB_SuchenActionPerformed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+       beendenEingabeNachfrage();
+    }//GEN-LAST:event_formInternalFrameClosing
+
+    private void jB_AbbrechenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AbbrechenActionPerformed
+       beendenEingabeNachfrage();
+    }//GEN-LAST:event_jB_AbbrechenActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_Abbrechen;
