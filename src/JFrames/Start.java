@@ -44,34 +44,27 @@ public class Start extends javax.swing.JFrame {
     GUIFactory factory;
     DataAccessObject dao;
 
-    Hauptmenue_User hauptmenueuser;
+    public Hauptmenue_User hauptmenueuser;
 
-    AuftragskopfAnlegen auftragskopfanlegen;
-    AuftragskopfAendern auftragskopfaendern;
-//    AuftragskopfAnzeigen auftragskopfanzeigen;
+    public AuftragskopfAnlegen auftragskopfanlegen;
+    public AuftragskopfAendern auftragskopfaendern;
 
-    AuftragspositionAendern auftragsspositionaender;
-    AuftragspositionAnzeigen auftragsspositionanzeigen;
+    public AuftragspositionAendern auftragsspositionaender;
+    public AuftragspositionAnzeigen auftragsspositionanzeigen;
 
-    ArtikelAnlegen artikelanlegen;
-    ArtikelAEndernEinstieg artikelaendern;
-//    ArtikelAnzeigen artikelanzeigen;
+    public ArtikelAnlegen artikelanlegen;
+    public ArtikelAEndernEinstieg artikelaendern;
 
-    GeschaeftspartnerAnlegen geschaeftspartneranlegen;
-//    GeschaeftspartnerAnzeigen geschaeftspartneranzeigen;
-    GeschaeftspartnerAEndernEinstieg geschaeftspartneraendern;
+    public GeschaeftspartnerAnlegen geschaeftspartneranlegen;
+    public GeschaeftspartnerAEndernEinstieg geschaeftspartneraendern;
 
-    ZahlungskonditionAnlegen zahlungskonditionanlegen;
-//    ZahlungskonditionAnzeigen zahlungskonditionanzeigen;
-    ZahlungskonditionenAEndernEinstieg zahlungskonditionaendern;
+    public ZahlungskonditionAnlegen zahlungskonditionanlegen;
+    public ZahlungskonditionenAEndernEinstieg zahlungskonditionaendern;
 
-//    DataAccessObject DAO;
     //Hilfsvariablen
     Dimension desktopSize;//Speichervariable für die Größe der DesktopPane
     Dimension jInternalFrameSize;//Speichervariable für die Größe des InternalFrames
 
-//    ArrayList<Component> liste;
-//    ArrayList<String> liste;
     //Stringvariablen für die einzelnen Meldungen die ausgegeben werden können.
     private final String Beenden_Meldung = "Wollen sie wirklich das Programm beenden und sich abmelden?";
     private final String Beenden_Meldung_Typ = "Programm beenden";
@@ -96,7 +89,7 @@ public class Start extends javax.swing.JFrame {
         c = null;
 
         //Initialisierung der einzelnen Masken.
-        hauptmenueuser = new Hauptmenue_User(factory);
+        hauptmenueuser = new Hauptmenue_User(factory, this);
         hauptmenueuser.setName("HauptmenüUser");
 
         auftragskopfanlegen = new AuftragskopfAnlegen(factory);
@@ -105,12 +98,9 @@ public class Start extends javax.swing.JFrame {
         auftragsspositionanzeigen = new AuftragspositionAnzeigen(factory);
         artikelanlegen = new ArtikelAnlegen(factory);
         artikelaendern = new ArtikelAEndernEinstieg(factory);
-//        artikelanzeigen = new ArtikelAnzeigen();
         geschaeftspartneranlegen = new GeschaeftspartnerAnlegen(factory);
-//        geschaeftspartneranzeigen = new GeschaeftspartnerAnzeigen();
         geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg(factory);
         zahlungskonditionanlegen = new ZahlungskonditionAnlegen(factory);
-//        zahlungskonditionanzeigen = new ZahlungskonditionAnzeigen();
         zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg(factory);
 
 // Zuweisung der Masken an die Hauptansicht
@@ -128,7 +118,6 @@ public class Start extends javax.swing.JFrame {
 
         auftragskopfaendern.setVisible(false);
         auftragskopfanlegen.setVisible(false);
-//        auftragskopfanzeigen.setVisible(false);
         auftragsspositionaender.setVisible(false);
         auftragsspositionanzeigen.setVisible(false);
         artikelanlegen.setVisible(false);
@@ -656,6 +645,10 @@ public class Start extends javax.swing.JFrame {
         int height = (desktopSize.height - jInternalFrameSize.height) / 2;
         jif.setLocation(width, height);
         jif.setVisible(true);
+    }
+    
+    public void setFrame(Component component){
+        component.setVisible(true);
     }
 
     /**
