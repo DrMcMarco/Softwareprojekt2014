@@ -122,7 +122,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         positionsnummer_jTextField.setDocument(new UniversalDocument("1234567890", false));
         auftragswert_jTextField.setDocument(new UniversalDocument("1234567890,.", false));
         einzelwert_jTextField.setDocument(new UniversalDocument("1234567890,.", false));
-        auftragspositionsID_jTextField.setDocument(new UniversalDocument("1234567890", false));
         menge_jTextField.setDocument(new UniversalDocument("1234567890", false));
 
         /*
@@ -184,14 +183,12 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         auftragstext_jTextArea = new javax.swing.JTextArea();
         auftragskopfdaten_titel_jLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        auftragspositionsID_jLabel = new javax.swing.JLabel();
         positionsnummer_jLabel = new javax.swing.JLabel();
         auftragspositions_titel_jLabel = new javax.swing.JLabel();
         materialnummer_jLabel = new javax.swing.JLabel();
         menge_jLabel = new javax.swing.JLabel();
         einzelwert_jLabel = new javax.swing.JLabel();
         erfassungsdatum_jLabel1 = new javax.swing.JLabel();
-        auftragspositionsID_jTextField = new javax.swing.JTextField();
         positionsnummer_jTextField = new javax.swing.JTextField();
         materialnummer_jTextField = new javax.swing.JTextField();
         menge_jTextField = new javax.swing.JTextField();
@@ -377,9 +374,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Auftragspositionen :");
 
-        auftragspositionsID_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        auftragspositionsID_jLabel.setText("Auftragspositions-ID :");
-
         positionsnummer_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         positionsnummer_jLabel.setText("Positionsnummer :");
 
@@ -397,13 +391,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 
         erfassungsdatum_jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         erfassungsdatum_jLabel1.setText("Erfassungsdatum :");
-
-        auftragspositionsID_jTextField.setText("01");
-        auftragspositionsID_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                auftragspositionsID_jTextFieldFocusGained(evt);
-            }
-        });
 
         positionsnummer_jTextField.setText("01");
         positionsnummer_jTextField.setToolTipText("");
@@ -434,7 +421,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             }
         });
 
-        einzelwert_jTextField.setText("100,00");
+        einzelwert_jTextField.setToolTipText("");
+        einzelwert_jTextField.setEnabled(false);
         einzelwert_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 einzelwert_jTextFieldFocusGained(evt);
@@ -453,6 +441,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         });
 
         geschaeftspartner_jTextField.setText("jTextField1");
+        geschaeftspartner_jTextField.setEnabled(false);
         geschaeftspartner_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 geschaeftspartner_jTextFieldFocusGained(evt);
@@ -516,7 +505,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                                                 .addGap(1, 1, 1))
                                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addComponent(positionsnummer_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(auftragspositionsID_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addComponent(materialnummer_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                                 .addGap(140, 140, 140)
@@ -544,15 +532,17 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                                                         .addComponent(erfassungsdatum_auftragsposition_jFormattedTextField))))))
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(auftragskopfdaten_titel_jLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(0, 184, Short.MAX_VALUE)))
+                            .addGap(0, 14, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(positionsnummer_jLabel)
-                            .addComponent(auftragspositionsID_jLabel)
-                            .addComponent(materialnummer_jLabel)))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(auftragspositions_titel_jLabel)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(positionsnummer_jLabel)
+                                    .addComponent(materialnummer_jLabel)))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(auftragspositions_titel_jLabel))
+                        .addContainerGap())))
             .addComponent(Statuszeile_jTextField, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -633,10 +623,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                             .addComponent(positionsnummer_jLabel)
                             .addGap(14, 14, 14)
                             .addComponent(materialnummer_jLabel))
-                        .addComponent(auftragspositionsID_jLabel)
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(auftragspositionsID_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(menge_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(menge_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -698,17 +686,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         abschlussdatum_jFormattedTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
         abschlussdatum_jFormattedTextField.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_abschlussdatum_jFormattedTextFieldFocusGained
-
-    /**
-     * Selektiert das Eingabefeld der Auftragspositions-ID
-     *
-     * @param evt
-     */
-    private void auftragspositionsID_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_auftragspositionsID_jTextFieldFocusGained
-        auftragspositionsID_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
-        auftragspositionsID_jTextField.setText("");//Übergabe eines leeren Strings an das Eingabefeld
-        auftragspositionsID_jTextField.selectAll();//Selektion des Eingabefeldes
-    }//GEN-LAST:event_auftragspositionsID_jTextFieldFocusGained
 
     /**
      * Selektiert das Eingabefeld der Positionsnummer
@@ -1108,7 +1085,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     @Override
     public void zuruecksetzen() {
         //Eingabefelder erhalten einen leeren String
-        auftragspositionsID_jTextField.setText("");
+        
+//        auftragspositionsID_jTextField.setText("");
+        
         positionsnummer_jTextField.setText("");
         materialnummer_jTextField.setText("");
         menge_jTextField.setText("");
@@ -1145,9 +1124,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         }
         //Eingabefelder für Auftragsposition werden in Variable 
         // "fehlendeEingabenAuftragsposition" feestgehalten.
-        if (auftragspositionsID_jTextField.getText().equals("")) {
-            fehlendeEingabenAuftragsposition.add(auftragspositionsID_jTextField);
-        }
         if (positionsnummer_jTextField.getText().equals("")) {
             fehlendeEingabenAuftragsposition.add(positionsnummer_jTextField);
         }
@@ -1225,8 +1201,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     private javax.swing.JTextField auftragskopfID_jTextField;
     private javax.swing.JLabel auftragskopfdaten_titel_jLabel;
     private javax.swing.JTable auftragsposition_jTable;
-    private javax.swing.JLabel auftragspositionsID_jLabel;
-    private javax.swing.JTextField auftragspositionsID_jTextField;
     private javax.swing.JLabel auftragspositions_titel_jLabel;
     private javax.swing.JLabel auftragstext_jLabel;
     private javax.swing.JTextArea auftragstext_jTextArea;
