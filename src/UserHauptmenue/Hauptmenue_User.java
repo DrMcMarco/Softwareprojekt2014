@@ -11,7 +11,8 @@ import javax.swing.tree.TreePath;
  *
  * @author Luca Terrasi
  *
- * 10.12.2014 Terrasi, Erstellung. 02.01.2015 Terrasi, JTreenavigation erstellt
+ * 10.12.2014 Terrasi, Erstellung. 
+ * 02.01.2015 Terrasi, JTreenavigation erstellt
  * und Einbindung der Guifactory und der Methoden des Internalframes "Start".
  */
 public class Hauptmenue_User extends javax.swing.JInternalFrame implements InterfaceJTreeFunction {
@@ -196,7 +197,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
     /* 02.01.2015 Terrasi  Zuweisung der Funktion und Dokumentation*/
     /*----------------------------------------------------------*/
     /**
-     * TreeMouseClickes Event, bei diesem Event soll der Pfad der Baumstruktur
+     * TreeMouseClicke Event, bei diesem Event soll der Pfad der Baumstruktur
      * gelesen und gespeichert werden. Beim Doppelklick auf ein Blatt des
      * Baumes, wird die überschriebene Schnittstellenmethode aufgerufen. Dieser
      * wird der gespeicherte Baumpfad übergeben. Bei einem Fehler wird dieser

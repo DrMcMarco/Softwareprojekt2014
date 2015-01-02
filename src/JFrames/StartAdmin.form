@@ -51,6 +51,9 @@
                         </Property>
                         <Property name="text" type="java.lang.String" value="Anzeigen"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMI_AuftragskopfAnzeigenActionPerformed"/>
+                      </Events>
                     </MenuItem>
                   </SubComponents>
                 </Menu>
@@ -66,6 +69,9 @@
                         </Property>
                         <Property name="text" type="java.lang.String" value="&#xc4;ndern"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMI_AuftragsposAEndernActionPerformed"/>
+                      </Events>
                     </MenuItem>
                     <MenuItem class="javax.swing.JMenuItem" name="jMI_AuftragsposAnzeigen">
                       <Properties>
@@ -74,6 +80,9 @@
                         </Property>
                         <Property name="text" type="java.lang.String" value="Anzeigen"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMI_AuftragsposAnzeigenActionPerformed"/>
+                      </Events>
                     </MenuItem>
                   </SubComponents>
                 </Menu>
@@ -90,16 +99,25 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Anlegen"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMI_ArtikelAnlegenActionPerformed"/>
+                  </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMI_ArtikelAEndern">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="&#xc4;ndern"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMI_ArtikelAEndernActionPerformed"/>
+                  </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMI_ArtikelAnzeigen">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Anzeigen"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMI_ArtikelAnzeigenActionPerformed"/>
+                  </Events>
                 </MenuItem>
               </SubComponents>
             </Menu>
@@ -113,16 +131,25 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Anlegen"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMI_GPAnlegenActionPerformed"/>
+                  </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMI_GPAEndern">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="&#xc4;ndern"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMI_GPAEndernActionPerformed"/>
+                  </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMI_GPAnzeigen">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Anzeigen"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMI_GPAnzeigenActionPerformed"/>
+                  </Events>
                 </MenuItem>
               </SubComponents>
             </Menu>
@@ -139,16 +166,25 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Anlegen"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMI_ZKAnlegenActionPerformed"/>
+                  </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMI_ZKAEndern">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="&#xc4;ndern"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMI_ZKAEndernActionPerformed"/>
+                  </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMI_ZKAnzeigen">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Anzeigen"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMI_ZKAnzeigenActionPerformed"/>
+                  </Events>
                 </MenuItem>
               </SubComponents>
             </Menu>
@@ -157,23 +193,32 @@
                 <Property name="text" type="java.lang.String" value="Benutzer Verwalten"/>
               </Properties>
               <SubComponents>
-                <MenuItem class="javax.swing.JMenuItem" name="jMI_ZKAnlegen1">
+                <MenuItem class="javax.swing.JMenuItem" name="jMI_BenutzerAnlegen">
                   <Properties>
                     <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                       <KeyStroke key="Ctrl+Z"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Anlegen"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMI_BenutzerAnlegenActionPerformed"/>
+                  </Events>
                 </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="jMI_ZKAEndern1">
+                <MenuItem class="javax.swing.JMenuItem" name="jMI_Benutzer&#xc4;ndern">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="&#xc4;ndern"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMI_Benutzer&#xc4;ndernActionPerformed"/>
+                  </Events>
                 </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="jMI_ZKAnzeigen1">
+                <MenuItem class="javax.swing.JMenuItem" name="jMI_BenutzerAnzeigen">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Anzeigen"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMI_BenutzerAnzeigenActionPerformed"/>
+                  </Events>
                 </MenuItem>
               </SubComponents>
             </Menu>

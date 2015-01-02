@@ -445,12 +445,12 @@ public class Start extends javax.swing.JFrame {
             System.exit(0);
         }
     }//GEN-LAST:event_jMI_LogoutActionPerformed
+   
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /*----------------------------------------------------------*/
-
     /**
      * Methode in der definiert wird was aufgerufen wird wenn man den
      * Hilfebutton betätigt.
@@ -759,11 +759,11 @@ public class Start extends javax.swing.JFrame {
         jif.setLocation(width, height);
         jif.setVisible(true);
     }
+   
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
     /*----------------------------------------------------------*/
-
     /**
      * Methode mit der eine übergebene Component angezeigt wird.
      *
