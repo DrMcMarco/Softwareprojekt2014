@@ -12,11 +12,31 @@ import javax.swing.tree.TreePath;
  */
 /**
  *
- * @author Luca
+ * @author Luca Terrasi
+ *
+ * 10.12.2014 Terrasi, Erstellung.
  */
 public interface InterfaceJTreeFunction {
-//    public void openJtreeNodes(DefaultMutableTreeNode node);
-//    public void openJtreeNodes(TreePath node);
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und Dokumentation */
+    /*----------------------------------------------------------*/
+    /**
+     * Schnittstellenmethode openJtreeNode die für eine Baumstruktur
+     * verwendet werden soll.
+     * @param node, Stringvariable
+     * 
+     */ 
     public void openJtreeNodes(String node);
-    public void setInternalFrameVisible(JInternalFrame frame);
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und Dokumentation */
+    /*----------------------------------------------------------*/
+    /**
+     * Schnittstellenmethode setComponentVisible die verwendet werden soll
+     * um einzelne Frames sichtbar zu machen.
+     */ 
+    public void setComponentVisible(JInternalFrame frame);
 }
