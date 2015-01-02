@@ -94,11 +94,11 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_Fax.setDocument(new UniversalDocument("0123456789/", false));
         jTF_eMail.setDocument(new UniversalDocument("0123456789@-.", true));
         jTF_Kreditlimit.setDocument(new UniversalDocument("0123456789.,", false));
-        jTF_StrasseAnschrift.setDocument(new UniversalDocument("-.´", true));
+        jTF_StrasseRechnungsanschrift.setDocument(new UniversalDocument("-.´", true));
         jTF_StrasseLieferanschrift.setDocument(new UniversalDocument("-.´", true));
-        jTF_HausnummerAnschrift.setDocument(new UniversalDocument("0123456789", true));
+        jTF_HausnummerRechnungsanschrift.setDocument(new UniversalDocument("0123456789", true));
         jTF_HausnummerLieferanschrift.setDocument(new UniversalDocument("0123456789", true));
-        jTF_PLZAnschrift.setDocument(new UniversalDocument("0123456789", false));
+        jTF_PLZRechnungsanschrift.setDocument(new UniversalDocument("0123456789", false));
         jTF_PLZLieferanschrift.setDocument(new UniversalDocument("0123456789", false));
         jTF_OrtAnschrift.setDocument(new UniversalDocument("-", true));
         jTF_OrtLieferanschrift.setDocument(new UniversalDocument("-", true));
@@ -167,14 +167,14 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         if (jTF_Kreditlimit.getText().equals("")) {
             fehlerhafteComponenten.add(jTF_Kreditlimit);
         }
-        if (jTF_StrasseAnschrift.getText().equals("")) {
-            fehlerhafteComponenten.add(jTF_StrasseAnschrift);
+        if (jTF_StrasseRechnungsanschrift.getText().equals("")) {
+            fehlerhafteComponenten.add(jTF_StrasseRechnungsanschrift);
         }
-        if (jTF_HausnummerAnschrift.getText().equals("")) {
-            fehlerhafteComponenten.add(jTF_HausnummerAnschrift);
+        if (jTF_HausnummerRechnungsanschrift.getText().equals("")) {
+            fehlerhafteComponenten.add(jTF_HausnummerRechnungsanschrift);
         }
-        if (jTF_PLZAnschrift.getText().equals("")) {
-            fehlerhafteComponenten.add(jTF_PLZAnschrift);
+        if (jTF_PLZRechnungsanschrift.getText().equals("")) {
+            fehlerhafteComponenten.add(jTF_PLZRechnungsanschrift);
         }
         if (jTF_OrtAnschrift.getText().equals("")) {
             fehlerhafteComponenten.add(jTF_OrtAnschrift);
@@ -193,9 +193,6 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                 fehlerhafteComponenten.add(jTF_OrtLieferanschrift);
             }
         }
-
-        anzahlFehlerhafterComponenten = fehlerhafteComponenten.size();
-        System.out.println(anzahlFehlerhafterComponenten);
     }
 
     /*
@@ -221,12 +218,12 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_eMail.setBackground(JTF_FARBE_STANDARD);
         jTF_Kreditlimit.setText("");
         jTF_Kreditlimit.setBackground(JTF_FARBE_STANDARD);
-        jTF_StrasseAnschrift.setText("");
-        jTF_StrasseAnschrift.setBackground(JTF_FARBE_STANDARD);
-        jTF_HausnummerAnschrift.setText("");
-        jTF_HausnummerAnschrift.setBackground(JTF_FARBE_STANDARD);
-        jTF_PLZAnschrift.setText("");
-        jTF_PLZAnschrift.setBackground(JTF_FARBE_STANDARD);
+        jTF_StrasseRechnungsanschrift.setText("");
+        jTF_StrasseRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
+        jTF_HausnummerRechnungsanschrift.setText("");
+        jTF_HausnummerRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
+        jTF_PLZRechnungsanschrift.setText("");
+        jTF_PLZRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
         jTF_OrtAnschrift.setText("");
         jTF_OrtAnschrift.setBackground(JTF_FARBE_STANDARD);
         jCHB_WieAnschrift.setSelected(false);
@@ -304,8 +301,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
-        jTF_StrasseAnschrift = new javax.swing.JTextField();
-        jTF_HausnummerAnschrift = new javax.swing.JTextField();
+        jTF_StrasseRechnungsanschrift = new javax.swing.JTextField();
+        jTF_HausnummerRechnungsanschrift = new javax.swing.JTextField();
         jTF_OrtAnschrift = new javax.swing.JTextField();
         jTF_HausnummerLieferanschrift = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
@@ -317,7 +314,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_StrasseLieferanschrift = new javax.swing.JTextField();
         jCHB_WieAnschrift = new javax.swing.JCheckBox();
         jTF_Kreditlimit = new javax.swing.JTextField();
-        jTF_PLZAnschrift = new javax.swing.JTextField();
+        jTF_PLZRechnungsanschrift = new javax.swing.JTextField();
         jTF_PLZLieferanschrift = new javax.swing.JTextField();
 
         setClosable(true);
@@ -430,7 +427,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jLabel6.setText("Vorname:");
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel7.setText("Titel:");
+        jLabel7.setText("Anrede:");
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel8.setText("Telefon:");
@@ -512,7 +509,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         });
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel14.setText("Anschrift:");
+        jLabel14.setText("Rechnungsanschrift:");
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel15.setText("Straße:");
@@ -526,21 +523,21 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jLabel18.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel18.setText("Ort:");
 
-        jTF_StrasseAnschrift.addFocusListener(new java.awt.event.FocusAdapter() {
+        jTF_StrasseRechnungsanschrift.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jTF_StrasseAnschriftFocusGained(evt);
+                jTF_StrasseRechnungsanschriftFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                jTF_StrasseAnschriftFocusLost(evt);
+                jTF_StrasseRechnungsanschriftFocusLost(evt);
             }
         });
 
-        jTF_HausnummerAnschrift.addFocusListener(new java.awt.event.FocusAdapter() {
+        jTF_HausnummerRechnungsanschrift.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jTF_HausnummerAnschriftFocusGained(evt);
+                jTF_HausnummerRechnungsanschriftFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                jTF_HausnummerAnschriftFocusLost(evt);
+                jTF_HausnummerRechnungsanschriftFocusLost(evt);
             }
         });
 
@@ -611,12 +608,12 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
             }
         });
 
-        jTF_PLZAnschrift.addFocusListener(new java.awt.event.FocusAdapter() {
+        jTF_PLZRechnungsanschrift.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jTF_PLZAnschriftFocusGained(evt);
+                jTF_PLZRechnungsanschriftFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                jTF_PLZAnschriftFocusLost(evt);
+                jTF_PLZRechnungsanschriftFocusLost(evt);
             }
         });
 
@@ -634,7 +631,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator1)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 658, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 667, Short.MAX_VALUE)
             .addComponent(jTF_Statuszeile)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
@@ -665,9 +662,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                             .addComponent(jFTF_Geburtsdatum, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jTF_eMail, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jTF_OrtAnschrift, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                            .addComponent(jTF_HausnummerAnschrift, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTF_StrasseAnschrift, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                            .addComponent(jTF_PLZAnschrift))
+                            .addComponent(jTF_HausnummerRechnungsanschrift, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTF_StrasseRechnungsanschrift, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                            .addComponent(jTF_PLZRechnungsanschrift))
                         .addGap(38, 38, 38)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -704,7 +701,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jTF_PLZLieferanschrift, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jTF_OrtLieferanschrift, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)))))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -760,15 +757,15 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15)
-                            .addComponent(jTF_StrasseAnschrift, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTF_StrasseRechnungsanschrift, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel16)
-                            .addComponent(jTF_HausnummerAnschrift, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTF_HausnummerRechnungsanschrift, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel17)
-                            .addComponent(jTF_PLZAnschrift, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTF_PLZRechnungsanschrift, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel18)
@@ -802,25 +799,25 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
      */
     private void jCHB_WieAnschriftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCHB_WieAnschriftActionPerformed
         if (jCHB_WieAnschrift.isSelected()) {
-            if (!jTF_StrasseAnschrift.getText().equals("") && !jTF_HausnummerAnschrift.getText().equals("")
-                    && !jTF_PLZAnschrift.getText().equals("") && !jTF_OrtAnschrift.getText().equals("")) {
-                jTF_StrasseLieferanschrift.setText(jTF_StrasseAnschrift.getText());
+            if (!jTF_StrasseRechnungsanschrift.getText().equals("") && !jTF_HausnummerRechnungsanschrift.getText().equals("")
+                    && !jTF_PLZRechnungsanschrift.getText().equals("") && !jTF_OrtAnschrift.getText().equals("")) {
+                jTF_StrasseLieferanschrift.setText(jTF_StrasseRechnungsanschrift.getText());
                 jTF_StrasseLieferanschrift.setEnabled(false);
-                jTF_HausnummerLieferanschrift.setText(jTF_HausnummerAnschrift.getText());
+                jTF_HausnummerLieferanschrift.setText(jTF_HausnummerRechnungsanschrift.getText());
                 jTF_HausnummerLieferanschrift.setEnabled(false);
-                jTF_PLZLieferanschrift.setText(jTF_PLZAnschrift.getText());
+                jTF_PLZLieferanschrift.setText(jTF_PLZRechnungsanschrift.getText());
                 jTF_PLZLieferanschrift.setEnabled(false);
                 jTF_OrtLieferanschrift.setText(jTF_OrtAnschrift.getText());
                 jTF_OrtLieferanschrift.setEnabled(false);
             } else {
                 JOptionPane.showMessageDialog(null, "Bitte geben Sie zunächst die komplette Anschrift ein.", "Unvollständige Eingabe", JOptionPane.ERROR_MESSAGE);
                 jCHB_WieAnschrift.setSelected(false);
-                if (jTF_StrasseAnschrift.getText().equals("")) {
-                    jTF_StrasseAnschrift.requestFocusInWindow();
-                } else if (jTF_HausnummerAnschrift.getText().equals("")) {
-                    jTF_HausnummerAnschrift.requestFocusInWindow();
-                } else if (jTF_PLZAnschrift.getText().equals("")) {
-                    jTF_PLZAnschrift.requestFocusInWindow();
+                if (jTF_StrasseRechnungsanschrift.getText().equals("")) {
+                    jTF_StrasseRechnungsanschrift.requestFocusInWindow();
+                } else if (jTF_HausnummerRechnungsanschrift.getText().equals("")) {
+                    jTF_HausnummerRechnungsanschrift.requestFocusInWindow();
+                } else if (jTF_PLZRechnungsanschrift.getText().equals("")) {
+                    jTF_PLZRechnungsanschrift.requestFocusInWindow();
                 } else {
                     jTF_OrtAnschrift.requestFocusInWindow();
                 }
@@ -877,6 +874,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         String ortAnschrift;
         String ortLieferanschrift;
 //      falls fehlerhafteComponenten leer ist (es sind keine fehlerhaften Componenten verfuegbar), 
+//      koennen wir sicher sein, dass alle Felder ausgefuellt sind, nun
 //      werden die Eingaben in die entsprechenden Variablen gespeichert
         if (fehlerhafteComponenten.isEmpty()) {
             if (jCHB_Kunde.isSelected() || jCHB_Lieferant.isSelected()) {
@@ -894,9 +892,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                 erfassungsdatum = jFTF_Erfassungsdatum.getText();
                 eMail = jTF_eMail.getText();
                 kreditlimit = jTF_Kreditlimit.getText();
-                strasseAnschrift = jTF_StrasseAnschrift.getText();
-                hausnummerAnschrift = jTF_HausnummerAnschrift.getText();
-                plzAnschrift = jTF_PLZAnschrift.getText();
+                strasseAnschrift = jTF_StrasseRechnungsanschrift.getText();
+                hausnummerAnschrift = jTF_HausnummerRechnungsanschrift.getText();
+                plzAnschrift = jTF_PLZRechnungsanschrift.getText();
                 ortAnschrift = jTF_OrtAnschrift.getText();
                 double k = 0;
                 try {
@@ -1163,11 +1161,11 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     /*
      * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
      */
-    private void jTF_StrasseAnschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_StrasseAnschriftFocusLost
-        if (!jTF_StrasseAnschrift.getText().equals("")) {
-            jTF_StrasseAnschrift.setBackground(JTF_FARBE_STANDARD);
+    private void jTF_StrasseRechnungsanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_StrasseRechnungsanschriftFocusLost
+        if (!jTF_StrasseRechnungsanschrift.getText().equals("")) {
+            jTF_StrasseRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
         }
-    }//GEN-LAST:event_jTF_StrasseAnschriftFocusLost
+    }//GEN-LAST:event_jTF_StrasseRechnungsanschriftFocusLost
     /*
      * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
      */
@@ -1180,17 +1178,17 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
      * Methode prüft, ob Eingabe getätigt wurde. Wenn Eingabe korrekt ist, wird der Hintergrund in standard gefärbt.
      * Wenn nicht, wird eine Meldung ausgegeben.
      */
-    private void jTF_HausnummerAnschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_HausnummerAnschriftFocusLost
-        if (!jTF_HausnummerAnschrift.getText().matches(PRUEFUNG_HAUSNUMMER)) {
+    private void jTF_HausnummerRechnungsanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_HausnummerRechnungsanschriftFocusLost
+        if (!jTF_HausnummerRechnungsanschrift.getText().matches(PRUEFUNG_HAUSNUMMER)) {
             String meldung = "Die eingegebene Hausnummer ist nicht richtig! \n Bitte geben Sie eine richtige Hausnummer ein. (z.B. 10A oder 10)";
             String titel = "Fehlerhafte Eingabe";
             JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-            jTF_HausnummerAnschrift.requestFocusInWindow();
-            jTF_HausnummerAnschrift.setText("");
-        } else if (!jTF_HausnummerAnschrift.getText().equals("")) {
-            jTF_HausnummerAnschrift.setBackground(JTF_FARBE_STANDARD);
+            jTF_HausnummerRechnungsanschrift.requestFocusInWindow();
+            jTF_HausnummerRechnungsanschrift.setText("");
+        } else if (!jTF_HausnummerRechnungsanschrift.getText().equals("")) {
+            jTF_HausnummerRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
         }
-    }//GEN-LAST:event_jTF_HausnummerAnschriftFocusLost
+    }//GEN-LAST:event_jTF_HausnummerRechnungsanschriftFocusLost
     /*
      * Methode prüft, ob Eingabe getätigt wurde. Wenn Eingabe korrekt ist, wird der Hintergrund in standard gefärbt.
      * Wenn nicht, wird eine Meldung ausgegeben.
@@ -1210,17 +1208,17 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
      * Methode prüft, ob Eingabe getätigt wurde. Wenn Eingabe korrekt ist, wird der Hintergrund in standard gefärbt.
      * Wenn nicht, wird eine Meldung ausgegeben.
      */
-    private void jTF_PLZAnschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_PLZAnschriftFocusLost
-        if (!jTF_PLZAnschrift.getText().matches(PRUEFUNG_PLZ)) {
+    private void jTF_PLZRechnungsanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_PLZRechnungsanschriftFocusLost
+        if (!jTF_PLZRechnungsanschrift.getText().matches(PRUEFUNG_PLZ)) {
             String meldung = "Die eingegebene Postleitzahl ist nicht richtig! \n Bitte geben Sie eine richtige Postleitzahl ein. (z.B. 45968)";
             String titel = "Fehlerhafte Eingabe";
             JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-            jTF_PLZAnschrift.requestFocusInWindow();
-            jTF_PLZAnschrift.setText("");
-        } else if (!jTF_PLZAnschrift.getText().equals("")) {
-            jTF_PLZAnschrift.setBackground(JTF_FARBE_STANDARD);
+            jTF_PLZRechnungsanschrift.requestFocusInWindow();
+            jTF_PLZRechnungsanschrift.setText("");
+        } else if (!jTF_PLZRechnungsanschrift.getText().equals("")) {
+            jTF_PLZRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
         }
-    }//GEN-LAST:event_jTF_PLZAnschriftFocusLost
+    }//GEN-LAST:event_jTF_PLZRechnungsanschriftFocusLost
     /*
      * Methode prüft, ob Eingabe getätigt wurde. Wenn Eingabe korrekt ist, wird der Hintergrund in standard gefärbt.
      * Wenn nicht, wird eine Meldung ausgegeben.
@@ -1291,9 +1289,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     /*
      * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
      */
-    private void jTF_StrasseAnschriftFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_StrasseAnschriftFocusGained
-        jTF_StrasseAnschrift.selectAll();
-    }//GEN-LAST:event_jTF_StrasseAnschriftFocusGained
+    private void jTF_StrasseRechnungsanschriftFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_StrasseRechnungsanschriftFocusGained
+        jTF_StrasseRechnungsanschrift.selectAll();
+    }//GEN-LAST:event_jTF_StrasseRechnungsanschriftFocusGained
     /*
      * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
      */
@@ -1303,9 +1301,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     /*
      * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
      */
-    private void jTF_HausnummerAnschriftFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_HausnummerAnschriftFocusGained
-        jTF_HausnummerAnschrift.selectAll();
-    }//GEN-LAST:event_jTF_HausnummerAnschriftFocusGained
+    private void jTF_HausnummerRechnungsanschriftFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_HausnummerRechnungsanschriftFocusGained
+        jTF_HausnummerRechnungsanschrift.selectAll();
+    }//GEN-LAST:event_jTF_HausnummerRechnungsanschriftFocusGained
     /*
      * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
      */
@@ -1315,9 +1313,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     /*
      * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
      */
-    private void jTF_PLZAnschriftFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_PLZAnschriftFocusGained
-        jTF_PLZAnschrift.selectAll();
-    }//GEN-LAST:event_jTF_PLZAnschriftFocusGained
+    private void jTF_PLZRechnungsanschriftFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_PLZRechnungsanschriftFocusGained
+        jTF_PLZRechnungsanschrift.selectAll();
+    }//GEN-LAST:event_jTF_PLZRechnungsanschriftFocusGained
     /*
      * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
      */
@@ -1340,9 +1338,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
      * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
      */
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
-//        this.setVisible(false);
         beendenEingabeNachfrage();
-//        this.setzeFormularZurueck();
     }//GEN-LAST:event_formInternalFrameClosing
 
     /**
@@ -1404,17 +1400,17 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTF_Fax;
     private javax.swing.JTextField jTF_Geschaeftspartnernummer;
-    private javax.swing.JTextField jTF_HausnummerAnschrift;
     private javax.swing.JTextField jTF_HausnummerLieferanschrift;
+    private javax.swing.JTextField jTF_HausnummerRechnungsanschrift;
     private javax.swing.JTextField jTF_Kreditlimit;
     private javax.swing.JTextField jTF_Name;
     private javax.swing.JTextField jTF_OrtAnschrift;
     private javax.swing.JTextField jTF_OrtLieferanschrift;
-    private javax.swing.JTextField jTF_PLZAnschrift;
     private javax.swing.JTextField jTF_PLZLieferanschrift;
+    private javax.swing.JTextField jTF_PLZRechnungsanschrift;
     private javax.swing.JTextField jTF_Statuszeile;
-    private javax.swing.JTextField jTF_StrasseAnschrift;
     private javax.swing.JTextField jTF_StrasseLieferanschrift;
+    private javax.swing.JTextField jTF_StrasseRechnungsanschrift;
     private javax.swing.JTextField jTF_Telefon;
     private javax.swing.JTextField jTF_Vorname;
     private javax.swing.JTextField jTF_eMail;
