@@ -1,6 +1,5 @@
 package JFrames;
 
-
 import DAO.ApplicationException;
 import DAO.DataAccessObject;
 import DAO.Parser;
@@ -22,7 +21,6 @@ import java.util.HashMap;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 
-
 /**
  *
  * @author Luca Terrasi
@@ -33,8 +31,9 @@ import javax.swing.JOptionPane;
  * Daten anlegen,ändern oder sich anzeigen lassen kann.
  *
  *
- * 10.12.2014 Terrasi,Erstellung
+ * 10.12.2014 Terrasi,Erstellung 
  * 16.12.2014 Terrasi, Überarbeitung und Zuweisung der Navigationsfunktion
+ * 02.01.2015 Terrasi, Überarbeitung der Navigationsfünktion
  */
 public class Start extends javax.swing.JFrame {
 
@@ -43,8 +42,7 @@ public class Start extends javax.swing.JFrame {
      */
     GUIFactory factory;
     DataAccessObject dao;
-    
-    
+
     Hauptmenue_User hauptmenueuser;
 
     AuftragskopfAnlegen auftragskopfanlegen;
@@ -77,6 +75,8 @@ public class Start extends javax.swing.JFrame {
     private final String Beenden_Meldung = "Wollen sie wirklich das Programm beenden und sich abmelden?";
     private final String Beenden_Meldung_Typ = "Programm beenden";
 
+    Component c;
+
     /**
      * Creates new form Start
      */
@@ -85,8 +85,9 @@ public class Start extends javax.swing.JFrame {
         factory = new GUIFactory();
         dao = new DataAccessObject();
         factory.setDAO(dao);
-        
-        
+
+        c = null;
+
         //Initialisierung der einzelnen Masken.
         hauptmenueuser = new Hauptmenue_User(factory);
         hauptmenueuser.setName("HauptmenüUser");
@@ -104,7 +105,6 @@ public class Start extends javax.swing.JFrame {
         zahlungskonditionanlegen = new ZahlungskonditionAnlegen(factory);
 //        zahlungskonditionanzeigen = new ZahlungskonditionAnzeigen();
         zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg(factory);
-        
 
 // Zuweisung der Masken an die Hauptansicht
         desktopPane.add(hauptmenueuser);
@@ -133,7 +133,6 @@ public class Start extends javax.swing.JFrame {
 
         //Erstmal zu Testzwecken, kommt noch woanders hin
 //        DAO = new DataAccessObject();
-        
         try {
 //            Kunde k = (Kunde) dao.getCustomer(1);
 //            Status stat = dao.getStatusByName("erfasst");
@@ -164,7 +163,7 @@ public class Start extends javax.swing.JFrame {
 //            //auftrag.setStatus(statneu2);//abgeschlossen
 //            dao.setzeAuftragsstatus(auftrag, statneu);//freigegeben
 //            dao.setzeAuftragsstatus(auftrag, statneu2);//abgeschlossen
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("" + e.getMessage());
         }
     }
@@ -439,8 +438,6 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_BenutzerhandbuchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_BenutzerhandbuchActionPerformed
-//        JOptionPane.showMessageDialog(rootPane, "Benutzerhandbuch.", "Informationen",
-//                JOptionPane.INFORMATION_MESSAGE); "nr:123, datum:123 , andere:ete,kat:asd "
 
         Parser parser = new Parser();
         try {
@@ -457,13 +454,13 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_AuftragskopfAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragskopfAnlegenActionPerformed
-//        if(factory.getComponent() == null){
+        if (c != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
+            c.setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
         setCenterJIF(auftragskopfanlegen);
-//        }else{
-//            factory.
-//        }
+        c = auftragskopfanlegen;// Übergabe der neu aufgerufenen View
     }//GEN-LAST:event_jMI_AuftragskopfAnlegenActionPerformed
     /**
      * ActionPerformed in der die AuftrgaskopfAendern Maske aufgerufen wird
@@ -471,12 +468,13 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_AuftragkopfAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragkopfAEndernActionPerformed
-
-        
-//        factory.setComponent(factory.getComponent());
+        if (c != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
+            c.setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
         setCenterJIF(auftragskopfaendern);
+        c = auftragskopfaendern;// Übergabe der neu aufgerufenen View
     }//GEN-LAST:event_jMI_AuftragkopfAEndernActionPerformed
     /**
      * ActionPerformed in der die AuftrgaskopfAnzeigen Maske aufgerufen wird
@@ -493,9 +491,13 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_AuftragsposAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragsposAEndernActionPerformed
+        if (c != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
+            c.setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
         setCenterJIF(auftragsspositionaender);
+        c = auftragsspositionaender;// Übergabe der neu aufgerufenen View
     }//GEN-LAST:event_jMI_AuftragsposAEndernActionPerformed
 
     /**
@@ -504,9 +506,13 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_AuftragsposAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragsposAnzeigenActionPerformed
+        if (c != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
+            c.setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
         setCenterJIF(auftragsspositionanzeigen);
+        c = auftragsspositionanzeigen;// Übergabe der neu aufgerufenen View
     }//GEN-LAST:event_jMI_AuftragsposAnzeigenActionPerformed
 
     /**
@@ -515,9 +521,13 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_ArtikelAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ArtikelAnlegenActionPerformed
+        if (c != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
+            c.setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
         setCenterJIF(artikelanlegen);
+        c = artikelanlegen;// Übergabe der neu aufgerufenen View
     }//GEN-LAST:event_jMI_ArtikelAnlegenActionPerformed
 
     /**
@@ -526,9 +536,13 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_ArtikelAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ArtikelAEndernActionPerformed
+        if (c != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
+            c.setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
         setCenterJIF(artikelaendern);
+        c = artikelaendern;// Übergabe der neu aufgerufenen View
     }//GEN-LAST:event_jMI_ArtikelAEndernActionPerformed
 
     /**
@@ -546,9 +560,13 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_GPAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_GPAnlegenActionPerformed
+        if (c != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
+            c.setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
         setCenterJIF(geschaeftspartneranlegen);
+        c = geschaeftspartneranlegen;// Übergabe der neu aufgerufenen View
     }//GEN-LAST:event_jMI_GPAnlegenActionPerformed
 
     /**
@@ -557,9 +575,13 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_GPAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_GPAEndernActionPerformed
+        if (c != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
+            c.setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
         setCenterJIF(geschaeftspartneraendern);
+        c = geschaeftspartneraendern;// Übergabe der neu aufgerufenen View
     }//GEN-LAST:event_jMI_GPAEndernActionPerformed
 
     /**
@@ -578,9 +600,13 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_ZKAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ZKAnlegenActionPerformed
+        if (c != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
+            c.setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
         setCenterJIF(zahlungskonditionanlegen);
+         c = zahlungskonditionanlegen;// Übergabe der neu aufgerufenen View
     }//GEN-LAST:event_jMI_ZKAnlegenActionPerformed
 
     /**
@@ -590,9 +616,13 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_ZKAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ZKAEndernActionPerformed
+        if (c != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
+            c.setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
         setCenterJIF(zahlungskonditionaendern);
+        c = zahlungskonditionaendern;// Übergabe der neu aufgerufenen View
     }//GEN-LAST:event_jMI_ZKAEndernActionPerformed
 
     /**
@@ -604,7 +634,6 @@ public class Start extends javax.swing.JFrame {
     private void jMI_ZKAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ZKAnzeigenActionPerformed
 //        setCenterJIF(zahlungskonditionanzeigen);
     }//GEN-LAST:event_jMI_ZKAnzeigenActionPerformed
-
 
     /**
      * Methode setCenterJIF Methode ermittelt das Zentrum der DesktopPane und
