@@ -39,11 +39,15 @@ import javax.persistence.*;
  * @author Simon <Simon.Simon at your.org>
  */
 public class DataAccessObject {
-    /**
+    
+    /**.
      * EntityManager verwaltet alle Persistenten Klassen
      */
     private final EntityManager em;
     
+    /**.
+     * Standartkonstruktor
+     */
     public DataAccessObject() {
         this.em = Persistence.createEntityManagerFactory(
             "Softwareprojekt2014PU").createEntityManager();
@@ -53,52 +57,52 @@ public class DataAccessObject {
     /* Datum Name Was                                           */
     /* 11.11.14 sch angelegt                                    */
     /*----------------------------------------------------------*/
-    /**
-     * Methode zur dynamischen Suche
+    /** Methode zur dynamischen Suche.
+     * Hier wird die Klasse Parser benutzt.
      * @param eingabe Sucheingabe 
      * @param tabelle Tabelle in der gesucht werden soll
      * @return gibt eine Collection<?> zurück mit allen gefunden Datensätzen
      * @throws DAO.ApplicationException Die Exception wird durchgereicht
      */
-    public Collection<?> searchQuery(String eingabe, String tabelle) 
-            throws ApplicationException {
+    public Collection<?> suchAbfrage(String eingabe, String tabelle) 
+        throws ApplicationException {
         //Datendeklaration
-        ArrayList<String> dbIdentifier = null;
-        Auftragskopf headOrder = null;
-        List<?> sqlResultSet = null;
+        ArrayList<String> dbAttrListe = null;
+        Auftragskopf auftrag = null;
+        List<?> sqlErgebnisListe = null;
         String sqlAbfrage = null;
         Parser parser = new Parser();
         //Parse den Suchausdruck und hole die DB-Attr. Namen
-        dbIdentifier = parser.parse(eingabe, tabelle);
+        dbAttrListe = parser.parse(eingabe, tabelle);
         //Prüfe, ob das Parsen erfolgreich war.
-        if (dbIdentifier == null) {
+        if (dbAttrListe == null) {
             throw new ApplicationException("Fehler", 
                     "Beim Parsen ist ein Fehler aufgetreten!");
         }
         //Sql-Statement Dynamisch erzeugen
         sqlAbfrage = "SELECT ST FROM " + tabelle + " ST WHERE ";
         //Iteriere über alle Input Einträge
-        for (int i = 0; i < dbIdentifier.size(); i++) {
+        for (int i = 0; i < dbAttrListe.size(); i++) {
             //Hole Abfrage aus der Liste
-            sqlAbfrage += ("ST." + dbIdentifier.get(i));
+            sqlAbfrage += ("ST." + dbAttrListe.get(i));
             //Prüfe, ob mehrere Einträge vorhanden sind, diese müssen mit AND
             //Verknüpft werden.Beim letzten durchlauf wird kein AND mehr gesetzt
-            if (dbIdentifier.size() > 1 && i < dbIdentifier.size() - 1) {
+            if (dbAttrListe.size() > 1 && i < dbAttrListe.size() - 1) {
                 sqlAbfrage += " AND ";
             }
         }
 
         try {
             //Ergebnis aus der DB laden und als Liste speichern
-            sqlResultSet = em.createQuery(sqlAbfrage).getResultList();
+            sqlErgebnisListe = em.createQuery(sqlAbfrage).getResultList();
             
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new ApplicationException("Fehler", 
                     "Die Daten konnten nicht gefunden werden!");
         }
         
 
-        return sqlResultSet;
+        return sqlErgebnisListe;
     }
 //<editor-fold defaultstate="collapsed" desc="create-Methoden">
     
@@ -556,6 +560,8 @@ public class DataAccessObject {
     /*----------------------------------------------------------*/
     /**
      * Passt den Artikelbestand gemäß dem übergebenen Status an.
+     * Diese Methode wird NUR von der setzeAuftragsstatus() - Methode
+     * aufgerufen!
      * @param positionen Alle Positionen deren Artikelbestand angepasst werden
      * @param bestandsart Bestand der verändert werden soll
      * @throws ApplicationException Wirft eine ApplicationException bei Fehlern
@@ -567,42 +573,51 @@ public class DataAccessObject {
             //Iteriere über alle Positionen
             for (Auftragsposition position : positionen) {
                 //Prüfe, ob es sich um einen Zulauf an Artikeln handelt
-                if (bestandsart.equals("Zulauf")) {
+                if ("Zulauf".equals(bestandsart)) {
                     //Erhöhe die Menge des Benstandszulauf
                     position.getArtikel().setZulauf(position.getArtikel()
                             .getZulauf() + position.getMenge());
-                } else if (bestandsart.equals("Reserviert")) {
+                } else if ("Reserviert".equals(bestandsart)) {
                     //Verringer die Anzahl von Bestandfrei
-                    position.getArtikel().setFrei(position.getArtikel().
-                            getFrei() - position.getMenge());
+                    position.getArtikel().setFrei(
+                            position.getArtikel().getFrei() 
+                                    - position.getMenge());
                     //Und Erhöhe den Reservierbestand
-                    position.getArtikel().setReserviert(position.getArtikel().
-                            getReserviert() + position.getMenge());
-                } else if (bestandsart.equals("Frei")) {
+                    position.getArtikel().setReserviert(
+                            position.getArtikel().getReserviert() 
+                                    + position.getMenge());
+                } else if ("Frei".equals(bestandsart)) {
                     //Verringer die Anzahl von Bestandzulauf
-                    position.getArtikel().setZulauf(position.getArtikel().
-                            getZulauf() - position.getMenge());
+                    position.getArtikel().setZulauf(
+                            position.getArtikel().getZulauf() 
+                                    - position.getMenge());
                     //Und Erhöhe den Freibestand
-                    position.getArtikel().setFrei(position.getArtikel().
-                            getFrei() + position.getMenge());
-                } else if (bestandsart.equals("Verkauft")) {
+                    position.getArtikel().setFrei(
+                            position.getArtikel().getFrei() 
+                                    + position.getMenge());
+                } else if ("Verkauft".equals(bestandsart)) {
                     //Verringer den Bestandreserviert
-                    position.getArtikel().setReserviert(position.getArtikel()
-                            .getReserviert() - position.getMenge());
+                    position.getArtikel().setReserviert(
+                            position.getArtikel().getReserviert() 
+                                    - position.getMenge());
                     //Und Erhöhe den Verkauftbestand
-                    position.getArtikel().setVerkauft(position.getArtikel()
-                            .getVerkauft() + position.getMenge());
-                } else if (bestandsart.equals("RueckgaengigBestellung")) {
+                    position.getArtikel().setVerkauft(
+                            position.getArtikel().getVerkauft() 
+                                    + position.getMenge());
+                } else if ("RueckgaengigBestellung".equals(bestandsart)) {
                     //Verringer die Anzahl von Bestandzulauf
-                    position.getArtikel().setZulauf(position.getArtikel().
-                            getZulauf() - position.getMenge());
-                } else if (bestandsart.equals("RueckgaengigVerkauf")) {
+                    position.getArtikel().setZulauf(
+                            position.getArtikel().getZulauf() 
+                                    - position.getMenge());
+                } else if ("RueckgaengigVerkauf".equals(bestandsart)) {
                     //Verringer die Anzahl von Bestandreserviert
-                    position.getArtikel().setReserviert(position.getArtikel()
-                            .getReserviert() - position.getMenge());
+                    position.getArtikel().setReserviert(
+                            position.getArtikel().getReserviert() 
+                                    - position.getMenge());
                     //Und Erhöhe den Freibestand
-                    position.getArtikel().setFrei(position.getArtikel()
-                            .getFrei() + position.getMenge());
+                    position.getArtikel().setFrei(
+                            position.getArtikel().getFrei() 
+                                    + position.getMenge());
                 }
                     
                 //Artikel persistieren
@@ -610,8 +625,8 @@ public class DataAccessObject {
             }
             
         } catch (Exception exc) {
-            throw new ApplicationException("Fehler", "Der Bestand konnte " + 
-                    "nicht in der Datenbank angepasst werden!");
+            throw new ApplicationException("Fehler", "Der Bestand konnte " 
+                    + "nicht in der Datenbank angepasst werden!");
         }
     }
     
@@ -625,14 +640,12 @@ public class DataAccessObject {
      * eine Verfügbarkeitsprüfung durchgeführt und die Artikelbestände angepasst
      * Die Anpassung der Bestände und der Status des Auftrags wird in einer
      * Transaktion abgehandelt.
-     * 
-     * transaktion ablaufen
-     * @param auftrag
-     * @param status 
-     * @throws DAO.ApplicationException 
+     * @param auftrag Auftrag deren Status geändert werden soll.
+     * @param status Der Status in dem der Auftrag übergehen soll.
+     * @throws DAO.ApplicationException Application Exception bei Fehlern.
      */
     public void setzeAuftragsstatus(Auftragskopf auftrag, Status status) 
-            throws ApplicationException {
+        throws ApplicationException {
         //Prüfe zu aller erst, ob ein Status übergeben worden ist
         if (status == null) {
             throw new ApplicationException("Fehler", "Der Status wurde " + 
@@ -646,22 +659,22 @@ public class DataAccessObject {
             //Der Status wird erstmalig auf erfasst gesetzt.
             //Hier muss noch keine Bestandsführung durchgeführt werden, da 
             //die Materialien erst ab freigegeben gebucht werden.
-            if (status.getStatus().equals("erfasst") && 
-                    auftrag.getStatus() == null) {
+            if ("erfasst".equals(status.getStatus()) 
+                    && auftrag.getStatus() == null) {
                 auftrag.setStatus(status);
             }
             //Wenn der Auftrag bereits im Status Abgeschlossen ist,
             //ist es nicht mehr möglich ihn zu ändern
             else if (auftrag.getStatus().getStatus().equals("abgeschlossen")) {
-                throw new ApplicationException("Fehler", "Der Auftrag kann " + 
-                        "in keinen anderen Status mehr versetzt werden!");
+                throw new ApplicationException("Fehler", "Der Auftrag kann " 
+                        + "in keinen anderen Status mehr versetzt werden!");
             }
             //Für den Fall, dass der Status direkt von erfasst in abgeschlossen
             //überführt werden soll, wird eine Exception geworfen
             else if (auftrag.getStatus().getStatus().equals("erfasst") && 
                     status.getStatus().equals("abgeschlossen")) {
-                throw new ApplicationException("Fehler", "Der Auftrag kann " + 
-                        "nicht von erfasst nach abgeschlossen "
+                throw new ApplicationException("Fehler", "Der Auftrag kann " 
+                        + "nicht von erfasst nach abgeschlossen "
                         + "versetzt werden!");
             }
             //Für den Fall, dass ein Auftrag zurück in den Erfasst Status  
@@ -759,7 +772,7 @@ public class DataAccessObject {
      * @return
      * @throws ApplicationException 
      */
-    public Collection<Artikelkategorie> getAllCategories() 
+    public Collection<Artikelkategorie> gibAlleKategorien() 
             throws ApplicationException {
 
         return this.em.createQuery("SELECT ST FROM Artikelkategorie ST", 
@@ -814,7 +827,7 @@ public class DataAccessObject {
      * @throws ApplicationException
      */
     public Artikelkategorie getCategory(String name)
-            throws ApplicationException {
+        throws ApplicationException {
         String sqlQuery = null;
         Artikelkategorie cat = null;
         if (name == null)
@@ -976,5 +989,9 @@ public class DataAccessObject {
         }
     }
     
-    
+    //Tbd
+    public void close() throws ApplicationException {
+        em.close();
+        System.exit(0);
+    }
 }

@@ -20,108 +20,156 @@ import java.util.StringTokenizer;
  * Klasse Parser
  */
 public class Parser {
-    /**
+    /**.
      * Konstante zur Trennung der einzelnen Sucheingaben
      */
-    private static final String SPLITINPUT = ";";
-    /**
+    private static final String TRENNZEICHEN = ";";
+    /**.
      * Konstante zur Trennung der einzelnen Querys
      */
     private static final String[] OPERATOR = {"<=" , ">=", "<>", "<",
-                                                ">", "="};
-    /**
+                                              ">", "="};
+    /**.
      * Hashmap mit allen Schlüßelwörtern
      */
-    private static final HashMap<String, String> IDENTIFIER = new 
-            HashMap<String, String>() {{
-              put("nr","Id");
-              put("name","Name");
+    private static final HashMap<String, String> ATTRIBUTE = new 
+            HashMap<String, String>() { {
+                put("nr", "Id");
+                put("name", "Name");
 /*------------Artikel spezifische Eingaben----------------------*/              
-              put("atext","Artikeltext");
-              put("btext","Bestelltext");
-              put("wert","Einkaufswert");
-              put("name","Name");
-              put("mwst","Mwst");
-              put("akat","Kategorie");
-              put("frei","Frei");
-              put("res","Reserviert");
-              put("zul","Zulauf");
-              put("ver","Verkauft");
-//***********              
-              put("kategorie", "Kategoriename");
-              put("vname","Vorname");
-              put("datum","Erfassungsdatum");
-              put("status","Status");
-              put("typ","Auftragsart");
-            }};
+                put("atext", "Artikeltext");
+                put("btext", "Bestelltext");
+                put("wert", "Einkaufswert");
+                put("name", "Name");
+                put("mwst", "Mwst");
+                put("kat", "Kategorie");
+                put("frei", "Frei");
+                put("res", "Reserviert");
+                put("zul", "Zulauf");
+                put("ver", "Verkauft");
+/*------------Anschrift spezifische Eingaben----------------------*/
+                put("email", "EMAIL");
+                put("erfassungsdatum", "ERFASSUNGSDATUM");
+                put("fax", "FAX");
+                put("gebdatum", "GEBURTSDATUM");
+                put("hsnr", "HAUSNUMMER");
+                put("name", "NAME");
+                put("ort", "ORT");
+                put("plz", "PLZ");
+                put("staat", "STAAT");
+                put("strasse", "STRASSE");
+                put("telefon", "TELEFON");
+                put("titel", "TITEL");
+                put("vname", "VORNAME");
+                put("typ", "TYP");
+/*------------Kategorie spezifische Eingaben----------------------*/
+                put("beschreibung", "BESCHREIBUNG");
+                put("katname", "KATEGORIENAME");
+                put("katkommentar", "KOMMENTAR");
+/*------------Auftragskopf spezifische Eingaben----------------------*/
+                put("abschlussdatum", "ABSCHLUSSDATUM");
+                put("text", "AUFTRAGSTEXT");
+                put("eingangsdatum", "ERFASSUNGSDATUM");
+                put("lieferdatum", "LIEFERDATUM");
+                put("wert", "WERT");
+                put("auftragsart", "AUTRAGSART");
+                put("geschaeftspartner", "Geschäftspartner");
+                put("status", "STATUS");
+                put("zahlungskondition", 
+                        "ZAHLUNGSKONDITION_ZAHLUNGSKONDITIONID");
+/*------------Geschäftspartner spezifische Eingaben----------------------*/
+                put("kredit", "KREDITLIMIT");
+                put("partnerart", "TYP");
+                put("typ", "LIEFERADRESSE_ANSCHRIFTID");
+                put("typ", "RECHNUNGSADRESSE_ANSCHRIFTID");
+/*------------Status spezifische Eingaben----------------------*/
+                put("status", "STATUS");
+/*------------Zahlungskondition spezifische Eingaben----------------------*/
+                put("auftragsart", "AUFTRAGSART");
+                put("lieferzeit", "LIEFERZEITSOFORT");
+                put("mahnzeit1", "MAHNZEIT1");
+                put("mahnzeit2", "MAHNZEIT2");
+                put("mahnzeit3", "MAHNZEIT3");
+                put("skonto1", "SKONTO1");
+                put("skonto2", "SKONTO2");
+                put("skontozeit1", "SKONTOZEIT1");
+                put("skontozeit2", "SKONTOZEIT2");
+                put("sperrzeitwunsch", "SPERRZEITWUNSCH");
+            } };
     
     /*----------------------------------------------------------*/
     /* Datum Name Was                                           */
     /* 11.11.14 sch angelegt                                    */
     /*----------------------------------------------------------*/
-    /**
+    /**.
      * Parst den übergebenen String und gibt die DB-Attributnamen zurück
-     * @param input Sucheingabe
-     * @param table Tabelle in der gesucht werden soll (Hier nur null Prüfung)
+     * @param eingabe Sucheingabe
+     * @param tabelle Tabelle in der gesucht werden soll (Hier nur null Prüfung)
      * @return Es wird eine Hashmap zurückgegeben mit dem Inhalt der 
      *         DB-Attributnamen zur weiteren Generierung der SQL-Statements
      * @throws ApplicationException Sollten Eingaben ungültig sein,
      *         so wird eine AE geworfen.
      * 
-     * TODO: prüfung auf illegale zeichen, und nicht einhaltung der regeln
+     * TO-DO: prüfung auf illegale zeichen, und nicht einhaltung der regeln
      */
-    public ArrayList<String> parse(String input, String table) 
-            throws ApplicationException {
+    public ArrayList<String> parse(String eingabe, String tabelle) 
+        throws ApplicationException {
         //Daten Deklaration
-        String[] praefixList = null;
+        String[] praefixListe = null;
         StringTokenizer st = null;
         //Evt. andere Collection nehmen?
-        HashMap<String, String> searchQuerys = new HashMap<>();
-        ArrayList<String> result = new ArrayList<>();
-        String inputNoSpace = "";
-        String searchIdentifier = null;
-        String databaseIdentifier = null;
-        String value = null;
+        HashMap<String, String> suchAbfragenMap = new HashMap<>();
+        ArrayList<String> abfrageErgebnis = new ArrayList<>();
+        String eingabeOhneLeerzeichen = "";
+        String suchAttr = null;
+        String dbAttr = null;
+        String wert = null;
         
         //Prüfe, ob die Sucheingabe und die Table null sind
         //Wenn ja, dann wirf eine ApplicationException
-        if (input == null || table == null) {
+        if (eingabe == null || tabelle == null) {
             throw new ApplicationException("No Input", "Es gab keine Eingabe!");
         }
         //Initialisiere StringTokenizer
-        st = new StringTokenizer(input);
+        st = new StringTokenizer(eingabe);
         //Durchlaufe alle Token
         while (st.hasMoreTokens()) {
-            inputNoSpace += st.nextToken();
+            eingabeOhneLeerzeichen += st.nextToken();
         }
         //Speicher alle praefixe in das array unter gegebenen Trennzeichen
-        praefixList = inputNoSpace.split(SPLITINPUT);
+        praefixListe = eingabeOhneLeerzeichen.split(TRENNZEICHEN);
         //Iteriere über alle Suchattribute
-        for (String praefix : praefixList) {
+        for (String praefix : praefixListe) {
             //Iteriere über alle Operatoren
-            for (String split : OPERATOR) {
+            for (String splitOp : OPERATOR) {
                 //Identifiziere das Attribut nach dem gesucht werden soll
-                searchIdentifier = praefix.split(split)[0];
+                suchAttr = praefix.split(splitOp)[0];
                 //Wenn Operator gefunden wurde führen wir fort
-                if (praefix.split(split).length > 1) {
+                if (praefix.split(splitOp).length > 1) {
                     //Identifiziere den Wert nach dem gesucht werden soll
-                    value = praefix.split(split)[1];
+                    wert = praefix.split(splitOp)[1];
                     //Ermittle den Datenbanken Namen aus der Hashmap
-                    databaseIdentifier = IDENTIFIER.get(searchIdentifier);
+                    dbAttr = ATTRIBUTE.get(suchAttr);
                     //Prüfe, ob der User eine gültige Eingabe gemacht hat.
-                    if (databaseIdentifier == null) {
+                    if (dbAttr == null) {
                         throw new ApplicationException("Fehler", 
-                        "Das Suchkürzel: " + searchIdentifier + " ist Falsch!");
+                            "Das Suchkürzel: " + suchAttr + " ist Falsch!");
                     }
-                    result.add(databaseIdentifier + " " + split + " " + value);
+                    //To-Do: Operatoren müssen noch an DB.Stdt angepasst werden
+                    abfrageErgebnis.add(dbAttr + " " + splitOp + " " + wert);
                     //Beende die 2. Schleife sobald ein Operator gefunden wurde.
                     break;
                 }
-            }//Überprüfung, wenn alle operatoren durchlaufen sind und keiner
+            }
+            //Überprüfung, wenn alle operatoren durchlaufen sind und keiner
             //gefunden werden konnte -> Falsche Operator eingabe -> Fehler
+            if ("".equals(wert)) {
+                throw new ApplicationException("Fehler", "Der Operator "
+                        + "war ungültig!");
+            }
         }
         
-        return result;
+        return abfrageErgebnis;
     }
     /*----------------------------------------------------------*/
     /* Datum Name Was                                           */

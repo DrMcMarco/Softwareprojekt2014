@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import static java.util.Collections.list;
 import java.util.Date;
 import java.util.HashMap;
+import javax.persistence.PersistenceException;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 
@@ -82,9 +83,15 @@ public class Start extends javax.swing.JFrame {
      */
     public Start() {
         initComponents();
-        factory = new GUIFactory();
-        dao = new DataAccessObject();
-        factory.setDAO(dao);
+        
+        try {
+            factory = new GUIFactory();
+            dao = new DataAccessObject();
+        } catch (PersistenceException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        //factory.setDAO(dao);
 
         c = null;
 
@@ -412,7 +419,8 @@ public class Start extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // Erzeugen eine Meldung mit Abfrage
         int antwort = JOptionPane.showConfirmDialog(rootPane, Beenden_Meldung,
-                Beenden_Meldung_Typ, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                Beenden_Meldung_Typ, JOptionPane.YES_NO_OPTION, 
+                JOptionPane.QUESTION_MESSAGE);
         if (antwort == JOptionPane.YES_OPTION) {
             System.exit(0);
         }

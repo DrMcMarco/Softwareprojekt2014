@@ -108,7 +108,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
     private void ladeKategorienAusDatenbank() {
         try {
-            kategorienAusDatenbank = this.dao.getAllCategories();
+            kategorienAusDatenbank = this.dao.gibAlleKategorien();
 //            StringArray fuer das Model der Combobox mit der Groeße der aus der Datenbank
 //            geladenen Collection erzeugen;
             kategorienFuerCombobox = new ArrayList<>();
