@@ -11,6 +11,11 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import JFrames.*;
 import DAO.*;
+import DTO.Artikelkategorie;
+import java.util.Collection;
+import java.util.Iterator;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  * GUI Klasse für Artikel verwalten.
@@ -30,8 +35,9 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 //  ArrayList, um fehlerhafte Componenten zu speichern.    
     private ArrayList<Component> fehlerhafteComponenten;
 //  ArrayList, um angelegte Artikel zu speichern     
-    public ArrayList<Component> artikelListe;
-    public ArrayList<String> kategorien;
+    private ArrayList<Component> artikelListe;
+    private Collection<Artikelkategorie> kategorienAusDatenbank;
+    private ArrayList<String> kategorienFuerCombobox;
 //  Insantzvariablen für die standard Farben der Componenten    
     private final Color JCB_FARBE_STANDARD = new Color(214, 217, 223);
     private final Color JTF_FARBE_STANDARD = new Color(255, 255, 255);
@@ -46,12 +52,13 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     private final String TITEL_FEHLERHAFTE_EINGABE = "Fehlerhafte Eingabe";
     private final String STATUSZEILE = "Artikel wurde angelegt!";
 
-    private final int anzahlFehlerhafterComponenten;
+    private final int maxAnzahlFehlerhafterComponenten;
 
     private NumberFormat nf;
 
     private ArrayList<Component> alleComponenten;
 
+    //KategorieArraylist aus DB
     /**
      * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die
      * Documents.
@@ -61,7 +68,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 //        ArtikelAnzeigen Test
         alleComponenten = new ArrayList<>();
         fuelleArrayListMitAllenComponenten();
-        anzahlFehlerhafterComponenten = alleComponenten.size();
+        maxAnzahlFehlerhafterComponenten = alleComponenten.size();
 //        ArtikelAnzeigen Test
         this.factory = factory;
         this.dao = this.factory.getDAO();
@@ -73,7 +80,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 //        }
         fehlerhafteComponenten = new ArrayList<>();
         artikelListe = new ArrayList<>();
-        kategorien = new ArrayList<>();
+        ladeKategorienAusDatenbank();
+        jCB_Kategorie.setModel(new DefaultComboBoxModel(kategorienFuerCombobox.toArray()));
 
         nf = NumberFormat.getInstance();
         nf.setMinimumFractionDigits(2);
@@ -98,14 +106,30 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         alleComponenten.add(jTF_Bestandsmenge_VERKAUFT);
     }
 
+    private void ladeKategorienAusDatenbank() {
+        try {
+            kategorienAusDatenbank = this.dao.getAllCategories();
+//            StringArray fuer das Model der Combobox mit der Groeße der aus der Datenbank
+//            geladenen Collection erzeugen;
+            kategorienFuerCombobox = new ArrayList<>();
+            kategorienFuerCombobox.add("Bitte auswählen");
+            Iterator<Artikelkategorie> it = kategorienAusDatenbank.iterator();
+            while (it.hasNext()) {
+//                System.out.println(it.next().getKategoriename());
+                kategorienFuerCombobox.add(it.next().getKategoriename());
+            }
+//            for(Artikelkategorie a: kategorienAusDatenbank) {
+//                System.out.println(a.getKategoriename());
+//            }
+        } catch (ApplicationException ex) {
+            System.out.println("Fehler beim Laden der Kategorien");
+        }
+    }
+
     public void setzeArtikelAnlegenInArtikelAnzeigen() {
         for (int i = 0; i < alleComponenten.size(); i++) {
             alleComponenten.get(i).setEnabled(false);
         }
-    }
-
-    private void ladeArtikelkategorie() {
-//        kategorien = DAO
     }
 
     /*
@@ -163,7 +187,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
     private void beendenEingabeNachfrage() {
         ueberpruefeFormular();
-        if (fehlerhafteComponenten.size() < anzahlFehlerhafterComponenten) {
+        if (fehlerhafteComponenten.size() < maxAnzahlFehlerhafterComponenten) {
             String meldung = "Möchten Sie die Eingaben verwerfen? Klicken Sie auf JA, wenn Sie die Eingaben verwerfen möchten.";
             String titel = "Achtung Eingaben gehen verloren!";
             int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
