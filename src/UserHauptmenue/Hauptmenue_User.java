@@ -145,6 +145,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
         jToolBar1.add(jB_Zurueck);
 
         jB_Abbrechen.setText("Abbrechen");
+        jB_Abbrechen.setEnabled(false);
         jToolBar1.add(jB_Abbrechen);
 
         jB_Speichern.setText("Speichern");
