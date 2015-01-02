@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package UserHauptmenue;
 
 import GUI_Internalframes.*;
-
 import Interfaces.*;
 import javax.swing.JInternalFrame;
 import JFrames.*;
@@ -17,8 +11,8 @@ import javax.swing.tree.TreePath;
  *
  * @author Luca Terrasi
  *
- * 10.12.2014 Terrasi,Erstellung.
- * 02.01.2015 Terrasi, JTreenavigation erstellt und einbindung der Guifactory
+ * 10.12.2014 Terrasi, Erstellung. 02.01.2015 Terrasi, JTreenavigation erstellt
+ * und Einbindung der Guifactory und der Methoden des Internalframes "Start".
  */
 public class Hauptmenue_User extends javax.swing.JInternalFrame implements InterfaceJTreeFunction {
     /*
@@ -33,21 +27,25 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 10.12.2014 Terrasi angelegt */
-    /* 02.01.2015 Terrasi Überarbeitung des Konstruktors */
+    /* 10.12.2014 Terrasi angelegt und Dokumentation */
+    /* 02.01.2015 Terrasi Überarbeitung des Konstruktors und Dokumentation*/
     /*----------------------------------------------------------*/
     /**
-     * Creates new form test
+     * Konstruktor, es wird eine GuiFactory gespeichert sowie ein Component das
+     * in ein "Start"-Internalframe gecastet wird. Eine Fehlerbehandlung findet
+     * statt, falls nicht gecastet werden kann.
      *
+     * @param factory
+     * @param frame
      */
     public Hauptmenue_User(GUIFactory factory, Component frame) {
         initComponents();
         this.factory = factory;//Übergabe der Factory.
         try {
             this.internal = (Start) frame;//Übergebene Component wird gecastet und
-                                          // in Hilfsvariable gespeichert.
-        } catch (Error e) {// Fehlerbehandlung, falls ein ein Component nicht  
-                           // gecastet werden kann.
+            // in Hilfsvariable gespeichert.
+        } catch (ClassCastException e) {// Fehlerbehandlung, falls ein ein Component nicht  
+            // gecastet werden kann.
             System.out.println(e.getMessage());// Ausgabe des Fehlers
         }
     }
@@ -194,106 +192,161 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 10.12.2014 Terrasi angelegt */
-    /* 02.01.2015 Terrasi  Zuweisung der Schnittstellenmethode OpenJtreeNodes/
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 02.01.2015 Terrasi  Zuweisung der Funktion und Dokumentation*/
     /*----------------------------------------------------------*/
+    /**
+     * TreeMouseClickes Event, bei diesem Event soll der Pfad der Baumstruktur
+     * gelesen und gespeichert werden. Beim Doppelklick auf ein Blatt des
+     * Baumes, wird die überschriebene Schnittstellenmethode aufgerufen. Dieser
+     * wird der gespeicherte Baumpfad übergeben. Bei einem Fehler wird dieser
+     * auch dementsprechend abgefangen.
+     *
+     * @param evt
+     */
     private void hauptmenueAdmin_TreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hauptmenueAdmin_TreeMouseClicked
+        //Try-Block für Fehlerbehandlungen
         try {
-            node = hauptmenueAdmin_Tree.getSelectionPath();
-            pfad = node.toString();
-            if (evt.getClickCount() == 2) {
-                openJtreeNodes(pfad);
+            node = hauptmenueAdmin_Tree.getSelectionPath();//Speichern des Pfades.
+            pfad = node.toString();// Pfand wird in String gecastet und gesepichert.
+            if (evt.getClickCount() == 2) {// Bei Doppelklick auf ein Blatt oder
+                // Knoten des Baums.
+                openJtreeNodes(pfad);//Aufruf der Schnittstellenmethode.
             }
-            System.out.println(pfad);
-
-        } catch (NullPointerException e) {
+        } catch (NullPointerException e) {//Fehlerbehandlung.
             System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_hauptmenueAdmin_TreeMouseClicked
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 10.12.2014 Terrasi angelegt */
-    /* 02.01.2015 Terrasi  Überarbeitung der Funktion*/
+    /* 10.12.2014 Terrasi angelegt und Dokumentation*/
+    /* 02.01.2015 Terrasi  Überarbeitung der Funktion und Dokumentation*/
     /*----------------------------------------------------------*/
+    /**
+     * Schnittstellenmethode openJtreeNodes, diese methode bekommt einen String
+     * übergeben mit dem verglichen wird, um das entsprechende Fenster
+     * aufzurufen.
+     *
+     * @param node, Variable mit der Verglichen wird um das richtige Fenster zu
+     * öffnen.
+     */
     @Override
     public void openJtreeNodes(String node) {
+        //Try-Block für Fehlerbehandlungen
         try {
-
-            if (node != null) {
-                System.out.println("aaaaaaaaa");
+            if (node != null) {// Wird geprüft ob es einen Pfad gibt.
+                // Vergleich des Pfades mit String um "Auftragskopf Anlegen" aufzurufen.
                 if (node.equals("[Navigation, Auftrag verwalten, Auftragskopf, Anlegen]")) {
-                    this.internal.setFrame(this.internal.auftragskopfanlegen);
-                    this.factory.setComponent(this.internal.hauptmenueuser);
-                    this.setVisible(false);
+                    // Aufruf der setComponentVisible-Methode um die 
+                    // entsprechende Maske sichtbar zu machen.
+                    setComponentVisible(this.internal.auftragskopfanlegen);
                 }
+                // Vergleich des Pfades mit String um "Auftragskopf Ändern" aufzurufen.
                 if (node.equals("[Navigation, Auftrag verwalten, Auftragskopf, Ändern]")) {
-                    this.internal.setFrame(this.internal.auftragskopfaendern);
-                    this.factory.setComponent(this.internal.hauptmenueuser);
-                    this.setVisible(false);
+                    // Aufruf der setComponentVisible-Methode um die 
+                    // entsprechende Maske sichtbar zu machen.
+                    setComponentVisible(this.internal.auftragskopfaendern);
                 }
-                if (node.equals("[Navigation, Auftrag verwalten, Auftragskopf, Anzeigen]")){
-                    
+                // Vergleich des Pfades mit String um "Auftragskopf Anzeigen" aufzurufen.
+                if (node.equals("[Navigation, Auftrag verwalten, Auftragskopf, Anzeigen]")) {
+                    // Aufruf der setComponentVisible-Methode um die 
+                    // entsprechende Maske sichtbar zu machen.
+
                 }
-                if (node.equals("[Navigation, Auftrag verwalten, Auftragsposition, Ändern]")){
-                    this.internal.setFrame(this.internal.auftragsspositionaender);
-                    this.factory.setComponent(this.internal.hauptmenueuser);
-                    this.setVisible(false);
+                // Vergleich des Pfades mit String um "Auftragsposition Ändern" aufzurufen.
+                if (node.equals("[Navigation, Auftrag verwalten, Auftragsposition, Ändern]")) {
+                    // Aufruf der setComponentVisible-Methode um die 
+                    // entsprechende Maske sichtbar zu machen.
+                    setComponentVisible(this.internal.auftragsspositionaender);
                 }
-                if (node.equals("[Navigation, Auftrag verwalten, Auftragsposition, Anzeigen]")){
-                    this.internal.setFrame(this.internal.auftragsspositionanzeigen);
-                    this.factory.setComponent(this.internal.hauptmenueuser);
-                    this.setVisible(false);
+                // Vergleich des Pfades mit String um "Auftragsposition Anzeigen" aufzurufen.
+                if (node.equals("[Navigation, Auftrag verwalten, Auftragsposition, Anzeigen]")) {
+                    // Aufruf der setComponentVisible-Methode um die 
+                    // entsprechende Maske sichtbar zu machen.
+                    setComponentVisible(this.internal.auftragsspositionanzeigen);
                 }
-                if (node.equals("[Navigation, Artikel verwalten, Anlegen]")){
-                    this.internal.setFrame(this.internal.artikelanlegen);
-                    this.factory.setComponent(this.internal.hauptmenueuser);
-                    this.setVisible(false);
+                // Vergleich des Pfades mit String um "Artikel Anlegen" aufzurufen.
+                if (node.equals("[Navigation, Artikel verwalten, Anlegen]")) {
+                    // Aufruf der setComponentVisible-Methode um die 
+                    // entsprechende Maske sichtbar zu machen.
+                    setComponentVisible(this.internal.artikelanlegen);
                 }
-                if (node.equals("[Navigation, Artikel verwalten, Ändern]")){
-                    this.internal.setFrame(this.internal.artikelaendern);
-                    this.factory.setComponent(this.internal.hauptmenueuser);
-                    this.setVisible(false);
+                // Vergleich des Pfades mit String um "Artikel Ändern" aufzurufen.
+                if (node.equals("[Navigation, Artikel verwalten, Ändern]")) {
+                    // Aufruf der setComponentVisible-Methode um die 
+                    // entsprechende Maske sichtbar zu machen.
+                    setComponentVisible(this.internal.artikelaendern);
                 }
-                if (node.equals("[Navigation, Artikel verwalten, Anzeigen]")){
-                    
+                // Vergleich des Pfades mit String um "Artikel Anzeigen" aufzurufen.
+                if (node.equals("[Navigation, Artikel verwalten, Anzeigen]")) {
+                    // Aufruf der setComponentVisible-Methode um die 
+                    // entsprechende Maske sichtbar zu machen.
+
                 }
-                if (node.equals("[Navigation, Geschäftspartner verwalten, Anlegen]")){
-                    this.internal.setFrame(this.internal.geschaeftspartneranlegen);
-                    this.factory.setComponent(this.internal.hauptmenueuser);
-                    this.setVisible(false);
+                // Vergleich des Pfades mit String um "Geschäftspartner Anlegen" aufzurufen.
+                if (node.equals("[Navigation, Geschäftspartner verwalten, Anlegen]")) {
+                    // Aufruf der setComponentVisible-Methode um die 
+                    // entsprechende Maske sichtbar zu machen.
+                    setComponentVisible(this.internal.geschaeftspartneranlegen);
                 }
-                if (node.equals("[Navigation, Geschäftspartner verwalten, Ändern]")){
-                    this.internal.setFrame(this.internal.geschaeftspartneraendern);
-                    this.factory.setComponent(this.internal.hauptmenueuser);
-                    this.setVisible(false);
+                // Vergleich des Pfades mit String um "Geschäftspartner Ändern" aufzurufen.
+                if (node.equals("[Navigation, Geschäftspartner verwalten, Ändern]")) {
+                    // Aufruf der setComponentVisible-Methode um die 
+                    // entsprechende Maske sichtbar zu machen.
+                    setComponentVisible(this.internal.geschaeftspartneraendern);
                 }
-                if (node.equals("[Navigation, Geschäftspartner verwalten, Anzeigen]")){
-                    
+                // Vergleich des Pfades mit String um "Geschäftspartner Anzeigen" aufzurufen.
+                if (node.equals("[Navigation, Geschäftspartner verwalten, Anzeigen]")) {
+                    // Aufruf der setComponentVisible-Methode um die 
+                    // entsprechende Maske sichtbar zu machen.
+
                 }
-                if (node.equals("[Navigation, Zahlungskonditionen verwalten, Anlegen]")){
-                    this.internal.setFrame(this.internal.zahlungskonditionanlegen);
-                    this.factory.setComponent(this.internal.hauptmenueuser);
-                    this.setVisible(false);
+                // Vergleich des Pfades mit String um "Zahlungskonditionen Anlegen" aufzurufen.
+                if (node.equals("[Navigation, Zahlungskonditionen verwalten, Anlegen]")) {
+                    // Aufruf der setComponentVisible-Methode um die 
+                    // entsprechende Maske sichtbar zu machen.
+                    setComponentVisible(this.internal.zahlungskonditionanlegen);
                 }
-                if (node.equals("[Navigation, Zahlungskonditionen verwalten, Ändern]")){
-                    this.internal.setFrame(this.internal.zahlungskonditionaendern);
-                    this.factory.setComponent(this.internal.hauptmenueuser);
-                    this.setVisible(false);
+                // Vergleich des Pfades mit String um "Zahlungskonditionen Ändern" aufzurufen.
+                if (node.equals("[Navigation, Zahlungskonditionen verwalten, Ändern]")) {
+                    // Aufruf der setComponentVisible-Methode um die 
+                    // entsprechende Maske sichtbar zu machen.
+                    setComponentVisible(this.internal.zahlungskonditionaendern);
                 }
-                if (node.equals("[Navigation, Zahlungskonditionen verwalten, Anzeigen]")){
-                    
+                // Vergleich des Pfades mit String um "Zahlungskonditionen Anzeigen" aufzurufen.
+                if (node.equals("[Navigation, Zahlungskonditionen verwalten, Anzeigen]")) {
+                    // Aufruf der setComponentVisible-Methode um die 
+                    // entsprechende Maske sichtbar zu machen.
+
                 }
-                
             }
-        } catch (NullPointerException e) {
+        } catch (NullPointerException e) {//Fehlerbehandlung bei einer NullpointerException
             System.out.println(e.getMessage());
         }
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 02.01.2015 Terrasi angelegt und Überschrieben*/
+    /*----------------------------------------------------------*/
+    /**
+     * Methode setComponentVisible erhält ein Frame das sichtbar gemacht werden
+     * soll und ruft dafür die Methoden des InternalFrames. Sie übergibt sich
+     * selbst auch der Guifactory, damit beim betätigen des Zurück-Buttons auch
+     * immer das Menü aufgerufen wird. Bei jedem aufruf dieser Methode, wird das
+     * Menü nicht mehr sichtbar für den User.
+     *
+     * @param frame, Frame das sichtbar gemacht wird
+     */
     @Override
-    public void setInternalFrameVisible(JInternalFrame frame) {
-//        if( frame.getName().equals("Auftragskopf"))
+    public void setComponentVisible(JInternalFrame frame) {
+        this.internal.setFrame(frame);//Aufruf der Internalframe-Methode "setFrame".
+        this.internal.setComponent(frame);// Aufruf der Internalframe-Methode "setComponent".
+        this.factory.setComponent(this.internal.hauptmenueuser);// Aufruf der
+        // "setComponent"-Methode der Guifactory.
+        this.setVisible(false);// Setzt sich selbst auf visible false um nicht
+        // mehr sichtbar zu sein.
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
