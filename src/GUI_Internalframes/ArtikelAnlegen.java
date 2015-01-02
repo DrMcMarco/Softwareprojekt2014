@@ -21,6 +21,8 @@ import javax.swing.DefaultComboBoxModel;
  * GUI Klasse für Artikel verwalten.
  *
  * @author Tahir 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
+ * 02.01.2014 Terrasi, Hinzufügen eines weiteren Catch-Blockes im der Methode
+ * ladeKategorienAusDatenbank und im Konstruktor.
  */
 public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
@@ -81,8 +83,16 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         fehlerhafteComponenten = new ArrayList<>();
         artikelListe = new ArrayList<>();
         ladeKategorienAusDatenbank();
+        
+        //Zuweisung eines Catch-Blockes
+        try{
+            
         jCB_Kategorie.setModel(new DefaultComboBoxModel(kategorienFuerCombobox.toArray()));
+        }catch(NullPointerException e){
+            System.out.println(e.getMessage());
+        }
 
+        
         nf = NumberFormat.getInstance();
         nf.setMinimumFractionDigits(2);
         nf.setMaximumFractionDigits(2);
@@ -123,6 +133,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 //            }
         } catch (ApplicationException ex) {
             System.out.println("Fehler beim Laden der Kategorien");
+        } catch (NullPointerException e){//Fangen einer NullpointerException
+            System.out.println(e.getMessage());
         }
     }
 
@@ -290,7 +302,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jTB_Menueleiste.setRollover(true);
         jTB_Menueleiste.setEnabled(false);
 
-        jB_Zurueck.setText("Zurück");
+        jB_Zurueck.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/home.PNG"))); // NOI18N
         jB_Zurueck.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jB_Zurueck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -588,7 +600,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
                     .addComponent(jLabel18)
                     .addComponent(jTF_Bestandsmenge_VERKAUFT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel21))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jTF_Statuszeile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 

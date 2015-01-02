@@ -4,68 +4,52 @@
  * and open the template in the editor.
  */
 package UserHauptmenue;
-import GUI_Internalframes.*;
 
+import GUI_Internalframes.*;
 
 import Interfaces.*;
 import javax.swing.JInternalFrame;
 import JFrames.*;
-import javax.swing.tree.DefaultMutableTreeNode;
+import java.awt.Component;
 import javax.swing.tree.TreePath;
 
 /**
  *
- * @author Luca
+ * @author Luca Terrasi
+ *
+ * 10.12.2014 Terrasi,Erstellung.
+ * 02.01.2015 Terrasi, JTreenavigation erstellt und einbindung der Guifactory
  */
 public class Hauptmenue_User extends javax.swing.JInternalFrame implements InterfaceJTreeFunction {
     /*
-    Hilfsvariablen
-    */
-    GUIFactory factory;
-    
-    
-    AuftragskopfAnlegen auftragskopfanlegen;
-    AuftragskopfAendern auftragskopfaendern;
-//    AuftragskopfAnzeigen auftragskopfanzeigen;
+     Hilfsvariablen
+     */
 
-    AuftragspositionAendern auftragsspositionaender;
-    AuftragspositionAnzeigen auftragsspositionanzeigen;
+    TreePath node; // Speichervariable für den Pfand des Jtrees
+    String pfad;// Speichervariable für den Wert des Blattes eines JTrees
+    Start internal;// Referenzvariable des Internalframes
 
-    ArtikelAnlegen artikelanlegen;
-    ArtikelAEndernEinstieg artikelaendern;
+    GUIFactory factory;//Speichervariable für die zu übergebenen Factory
 
-    GeschaeftspartnerAnlegen geschaeftspartneranlegen;
-    GeschaeftspartnerAEndernEinstieg geschaeftspartneraendern;
-
-    ZahlungskonditionAnlegen zahlungskonditionanlegen;
-//    ZahlungskonditionAnzeigen zahlungskonditionanzeigen;
-    ZahlungskonditionenAEndernEinstieg zahlungskonditionaendern;
-    
-    
-    
-    
-    
-    /*
-    Hilfsvariablen
-    */
-    DefaultMutableTreeNode node; // Speichervariable für den Wert des Blattes eines JTrees
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt */
+    /* 02.01.2015 Terrasi Überarbeitung des Konstruktors */
+    /*----------------------------------------------------------*/
     /**
      * Creates new form test
+     *
      */
-    public Hauptmenue_User(GUIFactory factory) {
+    public Hauptmenue_User(GUIFactory factory, Component frame) {
         initComponents();
-        this.factory = factory;
-//        auftragskopfanlegen = new AuftragskopfAnlegen();
-//        auftragskopfanzeigen = new AuftragskopfAnzeigen();
-//        auftragskopfaendern = new AuftragskopfAendern();
-//        auftragsspositionanzeigen = new AuftragspositionAnzeigen();
-//        auftragsspositionaender = new AuftragspositionAendern();
-////        artikelanlegen = new ArtikelAnlegen();
-//        artikelaendern = new ArtikelAEndernEinstieg();
-//        geschaeftspartneranlegen = new GeschaeftspartnerAnlegen();
-//        geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg();
-//        zahlungskonditionanlegen = new ZahlungskonditionAnlegen();
-//        zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg();
+        this.factory = factory;//Übergabe der Factory.
+        try {
+            this.internal = (Start) frame;//Übergebene Component wird gecastet und
+                                          // in Hilfsvariable gespeichert.
+        } catch (Error e) {// Fehlerbehandlung, falls ein ein Component nicht  
+                           // gecastet werden kann.
+            System.out.println(e.getMessage());// Ausgabe des Fehlers
+        }
     }
 
     /**
@@ -207,55 +191,107 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt */
+    /* 02.01.2015 Terrasi  Zuweisung der Schnittstellenmethode OpenJtreeNodes/
+    /*----------------------------------------------------------*/
     private void hauptmenueAdmin_TreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hauptmenueAdmin_TreeMouseClicked
-        node = (DefaultMutableTreeNode) hauptmenueAdmin_Tree.getLastSelectedPathComponent();
-        //FEHLER!
-        //node =  hauptmenueAdmin_Tree.get;
-        //TreePath Path = node.getNewLeadSelectionPath(); 
-        if(evt.getClickCount() == 2){
-            openJtreeNodes(node);
-//            openJtreeNodes(node);
+        try {
+            node = hauptmenueAdmin_Tree.getSelectionPath();
+            pfad = node.toString();
+            if (evt.getClickCount() == 2) {
+                openJtreeNodes(pfad);
+            }
+            System.out.println(pfad);
+
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
         }
-//        openJtreeNodes(node);
-//        System.out.println(evt.getClickCount());
-        System.out.println(node);
     }//GEN-LAST:event_hauptmenueAdmin_TreeMouseClicked
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt */
+    /* 02.01.2015 Terrasi  Überarbeitung der Funktion*/
+    /*----------------------------------------------------------*/
     @Override
-    public void openJtreeNodes(DefaultMutableTreeNode node) {
-//    public void openJtreeNodes(String node) {
-        System.out.println("111111");
-        if(node != null){
-            System.out.println("999999999");
-            if(node.equals("Auftrag verwalten")){
-                System.out.println("aaaaaaa");
-                if(node.equals("Auftragskopf")){
-                    System.out.println("bbbbbbbbbbb");
-                    if(node.equals("Anlegen")){
-                        auftragskopfanlegen.setVisible(true);
-                        System.out.println("ccccccccc");
-                    }else if(node.equals("Ändern")){
-                        auftragskopfaendern.setVisible(true);
-                    }else if(node.equals("Anzeigen")){
-//                        auftragskopfanzeigen.setVisible(true);
-                    }
-                }else if(node.equals("Auftragsposition")){
-                    if(node.equals("Ändern")){
-                        auftragsspositionaender.setVisible(true);
-                    }else if(node.equals("Anzeigen")){
-                        auftragsspositionanzeigen.setVisible(true);
-                    }
-                }
-                    
-            }else if(node.equals("Artikel verwalten")){
-            }
+    public void openJtreeNodes(String node) {
+        try {
 
+            if (node != null) {
+                System.out.println("aaaaaaaaa");
+                if (node.equals("[Navigation, Auftrag verwalten, Auftragskopf, Anlegen]")) {
+                    this.internal.setFrame(this.internal.auftragskopfanlegen);
+                    this.factory.setComponent(this.internal.hauptmenueuser);
+                    this.setVisible(false);
+                }
+                if (node.equals("[Navigation, Auftrag verwalten, Auftragskopf, Ändern]")) {
+                    this.internal.setFrame(this.internal.auftragskopfaendern);
+                    this.factory.setComponent(this.internal.hauptmenueuser);
+                    this.setVisible(false);
+                }
+                if (node.equals("[Navigation, Auftrag verwalten, Auftragskopf, Anzeigen]")){
+                    
+                }
+                if (node.equals("[Navigation, Auftrag verwalten, Auftragsposition, Ändern]")){
+                    this.internal.setFrame(this.internal.auftragsspositionaender);
+                    this.factory.setComponent(this.internal.hauptmenueuser);
+                    this.setVisible(false);
+                }
+                if (node.equals("[Navigation, Auftrag verwalten, Auftragsposition, Anzeigen]")){
+                    this.internal.setFrame(this.internal.auftragsspositionanzeigen);
+                    this.factory.setComponent(this.internal.hauptmenueuser);
+                    this.setVisible(false);
+                }
+                if (node.equals("[Navigation, Artikel verwalten, Anlegen]")){
+                    this.internal.setFrame(this.internal.artikelanlegen);
+                    this.factory.setComponent(this.internal.hauptmenueuser);
+                    this.setVisible(false);
+                }
+                if (node.equals("[Navigation, Artikel verwalten, Ändern]")){
+                    this.internal.setFrame(this.internal.artikelaendern);
+                    this.factory.setComponent(this.internal.hauptmenueuser);
+                    this.setVisible(false);
+                }
+                if (node.equals("[Navigation, Artikel verwalten, Anzeigen]")){
+                    
+                }
+                if (node.equals("[Navigation, Geschäftspartner verwalten, Anlegen]")){
+                    this.internal.setFrame(this.internal.geschaeftspartneranlegen);
+                    this.factory.setComponent(this.internal.hauptmenueuser);
+                    this.setVisible(false);
+                }
+                if (node.equals("[Navigation, Geschäftspartner verwalten, Ändern]")){
+                    this.internal.setFrame(this.internal.geschaeftspartneraendern);
+                    this.factory.setComponent(this.internal.hauptmenueuser);
+                    this.setVisible(false);
+                }
+                if (node.equals("[Navigation, Geschäftspartner verwalten, Anzeigen]")){
+                    
+                }
+                if (node.equals("[Navigation, Zahlungskonditionen verwalten, Anlegen]")){
+                    this.internal.setFrame(this.internal.zahlungskonditionanlegen);
+                    this.factory.setComponent(this.internal.hauptmenueuser);
+                    this.setVisible(false);
+                }
+                if (node.equals("[Navigation, Zahlungskonditionen verwalten, Ändern]")){
+                    this.internal.setFrame(this.internal.zahlungskonditionaendern);
+                    this.factory.setComponent(this.internal.hauptmenueuser);
+                    this.setVisible(false);
+                }
+                if (node.equals("[Navigation, Zahlungskonditionen verwalten, Anzeigen]")){
+                    
+                }
+                
+            }
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
+        }
     }
-    }
-     
-    
+
     @Override
-    public void setInternalFrameVisible(JInternalFrame frame){
+    public void setInternalFrameVisible(JInternalFrame frame) {
 //        if( frame.getName().equals("Auftragskopf"))
     }
 

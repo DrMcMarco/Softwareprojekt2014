@@ -2,6 +2,7 @@ package Interfaces;
 
 import javax.swing.JInternalFrame;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 
 
 /*
@@ -14,7 +15,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
  * @author Luca
  */
 public interface InterfaceJTreeFunction {
-    public void openJtreeNodes(DefaultMutableTreeNode node);
-//    public void openJtreeNodes(String node);
+//    public void openJtreeNodes(DefaultMutableTreeNode node);
+//    public void openJtreeNodes(TreePath node);
+    public void openJtreeNodes(String node);
     public void setInternalFrameVisible(JInternalFrame frame);
 }
