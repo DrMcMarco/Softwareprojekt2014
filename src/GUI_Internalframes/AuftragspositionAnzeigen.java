@@ -129,7 +129,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         jToolBar1.setRollover(true);
         jToolBar1.setEnabled(false);
 
-        jB_Zurueck.setText("Zurück");
+        jB_Zurueck.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/home.PNG"))); // NOI18N
         jB_Zurueck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_ZurueckActionPerformed(evt);

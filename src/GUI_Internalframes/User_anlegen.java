@@ -159,7 +159,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         jToolBar1.setRollover(true);
         jToolBar1.setEnabled(false);
 
-        jB_Zurueck.setText("Zurück");
+        jB_Zurueck.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/home.PNG"))); // NOI18N
         jB_Zurueck.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jB_Zurueck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

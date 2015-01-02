@@ -82,7 +82,9 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="jB_Zurueck">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Zur&#xfc;ck"/>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/GUI_Internalframes/home.PNG"/>
+            </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder/>
