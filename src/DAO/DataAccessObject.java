@@ -193,17 +193,19 @@ public class DataAccessObject {
      * @param Auftragstext 
      * @param GeschaeftspartnerID Eindeutige Nummer eines Geschäftspartners
      * @param ZahlungskonditionID Eindeute Nummer einer Zahlungskondition
-     * @param Wert Wert des Auftrages
      * @param Status Status des Auftrags
      * @param Abschlussdatum Auftragsabschlussdatum
      * @param Lieferdatum Datum der Lieferung
      * @throws ApplicationException 
      */
-    public void createOrderHead(String Typ, HashMap<Long, Integer> Artikel, 
+    public void erstelleAuftragskopf(String Typ, HashMap<Long, Integer> Artikel, 
             String Auftragstext, long GeschaeftspartnerID,
-            long ZahlungskonditionID, double Wert, String Status, 
+            long ZahlungskonditionID, String Status, 
             Date Abschlussdatum, Date Lieferdatum) 
             throws ApplicationException {
+        
+        //Variable für den berechneten Auftragswert
+        double Auftragswert = 0;
         
         //Hole den Geschäftspartner anhand der ID aus der Datenbank
         Geschaeftspartner businessPartner = em.find(Geschaeftspartner.class, 
@@ -243,18 +245,18 @@ public class DataAccessObject {
         
         //Anhand des übergebenen Typs wird ein entsprechendes Objekt erzeugt
         if(Typ.equals("Barauftrag")) {
-            orderhead = new Barauftragskopf(Auftragstext, Wert, businessPartner,
+            orderhead = new Barauftragskopf(Auftragstext, Auftragswert, businessPartner,
                     state, Abschlussdatum, Erfassungsdatum, Lieferdatum);
         } else if(Typ.equals("Sofortauftrag")) {
-            orderhead = new Sofortauftragskopf(Auftragstext, Wert, 
+            orderhead = new Sofortauftragskopf(Auftragstext, Auftragswert, 
                     businessPartner, state, paymentCondition, 
                     Abschlussdatum, Erfassungsdatum, Lieferdatum);
         } else if(Typ.equals("Terminauftrag")) {
-            orderhead = new Terminauftragskopf(Auftragstext, Wert, 
+            orderhead = new Terminauftragskopf(Auftragstext, Auftragswert, 
                     businessPartner, state, paymentCondition, 
                     Abschlussdatum, Erfassungsdatum, Lieferdatum);
         } else if(Typ.equals("Bestellauftrag")) {
-            orderhead = new Bestellauftragskopf(Auftragstext, Wert, 
+            orderhead = new Bestellauftragskopf(Auftragstext, Auftragswert, 
                     businessPartner, state, paymentCondition, 
                     Abschlussdatum, Erfassungsdatum, Lieferdatum);
         //Wenn keine gültige Auftragsart übergeben wurde
@@ -309,6 +311,9 @@ public class DataAccessObject {
                     ap.setEinzelwert(artikel.getVerkaufswert() * Artikel.get(ID));    
                 }
                 
+                //Zusammenrechnen des Auftragswerts
+                Auftragswert += ap.getEinzelwert();
+                
                 //Setzen der Menge
                 ap.setMenge(Artikel.get(ID));
                 
@@ -326,6 +331,9 @@ public class DataAccessObject {
             //Dadurch kann man über den Auftrag auf die hinterlegten Positionen
             //zugreifen
             orderhead.setPositionsliste(positionen);
+            
+            //Setzen des berechneten Auftragswerts
+            orderhead.setWert(Auftragswert);
             
             //Persistieren den Auftrag mit der Positionsliste
             em.persist(orderhead);
@@ -746,9 +754,6 @@ public class DataAccessObject {
      * @param Einkaufswert Wert für den der Artikel eingekauft wird
      * @param MwST Mehrwertsteuersatz des Artikels in %
      * @param Frei Menge der frei verwendbaren Artikelmengen
-     * @param Reserviert Menge der reservierten Artikelmengen
-     * @param Zulauf Menge der Artikel die bestellt wurden aber noch nicht geliefert wurden
-     * @param Verkauft Menge der verkauften Artikel
      * @throws ApplicationException wenn der Artikel nicht gefunden werden kann
      *                              oder wenn beim Ändern ein Fehler auftritt
      */
