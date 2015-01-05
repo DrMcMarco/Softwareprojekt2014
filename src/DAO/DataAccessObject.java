@@ -736,6 +736,65 @@ public class DataAccessObject {
         }
     }
     
+    /**.
+     * Methode zum Ändern von Artikeldaten
+     * @param Artikelnummer ID des Artikels
+     * @param Kategorie Kategorie
+     * @param Artikeltext Artikelname
+     * @param Bestelltext Bestelltext
+     * @param Verkaufswert Wert für den der Artikel verkauft wird
+     * @param Einkaufswert Wert für den der Artikel eingekauft wird
+     * @param MwST Mehrwertsteuersatz des Artikels in %
+     * @param Frei Menge der frei verwendbaren Artikelmengen
+     * @param Reserviert Menge der reservierten Artikelmengen
+     * @param Zulauf Menge der Artikel die bestellt wurden aber noch nicht geliefert wurden
+     * @param Verkauft Menge der verkauften Artikel
+     * @throws ApplicationException wenn der Artikel nicht gefunden werden kann
+     *                              oder wenn beim Ändern ein Fehler auftritt
+     */
+    public void setzeArtikel(long Artikelnummer, String Kategorie, 
+            String Artikeltext, String Bestelltext, double Verkaufswert, 
+            double Einkaufswert, double MwST, int Frei) 
+            throws ApplicationException {
+        
+        //Hole den Artikel anhand der ID aus der Datenbank
+        Artikel artikel = em.find(Artikel.class, Artikelnummer);
+        
+        //Wenn der Artikel nicht gefunden werden kann, wird eine Fehlermeldung 
+        //ausgegeben
+        if(artikel == null) {
+            throw new ApplicationException("Fehler", 
+                    "Der Artikel konnte nicht gefunden werden");
+        }
+        
+        try {
+            //Artikeldaten lokal aktualisieren
+            artikel.setKategorie(this.getCategory(Kategorie));
+            artikel.setArtikeltext(Artikeltext);
+            artikel.setBestelltext(Bestelltext);
+            artikel.setVerkaufswert(Verkaufswert);
+            artikel.setEinkaufswert(Einkaufswert);
+            artikel.setMwST(MwST);
+            artikel.setFrei(Frei);
+
+            //Transaktion starten
+            em.getTransaction().begin();
+            //Artikel persistieren
+            em.persist(artikel);
+            //Transaktion beenden
+            em.getTransaction().commit();
+        
+        } catch(Exception e) {
+            
+            //Wenn beim Ändern bzw. Persistieren der Daten ein Fehler auftritt
+            //wird eine Fehlermeldung ausgegeben
+            throw new ApplicationException("Fehler", 
+                    "Beim Verarbeiten der Daten ist ein Fehler aufgetreten. "
+                            + "Die Daten wurden nicht geändert.");
+            
+        }
+    }
+    
 //</editor-fold>
     
 //<editor-fold defaultstate="collapsed" desc="get-Methoden">
@@ -924,6 +983,30 @@ public class DataAccessObject {
         return auftragskopf;
     }
     
+    /**.
+     * Die Methode gibt die Anzahl der Positionen eines Auftrages zurück.
+     * @param AuftragskopfId ID des Auftrags.
+     * @return Anzahl der Positionen des angegebenen Auftrags.
+     * @throws ApplicationException wenn der Auftrag nicht gefunden werden kann.
+     */
+    public int gibAnzahlPositionen(long AuftragskopfId) 
+        throws ApplicationException {
+        
+        //Hole Auftrag anhand der ID aus der Datenbank
+        Auftragskopf ak = em.find(Auftragskopf.class, AuftragskopfId);
+        
+        //Wenn der Auftrag nicht gefunden werden kann, wird eine Fehlermeldung
+        //ausgegeben
+        if(ak == null) {
+            throw new ApplicationException("Fehler", 
+                    "Der Auftrag konnte nicht gefunden werden");
+        }
+        
+        //Gib die Anzahl der Positionen zurück
+        return ak.getPositionsliste().size();
+        
+    }
+    
 //</editor-fold>
     
 //<editor-fold defaultstate="collapsed" desc="remove-Methoden">
@@ -937,7 +1020,7 @@ public class DataAccessObject {
      * @return gibt an ob der Login erfolgreich war oder nicht
      * @throws DAO.ApplicationException Die Exception wird durchgereicht
      */
-    public boolean doLogin(String username, String password) 
+    public Benutzer doLogin(String username, String password) 
             throws ApplicationException {
         
         boolean loginSuccessful = false;
@@ -954,10 +1037,10 @@ public class DataAccessObject {
         //Eingegebenes Passwort(als MD5 Hash) stimmt nicht dem Passwort in der 
         //Datenbank (ebenfalls MD5 Hash) überein
         if(benutzer.getPasswort().equals(getHash(password))) {
-            loginSuccessful = true;
+            return benutzer;
+        } else {
+            return null;
         }
-        
-        return loginSuccessful;
     }
     
     /**
