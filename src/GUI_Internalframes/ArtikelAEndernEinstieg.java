@@ -19,13 +19,15 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
     Component c;
     GUIFactory factory;
 
+    private ArtikelAnlegen a;
+
     /**
      * Creates new form Fenster
      */
-    public ArtikelAEndernEinstieg(GUIFactory factory) {
+    public ArtikelAEndernEinstieg(GUIFactory factory, ArtikelAnlegen a) {
         initComponents();
-
         this.factory = factory;
+        this.a = a;
     }
 
     /**
@@ -51,6 +53,7 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
         jTF_Statuszeile = new javax.swing.JTextField();
 
         setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
@@ -58,6 +61,23 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
         setPreferredSize(new java.awt.Dimension(580, 300));
         setRequestFocusEnabled(false);
         setVisible(true);
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jToolBar1.setBorder(null);
         jToolBar1.setRollover(true);
@@ -90,6 +110,12 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
 
         jL_Artikel_ID.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jL_Artikel_ID.setText("Artikelnummer:");
+
+        jTF_Artikel_ID.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTF_Artikel_IDFocusGained(evt);
+            }
+        });
 
         jB_Enter.setText("Weiter");
         jB_Enter.addActionListener(new java.awt.event.ActionListener() {
@@ -143,30 +169,62 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jB_EnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_EnterActionPerformed
-        jTF_Statuszeile.setText("Sie haben auf Enter gedrückt.");
+        if (jTF_Artikel_ID.getText().equals("Ändern")) {
+//            Daten aus Datenbank laden
+            a.gibArtikelnummer().setText("13");
+            a.gibArtikelname().setText("Artikel ABC 123");
+            a.gibArtikelbeschreibung().setText("Artikel 1 Beschreibung");
+            a.gibArtikelkategorie().setSelectedItem("Kategorie 1");
+            a.gibEinzelwert().setText("1000");
+            a.gibBestellwert().setText("50");
+            a.gibMwST().setSelectedItem("19");
+            a.gibBestandsmengeFREI().setText("10001");
+            a.setVisible(true);
+            this.setVisible(false);
+            jTF_Artikel_ID.setText("");
+        } else {
+            jTF_Statuszeile.setText("Kein passender Artikel in Datenbank!");
+        }
     }//GEN-LAST:event_jB_EnterActionPerformed
 
     private void jB_EnterFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jB_EnterFocusLost
         jTF_Statuszeile.setText("");
     }//GEN-LAST:event_jB_EnterFocusLost
 
-    
     /**
-     * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird.
-     * Es wird von der Guifactory die letzte aufgerufene Component abgefragt 
-     * wodurch man die jetzige Component verlässt und zur übergebnen Component 
-     * zurück kehrt.
-     * @param evt 
+     * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird. Es wird von
+     * der Guifactory die letzte aufgerufene Component abgefragt wodurch man die
+     * jetzige Component verlässt und zur übergebnen Component zurück kehrt.
+     *
+     * @param evt
      */
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
         c = null;   //Initialisierung der Componentspeichervariable
         //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-        c = this.factory.zurueckButton(); 
+        c = this.factory.zurueckButton();
         this.setVisible(false);// Internalframe wird nicht mehr dargestellt
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
+    private void jTF_Artikel_IDFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_Artikel_IDFocusGained
+        jTF_Statuszeile.setText("");
+    }//GEN-LAST:event_jTF_Artikel_IDFocusGained
 
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        c = null;   //Initialisierung der Componentspeichervariable
+        //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
+        c = this.factory.zurueckButton();
+        this.setVisible(false);// Internalframe wird nicht mehr dargestellt
+        c.setVisible(true);// Übergebene Component wird sichtbar gemacht
+    }//GEN-LAST:event_formInternalFrameClosing
+    
+    private void zurueckZumHauptmenue() {
+        c = null;   //Initialisierung der Componentspeichervariable
+        //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
+        c = this.factory.zurueckButton();
+        this.setVisible(false);// Internalframe wird nicht mehr dargestellt
+        c.setVisible(true);// Übergebene Component wird sichtbar gemacht
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_Abbrechen;
     private javax.swing.JButton jB_Anzeigen;

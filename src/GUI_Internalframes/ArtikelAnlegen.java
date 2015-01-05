@@ -16,13 +16,14 @@ import java.util.Collection;
 import java.util.Iterator;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 /**
  * GUI Klasse für Artikel verwalten.
  *
  * @author Tahir 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
- * 02.01.2014 Terrasi, Hinzufügen eines weiteren Catch-Blockes im der Methode
- * ladeKategorienAusDatenbank und im Konstruktor.
  */
 public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
@@ -54,8 +55,9 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     private final String TITEL_FEHLERHAFTE_EINGABE = "Fehlerhafte Eingabe";
     private final String STATUSZEILE = "Artikel wurde angelegt!";
 
-    private final int maxAnzahlFehlerhafterComponenten;
+    private final int maxAnzahlFehlerhafterComponenten = 7;
 
+    private boolean beendenNachfrageStatus;
     private NumberFormat nf;
 
     private ArrayList<Component> alleComponenten;
@@ -69,8 +71,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         initComponents();
 //        ArtikelAnzeigen Test
         alleComponenten = new ArrayList<>();
-        fuelleArrayListMitAllenComponenten();
-        maxAnzahlFehlerhafterComponenten = alleComponenten.size();
+//        fuelleArrayListMitAllenComponenten();
+//        maxAnzahlFehlerhafterComponenten = alleComponenten.size();
 //        ArtikelAnzeigen Test
         this.factory = factory;
         this.dao = this.factory.getDAO();
@@ -83,39 +85,30 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         fehlerhafteComponenten = new ArrayList<>();
         artikelListe = new ArrayList<>();
         ladeKategorienAusDatenbank();
-        
-        //Zuweisung eines Catch-Blockes
-        try{
-            
         jCB_Kategorie.setModel(new DefaultComboBoxModel(kategorienFuerCombobox.toArray()));
-        }catch(NullPointerException e){
-            System.out.println(e.getMessage());
-        }
 
-        
         nf = NumberFormat.getInstance();
         nf.setMinimumFractionDigits(2);
         nf.setMaximumFractionDigits(2);
 //        Documente werden gesetzt
-        jTF_Artikelname.setDocument(new UniversalDocument("-.´", true));
+        jTF_Artikelname.setDocument(new UniversalDocument("0123456789-.´ ", true));
         jTF_Einzelwert.setDocument(new UniversalDocument("0123456789.,", false));
         jTF_Bestellwert.setDocument(new UniversalDocument("0123456789.,", false));
         jTF_Bestandsmenge_FREI.setDocument(new UniversalDocument("0123456789", false));
     }
 
-    private void fuelleArrayListMitAllenComponenten() {
-        alleComponenten.add(jTF_Artikelname);
-        alleComponenten.add(jTA_Artikelbeschreibung);
-        alleComponenten.add(jCB_Kategorie);
-        alleComponenten.add(jTF_Einzelwert);
-        alleComponenten.add(jTF_Bestellwert);
-        alleComponenten.add(jCB_MwST);
-        alleComponenten.add(jTF_Bestandsmenge_FREI);
-        alleComponenten.add(jTF_Bestandsmenge_RES);
-        alleComponenten.add(jTF_Bestandsmenge_ZULAUF);
-        alleComponenten.add(jTF_Bestandsmenge_VERKAUFT);
-    }
-
+//    private void fuelleArrayListMitAllenComponenten() {
+//        alleComponenten.add(jTF_Artikelname);
+//        alleComponenten.add(jTA_Artikelbeschreibung);
+//        alleComponenten.add(jCB_Kategorie);
+//        alleComponenten.add(jTF_Einzelwert);
+//        alleComponenten.add(jTF_Bestellwert);
+//        alleComponenten.add(jCB_MwST);
+//        alleComponenten.add(jTF_Bestandsmenge_FREI);
+//        alleComponenten.add(jTF_Bestandsmenge_RES);
+//        alleComponenten.add(jTF_Bestandsmenge_ZULAUF);
+//        alleComponenten.add(jTF_Bestandsmenge_VERKAUFT);
+//    }
     private void ladeKategorienAusDatenbank() {
         try {
             kategorienAusDatenbank = this.dao.gibAlleKategorien();
@@ -133,14 +126,6 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 //            }
         } catch (ApplicationException ex) {
             System.out.println("Fehler beim Laden der Kategorien");
-        } catch (NullPointerException e){//Fangen einer NullpointerException
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void setzeArtikelAnlegenInArtikelAnzeigen() {
-        for (int i = 0; i < alleComponenten.size(); i++) {
-            alleComponenten.get(i).setEnabled(false);
         }
     }
 
@@ -198,22 +183,31 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     }
 
     private void beendenEingabeNachfrage() {
-        ueberpruefeFormular();
-        if (fehlerhafteComponenten.size() < maxAnzahlFehlerhafterComponenten) {
-            String meldung = "Möchten Sie die Eingaben verwerfen? Klicken Sie auf JA, wenn Sie die Eingaben verwerfen möchten.";
-            String titel = "Achtung Eingaben gehen verloren!";
-            int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (antwort == JOptionPane.YES_OPTION) {
-                fehlerhafteComponenten.clear();
-                this.setVisible(false);
-                setzeFormularZurueck();
+        if (beendenNachfrageStatus) {
+            ueberpruefeFormular();
+            if (fehlerhafteComponenten.size() < maxAnzahlFehlerhafterComponenten) {
+                String meldung = "Möchten Sie die Eingaben verwerfen? Klicken Sie auf JA, wenn Sie die Eingaben verwerfen möchten.";
+                String titel = "Achtung Eingaben gehen verloren!";
+                int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (antwort == JOptionPane.YES_OPTION) {
+                    fehlerhafteComponenten.clear();
+                    this.setVisible(false);
+                    jB_ZurueckActionPerformed(null);
+//                    setzeFormularZurueck();
+                } else {
+                    fehlerhafteComponenten.clear();
+                }
             } else {
+                this.setVisible(false);
+                jB_ZurueckActionPerformed(null);
+//                setzeFormularZurueck();
                 fehlerhafteComponenten.clear();
             }
         } else {
-            this.setVisible(false);
-            setzeFormularZurueck();
             fehlerhafteComponenten.clear();
+            this.setVisible(false);
+            jB_ZurueckActionPerformed(null);
+//            setzeFormularZurueck();
         }
     }
 
@@ -302,7 +296,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jTB_Menueleiste.setRollover(true);
         jTB_Menueleiste.setEnabled(false);
 
-        jB_Zurueck.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/home.PNG"))); // NOI18N
+        jB_Zurueck.setText("Zurück");
         jB_Zurueck.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jB_Zurueck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -810,7 +804,61 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         beendenEingabeNachfrage();
     }//GEN-LAST:event_jB_AbbrechenActionPerformed
 
+    public JTextField gibArtikelnummer() {
+        return jTF_Artikelnummer;
+    }
 
+    public JTextField gibArtikelname() {
+        return jTF_Artikelname;
+    }
+
+    public JTextArea gibArtikelbeschreibung() {
+        return jTA_Artikelbeschreibung;
+    }
+
+    public JComboBox gibArtikelkategorie() {
+        return jCB_Kategorie;
+    }
+
+    public JTextField gibEinzelwert() {
+        return jTF_Einzelwert;
+    }
+
+    public JTextField gibBestellwert() {
+        return jTF_Bestellwert;
+    }
+
+    public JComboBox gibMwST() {
+        return jCB_MwST;
+    }
+
+    public JTextField gibBestandsmengeFREI() {
+        return jTF_Bestandsmenge_FREI;
+    }
+
+    public void setzeFormularInArtikelAnlegen() {
+        jTF_Artikelname.setEnabled(true);
+        jTA_Artikelbeschreibung.setEnabled(true);
+        jCB_Kategorie.setEnabled(true);
+        jTF_Einzelwert.setEnabled(true);
+        jTF_Bestellwert.setEnabled(true);
+        jCB_MwST.setEnabled(true);
+        jTF_Bestandsmenge_FREI.setEnabled(true);
+        beendenNachfrageStatus = true;
+        setzeFormularZurueck();
+    }
+
+    public void setzeFormularInArtikelAnzeigen() {
+        jTF_Artikelname.setEnabled(false);
+        jTA_Artikelbeschreibung.setEnabled(false);
+        jCB_Kategorie.setEnabled(false);
+        jTF_Einzelwert.setEnabled(false);
+        jTF_Bestellwert.setEnabled(false);
+        jCB_MwST.setEnabled(false);
+        jTF_Bestandsmenge_FREI.setEnabled(false);
+        beendenNachfrageStatus = false;
+        setzeFormularZurueck();
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_Abbrechen;
     private javax.swing.JButton jB_Anzeigen;

@@ -113,7 +113,7 @@ public class StartAdmin extends javax.swing.JFrame {
         auftragsspositionaender = new AuftragspositionAendern(factory);
         auftragsspositionanzeigen = new AuftragspositionAnzeigen(factory);
         artikelanlegen = new ArtikelAnlegen(factory);
-        artikelaendern = new ArtikelAEndernEinstieg(factory);
+        artikelaendern = new ArtikelAEndernEinstieg(factory, artikelanlegen);
         geschaeftspartneranlegen = new GeschaeftspartnerAnlegen(factory);
         geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg(factory);
         zahlungskonditionanlegen = new ZahlungskonditionAnlegen(factory);

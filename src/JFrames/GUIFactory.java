@@ -25,7 +25,6 @@ public  class  GUIFactory {
     
 
      public void setComponent(Component component) {
-
             liste.add(component);
             System.out.println(liste);
     }

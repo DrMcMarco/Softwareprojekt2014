@@ -96,7 +96,7 @@ public class Start extends javax.swing.JFrame {
         auftragsspositionaender = new AuftragspositionAendern(factory);
         auftragsspositionanzeigen = new AuftragspositionAnzeigen(factory);
         artikelanlegen = new ArtikelAnlegen(factory);
-        artikelaendern = new ArtikelAEndernEinstieg(factory);
+        artikelaendern = new ArtikelAEndernEinstieg(factory, artikelanlegen);
         geschaeftspartneranlegen = new GeschaeftspartnerAnlegen(factory);
         geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg(factory);
         zahlungskonditionanlegen = new ZahlungskonditionAnlegen(factory);
@@ -590,13 +590,15 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_ArtikelAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ArtikelAnlegenActionPerformed
-        if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
-            getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        artikelanlegen.setTitle("Artikel anlegen");
+        artikelanlegen.setzeFormularInArtikelAnlegen();
+        if (c != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
+            c.setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
         setCenterJIF(artikelanlegen);
-        setComponent(artikelanlegen);
+        c = artikelanlegen;// Übergabe der neu aufgerufenen View
     }//GEN-LAST:event_jMI_ArtikelAnlegenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -611,13 +613,16 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_ArtikelAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ArtikelAEndernActionPerformed
-        if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
-            getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        artikelaendern.setTitle("Artikel ändern");
+        artikelanlegen.setTitle("Artikel ändern");
+        artikelanlegen.setzeFormularInArtikelAnlegen();
+        if (c != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
+            c.setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
         setCenterJIF(artikelaendern);
-        setComponent(artikelaendern);
+        c = artikelaendern;// Übergabe der neu aufgerufenen View
     }//GEN-LAST:event_jMI_ArtikelAEndernActionPerformed
 
     /*----------------------------------------------------------*/
@@ -633,6 +638,17 @@ public class Start extends javax.swing.JFrame {
      */
     private void jMI_ArtikelAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ArtikelAnzeigenActionPerformed
 //        setCenterJIF(artikelanzeigen);
+//        artikelaendern.setzeModusArtikelAnzeigen(true);
+        artikelaendern.setTitle("Artikel anzeigen");
+        artikelanlegen.setTitle("Artikel anzeigen");
+        artikelanlegen.setzeFormularInArtikelAnzeigen();
+        if (c != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
+            c.setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        }
+        factory.setComponent(hauptmenueuser);
+        hauptmenueuser.setVisible(false);
+        setCenterJIF(artikelaendern);
+        c = artikelaendern;// Übergabe der neu aufgerufenen View
     }//GEN-LAST:event_jMI_ArtikelAnzeigenActionPerformed
 
     /*----------------------------------------------------------*/
