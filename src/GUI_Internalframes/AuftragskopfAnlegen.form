@@ -421,6 +421,7 @@
         <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
           <Format subtype="0" type="1"/>
         </Property>
+        <Property name="text" type="java.lang.String" value=" "/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
@@ -507,6 +508,7 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="100,00"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="auftragswert_jTextFieldFocusGained"/>
@@ -568,12 +570,7 @@
     <Component class="javax.swing.JComboBox" name="zahlungskonditionen_jComboBox">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
-          </StringArray>
+          <StringArray count="0"/>
         </Property>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
@@ -687,7 +684,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="positionsnummer_jTextField">
       <Properties>
-        <Property name="text" type="java.lang.String" value="01"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
       <Events>
@@ -737,7 +733,6 @@
     <Component class="javax.swing.JTextField" name="geschaeftspartner_jTextField">
       <Properties>
         <Property name="text" type="java.lang.String" value="jTextField1"/>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="geschaeftspartner_jTextFieldFocusGained"/>

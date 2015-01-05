@@ -20,6 +20,7 @@ public  class  GUIFactory {
     
     public GUIFactory(){
         liste = new ArrayList<>();
+        DAO = new DataAccessObject();
     }
     
 

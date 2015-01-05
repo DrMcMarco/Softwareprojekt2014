@@ -79,7 +79,7 @@ public class Start extends javax.swing.JFrame {
         // Try-Block
         try {
             factory = new GUIFactory();// Erzeugung eines Guifactoryobjektes.
-            dao = new DataAccessObject();// Erzeugung eines DAO-Objektes.
+            // Erzeugung eines DAO-Objektes.
         } catch (PersistenceException e) {// Fehlerbehandlung falls bei der 
             // Erzeugung entwas nicht funktioniert hat.
             System.out.println(e.getMessage());// Fehlerausgabe.
@@ -486,6 +486,8 @@ public class Start extends javax.swing.JFrame {
         }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
+        auftragskopfanlegen.setTitle("Auftragskopf anlegen");
+        auftragskopfanlegen.setEnabled(true);
         setCenterJIF(auftragskopfanlegen);
         setComponent(auftragskopfanlegen);
     }//GEN-LAST:event_jMI_AuftragskopfAnlegenActionPerformed
@@ -523,7 +525,15 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_AuftragskopfAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragskopfAnzeigenActionPerformed
-//        setCenterJIF(auftragskopfanzeigen);
+        if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
+            getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        }
+        factory.setComponent(hauptmenueuser);
+        hauptmenueuser.setVisible(false);
+        auftragskopfanlegen.setTitle("Auftragskopf anzeigen");
+        auftragskopfanlegen.setEnabled(false);
+        setCenterJIF(auftragskopfanlegen);
+        setComponent(auftragskopfaendern);
     }//GEN-LAST:event_jMI_AuftragskopfAnzeigenActionPerformed
 
     /*----------------------------------------------------------*/

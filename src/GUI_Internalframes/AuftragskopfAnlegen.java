@@ -1,5 +1,6 @@
 package GUI_Internalframes;
 
+import DAO.ApplicationException;
 import DAO.DataAccessObject;
 import javax.swing.JOptionPane;
 import Documents.*;
@@ -266,6 +267,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         erfassungsdatum_jLabel.setText("Erfassungsdatum :");
 
         erfassungsdatum_jFormattedTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        erfassungsdatum_jFormattedTextField.setText(" ");
         erfassungsdatum_jFormattedTextField.setEnabled(false);
 
         auftragsart_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -313,6 +315,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 
         auftragswert_jTextField.setText("100,00");
         auftragswert_jTextField.setToolTipText("");
+        auftragswert_jTextField.setEnabled(false);
         auftragswert_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 auftragswert_jTextFieldFocusGained(evt);
@@ -341,7 +344,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         zahlungskonditionen_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         zahlungskonditionen_jLabel.setText("Zahlungskonditionen :");
 
-        zahlungskonditionen_jComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         zahlungskonditionen_jComboBox.setEnabled(false);
 
         auftragsposition_jTable.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -392,7 +394,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         erfassungsdatum_jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         erfassungsdatum_jLabel1.setText("Erfassungsdatum :");
 
-        positionsnummer_jTextField.setText("01");
         positionsnummer_jTextField.setToolTipText("");
         positionsnummer_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -441,7 +442,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         });
 
         geschaeftspartner_jTextField.setText("jTextField1");
-        geschaeftspartner_jTextField.setEnabled(false);
         geschaeftspartner_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 geschaeftspartner_jTextFieldFocusGained(evt);
@@ -794,8 +794,17 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      */
     private void materialnummer_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_materialnummer_jTextFieldFocusLost
         // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
-        ueberpruefungVonFocusLost(materialnummer_jTextField, materialnummer_syntax,
-                fehlermeldung_titel, fehlermeldungMaterial_text);
+
+        
+        //        ueberpruefungVonFocusLost(materialnummer_jTextField, materialnummer_syntax,
+//                fehlermeldung_titel, fehlermeldungMaterial_text);
+        try{
+            System.out.println("aaaaaaa");
+        GUIFactory.getDAO().getItem((Long.parseLong(materialnummer_jTextField.getText())));
+        }catch(Exception e){
+            //Fehlermeldung das ein gültiger wert eingegeben werden soll.
+             System.out.println(e.getMessage());
+        }
     }//GEN-LAST:event_materialnummer_jTextFieldFocusLost
 
     /**

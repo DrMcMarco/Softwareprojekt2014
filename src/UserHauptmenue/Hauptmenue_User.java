@@ -241,6 +241,8 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                 if (node.equals("[Navigation, Auftrag verwalten, Auftragskopf, Anlegen]")) {
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen.
+                    this.internal.auftragskopfanlegen.setTitle("Auftragskopf anlegen");
+                    this.internal.auftragskopfanlegen.setEnabled(true);
                     setComponentVisible(this.internal.auftragskopfanlegen);
                 }
                 // Vergleich des Pfades mit String um "Auftragskopf Ändern" aufzurufen.
@@ -253,7 +255,9 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                 if (node.equals("[Navigation, Auftrag verwalten, Auftragskopf, Anzeigen]")) {
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen.
-
+                    this.internal.auftragskopfanlegen.setTitle("Auftragskopf anzeigen");
+                    this.internal.auftragskopfanlegen.setEnabled(false);
+                    setComponentVisible(this.internal.auftragskopfanlegen);
                 }
                 // Vergleich des Pfades mit String um "Auftragsposition Ändern" aufzurufen.
                 if (node.equals("[Navigation, Auftrag verwalten, Auftragsposition, Ändern]")) {
