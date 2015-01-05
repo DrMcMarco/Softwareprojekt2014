@@ -334,19 +334,19 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
 
                 }
                 // Vergleich des Pfades mit String um "User Anlegen" aufzurufen.
-                if (node.equals("[Navigation, Zahlungskonditionen verwalten, Anzeigen]")) {
+                if (node.equals("[Navigation, Benutzer verwalten, Anlegen]")) {
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen.
                     setComponentVisible(this.internal.useranlegen);
                 }
                 // Vergleich des Pfades mit String um "User Ändern" aufzurufen.
-                if (node.equals("[Navigation, Zahlungskonditionen verwalten, Anzeigen]")) {
+                if (node.equals("[Navigation, Benutzer verwalten, Ändern]")) {
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen.
                     setComponentVisible(this.internal.useraendern);
                 }
                 // Vergleich des Pfades mit String um "User Anzeigen" aufzurufen.
-                if (node.equals("[Navigation, Zahlungskonditionen verwalten, Anzeigen]")) {
+                if (node.equals("[Navigation, Benutzer verwalten, Anzeigen]")) {
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen.
 

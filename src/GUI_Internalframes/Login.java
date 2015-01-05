@@ -3,39 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package GUI_Internalframes;
 
-import GUI_Internalframes.ArtikelAEndernEinstieg;
-import GUI_Internalframes.ArtikelAEndernEinstieg;
-import JFrames.*;
+import GUI_Internalframes.*;
 
 /**
  *
- * @author Tahir
- * 
- * 16.12.2014 Terrasi,Auskommentieren von Internalframeinitialisierungen
+ * @author Luca
  */
-public class Test extends javax.swing.JFrame {
-    
-    private ArtikelAEndernEinstieg artikelAendernEinstieg;
-    private ArtikelAnlegen artikelAnlegen;
-    private ZahlungskonditionAnlegen zahlungskonditionAnlegen;
-    private GeschaeftspartnerAnlegen geschaeftspartnerAnlegen;
-    
+public class Login extends javax.swing.JFrame {
+
+    Anmeldung an ;
     /**
-     * Creates new form Test
+     * Creates new form test2
      */
-    public Test() {
+    public Login() {
         initComponents();
-//        artikelAendernEinstieg = new ArtikelAEndernEinstieg();       
-//        artikelAnlegen = new ArtikelAnlegen();
-//        zahlungskonditionAnlegen = new ZahlungskonditionAnlegen();
-//        geschaeftspartnerAnlegen = new GeschaeftspartnerAnlegen();
-        desktopPane.add(geschaeftspartnerAnlegen);
-        desktopPane.add(zahlungskonditionAnlegen);
-//        desktopPane.add(artikelAnlegen);
-        desktopPane.add(artikelAendernEinstieg);
+        an = new Anmeldung(this);
+        desktopPane.add(an);
     }
 
     /**
@@ -70,11 +55,6 @@ public class Test extends javax.swing.JFrame {
 
         openMenuItem.setMnemonic('o');
         openMenuItem.setText("Open");
-        openMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                openMenuItemActionPerformed(evt);
-            }
-        });
         fileMenu.add(openMenuItem);
 
         saveMenuItem.setMnemonic('s');
@@ -137,11 +117,11 @@ public class Test extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1055, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 830, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
         );
 
         pack();
@@ -150,11 +130,12 @@ public class Test extends javax.swing.JFrame {
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
         System.exit(0);
     }//GEN-LAST:event_exitMenuItemActionPerformed
-
-    private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
-       geschaeftspartnerAnlegen.setVisible(true);
-    }//GEN-LAST:event_openMenuItemActionPerformed
-
+    
+    public void schliessen(){
+        this.setVisible(false);
+    }
+            
+            
     /**
      * @param args the command line arguments
      */
@@ -172,20 +153,21 @@ public class Test extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Test.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Test.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Test.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Test.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Test().setVisible(true);
+                new Login().setVisible(true);
             }
         });
     }

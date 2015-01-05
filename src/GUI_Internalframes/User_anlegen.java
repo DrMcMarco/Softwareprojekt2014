@@ -145,7 +145,6 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         setMaximizable(true);
         setResizable(true);
         setTitle("User anlegen");
-        setEnabled(false);
         setPreferredSize(new java.awt.Dimension(600, 250));
         setRequestFocusEnabled(false);
         try {

@@ -19,12 +19,12 @@ public class Anmeldung extends javax.swing.JInternalFrame {
     Benutzer benutzer;
     StartAdmin adminStart;
     Start userStart;
-    test2 test;
+    Login test;
 
     /**
      * Creates new form Hauptmenue
      */
-    public Anmeldung(test2 test) {
+    public Anmeldung(Login test) {
         initComponents();
         this.test = test;
         // Try-Block

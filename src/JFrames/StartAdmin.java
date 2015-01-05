@@ -902,7 +902,7 @@ public class StartAdmin extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Start().setVisible(true);
+                new StartAdmin().setVisible(true);
             }
         });
     }

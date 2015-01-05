@@ -57,7 +57,6 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
         setTitle("User ändern");
-        setEnabled(false);
         setPreferredSize(new java.awt.Dimension(600, 400));
         setRequestFocusEnabled(false);
         try {
