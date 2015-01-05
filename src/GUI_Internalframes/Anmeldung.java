@@ -3,20 +3,40 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package GUI_Internalframes;
+
+import JFrames.*;
+import GUI_Internalframes.*;
+import DTO.*;
+import javax.persistence.PersistenceException;
 
 /**
  *
  * @author Luca
  */
 public class Anmeldung extends javax.swing.JInternalFrame {
+    GUIFactory factory;
+    Benutzer benutzer;
+    StartAdmin adminStart;
+    Start userStart;
+    test2 test;
 
     /**
      * Creates new form Hauptmenue
      */
-    public Anmeldung() {
+    public Anmeldung(test2 test) {
         initComponents();
+        this.test = test;
+        // Try-Block
+        try {
+            factory = new GUIFactory();// Erzeugung eines Guifactoryobjektes.
+            // Erzeugung eines DAO-Objektes.
+        } catch (PersistenceException e) {// Fehlerbehandlung falls bei der 
+            // Erzeugung entwas nicht funktioniert hat.
+            System.out.println(e.getMessage());// Fehlerausgabe.
+        }
+        benutzer = new Benutzer();
+
     }
 
     /**
@@ -31,36 +51,43 @@ public class Anmeldung extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         Benutzername_Label = new javax.swing.JLabel();
         Passwort_Label = new javax.swing.JLabel();
-        Passwort_jTextField = new javax.swing.JTextField();
-        Passwort_jPasswordField = new javax.swing.JPasswordField();
+        benutzername_jTextField = new javax.swing.JTextField();
+        passwort_jPasswordField = new javax.swing.JPasswordField();
         passwort_vergessen_label = new java.awt.Label();
         Anmelde_button = new java.awt.Button();
 
+        setClosable(true);
         setTitle("Anmeldung");
-        setEnabled(false);
         setVisible(true);
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(531, 400));
 
         Benutzername_Label.setText("Benutzername    :");
         Benutzername_Label.setToolTipText("");
 
-        Passwort_Label.setLabelFor(Passwort_jPasswordField);
+        Passwort_Label.setLabelFor(passwort_jPasswordField);
         Passwort_Label.setText("Passwort            :");
 
-        Passwort_jTextField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        Passwort_jTextField.setText("Benutzername");
-        Passwort_jTextField.setDisabledTextColor(new java.awt.Color(204, 204, 204));
-        Passwort_jTextField.addActionListener(new java.awt.event.ActionListener() {
+        benutzername_jTextField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        benutzername_jTextField.setText("Benutzername");
+        benutzername_jTextField.setDisabledTextColor(new java.awt.Color(204, 204, 204));
+        benutzername_jTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Passwort_jTextFieldActionPerformed(evt);
+                benutzername_jTextFieldActionPerformed(evt);
             }
         });
 
-        Passwort_jPasswordField.setText("jPasswordField1");
+        passwort_jPasswordField.setText("jPasswordField1");
 
         passwort_vergessen_label.setText("Passwort vergessen");
 
         Anmelde_button.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Anmelde_button.setLabel("Anmelden");
+        Anmelde_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Anmelde_buttonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -76,8 +103,8 @@ public class Anmeldung extends javax.swing.JInternalFrame {
                             .addComponent(Benutzername_Label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(Passwort_jTextField)
-                            .addComponent(Passwort_jPasswordField, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE))))
+                            .addComponent(benutzername_jTextField)
+                            .addComponent(passwort_jPasswordField, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(passwort_vergessen_label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(54, 54, 54))
@@ -88,13 +115,13 @@ public class Anmeldung extends javax.swing.JInternalFrame {
                 .addGap(96, 96, 96)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Benutzername_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Passwort_jTextField))
+                    .addComponent(benutzername_jTextField))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Passwort_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Passwort_jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(passwort_jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(passwort_vergessen_label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -111,24 +138,48 @@ public class Anmeldung extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void Passwort_jTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Passwort_jTextFieldActionPerformed
+    private void benutzername_jTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_benutzername_jTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_Passwort_jTextFieldActionPerformed
+    }//GEN-LAST:event_benutzername_jTextFieldActionPerformed
+
+    private void Anmelde_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Anmelde_buttonActionPerformed
+        try {
+            benutzer = GUIFactory.getDAO().doLogin(benutzername_jTextField.getText(), new String(passwort_jPasswordField.getPassword()));
+            System.out.println(benutzer.toString());
+
+                if (benutzer.isIstAdmin()) {
+                    adminStart = new StartAdmin();
+//                    this.dispose();
+                    adminStart.setVisible(true);
+                    this.test.setVisible(false);
+                } else {
+                    userStart = new Start();
+//                    this.dispose();
+                    
+                    userStart.setVisible(true);
+                    this.test.setVisible(false);
+                }
+            
+        } catch (Exception e) {
+            //Fehlerausgabe fals er niemanden gefuden hat
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_Anmelde_buttonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Button Anmelde_button;
     private javax.swing.JLabel Benutzername_Label;
     private javax.swing.JLabel Passwort_Label;
-    private javax.swing.JPasswordField Passwort_jPasswordField;
-    private javax.swing.JTextField Passwort_jTextField;
+    private javax.swing.JTextField benutzername_jTextField;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPasswordField passwort_jPasswordField;
     private java.awt.Label passwort_vergessen_label;
     // End of variables declaration//GEN-END:variables
 }

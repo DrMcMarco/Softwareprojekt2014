@@ -196,7 +196,8 @@ public class StartAdmin extends javax.swing.JFrame {
         jMI_Benutzerhandbuch = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("Hauptmeü");
+        setTitle("HauptmenüAdmin");
+        setAlwaysOnTop(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
