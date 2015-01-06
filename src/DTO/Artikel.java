@@ -40,8 +40,7 @@ public class Artikel implements Serializable {
 
     public Artikel(Artikelkategorie Kategorie, String Artikeltext, 
             String Bestelltext, double Verkaufswert, double Einkaufswert, 
-            double MwST, int Frei, int Reserviert, int Zulauf, int Verkauft,
-            boolean LKZ) {
+            double MwST, int Frei, int Reserviert, int Zulauf, int Verkauft) {
         this.Kategorie = Kategorie;
         this.Artikeltext = Artikeltext;
         this.Bestelltext = Bestelltext;
@@ -52,7 +51,7 @@ public class Artikel implements Serializable {
         this.Reserviert = Reserviert;
         this.Zulauf = Zulauf;
         this.Verkauft = Verkauft;
-        this.LKZ = LKZ;
+        this.LKZ = false;
     }
 
     public long getArtikelID() {

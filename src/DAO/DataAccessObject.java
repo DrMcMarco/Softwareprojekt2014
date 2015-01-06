@@ -150,7 +150,7 @@ public class DataAccessObject {
         
         Artikel item = new Artikel(cat, artikeltext, bestelltext,
                 verkaufswert, einkaufswert, MwST, Frei, Reserviert,
-                Zulauf, Verkauft, false);
+                Zulauf, Verkauft);
         //Prüfen, ob das Objekt erstellt wurde
         if (item == null) {
             throw new ApplicationException("Fehler",
@@ -178,11 +178,11 @@ public class DataAccessObject {
      * @throws DAO.ApplicationException Die Exception wird durchgereicht
      */
     public void createCategory(String Kategoriename,
-            String Beschreibung, String Kommentar, boolean LKZ)
+            String Beschreibung, String Kommentar)
             throws ApplicationException {
         //Objekt erzeugen
         Artikelkategorie cat = new Artikelkategorie(Kategoriename, Beschreibung,
-                Kommentar, LKZ);
+                Kommentar);
         //Prüfen, ob das Objekt erstellt wurde
         if (cat == null) {
             throw new ApplicationException("Fehler",
@@ -424,13 +424,13 @@ public class DataAccessObject {
             //Erzeugung des persistenten Anschrift-Objektes
             anschrift = new Lieferanschrift(Name, Vorname, Titel,
                     Strasse, Hausnummer, PLZ, Ort, Staat, Telefon, Fax, Email,
-                    Geburtsdatum, Erfassungsdatum, false);
+                    Geburtsdatum, Erfassungsdatum);
         } else if (Typ.equals("Rechnungsadresse")) {
             
             //Erzeugung des persistenten Anschrift-Objektes
             anschrift = new Rechnungsanschrift(Name, Vorname, Titel,
                     Strasse, Hausnummer, PLZ, Ort, Staat, Telefon, Fax, Email,
-                    Geburtsdatum, Erfassungsdatum, false);
+                    Geburtsdatum, Erfassungsdatum);
             
         //Wenn der Typ ungültig ist
         } else {
@@ -829,7 +829,7 @@ public class DataAccessObject {
         //Konditionen aus der DB laden
         Zahlungskondition conditions = em.find(Zahlungskondition.class, id);
         //Prüfen, ob Daten gefunden worden sind
-        if (conditions == null) {
+        if (conditions == null || conditions.isLKZ()) {
             throw new ApplicationException("Fehler", 
                     "Keine Zahlungskonditionen gefunden!");
         }
@@ -849,9 +849,17 @@ public class DataAccessObject {
     public Collection<Artikelkategorie> gibAlleKategorien() 
             throws ApplicationException {
 
-        return this.em.createQuery("SELECT ST FROM Artikelkategorie ST", 
+        List<Artikelkategorie> ergebnis = this.em.createQuery("SELECT ST FROM Artikelkategorie ST", 
                 Artikelkategorie.class).getResultList();
         
+        ArrayList<Artikelkategorie> liste = new ArrayList<>();
+        
+        for (Artikelkategorie k : ergebnis) {
+            if (!k.isLKZ()) {
+                liste.add(k);
+            }
+        }
+        return liste;
     }
     
 //    /**
@@ -917,7 +925,7 @@ public class DataAccessObject {
         }
         
         
-        if (cat == null)
+        if (cat == null || cat.isLKZ())
             throw new ApplicationException("Fehler",
                     "Es wurde keine Kategorie gefunden!");
         
@@ -937,7 +945,7 @@ public class DataAccessObject {
         Artikel item = em.find(Artikel.class, Artikelnummer);
         
         //Artikel existiert nicht
-        if (item == null) {
+        if (item == null || item.isLKZ()) {
             throw new ApplicationException("Fehler",
                     "Es wurde kein Artikel gefunden!");
         }
@@ -949,7 +957,7 @@ public class DataAccessObject {
         
         Kunde kunde = em.find(Kunde.class, Kundennummer);
         
-        if (kunde == null) {
+        if (kunde == null || kunde.isLKZ()) {
             throw new ApplicationException("Fehler", 
                     "Der Kunde konnte nicht gefunden werden");
         }
@@ -972,7 +980,7 @@ public class DataAccessObject {
             throw new ApplicationException("Fehler", e.getMessage());
         }
         
-        if (status == null)
+        if (status == null || status.isLKZ())
             throw new ApplicationException("Fehler",
                     "Es wurde kein Status gefunden!");
         
@@ -991,7 +999,7 @@ public class DataAccessObject {
         Auftragskopf auftragskopf = em.find(Auftragskopf.class, Auftragsnummer);
         
         //Falls der Auftrag nicht existiert
-        if (auftragskopf == null) {
+        if (auftragskopf == null || auftragskopf.isLKZ()) {
             throw new ApplicationException("Fehler", "Der Auftrag konnte nicht gefunden werden");
         }
         
@@ -1012,14 +1020,28 @@ public class DataAccessObject {
         
         //Wenn der Auftrag nicht gefunden werden kann, wird eine Fehlermeldung
         //ausgegeben
-        if(ak == null) {
+        if(ak == null || ak.isLKZ()) {
             throw new ApplicationException("Fehler", 
                     "Der Auftrag konnte nicht gefunden werden");
         }
         
         //Gib die Anzahl der Positionen zurück
-        return ak.getPositionsliste().size();
+        return ak.getPositionsliste().size();      
+    }
+    
+    public Collection<Zahlungskondition> gibAlleZahlungskonditionen() {
         
+        List<Zahlungskondition> ergebnis = this.em.createQuery("SELECT ST FROM Zahlungskondition ST",
+                Zahlungskondition.class).getResultList();
+        
+        ArrayList<Zahlungskondition> liste = new ArrayList<>();
+        
+        for (Zahlungskondition zk : ergebnis) {
+            if(!zk.isLKZ()) {
+                liste.add(zk);
+            }
+        }
+        return liste;
     }
     
 //</editor-fold>

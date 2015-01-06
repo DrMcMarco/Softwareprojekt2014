@@ -29,6 +29,7 @@ public class Zahlungskondition implements Serializable {
     private double Mahnzeit1;
     private double Mahnzeit2;
     private double Mahnzeit3;
+    private boolean LKZ;
 
     public Zahlungskondition() {
     }
@@ -47,6 +48,7 @@ public class Zahlungskondition implements Serializable {
         this.Mahnzeit1 = Mahnzeit1;
         this.Mahnzeit2 = Mahnzeit2;
         this.Mahnzeit3 = Mahnzeit3;
+        this.LKZ = false;
     }
 
     public long getZahlungskonditionID() {
@@ -132,6 +134,14 @@ public class Zahlungskondition implements Serializable {
 
     public void setMahnzeit3(double Mahnzeit3) {
         this.Mahnzeit3 = Mahnzeit3;
+    }
+
+    public boolean isLKZ() {
+        return LKZ;
+    }
+
+    public void setLKZ(boolean LKZ) {
+        this.LKZ = LKZ;
     }
 
     @Override
