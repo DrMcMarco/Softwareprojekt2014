@@ -115,7 +115,7 @@ public class DataAccessObject {
 
         } catch (Exception e) {
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Die Daten konnten nicht gefunden werden!");
+                    "Die Daten konnten nicht gefunden werden!" + e.getMessage());
         }
         
 

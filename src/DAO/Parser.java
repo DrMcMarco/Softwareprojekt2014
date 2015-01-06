@@ -174,8 +174,9 @@ public class Parser {
                                             .gibDatentypVonSuchAttribut(dbAttr, 
                                                     tabelle);
                             
-                            //Prüfe, ob es sich um ein String handelt.
-                            if ("String".equals(datentyp)) {
+                            //Prüfe,ob es sich um ein String oder Datum handelt.
+                            if ("String".equals(datentyp) 
+                                    || "Date".equals(datentyp)) {
                                 //Hier müssen für das SQL-Statement hochkommas
                                 //hinzugefügt werden.
                                 wert = "'" + wert + "'";
@@ -193,8 +194,9 @@ public class Parser {
                         datentyp = GUIFactory.getDAO()
                                         .gibDatentypVonSuchAttribut(dbAttr, 
                                                 tabelle);
-                        //Prüfe, ob es sich um ein String handelt.
-                        if ("String".equals(datentyp)) {
+                        //Prüfe,ob es sich um ein String oder Datum handelt.
+                        if ("String".equals(datentyp) 
+                                || "Date".equals(datentyp)) {
                             //Hier müssen für das SQL-Statement hochkommas
                             //hinzugefügt werden.
                             wert = "'" + wert + "'";

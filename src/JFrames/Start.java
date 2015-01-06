@@ -167,13 +167,13 @@ public class Start extends javax.swing.JFrame {
 //            //auftrag.setStatus(statneu2);//abgeschlossen
 //            dao.setzeAuftragsstatus(auftrag, statneu);//freigegeben
 //            dao.setzeAuftragsstatus(auftrag, statneu2);//abgeschlossen
-//            Collection<?> list = GUIFactory.getDAO().suchAbfrage("Bestelltext = t*", "Artikel");
+//            Collection<?> list = GUIFactory.getDAO().suchAbfrage("auftragstext = ????1", "Auftragskopf");
 //            Iterator i = list.iterator();
 //            while(i.hasNext()) {
 //                //Object[] o = (Object[]) i.next();
 //                
-//                Artikel posi = (Artikel) i.next();
-//                System.out.println(posi.getArtikelID());
+//                Sofortauftragskopf posi = (Sofortauftragskopf) i.next();
+//                System.out.println(posi.getAuftragskopfID());
 //            }
             
             
