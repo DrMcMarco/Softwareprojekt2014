@@ -128,7 +128,13 @@ public abstract class Auftragskopf implements Serializable {
     }
 
     public ArrayList<Auftragsposition> getPositionsliste() {
-        return Positionsliste;
+        ArrayList<Auftragsposition> ergebnis = new ArrayList<>();
+        for (Auftragsposition ap : Positionsliste) {
+            if (!ap.isLKZ()) {
+                ergebnis.add(ap);
+            }
+        }
+        return ergebnis;
     }
 
     public void setPositionsliste(ArrayList<Auftragsposition> Positionsliste) {
