@@ -35,6 +35,7 @@ import javax.swing.JOptionPane;
  * 10.12.2014 Terrasi,Erstellung 
  * 16.12.2014 Terrasi, Überarbeitung und Zuweisung der Navigationsfunktion 
  * 02.01.2015 Terrasi, Überarbeitung der Navigationsfünktion
+ * 06.01.2015 Terrasi, Statuszeile implementiert
  */
 public class Start extends javax.swing.JFrame {
 
@@ -43,6 +44,7 @@ public class Start extends javax.swing.JFrame {
      */
     GUIFactory factory;
     DataAccessObject dao;
+    Parser parser;
     // Erzeugung von variablen für die einzelnen Masken.
     public Hauptmenue_User hauptmenueuser;
 
@@ -102,6 +104,8 @@ public class Start extends javax.swing.JFrame {
         zahlungskonditionanlegen = new ZahlungskonditionAnlegen(factory);
         zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg(factory);
 
+        // Aufruf der setCenterJIF-Methode
+        setCenterJIF(hauptmenueuser);
         // Zuweisung der Masken an die Hauptansicht
         desktopPane.add(hauptmenueuser);
         desktopPane.add(auftragskopfanlegen);
@@ -174,6 +178,7 @@ public class Start extends javax.swing.JFrame {
     private void initComponents() {
 
         desktopPane = new javax.swing.JDesktopPane();
+        statusMeldung_jTextField = new javax.swing.JTextField();
         menuBar = new javax.swing.JMenuBar();
         jM_Navigation = new javax.swing.JMenu();
         jM_AuftragVerwalten = new javax.swing.JMenu();
@@ -208,6 +213,11 @@ public class Start extends javax.swing.JFrame {
                 formWindowClosing(evt);
             }
         });
+
+        statusMeldung_jTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        statusMeldung_jTextField.setEnabled(false);
+        desktopPane.add(statusMeldung_jTextField);
+        statusMeldung_jTextField.setBounds(0, 670, 800, 30);
 
         jM_Navigation.setMnemonic('n');
         jM_Navigation.setText("Navigation");
@@ -394,7 +404,7 @@ public class Start extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 900, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 798, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -432,6 +442,7 @@ public class Start extends javax.swing.JFrame {
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /*----------------------------------------------------------*/
     /**
+     * 
      * Methode in der definiert wird was beim betätigen des Logouts in der
      * Navigation passiert
      *
@@ -449,7 +460,7 @@ public class Start extends javax.swing.JFrame {
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt */
-    /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
+    /* 16.12.2014 Terrasi Logik und Dokumentation.*/
     /*----------------------------------------------------------*/
     /**
      * Methode in der definiert wird was aufgerufen wird wenn man den
@@ -459,10 +470,10 @@ public class Start extends javax.swing.JFrame {
      */
     private void jMI_BenutzerhandbuchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_BenutzerhandbuchActionPerformed
 
-        Parser parser = new Parser();
+        parser = new Parser();//Initialisierung des Parsers.
         try {
             parser.parse("nr:123, datum:123 , typ:bar,status:freigegeben ", "test");
-        } catch (ApplicationException ae) {
+        } catch (ApplicationException ae) {//Fehlerbehandlung
             JOptionPane.showMessageDialog(rootPane, "" + ae.getMessage(), "Informationen",
                     JOptionPane.INFORMATION_MESSAGE);
         }
@@ -822,6 +833,18 @@ public class Start extends javax.swing.JFrame {
     public Component getComponent() {
         return c;
     }
+    
+    /**
+     * 06.01.2015
+     * Methode mit der man der Statuszeile eine Mitteilung pbergibt die darauf 
+     * hin in der Statuszeile angeziegt wird.
+     * 
+     * @param status, Übergebener String der dann in der Zeile angegeben werden
+     * soll.
+     */
+    public void setStatusMeldung(String status){
+        statusMeldung_jTextField.setText(status);
+    }
 
     /**
      * @param args the command line arguments
@@ -886,6 +909,7 @@ public class Start extends javax.swing.JFrame {
     private javax.swing.JMenu jM_Navigation;
     private javax.swing.JMenu jM_ZKVerwalten;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JTextField statusMeldung_jTextField;
     // End of variables declaration//GEN-END:variables
 
 }

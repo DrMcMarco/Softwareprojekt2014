@@ -208,6 +208,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
     private void hauptmenueAdmin_TreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hauptmenueAdmin_TreeMouseClicked
         //Try-Block für Fehlerbehandlungen
         try {
+            
             node = hauptmenueAdmin_Tree.getSelectionPath();//Speichern des Pfades.
             pfad = node.toString();// Pfand wird in String gecastet und gesepichert.
             if (evt.getClickCount() == 2) {// Bei Doppelklick auf ein Blatt oder

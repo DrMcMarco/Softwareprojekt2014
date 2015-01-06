@@ -10,33 +10,48 @@ import JFrames.*;
 import GUI_Internalframes.*;
 import DTO.*;
 import javax.persistence.PersistenceException;
+import javax.swing.JOptionPane;
 
 /**
  *
- * @author Luca
+ * @author Luca Terrasi
+ *
+ * 05.01.2015 Terrasi, Erstellung und Dokumentation 
+ * 06.01.2015 Terrasi, Übergabe einer Stausmeldung implementiert
  */
 public class Anmeldung extends javax.swing.JInternalFrame {
-    GUIFactory factory;
-    Benutzer benutzer;
-    StartAdmin adminStart;
-    Start userStart;
-    Login test;
+
+    /*
+     Erzeugung von Varibalen für Objekte
+     */
+    GUIFactory factory;// erzeugung von GuiFactory.
+    Benutzer benutzer;// erzeugung eines Benutzers.
+    StartAdmin adminStart;//Erzuegung der Adminansicht.
+    Start userStart;// Erzeugung der Useransicht.
+    Login login;// Erzeugung des Anmeldefensters.
+
+    //Variablen für Meldungen
+    String willkommensMeldung = "Willkommen ";
+    String fehlermelgungtitel = "Fehler";
 
     /**
      * Creates new form Hauptmenue
      */
     public Anmeldung(Login test) {
         initComponents();
-        this.test = test;
+        this.login = test;
         // Try-Block
         try {
             factory = new GUIFactory();// Erzeugung eines Guifactoryobjektes.
             // Erzeugung eines DAO-Objektes.
         } catch (PersistenceException e) {// Fehlerbehandlung falls bei der 
             // Erzeugung entwas nicht funktioniert hat.
-            System.out.println(e.getMessage());// Fehlerausgabe.
+            
+            //Ausgabe einer Fehlermeldung
+            JOptionPane.showMessageDialog(null, e.getMessage(), 
+                    fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
         }
-        benutzer = new Benutzer();
+        benutzer = new Benutzer();// Initialisierung eines Benutzers.
 
     }
 
@@ -72,13 +87,18 @@ public class Anmeldung extends javax.swing.JInternalFrame {
         benutzername_jTextField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         benutzername_jTextField.setText("Benutzername");
         benutzername_jTextField.setDisabledTextColor(new java.awt.Color(204, 204, 204));
-        benutzername_jTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                benutzername_jTextFieldActionPerformed(evt);
+        benutzername_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                benutzername_jTextFieldFocusGained(evt);
             }
         });
 
         passwort_jPasswordField.setText("jPasswordField1");
+        passwort_jPasswordField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                passwort_jPasswordFieldFocusGained(evt);
+            }
+        });
 
         passwort_vergessen_label.setText("Passwort vergessen");
 
@@ -139,39 +159,79 @@ public class Anmeldung extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void benutzername_jTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_benutzername_jTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_benutzername_jTextFieldActionPerformed
-
+    /**
+     * 05.01.2015 Terrasi, Erstellung
+     * 
+     * Es wird überprüft ob der Benutzername und das dazugehrige Passwort
+     * bereits in der Datenbank hinterlegt ist. Falls der Suer in der DB
+     * existiert, wird überprüft ob der User ein Admin ist oder nicht.
+     * Es wird dann bei erfolgreichen Anmeldung und überprüfung der Identität
+     * des Users, wird das entsprechende Fenster aufgerufen und man erhält
+     * eine Statusmeldung im jeweiligen Fenster.
+     * @param evt 
+     */
     private void Anmelde_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Anmelde_buttonActionPerformed
-        try {
-            benutzer = GUIFactory.getDAO().doLogin(benutzername_jTextField.getText(), new String(passwort_jPasswordField.getPassword()));
-            System.out.println(benutzer.toString());
-
-                if (benutzer.isIstAdmin()) {
-                    adminStart = new StartAdmin();
-//                    this.dispose();
-                    adminStart.setVisible(true);
-                    this.test.setVisible(false);
-                } else {
-                    userStart = new Start();
-//                    this.dispose();
-                    
-                    userStart.setVisible(true);
-                    this.test.setVisible(false);
-                }
+        try {//Try-Block, falls Benutzername oder Passwort nicht mit DB
+            // Einträgen übereinstimmen, wird der Fehler passend im Catchblock
+            // abgefangen.
             
+            // Benutzer bekommt Daten von der DB.
+            // DAO-Methode prüft ob Benutzername und Passwort mit hinterlegten
+            // Daten in der DB übereinstimmen.Falls ja erhält das Benutzer-Objekt
+            // Daten von der DB.
+            benutzer = GUIFactory.getDAO().doLogin(benutzername_jTextField.getText()
+                    , new String(passwort_jPasswordField.getPassword()));
+
+            if (benutzer.isIstAdmin()) {//Überprüfung ob der user ein Admin ist
+                adminStart = new StartAdmin();// Initialisierung der Adminansicht.
+                adminStart.setStatusMeldung(willkommensMeldung 
+                        + benutzername_jTextField.getText());// Übergabe einer Statusmeldung
+                adminStart.setVisible(true);// Adminansicht wird sichtbar.
+                this.login.setVisible(false);//Anmeldefenster wird nicht mehr 
+                //sichtbar dargestellt.
+            } else {
+                userStart = new Start();// Initialisierung der Useransicht.
+                userStart.setStatusMeldung(willkommensMeldung 
+                        + benutzername_jTextField.getText());// Übergabe einer Statusmeldung
+                // an die User ansicht.
+                userStart.setVisible(true);// Useransicht wird sichtbar.
+                this.login.setVisible(false);//Anmeldefenster wird nicht mehr 
+                //sichtbar dargestellt.
+            }
+
         } catch (Exception e) {
-            //Fehlerausgabe fals er niemanden gefuden hat
-            System.out.println(e.getMessage());
+            // Fehlerausgabe falls Passwort oder Benutzernamen nicht in der
+            // DB vorhanden sind.
+            //Ausgabe einer Fehlermeldung
+            JOptionPane.showMessageDialog(null, e.getMessage(), 
+                    fehlermelgungtitel, JOptionPane.WARNING_MESSAGE);
+            
         }
     }//GEN-LAST:event_Anmelde_buttonActionPerformed
+
+    /**
+     * 06.01.2015 Terrasi, Erstellung
+     * Methode mit der alles ausgewählt wird wen man das Feld wählt. 
+     * @param evt 
+     */
+    private void benutzername_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_benutzername_jTextFieldFocusGained
+        benutzername_jTextField.selectAll();// Selektiert das Eingabefeld.
+    }//GEN-LAST:event_benutzername_jTextFieldFocusGained
+
+    /**
+     * 06.01.2015 Terrasi, Erstellung
+     * Methode mit der alles ausgewählt wird wen man das Feld wählt. 
+     * @param evt 
+     */
+    private void passwort_jPasswordFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwort_jPasswordFieldFocusGained
+        passwort_jPasswordField.selectAll();// Selektiert das Eingabefeld.
+    }//GEN-LAST:event_passwort_jPasswordFieldFocusGained
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

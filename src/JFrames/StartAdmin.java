@@ -35,20 +35,22 @@ import java.util.HashMap;
 import javax.persistence.PersistenceException;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author Luca Terrasi
- * 
- * 
+ *
+ *
  * Hauptfenster des Admins. Hier befindet sich die Navigation der Software mit
  * der die einzelnen Masken aufgerufen werden können mit denen der Admin seine
- * Daten anlegen,ändern oder sich anzeigen lassen kann. er kann desweiteren 
+ * Daten anlegen,ändern oder sich anzeigen lassen kann. er kann desweiteren
  * weitere Systemuser anlegen,ändern oder auch löschen.
- * 
- * 
+ *
+ *
  * 10.12.2014 Terrasi,Erstellung 
  * 16.12.2014 Terrasi, Überarbeitung und Zuweisung der Navigationsfunktion 
- * 02.01.2015 Terrasi, Überarbeitung der Navigationsfünktion
+ * 02.01.2015 Terrasi, Überarbeitung der Navigationsfünktion 
+ * 06.01.2015 Terrasi,Statuszeile implementiert
  */
 public class StartAdmin extends javax.swing.JFrame {
 
@@ -121,6 +123,9 @@ public class StartAdmin extends javax.swing.JFrame {
         useranlegen = new User_anlegen(factory);
         useraendern = new User_andernEinstieg(factory);
 
+        // Aufruf der setCenterJIF-Methode
+        setCenterJIF(hauptmenueadmin);
+        
         // Zuweisung der Masken an die Hauptansicht
         desktopPane.add(hauptmenueadmin);
         desktopPane.add(auftragskopfanlegen);
@@ -149,9 +154,7 @@ public class StartAdmin extends javax.swing.JFrame {
         zahlungskonditionaendern.setVisible(false);
         useranlegen.setVisible(false);
         useraendern.setVisible(false);
-        
-         
-        
+
     }
 
     /**
@@ -164,6 +167,7 @@ public class StartAdmin extends javax.swing.JFrame {
     private void initComponents() {
 
         desktopPane = new javax.swing.JDesktopPane();
+        statusMeldung_jTextField = new javax.swing.JTextField();
         menuBar = new javax.swing.JMenuBar();
         jM_Navigation = new javax.swing.JMenu();
         jM_AuftragVerwalten = new javax.swing.JMenu();
@@ -203,6 +207,12 @@ public class StartAdmin extends javax.swing.JFrame {
                 formWindowClosing(evt);
             }
         });
+
+        statusMeldung_jTextField.setEditable(false);
+        statusMeldung_jTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        desktopPane.add(statusMeldung_jTextField);
+        statusMeldung_jTextField.setBounds(0, 340, 786, 30);
+        desktopPane.setLayer(statusMeldung_jTextField, javax.swing.JLayeredPane.PALETTE_LAYER);
 
         jM_Navigation.setMnemonic('n');
         jM_Navigation.setText("Navigation");
@@ -418,11 +428,11 @@ public class StartAdmin extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 786, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 779, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
         );
 
         getAccessibleContext().setAccessibleName("");
@@ -873,6 +883,17 @@ public class StartAdmin extends javax.swing.JFrame {
     }
 
     /**
+     * 06.01.2015 Methode mit der man der Statuszeile eine Mitteilung pbergibt
+     * die darauf hin in der Statuszeile angeziegt wird.
+     *
+     * @param status, Übergebener String der dann in der Zeile angegeben werden
+     * soll.
+     */
+    public void setStatusMeldung(String status) {
+        statusMeldung_jTextField.setText(status);
+    }
+
+    /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -939,6 +960,7 @@ public class StartAdmin extends javax.swing.JFrame {
     private javax.swing.JMenu jM_ZKVerwalten;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JTextField statusMeldung_jTextField;
     // End of variables declaration//GEN-END:variables
 
 }
