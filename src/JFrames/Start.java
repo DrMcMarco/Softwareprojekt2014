@@ -5,6 +5,7 @@ import DAO.DataAccessObject;
 import DAO.Parser;
 import DTO.Artikel;
 import DTO.Auftragskopf;
+import DTO.Auftragsposition;
 import DTO.Kunde;
 import DTO.Sofortauftragskopf;
 import DTO.Status;
@@ -15,9 +16,12 @@ import UserHauptmenue.Hauptmenue_User;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Collection;
 import static java.util.Collections.list;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import javax.persistence.PersistenceException;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
@@ -154,15 +158,28 @@ public class Start extends javax.swing.JFrame {
 ////            dao.createStatus("abgeschlossen");
 ////            dao.createPaymentConditions("Sofortauftrag", 1, 2, 2, 2, 4, 5, 2, 3, 4);
 //            HashMap<Long, Integer> map = new HashMap<>();
-//            map.put(new Long(1), new Integer(4));
-//            map.put(new Long(2), new Integer(4));
-//            dao.createOrderHead("Bestellauftrag", map, "auftragtext", 1, 1, 12.0, "erfasst", new Date(), new Date());
+//            map.put(new Long(1), new Integer(9));
+//            map.put(new Long(2), new Integer(6));
+//            dao.createOrderHead("Terminauftrag", map, "auftragtext", 1, 1, 122.0, "erfasst", new Date(), new Date());
 //            Auftragskopf auftrag = dao.getOrderHead(4);
 //            dao.setzeAuftragsstatus(auftrag, statneu);//freigegeben
 //            dao.setzeAuftragsstatus(auftrag, stat);    //erfasst
 //            //auftrag.setStatus(statneu2);//abgeschlossen
 //            dao.setzeAuftragsstatus(auftrag, statneu);//freigegeben
 //            dao.setzeAuftragsstatus(auftrag, statneu2);//abgeschlossen
+            Collection<?> list = dao.suchAbfrage("auftragstext = ataa", "Auftragskopf");
+            Iterator i = list.iterator();
+            while(i.hasNext()) {
+                //Object[] o = (Object[]) i.next();
+                
+                Auftragskopf posi = (Auftragskopf) i.next();
+                System.out.println(posi.getAuftragstext());
+            }
+            
+//            for (Object o : list) {
+//                Auftragsposition posi = (Auftragsposition) o;
+//                System.out.println(posi.getAuftrag());
+//            }
         } catch (Exception e) {
             System.out.println("" + e.getMessage());
         }

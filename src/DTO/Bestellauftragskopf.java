@@ -40,15 +40,16 @@ public class Bestellauftragskopf extends Auftragskopf {
     public void setZahlungskondition(Zahlungskondition Zahlungskondition) {
         this.Zahlungskondition = Zahlungskondition;
     }
-    
-    @Override
-    public void addPosition(Artikel artikel, int Menge) {
-        Auftragsposition ap = new Auftragsposition();
-        ap.setAuftrag(this);
-        ap.setArtikel(artikel);
-        ap.setMenge(Menge);
-        ap.setEinzelwert(artikel.getEinkaufswert()*Menge);
-        ap.setErfassungsdatum(super.getErfassungsdatum());
-        super.getPositionsliste().add(ap);
-    }
+  
+//Könnte später noch gebraucht werden
+//    @Override
+//    public void addPosition(Artikel artikel, int Menge) {
+//        Auftragsposition ap = new Auftragsposition();
+//        ap.setAuftrag(this);
+//        ap.setArtikel(artikel);
+//        ap.setMenge(Menge);
+//        ap.setEinzelwert(artikel.getEinkaufswert()*Menge);
+//        ap.setErfassungsdatum(super.getErfassungsdatum());
+//        super.getPositionsliste().add(ap);
+//    }
 }

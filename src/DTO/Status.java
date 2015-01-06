@@ -22,23 +22,21 @@ public class Status implements Serializable {
     
     private String Status;
     
+    private boolean LKZ;
+    
     @OneToMany(mappedBy = "Status")
     private ArrayList<Auftragskopf> Auftragsliste;
 
     public Status() {
     }
 
-    public Status(long StatusID, String Status) {
-        this.StatusID = StatusID;
+    public Status(String Status) {
         this.Status = Status;
+        this.LKZ = false;
     }
 
     public long getStatusID() {
         return StatusID;
-    }
-
-    public void setStatusID(long StatusID) {
-        this.StatusID = StatusID;
     }
 
     public String getStatus() {
@@ -55,6 +53,14 @@ public class Status implements Serializable {
 
     public void setAuftragsliste(ArrayList<Auftragskopf> Auftragsliste) {
         this.Auftragsliste = Auftragsliste;
+    }
+
+    public boolean isLKZ() {
+        return LKZ;
+    }
+
+    public void setLKZ(boolean LKZ) {
+        this.LKZ = LKZ;
     }
 
     @Override

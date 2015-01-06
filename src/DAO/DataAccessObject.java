@@ -18,6 +18,7 @@ import DTO.Geschaeftspartner;
 import DTO.Kunde;
 import DTO.Lieferanschrift;
 import DTO.Lieferant;
+import DTO.Parameterdaten;
 import DTO.Rechnungsanschrift;
 import DTO.Sofortauftragskopf;
 import DTO.Status;
@@ -63,6 +64,9 @@ public class DataAccessObject {
      * @param tabelle Tabelle in der gesucht werden soll
      * @return gibt eine Collection<?> zurück mit allen gefunden Datensätzen
      * @throws DAO.ApplicationException Die Exception wird durchgereicht
+     * 
+     * TO-DO: Anpassung wenn nach einem String gesucht wird müssen hochkommas
+     * hinzugefügt werden
      */
     public Collection<?> suchAbfrage(String eingabe, String tabelle) 
         throws ApplicationException {
@@ -71,6 +75,7 @@ public class DataAccessObject {
         Auftragskopf auftrag = null;
         List<?> sqlErgebnisListe = null;
         String sqlAbfrage = null;
+        String maxAnzReihen = " FETCH NEXT 20 ROWS ONLY";
         Parser parser = new Parser();
         //Parse den Suchausdruck und hole die DB-Attr. Namen
         dbAttrListe = parser.parse(eingabe, tabelle);
@@ -79,12 +84,13 @@ public class DataAccessObject {
             throw new ApplicationException("Fehler", 
                     "Beim Parsen ist ein Fehler aufgetreten!");
         }
+
         //Sql-Statement Dynamisch erzeugen
-        sqlAbfrage = "SELECT ST FROM " + tabelle + " ST WHERE ";
+        sqlAbfrage = "SELECT * FROM " + tabelle + "  WHERE ";
         //Iteriere über alle Input Einträge
         for (int i = 0; i < dbAttrListe.size(); i++) {
             //Hole Abfrage aus der Liste
-            sqlAbfrage += ("ST." + dbAttrListe.get(i));
+            sqlAbfrage += ("" + dbAttrListe.get(i));
             //Prüfe, ob mehrere Einträge vorhanden sind, diese müssen mit AND
             //Verknüpft werden.Beim letzten durchlauf wird kein AND mehr gesetzt
             if (dbAttrListe.size() > 1 && i < dbAttrListe.size() - 1) {
@@ -94,8 +100,13 @@ public class DataAccessObject {
 
         try {
             //Ergebnis aus der DB laden und als Liste speichern
-            sqlErgebnisListe = em.createQuery(sqlAbfrage).getResultList();
-            
+            //Es wird zum einen das SQL-Statement übergeben und zum anderen
+            //Der Class-Type zur typisierung der Objekte in der Liste
+            //Es wird zudem noch die Maxanzahl an Datensätzen gesetzt die 
+            //ausgegeben werden soll.
+            sqlErgebnisListe = em.createNativeQuery(sqlAbfrage + maxAnzReihen, 
+                    Class.forName("DTO." + tabelle)).getResultList();
+
         } catch (Exception e) {
             throw new ApplicationException("Fehler", 
                     "Die Daten konnten nicht gefunden werden!");
@@ -114,11 +125,11 @@ public class DataAccessObject {
     /**
      * Methode zur Erzeugung eines Artikels.
      *
-     * @param Kategorie
-     * @param Artikeltext
-     * @param Bestelltext
-     * @param Verkaufswert
-     * @param Einkaufswert
+     * @param kategorie
+     * @param artikeltext
+     * @param bestelltext
+     * @param verkaufswert
+     * @param einkaufswert
      * @param MwST
      * @param Frei
      * @param Reserviert
@@ -126,21 +137,21 @@ public class DataAccessObject {
      * @param Verkauft
      * @throws DAO.ApplicationException Die Exception wird durchgereicht
      */
-    public void createItem(String Kategorie, String Artikeltext,
-            String Bestelltext, double Verkaufswert, double Einkaufswert,
-            double MwST, int Frei, int Reserviert, int Zulauf, int Verkauft)
-            throws ApplicationException {
+    public void createItem(String kategorie, String artikeltext, 
+        String bestelltext, double verkaufswert, double einkaufswert,
+        double MwST, int Frei, int Reserviert, int Zulauf, int Verkauft)
+        throws ApplicationException {
         //Suche die Artikelkategorie anhand des Kategorienamen
-        Artikelkategorie cat = this.getCategory(Kategorie);
+        Artikelkategorie cat = this.getCategory(kategorie);
         
         if (cat == null) {
             throw new ApplicationException("Fehler",
                     "Der Kategoriename existiert nicht!");
         }
         
-        Artikel item = new Artikel(cat, Artikeltext, Bestelltext,
-                Verkaufswert, Einkaufswert, MwST, Frei, Reserviert,
-                Zulauf, Verkauft, false);
+        Artikel item = new Artikel(cat, artikeltext, bestelltext,
+                verkaufswert, einkaufswert, MwST, Frei, Reserviert,
+                Zulauf, Verkauft);
         //Prüfen, ob das Objekt erstellt wurde
         if (item == null) {
             throw new ApplicationException("Fehler",
@@ -168,11 +179,11 @@ public class DataAccessObject {
      * @throws DAO.ApplicationException Die Exception wird durchgereicht
      */
     public void createCategory(String Kategoriename,
-            String Beschreibung, String Kommentar, boolean LKZ)
+            String Beschreibung, String Kommentar)
             throws ApplicationException {
         //Objekt erzeugen
         Artikelkategorie cat = new Artikelkategorie(Kategoriename, Beschreibung,
-                Kommentar, LKZ);
+                Kommentar);
         //Prüfen, ob das Objekt erstellt wurde
         if (cat == null) {
             throw new ApplicationException("Fehler",
@@ -414,13 +425,13 @@ public class DataAccessObject {
             //Erzeugung des persistenten Anschrift-Objektes
             anschrift = new Lieferanschrift(Name, Vorname, Titel,
                     Strasse, Hausnummer, PLZ, Ort, Staat, Telefon, Fax, Email,
-                    Geburtsdatum, Erfassungsdatum, false);
+                    Geburtsdatum, Erfassungsdatum);
         } else if (Typ.equals("Rechnungsadresse")) {
             
             //Erzeugung des persistenten Anschrift-Objektes
             anschrift = new Rechnungsanschrift(Name, Vorname, Titel,
                     Strasse, Hausnummer, PLZ, Ort, Staat, Telefon, Fax, Email,
-                    Geburtsdatum, Erfassungsdatum, false);
+                    Geburtsdatum, Erfassungsdatum);
             
         //Wenn der Typ ungültig ist
         } else {
@@ -806,6 +817,114 @@ public class DataAccessObject {
     
     /*----------------------------------------------------------*/
     /* Datum Name Was                                           */
+    /* 06.01.15 sch angelegt                                    */
+    /*----------------------------------------------------------*/
+    /**
+     * Gibt alle Suchattribute die zu einer Tabelle assoziiert sind.
+     * @param tabelle tabelle
+     * @return suchattribute
+     * @throws DAO.ApplicationException bei fehler in pu.
+     */
+    public Collection<String> gibSuchAttribute(String tabelle) 
+        throws ApplicationException {
+        String sqlAbfrage = "SELECT ST FROM Parameterdaten ST "
+                + "WHERE ST.Tabelle = '" + tabelle + "'";
+        Collection<Parameterdaten> parameterdaten = null;
+        Collection<String> suchAttribute = new ArrayList<>();
+        
+        try {
+            //Persistenteklasse laden
+            parameterdaten = this.em.createQuery(sqlAbfrage, 
+                    Parameterdaten.class).getResultList();
+        } catch (PersistenceException e) {
+            throw new ApplicationException("", "");
+        }
+        //Prüfe, ob ein Datensatz gefunden wurde.
+        if (parameterdaten == null) {
+            throw new ApplicationException("", "");
+        }
+        
+        //Iteriere über alle Datensätze und füge der Hashmap jeweils 
+        //Als Key das Suchattribut und als Value das dazugehörige DbAttribut.
+        for (Parameterdaten prmtr : parameterdaten) {
+            suchAttribute.add(prmtr.getSuchkuerzel());
+        }
+        
+        return suchAttribute;
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 06.01.15 sch angelegt                                    */
+    /*----------------------------------------------------------*/
+    /**
+     * Gibt alle Suchkuerzel und deren DBAttribut zurück.
+     * @return hashmap<Suchkuerzel, DBAttribut>.
+     * @throws DAO.ApplicationException Bei Fehler in pu.
+     */
+    public HashMap<String, String> gibAlleSuchAttribute() 
+        throws ApplicationException {
+        String sqlAbfrage = "SELECT ST FROM Parameterdaten ST";
+        Collection<Parameterdaten> parameterdaten = null;
+        HashMap<String, String> suchAttribute = new HashMap<>();
+        
+        try {
+            //Persistenteklasse laden
+            parameterdaten = this.em.createQuery(sqlAbfrage, 
+                    Parameterdaten.class).getResultList();
+        } catch (PersistenceException e) {
+            throw new ApplicationException("", "");
+        }
+        //Prüfe, ob ein Datensatz gefunden wurde.
+        if (parameterdaten == null) {
+            throw new ApplicationException("", "");
+        }
+        
+        //Iteriere über alle Datensätze und füge der Hashmap jeweils 
+        //Als Key das Suchattribut und als Value das dazugehörige DbAttribut.
+        for (Parameterdaten prmtr : parameterdaten) {
+            suchAttribute.put(prmtr.getSuchkuerzel(), prmtr.getDbAttribut());
+        }
+        
+        return suchAttribute;
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 06.01.15 sch angelegt                                    */
+    /*----------------------------------------------------------*/
+    /**
+     * Gibt den Datentyp eines Attributs zurück.
+     * @param attribut Das Attribut.
+     * @return Datentyp.
+     * @throws DAO.ApplicationException Fehler bei pu.
+     */
+    public String gibDatentypVonSuchAttribut(String attribut) 
+        throws ApplicationException {
+        Parameterdaten prmtr = null;
+        //SQL-Statement um den Datentyp zu einem DBAttribut zu bekommen.
+        String sqlAbfrage = "SELECT ST FROM Parameterdaten "
+                    + "ST WHERE ST.dbAttribut = '" + attribut + "'";
+        
+        try {
+            //Persistenteklasse laden
+            prmtr = this.em.createQuery(sqlAbfrage, 
+                    Parameterdaten.class).getSingleResult();
+        } catch (PersistenceException e) {
+            throw new ApplicationException("", "");
+        }
+        //Prüfe, ob ein Datensatz gefunden wurde.
+        if (prmtr == null) {
+            throw new ApplicationException("", "");
+        }
+        //Gib den Datentyp des DBAttributs zurück.
+        return prmtr.getDatentyp();
+    }
+    
+    
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
     /* 11.11.14 sch angelegt                                    */
     /*----------------------------------------------------------*/
     /**
@@ -819,7 +938,7 @@ public class DataAccessObject {
         //Konditionen aus der DB laden
         Zahlungskondition conditions = em.find(Zahlungskondition.class, id);
         //Prüfen, ob Daten gefunden worden sind
-        if (conditions == null) {
+        if (conditions == null || conditions.isLKZ()) {
             throw new ApplicationException("Fehler", 
                     "Keine Zahlungskonditionen gefunden!");
         }
@@ -839,9 +958,17 @@ public class DataAccessObject {
     public Collection<Artikelkategorie> gibAlleKategorien() 
             throws ApplicationException {
 
-        return this.em.createQuery("SELECT ST FROM Artikelkategorie ST", 
+        List<Artikelkategorie> ergebnis = this.em.createQuery("SELECT ST FROM Artikelkategorie ST", 
                 Artikelkategorie.class).getResultList();
         
+        ArrayList<Artikelkategorie> liste = new ArrayList<>();
+        
+        for (Artikelkategorie k : ergebnis) {
+            if (!k.isLKZ()) {
+                liste.add(k);
+            }
+        }
+        return liste;
     }
     
 //    /**
@@ -907,7 +1034,7 @@ public class DataAccessObject {
         }
         
         
-        if (cat == null)
+        if (cat == null || cat.isLKZ())
             throw new ApplicationException("Fehler",
                     "Es wurde keine Kategorie gefunden!");
         
@@ -927,7 +1054,7 @@ public class DataAccessObject {
         Artikel item = em.find(Artikel.class, Artikelnummer);
         
         //Artikel existiert nicht
-        if (item == null) {
+        if (item == null || item.isLKZ()) {
             throw new ApplicationException("Fehler",
                     "Es wurde kein Artikel gefunden!");
         }
@@ -939,7 +1066,7 @@ public class DataAccessObject {
         
         Kunde kunde = em.find(Kunde.class, Kundennummer);
         
-        if (kunde == null) {
+        if (kunde == null || kunde.isLKZ()) {
             throw new ApplicationException("Fehler", 
                     "Der Kunde konnte nicht gefunden werden");
         }
@@ -962,7 +1089,7 @@ public class DataAccessObject {
             throw new ApplicationException("Fehler", e.getMessage());
         }
         
-        if (status == null)
+        if (status == null || status.isLKZ())
             throw new ApplicationException("Fehler",
                     "Es wurde kein Status gefunden!");
         
@@ -981,7 +1108,7 @@ public class DataAccessObject {
         Auftragskopf auftragskopf = em.find(Auftragskopf.class, Auftragsnummer);
         
         //Falls der Auftrag nicht existiert
-        if (auftragskopf == null) {
+        if (auftragskopf == null || auftragskopf.isLKZ()) {
             throw new ApplicationException("Fehler", "Der Auftrag konnte nicht gefunden werden");
         }
         
@@ -1002,14 +1129,28 @@ public class DataAccessObject {
         
         //Wenn der Auftrag nicht gefunden werden kann, wird eine Fehlermeldung
         //ausgegeben
-        if(ak == null) {
+        if(ak == null || ak.isLKZ()) {
             throw new ApplicationException("Fehler", 
                     "Der Auftrag konnte nicht gefunden werden");
         }
         
         //Gib die Anzahl der Positionen zurück
-        return ak.getPositionsliste().size();
+        return ak.getPositionsliste().size();      
+    }
+    
+    public Collection<Zahlungskondition> gibAlleZahlungskonditionen() {
         
+        List<Zahlungskondition> ergebnis = this.em.createQuery("SELECT ST FROM Zahlungskondition ST",
+                Zahlungskondition.class).getResultList();
+        
+        ArrayList<Zahlungskondition> liste = new ArrayList<>();
+        
+        for (Zahlungskondition zk : ergebnis) {
+            if(!zk.isLKZ()) {
+                liste.add(zk);
+            }
+        }
+        return liste;
     }
     
 //</editor-fold>

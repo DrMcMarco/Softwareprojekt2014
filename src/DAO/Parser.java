@@ -6,6 +6,7 @@
 
 package DAO;
 
+import JFrames.GUIFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringTokenizer;
@@ -20,33 +21,64 @@ import java.util.StringTokenizer;
  * Klasse Parser
  */
 public class Parser {
-    /**.
-     * Konstante zur Trennung der einzelnen Sucheingaben
+    /**
+     * Konstante zur Trennung der einzelnen Sucheingaben.
      */
     private static final String TRENNZEICHEN = ";";
-    /**.
-     * Konstante zur Trennung der einzelnen Querys
+    
+    /**
+     * Platzhalter für genau ein Zeichen in SQL.
+     */
+    private static final char PLATZHALTEREINZEICHEN = '_';
+    
+    /**
+     * Platzhalter für genau 0-n Zeichen in SQL.
+     */
+    private static final char PLATZHALTERMULTIPLEZEICHEN = '%';
+    
+    /**
+     * Platzhalter für genau 0-n Zeichen in Linux schreibweise.
+     */
+    private static final char PLATZHALTERMULTIPLEZEICHENAPP = '*';
+    
+    /**
+     * Platzhalter für genau 0-n Zeichen in Linux schreibweise.
+     */
+    private static final char PLATZHALTEREINZEICHENAPP = '?';
+    
+    /**
+     * Konstante zur Trennung der einzelnen Querys.
      */
     private static final String[] OPERATOR = {"<=" , ">=", "<>", "<",
                                               ">", "="};
-    /**.
-     * Hashmap mit allen Schlüßelwörtern
+    /**
+     * SQL-Statement zur Betrachtung von nicht gelöschten Daten.
+     */
+    private static final String LKZ = " AND LKZ = 0 ";
+    
+    /**
+     * SQL-Statement zur Benutzung von Platzhaltern wird LIKE verwendet.
+     */
+    private static final String OPERATORLIKE = "LIKE";
+    
+    /**
+     * Hashmap mit allen Schlüßelwörtern.           TO-DO: WIRD AUS DB GELADEN!!!!!!!!!!!!!
      */
     private static final HashMap<String, String> ATTRIBUTE = new 
             HashMap<String, String>() { {
                 put("nr", "Id");
                 put("name", "Name");
 /*------------Artikel spezifische Eingaben----------------------*/              
-                put("atext", "Artikeltext");
-                put("btext", "Bestelltext");
-                put("wert", "Einkaufswert");
-                put("name", "Name");
+                put("artikeltext", "Artikeltext");
+                put("bestelltext", "Bestelltext");
+                put("artikelwert", "Einkaufswert");
+                put("artikelname", "Name");
                 put("mwst", "Mwst");
-                put("kat", "Kategorie");
+                put("artikelkategorie", "Kategorie");
                 put("frei", "Frei");
-                put("res", "Reserviert");
-                put("zul", "Zulauf");
-                put("ver", "Verkauft");
+                put("reserviert", "Reserviert");
+                put("zulauf", "Zulauf");
+                put("verkauft", "Verkauft");
 /*------------Anschrift spezifische Eingaben----------------------*/
                 put("email", "EMAIL");
                 put("erfassungsdatum", "ERFASSUNGSDATUM");
@@ -61,22 +93,29 @@ public class Parser {
                 put("telefon", "TELEFON");
                 put("titel", "TITEL");
                 put("vname", "VORNAME");
-                put("typ", "TYP");
+                //put("typ", "TYP");
 /*------------Kategorie spezifische Eingaben----------------------*/
-                put("beschreibung", "BESCHREIBUNG");
+                put("katbeschreibung", "BESCHREIBUNG");
                 put("katname", "KATEGORIENAME");
                 put("katkommentar", "KOMMENTAR");
 /*------------Auftragskopf spezifische Eingaben----------------------*/
                 put("abschlussdatum", "ABSCHLUSSDATUM");
-                put("text", "AUFTRAGSTEXT");
+                put("auftragstext", "AUFTRAGSTEXT");
                 put("eingangsdatum", "ERFASSUNGSDATUM");
                 put("lieferdatum", "LIEFERDATUM");
-                put("wert", "WERT");
+                put("auftragswert", "WERT");
                 put("auftragsart", "AUTRAGSART");
                 put("geschaeftspartner", "Geschäftspartner");
-                put("status", "STATUS");
+                put("auftragsstatus", "STATUS");
                 put("zahlungskondition", 
                         "ZAHLUNGSKONDITION_ZAHLUNGSKONDITIONID");
+/*------------Auftragsposition spezifische Eingaben----------------------*/
+                put("auftragsnr", "Auftrag");
+                put("positionsnummer", "POSITIONSNUMMER");
+                put("positionsartikel", "ARTIKEL");
+                put("positionswert", "EINZELWERT");
+                put("menge", "MENGE");
+                put("positionserfassungsdatum", "ERFASSUNGSDATUM");
 /*------------Geschäftspartner spezifische Eingaben----------------------*/
                 put("kredit", "KREDITLIMIT");
                 put("partnerart", "TYP");
@@ -101,8 +140,8 @@ public class Parser {
     /* Datum Name Was                                           */
     /* 11.11.14 sch angelegt                                    */
     /*----------------------------------------------------------*/
-    /**.
-     * Parst den übergebenen String und gibt die DB-Attributnamen zurück
+    /**
+     * Parst den übergebenen String und gibt die DB-Attributnamen zurück.
      * @param eingabe Sucheingabe
      * @param tabelle Tabelle in der gesucht werden soll (Hier nur null Prüfung)
      * @return Es wird eine Hashmap zurückgegeben mit dem Inhalt der 
@@ -110,21 +149,20 @@ public class Parser {
      * @throws ApplicationException Sollten Eingaben ungültig sein,
      *         so wird eine AE geworfen.
      * 
-     * TO-DO: prüfung auf illegale zeichen, und nicht einhaltung der regeln
+     * TO-DO: Anpassung wenn nach einem String gesucht wird müssen hochkommas
+     * hinzugefügt werden :DATA-DICTONARY?
      */
     public ArrayList<String> parse(String eingabe, String tabelle) 
         throws ApplicationException {
         //Daten Deklaration
         String[] praefixListe = null;
         StringTokenizer st = null;
-        //Evt. andere Collection nehmen?
-        HashMap<String, String> suchAbfragenMap = new HashMap<>();
         ArrayList<String> abfrageErgebnis = new ArrayList<>();
         String eingabeOhneLeerzeichen = "";
         String suchAttr = null;
         String dbAttr = null;
         String wert = null;
-        
+        String datentyp = "";
         //Prüfe, ob die Sucheingabe und die Table null sind
         //Wenn ja, dann wirf eine ApplicationException
         if (eingabe == null || tabelle == null) {
@@ -155,9 +193,57 @@ public class Parser {
                         throw new ApplicationException("Fehler", 
                             "Das Suchkürzel: " + suchAttr + " ist Falsch!");
                     }
-                    //To-Do: Operatoren müssen noch an DB.Stdt angepasst werden
-                    abfrageErgebnis.add(dbAttr + " " + splitOp + " " + wert);
+                    //Prüfe auf platzhalter
+                    if (wert.contains(new String(new char[] 
+                    {PLATZHALTEREINZEICHENAPP})) 
+                            || wert.contains(new String(
+                                new char[] {PLATZHALTERMULTIPLEZEICHENAPP}))) {
+                        //Geht das mit den platzhaltern nur wenn man = Nimmt?
+                        if (splitOp.equals(OPERATOR[5])) {
+                            //Ersetze alle ? durch _ (SQL Anpassung)
+                            wert = wert.replace(PLATZHALTEREINZEICHENAPP, 
+                                PLATZHALTEREINZEICHEN);
+                            //Ersetze alle * durch % (SQL Anpassung)
+                            wert = wert.replace(PLATZHALTERMULTIPLEZEICHENAPP, 
+                                PLATZHALTERMULTIPLEZEICHEN);
+                            
+                            //Prüfe, um was für ein Datentyp es sich handelt.
+                            datentyp = GUIFactory.getDAO()
+                                            .gibDatentypVonSuchAttribut(wert);
+                            
+                            //Prüfe, ob es sich um ein String handelt.
+                            if ("String".equals(datentyp)) {
+                                //Hier müssen für das SQL-Statement hochkommas
+                                //hinzugefügt werden.
+                                wert = "'" + wert + "'";
+                            }
+                            //SQL-Statement aus suchkürzel , wert und lkz 
+                            //konkatenieren und in die Ergebnisliste einfügen.
+                            abfrageErgebnis.add(dbAttr + " " + OPERATORLIKE 
+                                    + " " + wert + "");//LKZ!!!!!!!
+                        } else {
+                            throw new ApplicationException("Fehler", 
+                                    "Operator falsch?");
+                        }
+                    } else {
+                        //Prüfe, um was für ein Datentyp es sich handelt.
+                        datentyp = GUIFactory.getDAO()
+                                        .gibDatentypVonSuchAttribut(wert);
+                        //Prüfe, ob es sich um ein String handelt.
+                        if ("String".equals(datentyp)) {
+                            //Hier müssen für das SQL-Statement hochkommas
+                            //hinzugefügt werden.
+                            wert = "'" + wert + "'";
+                        }
+                        
+                        //SQL-Statement aus suchkürzel , wert und 
+                        //lkz konkatenieren und in die Ergebnisliste einfügen.
+                        abfrageErgebnis.add(dbAttr + " " + splitOp + " " + wert
+                            + "");//LKZ!!!!!!!
+                    }
+                    
                     //Beende die 2. Schleife sobald ein Operator gefunden wurde.
+                    //Es müssen keine weiteren Operatoren mehr gesucht werden.
                     break;
                 }
             }

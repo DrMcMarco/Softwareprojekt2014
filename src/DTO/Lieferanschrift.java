@@ -21,9 +21,9 @@ public class Lieferanschrift extends Anschrift {
     public Lieferanschrift(String Name, String Vorname, String Titel, 
             String Strasse, String Hausnummer, String PLZ, String Ort, 
             String Staat, String Telefon, String FAX, String Email, 
-            Date Geburtsdatum, Date Erfassungsdatum, boolean LKZ) {
+            Date Geburtsdatum, Date Erfassungsdatum) {
         super(Name, Vorname, Titel, Strasse, Hausnummer, PLZ, Ort, Staat, 
-                Telefon, FAX, Email, Geburtsdatum, Erfassungsdatum, LKZ);
+                Telefon, FAX, Email, Geburtsdatum, Erfassungsdatum);
     }
     
 }
