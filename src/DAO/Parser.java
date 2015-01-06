@@ -62,79 +62,17 @@ public class Parser {
     private static final String OPERATORLIKE = "LIKE";
     
     /**
-     * Hashmap mit allen Schlüßelwörtern.           TO-DO: WIRD AUS DB GELADEN!!!!!!!!!!!!!
+     * Hashmap mit allen Schlüßelwörtern.
      */
-    private static final HashMap<String, String> ATTRIBUTE = new 
-            HashMap<String, String>() { {
-                put("nr", "Id");
-                put("name", "Name");
-/*------------Artikel spezifische Eingaben----------------------*/              
-                put("artikeltext", "Artikeltext");
-                put("bestelltext", "Bestelltext");
-                put("artikelwert", "Einkaufswert");
-                put("artikelname", "Name");
-                put("mwst", "Mwst");
-                put("artikelkategorie", "Kategorie");
-                put("frei", "Frei");
-                put("reserviert", "Reserviert");
-                put("zulauf", "Zulauf");
-                put("verkauft", "Verkauft");
-/*------------Anschrift spezifische Eingaben----------------------*/
-                put("email", "EMAIL");
-                put("erfassungsdatum", "ERFASSUNGSDATUM");
-                put("fax", "FAX");
-                put("gebdatum", "GEBURTSDATUM");
-                put("hsnr", "HAUSNUMMER");
-                put("name", "NAME");
-                put("ort", "ORT");
-                put("plz", "PLZ");
-                put("staat", "STAAT");
-                put("strasse", "STRASSE");
-                put("telefon", "TELEFON");
-                put("titel", "TITEL");
-                put("vname", "VORNAME");
-                //put("typ", "TYP");
-/*------------Kategorie spezifische Eingaben----------------------*/
-                put("katbeschreibung", "BESCHREIBUNG");
-                put("katname", "KATEGORIENAME");
-                put("katkommentar", "KOMMENTAR");
-/*------------Auftragskopf spezifische Eingaben----------------------*/
-                put("abschlussdatum", "ABSCHLUSSDATUM");
-                put("auftragstext", "AUFTRAGSTEXT");
-                put("eingangsdatum", "ERFASSUNGSDATUM");
-                put("lieferdatum", "LIEFERDATUM");
-                put("auftragswert", "WERT");
-                put("auftragsart", "AUTRAGSART");
-                put("geschaeftspartner", "Geschäftspartner");
-                put("auftragsstatus", "STATUS");
-                put("zahlungskondition", 
-                        "ZAHLUNGSKONDITION_ZAHLUNGSKONDITIONID");
-/*------------Auftragsposition spezifische Eingaben----------------------*/
-                put("auftragsnr", "Auftrag");
-                put("positionsnummer", "POSITIONSNUMMER");
-                put("positionsartikel", "ARTIKEL");
-                put("positionswert", "EINZELWERT");
-                put("menge", "MENGE");
-                put("positionserfassungsdatum", "ERFASSUNGSDATUM");
-/*------------Geschäftspartner spezifische Eingaben----------------------*/
-                put("kredit", "KREDITLIMIT");
-                put("partnerart", "TYP");
-                put("typ", "LIEFERADRESSE_ANSCHRIFTID");
-                put("typ", "RECHNUNGSADRESSE_ANSCHRIFTID");
-/*------------Status spezifische Eingaben----------------------*/
-                put("status", "STATUS");
-/*------------Zahlungskondition spezifische Eingaben----------------------*/
-                put("auftragsart", "AUFTRAGSART");
-                put("lieferzeit", "LIEFERZEITSOFORT");
-                put("mahnzeit1", "MAHNZEIT1");
-                put("mahnzeit2", "MAHNZEIT2");
-                put("mahnzeit3", "MAHNZEIT3");
-                put("skonto1", "SKONTO1");
-                put("skonto2", "SKONTO2");
-                put("skontozeit1", "SKONTOZEIT1");
-                put("skontozeit2", "SKONTOZEIT2");
-                put("sperrzeitwunsch", "SPERRZEITWUNSCH");
-            } };
+    private final HashMap<String, String> attribute;
+    
+    /**
+     * Konstruktor mit Übergabe der Suchkuerzel.
+     * @param ttrbt Alle Suchschlüsselwörter
+     */
+    public Parser(HashMap<String, String> ttrbt) {
+        this.attribute = ttrbt;
+    }
     
     /*----------------------------------------------------------*/
     /* Datum Name Was                                           */
@@ -149,8 +87,6 @@ public class Parser {
      * @throws ApplicationException Sollten Eingaben ungültig sein,
      *         so wird eine AE geworfen.
      * 
-     * TO-DO: Anpassung wenn nach einem String gesucht wird müssen hochkommas
-     * hinzugefügt werden :DATA-DICTONARY?
      */
     public ArrayList<String> parse(String eingabe, String tabelle) 
         throws ApplicationException {
@@ -174,6 +110,10 @@ public class Parser {
         while (st.hasMoreTokens()) {
             eingabeOhneLeerzeichen += st.nextToken();
         }
+        
+        //Wandel alles in Kleinbuchstaben um.
+        eingabeOhneLeerzeichen = eingabeOhneLeerzeichen.toLowerCase();
+        
         //Speicher alle praefixe in das array unter gegebenen Trennzeichen
         praefixListe = eingabeOhneLeerzeichen.split(TRENNZEICHEN);
         //Iteriere über alle Suchattribute
@@ -187,7 +127,7 @@ public class Parser {
                     //Identifiziere den Wert nach dem gesucht werden soll
                     wert = praefix.split(splitOp)[1];
                     //Ermittle den Datenbanken Namen aus der Hashmap
-                    dbAttr = ATTRIBUTE.get(suchAttr);
+                    dbAttr = attribute.get(suchAttr);
                     //Prüfe, ob der User eine gültige Eingabe gemacht hat.
                     if (dbAttr == null) {
                         throw new ApplicationException("Fehler", 
@@ -220,7 +160,7 @@ public class Parser {
                             //SQL-Statement aus suchkürzel , wert und lkz 
                             //konkatenieren und in die Ergebnisliste einfügen.
                             abfrageErgebnis.add(dbAttr + " " + OPERATORLIKE 
-                                    + " " + wert + "");//LKZ!!!!!!!
+                                    + " " + wert + LKZ);
                         } else {
                             throw new ApplicationException("Fehler", 
                                     "Operator falsch?");
@@ -239,7 +179,7 @@ public class Parser {
                         //SQL-Statement aus suchkürzel , wert und 
                         //lkz konkatenieren und in die Ergebnisliste einfügen.
                         abfrageErgebnis.add(dbAttr + " " + splitOp + " " + wert
-                            + "");//LKZ!!!!!!!
+                            + LKZ);
                     }
                     
                     //Beende die 2. Schleife sobald ein Operator gefunden wurde.

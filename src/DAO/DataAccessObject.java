@@ -76,7 +76,8 @@ public class DataAccessObject {
         List<?> sqlErgebnisListe = null;
         String sqlAbfrage = null;
         String maxAnzReihen = " FETCH NEXT 20 ROWS ONLY";
-        Parser parser = new Parser();
+        //Erstelle den Parser und übergebe die Suchattribute.
+        Parser parser = new Parser(this.gibAlleSuchAttribute());
         //Parse den Suchausdruck und hole die DB-Attr. Namen
         dbAttrListe = parser.parse(eingabe, tabelle);
         //Prüfe, ob das Parsen erfolgreich war.

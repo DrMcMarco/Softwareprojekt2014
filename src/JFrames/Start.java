@@ -487,13 +487,7 @@ public class Start extends javax.swing.JFrame {
      */
     private void jMI_BenutzerhandbuchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_BenutzerhandbuchActionPerformed
 
-        parser = new Parser();//Initialisierung des Parsers.
-        try {
-            parser.parse("nr:123, datum:123 , typ:bar,status:freigegeben ", "test");
-        } catch (ApplicationException ae) {//Fehlerbehandlung
-            JOptionPane.showMessageDialog(rootPane, "" + ae.getMessage(), "Informationen",
-                    JOptionPane.INFORMATION_MESSAGE);
-        }
+        
 
     }//GEN-LAST:event_jMI_BenutzerhandbuchActionPerformed
 
