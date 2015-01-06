@@ -1233,7 +1233,181 @@ public class DataAccessObject {
 //</editor-fold>
     
 //<editor-fold defaultstate="collapsed" desc="remove-Methoden">
-//Subject to change
+
+        /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 06.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
+    /**
+     * Methode zum Setzen eines Löschkennzeichens für Artikel
+     * @param Artikelnummer ID des Artikels
+     * @throws ApplicationException wenn der Artikel nicht gefunden werden kann oder bereits gelöscht ist
+     */
+    public void loescheArtikel(long Artikelnummer) throws ApplicationException {
+        
+        //Holen des Artikels aus der Datenbank anhand der ID
+        Artikel artikel = em.find(Artikel.class, Artikelnummer);
+        
+        //Wenn der Artikel nicht gefunden werden kann wird eine entsprechende Exception geworfen
+        if (artikel == null) {
+            throw new ApplicationException("Fehler", 
+                    "Der Artikel konnte nicht gefunden werden.");
+        }
+        
+        //Wenn der Artikel bereits "gelöscht" ist wird eine entsprechende Exception geworfen
+        if (artikel.isLKZ()) {
+            throw new ApplicationException("Fehler",
+                    "Diese Artikel ist bereits mit einem Löschkennzeichen versehen");
+        }
+        
+        //Setzen des Löschkennzeichens für den Artikel
+        artikel.setLKZ(true);
+        
+        //Transaktion starten
+        em.getTransaction().begin();
+        //Artikel persistieren
+        em.persist(artikel);
+        //Transaktion beenden
+        em.getTransaction().commit();
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 06.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
+    /**
+     * Methode zum Setzen eines Löschkennzeichens für Geschäftspartner und dazugehörige Anschriften
+     * @param GeschaeftspartnerID ID des Geschäftspartners
+     * @throws ApplicationException wenn der Geschäftspartner nicht gefunden werden kann oder bereits gelöscht ist
+     */
+    public void loescheGeschaeftspartner(long GeschaeftspartnerID) 
+            throws ApplicationException {
+        
+        //Holen des Geschäftspartners aus der Datenbank anhand der ID
+        Geschaeftspartner gp = em.find(Geschaeftspartner.class,
+                GeschaeftspartnerID);
+        
+        //Variablen für die Anschriften initialisieren
+        Anschrift liefer = null;
+        Anschrift rechnung = null;
+        
+        //Wenn der Geschäftspartner nicht gefunden werden kann wird eine entsprechende Exception geworfen
+        if (gp == null) {
+            throw new ApplicationException("Fehler", 
+                    "Der Geschäftspartner konnte nicht gefunden werden.");
+        }
+        
+        //Wenn der Geschäftspartner bereits "gelöscht" ist wird eine entsprechende Exception geworfen
+        if (gp.isLKZ()) {
+            throw new ApplicationException("Fehler", 
+                    "Der Geschäftspartner ist bereits mit einem Löschkennzeichen versehen.");
+        }
+        
+        //Anschriften des Geschäftspartners holen
+        liefer = gp.getLieferadresse();
+        rechnung = gp.getRechnungsadresse();
+        
+        //Löschkennzeichen für diese Anschriften und den Geschäftspartner setzen
+        liefer.setLKZ(true);
+        rechnung.setLKZ(true);
+        gp.setLKZ(true);
+        
+        //Transaktion starten
+        em.getTransaction().begin();
+        //Anschriften und Geschäftspartner persistieren
+        em.persist(em.merge(liefer));
+        em.persist(em.merge(rechnung));
+        em.persist(gp);
+        //Transaktion beenden
+        em.getTransaction().commit();
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 06.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
+    /**
+     * Methode zum Setzen eines Löschkennzeichens für Aufträge und dazugehörige Positionen.
+     * @param AuftragskopfID ID des Auftragkopfes
+     * @throws ApplicationException wenn der Auftrag nicht gefunden werden kann oder bereits gelöscht ist
+     */
+    public void loescheAuftrag(long AuftragskopfID) 
+            throws ApplicationException {
+        
+        //Holen des Auftrags aus der Datenbank anhand der ID
+        Auftragskopf ak = em.find(Auftragskopf.class, AuftragskopfID);
+        
+        //Wenn der Auftrag nicht gefunden werden kann wird eine entsprechende Exception geworfen
+        if (ak == null) {
+            throw new ApplicationException("Fehler", 
+                    "Der Auftrag konnte nicht gefunden werden.");
+        }
+        
+        //Wenn der Auftrag bereits "gelöscht" ist wird eine entsprechende Exception geworfen
+        if (ak.isLKZ()) {
+            throw new ApplicationException("Fehler", 
+                    "Der Auftrag ist bereits mit einem Löschlennzeichen versehen.");
+        }
+        
+        //Transaktion starten
+        em.getTransaction().begin();
+        
+        //Jede Position des Auftrags wird mit einem LKZ versehen und persistiert
+        for (Auftragsposition ap : ak.getPositionsliste()) {
+            ap.setLKZ(true);
+            em.persist(ap);
+        }
+        
+        //Setzen des LKZs für den Auftrag
+        ak.setLKZ(true);
+        
+        //Auftrag persistieren
+        em.persist(ak);
+        
+        //Transaktion beenden
+        em.getTransaction().commit();
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 06.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
+    /**
+     * Methode zum Setzen eines Löschkennzeichens für eine Zahlungskondition
+     * @param ZahlungskonditionsID ID der Zahlungskondition
+     * @throws ApplicationException wenn die Zahlungskondition nicht gefunden werden kann oder bereis gelöscht ist
+     */
+    public void loescheZahlungskondition(long ZahlungskonditionsID) 
+            throws ApplicationException {
+        
+        //Holen der Zahlungskondition aus der Datenbank anhand der ID
+        Zahlungskondition zk = em.find(Zahlungskondition.class, ZahlungskonditionsID);
+        
+        //Wenn die Zahlungskondition nicht existiert wird eine entsprechende Exception geworfen
+        if (zk == null) {
+            throw new ApplicationException("Fehler", 
+                    "Die Zahlungskondition konnte nicht gefunden werden.");
+        }
+        
+        //Wenn die Zahlungskondition bereits "gelöscht" ist wird ebenfalls eine Exception
+        //geworfen
+        if (zk.isLKZ()) {
+            throw new ApplicationException("Fehler", 
+                    "Diese Zahlungskondition ist bereits mit einem Löschkenneichen versehen.");
+        }
+        
+        //Löschkennzeichen setzen
+        zk.setLKZ(true);
+        
+        //Transaktions starten
+        em.getTransaction().begin();
+        //Zahlungskondition persistieren
+        em.persist(zk);
+        //Transaktion beenden
+        em.getTransaction().commit();
+    }
+
+    
 //</editor-fold>
     
     /**
