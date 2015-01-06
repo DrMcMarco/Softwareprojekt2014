@@ -51,7 +51,7 @@ public abstract class Anschrift implements Serializable {
     public Anschrift(String Name, String Vorname,
             String Titel, String Strasse, String Hausnummer, String PLZ,
             String Ort, String Staat, String Telefon, String FAX, String Email,
-            Date Geburtsdatum, Date Erfassungsdatum, boolean LKZ) {
+            Date Geburtsdatum, Date Erfassungsdatum) {
         this.Name = Name;
         this.Vorname = Vorname;
         this.Titel = Titel;
@@ -65,7 +65,7 @@ public abstract class Anschrift implements Serializable {
         this.Email = Email;
         this.Geburtsdatum = Geburtsdatum;
         this.Erfassungsdatum = Erfassungsdatum;
-        this.LKZ = LKZ;
+        this.LKZ = false;
     }
 
     public long getAnschriftID() {

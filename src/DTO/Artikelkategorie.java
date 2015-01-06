@@ -33,11 +33,11 @@ public class Artikelkategorie implements java.io.Serializable {
     }
 
     public Artikelkategorie(String Kategoriename, String Beschreibung, 
-            String Kommentar, boolean LKZ) {
+            String Kommentar) {
         this.Kategoriename = Kategoriename;
         this.Beschreibung = Beschreibung;
         this.Kommentar = Kommentar;
-        this.LKZ = LKZ;
+        this.LKZ = false;
     }
 
     public long getKategorieID() {

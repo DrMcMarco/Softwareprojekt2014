@@ -51,6 +51,8 @@ public abstract class Auftragskopf implements Serializable {
     
     @OneToMany(mappedBy = "Auftrag", cascade = CascadeType.ALL)
     private ArrayList<Auftragsposition> Positionsliste;
+    
+    private boolean LKZ;
 
     public Auftragskopf() {
     }
@@ -66,6 +68,7 @@ public abstract class Auftragskopf implements Serializable {
         this.Lieferdatum = Lieferdatum;
         this.Positionsliste = new ArrayList<>();
         this.Status = Status;
+        this.LKZ = false;
     }
 
     public long getAuftragskopfID() {
@@ -131,16 +134,25 @@ public abstract class Auftragskopf implements Serializable {
     public void setPositionsliste(ArrayList<Auftragsposition> Positionsliste) {
         this.Positionsliste = Positionsliste;
     }
-    
-    public void addPosition(Artikel artikel, int Menge) {
-        Auftragsposition ap = new Auftragsposition();
-        ap.setAuftrag(this);
-        ap.setArtikel(artikel);
-        ap.setMenge(Menge);
-        ap.setEinzelwert(artikel.getVerkaufswert() * Menge);
-        ap.setErfassungsdatum(this.Erfassungsdatum);
-        this.Positionsliste.add(ap);
+
+    public boolean isLKZ() {
+        return LKZ;
     }
+
+    public void setLKZ(boolean LKZ) {
+        this.LKZ = LKZ;
+    }
+
+//Könnte später noch gebraucht werden
+//    public void addPosition(Artikel artikel, int Menge) {
+//        Auftragsposition ap = new Auftragsposition();
+//        ap.setAuftrag(this);
+//        ap.setArtikel(artikel);
+//        ap.setMenge(Menge);
+//        ap.setEinzelwert(artikel.getVerkaufswert() * Menge);
+//        ap.setErfassungsdatum(this.Erfassungsdatum);
+//        this.Positionsliste.add(ap);
+//    }
 
     @Override
     public int hashCode() {
