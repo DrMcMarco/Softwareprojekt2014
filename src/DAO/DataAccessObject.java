@@ -18,6 +18,7 @@ import DTO.Geschaeftspartner;
 import DTO.Kunde;
 import DTO.Lieferanschrift;
 import DTO.Lieferant;
+import DTO.Parameterdaten;
 import DTO.Rechnungsanschrift;
 import DTO.Sofortauftragskopf;
 import DTO.Status;
@@ -813,6 +814,114 @@ public class DataAccessObject {
 //</editor-fold>
     
 //<editor-fold defaultstate="collapsed" desc="get-Methoden">
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 06.01.15 sch angelegt                                    */
+    /*----------------------------------------------------------*/
+    /**
+     * Gibt alle Suchattribute die zu einer Tabelle assoziiert sind.
+     * @param tabelle tabelle
+     * @return suchattribute
+     * @throws DAO.ApplicationException bei fehler in pu.
+     */
+    public Collection<String> gibSuchAttribute(String tabelle) 
+        throws ApplicationException {
+        String sqlAbfrage = "SELECT ST FROM Parameterdaten ST "
+                + "WHERE ST.Tabelle = '" + tabelle + "'";
+        Collection<Parameterdaten> parameterdaten = null;
+        Collection<String> suchAttribute = new ArrayList<>();
+        
+        try {
+            //Persistenteklasse laden
+            parameterdaten = this.em.createQuery(sqlAbfrage, 
+                    Parameterdaten.class).getResultList();
+        } catch (PersistenceException e) {
+            throw new ApplicationException("", "");
+        }
+        //Prüfe, ob ein Datensatz gefunden wurde.
+        if (parameterdaten == null) {
+            throw new ApplicationException("", "");
+        }
+        
+        //Iteriere über alle Datensätze und füge der Hashmap jeweils 
+        //Als Key das Suchattribut und als Value das dazugehörige DbAttribut.
+        for (Parameterdaten prmtr : parameterdaten) {
+            suchAttribute.add(prmtr.getSuchkuerzel());
+        }
+        
+        return suchAttribute;
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 06.01.15 sch angelegt                                    */
+    /*----------------------------------------------------------*/
+    /**
+     * Gibt alle Suchkuerzel und deren DBAttribut zurück.
+     * @return hashmap<Suchkuerzel, DBAttribut>.
+     * @throws DAO.ApplicationException Bei Fehler in pu.
+     */
+    public HashMap<String, String> gibAlleSuchAttribute() 
+        throws ApplicationException {
+        String sqlAbfrage = "SELECT ST FROM Parameterdaten ST";
+        Collection<Parameterdaten> parameterdaten = null;
+        HashMap<String, String> suchAttribute = new HashMap<>();
+        
+        try {
+            //Persistenteklasse laden
+            parameterdaten = this.em.createQuery(sqlAbfrage, 
+                    Parameterdaten.class).getResultList();
+        } catch (PersistenceException e) {
+            throw new ApplicationException("", "");
+        }
+        //Prüfe, ob ein Datensatz gefunden wurde.
+        if (parameterdaten == null) {
+            throw new ApplicationException("", "");
+        }
+        
+        //Iteriere über alle Datensätze und füge der Hashmap jeweils 
+        //Als Key das Suchattribut und als Value das dazugehörige DbAttribut.
+        for (Parameterdaten prmtr : parameterdaten) {
+            suchAttribute.put(prmtr.getSuchkuerzel(), prmtr.getDbAttribut());
+        }
+        
+        return suchAttribute;
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 06.01.15 sch angelegt                                    */
+    /*----------------------------------------------------------*/
+    /**
+     * Gibt den Datentyp eines Attributs zurück.
+     * @param attribut Das Attribut.
+     * @return Datentyp.
+     * @throws DAO.ApplicationException Fehler bei pu.
+     */
+    public String gibDatentypVonSuchAttribut(String attribut) 
+        throws ApplicationException {
+        Parameterdaten prmtr = null;
+        //SQL-Statement um den Datentyp zu einem DBAttribut zu bekommen.
+        String sqlAbfrage = "SELECT ST FROM Parameterdaten "
+                    + "ST WHERE ST.dbAttribut = '" + attribut + "'";
+        
+        try {
+            //Persistenteklasse laden
+            prmtr = this.em.createQuery(sqlAbfrage, 
+                    Parameterdaten.class).getSingleResult();
+        } catch (PersistenceException e) {
+            throw new ApplicationException("", "");
+        }
+        //Prüfe, ob ein Datensatz gefunden wurde.
+        if (prmtr == null) {
+            throw new ApplicationException("", "");
+        }
+        //Gib den Datentyp des DBAttributs zurück.
+        return prmtr.getDatentyp();
+    }
+    
+    
     
     /*----------------------------------------------------------*/
     /* Datum Name Was                                           */

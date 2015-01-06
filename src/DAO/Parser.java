@@ -6,6 +6,7 @@
 
 package DAO;
 
+import JFrames.GUIFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringTokenizer;
@@ -61,7 +62,7 @@ public class Parser {
     private static final String OPERATORLIKE = "LIKE";
     
     /**
-     * Hashmap mit allen Schlüßelwörtern.
+     * Hashmap mit allen Schlüßelwörtern.           TO-DO: WIRD AUS DB GELADEN!!!!!!!!!!!!!
      */
     private static final HashMap<String, String> ATTRIBUTE = new 
             HashMap<String, String>() { {
@@ -161,7 +162,7 @@ public class Parser {
         String suchAttr = null;
         String dbAttr = null;
         String wert = null;
-        
+        String datentyp = "";
         //Prüfe, ob die Sucheingabe und die Table null sind
         //Wenn ja, dann wirf eine ApplicationException
         if (eingabe == null || tabelle == null) {
@@ -205,7 +206,17 @@ public class Parser {
                             //Ersetze alle * durch % (SQL Anpassung)
                             wert = wert.replace(PLATZHALTERMULTIPLEZEICHENAPP, 
                                 PLATZHALTERMULTIPLEZEICHEN);
-
+                            
+                            //Prüfe, um was für ein Datentyp es sich handelt.
+                            datentyp = GUIFactory.getDAO()
+                                            .gibDatentypVonSuchAttribut(wert);
+                            
+                            //Prüfe, ob es sich um ein String handelt.
+                            if ("String".equals(datentyp)) {
+                                //Hier müssen für das SQL-Statement hochkommas
+                                //hinzugefügt werden.
+                                wert = "'" + wert + "'";
+                            }
                             //SQL-Statement aus suchkürzel , wert und lkz 
                             //konkatenieren und in die Ergebnisliste einfügen.
                             abfrageErgebnis.add(dbAttr + " " + OPERATORLIKE 
@@ -215,6 +226,16 @@ public class Parser {
                                     "Operator falsch?");
                         }
                     } else {
+                        //Prüfe, um was für ein Datentyp es sich handelt.
+                        datentyp = GUIFactory.getDAO()
+                                        .gibDatentypVonSuchAttribut(wert);
+                        //Prüfe, ob es sich um ein String handelt.
+                        if ("String".equals(datentyp)) {
+                            //Hier müssen für das SQL-Statement hochkommas
+                            //hinzugefügt werden.
+                            wert = "'" + wert + "'";
+                        }
+                        
                         //SQL-Statement aus suchkürzel , wert und 
                         //lkz konkatenieren und in die Ergebnisliste einfügen.
                         abfrageErgebnis.add(dbAttr + " " + splitOp + " " + wert

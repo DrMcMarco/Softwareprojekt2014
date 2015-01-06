@@ -218,8 +218,8 @@ public abstract class Auftragskopf implements Serializable {
                 //Prüfe, welcher Status gesetzt werden soll
                 if (status.equals("freigegeben")) {
                     //Durchlaufe alle Positionen des Auftrags
-                    for (int i = 0; i < this.Positionsliste.size() && 
-                            verfuegbar; i++) {
+                    for (int i = 0; i < this.Positionsliste.size()  
+                            && verfuegbar; i++) {
                         //Setze das Flag nach den Kriterium, ob die Anzahl Frei
                         //kleiner o. gleich der Menge 
                         //aus der Bestellung entspricht

@@ -19,6 +19,7 @@
     <class>DTO.Bestellauftragskopf</class>
     <class>DTO.Sofortauftragskopf</class>
     <class>DTO.Terminauftragskopf</class>
+    <class>DTO.Parameterdaten</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/SWPDB"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
