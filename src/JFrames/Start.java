@@ -149,14 +149,14 @@ public class Start extends javax.swing.JFrame {
 //                    0, k, stat, zahlkon, new Date(), new Date(), new Date());
 //            auftrag.addPosition(a, 4);
 //            auftrag.addPosition(a, 4);
-////            dao.createCategory("Kategorie 1", "besc", "asd", false);
-////            dao.createItem("Kategorie 1", "Artikel1", "test1", 12, 11, 19, 5, 0, 0, 0);
-////            dao.createItem("Kategorie 1", "Artikel2", "test2", 13, 11, 19, 5, 0, 0, 0);
-////            
-////            dao.createStatus("erfasst");
-////            dao.createStatus("freigegeben");
-////            dao.createStatus("abgeschlossen");
-////            dao.createPaymentConditions("Sofortauftrag", 1, 2, 2, 2, 4, 5, 2, 3, 4);
+//            GUIFactory.getDAO().createCategory("Kategorie 1", "besc", "asd");
+//            GUIFactory.getDAO().createItem("Kategorie 1", "Artikel1", "test1", 12, 11, 19, 5, 0, 0, 0);
+//            GUIFactory.getDAO().createItem("Kategorie 1", "Artikel2", "test2", 13, 11, 19, 5, 0, 0, 0);
+//            
+//            GUIFactory.getDAO().createStatus("erfasst");
+//            GUIFactory.getDAO().createStatus("freigegeben");
+//            GUIFactory.getDAO().createStatus("abgeschlossen");
+//            GUIFactory.getDAO().createPaymentConditions("Sofortauftrag", 1, 2, 2, 2, 4, 5, 2, 3, 4);
 //            HashMap<Long, Integer> map = new HashMap<>();
 //            map.put(new Long(1), new Integer(9));
 //            map.put(new Long(2), new Integer(6));
@@ -167,19 +167,16 @@ public class Start extends javax.swing.JFrame {
 //            //auftrag.setStatus(statneu2);//abgeschlossen
 //            dao.setzeAuftragsstatus(auftrag, statneu);//freigegeben
 //            dao.setzeAuftragsstatus(auftrag, statneu2);//abgeschlossen
-            Collection<?> list = dao.suchAbfrage("auftragstext = ataa", "Auftragskopf");
-            Iterator i = list.iterator();
-            while(i.hasNext()) {
-                //Object[] o = (Object[]) i.next();
-                
-                Auftragskopf posi = (Auftragskopf) i.next();
-                System.out.println(posi.getAuftragstext());
-            }
-            
-//            for (Object o : list) {
-//                Auftragsposition posi = (Auftragsposition) o;
-//                System.out.println(posi.getAuftrag());
+//            Collection<?> list = GUIFactory.getDAO().suchAbfrage("Bestelltext = t*", "Artikel");
+//            Iterator i = list.iterator();
+//            while(i.hasNext()) {
+//                //Object[] o = (Object[]) i.next();
+//                
+//                Artikel posi = (Artikel) i.next();
+//                System.out.println(posi.getArtikelID());
 //            }
+            
+            
         } catch (Exception e) {
             System.out.println("" + e.getMessage());
         }

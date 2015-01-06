@@ -41,6 +41,11 @@ import javax.persistence.*;
  */
 public class DataAccessObject {
     
+    /**
+     * Fehler Titel für Exception.
+     */
+    private static final String FEHLER_TITEL = "Fehler";
+    
     /**.
      * EntityManager verwaltet alle Persistenten Klassen
      */
@@ -82,7 +87,7 @@ public class DataAccessObject {
         dbAttrListe = parser.parse(eingabe, tabelle);
         //Prüfe, ob das Parsen erfolgreich war.
         if (dbAttrListe == null) {
-            throw new ApplicationException("Fehler", 
+            throw new ApplicationException(FEHLER_TITEL, 
                     "Beim Parsen ist ein Fehler aufgetreten!");
         }
 
@@ -109,7 +114,7 @@ public class DataAccessObject {
                     Class.forName("DTO." + tabelle)).getResultList();
 
         } catch (Exception e) {
-            throw new ApplicationException("Fehler", 
+            throw new ApplicationException(FEHLER_TITEL, 
                     "Die Daten konnten nicht gefunden werden!");
         }
         
@@ -146,7 +151,7 @@ public class DataAccessObject {
         Artikelkategorie cat = this.getCategory(kategorie);
         
         if (cat == null) {
-            throw new ApplicationException("Fehler",
+            throw new ApplicationException(FEHLER_TITEL,
                     "Der Kategoriename existiert nicht!");
         }
         
@@ -155,7 +160,7 @@ public class DataAccessObject {
                 Zulauf, Verkauft);
         //Prüfen, ob das Objekt erstellt wurde
         if (item == null) {
-            throw new ApplicationException("Fehler",
+            throw new ApplicationException(FEHLER_TITEL,
                     "Die Werte waren ungültig!");
         }
         //Transaktion starten
@@ -187,7 +192,7 @@ public class DataAccessObject {
                 Kommentar);
         //Prüfen, ob das Objekt erstellt wurde
         if (cat == null) {
-            throw new ApplicationException("Fehler",
+            throw new ApplicationException(FEHLER_TITEL,
                     "Die Werte waren ungültig!");
         }
         //Transaktion starten
@@ -478,7 +483,7 @@ public class DataAccessObject {
                 Skonto1, Skonto2, Mahnzeit1, Mahnzeit2, Mahnzeit3);
         
         if (conditions == null) {
-            throw new ApplicationException("Fehler", 
+            throw new ApplicationException(FEHLER_TITEL, 
                     "Die Daten sind fehlerhaft!");
         }
         
@@ -645,7 +650,7 @@ public class DataAccessObject {
             }
             
         } catch (Exception exc) {
-            throw new ApplicationException("Fehler", "Der Bestand konnte " 
+            throw new ApplicationException(FEHLER_TITEL, "Der Bestand konnte " 
                     + "nicht in der Datenbank angepasst werden!");
         }
     }
@@ -668,7 +673,7 @@ public class DataAccessObject {
         throws ApplicationException {
         //Prüfe zu aller erst, ob ein Status übergeben worden ist
         if (status == null) {
-            throw new ApplicationException("Fehler", "Der Status wurde " + 
+            throw new ApplicationException(FEHLER_TITEL, "Der Status wurde " + 
                     "nicht übergeben!");
         }
         
@@ -686,14 +691,14 @@ public class DataAccessObject {
             //Wenn der Auftrag bereits im Status Abgeschlossen ist,
             //ist es nicht mehr möglich ihn zu ändern
             else if (auftrag.getStatus().getStatus().equals("abgeschlossen")) {
-                throw new ApplicationException("Fehler", "Der Auftrag kann " 
+                throw new ApplicationException(FEHLER_TITEL, "Der Auftrag kann " 
                         + "in keinen anderen Status mehr versetzt werden!");
             }
             //Für den Fall, dass der Status direkt von erfasst in abgeschlossen
             //überführt werden soll, wird eine Exception geworfen
             else if (auftrag.getStatus().getStatus().equals("erfasst") && 
                     status.getStatus().equals("abgeschlossen")) {
-                throw new ApplicationException("Fehler", "Der Auftrag kann " 
+                throw new ApplicationException(FEHLER_TITEL, "Der Auftrag kann " 
                         + "nicht von erfasst nach abgeschlossen "
                         + "versetzt werden!");
             }
@@ -752,7 +757,7 @@ public class DataAccessObject {
             //Commit Ausführen
             em.getTransaction().commit();
         } catch (Exception e) {
-            throw new ApplicationException("Fehler", e.getMessage());
+            throw new ApplicationException(FEHLER_TITEL, e.getMessage());
         }
     }
     
@@ -887,11 +892,11 @@ public class DataAccessObject {
             parameterdaten = this.em.createQuery(sqlAbfrage, 
                     Parameterdaten.class).getResultList();
         } catch (PersistenceException e) {
-            throw new ApplicationException("", "");
+            throw new ApplicationException(FEHLER_TITEL, "");
         }
         //Prüfe, ob ein Datensatz gefunden wurde.
         if (parameterdaten == null) {
-            throw new ApplicationException("", "");
+            throw new ApplicationException(FEHLER_TITEL, "");
         }
         
         //Iteriere über alle Datensätze und füge der Hashmap jeweils 
@@ -923,11 +928,11 @@ public class DataAccessObject {
             parameterdaten = this.em.createQuery(sqlAbfrage, 
                     Parameterdaten.class).getResultList();
         } catch (PersistenceException e) {
-            throw new ApplicationException("", "");
+            throw new ApplicationException(FEHLER_TITEL, "");
         }
         //Prüfe, ob ein Datensatz gefunden wurde.
         if (parameterdaten == null) {
-            throw new ApplicationException("", "");
+            throw new ApplicationException(FEHLER_TITEL, "");
         }
         
         //Iteriere über alle Datensätze und füge der Hashmap jeweils 
@@ -946,26 +951,28 @@ public class DataAccessObject {
     /**
      * Gibt den Datentyp eines Attributs zurück.
      * @param attribut Das Attribut.
+     * @param tabelle Die Tabelle
      * @return Datentyp.
      * @throws DAO.ApplicationException Fehler bei pu.
      */
-    public String gibDatentypVonSuchAttribut(String attribut) 
+    public String gibDatentypVonSuchAttribut(String attribut, String tabelle) 
         throws ApplicationException {
         Parameterdaten prmtr = null;
         //SQL-Statement um den Datentyp zu einem DBAttribut zu bekommen.
         String sqlAbfrage = "SELECT ST FROM Parameterdaten "
-                    + "ST WHERE ST.dbAttribut = '" + attribut + "'";
+                    + "ST WHERE ST.dbAttribut = '" + attribut 
+                + "' AND ST.tabelle = '" + tabelle + "'";
         
         try {
             //Persistenteklasse laden
             prmtr = this.em.createQuery(sqlAbfrage, 
                     Parameterdaten.class).getSingleResult();
         } catch (PersistenceException e) {
-            throw new ApplicationException("", "");
+            throw new ApplicationException(FEHLER_TITEL, "");
         }
         //Prüfe, ob ein Datensatz gefunden wurde.
         if (prmtr == null) {
-            throw new ApplicationException("", "");
+            throw new ApplicationException(FEHLER_TITEL, "");
         }
         //Gib den Datentyp des DBAttributs zurück.
         return prmtr.getDatentyp();
@@ -1072,7 +1079,7 @@ public class DataAccessObject {
         String sqlQuery = null;
         Artikelkategorie cat = null;
         if (name == null)
-            throw new ApplicationException("Fehler",
+            throw new ApplicationException(FEHLER_TITEL,
                     "Geben Sie eine Kategorie an!");
         sqlQuery =
                 "SELECT ST FROM Artikelkategorie ST WHERE ST.Kategoriename = '" +
@@ -1080,12 +1087,12 @@ public class DataAccessObject {
         try {
             cat = (Artikelkategorie) em.createQuery(sqlQuery).getSingleResult();
         } catch (Exception e) {
-            throw new ApplicationException("Fehler", e.getMessage());
+            throw new ApplicationException(FEHLER_TITEL, e.getMessage());
         }
         
         
         if (cat == null || cat.isLKZ())
-            throw new ApplicationException("Fehler",
+            throw new ApplicationException(FEHLER_TITEL,
                     "Es wurde keine Kategorie gefunden!");
         
         return cat;

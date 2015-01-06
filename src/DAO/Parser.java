@@ -62,9 +62,31 @@ public class Parser {
     private static final String OPERATORLIKE = "LIKE";
     
     /**
+     * Leer-String.
+     */
+    private static final String LEER = "";
+    
+    /**
+     * Fehler Titel für Exception.
+     */
+    private static final String FEHLER_TITEL = "Fehler";
+    
+    /**
+     * Fehlermeldung für Exception.
+     */
+    private static final String FEHLER_KEINE_EINGABE = "Es gab keine Eingabe!";
+    
+    /**
+     * Fehlermeldung für Exception.
+     */
+    private static final String FEHLER_OPERATOR = "Der Operator war ungültig!";
+    
+    /**
      * Hashmap mit allen Schlüßelwörtern.
      */
     private final HashMap<String, String> attribute;
+    
+    
     
     /**
      * Konstruktor mit Übergabe der Suchkuerzel.
@@ -94,15 +116,15 @@ public class Parser {
         String[] praefixListe = null;
         StringTokenizer st = null;
         ArrayList<String> abfrageErgebnis = new ArrayList<>();
-        String eingabeOhneLeerzeichen = "";
+        String eingabeOhneLeerzeichen = LEER;
         String suchAttr = null;
         String dbAttr = null;
         String wert = null;
-        String datentyp = "";
+        String datentyp = LEER;
         //Prüfe, ob die Sucheingabe und die Table null sind
         //Wenn ja, dann wirf eine ApplicationException
         if (eingabe == null || tabelle == null) {
-            throw new ApplicationException("No Input", "Es gab keine Eingabe!");
+            throw new ApplicationException(FEHLER_TITEL, FEHLER_KEINE_EINGABE);
         }
         //Initialisiere StringTokenizer
         st = new StringTokenizer(eingabe);
@@ -130,7 +152,7 @@ public class Parser {
                     dbAttr = attribute.get(suchAttr);
                     //Prüfe, ob der User eine gültige Eingabe gemacht hat.
                     if (dbAttr == null) {
-                        throw new ApplicationException("Fehler", 
+                        throw new ApplicationException(FEHLER_TITEL, 
                             "Das Suchkürzel: " + suchAttr + " ist Falsch!");
                     }
                     //Prüfe auf platzhalter
@@ -149,7 +171,8 @@ public class Parser {
                             
                             //Prüfe, um was für ein Datentyp es sich handelt.
                             datentyp = GUIFactory.getDAO()
-                                            .gibDatentypVonSuchAttribut(wert);
+                                            .gibDatentypVonSuchAttribut(dbAttr, 
+                                                    tabelle);
                             
                             //Prüfe, ob es sich um ein String handelt.
                             if ("String".equals(datentyp)) {
@@ -162,13 +185,14 @@ public class Parser {
                             abfrageErgebnis.add(dbAttr + " " + OPERATORLIKE 
                                     + " " + wert + LKZ);
                         } else {
-                            throw new ApplicationException("Fehler", 
+                            throw new ApplicationException(FEHLER_TITEL, 
                                     "Operator falsch?");
                         }
                     } else {
                         //Prüfe, um was für ein Datentyp es sich handelt.
                         datentyp = GUIFactory.getDAO()
-                                        .gibDatentypVonSuchAttribut(wert);
+                                        .gibDatentypVonSuchAttribut(dbAttr, 
+                                                tabelle);
                         //Prüfe, ob es sich um ein String handelt.
                         if ("String".equals(datentyp)) {
                             //Hier müssen für das SQL-Statement hochkommas
@@ -189,9 +213,8 @@ public class Parser {
             }
             //Überprüfung, wenn alle operatoren durchlaufen sind und keiner
             //gefunden werden konnte -> Falsche Operator eingabe -> Fehler
-            if ("".equals(wert)) {
-                throw new ApplicationException("Fehler", "Der Operator "
-                        + "war ungültig!");
+            if (LEER.equals(wert)) {
+                throw new ApplicationException(FEHLER_TITEL, FEHLER_OPERATOR);
             }
         }
         
