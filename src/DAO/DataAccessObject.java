@@ -812,14 +812,23 @@ public class DataAccessObject {
     }
     
     public void setzeGeschaeftspartner(long GeschaeftspartnerID, 
-            Anschrift Lieferadresse, Anschrift Rechnungsadresse, 
             double Kreditlimit) throws ApplicationException {
         
+        Geschaeftspartner gp = em.find(Geschaeftspartner.class, GeschaeftspartnerID);
         
+        if (gp == null || gp.isLKZ()) {
+            throw new ApplicationException("Fehler", 
+                    "Der Geschäftspartner konnte nicht gefunden werden");
+        }
         
+        gp.setKreditlimit(Kreditlimit);
+        
+        em.getTransaction().begin();
+        em.persist(gp);
+        em.getTransaction().commit();
     }
     
-    public void setzeAnschrift(long AnschriftID, String Name, 
+    public Anschrift setzeAnschrift(long AnschriftID, String Name, 
             String Vorname, String Titel, String Strasse, String Hausnummer, 
             String PLZ, String Ort, String Staat, String Telefon, String Fax,
             String Email, Date Geburtsdatum) throws ApplicationException {
@@ -847,6 +856,8 @@ public class DataAccessObject {
         em.getTransaction().begin();
         em.persist(anschrift);
         em.getTransaction().commit();
+        
+        return anschrift;
     }
     
 //</editor-fold>
@@ -1147,7 +1158,8 @@ public class DataAccessObject {
         
         //Falls der Auftrag nicht existiert
         if (auftragskopf == null || auftragskopf.isLKZ()) {
-            throw new ApplicationException("Fehler", "Der Auftrag konnte nicht gefunden werden");
+            throw new ApplicationException("Fehler", 
+                    "Der Auftrag konnte nicht gefunden werden");
         }
         
         return auftragskopf;
@@ -1189,6 +1201,23 @@ public class DataAccessObject {
             }
         }
         return liste;
+    }
+    
+    public Auftragsposition gibAuftragsposition(long AuftragskopfID, 
+            long Positionsnummer) throws ApplicationException {
+        
+        Auftragsposition ap = (Auftragsposition) this.em.createQuery
+                 ("SELECT ST "
+                + "FROM Auftragsposition ST "
+                + "WHERE ST.Auftrag = " + AuftragskopfID + " AND "
+                      + "ST.Positionsnummer = " + Positionsnummer).getSingleResult();
+        
+        if (ap == null || ap.isLKZ()) {
+            throw new ApplicationException("Fehler", 
+                    "Die Auftragsposition konnte nicht gefunden werden");
+        }
+        
+        return ap;
     }
     
 //</editor-fold>
