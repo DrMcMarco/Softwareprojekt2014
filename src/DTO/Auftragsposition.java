@@ -36,6 +36,8 @@ public class Auftragsposition implements java.io.Serializable {
     
     @Temporal(TemporalType.DATE)
     private Date Erfassungsdatum;
+    
+    private boolean LKZ;
 
     public Auftragsposition() {
     }
@@ -47,6 +49,7 @@ public class Auftragsposition implements java.io.Serializable {
         this.Menge = Menge;
         this.Einzelwert = Einzelwert;
         this.Erfassungsdatum = Erfassungsdatum;
+        this.LKZ = false;
     }
 
     public Auftragskopf getAuftrag() {
@@ -95,6 +98,14 @@ public class Auftragsposition implements java.io.Serializable {
 
     public void setErfassungsdatum(Date Erfassungsdatum) {
         this.Erfassungsdatum = Erfassungsdatum;
+    }
+
+    public boolean isLKZ() {
+        return LKZ;
+    }
+
+    public void setLKZ(boolean LKZ) {
+        this.LKZ = LKZ;
     }
 
     @Override
