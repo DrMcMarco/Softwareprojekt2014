@@ -24,10 +24,10 @@ public abstract class Geschaeftspartner implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long GeschaeftspartnerID;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Anschrift Lieferadresse;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Anschrift Rechnungsadresse;
     
     private double Kreditlimit;
