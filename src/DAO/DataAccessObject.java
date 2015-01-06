@@ -63,6 +63,9 @@ public class DataAccessObject {
      * @param tabelle Tabelle in der gesucht werden soll
      * @return gibt eine Collection<?> zurück mit allen gefunden Datensätzen
      * @throws DAO.ApplicationException Die Exception wird durchgereicht
+     * 
+     * TO-DO: Anpassung wenn nach einem String gesucht wird müssen hochkommas
+     * hinzugefügt werden
      */
     public Collection<?> suchAbfrage(String eingabe, String tabelle) 
         throws ApplicationException {
@@ -71,6 +74,7 @@ public class DataAccessObject {
         Auftragskopf auftrag = null;
         List<?> sqlErgebnisListe = null;
         String sqlAbfrage = null;
+        String maxAnzReihen = " FETCH NEXT 20 ROWS ONLY";
         Parser parser = new Parser();
         //Parse den Suchausdruck und hole die DB-Attr. Namen
         dbAttrListe = parser.parse(eingabe, tabelle);
@@ -79,12 +83,13 @@ public class DataAccessObject {
             throw new ApplicationException("Fehler", 
                     "Beim Parsen ist ein Fehler aufgetreten!");
         }
+
         //Sql-Statement Dynamisch erzeugen
-        sqlAbfrage = "SELECT ST FROM " + tabelle + " ST WHERE ";
+        sqlAbfrage = "SELECT * FROM " + tabelle + "  WHERE ";
         //Iteriere über alle Input Einträge
         for (int i = 0; i < dbAttrListe.size(); i++) {
             //Hole Abfrage aus der Liste
-            sqlAbfrage += ("ST." + dbAttrListe.get(i));
+            sqlAbfrage += ("" + dbAttrListe.get(i));
             //Prüfe, ob mehrere Einträge vorhanden sind, diese müssen mit AND
             //Verknüpft werden.Beim letzten durchlauf wird kein AND mehr gesetzt
             if (dbAttrListe.size() > 1 && i < dbAttrListe.size() - 1) {
@@ -94,8 +99,13 @@ public class DataAccessObject {
 
         try {
             //Ergebnis aus der DB laden und als Liste speichern
-            sqlErgebnisListe = em.createQuery(sqlAbfrage).getResultList();
-            
+            //Es wird zum einen das SQL-Statement übergeben und zum anderen
+            //Der Class-Type zur typisierung der Objekte in der Liste
+            //Es wird zudem noch die Maxanzahl an Datensätzen gesetzt die 
+            //ausgegeben werden soll.
+            sqlErgebnisListe = em.createNativeQuery(sqlAbfrage + maxAnzReihen, 
+                    Class.forName("DTO." + tabelle)).getResultList();
+
         } catch (Exception e) {
             throw new ApplicationException("Fehler", 
                     "Die Daten konnten nicht gefunden werden!");
@@ -114,11 +124,11 @@ public class DataAccessObject {
     /**
      * Methode zur Erzeugung eines Artikels.
      *
-     * @param Kategorie
-     * @param Artikeltext
-     * @param Bestelltext
-     * @param Verkaufswert
-     * @param Einkaufswert
+     * @param kategorie
+     * @param artikeltext
+     * @param bestelltext
+     * @param verkaufswert
+     * @param einkaufswert
      * @param MwST
      * @param Frei
      * @param Reserviert
@@ -126,20 +136,20 @@ public class DataAccessObject {
      * @param Verkauft
      * @throws DAO.ApplicationException Die Exception wird durchgereicht
      */
-    public void createItem(String Kategorie, String Artikeltext,
-            String Bestelltext, double Verkaufswert, double Einkaufswert,
-            double MwST, int Frei, int Reserviert, int Zulauf, int Verkauft)
-            throws ApplicationException {
+    public void createItem(String kategorie, String artikeltext, 
+        String bestelltext, double verkaufswert, double einkaufswert,
+        double MwST, int Frei, int Reserviert, int Zulauf, int Verkauft)
+        throws ApplicationException {
         //Suche die Artikelkategorie anhand des Kategorienamen
-        Artikelkategorie cat = this.getCategory(Kategorie);
+        Artikelkategorie cat = this.getCategory(kategorie);
         
         if (cat == null) {
             throw new ApplicationException("Fehler",
                     "Der Kategoriename existiert nicht!");
         }
         
-        Artikel item = new Artikel(cat, Artikeltext, Bestelltext,
-                Verkaufswert, Einkaufswert, MwST, Frei, Reserviert,
+        Artikel item = new Artikel(cat, artikeltext, bestelltext,
+                verkaufswert, einkaufswert, MwST, Frei, Reserviert,
                 Zulauf, Verkauft, false);
         //Prüfen, ob das Objekt erstellt wurde
         if (item == null) {
