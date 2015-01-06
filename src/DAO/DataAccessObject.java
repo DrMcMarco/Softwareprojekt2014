@@ -811,6 +811,44 @@ public class DataAccessObject {
         }
     }
     
+    public void setzeGeschaeftspartner(long GeschaeftspartnerID, 
+            Anschrift Lieferadresse, Anschrift Rechnungsadresse, 
+            double Kreditlimit) throws ApplicationException {
+        
+        
+        
+    }
+    
+    public void setzeAnschrift(long AnschriftID, String Name, 
+            String Vorname, String Titel, String Strasse, String Hausnummer, 
+            String PLZ, String Ort, String Staat, String Telefon, String Fax,
+            String Email, Date Geburtsdatum) throws ApplicationException {
+        
+        Anschrift anschrift = em.find(Anschrift.class, AnschriftID);
+        
+        if (anschrift == null || anschrift.isLKZ()) {
+            throw new ApplicationException("Fehler", "Die Anschrift ist nicht "
+                    + "vorhanden");
+        }
+        
+        anschrift.setName(Name);
+        anschrift.setVorname(Vorname);
+        anschrift.setTitel(Titel);
+        anschrift.setStrasse(Strasse);
+        anschrift.setHausnummer(Hausnummer);
+        anschrift.setPLZ(PLZ);
+        anschrift.setOrt(Ort);
+        anschrift.setStaat(Staat);
+        anschrift.setTelefon(Telefon);
+        anschrift.setFAX(Fax);
+        anschrift.setEmail(Email);
+        anschrift.setGeburtsdatum(Geburtsdatum);
+        
+        em.getTransaction().begin();
+        em.persist(anschrift);
+        em.getTransaction().commit();
+    }
+    
 //</editor-fold>
     
 //<editor-fold defaultstate="collapsed" desc="get-Methoden">
