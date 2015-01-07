@@ -1133,6 +1133,19 @@ public class DataAccessObject {
         return lieferant;
     }
     
+    public Geschaeftspartner gibGeschaeftspartner(long GeschaeftspartnerID) 
+            throws ApplicationException {
+        
+        Geschaeftspartner gp = em.find(Geschaeftspartner.class, GeschaeftspartnerID);
+        
+        if (gp == null || gp.isLKZ()) {
+            throw new ApplicationException("Fehler", 
+                    "Der Geschäftspartner konnte nicht gefunden werden");
+        }
+        
+        return gp;
+    }
+    
     public Status getStatusByName(String name) throws ApplicationException {
         
         Query query = null;
