@@ -1243,6 +1243,12 @@ public class DataAccessObject {
         return ap;
     }
     
+    public String gibGeschaeftspartnerTyp(long GeschaeftspartnerID) {
+        return (String) em.createQuery("SELECT a.typ FROM Geschaeftspartner a "
+                + "WHERE a.GeschaeftspartnerID = " + GeschaeftspartnerID).
+                getSingleResult();
+    }
+    
 //</editor-fold>
     
 //<editor-fold defaultstate="collapsed" desc="remove-Methoden">
