@@ -124,7 +124,7 @@ public abstract class Geschaeftspartner implements Serializable {
         return true;
     }
     
-    @Transient
+    
     public String getTyp(){
         
         DiscriminatorValue val = this.getClass().getAnnotation( DiscriminatorValue.class );
