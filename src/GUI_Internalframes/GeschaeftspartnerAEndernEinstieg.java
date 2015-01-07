@@ -11,23 +11,25 @@ import java.awt.Component;
 /**
  *
  * @author Tahir
- * 
+ *
  * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
  */
 public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame {
     /*
      Hilfsvariablen
      */
+
     Component c;
     GUIFactory factory;
+    GeschaeftspartnerAnlegen g;
 
-    
     /**
      * Creates new form Fenster
      */
-    public GeschaeftspartnerAEndernEinstieg(GUIFactory factory) {
+    public GeschaeftspartnerAEndernEinstieg(GUIFactory factory, GeschaeftspartnerAnlegen g) {
         initComponents();
         this.factory = factory;
+        this.g = g;
 //        this.getContentPane().add(a);
     }
 
@@ -49,7 +51,7 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
         jB_Suchen = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jL_Artikel_ID = new javax.swing.JLabel();
-        jTF_Artikel_ID = new javax.swing.JTextField();
+        jTF_Geschaeftspartner_ID = new javax.swing.JTextField();
         jB_Enter = new javax.swing.JButton();
         jTF_Statuszeile = new javax.swing.JTextField();
 
@@ -120,7 +122,7 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
                 .addGap(47, 47, 47)
                 .addComponent(jL_Artikel_ID, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTF_Artikel_ID, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTF_Geschaeftspartner_ID, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jB_Enter)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -134,7 +136,7 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
                 .addGap(64, 64, 64)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jL_Artikel_ID, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTF_Artikel_ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTF_Geschaeftspartner_ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jB_Enter))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
                 .addComponent(jTF_Statuszeile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -146,7 +148,33 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void jB_EnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_EnterActionPerformed
-        jTF_Statuszeile.setText("Sie haben auf Enter gedrückt.");
+        if (jTF_Geschaeftspartner_ID.getText().equals("Ändern")) {
+//            Daten aus Datenbank laden
+            g.gibjCHB_Kunde().setSelected(true);
+            g.gibjCHB_Lieferant().setSelected(false);
+            g.gibjCB_Anrede().setSelectedItem("Herr");
+            g.gibjTF_Name().setText("Sen");
+            g.gibjTF_Vorname().setText("Tahir");
+            g.gibjTF_Telefon().setText("01775113084");
+            g.gibjTF_Fax().setText("02043203322");
+            g.gibjFTF_Geburtsdatum().setText("25.04.1989");
+            g.gibjTF_EMail().setText("tahirsen@hotmail.de");
+            g.gibjTF_Kreditlimit().setText("1000");
+            g.gibjCHB_WieAnschrift().setSelected(true);
+            g.gibjTF_StrasseRechnungsanschrift().setText("Landstr.");
+            g.gibjTF_StrasseLieferanschrift().setText("Landstr.");
+            g.gibjTF_HausnummerRechnungsanschrift().setText("84");
+            g.gibjTF_HausnummerLieferanschrift().setText("84");
+            g.gibjTF_PLZRechnungsanschrift().setText("45968");
+            g.gibjTF_PLZLieferanschrift().setText("45968");
+            g.gibjTF_OrtRechnungsanschrift().setText("Galdbeck");
+            g.gibjTF_OrtLieferanschrift().setText("Galdbeck");
+            g.setVisible(true);
+            this.setVisible(false);
+            jTF_Geschaeftspartner_ID.setText("");
+        } else {
+            jTF_Statuszeile.setText("Kein passender Artikel in Datenbank!");
+        }
     }//GEN-LAST:event_jB_EnterActionPerformed
 
     private void jB_EnterFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jB_EnterFocusLost
@@ -179,7 +207,7 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
     private javax.swing.JButton jB_Zurueck;
     private javax.swing.JLabel jL_Artikel_ID;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTF_Artikel_ID;
+    private javax.swing.JTextField jTF_Geschaeftspartner_ID;
     private javax.swing.JTextField jTF_Statuszeile;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables

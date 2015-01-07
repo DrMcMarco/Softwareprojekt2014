@@ -5,13 +5,14 @@
  */
 package GUI_Internalframes;
 
+import DTO.Zahlungskondition;
 import JFrames.GUIFactory;
 import java.awt.Component;
 
 /**
  *
  * @author Tahir
- * 
+ *
  * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
  */
 public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFrame {
@@ -21,14 +22,15 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
      */
     Component c;
     GUIFactory factory;
-    
-    
+    ZahlungskonditionAnlegen z;
+
     /**
      * Creates new form Fenster
      */
-    public ZahlungskonditionenAEndernEinstieg(GUIFactory factory) {
+    public ZahlungskonditionenAEndernEinstieg(GUIFactory factory, ZahlungskonditionAnlegen z) {
         initComponents();
         this.factory = factory;
+        this.z = z;
     }
 
     /**
@@ -146,10 +148,28 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
     }// </editor-fold>//GEN-END:initComponents
 
     private void jB_EnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_EnterActionPerformed
-        jTF_Statuszeile.setText("Sie haben auf Enter gedrückt.");
+        if (jTF_Zahlungskondition_ID.getText().equals("Ändern")) {
+//            Daten aus Datenbank laden
+            z.gibjCB_Auftragsart().setSelectedItem("Terminauftrag");
+            z.gibjFTF_LieferzeitSOFORT().setText("10");
+            z.gibjFTF_SperrzeitWUNSCH().setText("9");
+            z.gibjSP_Skontozeit1().setValue(2);
+            z.gibjSP_Skontozeit2().setValue(3);
+            z.gibjCB_Skonto1().setSelectedItem("1,0");
+            z.gibjCB_Skonto2().setSelectedItem("2,0");
+            z.gibjSP_Mahnzeit1().setValue(4);
+            z.gibjSP_Mahnzeit2().setValue(5);
+            z.gibjSP_Mahnzeit3().setValue(6);
+            z.setVisible(true);
+            this.setVisible(false);
+            jTF_Zahlungskondition_ID.setText("");
+        } else {
+            jTF_Statuszeile.setText("Kein passender Artikel in Datenbank!");
+        }
     }//GEN-LAST:event_jB_EnterActionPerformed
 
     private void jB_EnterFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jB_EnterFocusLost
+
         jTF_Statuszeile.setText("");
     }//GEN-LAST:event_jB_EnterFocusLost
 

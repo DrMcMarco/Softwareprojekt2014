@@ -117,9 +117,9 @@ public class StartAdmin extends javax.swing.JFrame {
         artikelanlegen = new ArtikelAnlegen(factory);
         artikelaendern = new ArtikelAEndernEinstieg(factory, artikelanlegen);
         geschaeftspartneranlegen = new GeschaeftspartnerAnlegen(factory);
-        geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg(factory);
+        geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg(factory, geschaeftspartneranlegen);
         zahlungskonditionanlegen = new ZahlungskonditionAnlegen(factory);
-        zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg(factory);
+        zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg(factory, zahlungskonditionanlegen);
         useranlegen = new User_anlegen(factory);
         useraendern = new User_andernEinstieg(factory);
 

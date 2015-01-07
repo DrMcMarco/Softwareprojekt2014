@@ -171,14 +171,14 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
     private void jB_EnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_EnterActionPerformed
         if (jTF_Artikel_ID.getText().equals("Ändern")) {
 //            Daten aus Datenbank laden
-            a.gibArtikelnummer().setText("13");
-            a.gibArtikelname().setText("Artikel ABC 123");
-            a.gibArtikelbeschreibung().setText("Artikel 1 Beschreibung");
-            a.gibArtikelkategorie().setSelectedItem("Kategorie 1");
-            a.gibEinzelwert().setText("1000");
-            a.gibBestellwert().setText("50");
-            a.gibMwST().setSelectedItem("19");
-            a.gibBestandsmengeFREI().setText("10001");
+            a.gibjTF_Artikelnummer().setText("13");
+            a.gibjTF_Artikelname().setText("Artikel ABC 123");
+            a.gibjTA_Artikelbeschreibung().setText("Artikel 1 Beschreibung");
+            a.gibjCB_Artikelkategorie().setSelectedItem("Kategorie 1");
+            a.gibjTF_Einzelwert().setText("1000");
+            a.gibjTF_Bestellwert().setText("50");
+            a.gibjCB_MwST().setSelectedItem("19");
+            a.gibjTF_BestandsmengeFREI().setText("10001");
             a.setVisible(true);
             this.setVisible(false);
             jTF_Artikel_ID.setText("");

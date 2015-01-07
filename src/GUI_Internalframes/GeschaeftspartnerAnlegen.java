@@ -15,7 +15,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.text.DateFormatter;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
@@ -92,7 +96,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_Vorname.setDocument(new UniversalDocument("-.´", true));
         jTF_Telefon.setDocument(new UniversalDocument("0123456789/-", false));
         jTF_Fax.setDocument(new UniversalDocument("0123456789/", false));
-        jTF_eMail.setDocument(new UniversalDocument("0123456789@-.", true));
+        jTF_EMail.setDocument(new UniversalDocument("0123456789@-.", true));
         jTF_Kreditlimit.setDocument(new UniversalDocument("0123456789.,", false));
         jTF_StrasseRechnungsanschrift.setDocument(new UniversalDocument("-.´", true));
         jTF_StrasseLieferanschrift.setDocument(new UniversalDocument("-.´", true));
@@ -100,7 +104,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_HausnummerLieferanschrift.setDocument(new UniversalDocument("0123456789", true));
         jTF_PLZRechnungsanschrift.setDocument(new UniversalDocument("0123456789", false));
         jTF_PLZLieferanschrift.setDocument(new UniversalDocument("0123456789", false));
-        jTF_OrtAnschrift.setDocument(new UniversalDocument("-", true));
+        jTF_OrtRechnungsanschrift.setDocument(new UniversalDocument("-", true));
         jTF_OrtLieferanschrift.setDocument(new UniversalDocument("-", true));
 
         this.setzeFormularZurueck();
@@ -143,8 +147,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
      * Fehlerhafte Componenten werden in einer ArrayList gespeichert.
      */
     private void ueberpruefeFormular() {
-        if (jCB_Titel.getSelectedIndex() == 0) {
-            fehlerhafteComponenten.add(jCB_Titel);
+        if (jCB_Anrede.getSelectedIndex() == 0) {
+            fehlerhafteComponenten.add(jCB_Anrede);
         }
         if (jTF_Name.getText().equals("")) {
             fehlerhafteComponenten.add(jTF_Name);
@@ -161,8 +165,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         if (jFTF_Geburtsdatum.getText().equals("##.##.####")) {
             fehlerhafteComponenten.add(jFTF_Geburtsdatum);
         }
-        if (jTF_eMail.getText().equals("")) {
-            fehlerhafteComponenten.add(jTF_eMail);
+        if (jTF_EMail.getText().equals("")) {
+            fehlerhafteComponenten.add(jTF_EMail);
         }
         if (jTF_Kreditlimit.getText().equals("")) {
             fehlerhafteComponenten.add(jTF_Kreditlimit);
@@ -176,8 +180,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         if (jTF_PLZRechnungsanschrift.getText().equals("")) {
             fehlerhafteComponenten.add(jTF_PLZRechnungsanschrift);
         }
-        if (jTF_OrtAnschrift.getText().equals("")) {
-            fehlerhafteComponenten.add(jTF_OrtAnschrift);
+        if (jTF_OrtRechnungsanschrift.getText().equals("")) {
+            fehlerhafteComponenten.add(jTF_OrtRechnungsanschrift);
         }
         if (!jCHB_WieAnschrift.isSelected()) {
             if (jTF_StrasseLieferanschrift.getText().equals("")) {
@@ -202,8 +206,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_Geschaeftspartnernummer.setText("" + geschaeftspartnerNr);
         jCHB_Kunde.setSelected(false);
         jCHB_Lieferant.setSelected(false);
-        jCB_Titel.setSelectedIndex(0);
-        jCB_Titel.setBackground(JCB_FARBE_STANDARD);
+        jCB_Anrede.setSelectedIndex(0);
+        jCB_Anrede.setBackground(JCB_FARBE_STANDARD);
         jTF_Name.setText("");
         jTF_Name.setBackground(JTF_FARBE_STANDARD);
         jTF_Vorname.setText("");
@@ -214,8 +218,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_Fax.setBackground(JTF_FARBE_STANDARD);
         jFTF_Geburtsdatum.setValue(null);
         jFTF_Geburtsdatum.setBackground(JTF_FARBE_STANDARD);
-        jTF_eMail.setText("");
-        jTF_eMail.setBackground(JTF_FARBE_STANDARD);
+        jTF_EMail.setText("");
+        jTF_EMail.setBackground(JTF_FARBE_STANDARD);
         jTF_Kreditlimit.setText("");
         jTF_Kreditlimit.setBackground(JTF_FARBE_STANDARD);
         jTF_StrasseRechnungsanschrift.setText("");
@@ -224,8 +228,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_HausnummerRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
         jTF_PLZRechnungsanschrift.setText("");
         jTF_PLZRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
-        jTF_OrtAnschrift.setText("");
-        jTF_OrtAnschrift.setBackground(JTF_FARBE_STANDARD);
+        jTF_OrtRechnungsanschrift.setText("");
+        jTF_OrtRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
         jCHB_WieAnschrift.setSelected(false);
         jCHB_WieAnschriftActionPerformed(null);
         jTF_StrasseLieferanschrift.setBackground(JTF_FARBE_STANDARD);
@@ -289,13 +293,13 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jTF_Telefon = new javax.swing.JTextField();
-        jCB_Titel = new javax.swing.JComboBox();
+        jCB_Anrede = new javax.swing.JComboBox();
         jTF_Name = new javax.swing.JTextField();
         jTF_Fax = new javax.swing.JTextField();
         jTF_Vorname = new javax.swing.JTextField();
         jFTF_Erfassungsdatum = new javax.swing.JFormattedTextField();
         jFTF_Geburtsdatum = new javax.swing.JFormattedTextField();
-        jTF_eMail = new javax.swing.JTextField();
+        jTF_EMail = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
@@ -303,7 +307,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jLabel18 = new javax.swing.JLabel();
         jTF_StrasseRechnungsanschrift = new javax.swing.JTextField();
         jTF_HausnummerRechnungsanschrift = new javax.swing.JTextField();
-        jTF_OrtAnschrift = new javax.swing.JTextField();
+        jTF_OrtRechnungsanschrift = new javax.swing.JTextField();
         jTF_HausnummerLieferanschrift = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
@@ -453,10 +457,10 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
             }
         });
 
-        jCB_Titel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Bitte auswählen", "Herr ", "Frau" }));
-        jCB_Titel.addActionListener(new java.awt.event.ActionListener() {
+        jCB_Anrede.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Bitte auswählen", "Herr ", "Frau" }));
+        jCB_Anrede.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCB_TitelActionPerformed(evt);
+                jCB_AnredeActionPerformed(evt);
             }
         });
 
@@ -499,12 +503,12 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
             }
         });
 
-        jTF_eMail.addFocusListener(new java.awt.event.FocusAdapter() {
+        jTF_EMail.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jTF_eMailFocusGained(evt);
+                jTF_EMailFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                jTF_eMailFocusLost(evt);
+                jTF_EMailFocusLost(evt);
             }
         });
 
@@ -541,12 +545,12 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
             }
         });
 
-        jTF_OrtAnschrift.addFocusListener(new java.awt.event.FocusAdapter() {
+        jTF_OrtRechnungsanschrift.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jTF_OrtAnschriftFocusGained(evt);
+                jTF_OrtRechnungsanschriftFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                jTF_OrtAnschriftFocusLost(evt);
+                jTF_OrtRechnungsanschriftFocusLost(evt);
             }
         });
 
@@ -656,12 +660,12 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTF_Name)
-                            .addComponent(jCB_Titel, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jCB_Anrede, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jTF_Geschaeftspartnernummer)
                             .addComponent(jTF_Telefon)
                             .addComponent(jFTF_Geburtsdatum, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTF_eMail, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTF_OrtAnschrift, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                            .addComponent(jTF_EMail, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTF_OrtRechnungsanschrift, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                             .addComponent(jTF_HausnummerRechnungsanschrift, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTF_StrasseRechnungsanschrift, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                             .addComponent(jTF_PLZRechnungsanschrift))
@@ -721,7 +725,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jCB_Titel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCB_Anrede, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
@@ -745,7 +749,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
-                            .addComponent(jTF_eMail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTF_EMail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4)
                             .addComponent(jTF_Kreditlimit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -769,7 +773,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel18)
-                            .addComponent(jTF_OrtAnschrift, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jTF_OrtRechnungsanschrift, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jTF_StrasseLieferanschrift, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -800,14 +804,14 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     private void jCHB_WieAnschriftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCHB_WieAnschriftActionPerformed
         if (jCHB_WieAnschrift.isSelected()) {
             if (!jTF_StrasseRechnungsanschrift.getText().equals("") && !jTF_HausnummerRechnungsanschrift.getText().equals("")
-                    && !jTF_PLZRechnungsanschrift.getText().equals("") && !jTF_OrtAnschrift.getText().equals("")) {
+                    && !jTF_PLZRechnungsanschrift.getText().equals("") && !jTF_OrtRechnungsanschrift.getText().equals("")) {
                 jTF_StrasseLieferanschrift.setText(jTF_StrasseRechnungsanschrift.getText());
                 jTF_StrasseLieferanschrift.setEnabled(false);
                 jTF_HausnummerLieferanschrift.setText(jTF_HausnummerRechnungsanschrift.getText());
                 jTF_HausnummerLieferanschrift.setEnabled(false);
                 jTF_PLZLieferanschrift.setText(jTF_PLZRechnungsanschrift.getText());
                 jTF_PLZLieferanschrift.setEnabled(false);
-                jTF_OrtLieferanschrift.setText(jTF_OrtAnschrift.getText());
+                jTF_OrtLieferanschrift.setText(jTF_OrtRechnungsanschrift.getText());
                 jTF_OrtLieferanschrift.setEnabled(false);
             } else {
                 JOptionPane.showMessageDialog(null, "Bitte geben Sie zunächst die komplette Anschrift ein.", "Unvollständige Eingabe", JOptionPane.ERROR_MESSAGE);
@@ -819,7 +823,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                 } else if (jTF_PLZRechnungsanschrift.getText().equals("")) {
                     jTF_PLZRechnungsanschrift.requestFocusInWindow();
                 } else {
-                    jTF_OrtAnschrift.requestFocusInWindow();
+                    jTF_OrtRechnungsanschrift.requestFocusInWindow();
                 }
             }
         } else {
@@ -883,19 +887,19 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                 } else {
                     typ = "Lieferant";
                 }
-                titel = (String) jCB_Titel.getSelectedItem();
+                titel = (String) jCB_Anrede.getSelectedItem();
                 name = jTF_Name.getText();
                 vorname = jTF_Vorname.getText();
                 telefon = jTF_Telefon.getText();
                 fax = jTF_Fax.getText();
 //                geburtsdatum = jFTF_Geburtsdatum.getText();
                 erfassungsdatum = jFTF_Erfassungsdatum.getText();
-                eMail = jTF_eMail.getText();
+                eMail = jTF_EMail.getText();
                 kreditlimit = jTF_Kreditlimit.getText();
                 strasseAnschrift = jTF_StrasseRechnungsanschrift.getText();
                 hausnummerAnschrift = jTF_HausnummerRechnungsanschrift.getText();
                 plzAnschrift = jTF_PLZRechnungsanschrift.getText();
-                ortAnschrift = jTF_OrtAnschrift.getText();
+                ortAnschrift = jTF_OrtRechnungsanschrift.getText();
                 double k = 0;
                 try {
                     k = nf.parse(jTF_Kreditlimit.getText()).doubleValue();
@@ -983,12 +987,12 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     /*
      * Methode die prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
      */
-    private void jCB_TitelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCB_TitelActionPerformed
-        if (jCB_Titel.getSelectedIndex() != 0) {
-            jCB_Titel.setBackground(JCB_FARBE_STANDARD);
+    private void jCB_AnredeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCB_AnredeActionPerformed
+        if (jCB_Anrede.getSelectedIndex() != 0) {
+            jCB_Anrede.setBackground(JCB_FARBE_STANDARD);
             jTF_Statuszeile.setText("");
         }
-    }//GEN-LAST:event_jCB_TitelActionPerformed
+    }//GEN-LAST:event_jCB_AnredeActionPerformed
     /*
      * Methode die prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
      */
@@ -1102,6 +1106,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                     String meldung = "Das eingegebene Geburtsdatum ist in der Zukunft! \nBitte geben Sie ein gültiges Geburtsdatm Datum ein. (z.B. 01.01.1980)";
                     String titel = "Fehlerhafte Eingabe";
                     JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+                    jFTF_Geburtsdatum.requestFocusInWindow();
                     jFTF_Geburtsdatum.setValue(null);
                 } else if (eingabeDatum.after(dateBefore18Years)) {
                     String meldung = "Der eingebene Geschäftspartner ist nicht volljährig!";
@@ -1125,17 +1130,17 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
      * Methode prüft, ob Eingabe getätigt wurde. Wenn Eingabe korrekt ist, wird der Hintergrund in standard gefärbt.
      * Wenn nicht, wird eine Meldung ausgegeben.
      */
-    private void jTF_eMailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_eMailFocusLost
-        if (!jTF_eMail.getText().matches(PRUEFUNG_EMAIL)) {
+    private void jTF_EMailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_EMailFocusLost
+        if (!jTF_EMail.getText().matches(PRUEFUNG_EMAIL)) {
             String meldung = "Die einegebene eMail ist nicht richtig! \nBitte geben Sie eine richtige eMail Adresse ein. (z.B. abc@abc.de)";
             String titel = "Fehlerhafte Eingabe";
             JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-            jTF_eMail.requestFocusInWindow();
-            jTF_eMail.setText("");
-        } else if (!jTF_eMail.getText().equals("")) {
-            jTF_eMail.setBackground(JTF_FARBE_STANDARD);
+            jTF_EMail.requestFocusInWindow();
+            jTF_EMail.setText("");
+        } else if (!jTF_EMail.getText().equals("")) {
+            jTF_EMail.setBackground(JTF_FARBE_STANDARD);
         }
-    }//GEN-LAST:event_jTF_eMailFocusLost
+    }//GEN-LAST:event_jTF_EMailFocusLost
     /*
      * Methode prüft, ob Eingabe getätigt wurde. Wenn Eingabe korrekt ist, wird der Hintergrund in standard gefärbt.
      * Wenn nicht, wird eine Meldung ausgegeben.
@@ -1237,11 +1242,11 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     /*
      * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
      */
-    private void jTF_OrtAnschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_OrtAnschriftFocusLost
-        if (!jTF_OrtAnschrift.getText().equals("")) {
-            jTF_OrtAnschrift.setBackground(JTF_FARBE_STANDARD);
+    private void jTF_OrtRechnungsanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_OrtRechnungsanschriftFocusLost
+        if (!jTF_OrtRechnungsanschrift.getText().equals("")) {
+            jTF_OrtRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
         }
-    }//GEN-LAST:event_jTF_OrtAnschriftFocusLost
+    }//GEN-LAST:event_jTF_OrtRechnungsanschriftFocusLost
     /*
      * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
      */
@@ -1277,9 +1282,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     /*
      * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
      */
-    private void jTF_eMailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_eMailFocusGained
-        jTF_eMail.selectAll();
-    }//GEN-LAST:event_jTF_eMailFocusGained
+    private void jTF_EMailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_EMailFocusGained
+        jTF_EMail.selectAll();
+    }//GEN-LAST:event_jTF_EMailFocusGained
     /*
      * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
      */
@@ -1325,9 +1330,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     /*
      * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
      */
-    private void jTF_OrtAnschriftFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_OrtAnschriftFocusGained
-        jTF_OrtAnschrift.selectAll();
-    }//GEN-LAST:event_jTF_OrtAnschriftFocusGained
+    private void jTF_OrtRechnungsanschriftFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_OrtRechnungsanschriftFocusGained
+        jTF_OrtRechnungsanschrift.selectAll();
+    }//GEN-LAST:event_jTF_OrtRechnungsanschriftFocusGained
     /*
      * Methode, um bei Eingabe des Feldes den Inhalt zu selektieren.
      */
@@ -1361,6 +1366,132 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         beendenEingabeNachfrage();
     }//GEN-LAST:event_jB_AbbrechenActionPerformed
 
+    public JCheckBox gibjCHB_Kunde() {
+        return jCHB_Kunde;
+    }
+
+    public JCheckBox gibjCHB_Lieferant() {
+        return jCHB_Lieferant;
+    }
+
+    public JComboBox gibjCB_Anrede() {
+        return jCB_Anrede;
+    }
+
+    public JTextField gibjTF_Name() {
+        return jTF_Name;
+    }
+
+    public JTextField gibjTF_Vorname() {
+        return jTF_Vorname;
+    }
+
+    public JTextField gibjTF_Telefon() {
+        return jTF_Telefon;
+    }
+
+    public JTextField gibjTF_Fax() {
+        return jTF_Fax;
+    }
+
+    public JFormattedTextField gibjFTF_Geburtsdatum() {
+        return jFTF_Geburtsdatum;
+    }
+
+    public JFormattedTextField gibjFTF_Erfassungsdatum() {
+        return jFTF_Erfassungsdatum;
+    }
+
+    public JTextField gibjTF_EMail() {
+        return jTF_EMail;
+    }
+
+    public JTextField gibjTF_Kreditlimit() {
+        return jTF_Kreditlimit;
+    }
+
+    public JCheckBox gibjCHB_WieAnschrift() {
+        return jCHB_WieAnschrift;
+    }
+
+    public JTextField gibjTF_StrasseRechnungsanschrift() {
+        return jTF_StrasseRechnungsanschrift;
+    }
+
+    public JTextField gibjTF_HausnummerRechnungsanschrift() {
+        return jTF_HausnummerRechnungsanschrift;
+    }
+
+    public JTextField gibjTF_PLZRechnungsanschrift() {
+        return jTF_PLZRechnungsanschrift;
+    }
+
+    public JTextField gibjTF_OrtRechnungsanschrift() {
+        return jTF_OrtRechnungsanschrift;
+    }
+
+    public JTextField gibjTF_StrasseLieferanschrift() {
+        return jTF_StrasseLieferanschrift;
+    }
+
+    public JTextField gibjTF_HausnummerLieferanschrift() {
+        return jTF_HausnummerLieferanschrift;
+    }
+
+    public JTextField gibjTF_PLZLieferanschrift() {
+        return jTF_PLZLieferanschrift;
+    }
+
+    public JTextField gibjTF_OrtLieferanschrift() {
+        return jTF_OrtLieferanschrift;
+    }
+
+    public void setzeFormularInGPAnlegenAEndern() {
+        jCHB_Kunde.setEnabled(true);
+        jCB_Anrede.setEnabled(true);
+        jTF_Name.setEnabled(true);
+        jTF_Vorname.setEnabled(true);
+        jTF_Telefon.setEnabled(true);
+        jTF_Fax.setEnabled(true);
+        jFTF_Geburtsdatum.setEnabled(true);
+//        jFTF_Erfassungsdatum.setEnabled(true);
+        jTF_EMail.setEnabled(true);
+        jTF_Kreditlimit.setEnabled(true);
+        jCHB_WieAnschrift.setEnabled(true);
+        jTF_StrasseRechnungsanschrift.setEnabled(true);
+        jTF_HausnummerRechnungsanschrift.setEnabled(true);
+        jTF_PLZRechnungsanschrift.setEnabled(true);
+        jTF_OrtRechnungsanschrift.setEnabled(true);
+        jTF_StrasseLieferanschrift.setEnabled(true);
+        jTF_HausnummerLieferanschrift.setEnabled(true);
+        jTF_PLZLieferanschrift.setEnabled(true);
+        jTF_OrtLieferanschrift.setEnabled(true);
+        setzeFormularZurueck();
+    }
+
+    public void setzeFormularInGPAnzeigen() {
+        jCHB_Kunde.setEnabled(false);
+        jCB_Anrede.setEnabled(false);
+        jTF_Name.setEnabled(false);
+        jTF_Vorname.setEnabled(false);
+        jTF_Telefon.setEnabled(false);
+        jTF_Fax.setEnabled(false);
+        jFTF_Geburtsdatum.setEnabled(false);
+//        jFTF_Erfassungsdatum.setEnabled(false);
+        jTF_EMail.setEnabled(false);
+        jTF_Kreditlimit.setEnabled(false);
+        jCHB_WieAnschrift.setEnabled(false);
+        jTF_StrasseRechnungsanschrift.setEnabled(false);
+        jTF_HausnummerRechnungsanschrift.setEnabled(false);
+        jTF_PLZRechnungsanschrift.setEnabled(false);
+        jTF_OrtRechnungsanschrift.setEnabled(false);
+        jTF_StrasseLieferanschrift.setEnabled(false);
+        jTF_HausnummerLieferanschrift.setEnabled(false);
+        jTF_PLZLieferanschrift.setEnabled(false);
+        jTF_OrtLieferanschrift.setEnabled(false);
+        setzeFormularZurueck();
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_Abbrechen;
     private javax.swing.JButton jB_Anzeigen;
@@ -1368,7 +1499,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     private javax.swing.JButton jB_Speichern;
     private javax.swing.JButton jB_Suchen;
     private javax.swing.JButton jB_Zurueck;
-    private javax.swing.JComboBox jCB_Titel;
+    private javax.swing.JComboBox jCB_Anrede;
     private javax.swing.JCheckBox jCHB_Kunde;
     private javax.swing.JCheckBox jCHB_Lieferant;
     private javax.swing.JCheckBox jCHB_WieAnschrift;
@@ -1398,14 +1529,15 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTextField jTF_EMail;
     private javax.swing.JTextField jTF_Fax;
     private javax.swing.JTextField jTF_Geschaeftspartnernummer;
     private javax.swing.JTextField jTF_HausnummerLieferanschrift;
     private javax.swing.JTextField jTF_HausnummerRechnungsanschrift;
     private javax.swing.JTextField jTF_Kreditlimit;
     private javax.swing.JTextField jTF_Name;
-    private javax.swing.JTextField jTF_OrtAnschrift;
     private javax.swing.JTextField jTF_OrtLieferanschrift;
+    private javax.swing.JTextField jTF_OrtRechnungsanschrift;
     private javax.swing.JTextField jTF_PLZLieferanschrift;
     private javax.swing.JTextField jTF_PLZRechnungsanschrift;
     private javax.swing.JTextField jTF_Statuszeile;
@@ -1413,7 +1545,6 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTF_StrasseRechnungsanschrift;
     private javax.swing.JTextField jTF_Telefon;
     private javax.swing.JTextField jTF_Vorname;
-    private javax.swing.JTextField jTF_eMail;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }

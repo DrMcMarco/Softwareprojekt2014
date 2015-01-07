@@ -16,6 +16,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -971,6 +973,74 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
        beendenEingabeNachfrage();
     }//GEN-LAST:event_jB_AbbrechenActionPerformed
 
+    public JComboBox gibjCB_Auftragsart() {
+        return jCB_Auftragsart;
+    }
+    
+    public JFormattedTextField gibjFTF_LieferzeitSOFORT() {
+        return jFTF_LieferzeitSOFORT;
+    }
+    
+    public JFormattedTextField gibjFTF_SperrzeitWUNSCH() {
+        return jFTF_SperrzeitWUNSCH;
+    }
+    
+    public JSpinner gibjSP_Skontozeit1() {
+        return jSP_Skontozeit1;
+    }
+    
+    public JSpinner gibjSP_Skontozeit2() {
+        return jSP_Skontozeit2;
+    }
+    
+    public JComboBox gibjCB_Skonto1() {
+        return jCB_Skonto1;
+    }
+    
+    public JComboBox gibjCB_Skonto2() {
+        return jCB_Skonto2;
+    }
+    
+    public JSpinner gibjSP_Mahnzeit1() {
+        return jSP_Mahnzeit1;
+    }
+    
+     public JSpinner gibjSP_Mahnzeit2() {
+        return jSP_Mahnzeit2;
+    }
+     
+      public JSpinner gibjSP_Mahnzeit3() {
+        return jSP_Mahnzeit3;
+    }
+    
+      public void setzeFormularInZKAnlegenAEndern() {
+        jCB_Auftragsart.setEnabled(true);
+        jFTF_LieferzeitSOFORT.setEnabled(true);
+        jFTF_SperrzeitWUNSCH.setEnabled(true);
+        jSP_Skontozeit1.setEnabled(true);
+        jSP_Skontozeit2.setEnabled(true);
+        jCB_Skonto1.setEnabled(true);
+        jCB_Skonto2.setEnabled(true);
+        jSP_Mahnzeit1.setEnabled(true);
+        jSP_Mahnzeit2.setEnabled(true);
+        jSP_Mahnzeit3.setEnabled(true);
+        setzeFormularZurueck();
+    }
+
+    public void setzeFormularInZKAnzeigen() {
+        jCB_Auftragsart.setEnabled(false);
+        jFTF_LieferzeitSOFORT.setEnabled(false);
+        jFTF_SperrzeitWUNSCH.setEnabled(false);
+        jSP_Skontozeit1.setEnabled(false);
+        jSP_Skontozeit2.setEnabled(false);
+        jCB_Skonto1.setEnabled(false);
+        jCB_Skonto2.setEnabled(false);
+        jSP_Mahnzeit1.setEnabled(false);
+        jSP_Mahnzeit2.setEnabled(false);
+        jSP_Mahnzeit3.setEnabled(false);
+        setzeFormularZurueck();
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_Abbrechen;
     private javax.swing.JButton jB_Anzeigen;

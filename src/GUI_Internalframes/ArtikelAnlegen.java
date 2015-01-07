@@ -804,39 +804,39 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         beendenEingabeNachfrage();
     }//GEN-LAST:event_jB_AbbrechenActionPerformed
 
-    public JTextField gibArtikelnummer() {
+    public JTextField gibjTF_Artikelnummer() {
         return jTF_Artikelnummer;
     }
 
-    public JTextField gibArtikelname() {
+    public JTextField gibjTF_Artikelname() {
         return jTF_Artikelname;
     }
 
-    public JTextArea gibArtikelbeschreibung() {
+    public JTextArea gibjTA_Artikelbeschreibung() {
         return jTA_Artikelbeschreibung;
     }
 
-    public JComboBox gibArtikelkategorie() {
+    public JComboBox gibjCB_Artikelkategorie() {
         return jCB_Kategorie;
     }
 
-    public JTextField gibEinzelwert() {
+    public JTextField gibjTF_Einzelwert() {
         return jTF_Einzelwert;
     }
 
-    public JTextField gibBestellwert() {
+    public JTextField gibjTF_Bestellwert() {
         return jTF_Bestellwert;
     }
 
-    public JComboBox gibMwST() {
+    public JComboBox gibjCB_MwST() {
         return jCB_MwST;
     }
 
-    public JTextField gibBestandsmengeFREI() {
+    public JTextField gibjTF_BestandsmengeFREI() {
         return jTF_Bestandsmenge_FREI;
     }
 
-    public void setzeFormularInArtikelAnlegen() {
+    public void setzeFormularInArtikelAnlegenAEndern() {
         jTF_Artikelname.setEnabled(true);
         jTA_Artikelbeschreibung.setEnabled(true);
         jCB_Kategorie.setEnabled(true);

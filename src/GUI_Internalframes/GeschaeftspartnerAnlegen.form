@@ -67,12 +67,12 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jTF_Name" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jCB_Titel" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jCB_Anrede" alignment="0" max="32767" attributes="0"/>
                           <Component id="jTF_Geschaeftspartnernummer" alignment="0" max="32767" attributes="0"/>
                           <Component id="jTF_Telefon" alignment="0" max="32767" attributes="0"/>
                           <Component id="jFTF_Geburtsdatum" alignment="1" max="32767" attributes="0"/>
-                          <Component id="jTF_eMail" alignment="1" max="32767" attributes="0"/>
-                          <Component id="jTF_OrtAnschrift" pref="136" max="32767" attributes="0"/>
+                          <Component id="jTF_EMail" alignment="1" max="32767" attributes="0"/>
+                          <Component id="jTF_OrtRechnungsanschrift" pref="136" max="32767" attributes="0"/>
                           <Component id="jTF_HausnummerRechnungsanschrift" alignment="0" min="-2" pref="31" max="-2" attributes="0"/>
                           <Component id="jTF_StrasseRechnungsanschrift" alignment="0" pref="136" max="32767" attributes="0"/>
                           <Component id="jTF_PLZRechnungsanschrift" max="32767" attributes="0"/>
@@ -147,7 +147,7 @@
               <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jCB_Titel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jCB_Anrede" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
@@ -175,7 +175,7 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTF_eMail" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTF_EMail" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel3" alignment="3" min="-2" pref="14" max="-2" attributes="0"/>
                           <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jTF_Kreditlimit" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -204,7 +204,7 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTF_OrtAnschrift" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTF_OrtRechnungsanschrift" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
@@ -438,7 +438,7 @@
         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTF_TelefonFocusLost"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JComboBox" name="jCB_Titel">
+    <Component class="javax.swing.JComboBox" name="jCB_Anrede">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="3">
@@ -449,7 +449,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCB_TitelActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCB_AnredeActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTF_Name">
@@ -488,10 +488,10 @@
         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jFTF_GeburtsdatumFocusLost"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTF_eMail">
+    <Component class="javax.swing.JTextField" name="jTF_EMail">
       <Events>
-        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTF_eMailFocusGained"/>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTF_eMailFocusLost"/>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTF_EMailFocusGained"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTF_EMailFocusLost"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel14">
@@ -546,10 +546,10 @@
         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTF_HausnummerRechnungsanschriftFocusLost"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTF_OrtAnschrift">
+    <Component class="javax.swing.JTextField" name="jTF_OrtRechnungsanschrift">
       <Events>
-        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTF_OrtAnschriftFocusGained"/>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTF_OrtAnschriftFocusLost"/>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTF_OrtRechnungsanschriftFocusGained"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTF_OrtRechnungsanschriftFocusLost"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTF_HausnummerLieferanschrift">

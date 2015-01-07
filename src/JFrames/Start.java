@@ -36,10 +36,9 @@ import javax.swing.JOptionPane;
  * Daten anlegen,ändern oder sich anzeigen lassen kann.
  *
  *
- * 10.12.2014 Terrasi,Erstellung 
- * 16.12.2014 Terrasi, Überarbeitung und Zuweisung der Navigationsfunktion 
- * 02.01.2015 Terrasi, Überarbeitung der Navigationsfünktion
- * 06.01.2015 Terrasi, Statuszeile implementiert
+ * 10.12.2014 Terrasi,Erstellung 16.12.2014 Terrasi, Überarbeitung und Zuweisung
+ * der Navigationsfunktion 02.01.2015 Terrasi, Überarbeitung der
+ * Navigationsfünktion 06.01.2015 Terrasi, Statuszeile implementiert
  */
 public class Start extends javax.swing.JFrame {
 
@@ -76,6 +75,17 @@ public class Start extends javax.swing.JFrame {
     private final String Beenden_Meldung = "Wollen sie wirklich das Programm beenden und sich abmelden?";
     private final String Beenden_Meldung_Typ = "Programm beenden";
 
+    private final String ARTIKEL_ANLEGEN = "Artikel anlegen";
+    private final String ARTIKEL_AENDERN = "Artikel ändern";
+    private final String ARTIKEL_ANZEIGEN = "Artikel anzeigen";
+
+    private final String ZK_ANLEGEN = "Zahlungskondition anlegen";
+    private final String ZK_AENDERN = "Zahlungskondition ändern";
+    private final String ZK_AZEIGEN = "Zahlungskondition anzeigen";
+
+    private final String GP_ANLEGEN = "Geschäftspartner anlegen";
+    private final String GP_AENDERN = "Geschäftspartner ändern";
+    private final String GP_ANZEIGEN = "Geschäftspartner anzeigen";
 
     /**
      * Creates new form Start
@@ -104,9 +114,9 @@ public class Start extends javax.swing.JFrame {
         artikelanlegen = new ArtikelAnlegen(factory);
         artikelaendern = new ArtikelAEndernEinstieg(factory, artikelanlegen);
         geschaeftspartneranlegen = new GeschaeftspartnerAnlegen(factory);
-        geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg(factory);
+        geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg(factory, geschaeftspartneranlegen);
         zahlungskonditionanlegen = new ZahlungskonditionAnlegen(factory);
-        zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg(factory);
+        zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg(factory, zahlungskonditionanlegen);
 
         // Aufruf der setCenterJIF-Methode
         setCenterJIF(hauptmenueuser);
@@ -175,8 +185,7 @@ public class Start extends javax.swing.JFrame {
 //                Sofortauftragskopf posi = (Sofortauftragskopf) i.next();
 //                System.out.println(posi.getAuftragskopfID());
 //            }
-            
-            
+
         } catch (Exception e) {
             System.out.println("" + e.getMessage());
         }
@@ -456,7 +465,7 @@ public class Start extends javax.swing.JFrame {
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /*----------------------------------------------------------*/
     /**
-     * 
+     *
      * Methode in der definiert wird was beim betätigen des Logouts in der
      * Navigation passiert
      *
@@ -470,7 +479,7 @@ public class Start extends javax.swing.JFrame {
             System.exit(0);
         }
     }//GEN-LAST:event_jMI_LogoutActionPerformed
-   
+
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt */
@@ -484,7 +493,6 @@ public class Start extends javax.swing.JFrame {
      */
     private void jMI_BenutzerhandbuchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_BenutzerhandbuchActionPerformed
 
-        
 
     }//GEN-LAST:event_jMI_BenutzerhandbuchActionPerformed
 
@@ -609,8 +617,8 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_ArtikelAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ArtikelAnlegenActionPerformed
-        artikelanlegen.setTitle("Artikel anlegen");
-        artikelanlegen.setzeFormularInArtikelAnlegen();
+        artikelanlegen.setTitle(ARTIKEL_ANLEGEN);
+        artikelanlegen.setzeFormularInArtikelAnlegenAEndern();
         if (c != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             c.setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
@@ -632,9 +640,9 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_ArtikelAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ArtikelAEndernActionPerformed
-        artikelaendern.setTitle("Artikel ändern");
-        artikelanlegen.setTitle("Artikel ändern");
-        artikelanlegen.setzeFormularInArtikelAnlegen();
+        artikelaendern.setTitle(ARTIKEL_AENDERN);
+        artikelanlegen.setTitle(ARTIKEL_AENDERN);
+        artikelanlegen.setzeFormularInArtikelAnlegenAEndern();
         if (c != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             c.setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
@@ -656,10 +664,8 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_ArtikelAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ArtikelAnzeigenActionPerformed
-//        setCenterJIF(artikelanzeigen);
-//        artikelaendern.setzeModusArtikelAnzeigen(true);
-        artikelaendern.setTitle("Artikel anzeigen");
-        artikelanlegen.setTitle("Artikel anzeigen");
+        artikelaendern.setTitle(ARTIKEL_ANZEIGEN);
+        artikelanlegen.setTitle(ARTIKEL_ANZEIGEN);
         artikelanlegen.setzeFormularInArtikelAnzeigen();
         if (c != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             c.setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
@@ -682,6 +688,8 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_GPAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_GPAnlegenActionPerformed
+        geschaeftspartneranlegen.setTitle(GP_ANLEGEN);
+        geschaeftspartneranlegen.setzeFormularInGPAnlegenAEndern();
         if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
@@ -703,6 +711,9 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_GPAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_GPAEndernActionPerformed
+        geschaeftspartneraendern.setTitle(GP_AENDERN);
+        geschaeftspartneranlegen.setTitle(GP_AENDERN);
+        geschaeftspartneranlegen.setzeFormularInGPAnlegenAEndern();
         if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
@@ -724,7 +735,16 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_GPAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_GPAnzeigenActionPerformed
-//       setCenterJIF(geschaeftspartneranzeigen);
+        geschaeftspartneraendern.setTitle(GP_ANZEIGEN);
+        geschaeftspartneranlegen.setTitle(GP_ANZEIGEN);
+        geschaeftspartneranlegen.setzeFormularInGPAnzeigen();
+        if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
+            getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        }
+        factory.setComponent(hauptmenueuser);
+        hauptmenueuser.setVisible(false);
+        setCenterJIF(geschaeftspartneraendern);
+        setComponent(geschaeftspartneraendern);
     }//GEN-LAST:event_jMI_GPAnzeigenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -740,6 +760,8 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_ZKAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ZKAnlegenActionPerformed
+        zahlungskonditionanlegen.setTitle(ZK_ANLEGEN);
+        zahlungskonditionanlegen.setzeFormularInZKAnlegenAEndern();
         if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
@@ -762,6 +784,9 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_ZKAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ZKAEndernActionPerformed
+        zahlungskonditionaendern.setTitle(ZK_AENDERN);
+        zahlungskonditionanlegen.setTitle(ZK_ANLEGEN);
+        zahlungskonditionanlegen.setzeFormularInZKAnlegenAEndern();
         if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
@@ -782,7 +807,16 @@ public class Start extends javax.swing.JFrame {
      * @param evt
      */
     private void jMI_ZKAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ZKAnzeigenActionPerformed
-//        setCenterJIF(zahlungskonditionanzeigen);
+        zahlungskonditionaendern.setTitle(ZK_AZEIGEN);
+        zahlungskonditionanlegen.setTitle(ZK_AZEIGEN);
+        zahlungskonditionanlegen.setzeFormularInZKAnzeigen();
+        if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
+            getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        }
+        factory.setComponent(hauptmenueuser);
+        hauptmenueuser.setVisible(false);
+        setCenterJIF(zahlungskonditionaendern);
+        setComponent(zahlungskonditionaendern);
     }//GEN-LAST:event_jMI_ZKAnzeigenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -804,7 +838,7 @@ public class Start extends javax.swing.JFrame {
         jif.setLocation(width, height);
         jif.setVisible(true);
     }
-   
+
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
@@ -841,16 +875,15 @@ public class Start extends javax.swing.JFrame {
     public Component getComponent() {
         return c;
     }
-    
+
     /**
-     * 06.01.2015
-     * Methode mit der man der Statuszeile eine Mitteilung pbergibt die darauf 
-     * hin in der Statuszeile angeziegt wird.
-     * 
+     * 06.01.2015 Methode mit der man der Statuszeile eine Mitteilung pbergibt
+     * die darauf hin in der Statuszeile angeziegt wird.
+     *
      * @param status, Übergebener String der dann in der Zeile angegeben werden
      * soll.
      */
-    public void setStatusMeldung(String status){
+    public void setStatusMeldung(String status) {
         statusMeldung_jTextField.setText(status);
     }
 

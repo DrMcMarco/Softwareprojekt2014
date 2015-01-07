@@ -41,7 +41,7 @@
               <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
               <Component id="jL_Artikel_ID" min="-2" pref="128" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jTF_Artikel_ID" min="-2" pref="190" max="-2" attributes="0"/>
+              <Component id="jTF_Geschaeftspartner_ID" min="-2" pref="190" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jB_Enter" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
@@ -57,7 +57,7 @@
               <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jL_Artikel_ID" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                  <Component id="jTF_Artikel_ID" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTF_Geschaeftspartner_ID" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jB_Enter" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="115" max="32767" attributes="0"/>
@@ -131,7 +131,7 @@
         <Property name="text" type="java.lang.String" value="Gesch&#xe4;ftspartner-ID:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTF_Artikel_ID">
+    <Component class="javax.swing.JTextField" name="jTF_Geschaeftspartner_ID">
     </Component>
     <Component class="javax.swing.JButton" name="jB_Enter">
       <Properties>
