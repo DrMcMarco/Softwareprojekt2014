@@ -121,6 +121,15 @@ public class Parser {
         String dbAttr = null;
         String wert = null;
         String datentyp = LEER;
+        String sqlAuftragPartnerNachName = " (SELECT GESCHAEFTSPARTNERID FROM "
+                + "\"Geschäftspartner\", ANSCHRIFT " 
+                + " where \"Geschäftspartner\".LIEFERADRESSE_ANSCHRIFTID = "
+                + "ANSCHRIFT.ANSCHRIFTID " 
+                + " AND ANSCHRIFT.\"NAME\" = '§')";
+        String sqlAuftragStatusNachName = " (SELECT STATUSID FROM STATUS "
+                + "where STATUS = '§')";
+        String sqlAuftragZkNachArt = " (SELECT ZAHLUNGSKONDITIONID FROM "
+                + "ZAHLUNGSKONDITION where AUFTRAGSART = '§')";
         //Prüfe, ob die Sucheingabe und die Table null sind
         //Wenn ja, dann wirf eine ApplicationException
         if (eingabe == null || tabelle == null) {
@@ -128,13 +137,13 @@ public class Parser {
         }
         //Initialisiere StringTokenizer
         st = new StringTokenizer(eingabe);
+        
         //Durchlaufe alle Token
         while (st.hasMoreTokens()) {
-            eingabeOhneLeerzeichen += st.nextToken();
+            String s = st.nextToken();
+            eingabeOhneLeerzeichen += s;
+
         }
-        
-        //Wandel alles in Kleinbuchstaben um.
-        eingabeOhneLeerzeichen = eingabeOhneLeerzeichen.toLowerCase();
         
         //Speicher alle praefixe in das array unter gegebenen Trennzeichen
         praefixListe = eingabeOhneLeerzeichen.split(TRENNZEICHEN);
@@ -148,6 +157,8 @@ public class Parser {
                 if (praefix.split(splitOp).length > 1) {
                     //Identifiziere den Wert nach dem gesucht werden soll
                     wert = praefix.split(splitOp)[1];
+                    //Wandel alles in Kleinbuchstaben um
+                    suchAttr = suchAttr.toLowerCase();
                     //Ermittle den Datenbanken Namen aus der Hashmap
                     dbAttr = attribute.get(suchAttr);
                     //Prüfe, ob der User eine gültige Eingabe gemacht hat.
@@ -181,6 +192,44 @@ public class Parser {
                                 //hinzugefügt werden.
                                 wert = "'" + wert + "'";
                             }
+                            //Prüfe ob es sich um GeschäftspartnerAttr handelt
+                            if ("Geschäftspartner".equals(dbAttr)) {
+                                //Bei geschaeftspartner muss man " setzen wegenÄ
+                                dbAttr = "\"" + dbAttr + "\"";
+                            }
+                            
+                            //Besondere Suche über Fremdschlüssel, es werden
+                            //Sub-Statements integiert, um über bestimmte 
+                            //Suchparameter an die ID's zu kommen.
+                            if ("GeschäftspartnerFK".equals(dbAttr)
+                                    && "Auftragskopf".equals(tabelle)) {
+                                //Es wird der Platzhalter durch das 
+                                //Suchkriterium ersetzt
+                                sqlAuftragPartnerNachName 
+                                    = sqlAuftragPartnerNachName.replace(
+                                        "'§'", "" + wert + "");
+                                //Anschliessend wird das SQL-Statement so 
+                                //verändert, dass die 
+                                //ID über die FK übergeben wird.
+                                wert = sqlAuftragPartnerNachName;
+                                
+                            } else if (("StatusFK").equals(dbAttr)
+                                    && "Auftragskopf".equals(tabelle)) {
+                                sqlAuftragStatusNachName 
+                                    = sqlAuftragStatusNachName.replace(
+                                        "'§'", "" + wert + "");
+                                wert = sqlAuftragStatusNachName;
+                            } else if (("ZAHLUNGSKONDITION_"
+                                    + "ZAHLUNGSKONDITIONIDFK").equals(dbAttr)
+                                    && "Auftragskopf".equals(tabelle)) {
+                                sqlAuftragZkNachArt 
+                                    = sqlAuftragZkNachArt.replace(
+                                        "'§'", "" + wert + "");
+                                wert = sqlAuftragZkNachArt;
+                            }
+                            //Anschliessend muss der eigentliche Attributenname
+                            //wieder gesetzt werden.
+                            dbAttr = dbAttr.replace("FK", "");
                             //SQL-Statement aus suchkürzel , wert und lkz 
                             //konkatenieren und in die Ergebnisliste einfügen.
                             abfrageErgebnis.add(dbAttr + " " + OPERATORLIKE 
@@ -201,7 +250,42 @@ public class Parser {
                             //hinzugefügt werden.
                             wert = "'" + wert + "'";
                         }
-                        
+                        //Prüfe ob es sich um GeschäftspartnerAttr handelt
+                        if ("Geschäftspartner".equals(dbAttr)) {
+                            //Bei geschaeftspartner muss man " setzen wegenÄ
+                            dbAttr = "\"" + dbAttr + "\"";
+                        }
+                        //Besondere Suche über Fremdschlüssel, es werden
+                        //Sub-Statements integiert, um über bestimmte 
+                        //Suchparameter an die ID's zu kommen.
+                        if ("GeschäftspartnerFK".equals(dbAttr)
+                                && "Auftragskopf".equals(tabelle)) {
+                            //Es wird der Platzhalter durch das 
+                            //Suchkriterium ersetzt
+                            sqlAuftragPartnerNachName 
+                                = sqlAuftragPartnerNachName.replace(
+                                    "'§'", "" + wert + "");
+                            //Anschliessend wird das SQL-Statement so 
+                            //verändert, dass die 
+                            //ID über die FK übergeben wird.
+                            wert = sqlAuftragPartnerNachName;
+                        } else if (("StatusFK").equals(dbAttr)
+                                && "Auftragskopf".equals(tabelle)) {
+                            sqlAuftragStatusNachName 
+                                = sqlAuftragStatusNachName.replace(
+                                    "'§'", "" + wert + "");
+                            wert = sqlAuftragStatusNachName;
+                        } else if (("ZAHLUNGSKONDITION_"
+                                + "ZAHLUNGSKONDITIONIDFK").equals(dbAttr)
+                                && "Auftragskopf".equals(tabelle)) {
+                            sqlAuftragZkNachArt 
+                                = sqlAuftragZkNachArt.replace(
+                                    "'§'", "" + wert + "");
+                            wert = sqlAuftragZkNachArt;
+                        }
+                        //Anschliessend muss der eigentliche Attributenname
+                        //wieder gesetzt werden.
+                        dbAttr = dbAttr.replace("FK", "");
                         //SQL-Statement aus suchkürzel , wert und 
                         //lkz konkatenieren und in die Ergebnisliste einfügen.
                         abfrageErgebnis.add(dbAttr + " " + splitOp + " " + wert
