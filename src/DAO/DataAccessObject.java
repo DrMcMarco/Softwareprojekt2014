@@ -507,7 +507,7 @@ public class DataAccessObject {
      * @throws ApplicationException 
      */
     public void createBusinessPartner(String Typ, Anschrift Lieferadresse, 
-            Anschrift Rechnungsadresse, double Kreditlimit, boolean LKZ) 
+            Anschrift Rechnungsadresse, double Kreditlimit) 
             throws ApplicationException {
         
         try {
@@ -559,7 +559,6 @@ public class DataAccessObject {
         } catch (Exception e) {
             
             //Transaktion wird im Fehlerfall rückgängig gemacht
-            em.getTransaction().rollback();
             throw new ApplicationException("Fehler", 
                     "Beim Speichern der Daten ist ein Fehler aufgetreten");
         }
