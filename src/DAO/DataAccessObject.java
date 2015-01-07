@@ -473,9 +473,9 @@ public class DataAccessObject {
      * @throws ApplicationException 
      */
     public void createPaymentConditions(String Auftragsart, 
-            double LieferzeitSofort, double SperrzeitWunsch, double Skontozeit1,
-            double Skontozeit2, double Skonto1, double Skonto2, 
-            double Mahnzeit1, double Mahnzeit2, double Mahnzeit3) 
+            int LieferzeitSofort, int SperrzeitWunsch, int Skontozeit1,
+            int Skontozeit2, double Skonto1, double Skonto2, 
+            int Mahnzeit1, int Mahnzeit2, int Mahnzeit3) 
             throws ApplicationException {
         
         Zahlungskondition conditions = new Zahlungskondition(Auftragsart, 
@@ -483,8 +483,8 @@ public class DataAccessObject {
                 Skonto1, Skonto2, Mahnzeit1, Mahnzeit2, Mahnzeit3);
         
         if (conditions == null) {
-            throw new ApplicationException(FEHLER_TITEL, 
-                    "Die Daten sind fehlerhaft!");
+            throw new ApplicationException("Fehler", 
+                    "Beim Anlegen der Zahlungskondition ist ein Fehler aufgetreten!");
         }
         
         //Transaktion starten
@@ -806,24 +806,24 @@ public class DataAccessObject {
         }
     }
     
-    public void setzeGeschaeftspartner(long GeschaeftspartnerID, 
-            double Kreditlimit) throws ApplicationException {
-        
-        Geschaeftspartner gp = em.find(Geschaeftspartner.class, GeschaeftspartnerID);
-        
-        if (gp == null || gp.isLKZ()) {
-            throw new ApplicationException("Fehler", 
-                    "Der Geschäftspartner konnte nicht gefunden werden");
-        }
-        
-        gp.setKreditlimit(Kreditlimit);
-        
-        em.getTransaction().begin();
-        em.persist(gp);
-        em.getTransaction().commit();
-    }
+//    public void setzeGeschaeftspartner() throws ApplicationException {
+//        
+//        Geschaeftspartner gp = em.find(Geschaeftspartner.class, GeschaeftspartnerID);
+//        
+//        if (gp == null || gp.isLKZ()) {
+//            throw new ApplicationException("Fehler", 
+//                    "Der Geschäftspartner konnte nicht gefunden werden");
+//        }
+//        
+//        gp.setKreditlimit(Kreditlimit);
+//        
+//        em.getTransaction().begin();
+//        em.persist(gp);
+//        em.getTransaction().commit();
+//    }
     
-    public Anschrift setzeAnschrift(long AnschriftID, String Name, 
+    public Anschrift setzeAnschrift(long AnschriftID, long GeschaeftspartnerID, 
+            double Kreditlimit, String Name, 
             String Vorname, String Titel, String Strasse, String Hausnummer, 
             String PLZ, String Ort, String Staat, String Telefon, String Fax,
             String Email, Date Geburtsdatum) throws ApplicationException {

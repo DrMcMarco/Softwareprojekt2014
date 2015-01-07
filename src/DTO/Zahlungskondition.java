@@ -20,24 +20,24 @@ public class Zahlungskondition implements Serializable {
     private long ZahlungskonditionID;
     
     private String Auftragsart;
-    private double LieferzeitSofort;
-    private double SperrzeitWunsch;
-    private double Skontozeit1;
-    private double Skontozeit2;
+    private int LieferzeitSofort;
+    private int SperrzeitWunsch;
+    private int Skontozeit1;
+    private int Skontozeit2;
     private double Skonto1;
     private double Skonto2;
-    private double Mahnzeit1;
-    private double Mahnzeit2;
-    private double Mahnzeit3;
+    private int Mahnzeit1;
+    private int Mahnzeit2;
+    private int Mahnzeit3;
     private boolean LKZ;
 
     public Zahlungskondition() {
     }
 
-    public Zahlungskondition(String Auftragsart, double LieferzeitSofort, 
-            double SperrzeitWunsch, double Skontozeit1, double Skontozeit2, 
-            double Skonto1, double Skonto2, double Mahnzeit1, double Mahnzeit2, 
-            double Mahnzeit3) {
+    public Zahlungskondition(String Auftragsart, int LieferzeitSofort, 
+            int SperrzeitWunsch, int Skontozeit1, int Skontozeit2, 
+            double Skonto1, double Skonto2, int Mahnzeit1, int Mahnzeit2, 
+            int Mahnzeit3) {
         this.Auftragsart = Auftragsart;
         this.LieferzeitSofort = LieferzeitSofort;
         this.SperrzeitWunsch = SperrzeitWunsch;
@@ -64,35 +64,35 @@ public class Zahlungskondition implements Serializable {
     }
     
 
-    public double getLieferzeitSofort() {
+    public int getLieferzeitSofort() {
         return LieferzeitSofort;
     }
 
-    public void setLieferzeitSofort(double LieferzeitSofort) {
+    public void setLieferzeitSofort(int LieferzeitSofort) {
         this.LieferzeitSofort = LieferzeitSofort;
     }
 
-    public double getSperrzeitWunsch() {
+    public int getSperrzeitWunsch() {
         return SperrzeitWunsch;
     }
 
-    public void setSperrzeitWunsch(double SperrzeitWunsch) {
+    public void setSperrzeitWunsch(int SperrzeitWunsch) {
         this.SperrzeitWunsch = SperrzeitWunsch;
     }
 
-    public double getSkontozeit1() {
+    public int getSkontozeit1() {
         return Skontozeit1;
     }
 
-    public void setSkontozeit1(double Skontozeit1) {
+    public void setSkontozeit1(int Skontozeit1) {
         this.Skontozeit1 = Skontozeit1;
     }
 
-    public double getSkontozeit2() {
+    public int getSkontozeit2() {
         return Skontozeit2;
     }
 
-    public void setSkontozeit2(double Skontozeit2) {
+    public void setSkontozeit2(int Skontozeit2) {
         this.Skontozeit2 = Skontozeit2;
     }
 
@@ -112,27 +112,27 @@ public class Zahlungskondition implements Serializable {
         this.Skonto2 = Skonto2;
     }
 
-    public double getMahnzeit1() {
+    public int getMahnzeit1() {
         return Mahnzeit1;
     }
 
-    public void setMahnzeit1(double Mahnzeit1) {
+    public void setMahnzeit1(int Mahnzeit1) {
         this.Mahnzeit1 = Mahnzeit1;
     }
 
-    public double getMahnzeit2() {
+    public int getMahnzeit2() {
         return Mahnzeit2;
     }
 
-    public void setMahnzeit2(double Mahnzeit2) {
+    public void setMahnzeit2(int Mahnzeit2) {
         this.Mahnzeit2 = Mahnzeit2;
     }
 
-    public double getMahnzeit3() {
+    public int getMahnzeit3() {
         return Mahnzeit3;
     }
 
-    public void setMahnzeit3(double Mahnzeit3) {
+    public void setMahnzeit3(int Mahnzeit3) {
         this.Mahnzeit3 = Mahnzeit3;
     }
 
