@@ -516,11 +516,9 @@ public class DataAccessObject {
         
             //Anhand des übergebenen Typs wird ein entsprechendes Objekt erzeugt
             if (Typ.equals("Kunde")) {
-                geschaeftspartner = new Kunde(Lieferadresse, Rechnungsadresse, 
-                        Kreditlimit, LKZ);
+                geschaeftspartner = new Kunde();
             } else if (Typ.equals("Lieferant")) {
-                geschaeftspartner = new Lieferant(Lieferadresse, Rechnungsadresse, 
-                        Kreditlimit, LKZ);
+                geschaeftspartner = new Lieferant();
                 
             //Wenn der Geschäftspartnertyp ungültig ist
             } else {
@@ -533,34 +531,24 @@ public class DataAccessObject {
                 throw new ApplicationException("Fehler", 
                         "Bei der Erzeugung des Kunde ist ein Fehler aufgetreten");
             }
+           
+            geschaeftspartner.setKreditlimit(Kreditlimit);
+            geschaeftspartner.setLKZ(false);
+            
+            //Wenn die Anschriften identisch sind, wird nur die Rechnungsadresse persistiert
+            if (Rechnungsadresse.equals(Lieferadresse)) {
+                geschaeftspartner.setRechnungsadresse(Rechnungsadresse);
+                geschaeftspartner.setLieferadresse(Rechnungsadresse);
+                
+            //Ansonsten werden beide persistiert    
+            } else {
+                geschaeftspartner.setRechnungsadresse(Rechnungsadresse);
+                geschaeftspartner.setLieferadresse(Lieferadresse);
+            }
         
             //Transaktion starten
             em.getTransaction().begin();
-        
             
-//            Denkfehler!
-//            //Prüft ob die Lieferanschrift gleich der Rechnungsanschrift
-//            if (Lieferadresse.equals(Rechnungsadresse) || 
-//                    em.find(Anschrift.class, 
-//                            Lieferadresse.getAnschriftID()) == null) {
-//                
-//                //In diesem Fall muss nur eine Adresse persistiert werden
-//                em.persist(Lieferadresse);
-//                
-//            //Ist Lieferanschrift ungleich Rechnungsanschrift...
-//            } else {
-//                //...wird geprüft ob die Lieferanschrift schon existiert
-//                if (em.find(Anschrift.class, Lieferadresse.getAnschriftID()) == null) {
-//                    //Wenn nicht, wird die Adresse erzeugt
-//                    em.persist(Lieferadresse);
-//                }
-//                //Es wird ebenfalls geprüft ob die Rechnungsadresse schon existiert
-//                if (em.find(Anschrift.class, Rechnungsadresse.getAnschriftID()) == null) {    
-//                    //Wenn nicht, wird diese auc hhier erzeugt
-//                    em.persist(Rechnungsadresse);
-//                }
-//            }
-        
             //Nachdem die Anschriften persistent sind, wird der der
             //Geschäftspartner persistent gemacht
             em.persist(geschaeftspartner);
