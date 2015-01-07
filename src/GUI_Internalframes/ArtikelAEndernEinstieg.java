@@ -190,7 +190,7 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
             a.gibjTA_Artikelbeschreibung().setText(artikel.getBestelltext());
             a.gibjCB_Artikelkategorie().setSelectedItem(artikel.getKategorie().getKategoriename());
             a.gibjTF_Einzelwert().setText("" + nf.format(artikel.getVerkaufswert()));
-            a.gibjTF_Bestellwert().setText("" + nf.format(artikel.getVerkaufswert()));
+            a.gibjTF_Bestellwert().setText("" + nf.format(artikel.getEinkaufswert()));
             a.gibjCB_MwST().setSelectedItem("" + artikel.getMwST());
             a.gibjTF_BestandsmengeFREI().setText("" + artikel.getFrei());
             a.gibjTF_BestandsmengeRESERVIERT().setText("" + artikel.getReserviert());
