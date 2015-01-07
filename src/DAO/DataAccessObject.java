@@ -145,7 +145,7 @@ public class DataAccessObject {
      */
     public void createItem(String kategorie, String artikeltext, 
         String bestelltext, double verkaufswert, double einkaufswert,
-        double MwST, int Frei, int Reserviert, int Zulauf, int Verkauft)
+        int MwST, int Frei, int Reserviert, int Zulauf, int Verkauft)
         throws ApplicationException {
         //Suche die Artikelkategorie anhand des Kategorienamen
         Artikelkategorie cat = this.getCategory(kategorie);
@@ -765,7 +765,7 @@ public class DataAccessObject {
      */
     public void setzeArtikel(long Artikelnummer, String Kategorie, 
             String Artikeltext, String Bestelltext, double Verkaufswert, 
-            double Einkaufswert, double MwST, int Frei) 
+            double Einkaufswert, int MwST, int Frei) 
             throws ApplicationException {
         
         //Hole den Artikel anhand der ID aus der Datenbank
@@ -1118,6 +1118,19 @@ public class DataAccessObject {
         }
         
         return kunde;
+    }
+    
+    public Lieferant gibLieferant(long Lieferantennummer)
+            throws ApplicationException {
+        
+        Lieferant lieferant = em.find(Lieferant.class, Lieferantennummer);
+        
+        if (lieferant == null || lieferant.isLKZ()) {
+            throw new ApplicationException("Fehler", 
+                    "Der Lieferant konnte nicht gefunden werden");
+        }
+        
+        return lieferant;
     }
     
     public Status getStatusByName(String name) throws ApplicationException {

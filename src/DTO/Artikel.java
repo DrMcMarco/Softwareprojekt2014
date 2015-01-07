@@ -28,7 +28,7 @@ public class Artikel implements Serializable {
     private String Bestelltext;
     private double Verkaufswert;
     private double Einkaufswert;
-    private double MwST;
+    private int MwST;
     private int Frei;
     private int Reserviert;
     private int Zulauf;
@@ -40,7 +40,7 @@ public class Artikel implements Serializable {
 
     public Artikel(Artikelkategorie Kategorie, String Artikeltext, 
             String Bestelltext, double Verkaufswert, double Einkaufswert, 
-            double MwST, int Frei, int Reserviert, int Zulauf, int Verkauft) {
+            int MwST, int Frei, int Reserviert, int Zulauf, int Verkauft) {
         this.Kategorie = Kategorie;
         this.Artikeltext = Artikeltext;
         this.Bestelltext = Bestelltext;
@@ -102,11 +102,11 @@ public class Artikel implements Serializable {
         this.Einkaufswert = Einkaufswert;
     }
 
-    public double getMwST() {
+    public int getMwST() {
         return MwST;
     }
 
-    public void setMwST(double MwST) {
+    public void setMwST(int MwST) {
         this.MwST = MwST;
     }
 
