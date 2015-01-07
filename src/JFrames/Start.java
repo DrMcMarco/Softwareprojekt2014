@@ -610,6 +610,7 @@ public class Start extends javax.swing.JFrame {
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
+    /* 07.01.2015 Sen anlegen Funktion hinzugefuegt */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Artikelanlegen Maske aufgerufen wird
@@ -633,6 +634,7 @@ public class Start extends javax.swing.JFrame {
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
+    /* 07.01.2015 Sen aendern Funktion hinzugefuegt */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Artikeländern Maske aufgerufen wird
@@ -657,6 +659,7 @@ public class Start extends javax.swing.JFrame {
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
+    /* 07.01.2015 Sen anzeigen Funktion hinzugefuegt */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Artikelanzeigen Maske aufgerufen wird
@@ -681,6 +684,7 @@ public class Start extends javax.swing.JFrame {
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
+    /* 07.01.2015 Sen anlegen Funktion hinzugefuegt */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Geschäftspartneranlegen Maske aufgerufen wird
@@ -704,6 +708,7 @@ public class Start extends javax.swing.JFrame {
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
+    /* 07.01.2015 Sen aendern Funktion hinzugefuegt */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Geschäftspartnerändern Maske aufgerufen wird
@@ -728,6 +733,7 @@ public class Start extends javax.swing.JFrame {
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
+    /* 07.01.2015 Sen anzeigen Funktion hinzugefuegt */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Geschäftspartneranzeigen Maske aufgerufen wird
@@ -752,6 +758,7 @@ public class Start extends javax.swing.JFrame {
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet */
+    /* 07.01.2015 Sen anlegen Funktion hinzugefuegt */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Zahlungskonditionenanlegen Maske aufgerufen
@@ -776,6 +783,7 @@ public class Start extends javax.swing.JFrame {
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
+    /* 07.01.2015 Sen aendern Funktion hinzugefuegt */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Zahlungskonditionenändern Maske aufgerufen
@@ -799,6 +807,7 @@ public class Start extends javax.swing.JFrame {
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt */
+    /* 07.01.2015 Sen anzeigen Funktion hinzugefuegt */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Zahlungskonditionenanzeigen Maske aufgerufen

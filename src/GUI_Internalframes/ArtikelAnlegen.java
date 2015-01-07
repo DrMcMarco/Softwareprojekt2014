@@ -617,7 +617,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
             String kategorie;
             double einzelwert = 0;
             double bestellwert = 0;
-            double mwst = 0;
+            int mwst = 0;
             int bestandsmengeFREI = 0;
             int bestandsmengeRESERVIERT = 0;
             int bestandsmengeZULAUF = 0;
@@ -631,7 +631,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
                 einzelwert = nf.parse(jTF_Einzelwert.getText()).doubleValue();
                 bestellwert = nf.parse(jTF_Bestellwert.getText()).doubleValue();
 
-                mwst = nf.parse((String) jCB_MwST.getSelectedItem()).doubleValue();
+                mwst = nf.parse((String) jCB_MwST.getSelectedItem()).intValue();
                 bestandsmengeFREI = nf.parse(jTF_Bestandsmenge_FREI.getText()).intValue();
             } catch (ParseException ex) {
                 System.out.println("Fehler beim Parsen in der Klasse ArtikelAnlegen!");
@@ -641,27 +641,27 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
             artikelbeschreibung = jTA_Artikelbeschreibung.getText();
             kategorie = (String) jCB_Kategorie.getSelectedItem();
 
-//            try{
-//            this.dao.createItem(kategorie, artikelname, artikelbeschreibung, 
-//                    einzelwert, bestellwert, mwst, bestandsmengeFREI,
-//                    bestandsmengeRESERVIERT, bestandsmengeZULAUF, 
-//                    bestandsmengeVERKAUFT);
-//                
-//            }catch(ApplicationException e){
-//                System.out.println(e.getMessage());
-//            }
-            System.out.println("Geschäftspartner: \n"
-                    + "Artikelnummer:                  " + artikelnummer + "\n"
-                    + "Artikelname:                    " + artikelname + "\n"
-                    + "Artikelbeschreibung:            " + artikelbeschreibung + "\n"
-                    + "Kategorie:                      " + kategorie + "\n"
-                    + "Einzelwert:                     " + einzelwert + "\n"
-                    + "Bestellwert:                    " + bestellwert + "\n"
-                    + "MwSt:                           " + mwst + "\n"
-                    + "Bestangsmenge FREI:             " + bestandsmengeFREI + "\n"
-                    + "Bestangsmenge RESERVIERT:       " + bestandsmengeRESERVIERT + "\n"
-                    + "Bestangsmenge ZULAUF:           " + bestandsmengeZULAUF + "\n"
-                    + "Bestangsmenge VERKAUFT:         " + bestandsmengeVERKAUFT + "\n");
+            try{
+            this.dao.createItem(kategorie, artikelname, artikelbeschreibung, 
+                    einzelwert, bestellwert, mwst, bestandsmengeFREI,
+                    bestandsmengeRESERVIERT, bestandsmengeZULAUF, 
+                    bestandsmengeVERKAUFT);
+                
+            }catch(ApplicationException e){
+                System.out.println(e.getMessage());
+            }
+//            System.out.println("Geschäftspartner: \n"
+//                    + "Artikelnummer:                  " + artikelnummer + "\n"
+//                    + "Artikelname:                    " + artikelname + "\n"
+//                    + "Artikelbeschreibung:            " + artikelbeschreibung + "\n"
+//                    + "Kategorie:                      " + kategorie + "\n"
+//                    + "Einzelwert:                     " + einzelwert + "\n"
+//                    + "Bestellwert:                    " + bestellwert + "\n"
+//                    + "MwSt:                           " + mwst + "\n"
+//                    + "Bestangsmenge FREI:             " + bestandsmengeFREI + "\n"
+//                    + "Bestangsmenge RESERVIERT:       " + bestandsmengeRESERVIERT + "\n"
+//                    + "Bestangsmenge ZULAUF:           " + bestandsmengeZULAUF + "\n"
+//                    + "Bestangsmenge VERKAUFT:         " + bestandsmengeVERKAUFT + "\n");
 //          Artikel wird in ArrayList für Artikel hinzugefuegt    
 
 //            artikelListe.add(new Artikel(artikelnummer, artikelname, artikelbeschreibung, kategorie, einzelwert, bestellwert, mwst, bestandsmengeFREI, "0", "0", "0"));
@@ -834,6 +834,18 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
     public JTextField gibjTF_BestandsmengeFREI() {
         return jTF_Bestandsmenge_FREI;
+    }
+    
+    public JTextField gibjTF_BestandsmengeRESERVIERT() {
+        return jTF_Bestandsmenge_RES;
+    }
+    
+    public JTextField gibjTF_BestandsmengeZULAUF() {
+        return jTF_Bestandsmenge_ZULAUF;
+    }
+    
+    public JTextField gibjTF_BestandsmengeVERKAUFT() {
+        return jTF_Bestandsmenge_VERKAUFT;
     }
 
     public void setzeFormularInArtikelAnlegenAEndern() {

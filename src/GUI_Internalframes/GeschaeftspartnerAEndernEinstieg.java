@@ -5,8 +5,17 @@
  */
 package GUI_Internalframes;
 
+import DAO.ApplicationException;
+import DTO.Anschrift;
+import DTO.Artikel;
+import DTO.Geschaeftspartner;
+import DTO.Lieferanschrift;
 import JFrames.GUIFactory;
 import java.awt.Component;
+import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Calendar;
 
 /**
  *
@@ -22,6 +31,7 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
     Component c;
     GUIFactory factory;
     GeschaeftspartnerAnlegen g;
+    private NumberFormat nf;
 
     /**
      * Creates new form Fenster
@@ -30,6 +40,10 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
         initComponents();
         this.factory = factory;
         this.g = g;
+
+        nf = NumberFormat.getInstance();
+        nf.setMinimumFractionDigits(2);
+        nf.setMaximumFractionDigits(2);
 //        this.getContentPane().add(a);
     }
 
@@ -148,33 +162,109 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void jB_EnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_EnterActionPerformed
-        if (jTF_Geschaeftspartner_ID.getText().equals("Ändern")) {
-//            Daten aus Datenbank laden
-            g.gibjCHB_Kunde().setSelected(true);
-            g.gibjCHB_Lieferant().setSelected(false);
-            g.gibjCB_Anrede().setSelectedItem("Herr");
-            g.gibjTF_Name().setText("Sen");
-            g.gibjTF_Vorname().setText("Tahir");
-            g.gibjTF_Telefon().setText("01775113084");
-            g.gibjTF_Fax().setText("02043203322");
-            g.gibjFTF_Geburtsdatum().setText("25.04.1989");
-            g.gibjTF_EMail().setText("tahirsen@hotmail.de");
-            g.gibjTF_Kreditlimit().setText("1000");
-            g.gibjCHB_WieAnschrift().setSelected(true);
-            g.gibjTF_StrasseRechnungsanschrift().setText("Landstr.");
-            g.gibjTF_StrasseLieferanschrift().setText("Landstr.");
-            g.gibjTF_HausnummerRechnungsanschrift().setText("84");
-            g.gibjTF_HausnummerLieferanschrift().setText("84");
-            g.gibjTF_PLZRechnungsanschrift().setText("45968");
-            g.gibjTF_PLZLieferanschrift().setText("45968");
-            g.gibjTF_OrtRechnungsanschrift().setText("Galdbeck");
-            g.gibjTF_OrtLieferanschrift().setText("Galdbeck");
+
+        String eingabe = jTF_Geschaeftspartner_ID.getText();
+        long gpnr = 0;
+        try {
+            gpnr = nf.parse(eingabe).longValue();
+            Geschaeftspartner gp = this.factory.getDAO().gibGeschaeftspartner(gpnr);
+            Anschrift la = gp.getLieferadresse();
+            Anschrift ra = gp.getRechnungsadresse();
+            String typ = gp.getTyp();
+            if (typ.equals("Kunde")) {
+                g.gibjCHB_Kunde().setSelected(true);
+            } else {
+                g.gibjCHB_Lieferant().setSelected(true);
+            }
+
+//            g.gibjCHB_Kunde().setSelected(true);
+//            g.gibjCHB_Lieferant().setSelected(false);
+            g.gibjCB_Anrede().setSelectedItem(ra.getTitel());
+            g.gibjTF_Name().setText(ra.getName());
+            g.gibjTF_Vorname().setText(ra.getVorname());
+            g.gibjTF_Telefon().setText(ra.getTelefon());
+            g.gibjTF_Fax().setText(ra.getFAX());
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(la.getGeburtsdatum());
+            int tag = cal.get(Calendar.DAY_OF_MONTH);
+            int mon = cal.get(Calendar.MONTH);
+            mon = mon + 1;
+            System.out.println(mon);
+            int jahr = cal.get(Calendar.YEAR);
+            String t;
+            String m;
+            if (tag < 10) {
+                t = "0" + tag;
+            } else {
+                t = "" + tag;
+            }
+
+            if (mon < 10) {
+                m = "0" + mon;
+            } else {
+                m = "" + mon;
+            }
+
+            String s = t + "." + m + "." + jahr;
+            System.out.println(s);
+            g.gibjFTF_Geburtsdatum().setText(s);
+            g.gibjTF_EMail().setText(ra.getEmail());
+            g.gibjTF_Kreditlimit().setText("" + nf.format(gp.getKreditlimit()));
+            g.gibjTF_StrasseRechnungsanschrift().setText(ra.getStrasse());
+            g.gibjTF_HausnummerRechnungsanschrift().setText(ra.getHausnummer());
+            g.gibjTF_PLZRechnungsanschrift().setText(ra.getPLZ());
+            g.gibjTF_OrtRechnungsanschrift().setText(ra.getOrt());
+            if (ra.getAnschriftID() == la.getAnschriftID()) {
+                g.gibjCHB_WieAnschrift().setSelected(true);
+                g.gibjTF_StrasseLieferanschrift().setText(ra.getStrasse());
+                g.gibjTF_HausnummerLieferanschrift().setText(ra.getHausnummer());
+                g.gibjTF_PLZLieferanschrift().setText(ra.getPLZ());
+                g.gibjTF_OrtLieferanschrift().setText(ra.getOrt());
+            } else {
+                g.gibjCHB_WieAnschrift().setSelected(false);
+                g.gibjTF_StrasseLieferanschrift().setText(la.getStrasse());
+                g.gibjTF_HausnummerLieferanschrift().setText(la.getHausnummer());
+                g.gibjTF_PLZLieferanschrift().setText(la.getPLZ());
+                g.gibjTF_OrtLieferanschrift().setText(la.getOrt());
+            }
             g.setVisible(true);
             this.setVisible(false);
             jTF_Geschaeftspartner_ID.setText("");
-        } else {
-            jTF_Statuszeile.setText("Kein passender Artikel in Datenbank!");
+
+        } catch (ParseException ex) {
+            System.out.println("Fehler beim Parsen in der Klasse ArtikelAnlegen!");
+        } catch (ApplicationException ex) {
+//            Logger.getLogger(ArtikelAEndernEinstieg.class.getName()).log(Level.SEVERE, null, ex);
+            jTF_Statuszeile.setText("Kein passender Geschäftspartner in Datenbank!");
+            jTF_Geschaeftspartner_ID.setText("");
         }
+//        if (jTF_Geschaeftspartner_ID.getText().equals("Ändern")) {
+////            Daten aus Datenbank laden
+//            g.gibjCHB_Kunde().setSelected(true);
+//            g.gibjCHB_Lieferant().setSelected(false);
+//            g.gibjCB_Anrede().setSelectedItem("Herr");
+//            g.gibjTF_Name().setText("Sen");
+//            g.gibjTF_Vorname().setText("Tahir");
+//            g.gibjTF_Telefon().setText("01775113084");
+//            g.gibjTF_Fax().setText("02043203322");
+//            g.gibjFTF_Geburtsdatum().setText("25.04.1989");
+//            g.gibjTF_EMail().setText("tahirsen@hotmail.de");
+//            g.gibjTF_Kreditlimit().setText("1000");
+//            g.gibjCHB_WieAnschrift().setSelected(true);
+//            g.gibjTF_StrasseRechnungsanschrift().setText("Landstr.");
+//            g.gibjTF_StrasseLieferanschrift().setText("Landstr.");
+//            g.gibjTF_HausnummerRechnungsanschrift().setText("84");
+//            g.gibjTF_HausnummerLieferanschrift().setText("84");
+//            g.gibjTF_PLZRechnungsanschrift().setText("45968");
+//            g.gibjTF_PLZLieferanschrift().setText("45968");
+//            g.gibjTF_OrtRechnungsanschrift().setText("Galdbeck");
+//            g.gibjTF_OrtLieferanschrift().setText("Galdbeck");
+//            g.setVisible(true);
+//            this.setVisible(false);
+//            jTF_Geschaeftspartner_ID.setText("");
+//        } else {
+//            jTF_Statuszeile.setText("Kein passender Artikel in Datenbank!");
+//        }
     }//GEN-LAST:event_jB_EnterActionPerformed
 
     private void jB_EnterFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jB_EnterFocusLost

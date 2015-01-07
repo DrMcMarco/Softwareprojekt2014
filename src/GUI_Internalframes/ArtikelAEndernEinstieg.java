@@ -5,8 +5,14 @@
  */
 package GUI_Internalframes;
 
+import DAO.ApplicationException;
+import DTO.Artikel;
 import JFrames.*;
 import java.awt.Component;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,11 +21,12 @@ import java.awt.Component;
  * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
  */
 public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
-
+    
     Component c;
     GUIFactory factory;
-
+    
     private ArtikelAnlegen a;
+    private NumberFormat nf;
 
     /**
      * Creates new form Fenster
@@ -28,6 +35,10 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
         initComponents();
         this.factory = factory;
         this.a = a;
+        
+        nf = NumberFormat.getInstance();
+        nf.setMinimumFractionDigits(2);
+        nf.setMaximumFractionDigits(2);
     }
 
     /**
@@ -169,22 +180,49 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jB_EnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_EnterActionPerformed
-        if (jTF_Artikel_ID.getText().equals("Ändern")) {
-//            Daten aus Datenbank laden
-            a.gibjTF_Artikelnummer().setText("13");
-            a.gibjTF_Artikelname().setText("Artikel ABC 123");
-            a.gibjTA_Artikelbeschreibung().setText("Artikel 1 Beschreibung");
-            a.gibjCB_Artikelkategorie().setSelectedItem("Kategorie 1");
-            a.gibjTF_Einzelwert().setText("1000");
-            a.gibjTF_Bestellwert().setText("50");
-            a.gibjCB_MwST().setSelectedItem("19");
-            a.gibjTF_BestandsmengeFREI().setText("10001");
+        String artikelnummer = jTF_Artikel_ID.getText();
+        long artikelnr = 0;
+        try {
+            artikelnr = nf.parse(artikelnummer).longValue();
+            Artikel artikel = this.factory.getDAO().getItem(artikelnr);
+            a.gibjTF_Artikelnummer().setText("" + artikel.getArtikelID());
+            a.gibjTF_Artikelname().setText(artikel.getArtikeltext());
+            a.gibjTA_Artikelbeschreibung().setText(artikel.getBestelltext());
+            a.gibjCB_Artikelkategorie().setSelectedItem(artikel.getKategorie().getKategoriename());
+            a.gibjTF_Einzelwert().setText("" + nf.format(artikel.getVerkaufswert()));
+            a.gibjTF_Bestellwert().setText("" + nf.format(artikel.getVerkaufswert()));
+            a.gibjCB_MwST().setSelectedItem("" + artikel.getMwST());
+            a.gibjTF_BestandsmengeFREI().setText("" + artikel.getFrei());
+            a.gibjTF_BestandsmengeRESERVIERT().setText("" + artikel.getReserviert());
+            a.gibjTF_BestandsmengeZULAUF().setText("" + artikel.getZulauf());
+            a.gibjTF_BestandsmengeVERKAUFT().setText("" + artikel.getVerkauft());
             a.setVisible(true);
             this.setVisible(false);
             jTF_Artikel_ID.setText("");
-        } else {
+            
+        } catch (ParseException ex) {
+            System.out.println("Fehler beim Parsen in der Klasse ArtikelAnlegen!");
+        } catch (ApplicationException ex) {
+//            Logger.getLogger(ArtikelAEndernEinstieg.class.getName()).log(Level.SEVERE, null, ex);
             jTF_Statuszeile.setText("Kein passender Artikel in Datenbank!");
+            jTF_Artikel_ID.setText("");
         }
+//        if (jTF_Artikel_ID.getText().equals("Ändern")) {
+////            Daten aus Datenbank laden
+//            a.gibjTF_Artikelnummer().setText("13");
+//            a.gibjTF_Artikelname().setText("Artikel ABC 123");
+//            a.gibjTA_Artikelbeschreibung().setText("Artikel 1 Beschreibung");
+//            a.gibjCB_Artikelkategorie().setSelectedItem("Kategorie 1");
+//            a.gibjTF_Einzelwert().setText("1000");
+//            a.gibjTF_Bestellwert().setText("50");
+//            a.gibjCB_MwST().setSelectedItem("19");
+//            a.gibjTF_BestandsmengeFREI().setText("10001");
+//            a.setVisible(true);
+//            this.setVisible(false);
+//            jTF_Artikel_ID.setText("");
+//        } else {
+//            jTF_Statuszeile.setText("Kein passender Artikel in Datenbank!");
+//        }
     }//GEN-LAST:event_jB_EnterActionPerformed
 
     private void jB_EnterFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jB_EnterFocusLost

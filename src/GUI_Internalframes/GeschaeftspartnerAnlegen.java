@@ -909,7 +909,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                 try {
                     anschrift = this.dao.createAdress("Rechnungsadresse", name, vorname,
                             titel, strasseAnschrift, hausnummerAnschrift, plzAnschrift,
-                            ortAnschrift, "Deutschland", telefon, fax, eMail, tempGebuDate);
+                            ortAnschrift, "Deutschland", telefon, fax, eMail, eingabeDatum);
 
                 } catch (ApplicationException e) {
                     System.out.println(e.getMessage());
@@ -926,42 +926,43 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                     hausnummerLieferanschrift = jTF_HausnummerLieferanschrift.getText();
                     plzLieferanschrift = jTF_PLZLieferanschrift.getText();
                     ortLieferanschrift = jTF_OrtLieferanschrift.getText();
-//                    try {
-//                        lieferanschrift = this.dao.createAdress("Lieferadresse", name, vorname,
-//                                titel, strasseLieferanschrift, hausnummerLieferanschrift, plzLieferanschrift,
-//                                ortLieferanschrift, "Deutschland", telefon, fax, eMail, tempGebuDate);
-//
-//                    } catch (ApplicationException e) {
-//                        System.out.println(e.getMessage());
-//                    }
-                }
-//                try {
-//
-//                    this.dao.createBusinessPartner(typ, lieferanschrift, anschrift, k, false);
-//                } catch (ApplicationException e) {
-//                    System.out.println(e.getMessage());
-//                }
+                    System.out.println(tempGebuDate);
+                    try {
+                        lieferanschrift = this.dao.createAdress("Lieferadresse", name, vorname,
+                                titel, strasseLieferanschrift, hausnummerLieferanschrift, plzLieferanschrift,
+                                ortLieferanschrift, "Deutschland", telefon, fax, eMail, eingabeDatum);
 
-                System.out.println("Geschäftspartner: \n"
-                        + "Geschäftspartnernummer:      " + geschaeftspartnerNr + "\n"
-                        + "Typ:                         " + typ + "\n"
-                        + "Titel:                       " + titel + "\n"
-                        + "Name:                        " + name + "\n"
-                        + "Vorname:                     " + vorname + "\n"
-                        + "Telefon:                     " + telefon + "\n"
-                        + "Fax:                         " + fax + "\n"
-                        + "Geburtsdatum:                " + eingabeDatum + "\n"
-                        + "Erfassungsdatum:             " + erfassungsdatum + "\n"
-                        + "eMail:                       " + eMail + "\n"
-                        + "Kreditlimit:                 " + kreditlimit + "\n"
-                        + "Straße Anschrift:            " + strasseAnschrift + "\n"
-                        + "Hausnummer Anschrift:        " + hausnummerAnschrift + "\n"
-                        + "PLZ Anschrift:               " + plzAnschrift + "\n"
-                        + "Ort Anschrift:               " + ortAnschrift + "\n"
-                        + "Straße LAnschrift:           " + strasseLieferanschrift + "\n"
-                        + "Hausnummer LAnschrift:       " + hausnummerLieferanschrift + "\n"
-                        + "PLZ LAnschrift:              " + plzLieferanschrift + "\n"
-                        + "Ort LAnschrift:              " + ortLieferanschrift + "\n");
+                    } catch (ApplicationException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+                try {
+
+                    this.dao.createBusinessPartner(typ, lieferanschrift, anschrift, k);
+                } catch (ApplicationException e) {
+                    System.out.println(e.getMessage());
+                }
+
+//                System.out.println("Geschäftspartner: \n"
+//                        + "Geschäftspartnernummer:      " + geschaeftspartnerNr + "\n"
+//                        + "Typ:                         " + typ + "\n"
+//                        + "Titel:                       " + titel + "\n"
+//                        + "Name:                        " + name + "\n"
+//                        + "Vorname:                     " + vorname + "\n"
+//                        + "Telefon:                     " + telefon + "\n"
+//                        + "Fax:                         " + fax + "\n"
+//                        + "Geburtsdatum:                " + eingabeDatum + "\n"
+//                        + "Erfassungsdatum:             " + erfassungsdatum + "\n"
+//                        + "eMail:                       " + eMail + "\n"
+//                        + "Kreditlimit:                 " + kreditlimit + "\n"
+//                        + "Straße Anschrift:            " + strasseAnschrift + "\n"
+//                        + "Hausnummer Anschrift:        " + hausnummerAnschrift + "\n"
+//                        + "PLZ Anschrift:               " + plzAnschrift + "\n"
+//                        + "Ort Anschrift:               " + ortAnschrift + "\n"
+//                        + "Straße LAnschrift:           " + strasseLieferanschrift + "\n"
+//                        + "Hausnummer LAnschrift:       " + hausnummerLieferanschrift + "\n"
+//                        + "PLZ LAnschrift:              " + plzLieferanschrift + "\n"
+//                        + "Ort LAnschrift:              " + ortLieferanschrift + "\n");
                 geschaeftspartnerNr++;
                 setzeFormularZurueck();
 

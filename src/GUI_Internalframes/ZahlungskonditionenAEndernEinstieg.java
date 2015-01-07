@@ -5,9 +5,15 @@
  */
 package GUI_Internalframes;
 
+import DAO.ApplicationException;
+import DTO.Anschrift;
+import DTO.Geschaeftspartner;
 import DTO.Zahlungskondition;
 import JFrames.GUIFactory;
 import java.awt.Component;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Calendar;
 
 /**
  *
@@ -23,6 +29,7 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
     Component c;
     GUIFactory factory;
     ZahlungskonditionAnlegen z;
+    private NumberFormat nf;
 
     /**
      * Creates new form Fenster
@@ -31,6 +38,9 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
         initComponents();
         this.factory = factory;
         this.z = z;
+        nf = NumberFormat.getInstance();
+        nf.setMinimumFractionDigits(2);
+        nf.setMaximumFractionDigits(2);
     }
 
     /**
@@ -148,28 +158,44 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
     }// </editor-fold>//GEN-END:initComponents
 
     private void jB_EnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_EnterActionPerformed
-        if (jTF_Zahlungskondition_ID.getText().equals("Ändern")) {
-//            Daten aus Datenbank laden
-            z.gibjCB_Auftragsart().setSelectedItem("Terminauftrag");
-            z.gibjFTF_LieferzeitSOFORT().setText("10");
-            z.gibjFTF_SperrzeitWUNSCH().setText("9");
-            z.gibjSP_Skontozeit1().setValue(2);
-            z.gibjSP_Skontozeit2().setValue(3);
-            z.gibjCB_Skonto1().setSelectedItem("1,0");
-            z.gibjCB_Skonto2().setSelectedItem("2,0");
-            z.gibjSP_Mahnzeit1().setValue(4);
-            z.gibjSP_Mahnzeit2().setValue(5);
-            z.gibjSP_Mahnzeit3().setValue(6);
-            z.setVisible(true);
-            this.setVisible(false);
-            jTF_Zahlungskondition_ID.setText("");
-        } else {
-            jTF_Statuszeile.setText("Kein passender Artikel in Datenbank!");
-        }
+//        String eingabe = jTF_Zahlungskondition_ID.getText();
+//        long zknr = 0;
+////        try {
+////            zknr = nf.parse(eingabe).longValue();
+////            Zahlungskondition za = this.factory.getDAO().getPaymentConditionsById(zknr);
+////            z.gibjTF_ZahlungskonditionID().setText("" + za.getZahlungskonditionID());
+////            z.gibjCB_Auftragsart().setSelectedItem(za.getAuftragsart());
+////            z.gibjFTF_LieferzeitSOFORT().setText("" + za.get);
+//////            
+////        } catch (ParseException ex) {
+////            System.out.println("Fehler beim Parsen in der Klasse ArtikelAnlegen!");
+////        } catch (ApplicationException ex) {
+////            Logger.getLogger(ArtikelAEndernEinstieg.class.getName()).log(Level.SEVERE, null, ex);
+//            jTF_Statuszeile.setText("Kein passender Geschäftspartner in Datenbank!");
+////            jTF_Geschaeftspartner_ID.setText("");
+//        }
+//        if (jTF_Zahlungskondition_ID.getText().equals("Ändern")) {
+////            Daten aus Datenbank laden
+//            z.gibjCB_Auftragsart().setSelectedItem("Terminauftrag");
+//            z.gibjFTF_LieferzeitSOFORT().setText("10");
+//            z.gibjFTF_SperrzeitWUNSCH().setText("9");
+//            z.gibjSP_Skontozeit1().setValue(2);
+//            z.gibjSP_Skontozeit2().setValue(3);
+//            z.gibjCB_Skonto1().setSelectedItem("1,0");
+//            z.gibjCB_Skonto2().setSelectedItem("2,0");
+//            z.gibjSP_Mahnzeit1().setValue(4);
+//            z.gibjSP_Mahnzeit2().setValue(5);
+//            z.gibjSP_Mahnzeit3().setValue(6);
+//            z.setVisible(true);
+//            this.setVisible(false);
+//            jTF_Zahlungskondition_ID.setText("");
+//        } else {
+//            jTF_Statuszeile.setText("Kein passender Artikel in Datenbank!");
+//        }
     }//GEN-LAST:event_jB_EnterActionPerformed
 
     private void jB_EnterFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jB_EnterFocusLost
-
+        
         jTF_Statuszeile.setText("");
     }//GEN-LAST:event_jB_EnterFocusLost
 

@@ -165,10 +165,15 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         }
         if (skontozeit1 == 0) {
             JTextField tf = ((JSpinner.DefaultEditor) jSP_Skontozeit1.getEditor()).getTextField();
-            tf.setBackground(Color.red);
-//            tf.setText("2");
+            tf.setBackground(FARBE_FEHLERHAFT);
+            tf.setText("2");
             System.out.println(tf.getBackground());
+//            System.out.println(tf.getBackground());
+//            Component c = jSP_Skontozeit1.getComponent(0);
+//            c.setForeground(FARBE_FEHLERHAFT);
+//            c.setBackground(FARBE_FEHLERHAFT);
 
+//            jSP_Skontozeit1.setForeground(FARBE_FEHLERHAFT);
 //            System.out.println(((JSpinner.NumberEditor) jSP_Skontozeit1.getEditor()).getTextField().getText());
 //            System.out.println(jSP_Skontozeit1.getBackground());
             fehlerhafteComponenten.add(jSP_Skontozeit1);
@@ -179,7 +184,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
             JTextField tf = ((JSpinner.DefaultEditor) jSP_Skontozeit2.getEditor()).getTextField();
             tf.setBackground(Color.red);
 //            tf.setText("12");
-            System.out.println(tf.getBackground());
+//            System.out.println(tf.getBackground());
             fehlerhafteComponenten.add(jSP_Skontozeit2);
         }
         if (jCB_Skonto1.getSelectedIndex() == 0) {
@@ -405,7 +410,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel8.setText("Zahlungskondition-ID:");
 
-        jCB_Auftragsart.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Bitte auswählen", "Barauftrag", "Sofortauftrag", "Terminauftrag", "Bestellauftrag" }));
+        jCB_Auftragsart.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Bitte auswählen", "Sofortauftrag", "Terminauftrag", "Bestellauftrag" }));
         jCB_Auftragsart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCB_AuftragsartActionPerformed(evt);
@@ -866,29 +871,29 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         if (fehlerhafteComponenten.isEmpty()) {
 
             String auftragsart = (String) jCB_Auftragsart.getSelectedItem();
-            double lieferzeitSOFORT = 0;
-            double sperrzeitWunsch = 0;
-            double skontozeit1 = 0;
-            double skontozeit2 = 0;
+            int lieferzeitSOFORT = 0;
+            int sperrzeitWunsch = 0;
+            int skontozeit1 = 0;
+            int skontozeit2 = 0;
             double skonto1 = 0;
             double skonto2 = 0;
-            double mahnzeit1 = 0;
-            double mahnzeit2 = 0;
-            double mahnzeit3 = 0;
+            int mahnzeit1 = 0;
+            int mahnzeit2 = 0;
+            int mahnzeit3 = 0;
 //            String lieferzeitSOFORT = jFTF_LieferzeitSOFORT.getText();
 //            String sperrzeitWUNSCH = jFTF_SperrzeitWUNSCH.getText();
 //            String skonto1 = (String) jCB_Skonto1.getSelectedItem();
 //            String skonto2 = (String) jCB_Skonto2.getSelectedItem();
             try {
-                lieferzeitSOFORT = nf.parse(jFTF_LieferzeitSOFORT.getText()).doubleValue();
-                sperrzeitWunsch = nf.parse(jFTF_SperrzeitWUNSCH.getText()).doubleValue();
+                lieferzeitSOFORT = nf.parse(jFTF_LieferzeitSOFORT.getText()).intValue();
+                sperrzeitWunsch = nf.parse(jFTF_SperrzeitWUNSCH.getText()).intValue();
                 skonto1 = nf.parse((String) jCB_Skonto1.getSelectedItem()).doubleValue();
                 skonto2 = nf.parse((String) jCB_Skonto2.getSelectedItem()).doubleValue();
-                skontozeit1 = ((Number) jSP_Skontozeit1.getValue()).doubleValue();
-                skontozeit2 = ((Number) jSP_Skontozeit2.getValue()).doubleValue();
-                mahnzeit1 = ((Number) jSP_Mahnzeit1.getValue()).doubleValue();
-                mahnzeit2 = ((Number) jSP_Mahnzeit2.getValue()).doubleValue();
-                mahnzeit3 = ((Number) jSP_Mahnzeit3.getValue()).doubleValue();
+                skontozeit1 = ((Number) jSP_Skontozeit1.getValue()).intValue();
+                skontozeit2 = ((Number) jSP_Skontozeit2.getValue()).intValue();
+                mahnzeit1 = ((Number) jSP_Mahnzeit1.getValue()).intValue();
+                mahnzeit2 = ((Number) jSP_Mahnzeit2.getValue()).intValue();
+                mahnzeit3 = ((Number) jSP_Mahnzeit3.getValue()).intValue();
 
                 this.dao.createPaymentConditions(auftragsart, lieferzeitSOFORT,
                         sperrzeitWunsch, skontozeit1, skontozeit2, skonto1,
@@ -966,54 +971,58 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jB_SuchenActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
-       beendenEingabeNachfrage();
+        beendenEingabeNachfrage();
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void jB_AbbrechenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AbbrechenActionPerformed
-       beendenEingabeNachfrage();
+        beendenEingabeNachfrage();
     }//GEN-LAST:event_jB_AbbrechenActionPerformed
+
+    public JTextField gibjTF_ZahlungskonditionID() {
+        return jTF_ZahlungskonditionID;
+    }
 
     public JComboBox gibjCB_Auftragsart() {
         return jCB_Auftragsart;
     }
-    
+
     public JFormattedTextField gibjFTF_LieferzeitSOFORT() {
         return jFTF_LieferzeitSOFORT;
     }
-    
+
     public JFormattedTextField gibjFTF_SperrzeitWUNSCH() {
         return jFTF_SperrzeitWUNSCH;
     }
-    
+
     public JSpinner gibjSP_Skontozeit1() {
         return jSP_Skontozeit1;
     }
-    
+
     public JSpinner gibjSP_Skontozeit2() {
         return jSP_Skontozeit2;
     }
-    
+
     public JComboBox gibjCB_Skonto1() {
         return jCB_Skonto1;
     }
-    
+
     public JComboBox gibjCB_Skonto2() {
         return jCB_Skonto2;
     }
-    
+
     public JSpinner gibjSP_Mahnzeit1() {
         return jSP_Mahnzeit1;
     }
-    
-     public JSpinner gibjSP_Mahnzeit2() {
+
+    public JSpinner gibjSP_Mahnzeit2() {
         return jSP_Mahnzeit2;
     }
-     
-      public JSpinner gibjSP_Mahnzeit3() {
+
+    public JSpinner gibjSP_Mahnzeit3() {
         return jSP_Mahnzeit3;
     }
-    
-      public void setzeFormularInZKAnlegenAEndern() {
+
+    public void setzeFormularInZKAnlegenAEndern() {
         jCB_Auftragsart.setEnabled(true);
         jFTF_LieferzeitSOFORT.setEnabled(true);
         jFTF_SperrzeitWUNSCH.setEnabled(true);
@@ -1040,7 +1049,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         jSP_Mahnzeit3.setEnabled(false);
         setzeFormularZurueck();
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_Abbrechen;
     private javax.swing.JButton jB_Anzeigen;
