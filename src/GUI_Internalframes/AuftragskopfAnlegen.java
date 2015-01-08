@@ -25,11 +25,16 @@ import JFrames.*;
  *
  * 10.12.2014 Terrasi, Dokumentation und Logiküberarbetung
  * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
+ * 06.01.2015 Terrasi, Anwendungslogik für das ändern und anzeigen eines
+ * Auftragskopfs.
+ * 08.01.2015 Terrasi, Überarbeitung der Anwendungslogik für anzeigen/ändern 
+ * Status und das hinzufügen von weiteren Funktion.
  */
 public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
     Component c;
     GUIFactory factory;
-        DataAccessObject dao;
+    DataAccessObject dao;
+    InterfaceMainView hauptFenster;
     /*
      Varibalendefinition
      */
@@ -91,11 +96,12 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     /**
      * Creates new form AuftragskopfAnlegen
      */
-    public AuftragskopfAnlegen(GUIFactory factory) {
+    public AuftragskopfAnlegen(GUIFactory factory, InterfaceMainView mainView) {
         initComponents();
         
         this.factory = factory;
         this.dao = factory.getDAO();
+        this.hauptFenster = mainView;
         
         heute = new Date();
         lieferdatum = null;
@@ -153,7 +159,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         jB_Anzeigen = new javax.swing.JButton();
         jB_Loeschen = new javax.swing.JButton();
         jB_Suchen = new javax.swing.JButton();
-        Statuszeile_jTextField = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         NeuePosition_jButton = new javax.swing.JButton();
         auftragsID_jLabel = new javax.swing.JLabel();
@@ -199,7 +204,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(true);
         setTitle("Auftragskopf anlegen");
-        setPreferredSize(new java.awt.Dimension(780, 670));
         setVisible(true);
 
         jToolBar1.setBorder(null);
@@ -223,7 +227,11 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         jToolBar1.add(jB_Speichern);
 
         jB_Anzeigen.setText("Anzeige/Ändern");
-        jB_Anzeigen.setEnabled(false);
+        jB_Anzeigen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_AnzeigenActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_Anzeigen);
 
         jB_Loeschen.setText("Löschen");
@@ -231,9 +239,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 
         jB_Suchen.setText("Suchen");
         jToolBar1.add(jB_Suchen);
-
-        Statuszeile_jTextField.setText("Statuszeile");
-        Statuszeile_jTextField.setEnabled(false);
 
         jSeparator1.setEnabled(false);
 
@@ -528,7 +533,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                                                         .addComponent(erfassungsdatum_auftragsposition_jFormattedTextField))))))
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(auftragskopfdaten_titel_jLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(0, 14, Short.MAX_VALUE)))
+                            .addGap(0, 31, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -539,23 +544,22 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(auftragspositions_titel_jLabel))
                         .addContainerGap())))
-            .addComponent(Statuszeile_jTextField, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(152, 152, 152)
-                        .addComponent(NeuePosition_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(erfassungsdatum_jLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lieferdatum_jLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(abschlussdatum_jLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE))))
+                            .addComponent(abschlussdatum_jLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(159, 159, 159)
+                        .addComponent(NeuePosition_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 681, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 95, Short.MAX_VALUE)))
+                    .addGap(0, 100, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -637,19 +641,18 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(NeuePosition_jButton)
-                .addGap(114, 114, 114)
-                .addComponent(Statuszeile_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(NeuePosition_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(128, 128, 128))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 737, Short.MAX_VALUE)))
+                    .addGap(0, 728, Short.MAX_VALUE)))
         );
 
         zahlungskonditionen_jLabel.getAccessibleContext().setAccessibleName("  Zahlungskonditionen :");
 
-        pack();
+        setBounds(0, 0, 797, 670);
     }// </editor-fold>//GEN-END:initComponents
 
     /**
@@ -1084,6 +1087,14 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
+    private void jB_AnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AnzeigenActionPerformed
+        if(jB_Anzeigen.getText().equals("Anzeigen")){
+            this.setStatusAnzeigen();
+        }else{
+            this.setStatusAender();
+        }
+    }//GEN-LAST:event_jB_AnzeigenActionPerformed
+
     /**
      * Schnittstellenmethode mit der alle Eingabefelder zurückgesetzt werden.
      */
@@ -1192,11 +1203,89 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 
         list.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
     }
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 06.01.2015 Terrasi angelegt,Logik und Dokumentation */
+    /* 08.01.2015 Terrasi Anwendungslogik überarbeitet*/
+    /*----------------------------------------------------------*/
+    /**
+     * Methode mit der das Internalframe nicht mehr als Anzeigefenster 
+     * dargestellt wird, sondern als Fenster in dem man Daten ändern kann.
+     */
+    public void setStatusAender(){
+        this.setTitle("Auftragskopf ändern");
+        zuruecksetzen();
+        this.geschaeftspartner_jTextField.setEnabled(true);
+        this.auftragskopfID_jTextField.setEnabled(true);
+        this.auftragswert_jTextField.setEnabled(true);
+        this.auftragsart_jComboBox.setEnabled(true);
+        this.zahlungskonditionen_jComboBox.setEnabled(true);
+        this.auftragstext_jTextArea.setEnabled(true);
+        this.erfassungsdatum_jFormattedTextField.setEnabled(true);
+        this.lieferdatum_jFormattedTextField.setEnabled(true);
+        this.abschlussdatum_jFormattedTextField.setEnabled(true);
+        this.erfasst_jRadioButton.setEnabled(true);
+        this.freigegeben_jRadioButton.setEnabled(true);
+        this.abgeschlossen_jRadioButton.setEnabled(true);
+        this.positionsnummer_jTextField.setEnabled(true);
+        this.materialnummer_jTextField.setEnabled(true);
+        this.menge_jTextField.setEnabled(true);
+        this.erfassungsdatum_auftragsposition_jFormattedTextField.setEnabled(true);
+        this.auftragsposition_jTable.setEnabled(true);
+        jB_Anzeigen.setText("Anzeigen");
+        jB_Anzeigen.setEnabled(true);
+        jB_Speichern.setEnabled(true);
+        jB_Loeschen.setEnabled(true);
+        this.hauptFenster.setComponent(this);
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 06.01.2015 Terrasi angelegt,Logik und Dokumentation */
+    /* 08.01.2015 Terrasi Anwendungslogik überarbeitet*/
+    /*----------------------------------------------------------*/
+    public void setStatusAnzeigen(){
+        this.setTitle("Auftragsposition anzeigen");
+        zuruecksetzen();
+        this.geschaeftspartner_jTextField.setEnabled(false);
+        this.auftragskopfID_jTextField.setEnabled(false);
+        this.auftragswert_jTextField.setEnabled(false);
+        this.auftragsart_jComboBox.setEnabled(false);
+        this.zahlungskonditionen_jComboBox.setEnabled(false);
+        this.auftragstext_jTextArea.setEnabled(false);
+        this.erfassungsdatum_jFormattedTextField.setEnabled(false);
+        this.lieferdatum_jFormattedTextField.setEnabled(false);
+        this.abschlussdatum_jFormattedTextField.setEnabled(false);
+        this.erfasst_jRadioButton.setEnabled(false);
+        this.freigegeben_jRadioButton.setEnabled(false);
+        this.abgeschlossen_jRadioButton.setEnabled(false);
+        this.positionsnummer_jTextField.setEnabled(false);
+        this.materialnummer_jTextField.setEnabled(false);
+        this.menge_jTextField.setEnabled(false);
+        this.erfassungsdatum_auftragsposition_jFormattedTextField.setEnabled(false);
+        this.auftragsposition_jTable.setEnabled(false);
+        jB_Anzeigen.setText("Ändern");
+        jB_Anzeigen.setEnabled(true);
+        jB_Speichern.setEnabled(false);
+        jB_Loeschen.setEnabled(false);
+        this.hauptFenster.setComponent(this);
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 08.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
+    public void setStatusAnlegen(){
+        this.setTitle("Auftragskopf anlegen");
+        jB_Anzeigen.setText("Anzeigen");
+        jB_Anzeigen.setEnabled(false);
+    }
+    
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton NeuePosition_jButton;
-    private javax.swing.JTextField Statuszeile_jTextField;
     private javax.swing.JRadioButton abgeschlossen_jRadioButton;
     private javax.swing.JFormattedTextField abschlussdatum_jFormattedTextField;
     private javax.swing.JLabel abschlussdatum_jLabel;

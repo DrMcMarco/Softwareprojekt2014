@@ -43,7 +43,10 @@ import javax.swing.JOptionPane;
  * 02.01.2015 Terrasi, Überarbeitung der
  * Navigationsfünktion 
  * 06.01.2015 Terrasi, Statuszeile implementiert
+ * 08.01.2015 Terrasi Anwendungslogik überarbeitet und alle Komponenten
+ * zusammengefügt.
  */
+ 
 public class Start extends javax.swing.JFrame implements InterfaceMainView{
 
     /**
@@ -111,8 +114,9 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         hauptmenueuser = new Hauptmenue_User(factory, this);
         hauptmenueuser.setName("HauptmenüUser");
 
-        auftragskopfanlegen = new AuftragskopfAnlegen(factory);
-        auftragskopfaendern = new AuftragskopfAendern(factory);
+        auftragskopfanlegen = new AuftragskopfAnlegen(factory, this);
+        auftragskopfaendern = new AuftragskopfAendern(factory,auftragskopfanlegen,
+         this);
         auftragsspositionanzeigen = new AuftragspositionAnzeigen(factory,
         this);
         auftragsspositionaender = new AuftragspositionAendern(factory
@@ -246,7 +250,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         statusMeldung_jTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         statusMeldung_jTextField.setEnabled(false);
         desktopPane.add(statusMeldung_jTextField);
-        statusMeldung_jTextField.setBounds(-10, 520, 800, 30);
+        statusMeldung_jTextField.setBounds(0, 690, 800, 30);
 
         jM_Navigation.setMnemonic('n');
         jM_Navigation.setText("Navigation");
@@ -433,15 +437,11 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(desktopPane, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(desktopPane, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 163, Short.MAX_VALUE))
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 714, Short.MAX_VALUE)
         );
 
         pack();
@@ -511,6 +511,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
+    /* 08.01.2015 Terrasi AuftragskopfAnlegenMaske mit der Anzeigen/Ändern-
+        Funktion angepasst.*/
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die AuftrgaskopfAnlegen Maske aufgerufen wird
@@ -523,8 +525,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
-        auftragskopfanlegen.setTitle("Auftragskopf anlegen");
-        auftragskopfanlegen.setEnabled(true);
+        auftragskopfanlegen.setStatusAender();
+        auftragskopfanlegen.setStatusAnlegen();
         setCenterJIF(auftragskopfanlegen);
         setComponent(auftragskopfanlegen);
     }//GEN-LAST:event_jMI_AuftragskopfAnlegenActionPerformed
@@ -534,6 +536,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
+    /* 08.01.2015 Terrasi AuftragskopfÄndernMaske hinzugefügt*/
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die AuftrgaskopfAendern Maske aufgerufen wird
@@ -546,6 +549,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
+        auftragskopfaendern.setTitle("Auftragskopf ändern");
         setCenterJIF(auftragskopfaendern);
         setComponent(auftragskopfaendern);
     }//GEN-LAST:event_jMI_AuftragkopfAEndernActionPerformed
@@ -555,6 +559,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
+    /* 08.01.2015 Terrasi AuftragskopfAnzeigenMaske hinzugefügt*/
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die AuftrgaskopfAnzeigen Maske aufgerufen wird
@@ -567,9 +572,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
-        auftragskopfanlegen.setTitle("Auftragskopf anzeigen");
-        auftragskopfanlegen.setEnabled(false);
-        setCenterJIF(auftragskopfanlegen);
+        auftragskopfaendern.setTitle("Auftragskopf anzeigen");
+        setCenterJIF(auftragskopfaendern);
         setComponent(auftragskopfaendern);
     }//GEN-LAST:event_jMI_AuftragskopfAnzeigenActionPerformed
 
@@ -578,6 +582,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
+    /* 08.01.2015 Terrasi AuftragspositionÄndernMaske hinzugefügt*/
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Auftrgaspositionändern Maske aufgerufen wird
@@ -600,6 +605,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
+    /* 08.01.2015 Terrasi AuftragspositionAnzeigenMaske hinzugefügt*/
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Auftrgaspositionanzeigen Maske aufgerufen wird

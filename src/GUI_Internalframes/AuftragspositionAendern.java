@@ -23,6 +23,8 @@ import javax.swing.JTextField;
  * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
  * 06.01.2015 Terrasi, Anwendungslogik für das anzeigen der Auftragspositions-
  * maske.
+ * 08.01.2015 Terrasi, Überarbeitung der Anwendungslogik 
+ * und das hinzufügen von weiteren Funktion.
  */
 public class AuftragspositionAendern extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
@@ -288,6 +290,7 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
 
     // Falls alle Eingaben getätigt wurden sind, wird nach der gesuchten Auftragsposition
     // gesucht.
+    // 08.01.2015
     private void Enter_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Enter_jButtonActionPerformed
         ueberpruefen();
         if (fehlendeEingaben.isEmpty()) {
@@ -295,13 +298,11 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
             // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
             if(this.getTitle().equals("Auftragsposition ändern")){
                 this.auftragspositionAnzeigen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
-//                this.hauptFenster.setComponent(this);
                 zuruecksetzen();//Methode die bestimmte Eingabefelder leert
                 this.setVisible(false);
                 this.hauptFenster.setFrame(this.auftragspositionAnzeigen);// Hauptfenster macht übergebene Maske sichtbar.
             }else{
                 this.auftragspositionAnzeigen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
-//                this.hauptFenster.setComponent(this);
                 zuruecksetzen();//Methode die bestimmte Eingabefelder leert
                 this.setVisible(false);
                 this.hauptFenster.setFrame(this.auftragspositionAnzeigen);// Hauptfenster macht übergebene Maske sichtbar.

@@ -52,6 +52,8 @@ import Interfaces.InterfaceMainView;
  * 16.12.2014 Terrasi, Überarbeitung und Zuweisung der Navigationsfunktion 
  * 02.01.2015 Terrasi, Überarbeitung der Navigationsfünktion 
  * 06.01.2015 Terrasi,Statuszeile implementiert
+ * 08.01.2015 Terrasi Anwendungslogik überarbeitet und alle Komponenten
+ * zusammengefügt.
  */
 public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
 
@@ -111,8 +113,9 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         hauptmenueadmin = new Hauptmenue_Admin(factory, this);
         hauptmenueadmin.setName("HauptmenüAdmin");
 
-        auftragskopfanlegen = new AuftragskopfAnlegen(factory);
-        auftragskopfaendern = new AuftragskopfAendern(factory);
+        auftragskopfanlegen = new AuftragskopfAnlegen(factory, this);
+        auftragskopfaendern = new AuftragskopfAendern(factory, auftragskopfanlegen,
+         this);
         auftragsspositionanzeigen = new AuftragspositionAnzeigen(factory,this);
         auftragsspositionaender = new AuftragspositionAendern(factory,
         auftragsspositionanzeigen, this);
@@ -483,6 +486,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
+    /* 08.01.2015 Terrasi AuftragskopfAnlegenMaske mit der Anzeigen/Ändern-
+        Funktion angepasst.*/
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die AuftrgaskopfAnlegen Maske aufgerufen wird
@@ -495,6 +500,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         }
         factory.setComponent(hauptmenueadmin);
         hauptmenueadmin.setVisible(false);
+        auftragskopfanlegen.setStatusAender();
+        auftragskopfanlegen.setStatusAnlegen();
         setCenterJIF(auftragskopfanlegen);
         setComponent(auftragskopfanlegen);
     }//GEN-LAST:event_jMI_AuftragskopfAnlegenActionPerformed
@@ -504,6 +511,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
+    /* 08.01.2015 Terrasi AuftragskopfÄndernMaske hinzugefügt*/
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die AuftrgaskopfAendern Maske aufgerufen wird
@@ -516,6 +524,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         }
         factory.setComponent(hauptmenueadmin);
         hauptmenueadmin.setVisible(false);
+        auftragskopfaendern.setTitle("Auftragskopf ändern");
         setCenterJIF(auftragskopfaendern);
         setComponent(auftragskopfaendern);
     }//GEN-LAST:event_jMI_AuftragkopfAEndernActionPerformed
@@ -546,6 +555,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
+    /* 08.01.2015 Terrasi AuftragspositionÄndernMaske hinzugefügt*/
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Auftrgaspositionändern Maske aufgerufen wird
@@ -568,6 +578,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
+    /* 08.01.2015 Terrasi AuftragspositionAnzeigenMaske hinzugefügt*/
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Auftrgaspositionanzeigen Maske aufgerufen wird
@@ -647,6 +658,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
+     /* 08.01.2015 Terrasi AuftragskopfAnzeigenMaske hinzugefügt*/
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die AuftrgaskopfAnzeigen Maske aufgerufen wird
@@ -654,7 +666,14 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
      * @param evt
      */
     private void jMI_AuftragskopfAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragskopfAnzeigenActionPerformed
-        // TODO add your handling code here:
+        if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
+            getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        }
+        factory.setComponent(hauptmenueadmin);
+        hauptmenueadmin.setVisible(false);
+        auftragskopfaendern.setTitle("Auftragskopf anzeigen");
+        setCenterJIF(auftragskopfaendern);
+        setComponent(auftragskopfaendern);
     }//GEN-LAST:event_jMI_AuftragskopfAnzeigenActionPerformed
 
     /*----------------------------------------------------------*/

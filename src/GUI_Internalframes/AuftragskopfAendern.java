@@ -15,18 +15,22 @@ import javax.swing.JTextField;
  *
  * 10.12.2014 Dokumentation und Logik
  * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
+ * 08.01.2015 Terrasi, Überarbeitung der Anwendungslogik und
+ * das hinzufügen von weiteren Funktion.
  */
 public class AuftragskopfAendern extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
     /*
     Hilfsvariable
     */
     Component c;
+    GUIFactory factory ;
+    InterfaceMainView hauptFenster;
+    AuftragskopfAnlegen auftragskopfAnlegen;
     
     /*
      Syntax
      */
     private static final String auftragskopfID_syntax = "|\\d{1,9}?";
-    GUIFactory factory ;
     
     /*
      Augabetexte für Meldungen
@@ -51,9 +55,19 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
     /**
      * Creates new form Fenster
      */
-    public AuftragskopfAendern(GUIFactory factory) {
+    /**
+     * 
+     * 
+     *@param factory   
+     *@param auftragsKopf   
+     *@param mainView  
+     */
+    public AuftragskopfAendern(GUIFactory factory,AuftragskopfAnlegen auftragsKopf
+            , InterfaceMainView mainView) {
         initComponents();
         this.factory = factory;
+        this.auftragskopfAnlegen = auftragsKopf;
+        this.hauptFenster = mainView;
         
         /*
          Initialisierung von Variablen
@@ -122,6 +136,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         jToolBar1.add(jB_Anzeigen);
 
         jB_Loeschen.setText("Löschen");
+        jB_Loeschen.setEnabled(false);
         jToolBar1.add(jB_Loeschen);
 
         jB_Suchen.setText("Suchen");
@@ -225,9 +240,19 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         //Aufruf der Schnittstellenmethode um auf Vollständigkeit der Eingaben zu prüfen.
         ueberpruefen();
         if (fehleingabefelder.isEmpty()) {//Bei ausgefüllten Eingabenfeldern
-
-            //Suchfunktion nach der eingegebenen Auftragskopf-ID 
-            zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+            // Überprüft anhand des Framestitels, ob es das nächste Fenster
+            // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
+            if(this.getTitle().equals("Auftragskopf ändern")){
+                this.auftragskopfAnlegen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
+                zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                this.setVisible(false);
+                this.hauptFenster.setFrame(this.auftragskopfAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
+            }else{
+                this.auftragskopfAnlegen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
+                zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                this.setVisible(false);
+                this.hauptFenster.setFrame(this.auftragskopfAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
+            }
         } else {//Wenn Eingaben fehlen.
             // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
             // getätigt worden sind

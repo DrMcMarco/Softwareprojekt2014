@@ -25,7 +25,7 @@ import JFrames.*;
  * 06.01.2015 Terrasi, Anwendungslogik für das ändern und anzeigen von 
  * Auftragspositionen.
  * 08.01.2015 Terrasi, Überarbeitung der Anwendungslogik für anzeigen/ändern 
- * Status.
+ * Status und das hinzufügen von weiteren Funktion. 
  */
 public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
