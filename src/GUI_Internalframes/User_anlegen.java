@@ -23,6 +23,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     ArrayList<Component> fehlendeEingaben;// ArrayList für Eingabefelder.
     Component c;
     GUIFactory factory;
+    InterfaceMainView hauptFenster;
 
     /*
      Variablen für Farben
@@ -40,9 +41,10 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     /**
      * Creates new form Fenster
      */
-    public User_anlegen(GUIFactory factory) {
+    public User_anlegen(GUIFactory factory, InterfaceMainView mainView) {
         initComponents();
         this.factory = factory;
+        this.hauptFenster = mainView;
         //Initialisierung der Speichervariblen
         fehlendeEingaben = new ArrayList<Component>();
     }
@@ -115,7 +117,61 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
 
         list.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
     }
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 08.01.2015 Terrasi angelegt,Logik und Dokumentation */
+    /*----------------------------------------------------------*/
+    public void setStatusAnzeigen() {
+        this.setTitle("Benutzer anzeigen");
+        zuruecksetzen();
+        this.benutzername_jTextField.setEnabled(false);
+        this.passwort_jTextField.setEnabled(false);        
+        jB_Anzeigen.setText("Ändern");
+        jB_Anzeigen.setEnabled(true);
+        jB_Speichern.setEnabled(false);
+        jB_Loeschen.setEnabled(false);
+        passwort_Generieren_jButton.setEnabled(false);
+        this.hauptFenster.setComponent(this);
+    }
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 08.01.2015 Terrasi angelegt,Logik und Dokumentation */
+    /*----------------------------------------------------------*/
+    /**
+     * Methode mit der das Internalframe nicht mehr als Anzeigefenster 
+     * dargestellt wird, sondern als Fenster in dem man Daten ändern kann.
+     */
+    public void setStatusAender(){
+        this.setTitle("Benutzer ändern");
+        zuruecksetzen();
+        this.benutzername_jTextField.setEnabled(true);
+        this.passwort_jTextField.setEnabled(true);        
+        jB_Anzeigen.setText("Anzeigen");
+        jB_Anzeigen.setEnabled(true);
+        jB_Speichern.setEnabled(true);
+        jB_Loeschen.setEnabled(true);
+        passwort_Generieren_jButton.setEnabled(true);
+        this.hauptFenster.setComponent(this);
+    }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 08.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
+    public void setStatusAnlegen(){
+        this.setTitle("Benutzer anlegen");
+        zuruecksetzen();
+        this.benutzername_jTextField.setEnabled(true);
+        this.passwort_jTextField.setEnabled(true);        
+        jB_Anzeigen.setText("Anzeigen");
+        jB_Anzeigen.setEnabled(false);
+        jB_Speichern.setEnabled(true);
+        jB_Loeschen.setEnabled(true);
+        passwort_Generieren_jButton.setEnabled(true);
+        this.hauptFenster.setComponent(this);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -176,6 +232,11 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
 
         jB_Anzeigen.setText("Anzeige/Ändern");
         jB_Anzeigen.setEnabled(false);
+        jB_Anzeigen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_AnzeigenActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_Anzeigen);
 
         jB_Loeschen.setText("Löschen");
@@ -307,7 +368,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         //Aufruf der Schnittstellenmethode um auf Vollständigkeit der Eingaben zu prüfen.
         ueberpruefen();
         if (fehlendeEingaben.isEmpty()) {
-
+            
             //User anlegen
             zuruecksetzen();//Methode die bestimmte Eingabefelder leert
         } else {
@@ -331,6 +392,14 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         this.setVisible(false);// Internalframe wird nicht mehr dargestellt
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
+
+    private void jB_AnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AnzeigenActionPerformed
+        if(jB_Anzeigen.getText().equals("Anzeigen")){
+            this.setStatusAnzeigen();
+        }else{
+            this.setStatusAender();
+        }
+    }//GEN-LAST:event_jB_AnzeigenActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

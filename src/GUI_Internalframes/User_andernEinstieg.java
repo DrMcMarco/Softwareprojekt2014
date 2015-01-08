@@ -7,27 +7,51 @@ package GUI_Internalframes;
 
 import JFrames.GUIFactory;
 import java.awt.Component;
+import Interfaces.InterfaceViewsFunctionality;
+import Interfaces.InterfaceMainView;
+import java.awt.Color;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
  * @author Luca Terrasi
  *
  * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
+ * 08.01.2015 Terrasi, implementierung der Schnittstellenmethoden und der
+ * Ändern/Anzeigen Funktion.
  */
-public class User_andernEinstieg extends javax.swing.JInternalFrame {
+public class User_andernEinstieg extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
     /*
      Hilfsvariablen
      */
     Component c;
     GUIFactory factory;
+    User_anlegen userAnlegen;
+    InterfaceMainView hauptFenster;
+
+    /*
+     Speichervariablen
+     */
+    ArrayList<Component> fehleingabefelder;
 
     /**
      * Creates new form Fenster
      */
-    public User_andernEinstieg(GUIFactory factory) {
+    /**
+     * Konstruktor,
+     * Erzeugung eines UseraendernEinstiegobjektes.
+     * @param factory 
+     */
+    public User_andernEinstieg(GUIFactory factory, User_anlegen user
+            , InterfaceMainView main) {
         initComponents();
         this.factory = factory;
+        this.userAnlegen = user;
+        this.hauptFenster = main;
+        fehleingabefelder = new ArrayList<>();
     }
 
     /**
@@ -105,6 +129,11 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame {
         BenutzerID_jLabel.setToolTipText("");
 
         Enter_jButton.setText("Weiter");
+        Enter_jButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Enter_jButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -157,6 +186,98 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame {
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
+    private void Enter_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Enter_jButtonActionPerformed
+        // Überprüft anhand des Framestitels, ob es das nächste Fenster
+            // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
+        if(fehleingabefelder.isEmpty()){
+            if(this.getTitle().equals("Benutzer ändern")){
+                this.userAnlegen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
+                zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                this.setVisible(false);
+                this.hauptFenster.setFrame(this.userAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
+            }else{
+                this.userAnlegen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
+                zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                this.setVisible(false);
+                this.hauptFenster.setFrame(this.userAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
+            }
+            
+        }else{
+            
+        }
+    }//GEN-LAST:event_Enter_jButtonActionPerformed
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 08.01.2015 Terrasi angelegt,Logik und Dokumentation */
+    /*----------------------------------------------------------*/
+    /**
+     * Schnittstellenmethode mit der alle Eingabefelder zurückgesetzt werden.
+     */
+    @Override
+    public void zuruecksetzen() {
+        BenutzerID_jTextField.setText("");
+    }
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 08.01.2015 Terrasi angelegt,Logik und Dokumentation */
+    /*----------------------------------------------------------*/
+    /**
+     * Schnittstellenmethode mit der geprüft wird ob alle Eingaben getätigt
+     * worden sind.
+     *
+     */
+    @Override
+    public void ueberpruefen() {
+        //IF-Anweisungen mit denen geprüft wird welche eingabefelder keine Eingabe 
+        // erhalten haben. Diese Eingabefelder werden in passende Speichervariablen festgehalten.
+
+        //Eingabefeld für Auftragskopf werden in Variable "fehleingabefelder" feestgehalten.
+        if (BenutzerID_jTextField.getText().equals("")) {
+            fehleingabefelder.add(BenutzerID_jTextField);
+        }
+    }
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 08.01.2015 Terrasi angelegt,Logik und Dokumentation */
+    /*----------------------------------------------------------*/
+    /**
+     * Schnittstellenmethode mit der die Eingaben beim FocusLost auf Richtigkeit
+     * geprüft werden.
+     *
+     * @param textfield, das zu übergeben JTextfield, indem der Focusgesetzt
+     * ist.
+     * @param syntax, String mit dem eine Eingabe auf das richtige Format hin
+     * geprüft wird.
+     * @param fehlermelgungtitel, Srting der den Titel der Fehlmeldung enthält.
+     * @param fehlermeldung, String der die Fehlmeldung enthält.
+     */
+    @Override
+    public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
+       
+    }
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 08.01.2015 Terrasi angelegt,Logik und Dokumentation */
+    /*----------------------------------------------------------*/
+    @Override
+    public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
+       //Meldung die darauf hinweist das nicht alle Eingaben getätigt worden sind.
+        JOptionPane.showMessageDialog(null, fehlermeldung,
+                fehlermelgungtitel, JOptionPane.WARNING_MESSAGE);
+        list.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
+        // Alle leeren Eingabefelder werden farblich markiert.
+        for (int i = 0; i <= list.size() - 1; i++) {
+            list.get(i).setBackground(farbe);
+        }
+
+        list.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
+    }
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BenutzerID_jLabel;

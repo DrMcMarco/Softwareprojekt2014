@@ -23,12 +23,16 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
+import Interfaces.InterfaceMainView;
+import Interfaces.InterfaceViewsFunctionality;
 
 /**
  *
  * @author Tahir
  *
  * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
+ * 08.01.2015 Terrasi, Implementierung der Anzeigen/Ändern Funktion,
+ * hinzufügen der Schnittstelle für InternalFrames
  */
 public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
 
@@ -38,6 +42,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     Component c;
     GUIFactory factory;
     DataAccessObject dao;
+    InterfaceMainView hauptFenster;
+    
 //  Insanzvariablen eines Artikels
     private int zknummer = 1;
     private int skontozeit1;
@@ -82,7 +88,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
      * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die
      * Documents.
      */
-    public ZahlungskonditionAnlegen(GUIFactory factory) {
+    public ZahlungskonditionAnlegen(GUIFactory factory, InterfaceMainView mainView){
         initComponents();
 
         nf = NumberFormat.getInstance();
@@ -91,6 +97,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         this.dao = factory.getDAO();
         fehlerhafteComponenten = new ArrayList<>();
         zkListe = new ArrayList<>();
+        
+        this.hauptFenster = mainView;
 
         GregorianCalendar aktuellesDaum = new GregorianCalendar();
         DateFormat df_aktuellesDatum = DateFormat.getDateInstance(DateFormat.MEDIUM);    //05.12.2014     
@@ -1008,7 +1016,10 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     public JSpinner gibjSP_Mahnzeit3() {
         return jSP_Mahnzeit3;
     }
-
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 08.01.2015 Terrasi, implemtiereung der Referenzvariable "hauptfenster"*/
+    /*----------------------------------------------------------*/
     public void setzeFormularInZKAnlegenAEndern() {
         jCB_Auftragsart.setEnabled(true);
         jFTF_LieferzeitSOFORT.setEnabled(true);
@@ -1021,8 +1032,13 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         jSP_Mahnzeit2.setEnabled(true);
         jSP_Mahnzeit3.setEnabled(true);
         setzeFormularZurueck();
+        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 08.01.2015 Terrasi, implemtiereung der Referenzvariable "hauptfenster"*/
+    /*----------------------------------------------------------*/
     public void setzeFormularInZKAnzeigen() {
         jCB_Auftragsart.setEnabled(false);
         jFTF_LieferzeitSOFORT.setEnabled(false);
@@ -1035,8 +1051,9 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         jSP_Mahnzeit2.setEnabled(false);
         jSP_Mahnzeit3.setEnabled(false);
         setzeFormularZurueck();
+        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_Anzeigen;
     private javax.swing.JButton jB_Loeschen;

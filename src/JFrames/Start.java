@@ -121,11 +121,11 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         this);
         auftragsspositionaender = new AuftragspositionAendern(factory
                 ,auftragsspositionanzeigen, this);
-        artikelanlegen = new ArtikelAnlegen(factory);
+        artikelanlegen = new ArtikelAnlegen(factory, this);
         artikelaendern = new ArtikelAEndernEinstieg(factory, artikelanlegen);
-        geschaeftspartneranlegen = new GeschaeftspartnerAnlegen(factory);
+        geschaeftspartneranlegen = new GeschaeftspartnerAnlegen(factory, this);
         geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg(factory, geschaeftspartneranlegen);
-        zahlungskonditionanlegen = new ZahlungskonditionAnlegen(factory);
+        zahlungskonditionanlegen = new ZahlungskonditionAnlegen(factory, this);
         zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg(factory, zahlungskonditionanlegen);
 
         // Aufruf der setCenterJIF-Methode
@@ -525,7 +525,6 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
-        auftragskopfanlegen.setStatusAender();
         auftragskopfanlegen.setStatusAnlegen();
         setCenterJIF(auftragskopfanlegen);
         setComponent(auftragskopfanlegen);

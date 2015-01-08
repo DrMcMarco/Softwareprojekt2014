@@ -4,6 +4,7 @@ import DAO.ApplicationException;
 import DTO.*;
 import DAO.DataAccessObject;
 import Documents.UniversalDocument;
+import Interfaces.InterfaceMainView;
 import JFrames.GUIFactory;
 import java.awt.Color;
 import java.awt.Component;
@@ -29,12 +30,15 @@ import javax.swing.text.MaskFormatter;
  * @author Tahir
  *
  * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
+ * 08.01.2015 Terrasi, Implementierung der Anzeigen/Ändern Funktion,
+ * hinzufügen der Schnittstelle für InternalFrames
  */
 public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
 
     Component c;
     GUIFactory factory;
     DataAccessObject dao;
+    InterfaceMainView hauptFenster;
 
     Anschrift anschrift;
     Anschrift lieferanschrift;
@@ -78,11 +82,12 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
      * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die
      * Documents.
      */
-    public GeschaeftspartnerAnlegen(GUIFactory factory) {
+    public GeschaeftspartnerAnlegen(GUIFactory factory, InterfaceMainView mainView) {
         initComponents();
         fehlerhafteComponenten = new ArrayList<>();
         this.factory = factory;
         this.dao = factory.getDAO();
+        this.hauptFenster = mainView;
         FORMAT = new SimpleDateFormat("dd.MM.yyyy");
         FORMAT.setLenient(false);
         anschrift = null;
@@ -1434,6 +1439,10 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         return jTF_OrtLieferanschrift;
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 08.01.2015 Terrasi, implemtiereung der Referenzvariable "hauptfenster"*/
+    /*----------------------------------------------------------*/
     public void setzeFormularInGPAnlegenAEndern() {
         jCHB_Kunde.setEnabled(true);
         jCB_Anrede.setEnabled(true);
@@ -1455,8 +1464,13 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_PLZLieferanschrift.setEnabled(true);
         jTF_OrtLieferanschrift.setEnabled(true);
         setzeFormularZurueck();
+        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 08.01.2015 Terrasi, implemtiereung der Referenzvariable "hauptfenster"*/
+    /*----------------------------------------------------------*/
     public void setzeFormularInGPAnzeigen() {
         jCHB_Kunde.setEnabled(false);
         jCB_Anrede.setEnabled(false);
@@ -1478,6 +1492,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_PLZLieferanschrift.setEnabled(false);
         jTF_OrtLieferanschrift.setEnabled(false);
         setzeFormularZurueck();
+        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -92,6 +92,17 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     private final String Beenden_Meldung = "Wollen sie wirklich das Programm beenden und sich abmelden?";
     private final String Beenden_Meldung_Typ = "Programm beenden";
 
+    private final String ARTIKEL_ANLEGEN = "Artikel anlegen";
+    private final String ARTIKEL_AENDERN = "Artikel ändern";
+    private final String ARTIKEL_ANZEIGEN = "Artikel anzeigen";
+
+    private final String ZK_ANLEGEN = "Zahlungskondition anlegen";
+    private final String ZK_AENDERN = "Zahlungskondition ändern";
+    private final String ZK_AZEIGEN = "Zahlungskondition anzeigen";
+
+    private final String GP_ANLEGEN = "Geschäftspartner anlegen";
+    private final String GP_AENDERN = "Geschäftspartner ändern";
+    private final String GP_ANZEIGEN = "Geschäftspartner anzeigen";
     /**
      * Creates new form Start
      */
@@ -119,14 +130,14 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         auftragsspositionanzeigen = new AuftragspositionAnzeigen(factory,this);
         auftragsspositionaender = new AuftragspositionAendern(factory,
         auftragsspositionanzeigen, this);
-        artikelanlegen = new ArtikelAnlegen(factory);
+        artikelanlegen = new ArtikelAnlegen(factory, this);
         artikelaendern = new ArtikelAEndernEinstieg(factory, artikelanlegen);
-        geschaeftspartneranlegen = new GeschaeftspartnerAnlegen(factory);
+        geschaeftspartneranlegen = new GeschaeftspartnerAnlegen(factory, this);
         geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg(factory, geschaeftspartneranlegen);
-        zahlungskonditionanlegen = new ZahlungskonditionAnlegen(factory);
+        zahlungskonditionanlegen = new ZahlungskonditionAnlegen(factory, this);
         zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg(factory, zahlungskonditionanlegen);
-        useranlegen = new User_anlegen(factory);
-        useraendern = new User_andernEinstieg(factory);
+        useranlegen = new User_anlegen(factory, this);
+        useraendern = new User_andernEinstieg(factory, useranlegen, this);
 
         // Aufruf der setCenterJIF-Methode
         setCenterJIF(hauptmenueadmin);
@@ -500,7 +511,6 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         }
         factory.setComponent(hauptmenueadmin);
         hauptmenueadmin.setVisible(false);
-        auftragskopfanlegen.setStatusAender();
         auftragskopfanlegen.setStatusAnlegen();
         setCenterJIF(auftragskopfanlegen);
         setComponent(auftragskopfanlegen);
@@ -643,6 +653,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
+    /* 07.01.2015 Sen anzeigen Funktion hinzugefuegt */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Artikelanzeigen Maske aufgerufen wird
@@ -650,7 +661,16 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
      * @param evt
      */
     private void jMI_ArtikelAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ArtikelAnzeigenActionPerformed
-        // TODO add your handling code here:
+        artikelaendern.setTitle(ARTIKEL_ANZEIGEN);
+        artikelanlegen.setTitle(ARTIKEL_ANZEIGEN);
+        artikelanlegen.setzeFormularInArtikelAnzeigen();
+        if (c != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
+            c.setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        }
+        factory.setComponent(hauptmenueadmin);
+        hauptmenueadmin.setVisible(false);
+        setCenterJIF(artikelaendern);
+        c = artikelaendern;// Übergabe der neu aufgerufenen View
     }//GEN-LAST:event_jMI_ArtikelAnzeigenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -658,7 +678,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
-     /* 08.01.2015 Terrasi AuftragskopfAnzeigenMaske hinzugefügt*/
+    /* 08.01.2015 Terrasi AuftragskopfAnzeigenMaske hinzugefügt*/
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die AuftrgaskopfAnzeigen Maske aufgerufen wird
@@ -723,6 +743,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
+    /* 07.01.2015 Sen anzeigen Funktion hinzugefuegt */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Geschäftspartneranzeigen Maske aufgerufen wird
@@ -730,7 +751,16 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
      * @param evt
      */
     private void jMI_GPAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_GPAnzeigenActionPerformed
-        // TODO add your handling code here:
+        geschaeftspartneraendern.setTitle(GP_ANZEIGEN);
+        geschaeftspartneranlegen.setTitle(GP_ANZEIGEN);
+        geschaeftspartneranlegen.setzeFormularInGPAnzeigen();
+        if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
+            getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        }
+        factory.setComponent(hauptmenueadmin);
+        hauptmenueadmin.setVisible(false);
+        setCenterJIF(geschaeftspartneraendern);
+        setComponent(geschaeftspartneraendern);
     }//GEN-LAST:event_jMI_GPAnzeigenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -788,7 +818,16 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
      * @param evt
      */
     private void jMI_ZKAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ZKAnzeigenActionPerformed
-        // TODO add your handling code here:
+        zahlungskonditionaendern.setTitle(ZK_AZEIGEN);
+        zahlungskonditionanlegen.setTitle(ZK_AZEIGEN);
+        zahlungskonditionanlegen.setzeFormularInZKAnzeigen();
+        if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
+            getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        }
+        factory.setComponent(hauptmenueadmin);
+        hauptmenueadmin.setVisible(false);
+        setCenterJIF(zahlungskonditionaendern);
+        setComponent(zahlungskonditionaendern);
     }//GEN-LAST:event_jMI_ZKAnzeigenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -796,6 +835,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet */
+    /* 08.01.2015 Terrasi UserAnlegenMaske mit der Anzeigen/Ändern-
+        Funktion angepasst.*
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Benutzeranlegen Maske aufgerufen wird
@@ -808,15 +849,17 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         }
         factory.setComponent(hauptmenueadmin);
         hauptmenueadmin.setVisible(false);
+        useranlegen.setStatusAnlegen();
         setCenterJIF(useranlegen);
         setComponent(useranlegen);
     }//GEN-LAST:event_jMI_BenutzerAnlegenActionPerformed
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 10.12.2014 Terrasi angelegt */
-    /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
-    /* 02.01.2015 Terrasi Logik überarbeitet */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 16.12.2014 Terrasi, Logik  und Dokumentation.*/
+    /* 02.01.2015 Terrasi, Logik überarbeitet */
+    /* 08.01.2015 Terrasi, Implementiereung von Ändern/Anzeigen Funktion */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Benutzerändern Maske aufgerufen wird
@@ -829,6 +872,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         }
         factory.setComponent(hauptmenueadmin);
         hauptmenueadmin.setVisible(false);
+        useraendern.setTitle("Benutzer ändern");
         setCenterJIF(useraendern);
         setComponent(useraendern);
     }//GEN-LAST:event_jMI_BenutzerÄndernActionPerformed
@@ -838,6 +882,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet */
+    /* 08.01.2015 Terrasi, Implementiereung von Ändern/Anzeigen Funktion */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Benutzeranzeigen Maske aufgerufen wird
@@ -845,7 +890,14 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
      * @param evt
      */
     private void jMI_BenutzerAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_BenutzerAnzeigenActionPerformed
-        // TODO add your handling code here:
+        if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
+            getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        }
+        factory.setComponent(hauptmenueadmin);
+        hauptmenueadmin.setVisible(false);
+        useraendern.setTitle("Benutzer anzeigen");
+        setCenterJIF(useraendern);
+        setComponent(useraendern);
     }//GEN-LAST:event_jMI_BenutzerAnzeigenActionPerformed
 
     /*----------------------------------------------------------*/

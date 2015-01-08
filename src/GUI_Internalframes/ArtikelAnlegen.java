@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import JFrames.*;
 import DAO.*;
 import DTO.Artikelkategorie;
+import Interfaces.InterfaceMainView;
 import java.util.Collection;
 import java.util.Iterator;
 import javax.swing.ComboBoxModel;
@@ -24,12 +25,16 @@ import javax.swing.JTextField;
  * GUI Klasse für Artikel verwalten.
  *
  * @author Tahir 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
+ * 
+ * 08.01.2015 Terrasi, Implementierung der Anzeigen/Ändern Funktion,
+ * hinzufügen der Schnittstelle für InternalFrames
  */
 public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
     Component c;
     GUIFactory factory;
     DataAccessObject dao;
+    InterfaceMainView hauptFenster;
     /*
      * Instanzvariablen der Klasse. 
      */
@@ -67,9 +72,10 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
      * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die
      * Documents.
      */
-    public ArtikelAnlegen(GUIFactory factory) {
+    public ArtikelAnlegen(GUIFactory factory, InterfaceMainView mainView) {
         initComponents();
 //        ArtikelAnzeigen Test
+        this.hauptFenster = mainView;
         alleComponenten = new ArrayList<>();
 //        fuelleArrayListMitAllenComponenten();
 //        maxAnzahlFehlerhafterComponenten = alleComponenten.size();
@@ -295,7 +301,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jTB_Menueleiste.setRollover(true);
         jTB_Menueleiste.setEnabled(false);
 
-        jB_Zurueck.setText("Zurück");
+        jB_Zurueck.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/home.PNG"))); // NOI18N
         jB_Zurueck.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jB_Zurueck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -835,6 +841,10 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         return jTF_Bestandsmenge_VERKAUFT;
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 08.01.2015 Terrasi, implemtiereung der Referenzvariable "hauptfenster"*/
+    /*----------------------------------------------------------*/
     public void setzeFormularInArtikelAnlegenAEndern() {
         jTF_Artikelname.setEnabled(true);
         jTA_Artikelbeschreibung.setEnabled(true);
@@ -845,8 +855,13 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jTF_Bestandsmenge_FREI.setEnabled(true);
         beendenNachfrageStatus = true;
         setzeFormularZurueck();
+        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 08.01.2015 Terrasi, implemtiereung der Referenzvariable "hauptfenster"*/
+    /*----------------------------------------------------------*/
     public void setzeFormularInArtikelAnzeigen() {
         jTF_Artikelname.setEnabled(false);
         jTA_Artikelbeschreibung.setEnabled(false);
@@ -857,6 +872,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jTF_Bestandsmenge_FREI.setEnabled(false);
         beendenNachfrageStatus = false;
         setzeFormularZurueck();
+        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_Anzeigen;

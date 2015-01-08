@@ -1087,6 +1087,17 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt */
+    /* 08.01.2015 Terrasi AuftragskopfAnlegenMaske mit der Anzeigen/Ändern-
+        Funktion angepasst.*/
+    /**
+     * 
+     * Beim betätigen des Anzeigen/Ändern Buttons wird je nach Modus
+     * die Maske passend angezeigt.
+     * @param 
+     */ 
     private void jB_AnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AnzeigenActionPerformed
         if(jB_Anzeigen.getText().equals("Anzeigen")){
             this.setStatusAnzeigen();
@@ -1101,9 +1112,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     @Override
     public void zuruecksetzen() {
         //Eingabefelder erhalten einen leeren String
-        
-//        auftragspositionsID_jTextField.setText("");
-        
         positionsnummer_jTextField.setText("");
         materialnummer_jTextField.setText("");
         menge_jTextField.setText("");
@@ -1278,8 +1286,29 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     /*----------------------------------------------------------*/
     public void setStatusAnlegen(){
         this.setTitle("Auftragskopf anlegen");
+        zuruecksetzen();
+        this.geschaeftspartner_jTextField.setEnabled(true);
+        this.auftragskopfID_jTextField.setEnabled(true);
+        this.auftragswert_jTextField.setEnabled(true);
+        this.auftragsart_jComboBox.setEnabled(true);
+        this.zahlungskonditionen_jComboBox.setEnabled(true);
+        this.auftragstext_jTextArea.setEnabled(true);
+        this.erfassungsdatum_jFormattedTextField.setEnabled(true);
+        this.lieferdatum_jFormattedTextField.setEnabled(true);
+        this.abschlussdatum_jFormattedTextField.setEnabled(true);
+        this.erfasst_jRadioButton.setEnabled(true);
+        this.freigegeben_jRadioButton.setEnabled(true);
+        this.abgeschlossen_jRadioButton.setEnabled(true);
+        this.positionsnummer_jTextField.setEnabled(true);
+        this.materialnummer_jTextField.setEnabled(true);
+        this.menge_jTextField.setEnabled(true);
+        this.erfassungsdatum_auftragsposition_jFormattedTextField.setEnabled(true);
+        this.auftragsposition_jTable.setEnabled(true);
         jB_Anzeigen.setText("Anzeigen");
         jB_Anzeigen.setEnabled(false);
+        jB_Speichern.setEnabled(true);
+        jB_Loeschen.setEnabled(true);
+        this.hauptFenster.setComponent(this);
     }
     
 

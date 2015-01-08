@@ -39,7 +39,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
      * @param factory
      * @param frame
      */
-    public Hauptmenue_User(GUIFactory factory, Component frame) {
+    public Hauptmenue_User(GUIFactory factory, InterfaceMainView frame) {
         initComponents();
         this.factory = factory;//Übergabe der Factory.
         try {
@@ -224,6 +224,8 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt und Dokumentation*/
     /* 02.01.2015 Terrasi  Überarbeitung der Funktion und Dokumentation*/
+    /* 08.01.2015 Terrasi  implementierung von Auftrgaskopf,
+    Auftragspositionen und Zahlungskonditionen Masken in die Baumnavigation*/
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode openJtreeNodes, diese methode bekommt einen String
@@ -241,7 +243,8 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                 // Vergleich des Pfades mit String um "Auftragskopf Anlegen" aufzurufen.
                 if (node.equals("[Navigation, Auftrag verwalten, Auftragskopf, Anlegen]")) {
                     // Aufruf der setComponentVisible-Methode um die 
-                    // entsprechende Maske sichtbar zu machen.
+                    // entsprechende Maske sichtbar zu machen. Es wird der 
+                    // aufzurufednen Maske ein Titel übergeben.
                     this.internal.auftragskopfanlegen.setTitle("Auftragskopf anlegen");
                     this.internal.auftragskopfanlegen.setEnabled(true);
                     setComponentVisible(this.internal.auftragskopfanlegen);
@@ -249,13 +252,15 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                 // Vergleich des Pfades mit String um "Auftragskopf Ändern" aufzurufen.
                 if (node.equals("[Navigation, Auftrag verwalten, Auftragskopf, Ändern]")) {
                     // Aufruf der setComponentVisible-Methode um die 
-                    // entsprechende Maske sichtbar zu machen.
+                    // entsprechende Maske sichtbar zu machen. Es wird der 
+                    // aufzurufednen Maske ein Titel übergeben.
                     setComponentVisible(this.internal.auftragskopfaendern);
                 }
                 // Vergleich des Pfades mit String um "Auftragskopf Anzeigen" aufzurufen.
                 if (node.equals("[Navigation, Auftrag verwalten, Auftragskopf, Anzeigen]")) {
                     // Aufruf der setComponentVisible-Methode um die 
-                    // entsprechende Maske sichtbar zu machen.
+                    // entsprechende Maske sichtbar zu machen. Es wird der 
+                    // aufzurufednen Maske ein Titel übergeben.
                     this.internal.auftragskopfanlegen.setTitle("Auftragskopf anzeigen");
                     this.internal.auftragskopfanlegen.setEnabled(false);
                     setComponentVisible(this.internal.auftragskopfanlegen);
@@ -263,7 +268,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                 // Vergleich des Pfades mit String um "Auftragsposition Ändern" aufzurufen.
                 if (node.equals("[Navigation, Auftrag verwalten, Auftragsposition, Ändern]")) {
                     // Aufruf der setComponentVisible-Methode um die 
-                    // entsprechende Maske sichtbar zu machen.Es wird der a
+                    // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.auftragsspositionaender.setTitle("Auftragsposition ändern");
                     setComponentVisible(this.internal.auftragsspositionaender);
@@ -271,7 +276,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                 // Vergleich des Pfades mit String um "Auftragsposition Anzeigen" aufzurufen.
                 if (node.equals("[Navigation, Auftrag verwalten, Auftragsposition, Anzeigen]")) {
                     // Aufruf der setComponentVisible-Methode um die 
-                    // entsprechende Maske sichtbar zu machen. Es wird der a
+                    // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.auftragsspositionaender.setTitle("Auftragsposition anzeigen");
                     setComponentVisible(this.internal.auftragsspositionaender);
@@ -279,55 +284,76 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                 // Vergleich des Pfades mit String um "Artikel Anlegen" aufzurufen.
                 if (node.equals("[Navigation, Artikel verwalten, Anlegen]")) {
                     // Aufruf der setComponentVisible-Methode um die 
-                    // entsprechende Maske sichtbar zu machen.
+                    // entsprechende Maske sichtbar zu machen. Es wird der 
+                    // aufzurufednen Maske ein Titel übergeben.
+                    this.internal.artikelanlegen.setTitle("Artikel anlegen");
                     setComponentVisible(this.internal.artikelanlegen);
                 }
                 // Vergleich des Pfades mit String um "Artikel Ändern" aufzurufen.
                 if (node.equals("[Navigation, Artikel verwalten, Ändern]")) {
                     // Aufruf der setComponentVisible-Methode um die 
-                    // entsprechende Maske sichtbar zu machen.
+                    // entsprechende Maske sichtbar zu machen. Es wird der 
+                    // aufzurufednen Maske ein Titel übergeben.
+                    this.internal.artikelaendern.setTitle("Artikel ändern");
                     setComponentVisible(this.internal.artikelaendern);
                 }
                 // Vergleich des Pfades mit String um "Artikel Anzeigen" aufzurufen.
                 if (node.equals("[Navigation, Artikel verwalten, Anzeigen]")) {
                     // Aufruf der setComponentVisible-Methode um die 
-                    // entsprechende Maske sichtbar zu machen.
+                    // entsprechende Maske sichtbar zu machen. Es wird der 
+                    // aufzurufednen Maske ein Titel übergeben.
+                    this.internal.artikelaendern.setTitle("Artikel anzeigen");
+                    setComponentVisible(this.internal.artikelaendern);
 
                 }
                 // Vergleich des Pfades mit String um "Geschäftspartner Anlegen" aufzurufen.
                 if (node.equals("[Navigation, Geschäftspartner verwalten, Anlegen]")) {
                     // Aufruf der setComponentVisible-Methode um die 
-                    // entsprechende Maske sichtbar zu machen.
+                    // entsprechende Maske sichtbar zu machen.Es wird der 
+                    // aufzurufednen Maske ein Titel übergeben.
+                    this.internal.geschaeftspartneranlegen.setTitle("Geschäftspartner anlegen");
                     setComponentVisible(this.internal.geschaeftspartneranlegen);
                 }
                 // Vergleich des Pfades mit String um "Geschäftspartner Ändern" aufzurufen.
                 if (node.equals("[Navigation, Geschäftspartner verwalten, Ändern]")) {
                     // Aufruf der setComponentVisible-Methode um die 
-                    // entsprechende Maske sichtbar zu machen.
+                    // entsprechende Maske sichtbar zu machen. Es wird der 
+                    // aufzurufendenen Maske ein Titel übergeben.
+                    this.internal.geschaeftspartneraendern.setTitle("Geschäftspartner ändern");
                     setComponentVisible(this.internal.geschaeftspartneraendern);
                 }
                 // Vergleich des Pfades mit String um "Geschäftspartner Anzeigen" aufzurufen.
                 if (node.equals("[Navigation, Geschäftspartner verwalten, Anzeigen]")) {
                     // Aufruf der setComponentVisible-Methode um die 
-                    // entsprechende Maske sichtbar zu machen.
+                    // entsprechende Maske sichtbar zu machen. Es wird der 
+                    // aufzurufendenen Maske ein Titel übergeben.
+                    this.internal.geschaeftspartneraendern.setTitle("Geschäftspartner anzeigen");
+                    setComponentVisible(this.internal.geschaeftspartneraendern);
 
                 }
                 // Vergleich des Pfades mit String um "Zahlungskonditionen Anlegen" aufzurufen.
                 if (node.equals("[Navigation, Zahlungskonditionen verwalten, Anlegen]")) {
                     // Aufruf der setComponentVisible-Methode um die 
-                    // entsprechende Maske sichtbar zu machen.
+                    // entsprechende Maske sichtbar zu machen. Es wird der 
+                    // aufzurufendenen Maske ein Titel übergeben.
+                    this.internal.zahlungskonditionaendern.setTitle("Zahlungskonditionen anlegen");
                     setComponentVisible(this.internal.zahlungskonditionanlegen);
                 }
                 // Vergleich des Pfades mit String um "Zahlungskonditionen Ändern" aufzurufen.
                 if (node.equals("[Navigation, Zahlungskonditionen verwalten, Ändern]")) {
                     // Aufruf der setComponentVisible-Methode um die 
-                    // entsprechende Maske sichtbar zu machen.
+                    // entsprechende Maske sichtbar zu machen. Es wird der 
+                    // aufzurufendenen Maske ein Titel übergeben.
+                    this.internal.zahlungskonditionaendern.setTitle("Zahlungskonditionen ändern");
                     setComponentVisible(this.internal.zahlungskonditionaendern);
                 }
                 // Vergleich des Pfades mit String um "Zahlungskonditionen Anzeigen" aufzurufen.
                 if (node.equals("[Navigation, Zahlungskonditionen verwalten, Anzeigen]")) {
                     // Aufruf der setComponentVisible-Methode um die 
-                    // entsprechende Maske sichtbar zu machen.
+                    // entsprechende Maske sichtbar zu machen. Es wird der 
+                    // aufzurufendenen Maske ein Titel übergeben.
+                    this.internal.zahlungskonditionaendern.setTitle("Zahlungskonditionen anzeigen");
+                    setComponentVisible(this.internal.zahlungskonditionaendern);
 
                 }
             }
@@ -351,6 +377,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
      */
     @Override
     public void setComponentVisible(JInternalFrame frame) {
+        this.internal.setCenterJIF(frame);// Aufruf der Methode "setCenterJIF"
         this.internal.setFrame(frame);//Aufruf der Internalframe-Methode "setFrame".
         this.internal.setComponent(frame);// Aufruf der Internalframe-Methode "setComponent".
         this.factory.setComponent(this.internal.hauptmenueuser);// Aufruf der
