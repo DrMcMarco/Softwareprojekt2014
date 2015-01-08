@@ -22,6 +22,10 @@ import JFrames.*;
  *
  * 10.12.2014 Dokumentation und Logik
  * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
+ * 06.01.2015 Terrasi, Anwendungslogik für das ändern und anzeigen von 
+ * Auftragspositionen.
+ * 08.01.2015 Terrasi, Überarbeitung der Anwendungslogik für anzeigen/ändern 
+ * Status.
  */
 public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
@@ -32,6 +36,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     public SimpleDateFormat format; //Umwandler für Datum
     Component c;
     GUIFactory factory;
+    InterfaceMainView hauptFenster; 
 
     /*
      Speichervariablen
@@ -71,9 +76,10 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /**
      * Creates new form AuftragspositionAnlegen
      */
-    public AuftragspositionAnzeigen(GUIFactory factory) {
+    public AuftragspositionAnzeigen(GUIFactory factory,InterfaceMainView mainView) {
         initComponents();
         this.factory = factory;
+        this.hauptFenster = mainView;
         heute = new Date();
 
         // Variable, die ein Datum in ein vorgegebenes Format umwandelt.
@@ -137,13 +143,19 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         jToolBar1.add(jB_Zurueck);
 
         jB_Speichern.setText("Speichern");
+        jB_Speichern.setEnabled(false);
         jToolBar1.add(jB_Speichern);
 
         jB_Anzeigen.setText("Anzeige/Ändern");
-        jB_Anzeigen.setEnabled(false);
+        jB_Anzeigen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_AnzeigenActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_Anzeigen);
 
         jB_Loeschen.setText("Löschen");
+        jB_Loeschen.setEnabled(false);
         jToolBar1.add(jB_Loeschen);
 
         jB_Suchen.setText("Suchen");
@@ -479,6 +491,24 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 06.01.2015 Terrasi angelegt,Logik und Dokumentation */
+    /*----------------------------------------------------------*/
+    /**
+     * Beim betätigen des Anzeigen/Ändern -Buttons, wird geprüft
+     * wie der Button beschriftet ist und ruft daruaf hin die passende
+     * Maske auf.
+     * @param  evt
+     */ 
+    private void jB_AnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AnzeigenActionPerformed
+        if(jB_Anzeigen.getText().equals("Anzeigen")){
+            this.setStatusAnzeigen();
+        }else{
+            this.setStatusAender();
+        }
+    }//GEN-LAST:event_jB_AnzeigenActionPerformed
+
     /**
      * Schnittstellenmethode mit der alle Eingabefelder zurückgesetzt werden
      */
@@ -570,6 +600,50 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         }
 
         list.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 06.01.2015 Terrasi angelegt,Logik und Dokumentation */
+    /* 08.01.2015 Terrasi Anwendungslogik überarbeitet*/
+    /*----------------------------------------------------------*/
+    /**
+     * Methode mit der das Internalframe nicht mehr als Anzeigefenster 
+     * dargestellt wird, sondern als Fenster in dem man Daten ändern kann.
+     */
+    public void setStatusAender(){
+        this.setTitle("Auftragsposition ändern");
+        zuruecksetzen();
+        this.auftragspositionsID_jTextField.setEnabled(true);
+        this.positionsnummer_jTextField.setEnabled(true);
+        this.materialnummer_jTextField.setEnabled(true);
+        this.menge_jTextField.setEnabled(true);
+        this.einzelwert_jTextField.setEnabled(true);
+        this.erfassungsdatum_jTextField.setEnabled(true);
+        jB_Anzeigen.setText("Anzeigen");
+        jB_Speichern.setEnabled(true);
+        jB_Loeschen.setEnabled(true);
+        this.hauptFenster.setComponent(this);
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 06.01.2015 Terrasi angelegt,Logik und Dokumentation */
+    /* 08.01.2015 Terrasi Anwendungslogik überarbeitet*/
+    /*----------------------------------------------------------*/
+    public void setStatusAnzeigen(){
+        this.setTitle("Auftragsposition anzeigen");
+        zuruecksetzen();
+        this.auftragspositionsID_jTextField.setEnabled(false);
+        this.positionsnummer_jTextField.setEnabled(false);
+        this.materialnummer_jTextField.setEnabled(false);
+        this.menge_jTextField.setEnabled(false);
+        this.einzelwert_jTextField.setEnabled(false);
+        this.erfassungsdatum_jTextField.setEnabled(false);
+        jB_Anzeigen.setText("Ändern");
+        jB_Speichern.setEnabled(false);
+        jB_Loeschen.setEnabled(false);
+        this.hauptFenster.setComponent(this);
     }
 
 

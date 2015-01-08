@@ -22,9 +22,9 @@ public interface InterfaceMainView {
     /* 05.01.2015 Terrasi angelegt */
     /*----------------------------------------------------------*/
     /**
-     * Methode mit das Zentrum eines Frames ausgerehnet werden soll
-     * und dort dann die aufzurufenden Masken platziert und sichtbar
-     * darstellt.
+     * Methode mit dem das Zentrum eines Frames ausgerechnet werden soll
+     * und dort dann die aufzurufenden Maske platziert und sichtbar
+     * darstellt wird..
      * @param jif , Component die im plaziert und dargestellt werden soll.
      */
     public void setCenterJIF(Component jif);
@@ -34,9 +34,8 @@ public interface InterfaceMainView {
     /* 05.01.2015 Terrasi angelegt */
     /*----------------------------------------------------------*/
     /**
-     * Methode mit das Zentrum eines Frames ausgerehnet werden soll
-     * und dort dann die aufzurufenden Masken platziert und sichtbar
-     * darstellt.
+     * Methode mit der man eine Component zum zwischenabspeichern
+     * übergibt.
      * @param component  , Component die gesepiechert werden soll
      * um sie gegebenenfalls im laufe der Durchführung wiederverwenden
      * zu können.

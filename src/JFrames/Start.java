@@ -113,8 +113,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
 
         auftragskopfanlegen = new AuftragskopfAnlegen(factory);
         auftragskopfaendern = new AuftragskopfAendern(factory);
-        auftragsspositionaender = new AuftragspositionAendern(factory);
-        auftragsspositionanzeigen = new AuftragspositionAnzeigen(factory);
+        auftragsspositionanzeigen = new AuftragspositionAnzeigen(factory,
+        this);
+        auftragsspositionaender = new AuftragspositionAendern(factory
+                ,auftragsspositionanzeigen, this);
         artikelanlegen = new ArtikelAnlegen(factory);
         artikelaendern = new ArtikelAEndernEinstieg(factory, artikelanlegen);
         geschaeftspartneranlegen = new GeschaeftspartnerAnlegen(factory);
@@ -588,6 +590,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
+        auftragsspositionaender.setTitle("Auftragsposition ändern");
         setCenterJIF(auftragsspositionaender);
         setComponent(auftragsspositionaender);
     }//GEN-LAST:event_jMI_AuftragsposAEndernActionPerformed
@@ -609,8 +612,9 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
-        setCenterJIF(auftragsspositionanzeigen);
-        setComponent(auftragsspositionanzeigen);
+        auftragsspositionaender.setTitle("Auftragsposition anzeigen");
+        setCenterJIF(auftragsspositionaender);
+        setComponent(auftragsspositionaender);
     }//GEN-LAST:event_jMI_AuftragsposAnzeigenActionPerformed
 
     /*----------------------------------------------------------*/

@@ -113,8 +113,9 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
 
         auftragskopfanlegen = new AuftragskopfAnlegen(factory);
         auftragskopfaendern = new AuftragskopfAendern(factory);
-        auftragsspositionaender = new AuftragspositionAendern(factory);
-        auftragsspositionanzeigen = new AuftragspositionAnzeigen(factory);
+        auftragsspositionanzeigen = new AuftragspositionAnzeigen(factory,this);
+        auftragsspositionaender = new AuftragspositionAendern(factory,
+        auftragsspositionanzeigen, this);
         artikelanlegen = new ArtikelAnlegen(factory);
         artikelaendern = new ArtikelAEndernEinstieg(factory, artikelanlegen);
         geschaeftspartneranlegen = new GeschaeftspartnerAnlegen(factory);
@@ -557,6 +558,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         }
         factory.setComponent(hauptmenueadmin);
         hauptmenueadmin.setVisible(false);
+        auftragsspositionaender.setTitle("Auftragsposition ändern");
         setCenterJIF(auftragsspositionaender);
         setComponent(auftragsspositionaender);
     }//GEN-LAST:event_jMI_AuftragsposAEndernActionPerformed
@@ -578,6 +580,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         }
         factory.setComponent(hauptmenueadmin);
         hauptmenueadmin.setVisible(false);
+        auftragsspositionaender.setTitle("Auftragsposition anzeigen");
         setCenterJIF(auftragsspositionanzeigen);
         setComponent(auftragsspositionanzeigen);
     }//GEN-LAST:event_jMI_AuftragsposAnzeigenActionPerformed
