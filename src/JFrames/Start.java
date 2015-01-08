@@ -12,6 +12,7 @@ import DTO.Status;
 import DTO.Zahlungskondition;
 import GUI_Internalframes.*;
 import Interfaces.InterfaceViewsFunctionality;
+import Interfaces.InterfaceMainView;
 import UserHauptmenue.Hauptmenue_User;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -43,7 +44,7 @@ import javax.swing.JOptionPane;
  * Navigationsfünktion 
  * 06.01.2015 Terrasi, Statuszeile implementiert
  */
-public class Start extends javax.swing.JFrame {
+public class Start extends javax.swing.JFrame implements InterfaceMainView{
 
     /**
      * Definition der Attribute
@@ -846,6 +847,7 @@ public class Start extends javax.swing.JFrame {
      *
      * @param jif ,übergebenes InternalFrame
      */
+    @Override
     public void setCenterJIF(Component jif) {
         desktopSize = desktopPane.getSize();
         jInternalFrameSize = jif.getSize();
@@ -864,6 +866,7 @@ public class Start extends javax.swing.JFrame {
      *
      * @param component
      */
+    @Override
     public void setFrame(Component component) {
         component.setVisible(true);
     }
@@ -877,6 +880,7 @@ public class Start extends javax.swing.JFrame {
      *
      * @param component
      */
+    @Override
     public void setComponent(Component component) {
         c = component;
     }
@@ -888,6 +892,7 @@ public class Start extends javax.swing.JFrame {
     /**
      * Methode mit der man die aktuell übergebene Component erhält.
      */
+    @Override
     public Component getComponent() {
         return c;
     }
@@ -899,6 +904,7 @@ public class Start extends javax.swing.JFrame {
      * @param status, Übergebener String der dann in der Zeile angegeben werden
      * soll.
      */
+    @Override
     public void setStatusMeldung(String status) {
         statusMeldung_jTextField.setText(status);
     }

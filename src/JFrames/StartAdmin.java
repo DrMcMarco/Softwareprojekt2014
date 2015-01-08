@@ -35,6 +35,7 @@ import java.util.HashMap;
 import javax.persistence.PersistenceException;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import Interfaces.InterfaceMainView;
 
 /**
  *
@@ -52,7 +53,7 @@ import javax.swing.JOptionPane;
  * 02.01.2015 Terrasi, Überarbeitung der Navigationsfünktion 
  * 06.01.2015 Terrasi,Statuszeile implementiert
  */
-public class StartAdmin extends javax.swing.JFrame {
+public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
 
     /**
      * Definition der Attribute
@@ -211,7 +212,7 @@ public class StartAdmin extends javax.swing.JFrame {
         statusMeldung_jTextField.setEditable(false);
         statusMeldung_jTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         desktopPane.add(statusMeldung_jTextField);
-        statusMeldung_jTextField.setBounds(0, 340, 786, 30);
+        statusMeldung_jTextField.setBounds(0, 528, 790, 30);
         desktopPane.setLayer(statusMeldung_jTextField, javax.swing.JLayeredPane.PALETTE_LAYER);
 
         jM_Navigation.setMnemonic('n');
@@ -432,7 +433,7 @@ public class StartAdmin extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 561, Short.MAX_VALUE)
         );
 
         getAccessibleContext().setAccessibleName("");
@@ -831,11 +832,13 @@ public class StartAdmin extends javax.swing.JFrame {
     /* 16.12.2014 Terrasi Logik und Dokumentation */
     /*----------------------------------------------------------*/
     /**
-     * Methode setCenterJIF Methode ermittelt das Zentrum der DesktopPane und
+     * Schnittstellenmethode setCenterJIF,
+     * Methode ermittelt das Zentrum der DesktopPane und
      * setzt das übergebene Internalframe auf die ermittelten Koordinaten.
      *
      * @param jif ,übergebenes InternalFrame
      */
+    @Override
     public void setCenterJIF(Component jif) {
         desktopSize = desktopPane.getSize();
         jInternalFrameSize = jif.getSize();
@@ -854,6 +857,7 @@ public class StartAdmin extends javax.swing.JFrame {
      *
      * @param component
      */
+    @Override
     public void setFrame(Component component) {
         component.setVisible(true);
     }
@@ -867,6 +871,7 @@ public class StartAdmin extends javax.swing.JFrame {
      *
      * @param component
      */
+    @Override
     public void setComponent(Component component) {
         c = component;
     }
@@ -878,6 +883,7 @@ public class StartAdmin extends javax.swing.JFrame {
     /**
      * Methode mit der man die aktuell übergebene Component erhält.
      */
+    @Override
     public Component getComponent() {
         return c;
     }
@@ -889,6 +895,7 @@ public class StartAdmin extends javax.swing.JFrame {
      * @param status, Übergebener String der dann in der Zeile angegeben werden
      * soll.
      */
+    @Override
     public void setStatusMeldung(String status) {
         statusMeldung_jTextField.setText(status);
     }
