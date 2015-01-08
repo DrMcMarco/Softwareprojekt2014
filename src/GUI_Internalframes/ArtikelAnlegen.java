@@ -223,7 +223,6 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jTextField4 = new javax.swing.JTextField();
         jTB_Menueleiste = new javax.swing.JToolBar();
         jB_Zurueck = new javax.swing.JButton();
-        jB_Abbrechen = new javax.swing.JButton();
         jB_Speichern = new javax.swing.JButton();
         jB_Anzeigen = new javax.swing.JButton();
         jB_Loeschen = new javax.swing.JButton();
@@ -304,14 +303,6 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
             }
         });
         jTB_Menueleiste.add(jB_Zurueck);
-
-        jB_Abbrechen.setText("Abbrechen");
-        jB_Abbrechen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jB_AbbrechenActionPerformed(evt);
-            }
-        });
-        jTB_Menueleiste.add(jB_Abbrechen);
 
         jB_Speichern.setText("Speichern");
         jB_Speichern.addActionListener(new java.awt.event.ActionListener() {
@@ -800,10 +791,6 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         beendenEingabeNachfrage();
     }//GEN-LAST:event_formInternalFrameClosing
 
-    private void jB_AbbrechenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AbbrechenActionPerformed
-        beendenEingabeNachfrage();
-    }//GEN-LAST:event_jB_AbbrechenActionPerformed
-
     public JTextField gibjTF_Artikelnummer() {
         return jTF_Artikelnummer;
     }
@@ -872,7 +859,6 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         setzeFormularZurueck();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jB_Abbrechen;
     private javax.swing.JButton jB_Anzeigen;
     private javax.swing.JButton jB_Loeschen;
     private javax.swing.JButton jB_Speichern;

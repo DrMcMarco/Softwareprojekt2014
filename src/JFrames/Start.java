@@ -36,9 +36,12 @@ import javax.swing.JOptionPane;
  * Daten anlegen,ändern oder sich anzeigen lassen kann.
  *
  *
- * 10.12.2014 Terrasi,Erstellung 16.12.2014 Terrasi, Überarbeitung und Zuweisung
- * der Navigationsfunktion 02.01.2015 Terrasi, Überarbeitung der
- * Navigationsfünktion 06.01.2015 Terrasi, Statuszeile implementiert
+ * 10.12.2014 Terrasi,Erstellung 
+ * 16.12.2014 Terrasi, Überarbeitung und Zuweisung
+ * der Navigationsfunktion 
+ * 02.01.2015 Terrasi, Überarbeitung der
+ * Navigationsfünktion 
+ * 06.01.2015 Terrasi, Statuszeile implementiert
  */
 public class Start extends javax.swing.JFrame {
 
@@ -240,7 +243,7 @@ public class Start extends javax.swing.JFrame {
         statusMeldung_jTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         statusMeldung_jTextField.setEnabled(false);
         desktopPane.add(statusMeldung_jTextField);
-        statusMeldung_jTextField.setBounds(0, 670, 800, 30);
+        statusMeldung_jTextField.setBounds(-10, 520, 800, 30);
 
         jM_Navigation.setMnemonic('n');
         jM_Navigation.setText("Navigation");
@@ -427,11 +430,15 @@ public class Start extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 798, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(desktopPane, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 163, Short.MAX_VALUE))
         );
 
         pack();

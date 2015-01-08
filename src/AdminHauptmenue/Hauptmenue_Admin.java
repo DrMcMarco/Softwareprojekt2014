@@ -18,7 +18,8 @@ import javax.swing.tree.TreePath;
  *
  * @author Luca
  *
- * 10.12.2014 Terrasi, Erstellung. 02.01.2015 Terrasi, JTreenavigation erstellt
+ * 10.12.2014 Terrasi, Erstellung. 
+ * 02.01.2015 Terrasi, JTreenavigation erstellt
  * und Einbindung der Guifactory und der Methoden des Internalframes
  * "StartAdmin".
  */

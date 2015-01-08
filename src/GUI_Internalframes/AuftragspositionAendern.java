@@ -82,7 +82,6 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
 
         jToolBar1 = new javax.swing.JToolBar();
         jB_Zurueck = new javax.swing.JButton();
-        jB_Abbrechen = new javax.swing.JButton();
         jB_Speichern = new javax.swing.JButton();
         jB_Anzeigen = new javax.swing.JButton();
         jB_Loeschen = new javax.swing.JButton();
@@ -120,9 +119,6 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
             }
         });
         jToolBar1.add(jB_Zurueck);
-
-        jB_Abbrechen.setText("Abbrechen");
-        jToolBar1.add(jB_Abbrechen);
 
         jB_Speichern.setText("Speichern");
         jB_Speichern.setEnabled(false);
@@ -381,7 +377,6 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
     private javax.swing.JTextField AuftragskopfID_jTextField;
     private javax.swing.JTextField AuftragspositionID_jTextField;
     private javax.swing.JButton Enter_jButton;
-    private javax.swing.JButton jB_Abbrechen;
     private javax.swing.JButton jB_Anzeigen;
     private javax.swing.JButton jB_Loeschen;
     private javax.swing.JButton jB_Speichern;
