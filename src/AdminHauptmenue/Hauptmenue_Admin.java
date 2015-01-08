@@ -18,7 +18,8 @@ import javax.swing.tree.TreePath;
  *
  * @author Luca
  *
- * 10.12.2014 Terrasi, Erstellung. 02.01.2015 Terrasi, JTreenavigation erstellt
+ * 10.12.2014 Terrasi, Erstellung. 
+ * 02.01.2015 Terrasi, JTreenavigation erstellt
  * und Einbindung der Guifactory und der Methoden des Internalframes
  * "StartAdmin".
  */
@@ -252,32 +253,43 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                 // Vergleich des Pfades mit String um "Auftragskopf Anlegen" aufzurufen.
                 if (node.equals("[Navigation, Auftrag verwalten, Auftragskopf, Anlegen]")) {
                     // Aufruf der setComponentVisible-Methode um die 
-                    // entsprechende Maske sichtbar zu machen.
+                    // entsprechende Maske sichtbar zu machen.Es wird der 
+                    // aufzurufendenen Maske ein Titel übergeben.
+                    this.internal.auftragskopfanlegen.setTitle("Auftragskopf anlegen");
                     setComponentVisible(this.internal.auftragskopfanlegen);
                 }
                 // Vergleich des Pfades mit String um "Auftragskopf Ändern" aufzurufen.
                 if (node.equals("[Navigation, Auftrag verwalten, Auftragskopf, Ändern]")) {
                     // Aufruf der setComponentVisible-Methode um die 
-                    // entsprechende Maske sichtbar zu machen.
+                    // entsprechende Maske sichtbar zu machen.Es wird der 
+                    // aufzurufendenen Maske ein Titel übergeben.
+                    this.internal.auftragskopfaendern.setTitle("Auftragskopf ändern");
                     setComponentVisible(this.internal.auftragskopfaendern);
                 }
                 // Vergleich des Pfades mit String um "Auftragskopf Anzeigen" aufzurufen.
                 if (node.equals("[Navigation, Auftrag verwalten, Auftragskopf, Anzeigen]")) {
                     // Aufruf der setComponentVisible-Methode um die 
-                    // entsprechende Maske sichtbar zu machen.
+                    // entsprechende Maske sichtbar zu machen.Es wird der 
+                    // aufzurufendenen Maske ein Titel übergeben.
+                    this.internal.auftragskopfaendern.setTitle("Auftragskopf anzeigen");
+                    setComponentVisible(this.internal.auftragskopfaendern);
 
                 }
                 // Vergleich des Pfades mit String um "Auftragsposition Ändern" aufzurufen.
                 if (node.equals("[Navigation, Auftrag verwalten, Auftragsposition, Ändern]")) {
                     // Aufruf der setComponentVisible-Methode um die 
-                    // entsprechende Maske sichtbar zu machen.
+                    // entsprechende Maske sichtbar zu machen.Es wird der 
+                    // aufzurufendenen Maske ein Titel übergeben.
+                    this.internal.auftragsspositionaender.setTitle("Auftragsposition ändern");
                     setComponentVisible(this.internal.auftragsspositionaender);
                 }
                 // Vergleich des Pfades mit String um "Auftragsposition Anzeigen" aufzurufen.
                 if (node.equals("[Navigation, Auftrag verwalten, Auftragsposition, Anzeigen]")) {
                     // Aufruf der setComponentVisible-Methode um die 
-                    // entsprechende Maske sichtbar zu machen.
-                    setComponentVisible(this.internal.auftragsspositionanzeigen);
+                    // entsprechende Maske sichtbar zu machen.Es wird der 
+                    // aufzurufendenen Maske ein Titel übergeben.
+                    this.internal.auftragsspositionaender.setTitle("Auftragsposition anzeigen");
+                    setComponentVisible(this.internal.auftragsspositionaender);
                 }
                 // Vergleich des Pfades mit String um "Artikel Anlegen" aufzurufen.
                 if (node.equals("[Navigation, Artikel verwalten, Anlegen]")) {

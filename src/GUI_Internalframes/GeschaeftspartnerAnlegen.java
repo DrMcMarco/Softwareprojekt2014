@@ -269,7 +269,6 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
 
         jToolBar1 = new javax.swing.JToolBar();
         jB_Zurueck = new javax.swing.JButton();
-        jB_Abbrechen = new javax.swing.JButton();
         jB_Speichern = new javax.swing.JButton();
         jB_Anzeigen = new javax.swing.JButton();
         jB_Loeschen = new javax.swing.JButton();
@@ -360,14 +359,6 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
             }
         });
         jToolBar1.add(jB_Zurueck);
-
-        jB_Abbrechen.setText("Abbrechen");
-        jB_Abbrechen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jB_AbbrechenActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jB_Abbrechen);
 
         jB_Speichern.setText("Speichern");
         jB_Speichern.addActionListener(new java.awt.event.ActionListener() {
@@ -1363,10 +1354,6 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         this.setzeFormularZurueck();
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
-    private void jB_AbbrechenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AbbrechenActionPerformed
-        beendenEingabeNachfrage();
-    }//GEN-LAST:event_jB_AbbrechenActionPerformed
-
     public JCheckBox gibjCHB_Kunde() {
         return jCHB_Kunde;
     }
@@ -1494,7 +1481,6 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jB_Abbrechen;
     private javax.swing.JButton jB_Anzeigen;
     private javax.swing.JButton jB_Loeschen;
     private javax.swing.JButton jB_Speichern;

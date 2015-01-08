@@ -12,6 +12,7 @@ import DTO.Status;
 import DTO.Zahlungskondition;
 import GUI_Internalframes.*;
 import Interfaces.InterfaceViewsFunctionality;
+import Interfaces.InterfaceMainView;
 import UserHauptmenue.Hauptmenue_User;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -36,11 +37,17 @@ import javax.swing.JOptionPane;
  * Daten anlegen,ändern oder sich anzeigen lassen kann.
  *
  *
- * 10.12.2014 Terrasi,Erstellung 16.12.2014 Terrasi, Überarbeitung und Zuweisung
- * der Navigationsfunktion 02.01.2015 Terrasi, Überarbeitung der
- * Navigationsfünktion 06.01.2015 Terrasi, Statuszeile implementiert
+ * 10.12.2014 Terrasi,Erstellung 
+ * 16.12.2014 Terrasi, Überarbeitung und Zuweisung
+ * der Navigationsfunktion 
+ * 02.01.2015 Terrasi, Überarbeitung der
+ * Navigationsfünktion 
+ * 06.01.2015 Terrasi, Statuszeile implementiert
+ * 08.01.2015 Terrasi Anwendungslogik überarbeitet und alle Komponenten
+ * zusammengefügt.
  */
-public class Start extends javax.swing.JFrame {
+ 
+public class Start extends javax.swing.JFrame implements InterfaceMainView{
 
     /**
      * Definition der Attribute
@@ -107,10 +114,13 @@ public class Start extends javax.swing.JFrame {
         hauptmenueuser = new Hauptmenue_User(factory, this);
         hauptmenueuser.setName("HauptmenüUser");
 
-        auftragskopfanlegen = new AuftragskopfAnlegen(factory);
-        auftragskopfaendern = new AuftragskopfAendern(factory);
-        auftragsspositionaender = new AuftragspositionAendern(factory);
-        auftragsspositionanzeigen = new AuftragspositionAnzeigen(factory);
+        auftragskopfanlegen = new AuftragskopfAnlegen(factory, this);
+        auftragskopfaendern = new AuftragskopfAendern(factory,auftragskopfanlegen,
+         this);
+        auftragsspositionanzeigen = new AuftragspositionAnzeigen(factory,
+        this);
+        auftragsspositionaender = new AuftragspositionAendern(factory
+                ,auftragsspositionanzeigen, this);
         artikelanlegen = new ArtikelAnlegen(factory);
         artikelaendern = new ArtikelAEndernEinstieg(factory, artikelanlegen);
         geschaeftspartneranlegen = new GeschaeftspartnerAnlegen(factory);
@@ -240,7 +250,7 @@ public class Start extends javax.swing.JFrame {
         statusMeldung_jTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         statusMeldung_jTextField.setEnabled(false);
         desktopPane.add(statusMeldung_jTextField);
-        statusMeldung_jTextField.setBounds(0, 670, 800, 30);
+        statusMeldung_jTextField.setBounds(0, 690, 800, 30);
 
         jM_Navigation.setMnemonic('n');
         jM_Navigation.setText("Navigation");
@@ -427,11 +437,11 @@ public class Start extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 798, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 714, Short.MAX_VALUE)
         );
 
         pack();
@@ -501,6 +511,8 @@ public class Start extends javax.swing.JFrame {
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
+    /* 08.01.2015 Terrasi AuftragskopfAnlegenMaske mit der Anzeigen/Ändern-
+        Funktion angepasst.*/
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die AuftrgaskopfAnlegen Maske aufgerufen wird
@@ -513,8 +525,8 @@ public class Start extends javax.swing.JFrame {
         }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
-        auftragskopfanlegen.setTitle("Auftragskopf anlegen");
-        auftragskopfanlegen.setEnabled(true);
+        auftragskopfanlegen.setStatusAender();
+        auftragskopfanlegen.setStatusAnlegen();
         setCenterJIF(auftragskopfanlegen);
         setComponent(auftragskopfanlegen);
     }//GEN-LAST:event_jMI_AuftragskopfAnlegenActionPerformed
@@ -524,6 +536,7 @@ public class Start extends javax.swing.JFrame {
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
+    /* 08.01.2015 Terrasi AuftragskopfÄndernMaske hinzugefügt*/
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die AuftrgaskopfAendern Maske aufgerufen wird
@@ -536,6 +549,7 @@ public class Start extends javax.swing.JFrame {
         }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
+        auftragskopfaendern.setTitle("Auftragskopf ändern");
         setCenterJIF(auftragskopfaendern);
         setComponent(auftragskopfaendern);
     }//GEN-LAST:event_jMI_AuftragkopfAEndernActionPerformed
@@ -545,6 +559,7 @@ public class Start extends javax.swing.JFrame {
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
+    /* 08.01.2015 Terrasi AuftragskopfAnzeigenMaske hinzugefügt*/
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die AuftrgaskopfAnzeigen Maske aufgerufen wird
@@ -557,9 +572,8 @@ public class Start extends javax.swing.JFrame {
         }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
-        auftragskopfanlegen.setTitle("Auftragskopf anzeigen");
-        auftragskopfanlegen.setEnabled(false);
-        setCenterJIF(auftragskopfanlegen);
+        auftragskopfaendern.setTitle("Auftragskopf anzeigen");
+        setCenterJIF(auftragskopfaendern);
         setComponent(auftragskopfaendern);
     }//GEN-LAST:event_jMI_AuftragskopfAnzeigenActionPerformed
 
@@ -568,6 +582,7 @@ public class Start extends javax.swing.JFrame {
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
+    /* 08.01.2015 Terrasi AuftragspositionÄndernMaske hinzugefügt*/
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Auftrgaspositionändern Maske aufgerufen wird
@@ -580,6 +595,7 @@ public class Start extends javax.swing.JFrame {
         }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
+        auftragsspositionaender.setTitle("Auftragsposition ändern");
         setCenterJIF(auftragsspositionaender);
         setComponent(auftragsspositionaender);
     }//GEN-LAST:event_jMI_AuftragsposAEndernActionPerformed
@@ -589,6 +605,7 @@ public class Start extends javax.swing.JFrame {
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
+    /* 08.01.2015 Terrasi AuftragspositionAnzeigenMaske hinzugefügt*/
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Auftrgaspositionanzeigen Maske aufgerufen wird
@@ -601,8 +618,9 @@ public class Start extends javax.swing.JFrame {
         }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
-        setCenterJIF(auftragsspositionanzeigen);
-        setComponent(auftragsspositionanzeigen);
+        auftragsspositionaender.setTitle("Auftragsposition anzeigen");
+        setCenterJIF(auftragsspositionaender);
+        setComponent(auftragsspositionaender);
     }//GEN-LAST:event_jMI_AuftragsposAnzeigenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -839,6 +857,7 @@ public class Start extends javax.swing.JFrame {
      *
      * @param jif ,übergebenes InternalFrame
      */
+    @Override
     public void setCenterJIF(Component jif) {
         desktopSize = desktopPane.getSize();
         jInternalFrameSize = jif.getSize();
@@ -857,6 +876,7 @@ public class Start extends javax.swing.JFrame {
      *
      * @param component
      */
+    @Override
     public void setFrame(Component component) {
         component.setVisible(true);
     }
@@ -870,6 +890,7 @@ public class Start extends javax.swing.JFrame {
      *
      * @param component
      */
+    @Override
     public void setComponent(Component component) {
         c = component;
     }
@@ -881,6 +902,7 @@ public class Start extends javax.swing.JFrame {
     /**
      * Methode mit der man die aktuell übergebene Component erhält.
      */
+    @Override
     public Component getComponent() {
         return c;
     }
@@ -892,6 +914,7 @@ public class Start extends javax.swing.JFrame {
      * @param status, Übergebener String der dann in der Zeile angegeben werden
      * soll.
      */
+    @Override
     public void setStatusMeldung(String status) {
         statusMeldung_jTextField.setText(status);
     }

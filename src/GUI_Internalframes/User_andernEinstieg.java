@@ -41,7 +41,6 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame {
 
         jToolBar1 = new javax.swing.JToolBar();
         jB_Zurueck = new javax.swing.JButton();
-        jB_Abbrechen = new javax.swing.JButton();
         jB_Speichern = new javax.swing.JButton();
         jB_Anzeigen = new javax.swing.JButton();
         jB_Loeschen = new javax.swing.JButton();
@@ -78,9 +77,6 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame {
             }
         });
         jToolBar1.add(jB_Zurueck);
-
-        jB_Abbrechen.setText("Abbrechen");
-        jToolBar1.add(jB_Abbrechen);
 
         jB_Speichern.setText("Speichern");
         jB_Speichern.setEnabled(false);
@@ -166,7 +162,6 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame {
     private javax.swing.JLabel BenutzerID_jLabel;
     private javax.swing.JTextField BenutzerID_jTextField;
     private javax.swing.JButton Enter_jButton;
-    private javax.swing.JButton jB_Abbrechen;
     private javax.swing.JButton jB_Anzeigen;
     private javax.swing.JButton jB_Loeschen;
     private javax.swing.JButton jB_Speichern;

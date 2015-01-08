@@ -263,14 +263,18 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                 // Vergleich des Pfades mit String um "Auftragsposition Ändern" aufzurufen.
                 if (node.equals("[Navigation, Auftrag verwalten, Auftragsposition, Ändern]")) {
                     // Aufruf der setComponentVisible-Methode um die 
-                    // entsprechende Maske sichtbar zu machen.
+                    // entsprechende Maske sichtbar zu machen.Es wird der a
+                    // aufzurufednen Maske ein Titel übergeben.
+                    this.internal.auftragsspositionaender.setTitle("Auftragsposition ändern");
                     setComponentVisible(this.internal.auftragsspositionaender);
                 }
                 // Vergleich des Pfades mit String um "Auftragsposition Anzeigen" aufzurufen.
                 if (node.equals("[Navigation, Auftrag verwalten, Auftragsposition, Anzeigen]")) {
                     // Aufruf der setComponentVisible-Methode um die 
-                    // entsprechende Maske sichtbar zu machen.
-                    setComponentVisible(this.internal.auftragsspositionanzeigen);
+                    // entsprechende Maske sichtbar zu machen. Es wird der a
+                    // aufzurufednen Maske ein Titel übergeben.
+                    this.internal.auftragsspositionaender.setTitle("Auftragsposition anzeigen");
+                    setComponentVisible(this.internal.auftragsspositionaender);
                 }
                 // Vergleich des Pfades mit String um "Artikel Anlegen" aufzurufen.
                 if (node.equals("[Navigation, Artikel verwalten, Anlegen]")) {

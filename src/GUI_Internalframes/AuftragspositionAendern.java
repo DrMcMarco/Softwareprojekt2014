@@ -14,12 +14,17 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+
 /**
  *
  * @author Luca Terrasi
  *
  * 10.12.2014 Terrasi, Dokumentation und Logik
  * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
+ * 06.01.2015 Terrasi, Anwendungslogik für das anzeigen der Auftragspositions-
+ * maske.
+ * 08.01.2015 Terrasi, Überarbeitung der Anwendungslogik 
+ * und das hinzufügen von weiteren Funktion.
  */
 public class AuftragspositionAendern extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
@@ -27,9 +32,12 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
      Speichervariablen
      */
     ArrayList<Component> fehlendeEingaben;// ArrayList für Eingabefelder des Auftragkopfes.
-
+    
     Component c;
     GUIFactory factory;
+    AuftragspositionAnzeigen auftragspositionAnzeigen;
+    InterfaceMainView hauptFenster;  
+    
 
     /*
      Syntax
@@ -55,13 +63,28 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
     String fehlermeldungVollstaendigkeitAuftragskopf = " Es wurde keine Auftragskopf-Id eingegeben.\n"
             + "Bitte geben sie eine Auftragskopf-Id ein.";
 
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, Dokumentation und Logik. */
+    /* 06.01.2015 Terrasi, hinzufügen eines Interfaceobjektes
+        und eines AuftragspositionAnzeigenobjektes.*/
+    /*----------------------------------------------------------*/
     /**
-     * Creates new form Fenster
+     * Konstruktor, 
+     * Erzeugung eines Auftragspositionsobjektes.
+     * @param factory
+     * @param positionAnzeigenView
+     * @param mainView 
      */
-    public AuftragspositionAendern(GUIFactory factory) {
+    public AuftragspositionAendern(GUIFactory factory, 
+            AuftragspositionAnzeigen positionAnzeigenView,
+            InterfaceMainView mainView ) {
         initComponents();
 
         this.factory = factory;
+        this.auftragspositionAnzeigen = positionAnzeigenView;
+        this.hauptFenster = mainView;
 
         //Initialisierung der Speichervariblen
         fehlendeEingaben = new ArrayList<>();
@@ -82,7 +105,6 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
 
         jToolBar1 = new javax.swing.JToolBar();
         jB_Zurueck = new javax.swing.JButton();
-        jB_Abbrechen = new javax.swing.JButton();
         jB_Speichern = new javax.swing.JButton();
         jB_Anzeigen = new javax.swing.JButton();
         jB_Loeschen = new javax.swing.JButton();
@@ -120,9 +142,6 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
             }
         });
         jToolBar1.add(jB_Zurueck);
-
-        jB_Abbrechen.setText("Abbrechen");
-        jToolBar1.add(jB_Abbrechen);
 
         jB_Speichern.setText("Speichern");
         jB_Speichern.setEnabled(false);
@@ -271,12 +290,24 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
 
     // Falls alle Eingaben getätigt wurden sind, wird nach der gesuchten Auftragsposition
     // gesucht.
+    // 08.01.2015
     private void Enter_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Enter_jButtonActionPerformed
         ueberpruefen();
         if (fehlendeEingaben.isEmpty()) {
-
-            //Suche starten
-            zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+            // Überprüft anhand des Framestitels, ob es das nächste Fenster
+            // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
+            if(this.getTitle().equals("Auftragsposition ändern")){
+                this.auftragspositionAnzeigen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
+                zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                this.setVisible(false);
+                this.hauptFenster.setFrame(this.auftragspositionAnzeigen);// Hauptfenster macht übergebene Maske sichtbar.
+            }else{
+                this.auftragspositionAnzeigen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
+                zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                this.setVisible(false);
+                this.hauptFenster.setFrame(this.auftragspositionAnzeigen);// Hauptfenster macht übergebene Maske sichtbar.
+            }
+            
         } else {//Wenn Eingaben fehlen.
             // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
             // getätigt worden sind
@@ -381,7 +412,6 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
     private javax.swing.JTextField AuftragskopfID_jTextField;
     private javax.swing.JTextField AuftragspositionID_jTextField;
     private javax.swing.JButton Enter_jButton;
-    private javax.swing.JButton jB_Abbrechen;
     private javax.swing.JButton jB_Anzeigen;
     private javax.swing.JButton jB_Loeschen;
     private javax.swing.JButton jB_Speichern;

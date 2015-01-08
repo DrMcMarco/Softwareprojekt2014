@@ -54,7 +54,6 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
 
         jToolBar1 = new javax.swing.JToolBar();
         jB_Zurueck = new javax.swing.JButton();
-        jB_Abbrechen = new javax.swing.JButton();
         jB_Speichern = new javax.swing.JButton();
         jB_Anzeigen = new javax.swing.JButton();
         jB_Loeschen = new javax.swing.JButton();
@@ -86,9 +85,6 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
             }
         });
         jToolBar1.add(jB_Zurueck);
-
-        jB_Abbrechen.setText("Abbrechen");
-        jToolBar1.add(jB_Abbrechen);
 
         jB_Speichern.setText("Speichern");
         jToolBar1.add(jB_Speichern);
@@ -207,7 +203,6 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jB_Abbrechen;
     private javax.swing.JButton jB_Anzeigen;
     private javax.swing.JButton jB_Enter;
     private javax.swing.JButton jB_Loeschen;
