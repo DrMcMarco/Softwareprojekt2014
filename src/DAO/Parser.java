@@ -12,10 +12,10 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
@@ -40,11 +40,6 @@ public class Parser {
      * Platzhalter für genau ein Zeichen in SQL.
      */
     private static final char PLATZHALTEREINZEICHEN = '_';
-    
-    /**
-     * Platzhalter für genau ein Zeichen in SQL.
-     */
-    private static final String PLATZHALTERSUBSQL = "'§'";
     
     /**
      * Platzhalter für genau 0-n Zeichen in SQL.
@@ -106,6 +101,9 @@ public class Parser {
      */
     private final HashMap<String, String> attribute;
     
+    /**
+     * Join-Verknüpfung für Abfragen über mehrere Tabellen.
+     */
     private String joinBefehl;
     
     /**
@@ -277,8 +275,8 @@ public class Parser {
                 + "\"Geschäftspartner\".RECHNUNGSADRESSE_ANSCHRIFTID "
                 + "= ANSCHRIFT.ANSCHRIFTID ";
         
-        String sqlAuftragPartnerNachName = "  ANSCHRIFT.\"NAME\" ";
-        
+//        String sqlAuftragPartnerNachName = "  ANSCHRIFT.\"NAME\" ";
+//        String sqlAuftragPartnerNachVName = "  ANSCHRIFT.\"VNAME\" ";
         
         String sqlAuftragStatusJoin = " left join STATUS on "
                 + "AUFTRAGSKOPF.STATUS = STATUS.STATUSID ";
@@ -289,6 +287,11 @@ public class Parser {
                 + "ZAHLUNGSKONDITION.ZAHLUNGSKONDITIONID ";
         
         String sqlAuftragZkNachArt = " ZAHLUNGSKONDITION.AUFTRAGSART ";
+        
+        String sqlArtikelKatJoin = " left join ARTIKELKATEGORIE on "
+                + "ARTIKEL.KATEGORIE = ARTIKELKATEGORIE.ID ";
+        
+        String sqlArtikelKategorieNachName = " ARTIKELKATEGORIE.KATEGORIENAME ";
         
         String sqlPartnerAnschriftJoin = " left join ANSCHRIFT " 
                 + "ON \"Geschäftspartner\".RECHNUNGSADRESSE_ANSCHRIFTID = "
@@ -329,15 +332,27 @@ public class Parser {
         if ("\"GeschäftspartnerFK\"".equals(dbAttribut)
                 && "Auftragskopf".equals(tabelle)) {
             
-            dbAttribut = sqlAuftragPartnerNachName;
+            dbAttribut = sqlPartnerAnschriftNachName;
             if (LEER.equals(this.joinBefehl)) {
                 this.joinBefehl = sqlAuftragPartnerJoin;
+            } else if (!this.joinBefehl.contains(sqlAuftragPartnerJoin)) {
+                this.joinBefehl += " " + sqlAuftragPartnerJoin;
+            }
+        } else if (("GeschäftspartnerFKVNAME").equals(dbAttribut)
+                && "Auftragskopf".equals(tabelle)) {
+            dbAttribut = sqlPartnerAnschriftNachVName;
+            if (LEER.equals(this.joinBefehl)) {
+                this.joinBefehl = sqlAuftragPartnerJoin;
+            } else if (!this.joinBefehl.contains(sqlAuftragPartnerJoin)) {
+                this.joinBefehl += " " + sqlAuftragPartnerJoin;
             }
         } else if (("StatusFK").equals(dbAttribut)
                 && "Auftragskopf".equals(tabelle)) {
             dbAttribut = sqlAuftragStatusNachName;
             if (LEER.equals(this.joinBefehl)) {
                 this.joinBefehl = sqlAuftragStatusJoin;
+            } else if (!this.joinBefehl.contains(sqlAuftragStatusJoin)) {
+                this.joinBefehl += " " + sqlAuftragStatusJoin;
             }
         } else if (("ZAHLUNGSKONDITION_"
                 + "ZAHLUNGSKONDITIONIDFK").equals(dbAttribut)
@@ -345,6 +360,8 @@ public class Parser {
             dbAttribut = sqlAuftragZkNachArt;
             if (LEER.equals(this.joinBefehl)) {
                 this.joinBefehl = sqlAuftragZkJoin;
+            } else if (!this.joinBefehl.equals(sqlAuftragZkJoin)) {
+                this.joinBefehl += " " + sqlAuftragZkJoin;
             }
             
         } else if (("RECHNUNGSADRESSE_ANSCHRIFTIDFKNAME").equals(dbAttribut)
@@ -352,26 +369,40 @@ public class Parser {
             dbAttribut = sqlPartnerAnschriftNachName;
             if (LEER.equals(this.joinBefehl)) {
                 this.joinBefehl = sqlPartnerAnschriftJoin;
+            } else if (!this.joinBefehl.equals(sqlPartnerAnschriftJoin)) {
+                this.joinBefehl += " " + sqlPartnerAnschriftJoin;
             }
         } else if (("RECHNUNGSADRESSE_ANSCHRIFTIDFKVNAME").equals(dbAttribut)
                 && "Geschäftspartner".equals(tabelle)) {
             dbAttribut = sqlPartnerAnschriftNachVName;
             if (LEER.equals(this.joinBefehl)) {
                 this.joinBefehl = sqlPartnerAnschriftJoin;
+            } else if (!this.joinBefehl.equals(sqlPartnerAnschriftJoin)) {
+                this.joinBefehl += " " + sqlPartnerAnschriftJoin;
             }
         } else if (("RECHNUNGSADRESSE_ANSCHRIFTIDFKEMAIL").equals(dbAttribut)
                 && "Geschäftspartner".equals(tabelle)) {
             dbAttribut = sqlPartnerAnschriftNachEmail;
             if (LEER.equals(this.joinBefehl)) {
                 this.joinBefehl = sqlPartnerAnschriftJoin;
+            } else if (!this.joinBefehl.equals(sqlPartnerAnschriftJoin)) {
+                this.joinBefehl += " " + sqlPartnerAnschriftJoin;
             }
             
+        } else if (("KategorieFKNAME").equals(dbAttribut)
+                && "Artikel".equals(tabelle)) {
+            dbAttribut = sqlArtikelKategorieNachName;
+            if (LEER.equals(this.joinBefehl)) {
+                this.joinBefehl = sqlArtikelKatJoin;
+            } else if (!this.joinBefehl.equals(sqlArtikelKatJoin)) {
+                this.joinBefehl += " " + sqlArtikelKatJoin;
+            }
         }
         //Anschliessend muss der eigentliche Attributenname
         //wieder gesetzt werden.
         dbAttribut = dbAttribut.replace("FK", "");
         
-        return dbAttribut + " " + operator + " " + dbWert + ""; //LKZ
+        return dbAttribut + " " + operator + " " + dbWert;
     }
     
     /*----------------------------------------------------------*/
@@ -387,7 +418,7 @@ public class Parser {
      * @return True wenn der übergebene Wert dem Datentyp entspricht.
      * @throws ApplicationException Benutzerausgabe.
      */
-    public boolean pruefeDatentyp(String dbAttribut,String dbWert,
+    public boolean pruefeDatentyp(String dbAttribut, String dbWert,
         String tabelle) throws ApplicationException {
         String datentyp = LEER;
         //Hole Datentyp aus DB
@@ -397,17 +428,17 @@ public class Parser {
         //Prüfe ob es sich um dein Datum handelt
         if ("Date".equals(datentyp)) {
             //Erstelle Datum
-            DateFormat d = new SimpleDateFormat("dd.mm.yyyy");
+            Date d; //new SimpleDateFormat("dd.mm.yyyy");
             try {
                 //Versuche es zu parse. Wenn das Datum nicht geparset werden 
                 //Kann liegt ein Fehler im Format vor 
                 //-> Der Benutzer wird informiert.
-                d.parse(dbWert);
-            } catch (ParseException ex) {
+                d = DatumParser.stringToDate(dbWert);
+            } catch (Exception ex) {
                 throw new ApplicationException(FEHLER_TITEL, 
                         "Die Ergebniseingabe: " + "" + dbWert 
                                 + " ist ungültig! \n Der Wert "
-                                + "muss ein Datum sein!");
+                                + "muss ein gültiges Datum sein!");
             }
         } else {
             //Es müssen alle . durch Komma ersetzt werden, da das System
@@ -425,7 +456,9 @@ public class Parser {
             //Es wird dynamisch der Datentyp ermittelt.
             String typ = objektTyp.getClass().getSimpleName();
             //Prüfe ob der eingegebene Wert dem Datentyp-Format entspricht.
-            if (!typ.equals(datentyp)) {
+            //Wichtig ist, dass int und long ok sind!
+            if (!typ.equals(datentyp) && (!typ.equals("Integer") 
+                    && !datentyp.equals("Long"))) {
                 //Generiere Fehlermeldung
                 switch (datentyp) {
                     case "Integer":
@@ -481,16 +514,20 @@ public class Parser {
     public static void main(String[] args) {
         try {
             GUIFactory gui = new GUIFactory();
-            //Geschaeftspartner gp1 = GUIFactory.getDAO().gibA();
-            Collection<?>  a = GUIFactory.getDAO().suchAbfrage("zkauftragsart = *auftrag", "Auftragskopf");
+            
+            Collection<?>  a = GUIFactory.getDAO().suchAbfrage(
+                    "eingangsdatum <= 01.01.2015", "Auftragskopf");
             
             for (Object o : a) {
                 System.out.println(o.toString());
                 
+                
 //                Geschaeftspartner gp = (Geschaeftspartner) o;
 //                System.out.println(gp.getLieferadresse().getName());
             }
-            
+            Calendar d = Calendar.getInstance();
+            d.setTime(DatumParser.stringToDate("12/12/2000")); 
+            System.out.println(d.getTime());
         } catch (ApplicationException ex) {
             Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
         }

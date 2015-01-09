@@ -114,21 +114,6 @@ public class DataAccessObject {
         return sqlErgebnisListe;
     }
     
-    public Geschaeftspartner gibA() throws ApplicationException {
-        
-        String s = "SELECT * FROM \"Geschäftspartner\"  left outer join ANSCHRIFT " +
-                    "ON \"Geschäftspartner\".RECHNUNGSADRESSE_ANSCHRIFTID = ANSCHRIFT.ANSCHRIFTID WHERE ANSCHRIFT.EMAIL LIKE 'asd%'";
-        Geschaeftspartner gp;
-        try {
-             gp = (Geschaeftspartner)em.createNativeQuery(s, Geschaeftspartner.class).getSingleResult();
-        } catch (Exception e) {
-            throw new ApplicationException();
-        }
-        
-        
-        return gp;
-    }
-    
     
 //<editor-fold defaultstate="collapsed" desc="create-Methoden">
     
@@ -1067,7 +1052,7 @@ public class DataAccessObject {
     /* 11.11.14 sch angelegt                                    */
     /*----------------------------------------------------------*/
     /**
-     *
+     *  TO-DO :  Query "SELECT ST FROM Artikelkategorie ST WHERE ST.Kategoriename = 'a'" selected no result, but expected unique result.
      * @param name
      * @return
      * @throws ApplicationException
