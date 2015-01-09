@@ -6,6 +6,7 @@
 
 package DAO;
 
+import DTO.Geschaeftspartner;
 import JFrames.GUIFactory;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -68,7 +69,7 @@ public class Parser {
     /**
      * SQL-Statement zur Betrachtung von nicht gelöschten Daten.
      */
-    private static final String LKZ = " AND LKZ = 0 ";
+    private static final String LKZ = " LKZ = 0 ";
     
     /**
      * SQL-Statement zur Benutzung von Platzhaltern wird LIKE verwendet.
@@ -96,11 +97,16 @@ public class Parser {
     private static final String FEHLER_OPERATOR = "Der Operator war ungültig!";
     
     /**
+     * Int Konstante für WAHR.
+     */
+    private static final int WAHR = 1;
+    
+    /**
      * Hashmap mit allen Schlüßelwörtern.
      */
     private final HashMap<String, String> attribute;
     
-    
+    private String joinBefehl;
     
     /**
      * Konstruktor mit Übergabe der Suchkuerzel.
@@ -124,7 +130,7 @@ public class Parser {
      *         so wird eine AE geworfen.
      * 
      */
-    public ArrayList<String> parse(String eingabe, String tabelle) 
+    public String parse(String eingabe, String tabelle) 
         throws ApplicationException {
         //Daten Deklaration
         String[] praefixListe = null;
@@ -134,8 +140,8 @@ public class Parser {
         String suchAttr = null;
         String dbAttr = null;
         String wert = null;
-        String datentyp = LEER;
-
+        String sqlAbfrage = LEER;
+        this.joinBefehl = LEER;
         //Prüfe, ob die Sucheingabe und die Table null sind
         //Wenn ja, dann wirf eine ApplicationException
         if (eingabe == null || tabelle == null) {
@@ -228,7 +234,25 @@ public class Parser {
             }
         }
         
-        return abfrageErgebnis;
+        if ("Geschäftspartner".equals(tabelle)) {
+            tabelle = "\"" + tabelle + "\"";
+        }
+        
+        //Sql-Statement Dynamisch erzeugen
+        sqlAbfrage = "SELECT * FROM " + tabelle + this.joinBefehl + " WHERE ";
+        //Iteriere über alle Input Einträge
+        for (int i = 0; i < abfrageErgebnis.size(); i++) {
+            //Hole Abfrage aus der Liste
+            sqlAbfrage += abfrageErgebnis.get(i);
+            //Prüfe, ob mehrere Einträge vorhanden sind, diese müssen mit AND
+            //Verknüpft werden.Beim letzten durchlauf wird kein AND mehr gesetzt
+            if (abfrageErgebnis.size() > 1 && i < abfrageErgebnis.size() - 1) {
+                sqlAbfrage += " AND ";
+            }
+        }
+        //Löschkennzeichen = 0 Zu letzt anfügen
+        sqlAbfrage += " AND " + tabelle + "." + LKZ;
+        return sqlAbfrage;
     }
     /*----------------------------------------------------------*/
     /* Datum Name Was                                           */
@@ -245,17 +269,36 @@ public class Parser {
      */
     public String setzeAbfrage(String dbAttribut, String dbWert, 
         String tabelle, String operator) throws ApplicationException {
-        String sqlAuftragPartnerNachName = " (SELECT GESCHAEFTSPARTNERID FROM "
-                + "\"Geschäftspartner\", ANSCHRIFT " 
-                + " where \"Geschäftspartner\".LIEFERADRESSE_ANSCHRIFTID = "
-                + "ANSCHRIFT.ANSCHRIFTID " 
-                + " AND ANSCHRIFT.\"NAME\" = " + PLATZHALTERSUBSQL + ")";
-        String sqlAuftragStatusNachName = " (SELECT STATUSID FROM STATUS "
-                + "where STATUS = " + PLATZHALTERSUBSQL + ")";
-        String sqlAuftragZkNachArt = " (SELECT ZAHLUNGSKONDITIONID FROM "
-                + "ZAHLUNGSKONDITION where AUFTRAGSART = " 
-                + PLATZHALTERSUBSQL + ")";
-        String datentyp = "";
+        
+        String sqlAuftragPartnerJoin = " left join \"Geschäftspartner\" on "
+                + "AUFTRAGSKOPF.\"Geschäftspartner\" = "
+                + "\"Geschäftspartner\".GESCHAEFTSPARTNERID left join "
+                + "ANSCHRIFT on "
+                + "\"Geschäftspartner\".RECHNUNGSADRESSE_ANSCHRIFTID "
+                + "= ANSCHRIFT.ANSCHRIFTID ";
+        
+        String sqlAuftragPartnerNachName = "  ANSCHRIFT.\"NAME\" ";
+        
+        
+        String sqlAuftragStatusJoin = " left join STATUS on "
+                + "AUFTRAGSKOPF.STATUS = STATUS.STATUSID ";
+        String sqlAuftragStatusNachName = " STATUS.STATUS ";
+        
+        String sqlAuftragZkJoin  = " left join ZAHLUNGSKONDITION on "
+                + "AUFTRAGSKOPF.ZAHLUNGSKONDITION_ZAHLUNGSKONDITIONID = "
+                + "ZAHLUNGSKONDITION.ZAHLUNGSKONDITIONID ";
+        
+        String sqlAuftragZkNachArt = " ZAHLUNGSKONDITION.AUFTRAGSART ";
+        
+        String sqlPartnerAnschriftJoin = " left join ANSCHRIFT " 
+                + "ON \"Geschäftspartner\".RECHNUNGSADRESSE_ANSCHRIFTID = "
+                + "ANSCHRIFT.ANSCHRIFTID ";
+        String sqlPartnerAnschriftNachName = " ANSCHRIFT.\"NAME\" ";
+        
+        String sqlPartnerAnschriftNachVName = " ANSCHRIFT.\"VORNAME\" ";
+        
+        String sqlPartnerAnschriftNachEmail = "  ANSCHRIFT.\"EMAIL\" ";
+        String datentyp = LEER;
         
         //Prüfe, ob der Wert dem Datentyp entspricht.
         this.pruefeDatentyp(dbAttribut, dbWert, tabelle);
@@ -281,39 +324,54 @@ public class Parser {
         }
 
         //Besondere Suche über Fremdschlüssel, es werden
-        //Sub-Statements integiert, um über bestimmte 
+        //Joins integiert, um über bestimmte 
         //Suchparameter an die ID's zu kommen.
         if ("\"GeschäftspartnerFK\"".equals(dbAttribut)
                 && "Auftragskopf".equals(tabelle)) {
-            //Es wird der Platzhalter durch das 
-            //Suchkriterium ersetzt
-            sqlAuftragPartnerNachName 
-                = sqlAuftragPartnerNachName.replace(
-                    PLATZHALTERSUBSQL, "" + dbWert + "");
-            //Anschliessend wird das SQL-Statement so 
-            //verändert, dass die 
-            //ID über die FK übergeben wird.
-            dbWert = sqlAuftragPartnerNachName;
-
+            
+            dbAttribut = sqlAuftragPartnerNachName;
+            if (LEER.equals(this.joinBefehl)) {
+                this.joinBefehl = sqlAuftragPartnerJoin;
+            }
         } else if (("StatusFK").equals(dbAttribut)
                 && "Auftragskopf".equals(tabelle)) {
-            sqlAuftragStatusNachName 
-                = sqlAuftragStatusNachName.replace(
-                    PLATZHALTERSUBSQL, "" + dbWert + "");
-            dbWert = sqlAuftragStatusNachName;
+            dbAttribut = sqlAuftragStatusNachName;
+            if (LEER.equals(this.joinBefehl)) {
+                this.joinBefehl = sqlAuftragStatusJoin;
+            }
         } else if (("ZAHLUNGSKONDITION_"
                 + "ZAHLUNGSKONDITIONIDFK").equals(dbAttribut)
                 && "Auftragskopf".equals(tabelle)) {
-            sqlAuftragZkNachArt 
-                = sqlAuftragZkNachArt.replace(
-                    PLATZHALTERSUBSQL, "" + dbWert + "");
-            dbWert = sqlAuftragZkNachArt;
+            dbAttribut = sqlAuftragZkNachArt;
+            if (LEER.equals(this.joinBefehl)) {
+                this.joinBefehl = sqlAuftragZkJoin;
+            }
+            
+        } else if (("RECHNUNGSADRESSE_ANSCHRIFTIDFKNAME").equals(dbAttribut)
+                && "Geschäftspartner".equals(tabelle)) {
+            dbAttribut = sqlPartnerAnschriftNachName;
+            if (LEER.equals(this.joinBefehl)) {
+                this.joinBefehl = sqlPartnerAnschriftJoin;
+            }
+        } else if (("RECHNUNGSADRESSE_ANSCHRIFTIDFKVNAME").equals(dbAttribut)
+                && "Geschäftspartner".equals(tabelle)) {
+            dbAttribut = sqlPartnerAnschriftNachVName;
+            if (LEER.equals(this.joinBefehl)) {
+                this.joinBefehl = sqlPartnerAnschriftJoin;
+            }
+        } else if (("RECHNUNGSADRESSE_ANSCHRIFTIDFKEMAIL").equals(dbAttribut)
+                && "Geschäftspartner".equals(tabelle)) {
+            dbAttribut = sqlPartnerAnschriftNachEmail;
+            if (LEER.equals(this.joinBefehl)) {
+                this.joinBefehl = sqlPartnerAnschriftJoin;
+            }
+            
         }
         //Anschliessend muss der eigentliche Attributenname
         //wieder gesetzt werden.
         dbAttribut = dbAttribut.replace("FK", "");
-
-        return dbAttribut + " " + operator + " " + dbWert + LKZ;
+        
+        return dbAttribut + " " + operator + " " + dbWert + ""; //LKZ
     }
     
     /*----------------------------------------------------------*/
@@ -329,9 +387,9 @@ public class Parser {
      * @return True wenn der übergebene Wert dem Datentyp entspricht.
      * @throws ApplicationException Benutzerausgabe.
      */
-    public boolean pruefeDatentyp(String dbAttribut,String dbWert, 
+    public boolean pruefeDatentyp(String dbAttribut,String dbWert,
         String tabelle) throws ApplicationException {
-        String datentyp = "";
+        String datentyp = LEER;
         //Hole Datentyp aus DB
         datentyp = GUIFactory.getDAO().gibDatentypVonSuchAttribut(
                 dbAttribut, tabelle);
@@ -392,17 +450,17 @@ public class Parser {
         return true;
     }
     //TBD
-    static Object gibObjektNachTyp(String s) {
-        Scanner sc = new Scanner(s);
+    static Object gibObjektNachTyp(String dbWert) {
+        Scanner sc = new Scanner(dbWert);
         return
             sc.hasNextInt() ? sc.nextInt() :
             sc.hasNextLong() ? sc.nextLong() :
             sc.hasNextDouble() ? sc.nextDouble() :
             sc.hasNext() ? sc.next() :
-            s;
+            dbWert;
     }
     //TBD
-    public Object gibObjektNachTyp1(String s) throws ApplicationException {
+    public Object gibObjektNachTyp1(String s) {
         Scanner sc = new Scanner(s);
         Object ergebnis = null;
         
@@ -423,10 +481,14 @@ public class Parser {
     public static void main(String[] args) {
         try {
             GUIFactory gui = new GUIFactory();
-            Collection<?>  a = GUIFactory.getDAO().suchAbfrage("artikelname = 2", "Artikel");
+            //Geschaeftspartner gp1 = GUIFactory.getDAO().gibA();
+            Collection<?>  a = GUIFactory.getDAO().suchAbfrage("zkauftragsart = *auftrag", "Auftragskopf");
             
             for (Object o : a) {
                 System.out.println(o.toString());
+                
+//                Geschaeftspartner gp = (Geschaeftspartner) o;
+//                System.out.println(gp.getLieferadresse().getName());
             }
             
         } catch (ApplicationException ex) {

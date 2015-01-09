@@ -76,35 +76,27 @@ public class DataAccessObject {
     public Collection<?> suchAbfrage(String eingabe, String tabelle) 
         throws ApplicationException {
         //Datendeklaration
-        ArrayList<String> dbAttrListe = null;
-        Auftragskopf auftrag = null;
-        List<?> sqlErgebnisListe = null;
         String sqlAbfrage = null;
+        List<?> sqlErgebnisListe = null;
         String maxAnzReihen = " FETCH NEXT 20 ROWS ONLY";
         //Erstelle den Parser und übergebe die Suchattribute.
         Parser parser = new Parser(this.gibAlleSuchAttribute());
-        //Parse den Suchausdruck und hole die DB-Attr. Namen
-        dbAttrListe = parser.parse(eingabe, tabelle);
+        //Parse den Suchausdruck und hole das SQL-Statement
+        sqlAbfrage = parser.parse(eingabe, tabelle);
         //Prüfe, ob das Parsen erfolgreich war.
-        if (dbAttrListe == null) {
+        if (sqlAbfrage == null) {
             throw new ApplicationException(FEHLER_TITEL, 
                     "Beim Parsen ist ein Fehler aufgetreten!");
         }
-
-        //Sql-Statement Dynamisch erzeugen
-        sqlAbfrage = "SELECT * FROM " + tabelle + "  WHERE ";
-        //Iteriere über alle Input Einträge
-        for (int i = 0; i < dbAttrListe.size(); i++) {
-            //Hole Abfrage aus der Liste
-            sqlAbfrage += ("" + dbAttrListe.get(i));
-            //Prüfe, ob mehrere Einträge vorhanden sind, diese müssen mit AND
-            //Verknüpft werden.Beim letzten durchlauf wird kein AND mehr gesetzt
-            if (dbAttrListe.size() > 1 && i < dbAttrListe.size() - 1) {
-                sqlAbfrage += " AND ";
-            }
-        }
+        
 
         try {
+            //Um die Klasse zu identifizieren, 
+            //muss das ä durch ae getauscht werden, da die Tabelle mit ä
+            //und die Klasse mit ae geschrieben wird.
+            if ("Geschäftspartner".equals(tabelle)) {
+                tabelle = tabelle.replace("ä", "ae");
+            }
             //Ergebnis aus der DB laden und als Liste speichern
             //Es wird zum einen das SQL-Statement übergeben und zum anderen
             //Der Class-Type zur typisierung der Objekte in der Liste
@@ -121,6 +113,23 @@ public class DataAccessObject {
 
         return sqlErgebnisListe;
     }
+    
+    public Geschaeftspartner gibA() throws ApplicationException {
+        
+        String s = "SELECT * FROM \"Geschäftspartner\"  left outer join ANSCHRIFT " +
+                    "ON \"Geschäftspartner\".RECHNUNGSADRESSE_ANSCHRIFTID = ANSCHRIFT.ANSCHRIFTID WHERE ANSCHRIFT.EMAIL LIKE 'asd%'";
+        Geschaeftspartner gp;
+        try {
+             gp = (Geschaeftspartner)em.createNativeQuery(s, Geschaeftspartner.class).getSingleResult();
+        } catch (Exception e) {
+            throw new ApplicationException();
+        }
+        
+        
+        return gp;
+    }
+    
+    
 //<editor-fold defaultstate="collapsed" desc="create-Methoden">
     
     
