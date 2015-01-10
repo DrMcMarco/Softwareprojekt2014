@@ -72,6 +72,21 @@ public class Parser {
     private static final String OPERATORLIKE = "LIKE";
     
     /**
+     * SQL-Statement zur Aufsteigender Sortierung.
+     */
+    private static final String AUFSTEIGEND = " ASC ";
+    
+    /**
+     * SQL-Statement zur Absteigender Sortierung.
+     */
+    private static final String ABSTEIGEND = " DESC ";
+    
+    /**
+     * SQL-Statement zur Sortierung.
+     */
+    private static final String SORTIEREN = " ORDER BY ";
+    
+    /**
      * Leer-String.
      */
     private static final String LEER = "";
@@ -92,11 +107,6 @@ public class Parser {
     private static final String FEHLER_OPERATOR = "Der Operator war ungültig!";
     
     /**
-     * Int Konstante für WAHR.
-     */
-    private static final int WAHR = 1;
-    
-    /**
      * Hashmap mit allen Schlüßelwörtern.
      */
     private final HashMap<String, String> attribute;
@@ -107,11 +117,17 @@ public class Parser {
     private String joinBefehl;
     
     /**
+     * Attribut nach dem sortiert werden soll.
+     */
+    private String sortierAttribut;
+    
+    /**
      * Konstruktor mit Übergabe der Suchkuerzel.
      * @param ttrbt Alle Suchschlüsselwörter
      */
     public Parser(HashMap<String, String> ttrbt) {
         this.attribute = ttrbt;
+        this.sortierAttribut = LEER;
     }
     
     /*----------------------------------------------------------*/
@@ -147,25 +163,10 @@ public class Parser {
         }
         //Initialisiere StringTokenizer
         st = new StringTokenizer(eingabe);
-        
-//        char[] c = eingabe.toCharArray();
-//        
-//        for (int i = 0; i < c.length; i++) {
-//            String t = "" + c[i];
-//            for (int k = 0; k < OPERATOR.length; k++) {
-//                if (OPERATOR[k].equals(t)) {
-//                    
-//                }
-//            }
-//            
-//        }
          
         //Durchlaufe alle Token
         while (st.hasMoreTokens()) {
-            
-            String s = st.nextToken();
-            eingabeOhneLeerzeichen += s;
-
+            eingabeOhneLeerzeichen += st.nextToken();
         }
         
         //Speicher alle praefixe in das array unter gegebenen Trennzeichen
@@ -203,9 +204,8 @@ public class Parser {
                             wert = wert.replace(PLATZHALTERMULTIPLEZEICHENAPP, 
                                 PLATZHALTERMULTIPLEZEICHEN);
                             
-                            
-                            //SQL-Statement aus suchkürzel , wert und lkz 
-                            //konkatenieren und in die Ergebnisliste einfügen.
+                            //SQL-Statement aus suchkürzel , wert, tabelle 
+                            //und operator in die Ergebnisliste einfügen.
                             abfrageErgebnis.add(this.setzeAbfrage(dbAttr, wert, 
                                     tabelle, OPERATORLIKE));
                         } else {
@@ -213,13 +213,11 @@ public class Parser {
                                     "Operator falsch?");
                         }
                     } else {
-                        
-                        //SQL-Statement aus suchkürzel , wert und 
-                        //lkz konkatenieren und in die Ergebnisliste einfügen.
+                        //SQL-Statement aus suchkürzel , wert, tabelle 
+                        //und operator in die Ergebnisliste einfügen.
                         abfrageErgebnis.add(this.setzeAbfrage(dbAttr, wert, 
                                     tabelle, splitOp));
                     }
-                    
                     //Beende die 2. Schleife sobald ein Operator gefunden wurde.
                     //Es müssen keine weiteren Operatoren mehr gesucht werden.
                     break;
@@ -231,12 +229,14 @@ public class Parser {
                 throw new ApplicationException(FEHLER_TITEL, FEHLER_OPERATOR);
             }
         }
-        
+        //Wegen dem ä muss mit " escaped werden
         if ("Geschäftspartner".equals(tabelle)) {
             tabelle = "\"" + tabelle + "\"";
         }
         
-        //Sql-Statement Dynamisch erzeugen
+        //Sql-Statement Dynamisch erzeugen.
+        //Es werden die joint befehle vor das where gesetzt.
+        //Im falle einer suche über nur einer tabelle ist dieser String leer.
         sqlAbfrage = "SELECT * FROM " + tabelle + this.joinBefehl + " WHERE ";
         //Iteriere über alle Input Einträge
         for (int i = 0; i < abfrageErgebnis.size(); i++) {
@@ -248,8 +248,14 @@ public class Parser {
                 sqlAbfrage += " AND ";
             }
         }
-        //Löschkennzeichen = 0 Zu letzt anfügen
-        sqlAbfrage += " AND " + tabelle + "." + LKZ;
+        //Es wird das komplette SQL Statement hier zusammengesetzt
+        //es wird hier noch eine UND Verknüpfung zum LKZ gemacht, da nur 
+        //Ergebnisse angezeigt werden soll, die nicht als gelöscht vorgemerkt 
+        //sind. desweiteren wird noch die Sortierung nach dem Literal, welches
+        //An erster Stelle in der Suchabfrage steht, angehängt.
+        //DESC ASC muss geklärt werden
+        sqlAbfrage += " AND " + tabelle + "." + LKZ + SORTIEREN 
+                + this.sortierAttribut + ABSTEIGEND;
         return sqlAbfrage;
     }
     /*----------------------------------------------------------*/
@@ -267,39 +273,38 @@ public class Parser {
      */
     public String setzeAbfrage(String dbAttribut, String dbWert, 
         String tabelle, String operator) throws ApplicationException {
-        
+        //Join Abfrage über Auftragskopf -> Geschäftspartner -> Anschrift
         String sqlAuftragPartnerJoin = " left join \"Geschäftspartner\" on "
                 + "AUFTRAGSKOPF.\"Geschäftspartner\" = "
                 + "\"Geschäftspartner\".GESCHAEFTSPARTNERID left join "
                 + "ANSCHRIFT on "
                 + "\"Geschäftspartner\".RECHNUNGSADRESSE_ANSCHRIFTID "
                 + "= ANSCHRIFT.ANSCHRIFTID ";
-        
-//        String sqlAuftragPartnerNachName = "  ANSCHRIFT.\"NAME\" ";
-//        String sqlAuftragPartnerNachVName = "  ANSCHRIFT.\"VNAME\" ";
-        
+        //Join Abfrage über Auftragskopf -> Status
         String sqlAuftragStatusJoin = " left join STATUS on "
                 + "AUFTRAGSKOPF.STATUS = STATUS.STATUSID ";
+        //Suchparameter um nach Status zu suchen
         String sqlAuftragStatusNachName = " STATUS.STATUS ";
-        
+        //Join Abfrage über Auftragskopf -> Zahlungskonditionen
         String sqlAuftragZkJoin  = " left join ZAHLUNGSKONDITION on "
                 + "AUFTRAGSKOPF.ZAHLUNGSKONDITION_ZAHLUNGSKONDITIONID = "
                 + "ZAHLUNGSKONDITION.ZAHLUNGSKONDITIONID ";
-        
+        //Suchparameter um nach Auftragsart zu suchen
         String sqlAuftragZkNachArt = " ZAHLUNGSKONDITION.AUFTRAGSART ";
-        
+        //Join Abfrage über Artikel -> Artikelkategorie
         String sqlArtikelKatJoin = " left join ARTIKELKATEGORIE on "
                 + "ARTIKEL.KATEGORIE = ARTIKELKATEGORIE.ID ";
-        
+        //Suchparameter um nach Kategoriename zu suchen
         String sqlArtikelKategorieNachName = " ARTIKELKATEGORIE.KATEGORIENAME ";
-        
+        //Join Abfrage über Geschäftspartner -> Anschrift
         String sqlPartnerAnschriftJoin = " left join ANSCHRIFT " 
                 + "ON \"Geschäftspartner\".RECHNUNGSADRESSE_ANSCHRIFTID = "
                 + "ANSCHRIFT.ANSCHRIFTID ";
+        //Suchparameter um nach GP Namen zu suchen
         String sqlPartnerAnschriftNachName = " ANSCHRIFT.\"NAME\" ";
-        
+        //Suchparameter um nach Vornamen zu suchen
         String sqlPartnerAnschriftNachVName = " ANSCHRIFT.\"VORNAME\" ";
-        
+        //Suchparameter um nach Email zu suchen
         String sqlPartnerAnschriftNachEmail = "  ANSCHRIFT.\"EMAIL\" ";
         String datentyp = LEER;
         
@@ -313,10 +318,14 @@ public class Parser {
         //Prüfe,ob es sich um ein String oder Datum handelt.
         if ("String".equals(datentyp) 
                 || "Date".equals(datentyp)) {
+            //Hole ein gültiges Datumsformat in Abhängigkeit des Musters
+            //Für SQL-Statement. 
+            dbWert = DatumParser.gibgueltigesDatumFormat(dbWert);
             //Hier müssen für das SQL-Statement hochkommas
             //hinzugefügt werden.
             dbWert = "'" + dbWert + "'";
         } else if ("Double".equals(datentyp)) {
+            //Bei Double werden alle , durch . ersetzt.
             dbWert = dbWert.replaceAll(",", ".");
         }
         //Prüfe ob es sich um GeschäftspartnerAttr handelt
@@ -325,17 +334,21 @@ public class Parser {
             //Bei geschaeftspartner muss man " setzen wegenÄ
             dbAttribut = "\"" + dbAttribut + "\"";
         }
-
         //Besondere Suche über Fremdschlüssel, es werden
         //Joins integiert, um über bestimmte 
         //Suchparameter an die ID's zu kommen.
         if ("\"GeschäftspartnerFK\"".equals(dbAttribut)
                 && "Auftragskopf".equals(tabelle)) {
-            
+            //Setze das dbAttribut dem Fremdschlüssel Attribut
             dbAttribut = sqlPartnerAnschriftNachName;
+            //Prüfe, ob ein joinbefehl bereits gesetzt wurde
             if (LEER.equals(this.joinBefehl)) {
+                //Wenn nicht, dann setze den join befehl für die Verbindung
+                //der Tabellen.
                 this.joinBefehl = sqlAuftragPartnerJoin;
+                //prüfe, ob der joinbefehl erweitert werden muss
             } else if (!this.joinBefehl.contains(sqlAuftragPartnerJoin)) {
+                //wenn ja dann hänge den nächsten join befehl an.
                 this.joinBefehl += " " + sqlAuftragPartnerJoin;
             }
         } else if (("GeschäftspartnerFKVNAME").equals(dbAttribut)
@@ -360,7 +373,7 @@ public class Parser {
             dbAttribut = sqlAuftragZkNachArt;
             if (LEER.equals(this.joinBefehl)) {
                 this.joinBefehl = sqlAuftragZkJoin;
-            } else if (!this.joinBefehl.equals(sqlAuftragZkJoin)) {
+            } else if (!this.joinBefehl.contains(sqlAuftragZkJoin)) {
                 this.joinBefehl += " " + sqlAuftragZkJoin;
             }
             
@@ -369,7 +382,7 @@ public class Parser {
             dbAttribut = sqlPartnerAnschriftNachName;
             if (LEER.equals(this.joinBefehl)) {
                 this.joinBefehl = sqlPartnerAnschriftJoin;
-            } else if (!this.joinBefehl.equals(sqlPartnerAnschriftJoin)) {
+            } else if (!this.joinBefehl.contains(sqlPartnerAnschriftJoin)) {
                 this.joinBefehl += " " + sqlPartnerAnschriftJoin;
             }
         } else if (("RECHNUNGSADRESSE_ANSCHRIFTIDFKVNAME").equals(dbAttribut)
@@ -377,7 +390,7 @@ public class Parser {
             dbAttribut = sqlPartnerAnschriftNachVName;
             if (LEER.equals(this.joinBefehl)) {
                 this.joinBefehl = sqlPartnerAnschriftJoin;
-            } else if (!this.joinBefehl.equals(sqlPartnerAnschriftJoin)) {
+            } else if (!this.joinBefehl.contains(sqlPartnerAnschriftJoin)) {
                 this.joinBefehl += " " + sqlPartnerAnschriftJoin;
             }
         } else if (("RECHNUNGSADRESSE_ANSCHRIFTIDFKEMAIL").equals(dbAttribut)
@@ -385,23 +398,28 @@ public class Parser {
             dbAttribut = sqlPartnerAnschriftNachEmail;
             if (LEER.equals(this.joinBefehl)) {
                 this.joinBefehl = sqlPartnerAnschriftJoin;
-            } else if (!this.joinBefehl.equals(sqlPartnerAnschriftJoin)) {
+            } else if (!this.joinBefehl.contains(sqlPartnerAnschriftJoin)) {
                 this.joinBefehl += " " + sqlPartnerAnschriftJoin;
             }
-            
         } else if (("KategorieFKNAME").equals(dbAttribut)
                 && "Artikel".equals(tabelle)) {
             dbAttribut = sqlArtikelKategorieNachName;
             if (LEER.equals(this.joinBefehl)) {
                 this.joinBefehl = sqlArtikelKatJoin;
-            } else if (!this.joinBefehl.equals(sqlArtikelKatJoin)) {
+            } else if (!this.joinBefehl.contains(sqlArtikelKatJoin)) {
                 this.joinBefehl += " " + sqlArtikelKatJoin;
             }
         }
         //Anschliessend muss der eigentliche Attributenname
         //wieder gesetzt werden.
         dbAttribut = dbAttribut.replace("FK", "");
-        
+        //Prüfe, ob das Attribute nach dem Sortiert werden soll, 
+        //Bereits gesetzt wurde. Im ersten druchlauf, wird das Attribut gesetzt
+        //, da nach dem ersten Literal in der Suchabfrage sortiert wird.
+        if (this.sortierAttribut.equals(LEER)) {
+            this.sortierAttribut = dbAttribut;
+        }
+        //Gib das Statement zurück Bsp: Name = test
         return dbAttribut + " " + operator + " " + dbWert;
     }
     
@@ -421,25 +439,27 @@ public class Parser {
     public boolean pruefeDatentyp(String dbAttribut, String dbWert,
         String tabelle) throws ApplicationException {
         String datentyp = LEER;
+        Date datum = null;
         //Hole Datentyp aus DB
         datentyp = GUIFactory.getDAO().gibDatentypVonSuchAttribut(
                 dbAttribut, tabelle);
         
         //Prüfe ob es sich um dein Datum handelt
         if ("Date".equals(datentyp)) {
-            //Erstelle Datum
-            Date d; //new SimpleDateFormat("dd.mm.yyyy");
             try {
                 //Versuche es zu parse. Wenn das Datum nicht geparset werden 
                 //Kann liegt ein Fehler im Format vor 
                 //-> Der Benutzer wird informiert.
-                d = DatumParser.stringToDate(dbWert);
+                datum = DatumParser.gibDatum(dbWert);
+                //Prüfe ob gültiges Datum erkannt wurde.
+                if (datum == null) {
+                    throw new NullPointerException("Bitte geben Sie ein "
+                            + "gültiges Datum ein!");
+                }
             } catch (Exception ex) {
-                throw new ApplicationException(FEHLER_TITEL, 
-                        "Die Ergebniseingabe: " + "" + dbWert 
-                                + " ist ungültig! \n Der Wert "
-                                + "muss ein gültiges Datum sein!");
+                throw new ApplicationException(FEHLER_TITEL, ex.getMessage());
             }
+        //alle anderen Datentypen
         } else {
             //Es müssen alle . durch Komma ersetzt werden, da das System
             //Sonst den Typ Double nicht erkennt...
@@ -516,18 +536,13 @@ public class Parser {
             GUIFactory gui = new GUIFactory();
             
             Collection<?>  a = GUIFactory.getDAO().suchAbfrage(
-                    "eingangsdatum <= 01.01.2015", "Auftragskopf");
+                    "auftragspartnername = asd; auftragspartnervorname = *", "Auftragskopf");
             
             for (Object o : a) {
                 System.out.println(o.toString());
-                
-                
 //                Geschaeftspartner gp = (Geschaeftspartner) o;
 //                System.out.println(gp.getLieferadresse().getName());
             }
-            Calendar d = Calendar.getInstance();
-            d.setTime(DatumParser.stringToDate("12/12/2000")); 
-            System.out.println(d.getTime());
         } catch (ApplicationException ex) {
             Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
         }
