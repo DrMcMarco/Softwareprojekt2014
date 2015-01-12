@@ -29,9 +29,9 @@ import javax.swing.text.MaskFormatter;
  *
  * @author Tahir
  *
- * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
- * 08.01.2015 Terrasi, Implementierung der Anzeigen/Ändern Funktion,
- * hinzufügen der Schnittstelle für InternalFrames
+ * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button 08.01.2015
+ * Terrasi, Implementierung der Anzeigen/Ändern Funktion, hinzufügen der
+ * Schnittstelle für InternalFrames
  */
 public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
 
@@ -69,6 +69,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     private int geschaeftspartnerNr = 1;
     private final SimpleDateFormat FORMAT;
 
+    private boolean sichtAnlegenAEndern;
     private NumberFormat nf;
     Calendar cal = Calendar.getInstance();
 
@@ -208,7 +209,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
      * Methode, die die das Formular zurücksetzt.
      */
     public final void setzeFormularZurueck() {
-        jTF_Geschaeftspartnernummer.setText("" + geschaeftspartnerNr);
+        jTF_GeschaeftspartnerID.setText("" + geschaeftspartnerNr);
         jCHB_Kunde.setSelected(false);
         jCHB_Lieferant.setSelected(false);
         jCB_Anrede.setSelectedIndex(0);
@@ -245,16 +246,18 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
 
     private void beendenEingabeNachfrage() {
         ueberpruefeFormular();
-        if (fehlerhafteComponenten.size() < anzahlFehlerhafterComponenten) {
-            String meldung = "Möchten Sie die Eingaben verwerfen? Klicken Sie auf JA, wenn Sie die Eingaben verwerfen möchten.";
-            String titel = "Achtung Eingaben gehen verloren!";
-            int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (antwort == JOptionPane.YES_OPTION) {
-                fehlerhafteComponenten.clear();
-                this.setVisible(false);
-                setzeFormularZurueck();
-            } else {
-                fehlerhafteComponenten.clear();
+        if (sichtAnlegenAEndern) {
+            if (fehlerhafteComponenten.size() < anzahlFehlerhafterComponenten) {
+                String meldung = "Möchten Sie die Eingaben verwerfen? Klicken Sie auf JA, wenn Sie die Eingaben verwerfen möchten.";
+                String titel = "Achtung Eingaben gehen verloren!";
+                int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (antwort == JOptionPane.YES_OPTION) {
+                    fehlerhafteComponenten.clear();
+                    this.setVisible(false);
+                    setzeFormularZurueck();
+                } else {
+                    fehlerhafteComponenten.clear();
+                }
             }
         } else {
             this.setVisible(false);
@@ -283,7 +286,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTF_Geschaeftspartnernummer = new javax.swing.JTextField();
+        jTF_GeschaeftspartnerID = new javax.swing.JTextField();
         jCHB_Kunde = new javax.swing.JCheckBox();
         jCHB_Lieferant = new javax.swing.JCheckBox();
         jLabel3 = new javax.swing.JLabel();
@@ -397,8 +400,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("Typ:");
 
-        jTF_Geschaeftspartnernummer.setText("1");
-        jTF_Geschaeftspartnernummer.setEnabled(false);
+        jTF_GeschaeftspartnerID.setText("1");
+        jTF_GeschaeftspartnerID.setEnabled(false);
 
         jCHB_Kunde.setText("Kunde");
         jCHB_Kunde.addActionListener(new java.awt.event.ActionListener() {
@@ -657,7 +660,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTF_Name)
                             .addComponent(jCB_Anrede, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTF_Geschaeftspartnernummer)
+                            .addComponent(jTF_GeschaeftspartnerID)
                             .addComponent(jTF_Telefon)
                             .addComponent(jFTF_Geburtsdatum, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jTF_EMail, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -714,7 +717,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTF_Geschaeftspartnernummer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTF_GeschaeftspartnerID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCHB_Kunde)
                     .addComponent(jLabel2)
                     .addComponent(jCHB_Lieferant))
@@ -1359,6 +1362,10 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         this.setzeFormularZurueck();
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
+    public JTextField gibjTF_GeschaeftspartnerID() {
+        return jTF_GeschaeftspartnerID;
+    }
+
     public JCheckBox gibjCHB_Kunde() {
         return jCHB_Kunde;
     }
@@ -1439,19 +1446,27 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         return jTF_OrtLieferanschrift;
     }
 
+    public void speichereLieferadresse() {
+        jTF_StrasseLieferanschriftFocusLost(null);
+        jTF_HausnummerLieferanschriftFocusLost(null);
+        jTF_PLZLieferanschriftFocusLost(null);
+        jTF_OrtLieferanschriftFocusLost(null);
+    }
+
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 08.01.2015 Terrasi, implemtiereung der Referenzvariable "hauptfenster"*/
     /*----------------------------------------------------------*/
     public void setzeFormularInGPAnlegenAEndern() {
+        setzeFormularZurueck();
         jCHB_Kunde.setEnabled(true);
+        jCHB_Lieferant.setEnabled(true);
         jCB_Anrede.setEnabled(true);
         jTF_Name.setEnabled(true);
         jTF_Vorname.setEnabled(true);
         jTF_Telefon.setEnabled(true);
         jTF_Fax.setEnabled(true);
         jFTF_Geburtsdatum.setEnabled(true);
-//        jFTF_Erfassungsdatum.setEnabled(true);
         jTF_EMail.setEnabled(true);
         jTF_Kreditlimit.setEnabled(true);
         jCHB_WieAnschrift.setEnabled(true);
@@ -1463,7 +1478,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_HausnummerLieferanschrift.setEnabled(true);
         jTF_PLZLieferanschrift.setEnabled(true);
         jTF_OrtLieferanschrift.setEnabled(true);
-        setzeFormularZurueck();
+        sichtAnlegenAEndern = true;
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
 
@@ -1472,14 +1487,15 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     /* 08.01.2015 Terrasi, implemtiereung der Referenzvariable "hauptfenster"*/
     /*----------------------------------------------------------*/
     public void setzeFormularInGPAnzeigen() {
+        setzeFormularZurueck();
         jCHB_Kunde.setEnabled(false);
+        jCHB_Lieferant.setEnabled(false);
         jCB_Anrede.setEnabled(false);
         jTF_Name.setEnabled(false);
         jTF_Vorname.setEnabled(false);
         jTF_Telefon.setEnabled(false);
         jTF_Fax.setEnabled(false);
         jFTF_Geburtsdatum.setEnabled(false);
-//        jFTF_Erfassungsdatum.setEnabled(false);
         jTF_EMail.setEnabled(false);
         jTF_Kreditlimit.setEnabled(false);
         jCHB_WieAnschrift.setEnabled(false);
@@ -1491,7 +1507,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_HausnummerLieferanschrift.setEnabled(false);
         jTF_PLZLieferanschrift.setEnabled(false);
         jTF_OrtLieferanschrift.setEnabled(false);
-        setzeFormularZurueck();
+        sichtAnlegenAEndern = false;
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
 
@@ -1533,7 +1549,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTF_EMail;
     private javax.swing.JTextField jTF_Fax;
-    private javax.swing.JTextField jTF_Geschaeftspartnernummer;
+    private javax.swing.JTextField jTF_GeschaeftspartnerID;
     private javax.swing.JTextField jTF_HausnummerLieferanschrift;
     private javax.swing.JTextField jTF_HausnummerRechnungsanschrift;
     private javax.swing.JTextField jTF_Kreditlimit;

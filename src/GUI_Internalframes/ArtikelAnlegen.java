@@ -25,9 +25,9 @@ import javax.swing.JTextField;
  * GUI Klasse für Artikel verwalten.
  *
  * @author Tahir 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
- * 
- * 08.01.2015 Terrasi, Implementierung der Anzeigen/Ändern Funktion,
- * hinzufügen der Schnittstelle für InternalFrames
+ *
+ * 08.01.2015 Terrasi, Implementierung der Anzeigen/Ändern Funktion, hinzufügen
+ * der Schnittstelle für InternalFrames
  */
 public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
@@ -66,6 +66,9 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     private NumberFormat nf;
 
     private ArrayList<Component> alleComponenten;
+    private boolean sichtAnlegen;
+    private boolean sichtAEndern;
+    private boolean sichtAnzeigen;
 
     //KategorieArraylist aus DB
     /**
@@ -186,14 +189,23 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jCB_MwST.setBackground(JCB_FARBE_STANDARD);
         jTF_Bestandsmenge_FREI.setText("");
         jTF_Bestandsmenge_FREI.setBackground(JTF_FARBE_STANDARD);
+
+        sichtAnlegen = false;
+        sichtAEndern = false;
+        sichtAnzeigen = false;
     }
 
     private void beendenEingabeNachfrage() {
-        if (beendenNachfrageStatus) {
+        if (sichtAnlegen || sichtAEndern) {
             ueberpruefeFormular();
+            String meldung = "Möchten Sie die Eingaben verwerfen? Klicken Sie auf JA, wenn Sie die Eingaben verwerfen möchten.";
+            String titel = "Achtung Eingaben gehen verloren!";
+            if (sichtAEndern) {
+                meldung = "Möchten Sie die Sicht Artikel ändern verlassen?";
+                titel = "Artikel ändern verlassen";
+            }
             if (fehlerhafteComponenten.size() < maxAnzahlFehlerhafterComponenten) {
-                String meldung = "Möchten Sie die Eingaben verwerfen? Klicken Sie auf JA, wenn Sie die Eingaben verwerfen möchten.";
-                String titel = "Achtung Eingaben gehen verloren!";
+
                 int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (antwort == JOptionPane.YES_OPTION) {
                     fehlerhafteComponenten.clear();
@@ -638,13 +650,13 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
             artikelbeschreibung = jTA_Artikelbeschreibung.getText();
             kategorie = (String) jCB_Kategorie.getSelectedItem();
 
-            try{
-            this.dao.createItem(kategorie, artikelname, artikelbeschreibung, 
-                    einzelwert, bestellwert, mwst, bestandsmengeFREI,
-                    bestandsmengeRESERVIERT, bestandsmengeZULAUF, 
-                    bestandsmengeVERKAUFT);
-                
-            }catch(ApplicationException e){
+            try {
+                this.dao.createItem(kategorie, artikelname, artikelbeschreibung,
+                        einzelwert, bestellwert, mwst, bestandsmengeFREI,
+                        bestandsmengeRESERVIERT, bestandsmengeZULAUF,
+                        bestandsmengeVERKAUFT);
+
+            } catch (ApplicationException e) {
                 System.out.println(e.getMessage());
             }
 //            System.out.println("Geschäftspartner: \n"
@@ -828,24 +840,20 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     public JTextField gibjTF_BestandsmengeFREI() {
         return jTF_Bestandsmenge_FREI;
     }
-    
+
     public JTextField gibjTF_BestandsmengeRESERVIERT() {
         return jTF_Bestandsmenge_RES;
     }
-    
+
     public JTextField gibjTF_BestandsmengeZULAUF() {
         return jTF_Bestandsmenge_ZULAUF;
     }
-    
+
     public JTextField gibjTF_BestandsmengeVERKAUFT() {
         return jTF_Bestandsmenge_VERKAUFT;
     }
 
-    /*----------------------------------------------------------*/
-    /* Datum Name Was */
-    /* 08.01.2015 Terrasi, implemtiereung der Referenzvariable "hauptfenster"*/
-    /*----------------------------------------------------------*/
-    public void setzeFormularInArtikelAnlegenAEndern() {
+    public void setzeFormularInArtikelAnlegen() {
         jTF_Artikelname.setEnabled(true);
         jTA_Artikelbeschreibung.setEnabled(true);
         jCB_Kategorie.setEnabled(true);
@@ -853,8 +861,25 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jTF_Bestellwert.setEnabled(true);
         jCB_MwST.setEnabled(true);
         jTF_Bestandsmenge_FREI.setEnabled(true);
-        beendenNachfrageStatus = true;
         setzeFormularZurueck();
+        sichtAnlegen = true;
+        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
+    }
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 08.01.2015 Terrasi, implemtiereung der Referenzvariable "hauptfenster"*/
+    /*----------------------------------------------------------*/
+    public void setzeFormularInArtikelAEndern() {
+        jTF_Artikelname.setEnabled(true);
+        jTA_Artikelbeschreibung.setEnabled(true);
+        jCB_Kategorie.setEnabled(true);
+        jTF_Einzelwert.setEnabled(true);
+        jTF_Bestellwert.setEnabled(true);
+        jCB_MwST.setEnabled(true);
+        jTF_Bestandsmenge_FREI.setEnabled(true);
+        setzeFormularZurueck();
+        sichtAEndern = true;
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
 
@@ -870,8 +895,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jTF_Bestellwert.setEnabled(false);
         jCB_MwST.setEnabled(false);
         jTF_Bestandsmenge_FREI.setEnabled(false);
-        beendenNachfrageStatus = false;
         setzeFormularZurueck();
+        sichtAnlegen = false;
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -10,6 +10,7 @@ import DTO.Anschrift;
 import DTO.Artikel;
 import DTO.Geschaeftspartner;
 import DTO.Lieferanschrift;
+import Documents.UniversalDocument;
 import JFrames.GUIFactory;
 import java.awt.Component;
 import java.text.DateFormat;
@@ -27,7 +28,7 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
     /*
      Hilfsvariablen
      */
-
+    
     Component c;
     GUIFactory factory;
     GeschaeftspartnerAnlegen g;
@@ -40,10 +41,11 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
         initComponents();
         this.factory = factory;
         this.g = g;
-
+        
         nf = NumberFormat.getInstance();
         nf.setMinimumFractionDigits(2);
         nf.setMaximumFractionDigits(2);
+        jTF_Geschaeftspartner_ID.setDocument(new UniversalDocument("0123456789", false));
 //        this.getContentPane().add(a);
     }
 
@@ -69,6 +71,7 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
         jTF_Statuszeile = new javax.swing.JTextField();
 
         setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
@@ -76,6 +79,23 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
         setPreferredSize(new java.awt.Dimension(580, 300));
         setRequestFocusEnabled(false);
         setVisible(true);
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jToolBar1.setBorder(null);
         jToolBar1.setRollover(true);
@@ -158,7 +178,7 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void jB_EnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_EnterActionPerformed
-
+        
         String eingabe = jTF_Geschaeftspartner_ID.getText();
         long gpnr = 0;
         try {
@@ -175,6 +195,7 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
 
 //            g.gibjCHB_Kunde().setSelected(true);
 //            g.gibjCHB_Lieferant().setSelected(false);
+            g.gibjTF_GeschaeftspartnerID().setText("" + gpnr);
             g.gibjCB_Anrede().setSelectedItem(ra.getTitel());
             g.gibjTF_Name().setText(ra.getName());
             g.gibjTF_Vorname().setText(ra.getVorname());
@@ -194,13 +215,13 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
             } else {
                 t = "" + tag;
             }
-
+            
             if (mon < 10) {
                 m = "0" + mon;
             } else {
                 m = "" + mon;
             }
-
+            
             String s = t + "." + m + "." + jahr;
             System.out.println(s);
             g.gibjFTF_Geburtsdatum().setText(s);
@@ -226,7 +247,7 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
             g.setVisible(true);
             this.setVisible(false);
             jTF_Geschaeftspartner_ID.setText("");
-
+            
         } catch (ParseException ex) {
             System.out.println("Fehler beim Parsen in der Klasse ArtikelAnlegen!");
         } catch (ApplicationException ex) {
@@ -281,6 +302,10 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
         this.setVisible(false);// Internalframe wird nicht mehr dargestellt
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        jB_ZurueckActionPerformed(null);
+    }//GEN-LAST:event_formInternalFrameClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

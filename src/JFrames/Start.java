@@ -636,7 +636,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
      */
     private void jMI_ArtikelAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ArtikelAnlegenActionPerformed
         artikelanlegen.setTitle(ARTIKEL_ANLEGEN);
-        artikelanlegen.setzeFormularInArtikelAnlegenAEndern();
+        artikelanlegen.setzeFormularInArtikelAEndern();
         if (c != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             c.setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
@@ -661,7 +661,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     private void jMI_ArtikelAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ArtikelAEndernActionPerformed
         artikelaendern.setTitle(ARTIKEL_AENDERN);
         artikelanlegen.setTitle(ARTIKEL_AENDERN);
-        artikelanlegen.setzeFormularInArtikelAnlegenAEndern();
+        artikelanlegen.setzeFormularInArtikelAEndern();
         if (c != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             c.setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }

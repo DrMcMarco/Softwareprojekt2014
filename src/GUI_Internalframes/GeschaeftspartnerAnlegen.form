@@ -68,7 +68,7 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jTF_Name" alignment="0" max="32767" attributes="0"/>
                           <Component id="jCB_Anrede" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jTF_Geschaeftspartnernummer" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jTF_GeschaeftspartnerID" alignment="0" max="32767" attributes="0"/>
                           <Component id="jTF_Telefon" alignment="0" max="32767" attributes="0"/>
                           <Component id="jFTF_Geburtsdatum" alignment="1" max="32767" attributes="0"/>
                           <Component id="jTF_EMail" alignment="1" max="32767" attributes="0"/>
@@ -139,7 +139,7 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTF_Geschaeftspartnernummer" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTF_GeschaeftspartnerID" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jCHB_Kunde" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jCHB_Lieferant" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -322,7 +322,7 @@
         <Property name="text" type="java.lang.String" value="Typ:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTF_Geschaeftspartnernummer">
+    <Component class="javax.swing.JTextField" name="jTF_GeschaeftspartnerID">
       <Properties>
         <Property name="text" type="java.lang.String" value="1"/>
         <Property name="enabled" type="boolean" value="false"/>

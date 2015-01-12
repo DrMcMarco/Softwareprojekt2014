@@ -9,6 +9,7 @@ import DAO.ApplicationException;
 import DTO.Anschrift;
 import DTO.Geschaeftspartner;
 import DTO.Zahlungskondition;
+import Documents.UniversalDocument;
 import JFrames.GUIFactory;
 import java.awt.Component;
 import java.text.NumberFormat;
@@ -41,6 +42,7 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
         nf = NumberFormat.getInstance();
         nf.setMinimumFractionDigits(2);
         nf.setMaximumFractionDigits(2);
+        jTF_Zahlungskondition_ID.setDocument(new UniversalDocument("0123456789", false));
     }
 
     /**
@@ -65,6 +67,7 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
         jTF_Statuszeile = new javax.swing.JTextField();
 
         setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
@@ -72,6 +75,23 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
         setPreferredSize(new java.awt.Dimension(580, 300));
         setRequestFocusEnabled(false);
         setVisible(true);
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jToolBar1.setBorder(null);
         jToolBar1.setRollover(true);
@@ -161,8 +181,8 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
             Zahlungskondition za = this.factory.getDAO().getPaymentConditionsById(zknr);
             z.gibjTF_ZahlungskonditionID().setText("" + za.getZahlungskonditionID());
             z.gibjCB_Auftragsart().setSelectedItem(za.getAuftragsart());
-            z.gibjFTF_LieferzeitSOFORT().setText("" + za.getLieferzeitSofort());
-            z.gibjFTF_SperrzeitWUNSCH().setText("" + za.getSperrzeitWunsch());
+            z.gibjSP_LieferzeitSOFORT().setValue(za.getLieferzeitSofort());
+            z.gibjSP_SperrzeitWUNSCH().setValue(za.getSperrzeitWunsch());
             z.gibjSP_Skontozeit1().setValue(za.getSkontozeit1());
             z.gibjSP_Skontozeit2().setValue(za.getSkontozeit2());
             z.gibjCB_Skonto1().setSelectedItem(("" + za.getSkonto1()).replace('.', ','));
@@ -174,8 +194,10 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
             this.setVisible(false);
         } catch (ParseException ex) {
             System.out.println("Fehler beim Parsen in der Klasse ArtikelAnlegen!");
+            System.out.println(ex.getMessage());
         } catch (ApplicationException ex) {
 //            Logger.getLogger(ArtikelAEndernEinstieg.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
             jTF_Statuszeile.setText("Kein passender Geschäftspartner in Datenbank!");
             jTF_Zahlungskondition_ID.setText("");
         }
@@ -200,6 +222,10 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
         this.setVisible(false);// Internalframe wird nicht mehr dargestellt
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        jB_ZurueckActionPerformed(null);
+    }//GEN-LAST:event_formInternalFrameClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

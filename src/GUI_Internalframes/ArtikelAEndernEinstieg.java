@@ -7,6 +7,7 @@ package GUI_Internalframes;
 
 import DAO.ApplicationException;
 import DTO.Artikel;
+import Documents.UniversalDocument;
 import JFrames.*;
 import java.awt.Component;
 import java.text.NumberFormat;
@@ -39,6 +40,7 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
         nf = NumberFormat.getInstance();
         nf.setMinimumFractionDigits(2);
         nf.setMaximumFractionDigits(2);
+        jTF_Artikel_ID.setDocument(new UniversalDocument("0123456789", false));
     }
 
     /**
@@ -245,11 +247,7 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTF_Artikel_IDFocusGained
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
-        c = null;   //Initialisierung der Componentspeichervariable
-        //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-        c = this.factory.zurueckButton();
-        this.setVisible(false);// Internalframe wird nicht mehr dargestellt
-        c.setVisible(true);// Übergebene Component wird sichtbar gemacht
+        jB_ZurueckActionPerformed(null);
     }//GEN-LAST:event_formInternalFrameClosing
     
     private void zurueckZumHauptmenue() {
