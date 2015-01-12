@@ -133,6 +133,7 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
 
         jToolBar1.setBorder(null);
         jToolBar1.setRollover(true);
+        jToolBar1.setEnabled(false);
 
         jB_Zurueck.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/home.PNG"))); // NOI18N
         jB_Zurueck.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));

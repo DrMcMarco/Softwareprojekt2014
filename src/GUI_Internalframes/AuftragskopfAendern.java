@@ -140,6 +140,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         jToolBar1.add(jB_Loeschen);
 
         jB_Suchen.setText("Suchen");
+        jB_Suchen.setEnabled(false);
         jToolBar1.add(jB_Suchen);
 
         jTextField1.setEditable(false);

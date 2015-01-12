@@ -851,23 +851,23 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      * 
      */ 
     private void ladeZahlungskonditionenAusDatenbank() {
-        try {
-            liste.c
+//        try {
+//            liste.c
             zahlungskondditionAusDatenbank = this.dao.gibAlleZahlungskonditionen();
 //            ArrayList für die Combobox
             zahlungskonditionFuerCombobox = new ArrayList<>();
             zahlungskonditionFuerCombobox.add("Bitte auswählen");
-            Iterator<Zahlungskondition> it = zahlungskondditionAusDatenbank.iterator();
-            while (it.hasNext()) {
-                liste.add(it.next());
+//            Iterator<Zahlungskondition> it = zahlungskondditionAusDatenbank.iterator();
+//            while (it.hasNext()) {
+//                liste.add(it.next());
 //                zahlungskonditionFuerCombobox.add(it.next().get);
-            }
+//            }
 //            for(Artikelkategorie a: kategorienAusDatenbank) {
 //                System.out.println(a.getKategoriename());
 //            }
-        } catch (ApplicationException ex) {
-            System.out.println("Fehler beim Laden der Kategorien");
-        }
+//        } catch (ApplicationException ex) {
+//            System.out.println("Fehler beim Laden der Kategorien");
+//        }
     }
     /**
      * Action beim betätigen des Speicher-Buttons. Es wird die Prüfmethode
@@ -881,19 +881,19 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         ueberpruefen();
         if (fehlendeEingaben.isEmpty()) {
             if (fehlendeEingabenAuftragsposition.isEmpty()) {
-                try{
+//                try{
                 typ = auftragsart_jComboBox.getSelectedItem().toString();
 //                artikel
                 auftragsText = auftragstext_jTextArea.getText();
                 geschaeftspartnerID = Long.parseLong(geschaeftspartner_jTextField.getText());
-                zahlungskonditionID = Long.
+//                zahlungskonditionID = Long.
                 //Auftragskopf und Position anlegen
-                GUIFactory.getDAO().erstelleAuftragskopf(typ, artikel, auftragsText, GeschaeftspartnerID, ZahlungskonditionID, status, abschlussdatum, lieferdatum);
-                zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+//                GUIFactory.getDAO().erstelleAuftragskopf(typ, artikel, auftragsText, GeschaeftspartnerID, ZahlungskonditionID, status, abschlussdatum, lieferdatum);
+//                zuruecksetzen();//Methode die bestimmte Eingabefelder leert
                     
-                }catch(ParseException e){
-                    System.out.println(e.getMessage());
-                }
+//                }catch(ParseException e){
+//                    System.out.println(e.getMessage());
+//                }
             } else {
                 int k = 2;
                 if (k == 2) {//Wenn nicht mindestens eine Auftragsposition zum Auftragskopf angelegt worden ist
