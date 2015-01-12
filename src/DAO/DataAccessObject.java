@@ -866,7 +866,7 @@ public class DataAccessObject {
     public Collection<String> gibSuchAttribute(String tabelle) 
         throws ApplicationException {
         String sqlAbfrage = "SELECT ST FROM Parameterdaten ST "
-                + "WHERE ST.Tabelle = '" + tabelle + "'";
+                + "WHERE ST.tabelle = '" + tabelle + "'";
         Collection<Parameterdaten> parameterdaten = null;
         Collection<String> suchAttribute = new ArrayList<>();
         
