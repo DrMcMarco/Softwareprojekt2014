@@ -710,7 +710,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
      */
     private void jMI_GPAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_GPAnlegenActionPerformed
         geschaeftspartneranlegen.setTitle(GP_ANLEGEN);
-        geschaeftspartneranlegen.setzeFormularInGPAnlegenAEndern();
+        geschaeftspartneranlegen.setzeFormularInGPAnlegen();
         if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
@@ -735,7 +735,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     private void jMI_GPAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_GPAEndernActionPerformed
         geschaeftspartneraendern.setTitle(GP_AENDERN);
         geschaeftspartneranlegen.setTitle(GP_AENDERN);
-        geschaeftspartneranlegen.setzeFormularInGPAnlegenAEndern();
+        geschaeftspartneranlegen.setzeFormularInGPAEndern();
         if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }

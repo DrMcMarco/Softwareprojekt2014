@@ -69,7 +69,10 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     private int geschaeftspartnerNr = 1;
     private final SimpleDateFormat FORMAT;
 
-    private boolean sichtAnlegenAEndern;
+    private boolean sichtAnlegen;
+    private boolean sichtAEndern;
+    private boolean sichtAnzeigen;
+
     private NumberFormat nf;
     Calendar cal = Calendar.getInstance();
 
@@ -242,27 +245,41 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_HausnummerLieferanschrift.setBackground(JTF_FARBE_STANDARD);
         jTF_PLZLieferanschrift.setBackground(JTF_FARBE_STANDARD);
         jTF_OrtLieferanschrift.setBackground(JTF_FARBE_STANDARD);
+
+        sichtAnlegen = false;
+        sichtAEndern = false;
+        sichtAnzeigen = false;
     }
 
     private void beendenEingabeNachfrage() {
-        ueberpruefeFormular();
-        if (sichtAnlegenAEndern) {
+        if (sichtAnlegen || sichtAEndern) {
+            ueberpruefeFormular();
+            String meldung = "Möchten Sie die Eingaben verwerfen? Klicken Sie auf JA, wenn Sie die Eingaben verwerfen möchten.";
+            String titel = "Achtung Eingaben gehen verloren!";
+            if (sichtAEndern) {
+                meldung = "Möchten Sie die Sicht Artikel ändern verlassen?";
+                titel = "Artikel ändern verlassen";
+            }
             if (fehlerhafteComponenten.size() < anzahlFehlerhafterComponenten) {
-                String meldung = "Möchten Sie die Eingaben verwerfen? Klicken Sie auf JA, wenn Sie die Eingaben verwerfen möchten.";
-                String titel = "Achtung Eingaben gehen verloren!";
                 int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (antwort == JOptionPane.YES_OPTION) {
                     fehlerhafteComponenten.clear();
                     this.setVisible(false);
                     setzeFormularZurueck();
+                    jB_ZurueckActionPerformed(null);
                 } else {
                     fehlerhafteComponenten.clear();
                 }
+            } else {
+                this.setVisible(false);
+                setzeFormularZurueck();
+                fehlerhafteComponenten.clear();
             }
         } else {
-            this.setVisible(false);
-            setzeFormularZurueck();
             fehlerhafteComponenten.clear();
+            this.setVisible(false);
+            jB_ZurueckActionPerformed(null);
+//            setzeFormularZurueck();
         }
     }
 
@@ -1043,55 +1060,6 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
      * Methode die prüft, ob das einegegebene Geburtsdatum gültig ist.
      */
     private void jFTF_GeburtsdatumFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFTF_GeburtsdatumFocusLost
-//        String eingabeGeburtsdatum = jFTF_Geburtsdatum.getText();
-//        String eingabeJahr = eingabeGeburtsdatum.substring(6, eingabeGeburtsdatum.length());
-//        if (!jFTF_Geburtsdatum.getText().equals("##.##.####")) {
-//            if (eingabeJahr.length() == 4 && (eingabeJahr.startsWith("20") || eingabeJahr.startsWith("19"))) {
-//                try {
-//                    Date tempAktDate = FORMAT.parse(aktuellesDatum);
-//                    tempGebuDate = FORMAT.parse(eingabeGeburtsdatum);
-////                Date temp = FORMAT.parse("09.12.1996");
-////                Date temp1 = FORMAT.parse("09.12.2014");
-////                long achtzehn = temp1.getTime() - temp.getTime();
-//
-//                    cal.setTime(tempAktDate);
-//                    cal.add(Calendar.YEAR, -18);
-//                    Date dateBefore18Years = cal.getTime();
-//
-////                System.out.println(temp.getTime());
-////                System.out.println(temp1.getTime());
-//                    if (tempGebuDate.getTime() > tempAktDate.getTime()) {
-//                        String meldung = "Das eingegebene Geburtsdatum ist in der Zukunft! \nBitte geben Sie ein gültiges Geburtsdatm Datum ein. (z.B. 01.01.1980)";
-//                        String titel = "Fehlerhafte Eingabe";
-//                        JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-//                        jFTF_Geburtsdatum.requestFocusInWindow();
-//                        jFTF_Geburtsdatum.setText("##.##.####");
-////                } else if (tempGebuDate.getTime() + achtzehn > tempAktDate.getTime()) {
-//                    } else if (tempGebuDate.getTime() > dateBefore18Years.getTime()) {
-//                        String meldung = "Der eingebene Geschäftspartner ist nicht volljährig!";
-//                        String titel = "Fehlerhafte Eingabe";
-//                        JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-//                        jFTF_Geburtsdatum.requestFocusInWindow();
-//                        jFTF_Geburtsdatum.setText("##.##.####");
-//                    } else {
-//                        jFTF_Geburtsdatum.setBackground(JTF_FARBE_STANDARD);
-//                    }
-//                } catch (ParseException ex) {
-//                    System.out.println(ex.getMessage());
-//                }
-//            } else {
-//                // eingabe Ungültig z.B. 19999;
-//                String meldung = "Das eingegebene Geburtsdatum ist in nicht gültig! \nBitte geben Sie ein gültiges Geburtsdatm Datum ein. (z.B. 01.01.1990)";
-//                String titel = "Fehlerhafte Eingabe";
-//                JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-//                jFTF_Geburtsdatum.requestFocusInWindow();
-//                jFTF_Geburtsdatum.setText("");
-//            }
-//        } else {
-//            //jFTF_Geburtsdatum.setText("01.01.1990");
-//            jFTF_Geburtsdatum.setValue(null);
-//        }
-
         if (!jFTF_Geburtsdatum.getText().equals("##.##.####")) {
             Date heute;
             try {
@@ -1446,18 +1414,18 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         return jTF_OrtLieferanschrift;
     }
 
-    public void speichereLieferadresse() {
-        jTF_StrasseLieferanschriftFocusLost(null);
-        jTF_HausnummerLieferanschriftFocusLost(null);
-        jTF_PLZLieferanschriftFocusLost(null);
-        jTF_OrtLieferanschriftFocusLost(null);
-    }
+//    public void speichereLieferadresse() {
+//        jTF_StrasseLieferanschriftFocusLost(null);
+//        jTF_HausnummerLieferanschriftFocusLost(null);
+//        jTF_PLZLieferanschriftFocusLost(null);
+//        jTF_OrtLieferanschriftFocusLost(null);
+//    }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 08.01.2015 Terrasi, implemtiereung der Referenzvariable "hauptfenster"*/
     /*----------------------------------------------------------*/
-    public void setzeFormularInGPAnlegenAEndern() {
+    public void setzeFormularInGPAnlegen() {
         setzeFormularZurueck();
         jCHB_Kunde.setEnabled(true);
         jCHB_Lieferant.setEnabled(true);
@@ -1478,7 +1446,33 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_HausnummerLieferanschrift.setEnabled(true);
         jTF_PLZLieferanschrift.setEnabled(true);
         jTF_OrtLieferanschrift.setEnabled(true);
-        sichtAnlegenAEndern = true;
+        sichtAnlegen = true;
+        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
+    }
+
+    public void setzeFormularInGPAEndern() {
+        setzeFormularZurueck();
+        sichtAEndern = true;
+        jCHB_Kunde.setEnabled(true);
+        jCHB_Lieferant.setEnabled(true);
+        jCB_Anrede.setEnabled(true);
+        jTF_Name.setEnabled(true);
+        jTF_Vorname.setEnabled(true);
+        jTF_Telefon.setEnabled(true);
+        jTF_Fax.setEnabled(true);
+        jFTF_Geburtsdatum.setEnabled(true);
+        jTF_EMail.setEnabled(true);
+        jTF_Kreditlimit.setEnabled(true);
+        jCHB_WieAnschrift.setEnabled(true);
+        jTF_StrasseRechnungsanschrift.setEnabled(true);
+        jTF_HausnummerRechnungsanschrift.setEnabled(true);
+        jTF_PLZRechnungsanschrift.setEnabled(true);
+        jTF_OrtRechnungsanschrift.setEnabled(true);
+        jTF_StrasseLieferanschrift.setEnabled(true);
+        jTF_HausnummerLieferanschrift.setEnabled(true);
+        jTF_PLZLieferanschrift.setEnabled(true);
+        jTF_OrtLieferanschrift.setEnabled(true);
+        sichtAEndern = true;
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
 
@@ -1507,7 +1501,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_HausnummerLieferanschrift.setEnabled(false);
         jTF_PLZLieferanschrift.setEnabled(false);
         jTF_OrtLieferanschrift.setEnabled(false);
-        sichtAnlegenAEndern = false;
+        sichtAnzeigen = true;
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
 

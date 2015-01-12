@@ -234,9 +234,13 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
             if (ra.getAnschriftID() == la.getAnschriftID()) {
                 g.gibjCHB_WieAnschrift().setSelected(true);
                 g.gibjTF_StrasseLieferanschrift().setText(ra.getStrasse());
+                g.gibjTF_StrasseLieferanschrift().setEnabled(false);
                 g.gibjTF_HausnummerLieferanschrift().setText(ra.getHausnummer());
+                g.gibjTF_HausnummerLieferanschrift().setEnabled(false);
                 g.gibjTF_PLZLieferanschrift().setText(ra.getPLZ());
+                g.gibjTF_PLZLieferanschrift().setEnabled(false);
                 g.gibjTF_OrtLieferanschrift().setText(ra.getOrt());
+                g.gibjTF_OrtLieferanschrift().setEnabled(false);
             } else {
                 g.gibjCHB_WieAnschrift().setSelected(false);
                 g.gibjTF_StrasseLieferanschrift().setText(la.getStrasse());

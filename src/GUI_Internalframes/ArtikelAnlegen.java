@@ -337,6 +337,11 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
         jB_Loeschen.setText("Löschen");
         jB_Loeschen.setEnabled(false);
+        jB_Loeschen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_LoeschenActionPerformed(evt);
+            }
+        });
         jTB_Menueleiste.add(jB_Loeschen);
 
         jB_Suchen.setText("Suchen");
@@ -809,6 +814,19 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         beendenEingabeNachfrage();
     }//GEN-LAST:event_formInternalFrameClosing
 
+    private void jB_LoeschenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_LoeschenActionPerformed
+        try {
+            long artikelnr = nf.parse(jTF_Artikelnummer.getText()).longValue();
+            int antwort = JOptionPane.showConfirmDialog(null, "Soll der Artikel wirklich gelöscht werden?", "Artikel löschen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (antwort == JOptionPane.YES_OPTION) {
+                factory.getDAO().loescheArtikel(artikelnr);
+                jB_ZurueckActionPerformed(evt);
+            }
+        } catch (ParseException | ApplicationException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_jB_LoeschenActionPerformed
+
     public JTextField gibjTF_Artikelnummer() {
         return jTF_Artikelnummer;
     }
@@ -854,6 +872,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     }
 
     public void setzeFormularInArtikelAnlegen() {
+        setzeFormularZurueck();
         jTF_Artikelname.setEnabled(true);
         jTA_Artikelbeschreibung.setEnabled(true);
         jCB_Kategorie.setEnabled(true);
@@ -861,7 +880,11 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jTF_Bestellwert.setEnabled(true);
         jCB_MwST.setEnabled(true);
         jTF_Bestandsmenge_FREI.setEnabled(true);
-        setzeFormularZurueck();
+
+        jB_Speichern.setEnabled(true);
+        jB_Anzeigen.setEnabled(false);
+        jB_Loeschen.setEnabled(false);
+
         sichtAnlegen = true;
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
@@ -871,6 +894,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     /* 08.01.2015 Terrasi, implemtiereung der Referenzvariable "hauptfenster"*/
     /*----------------------------------------------------------*/
     public void setzeFormularInArtikelAEndern() {
+        setzeFormularZurueck();
         jTF_Artikelname.setEnabled(true);
         jTA_Artikelbeschreibung.setEnabled(true);
         jCB_Kategorie.setEnabled(true);
@@ -878,7 +902,12 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jTF_Bestellwert.setEnabled(true);
         jCB_MwST.setEnabled(true);
         jTF_Bestandsmenge_FREI.setEnabled(true);
-        setzeFormularZurueck();
+
+        jB_Speichern.setEnabled(true);
+        jB_Anzeigen.setEnabled(true);
+        jB_Anzeigen.setFocusable(false);
+        jB_Loeschen.setEnabled(true);
+
         sichtAEndern = true;
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
@@ -888,6 +917,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     /* 08.01.2015 Terrasi, implemtiereung der Referenzvariable "hauptfenster"*/
     /*----------------------------------------------------------*/
     public void setzeFormularInArtikelAnzeigen() {
+        setzeFormularZurueck();
         jTF_Artikelname.setEnabled(false);
         jTA_Artikelbeschreibung.setEnabled(false);
         jCB_Kategorie.setEnabled(false);
@@ -895,8 +925,12 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jTF_Bestellwert.setEnabled(false);
         jCB_MwST.setEnabled(false);
         jTF_Bestandsmenge_FREI.setEnabled(false);
-        setzeFormularZurueck();
-        sichtAnlegen = false;
+
+        jB_Speichern.setEnabled(false);
+        jB_Anzeigen.setEnabled(true);
+        jB_Loeschen.setEnabled(false);
+
+        sichtAnzeigen = true;
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
