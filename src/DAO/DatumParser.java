@@ -86,26 +86,34 @@ public class DatumParser {
                 date = new SimpleDateFormat(
                         aktuellesFormat).parse(eingabeDatum);
             } catch (ParseException ex) {
-
+                //Hier wird nichts weiter unternommen da mehrere Formate 
+                //Überprüft werden und es zu keinem Abbruch kommen darf.
+                ex.getMessage();
             }
             
             //Beende die Schleife sobald das Datum geparst werden konnte
             //->Das Trennzeichen wurde gefunden.
             if (date != null) {
                 //Da die String.split Methode kein "." erkennt,
-                //Muss ein \\ hinzufügft werden -> escape-Operator.
+                //Muss ein \\ hinzugefügt werden -> escape-Operator.
                 if (DATUM_TRENNZEICHEN[2].equals(trenner)) {
                     trenner = "\\" + trenner;
                 }
                 //Prüfe, um welches Datumformat es sich handelt und setze
                 //dementsprechend das Datum. dd mm yyyy - yyyy mm dd
                 if (datumFormat.equals(DEUTSCHES_FORMAT)) {
+                    //Parse TAG von String nach int
                     tag = Integer.parseInt(eingabeDatum.split(trenner)[0]);
+                    //Parse MONAT von String nach int
                     monat = Integer.parseInt(eingabeDatum.split(trenner)[1]);
+                    //Parse JAHR von String nach int
                     jahr = Integer.parseInt(eingabeDatum.split(trenner)[2]);
                 } else {
+                    //Parse TAG von String nach int
                     tag = Integer.parseInt(eingabeDatum.split(trenner)[2]);
+                    //Parse MONAT von String nach int
                     monat = Integer.parseInt(eingabeDatum.split(trenner)[1]);
+                    //Parse JAHR von String nach int
                     jahr = Integer.parseInt(eingabeDatum.split(trenner)[0]);
                 }
                 //Prüfe auf Plausiblität.
@@ -151,6 +159,12 @@ public class DatumParser {
         return format;
     }
 
+    /**
+     * Prüft das gegebene Datum auf Plausiblität.
+     * @param tag Der Tag des Datums.
+     * @param monat der Monat des Datums.
+     * @param jahr Das Jahr des Datums.
+     */
     private static void checkDatum(int tag, int monat, int jahr) {
 
         if (tag < 0) {
