@@ -1,28 +1,40 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Suche;
+
+import JFrames.GUIFactory;
+import DAO.Parser;
 
 /**
  *
- * @author Luca
+ * @author Luca Terrasi
+ * 10.12.2014 Terrasi, Erstellung
+ * 12.01.2015 Terrasi, Implementierung der Suchmasken und der Guifactory
  */
 public class Suchefenster extends javax.swing.JFrame {
 
+    /**
+     * Definition der Attribute
+     */
+    GUIFactory factory;
+    Parser parser;
+    /*
+    Variablen für die Suchmasken.
+    */
     private Suche suche;
     private AllgemeineSuche allgemeinesuche;
-
+    
     /**
      * Creates new form Suchefenster
      */
     public Suchefenster() {
         initComponents();
-        suche = new Suche();
-        allgemeinesuche = new AllgemeineSuche();
-//   Zuweisung der erzeugeten Masken an die DesktopPane.     
-        desktopPane.add(suche);
+        this.factory = new GUIFactory();//Initialisierung der GuiFactory.
+//        this.parser = new Parser();
+//        suche = new Suche(this.factory);
+        allgemeinesuche = new AllgemeineSuche(this.factory);
+
+        //   Zuweisung der erzeugeten Masken an die DesktopPane.     
+//        desktopPane.add(suche);
         desktopPane.add(allgemeinesuche);
     }
 

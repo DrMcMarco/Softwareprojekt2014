@@ -5,22 +5,45 @@
  */
 
 package Suche;
+import DAO.ApplicationException;
+import DTO.Auftragsposition;
 import Interfaces.*;
+import JFrames.GUIFactory;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
+import java.util.Collection;
 import javax.swing.JTextField;
+import java.util.Iterator;
 /**
  *
- * @author Luca
+ * @author Luca Terrasi
+ * 10.12.2014 Terrasi,Erstellung 
+ * 12.01.2015 Terrasi, Implementierung der Anwendungslogik
  */
 public class AllgemeineSuche extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality{
 
+    /*
+    Speichervariablen
+    */
+    private String suchKategorie;//Variable für den String aus der Combobox für Suchkategorien.
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 12.01.2015 Terrasi, GuiFactoryübergeben und text für legende Übergeben.*/
+    /*----------------------------------------------------------*/
     /**
-     * Creates new form Suche
+     * 
+     * @param factory, übergebene GuiFactory 
      */
-    public AllgemeineSuche() {
+    public AllgemeineSuche(GUIFactory factory) {
         initComponents();
+        
+        // Variable erhält Wert aus der Combobox mit den Suchkategorien.
+        suchKategorie = Auswahl_jComboBox.getSelectedItem().toString();
+        
+        legende_jTextArea.setText(gibLegendeAusDB(suchKategorie));//Übergebae der Legende durch Methode gibLegendeAusDB.
     }
 
     /**
@@ -35,11 +58,12 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         Button_jToolBar = new javax.swing.JToolBar();
         Auswaehlen_jButton = new javax.swing.JButton();
         Anzeige_jButton = new javax.swing.JButton();
+        sucheStarten_jButton = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         Auswahl_jLabel = new javax.swing.JLabel();
         Auswahl_jComboBox = new javax.swing.JComboBox();
         Suche_jLabel = new javax.swing.JLabel();
-        Suchfeld_jTextField = new javax.swing.JTextField();
+        suchfeld_jTextField = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         Zusatzoption_jLabel = new javax.swing.JLabel();
         Erfasst_jCheckBox = new javax.swing.JCheckBox();
@@ -51,11 +75,10 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         absteigend_jRadioButton = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        legende_jTextArea = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
 
         setTitle("Suchen");
-        setEnabled(false);
         setVisible(true);
 
         Button_jToolBar.setFloatable(false);
@@ -76,6 +99,17 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         Anzeige_jButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         Button_jToolBar.add(Anzeige_jButton);
 
+        sucheStarten_jButton.setText("Suchen");
+        sucheStarten_jButton.setFocusable(false);
+        sucheStarten_jButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        sucheStarten_jButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        sucheStarten_jButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sucheStarten_jButtonActionPerformed(evt);
+            }
+        });
+        Button_jToolBar.add(sucheStarten_jButton);
+
         jTextField1.setText("Statuszeile");
         jTextField1.setEnabled(false);
 
@@ -83,7 +117,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         Auswahl_jLabel.setLabelFor(Auswahl_jComboBox);
         Auswahl_jLabel.setText("Auswahl der Suche :");
 
-        Auswahl_jComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Auftragskopf-ID", "Auftragspositions-ID", "Artikel-ID", "Geschäftspositions-ID", "Zhalungskonditions-ID", "Artikel-ID" }));
+        Auswahl_jComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Auftragskopf", "Auftragsposition", "Artikel", "Geschäftspartner", "Zahlungskondition", "Anschrift", "Status" }));
         Auswahl_jComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Auswahl_jComboBoxActionPerformed(evt);
@@ -91,17 +125,17 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         });
 
         Suche_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        Suche_jLabel.setLabelFor(Suchfeld_jTextField);
+        Suche_jLabel.setLabelFor(suchfeld_jTextField);
         Suche_jLabel.setText("Suche :");
 
-        Suchfeld_jTextField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        Suchfeld_jTextField.setText("Suchfeld");
-        Suchfeld_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+        suchfeld_jTextField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        suchfeld_jTextField.setText("Suchfeld");
+        suchfeld_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                Suchfeld_jTextFieldFocusGained(evt);
+                suchfeld_jTextFieldFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                Suchfeld_jTextFieldFocusLost(evt);
+                suchfeld_jTextFieldFocusLost(evt);
             }
         });
 
@@ -143,10 +177,11 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
 
         jScrollPane1.setEnabled(false);
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        legende_jTextArea.setEditable(false);
+        legende_jTextArea.setBackground(new java.awt.Color(240, 240, 240));
+        legende_jTextArea.setColumns(20);
+        legende_jTextArea.setRows(5);
+        jScrollPane1.setViewportView(legende_jTextArea);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("Legende :");
@@ -174,7 +209,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
                             .addComponent(aufsteigend_jRadioButton)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(absteigend_jRadioButton))
-                        .addComponent(Suchfeld_jTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(suchfeld_jTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(Auswahl_jComboBox, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -197,7 +232,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
                     .addGroup(layout.createSequentialGroup()
                         .addGap(41, 41, 41)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Suchfeld_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(suchfeld_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(Suche_jLabel))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -209,7 +244,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Erfasst_jCheckBox)
@@ -227,37 +262,152 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt */
+    /*----------------------------------------------------------*/
     /*
      Beim wählen des Eingabefeldes, wird alles selektiert.
      */
-    private void Suchfeld_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_Suchfeld_jTextFieldFocusGained
-        Suchfeld_jTextField.selectAll();
-    }//GEN-LAST:event_Suchfeld_jTextFieldFocusGained
+    private void suchfeld_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_suchfeld_jTextFieldFocusGained
+        suchfeld_jTextField.selectAll();
+    }//GEN-LAST:event_suchfeld_jTextFieldFocusGained
 
-    private void Suchfeld_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_Suchfeld_jTextFieldFocusLost
+    private void suchfeld_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_suchfeld_jTextFieldFocusLost
         
-    }//GEN-LAST:event_Suchfeld_jTextFieldFocusLost
+    }//GEN-LAST:event_suchfeld_jTextFieldFocusLost
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt */
+    /* 16.12.2014 Terrasi, Implementierung der Logik.*/
+    /*----------------------------------------------------------*/
+    /**
+     * Methode die aufgerufen wird beim wählen einer Suchkategorie.
+     * Je nach Suchkategorie wird eine passende Legende im in der Maske angezeigt.
+     * @param evt
+     */ 
     private void Auswahl_jComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Auswahl_jComboBoxActionPerformed
-        if(Auswahl_jComboBox.getSelectedItem().toString().equals("Auftragskopf-ID")){
-        System.out.println(Auswahl_jComboBox.getSelectedItem().toString());
-    }
+        // Variable erhält Wert aus der Combobox mit den Suchkategorien.
+        suchKategorie = Auswahl_jComboBox.getSelectedItem().toString(); 
+        
+        // Aufruf der gibLegendeAusDB-Methode und übergebn Rückgabewert an TextArea.
+        legende_jTextArea.setText(gibLegendeAusDB(suchKategorie));
     }//GEN-LAST:event_Auswahl_jComboBoxActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 16.12.2014 Terrasi,angelegt und Logik implementiert.*/
+    /*----------------------------------------------------------*/
+    /**
+     * Methode die anhand der eingegebenen Suchkriterien eine Suche Startet
+     * und das Ergebnis in der Ergebnistabelle der Maske anzeigt.
+     * @param evt
+     */ 
+    private void sucheStarten_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sucheStarten_jButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sucheStarten_jButtonActionPerformed
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt */
+    /* 12.12.2015 Terrasi, Implementierung der Logik.*/
+    /*----------------------------------------------------------*/
+    /**
+    * Methode der man eine Suchkategorie übergibt und die passenden Suchparameter
+    * herauffindet und diese als String wieder zurückgibt.
+    * @param suchkategorie, drie übergebene Suchkategorie
+    * @return String mit den aus der Datenbank gespeicherten Suchparametern.
+    */
+    public final String gibLegendeAusDB(String suchkategorie){
+        String parameter = "";//Methodenvariable die die Suchparameter speichert.
+        String ausgabelegende = "";// Variable die den Text enthält,
+        // der als Legende in der Maske ausgegeben wird.
+        
+        
+        try{//Try-Block falls eine ApplicationExeption auftritt.
+            
+            //Erzeugung eines Iterator um alle Werte der Collection zu erhalten.
+            Iterator<String> it = GUIFactory.getDAO()
+                    .gibSuchAttribute(suchkategorie).iterator();
+            while(it.hasNext()){//Schleife für das durchinterieren.
+                parameter += it.next() +", ";//Übergabe jedes einzelnen Wertes.
+            }
+            // Speichervariabel erhält Text für die Legende und die passenden Suchparameter.
+            ausgabelegende = "Suchbefehl für " + suchKategorie +":\n\n"
+                    + parameter + "\n\n"
+                    + "Operatoren: =>  <=  <>  =  ?  <  >  *  \n\n"
+                    + "Sortiert wird nach der ersten Spalte der Tabelle.\n\n"
+                    + "Alle Suchabfragen sind durch ' ; ' zu trenne.";
+        
+        }catch(ApplicationException e){//Fehlerbehandlung einer ApplikationException
+            System.out.println(e.getMessage());//Ausgabe des Fehlers. 
+        }catch(NullPointerException e){//Fehlerbehandlung einer NullPointerException
+            System.out.println(e.getMessage());//Ausgabe des Fehlers.
+        }
+        
+        return ausgabelegende;//Rückgabe eines Strings.
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 12.01.2015 Terrasi, Implementierung */
+    /*----------------------------------------------------------*/
+    /**
+     * Schnittstellenmethode um alle eingabefelder zurück zu setzen.
+     */
     @Override
     public void zuruecksetzen() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        suchfeld_jTextField.setText("");
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 12.01.2015 Terrasi, Implementierung */
+    /*----------------------------------------------------------*/
+    /**
+     * Schnittstellenmethode mit der auf vollständigkeit der Eingaben geprüft wird.
+     */
     @Override
     public void ueberpruefen() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 12.01.2015 Terrasi, Implementierung */
+    /*----------------------------------------------------------*/
+    /**
+     * Schnittstellenmethode mit der die Richtigkeit der Eingabe beim Focuslost geprüft wird.
+     * 
+     * @param textfield, das zu übergeben JTextfield, indem der Focusgesetzt
+     * ist.
+     * @param syntax, String mit dem eine Eingabe auf das richtige Format hin
+     * geprüft wird.
+     * @param fehlermelgungtitel, Srting der den Titel der Fehlmeldung enthält.
+     * @param fehlermeldung, String der die Fehlmeldung enthält.
+     */
     @Override
     public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 12.01.2015 Terrasi, Implementierung */
+    /*----------------------------------------------------------*/
+    /**
+     * Methode mir der die Eingabefelder ohne einer entsprechenden Eingabe,
+     * farblich markiert werden und eine Nachricht aufruft, die den Benutzer
+     * darauf hinweist alle Eingaben zu tätigen.
+     *
+     * @param list, Arraylist in der die Components die keine Eingaben erhalten
+     * haben, gespeichert sind.
+     * @param fehlermelgungtitel, Srting der den Titel der Fehlmeldung enthält.
+     * @param fehlermeldung, String der die Fehlmeldung enthält.
+     * @param farbe, Color in der der Hintergrund der Components markiert werden
+     * soll
+     */
     @Override
     public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -276,7 +426,6 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
     private javax.swing.JCheckBox Erfasst_jCheckBox;
     private javax.swing.JCheckBox Freigegeben_jCheckBox;
     private javax.swing.JLabel Suche_jLabel;
-    private javax.swing.JTextField Suchfeld_jTextField;
     private javax.swing.JLabel Zusatzoption_jLabel;
     private javax.swing.JRadioButton absteigend_jRadioButton;
     private javax.swing.JRadioButton aufsteigend_jRadioButton;
@@ -286,7 +435,9 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextArea legende_jTextArea;
+    private javax.swing.JButton sucheStarten_jButton;
+    private javax.swing.JTextField suchfeld_jTextField;
     // End of variables declaration//GEN-END:variables
 }
