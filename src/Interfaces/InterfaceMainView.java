@@ -13,7 +13,7 @@ import java.awt.Component;
  * 
  * Schnittstelle für die Hauptfenster.
  * 
- * 08.01.2015 Erstellung und Dokumentation.
+ * 05.01.2015 Erstellung und Dokumentation.
  */
 public interface InterfaceMainView {
     
@@ -29,6 +29,7 @@ public interface InterfaceMainView {
      */
     public void setCenterJIF(Component jif);
     
+    
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 05.01.2015 Terrasi angelegt */
@@ -42,6 +43,7 @@ public interface InterfaceMainView {
      */
     public void setComponent(Component component);
     
+    
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 05.01.2015 Terrasi angelegt */
@@ -52,6 +54,7 @@ public interface InterfaceMainView {
      */
     public Component getComponent();
     
+    
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 05.01.2015 Terrasi angelegt */
@@ -61,6 +64,7 @@ public interface InterfaceMainView {
      *@param status , der anzuzeigende String 
      */ 
     public void setStatusMeldung(String status);
+    
     
     /*----------------------------------------------------------*/
     /* Datum Name Was */

@@ -12,19 +12,36 @@ import DAO.*;
  *
  * Schnittstelle für die einzelnen Masken in denen die gleichen Methoden
  * aufgerufen werden müssen
+ * 
+ * 10.12.2014 Terrasi, Erstellung und Dokumentation
  */
 public interface InterfaceViewsFunctionality {
+   
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt*/
+    /*----------------------------------------------------------*/
     /*    
      * Methode mit der die Eingaben aus den Eingabefeldern gelöscht werden und 
      * die Eingabefelder wieder leer sind.
      */
     public void zuruecksetzen();
 
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt*/
+    /*----------------------------------------------------------*/
     /*
      * Methode mit der auf vollständigkeit der Eingaben geprüft wird.
      */
     public void ueberpruefen();
 
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt*/
+    /*----------------------------------------------------------*/
     /**
      * Methode mit der die Richtigkeit der Eingabe beim Focuslost geprüft wird.
      *
@@ -38,6 +55,11 @@ public interface InterfaceViewsFunctionality {
     public void ueberpruefungVonFocusLost(JTextField textfield, String syntax,
             String fehlermelgungtitel, String fehlermeldung);
 
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt*/
+    /*----------------------------------------------------------*/
     /**
      * Methode mir der die Eingabefelder ohne einer entsprechenden Eingabe,
      * farblich markiert werden und eine Nachricht aufruft, die den Benutzer
