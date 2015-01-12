@@ -368,7 +368,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         //Aufruf der Schnittstellenmethode um auf Vollständigkeit der Eingaben zu prüfen.
         ueberpruefen();
         if (fehlendeEingaben.isEmpty()) {
-            
+//            GUIFactory.getDAO().
             //User anlegen
             zuruecksetzen();//Methode die bestimmte Eingabefelder leert
         } else {

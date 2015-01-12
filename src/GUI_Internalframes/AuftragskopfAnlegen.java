@@ -2,21 +2,22 @@ package GUI_Internalframes;
 
 import DAO.ApplicationException;
 import DAO.DataAccessObject;
+import DTO.Artikelkategorie;
+import DTO.Zahlungskondition;
 import javax.swing.JOptionPane;
 import Documents.*;
 import java.awt.Color;
 import java.awt.Component;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JTextField;
-import javax.swing.text.DateFormatter;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.MaskFormatter;
 import Interfaces.*;
 import JFrames.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  *
@@ -35,13 +36,27 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     GUIFactory factory;
     DataAccessObject dao;
     InterfaceMainView hauptFenster;
+    
+    /*
+    Hilfsvaribalen
+    */
+    private Collection<Zahlungskondition> zahlungskondditionAusDatenbank;
+    private ArrayList<Zahlungskondition> listeVonZahlungskonditionen;
+    private ArrayList<String> zahlungskonditionFuerCombobox;
+    private String typ;
+    private HashMap<Long,Integer> artikel;
+    private String auftragsText;
+    private Long geschaeftspartnerID;
+    private Long zahlungskonditionID;
+    private String status;
+    private Date abschlussdatum;
+    private Date lieferdatum;
     /*
      Varibalendefinition
      */
     public Date heute;// heutiges Datum
-    public Date lieferdatum;
-    public Date abschlussdatum;
     public SimpleDateFormat format; //Umwandler für Datum
+    
     /*
      Syntaxvariablen
      */
@@ -108,6 +123,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         abschlussdatum = null;
 
         //Initialisierung der Speichervariblen
+        listeVonZahlungskonditionen = new ArrayList<>();
         fehlendeEingaben = new ArrayList<Component>();
         fehlendeEingabenAuftragsposition = new ArrayList<Component>();
 
@@ -798,7 +814,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         //        ueberpruefungVonFocusLost(materialnummer_jTextField, materialnummer_syntax,
 //                fehlermeldung_titel, fehlermeldungMaterial_text);
         try{
-            System.out.println("aaaaaaa");
         GUIFactory.getDAO().getItem((Long.parseLong(materialnummer_jTextField.getText())));
         }catch(Exception e){
             //Fehlermeldung das ein gültiger wert eingegeben werden soll.
@@ -830,6 +845,31 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     }//GEN-LAST:event_auftragstext_jTextAreaFocusGained
 
     /**
+     * Methode um die Zahlungskonditionen die in der Datenbank gespeichert sind,
+     * aufzurufen und diese in der Combobox darzustellen.
+     * 
+     * 
+     */ 
+    private void ladeZahlungskonditionenAusDatenbank() {
+        try {
+            liste.c
+            zahlungskondditionAusDatenbank = this.dao.gibAlleZahlungskonditionen();
+//            ArrayList für die Combobox
+            zahlungskonditionFuerCombobox = new ArrayList<>();
+            zahlungskonditionFuerCombobox.add("Bitte auswählen");
+            Iterator<Zahlungskondition> it = zahlungskondditionAusDatenbank.iterator();
+            while (it.hasNext()) {
+                liste.add(it.next());
+//                zahlungskonditionFuerCombobox.add(it.next().get);
+            }
+//            for(Artikelkategorie a: kategorienAusDatenbank) {
+//                System.out.println(a.getKategoriename());
+//            }
+        } catch (ApplicationException ex) {
+            System.out.println("Fehler beim Laden der Kategorien");
+        }
+    }
+    /**
      * Action beim betätigen des Speicher-Buttons. Es wird die Prüfmethode
      * aufgerufen die wieder gibt ob irgendwelche Eingaben nicht getätigt worden
      * sind und markiert diese farblich.
@@ -841,9 +881,19 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         ueberpruefen();
         if (fehlendeEingaben.isEmpty()) {
             if (fehlendeEingabenAuftragsposition.isEmpty()) {
+                try{
+                typ = auftragsart_jComboBox.getSelectedItem().toString();
+//                artikel
+                auftragsText = auftragstext_jTextArea.getText();
+                geschaeftspartnerID = Long.parseLong(geschaeftspartner_jTextField.getText());
+                zahlungskonditionID = Long.
                 //Auftragskopf und Position anlegen
-
+                GUIFactory.getDAO().erstelleAuftragskopf(typ, artikel, auftragsText, GeschaeftspartnerID, ZahlungskonditionID, status, abschlussdatum, lieferdatum);
                 zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                    
+                }catch(ParseException e){
+                    System.out.println(e.getMessage());
+                }
             } else {
                 int k = 2;
                 if (k == 2) {//Wenn nicht mindestens eine Auftragsposition zum Auftragskopf angelegt worden ist
