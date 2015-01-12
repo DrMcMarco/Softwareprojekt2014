@@ -6,6 +6,7 @@
 
 package DAO;
 
+import DTO.Auftragskopf;
 import DTO.Geschaeftspartner;
 import JFrames.GUIFactory;
 import java.text.DateFormat;
@@ -171,6 +172,13 @@ public class Parser {
         
         //Speicher alle praefixe in das array unter gegebenen Trennzeichen
         praefixListe = eingabeOhneLeerzeichen.split(TRENNZEICHEN);
+        
+        //Prüfe, ob ein Trennzeichen gefunden wurde
+        if (praefixListe == null) {
+            throw new ApplicationException(FEHLER_TITEL, "Es erfolgte keine "
+                    + "gültige Eingabe!");
+        }
+        
         //Iteriere über alle Suchattribute
         for (String praefix : praefixListe) {
             //Iteriere über alle Operatoren
@@ -337,6 +345,7 @@ public class Parser {
         //Besondere Suche über Fremdschlüssel, es werden
         //Joins integiert, um über bestimmte 
         //Suchparameter an die ID's zu kommen.
+        //Auftrag -> Geschäftspartner
         if ("\"GeschäftspartnerFK\"".equals(dbAttribut)
                 && "Auftragskopf".equals(tabelle)) {
             //Setze das dbAttribut dem Fremdschlüssel Attribut
@@ -351,14 +360,22 @@ public class Parser {
                 //wenn ja dann hänge den nächsten join befehl an.
                 this.joinBefehl += " " + sqlAuftragPartnerJoin;
             }
+            //Auftrag -> Geschäftspartner
         } else if (("GeschäftspartnerFKVNAME").equals(dbAttribut)
                 && "Auftragskopf".equals(tabelle)) {
+            //Setze das dbAttribut dem Fremdschlüssel Attribut
             dbAttribut = sqlPartnerAnschriftNachVName;
+            //Prüfe, ob ein joinbefehl bereits gesetzt wurde
             if (LEER.equals(this.joinBefehl)) {
+                //Wenn nicht, dann setze den join befehl für die Verbindung
+                //der Tabellen.
                 this.joinBefehl = sqlAuftragPartnerJoin;
+                //prüfe, ob der joinbefehl erweitert werden muss
             } else if (!this.joinBefehl.contains(sqlAuftragPartnerJoin)) {
+                //wenn ja dann hänge den nächsten join befehl an.
                 this.joinBefehl += " " + sqlAuftragPartnerJoin;
             }
+            //Auftrag -> Status
         } else if (("StatusFK").equals(dbAttribut)
                 && "Auftragskopf".equals(tabelle)) {
             dbAttribut = sqlAuftragStatusNachName;
@@ -367,6 +384,7 @@ public class Parser {
             } else if (!this.joinBefehl.contains(sqlAuftragStatusJoin)) {
                 this.joinBefehl += " " + sqlAuftragStatusJoin;
             }
+            //Auftrag -> Zahlungskondition
         } else if (("ZAHLUNGSKONDITION_"
                 + "ZAHLUNGSKONDITIONIDFK").equals(dbAttribut)
                 && "Auftragskopf".equals(tabelle)) {
@@ -376,7 +394,7 @@ public class Parser {
             } else if (!this.joinBefehl.contains(sqlAuftragZkJoin)) {
                 this.joinBefehl += " " + sqlAuftragZkJoin;
             }
-            
+            //Geschäftspartner -> Anschrift
         } else if (("RECHNUNGSADRESSE_ANSCHRIFTIDFKNAME").equals(dbAttribut)
                 && "Geschäftspartner".equals(tabelle)) {
             dbAttribut = sqlPartnerAnschriftNachName;
@@ -385,6 +403,7 @@ public class Parser {
             } else if (!this.joinBefehl.contains(sqlPartnerAnschriftJoin)) {
                 this.joinBefehl += " " + sqlPartnerAnschriftJoin;
             }
+            //Geschäftspartner -> Anschrift
         } else if (("RECHNUNGSADRESSE_ANSCHRIFTIDFKVNAME").equals(dbAttribut)
                 && "Geschäftspartner".equals(tabelle)) {
             dbAttribut = sqlPartnerAnschriftNachVName;
@@ -393,6 +412,7 @@ public class Parser {
             } else if (!this.joinBefehl.contains(sqlPartnerAnschriftJoin)) {
                 this.joinBefehl += " " + sqlPartnerAnschriftJoin;
             }
+            //Geschäftspartner -> Anschrift
         } else if (("RECHNUNGSADRESSE_ANSCHRIFTIDFKEMAIL").equals(dbAttribut)
                 && "Geschäftspartner".equals(tabelle)) {
             dbAttribut = sqlPartnerAnschriftNachEmail;
@@ -401,8 +421,10 @@ public class Parser {
             } else if (!this.joinBefehl.contains(sqlPartnerAnschriftJoin)) {
                 this.joinBefehl += " " + sqlPartnerAnschriftJoin;
             }
+            //Artikel -> Kategorie
         } else if (("KategorieFKNAME").equals(dbAttribut)
                 && "Artikel".equals(tabelle)) {
+            //Setze das dbAttribut dem Fremdschlüssel Attribut
             dbAttribut = sqlArtikelKategorieNachName;
             if (LEER.equals(this.joinBefehl)) {
                 this.joinBefehl = sqlArtikelKatJoin;
@@ -466,6 +488,21 @@ public class Parser {
             if ("Double".equals(datentyp)) {
                 dbWert = dbWert.replaceAll("\\.", ",");
             }
+            
+            //Platzhalter sind nur bei Texteingaben zu verweden
+            //Prüfe, ob im Wert Platzhalter vorhanden sind
+            if (dbWert.contains(new String(new char[] {PLATZHALTEREINZEICHEN})) 
+                            || dbWert.contains(new String(
+                                new char[] {PLATZHALTERMULTIPLEZEICHEN}))) {
+                //Prüfe, ob der Datentyp nicht String ist, wenn ja 
+                //Muss ein fehler ausgegeben werden.
+                if (!datentyp.equals("String")) {
+                    throw new ApplicationException(FEHLER_TITEL, "Die "
+                            + "Platzhalter sind nur bei "
+                            + "Text Eingaben zu verwenden!");
+                }
+            }
+            
             //Ermittle den Typ des übergebenen wertes.
             Object objektTyp = gibObjektNachTyp(dbWert);
             //Prüfe, ob der Typ gefunden wurde
@@ -481,15 +518,19 @@ public class Parser {
                     && !datentyp.equals("Long"))) {
                 //Generiere Fehlermeldung
                 switch (datentyp) {
+                    //Es wurde eine natürliche Zahl erwartet
                     case "Integer":
                         typ = "Der Wert muss eine natürliche Zahl sein!";
                         break;
+                    //Es wurde eine gleitkomma Zahl erwartet
                     case "Double":
                         typ = "Der Wert muss eine gleitkomma Zahl sein!";
                         break;
+                    //Es wurde ein Text erwartet    
                     case "String":
                         typ = "Der Wert muss ein Text sein!";
                         break;
+                    //Es wurde ein unbestimmter Typ eingegeben    
                     default:
                         typ = "Der Typ konnte nicht ermittelt werden!";
                         break;
@@ -502,7 +543,12 @@ public class Parser {
 
         return true;
     }
-    //TBD
+    
+    /**
+     * 
+     * @param dbWert
+     * @return 
+     */
     static Object gibObjektNachTyp(String dbWert) {
         Scanner sc = new Scanner(dbWert);
         return
@@ -512,7 +558,12 @@ public class Parser {
             sc.hasNext() ? sc.next() :
             dbWert;
     }
-    //TBD
+    
+    /**
+     * 
+     * @param s
+     * @return 
+     */
     public Object gibObjektNachTyp1(String s) {
         Scanner sc = new Scanner(s);
         Object ergebnis = null;
@@ -536,7 +587,7 @@ public class Parser {
             GUIFactory gui = new GUIFactory();
             
             Collection<?>  a = GUIFactory.getDAO().suchAbfrage(
-                    "auftragspartnername = asd; auftragspartnervorname = *", "Auftragskopf");
+                    "artikelnr = 1", "Artikel");
             
             for (Object o : a) {
                 System.out.println(o.toString());
@@ -544,7 +595,8 @@ public class Parser {
 //                System.out.println(gp.getLieferadresse().getName());
             }
         } catch (ApplicationException ex) {
-            Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
     }
 }
