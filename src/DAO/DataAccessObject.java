@@ -1301,36 +1301,30 @@ public class DataAccessObject {
                 Artikel.class).getResultList().size() + 1;
         
     }
-//    
-//    public Collection<Zahlungskondition> gibAlleZahlungskonditionen() {
-//        
-//        List<Zahlungskondition> ergebnis = this.em.createQuery("SELECT ST FROM Zahlungskondition ST",
-//                Zahlungskondition.class).getResultList();
-//        
-//        ArrayList<Zahlungskondition> liste = new ArrayList<>();
-//        
-//        for (Zahlungskondition zk : ergebnis) {
-//            if(!zk.isLKZ()) {
-//                liste.add(zk);
-//            }
-//        }
-//        return liste;
-//    }
-//            
-//    public Collection<Zahlungskondition> gibAlleZahlungskonditionen() {
-//        
-//        List<Zahlungskondition> ergebnis = this.em.createQuery("SELECT ST FROM Zahlungskondition ST",
-//                Zahlungskondition.class).getResultList();
-//        
-//        ArrayList<Zahlungskondition> liste = new ArrayList<>();
-//        
-//        for (Zahlungskondition zk : ergebnis) {
-//            if(!zk.isLKZ()) {
-//                liste.add(zk);
-//            }
-//        }
-//        return liste;
-//    }
+    
+    /**
+     * Ermittelt die nächste Geschäftspartner ID und gibt diese zurück
+     * @return die nächste Geschäftspartner ID
+     */
+    public int gibNaechsteGeschaeftpartnerID() {
+        
+        //Ermittelt die Anzahl der angelegten Geschäftspartner und erhöht diesen Wert um 1
+        return this.em.createQuery("SELECT ST FROM Geschaeftspartner ST",
+                Geschaeftspartner.class).getResultList().size() + 1;
+        
+    }
+    
+    /**
+     * Ermittel die nächste Zahlungskonditions ID und gibt diese zurück
+     * @return die nächste Zahlungskonditions ID
+     */
+    public int gibNaechsteZahlungskonditionID() {
+        
+        //Ermittelt die Anzahl der angelegten Zahlungskonditionen und erhöht diesen Wert um 1
+        return this.em.createQuery("SELECT ST FROM Zahlungskondition ST",
+                Zahlungskondition.class).getResultList().size() + 1;
+        
+    }
     
     /**
      * Erstellt eine Liste aller Zahlungskonditionen die in der Datenbank vorhanden 
