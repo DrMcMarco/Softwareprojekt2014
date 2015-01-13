@@ -1291,6 +1291,48 @@ public class DataAccessObject {
     }
     
     /**
+     * Ermittelt die nächste Artikelnummer und gibt diese zurück
+     * @return die nächste Artikelnummer
+     */
+    public int gibNaechsteArtikelnummer() {
+        
+        //Ermittelt die Anzahl der angelegten Artikel und erhöht diesen Wert um 1
+        return this.em.createQuery("SELECT ST FROM Artikel ST",
+                Artikel.class).getResultList().size() + 1;
+        
+    }
+//    
+//    public Collection<Zahlungskondition> gibAlleZahlungskonditionen() {
+//        
+//        List<Zahlungskondition> ergebnis = this.em.createQuery("SELECT ST FROM Zahlungskondition ST",
+//                Zahlungskondition.class).getResultList();
+//        
+//        ArrayList<Zahlungskondition> liste = new ArrayList<>();
+//        
+//        for (Zahlungskondition zk : ergebnis) {
+//            if(!zk.isLKZ()) {
+//                liste.add(zk);
+//            }
+//        }
+//        return liste;
+//    }
+//            
+//    public Collection<Zahlungskondition> gibAlleZahlungskonditionen() {
+//        
+//        List<Zahlungskondition> ergebnis = this.em.createQuery("SELECT ST FROM Zahlungskondition ST",
+//                Zahlungskondition.class).getResultList();
+//        
+//        ArrayList<Zahlungskondition> liste = new ArrayList<>();
+//        
+//        for (Zahlungskondition zk : ergebnis) {
+//            if(!zk.isLKZ()) {
+//                liste.add(zk);
+//            }
+//        }
+//        return liste;
+//    }
+    
+    /**
      * Erstellt eine Liste aller Zahlungskonditionen die in der Datenbank vorhanden 
      * sind zurück.
      * @return die oben genannte Liste
@@ -1378,7 +1420,7 @@ public class DataAccessObject {
     
 //<editor-fold defaultstate="collapsed" desc="remove-Methoden">
 
-        /*----------------------------------------------------------*/
+    /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
     /* 06.01.15   loe     angelegt                              */
     /*----------------------------------------------------------*/
@@ -1547,6 +1589,31 @@ public class DataAccessObject {
         em.getTransaction().begin();
         //Zahlungskondition persistieren
         em.persist(zk);
+        //Transaktion beenden
+        em.getTransaction().commit();
+    }
+    
+    /**
+     * Methode zum Löschen eines Benutzer (richtig löschen, kein LKZ!)
+     * @param Benutzername Name des Benutzers (eindeutig)
+     * @throws ApplicationException wenn der Benutzer nicht gefunden werden kann
+     */
+    public void loescheBenutzer(String Benutzername) 
+            throws ApplicationException {
+        
+        //Sucht den Benutzer anhand des Benutzernamens in der Datenbank
+        Benutzer benutzer = em.find(Benutzer.class, Benutzername);
+        
+        //Wenn der Benutzer nicht gefunden werden kann
+        if (benutzer == null) {
+            throw new ApplicationException("Fehler", 
+                    "Der Benutzer konnte nicht gefunden werden.");
+        }
+        
+        //Transaktion starten
+        em.getTransaction().begin();
+        //Benutzer löschen
+        em.remove(benutzer);
         //Transaktion beenden
         em.getTransaction().commit();
     }
