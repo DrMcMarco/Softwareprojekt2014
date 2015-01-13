@@ -372,7 +372,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.useranlegen.setTitle("Benutzer anlegen");
-                    setComponentVisible(this.internal.useraendern);
+                    setComponentVisible(this.internal.useranlegen);
                 }
                 // Vergleich des Pfades mit String um "User Ändern" aufzurufen.
                 if (node.equals("[Navigation, Benutzer verwalten, Ändern]")) {
