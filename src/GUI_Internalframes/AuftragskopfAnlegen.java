@@ -2,7 +2,6 @@ package GUI_Internalframes;
 
 import DAO.ApplicationException;
 import DAO.DataAccessObject;
-import DTO.Artikelkategorie;
 import DTO.Zahlungskondition;
 import javax.swing.JOptionPane;
 import Documents.*;
@@ -18,6 +17,8 @@ import JFrames.*;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -31,7 +32,7 @@ import java.util.Iterator;
  * hinzufügen von weiteren Funktion.
  */
 public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
-    
+
     Component c;
     GUIFactory factory;
     DataAccessObject dao;
@@ -42,7 +43,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      */
     private Collection<Zahlungskondition> zahlungskondditionAusDatenbank;
     private ArrayList<Zahlungskondition> listeVonZahlungskonditionen;
-    private ArrayList<String> zahlungskonditionFuerCombobox;
+    private ArrayList<String> zahlungskonditionFuerCombobox = new ArrayList<>();
     private String typ;
     private HashMap<Long, Integer> artikel;
     private String auftragsText;
@@ -113,11 +114,12 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      */
     public AuftragskopfAnlegen(GUIFactory factory, InterfaceMainView mainView) {
         initComponents();
-        
+
         this.factory = factory;
         this.dao = factory.getDAO();
         this.hauptFenster = mainView;
         artikel = new HashMap<>();
+        
         
         heute = new Date();
         lieferdatum = null;
@@ -134,10 +136,13 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         /*
          Voreingaben werden in die Eingabefelder gesetzt.
          */
+//        ladeZahlungskonditionenAusDatenbank();
+//        zahlungskonditionen_jComboBox.setModel(new DefaultComboBoxModel(zahlungskonditionFuerCombobox.toArray()));
         erfassungsdatum_jFormattedTextField.setText(format.format(heute));
         erfassungsdatum_auftragsposition_jFormattedTextField.setText(format.format(heute));
         lieferdatum_jFormattedTextField.setText(format.format(heute));
         abschlussdatum_jFormattedTextField.setText(format.format(heute));
+        
 
         /*
          Zuweisung von verschiedenen Documents 
@@ -158,7 +163,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         buttonGroup1.add(erfasst_jRadioButton);
         buttonGroup1.add(freigegeben_jRadioButton);
         buttonGroup1.add(abgeschlossen_jRadioButton);
-        
+
         status = erfasst_jRadioButton.getText();
     }
 
@@ -351,9 +356,11 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 
         freigegeben_jRadioButton.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         freigegeben_jRadioButton.setText("Freigegeben");
+        freigegeben_jRadioButton.setEnabled(false);
 
         abgeschlossen_jRadioButton.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         abgeschlossen_jRadioButton.setText("Abgeschlossen");
+        abgeschlossen_jRadioButton.setEnabled(false);
 
         status_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         status_jLabel.setText("  Status :");
@@ -759,13 +766,17 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      * @param evt
      */
     private void auftragsart_jComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_auftragsart_jComboBoxActionPerformed
+
         //Falls in der Combox nicht der erste Eintrag ausgewählt wird, wird die Combobox für die 
         // Zahlungskonditionen auf enable(true) gesetezt
         if (auftragsart_jComboBox.getSelectedIndex() != 0) {
+            ladeZahlungskonditionenAusDatenbank(auftragsart_jComboBox.getSelectedItem().toString());
+            zahlungskonditionen_jComboBox.setModel(new DefaultComboBoxModel(zahlungskonditionFuerCombobox.toArray()));
             zahlungskonditionen_jComboBox.setEnabled(true);
         } else {//Combobox für die Zahlungskonditionen wird nicht wählbar gemacht
             zahlungskonditionen_jComboBox.setEnabled(false);
         }
+
     }//GEN-LAST:event_auftragsart_jComboBoxActionPerformed
 
     /**
@@ -819,7 +830,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 //                fehlermeldung_titel, fehlermeldungMaterial_text);
         try {
             GUIFactory.getDAO().getItem((Long.parseLong(materialnummer_jTextField.getText())));
-            
+
         } catch (Exception e) {
             //Fehlermeldung das ein gültiger wert eingegeben werden soll.
             System.out.println(e.getMessage());
@@ -851,28 +862,36 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 
     /**
      * Methode um die Zahlungskonditionen die in der Datenbank gespeichert sind,
-     * aufzurufen und diese in der Combobox darzustellen.
+     * aufzurufen und diese in einer ArrayList zu speichern.
      *
-     *
-     */    
-    private void ladeZahlungskonditionenAusDatenbank() {
-//        try {
-//            liste.c
-        zahlungskondditionAusDatenbank = this.dao.gibAlleZahlungskonditionen();
-//            ArrayList für die Combobox
-        zahlungskonditionFuerCombobox = new ArrayList<>();
-        zahlungskonditionFuerCombobox.add("Bitte auswählen");
-//            Iterator<Zahlungskondition> it = zahlungskondditionAusDatenbank.iterator();
-//            while (it.hasNext()) {
-//                liste.add(it.next());
-//                zahlungskonditionFuerCombobox.add(it.next().get);
-//            }
-//            for(Artikelkategorie a: kategorienAusDatenbank) {
-//                System.out.println(a.getKategoriename());
-//            }
-//        } catch (ApplicationException ex) {
-//            System.out.println("Fehler beim Laden der Kategorien");
-//        }
+     * @param auftragsart, Stringvariable die eine Auftragsart repräsentiert.
+     */
+    private void ladeZahlungskonditionenAusDatenbank(String auftragsart) {
+        try {
+            System.out.println("aaaaaaaaaaaaaaa");
+//            zahlungskondditionAusDatenbank.clear();
+            //Collection erhält Zahlugskonditionen aus der Datenbank.   
+            zahlungskondditionAusDatenbank = GUIFactory.getDAO().gibAlleZahlungskonditionen();//Aufruf der gibAlleZahlungskonditionen()-Methode.
+            System.out.println(zahlungskondditionAusDatenbank.size() + "sssssssssss");
+            System.out.println("hallo?");
+            //ArrayList für die Combobox
+            zahlungskonditionFuerCombobox.clear(); 
+            if (auftragsart.equals("Barauftrag")) {
+                zahlungskonditionFuerCombobox.add("Bitte auswählen");
+
+            } else {
+                Iterator<Zahlungskondition> it = zahlungskondditionAusDatenbank.iterator();
+                while (it.hasNext()) {
+//                        System.out.println(it.next().getAuftragsart());
+//                    if (it.next().getAuftragsart().equals(auftragsart)) {
+                        zahlungskonditionFuerCombobox.add(String.valueOf(it.next().getZahlungskonditionID()));
+//                        System.out.println(String.valueOf(it.next().getZahlungskonditionID()));
+//                    }
+                }
+            }
+        } catch (NullPointerException | NoSuchElementException ex) {
+            this.hauptFenster.setStatusMeldung(ex.getMessage());
+        }
     }
 
     /**
@@ -899,8 +918,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                     //Überprüfung ob Gp vorhanden ist(Focuslost
                     System.out.println(abschlussdatum);
                     GUIFactory.getDAO().erstelleAuftragskopf(typ, artikel,
-                            auftragsText, geschaeftspartnerID, 
-                            Integer.parseInt(zahlungskonditionen_jComboBox.getSelectedItem().toString()), 
+                            auftragsText, geschaeftspartnerID,
+                            Integer.parseInt(zahlungskonditionen_jComboBox.getSelectedItem().toString()),
                             "erfasst", abschlussdatum, lieferdatum);
                     this.hauptFenster.setStatusMeldung("Erfolgreich");
 //                zuruecksetzen();//Methode die bestimmte Eingabefelder leert
@@ -941,7 +960,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                             }
                             fehlendeEingabenAuftragsposition.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
                         } else {
-                            
+
                         }
                         // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
                         // getätigt worden sind
@@ -1083,7 +1102,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             if (fehlendeEingabenAuftragsposition.isEmpty()) {
                 //Pos anlegen
                 artikel.put(Long.parseLong(materialnummer_jTextField.getText()), Integer.parseInt(menge_jTextField.getText()));
-                
+
                 zuruecksetzen();
             } else {
                 int k = 2;
@@ -1118,7 +1137,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                         }
                         fehlendeEingabenAuftragsposition.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
                     } else {
-                        
+
                     }
                     // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
                     // getätigt worden sind
@@ -1135,7 +1154,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                     fehlermeldung_unvollstaendig_titel,
                     fehlermeldung_unvollstaendig_auftragskopf_text, warningfarbe);
         }
-        
+
 
     }//GEN-LAST:event_NeuePosition_jButtonActionPerformed
 
@@ -1149,7 +1168,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
         c = null;   //Initialisierung der Componentspeichervariable
         //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-        c = this.factory.zurueckButton();        
+        c = this.factory.zurueckButton();
         this.setVisible(false);// Internalframe wird nicht mehr dargestellt
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
@@ -1165,7 +1184,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      * passend angezeigt.
      *
      * @param
-     */    
+     */
     private void jB_AnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AnzeigenActionPerformed
         if (jB_Anzeigen.getText().equals("Anzeigen")) {
             this.setStatusAnzeigen();
@@ -1180,10 +1199,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     @Override
     public void zuruecksetzen() {
         //Eingabefelder erhalten einen leeren String
-        positionsnummer_jTextField.setText("");
-        materialnummer_jTextField.setText("");
-        menge_jTextField.setText("");
-        einzelwert_jTextField.setText("");
+//        positionsnummer_jTextField.setText("");
+//        materialnummer_jTextField.setText("");
+//        menge_jTextField.setText("");
+//        einzelwert_jTextField.setText("");
         //Eingabefelder für das Erfassungsdatum erhalten das heutige Datum
         erfassungsdatum_jFormattedTextField.setText(format.format(heute));
         erfassungsdatum_auftragsposition_jFormattedTextField.setText(format.format(heute));
@@ -1276,7 +1295,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         for (int i = 0; i <= list.size() - 1; i++) {
             list.get(i).setBackground(farbe);
         }
-        
+
         list.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
     }
 
