@@ -32,9 +32,11 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
+import javax.persistence.metamodel.Attribute;
 /**
  *
  * @author Simon <Simon.Simon at your.org>
@@ -1349,6 +1351,27 @@ public class DataAccessObject {
         }
         
         return benutzer;
+    }
+    
+    /**
+     * 
+     * @param entity Entityklasse zu der die Metadaten geholt werden sollen (Übergabe: entity.class)
+     * @return HashSet das die Namen der Spalten enthält
+     */
+    public HashSet<String> gibMetadaten(Class entity) {
+        
+        //Über die Metadaten werden die Attribute (Spaltennamen) der angegebenen Entity ermittelt
+        Set<Attribute> attribute = em.getMetamodel().entity(entity).getAttributes();
+        
+        //HashSet das nur die Namen der Attribute enthält
+        HashSet<String> namen = new HashSet<>();
+        
+        //Für jedes Attribute im Set wird der Name gelesen und in das HashSet geschrieben
+        for(Attribute a : attribute) {
+            namen.add(a.getName());
+        }
+        
+        return namen;
     }
     
 //</editor-fold>
