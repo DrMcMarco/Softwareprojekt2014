@@ -18,18 +18,22 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Luca Terrasi
  *
  *
- * 10.12.2014 Terrasi, Dokumentation und Logiküberarbetung 16.12.2014 Terrasi,
- * Funktionsimplementierung im "Zurück"-Button 06.01.2015 Terrasi,
- * Anwendungslogik für das ändern und anzeigen eines Auftragskopfs. 08.01.2015
- * Terrasi, Überarbeitung der Anwendungslogik für anzeigen/ändern Status und das
+ * 10.12.2014 Terrasi, Dokumentation und Logiküberarbetung 
+ * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
+ * 06.01.2015 Terrasi, Anwendungslogik für das ändern und anzeigen eines Auftragskopfs. 
+ * 08.01.2015 Terrasi, Überarbeitung der Anwendungslogik für anzeigen/ändern Status und das
  * hinzufügen von weiteren Funktion.
+ * 13.01.2015 Terrasi, Implementierung der DAO-Methoden zum anlegen eines Auftragskopfs 
+ * und von Auftragspositionen. Desweiteren deren wiedergabe in ener Tabelle.
  */
 public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
@@ -37,6 +41,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     GUIFactory factory;
     DataAccessObject dao;
     InterfaceMainView hauptFenster;
+    DefaultTableModel dtm;
+    Vector spaltenNamen;
+    Vector zeilen;
 
     /*
      Hilfsvaribalen
@@ -57,7 +64,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      */
     public Date heute;// heutiges Datum
     public SimpleDateFormat format; //Umwandler für Datum
-
+    private Integer positionsZaehler = 1;
     /*
      Syntaxvariablen
      */
@@ -109,6 +116,12 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     Color warningfarbe = Color.YELLOW;
     Color hintergrundfarbe = Color.WHITE;
 
+    /*
+    Variable für die Erzeugung der Spaltenüberschriften der Auftragspositionstabelle.
+    */
+    final String[] tabelle = {"Positionsnummer", "Materialnummer", "Menge", "Einzelwert" ,"Erfassungsdatum"};
+    
+    
     /**
      * Creates new form AuftragskopfAnlegen
      */
@@ -165,6 +178,18 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         buttonGroup1.add(abgeschlossen_jRadioButton);
 
         status = erfasst_jRadioButton.getText();
+        
+        positionsnummer_jTextField.setText(positionsZaehler +"");
+        
+        dtm = new DefaultTableModel();
+        spaltenNamen = new Vector();
+                
+        for(String s: tabelle){
+            spaltenNamen.addElement(s);
+        }
+                
+        dtm.setColumnIdentifiers(spaltenNamen);
+        auftragsposition_jTable.setModel(dtm);
     }
 
     /**
@@ -423,6 +448,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         erfassungsdatum_jLabel1.setText("Erfassungsdatum :");
 
         positionsnummer_jTextField.setToolTipText("");
+        positionsnummer_jTextField.setEnabled(false);
         positionsnummer_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 positionsnummer_jTextFieldFocusGained(evt);
@@ -1102,7 +1128,21 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             if (fehlendeEingabenAuftragsposition.isEmpty()) {
                 //Pos anlegen
                 artikel.put(Long.parseLong(materialnummer_jTextField.getText()), Integer.parseInt(menge_jTextField.getText()));
-
+                String[][] pos ={};
+                 zeilen = new Vector();
+//                
+//                DefaultTableModel dtm = new DefaultTableModel();
+//                Vector spaltenNamen = new Vector();
+//                
+                for(int i = 0; i < artikel.size(); i++){
+//                    String[][] pos ={artikel.};    
+                    zeilen.add(artikel.get(i));
+                    zeilen.addElement(artikel.get(i));
+                    }
+                    dtm.addRow(zeilen);
+                    auftragsposition_jTable.setModel(dtm);
+//                dtm.setColumnIdentifiers(spaltenNamen);
+//                auftragsposition_jTable.setModel(dtm);
                 zuruecksetzen();
             } else {
                 int k = 2;
