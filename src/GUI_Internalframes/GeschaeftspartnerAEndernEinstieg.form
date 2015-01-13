@@ -131,6 +131,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTF_Geschaeftspartner_ID">
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTF_Geschaeftspartner_IDKeyPressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jB_Enter">
       <Properties>

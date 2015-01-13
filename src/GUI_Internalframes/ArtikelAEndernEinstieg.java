@@ -22,10 +22,10 @@ import java.util.logging.Logger;
  * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
  */
 public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
-    
+
     Component c;
     GUIFactory factory;
-    
+
     private ArtikelAnlegen a;
     private NumberFormat nf;
 
@@ -36,7 +36,7 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
         initComponents();
         this.factory = factory;
         this.a = a;
-        
+
         nf = NumberFormat.getInstance();
         nf.setMinimumFractionDigits(2);
         nf.setMaximumFractionDigits(2);
@@ -125,6 +125,11 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
                 jTF_Artikel_IDFocusGained(evt);
             }
         });
+        jTF_Artikel_ID.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTF_Artikel_IDKeyPressed(evt);
+            }
+        });
 
         jB_Enter.setText("Weiter");
         jB_Enter.addActionListener(new java.awt.event.ActionListener() {
@@ -181,6 +186,7 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
         String artikelnummer = jTF_Artikel_ID.getText();
         long artikelnr = 0;
         try {
+            jTF_Statuszeile.setText("");
             artikelnr = nf.parse(artikelnummer).longValue();
             Artikel artikel = this.factory.getDAO().getItem(artikelnr);
             a.gibjTF_Artikelnummer().setText("" + artikel.getArtikelID());
@@ -197,9 +203,10 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
             a.setVisible(true);
             this.setVisible(false);
             jTF_Artikel_ID.setText("");
-            
+
         } catch (ParseException ex) {
-            System.out.println("Fehler beim Parsen in der Klasse ArtikelAnlegen!");
+            System.out.println("Fehler beim Parsen in der Klasse ArtikelAEndernEinstieg!");
+            jTF_Statuszeile.setText("Bitte geben Sie eine Artikelnummer ein!");
         } catch (ApplicationException ex) {
 //            Logger.getLogger(ArtikelAEndernEinstieg.class.getName()).log(Level.SEVERE, null, ex);
             jTF_Statuszeile.setText("Kein passender Artikel in Datenbank!");
@@ -249,7 +256,13 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         jB_ZurueckActionPerformed(null);
     }//GEN-LAST:event_formInternalFrameClosing
-    
+
+    private void jTF_Artikel_IDKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTF_Artikel_IDKeyPressed
+        if (evt.getKeyCode() == evt.VK_ENTER) {
+            jB_EnterActionPerformed(null);
+        }
+    }//GEN-LAST:event_jTF_Artikel_IDKeyPressed
+
     private void zurueckZumHauptmenue() {
         c = null;   //Initialisierung der Componentspeichervariable
         //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable

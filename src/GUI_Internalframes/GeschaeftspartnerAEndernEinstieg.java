@@ -126,6 +126,12 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
         jL_Artikel_ID.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jL_Artikel_ID.setText("Geschäftspartner-ID:");
 
+        jTF_Geschaeftspartner_ID.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTF_Geschaeftspartner_IDKeyPressed(evt);
+            }
+        });
+
         jB_Enter.setText("Weiter");
         jB_Enter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -254,6 +260,7 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
             
         } catch (ParseException ex) {
             System.out.println("Fehler beim Parsen in der Klasse ArtikelAnlegen!");
+            jTF_Statuszeile.setText("Bitte geben Sie eine GeschäftspartnerID ein.");
         } catch (ApplicationException ex) {
 //            Logger.getLogger(ArtikelAEndernEinstieg.class.getName()).log(Level.SEVERE, null, ex);
             jTF_Statuszeile.setText("Kein passender Geschäftspartner in Datenbank!");
@@ -310,6 +317,12 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         jB_ZurueckActionPerformed(null);
     }//GEN-LAST:event_formInternalFrameClosing
+
+    private void jTF_Geschaeftspartner_IDKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTF_Geschaeftspartner_IDKeyPressed
+        if (evt.getKeyCode() == evt.VK_ENTER) {
+            jB_EnterActionPerformed(null);
+        }
+    }//GEN-LAST:event_jTF_Geschaeftspartner_IDKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

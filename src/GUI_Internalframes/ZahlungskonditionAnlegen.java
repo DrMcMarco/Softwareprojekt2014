@@ -45,7 +45,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     InterfaceMainView hauptFenster;
 
 //  Insanzvariablen eines Artikels
-    private int zknummer = 1;
+    private int zknummer;
     private int skontozeit1;
     private int skontozeit2;
     private int mahnzeitzeit1;
@@ -82,7 +82,13 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     private final String PRUEFUNG_TAGE = "|[0-9]{1,2}";
     private NumberFormat nf;
 
-    private final int anzahlFehlerhafterComponenten = 10;
+    private final int anzahlFehlerhafterComponenten = 3;
+
+    private boolean sichtAnlegen;
+    private boolean sichtAEndern;
+    private boolean sichtAnzeigen;
+    
+    int i = 0;
 
     /**
      * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die
@@ -119,6 +125,9 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
      * Methode, die die Eingaben zurücksetzt, beim Zurücksetzen wird auch die Hintergrundfarbe zurückgesetzt. 
      */
     public final void setzeFormularZurueck() {
+        System.out.println(i);
+        i++;
+        zknummer = this.factory.getDAO().gibNaechsteZahlungskonditionID();
         jTF_ZahlungskonditionID.requestFocus();
         jTF_ZahlungskonditionID.setText("" + zknummer);
         jCB_Auftragsart.setSelectedIndex(0);
@@ -134,25 +143,43 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         jSP_Mahnzeit1.setValue(1);
         jSP_Mahnzeit2.setValue(1);
         jSP_Mahnzeit3.setValue(1);
+
+        sichtAnlegen = false;
+        sichtAEndern = false;
+        sichtAnzeigen = false;
+
         fehlerhafteComponenten.clear();
     }
 
     private void beendenEingabeNachfrage() {
-        ueberpruefeFormular();
-        if (fehlerhafteComponenten.size() < anzahlFehlerhafterComponenten) {
+        if (sichtAnlegen || sichtAEndern) {
             String meldung = "Möchten Sie die Eingaben verwerfen? Klicken Sie"
                     + " auf JA, wenn Sie die Eingaben verwerfen möchten.";
             String titel = "Achtung Eingaben gehen verloren!";
-            int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (antwort == JOptionPane.YES_OPTION) {
+            ueberpruefeFormular();
+            if (sichtAEndern) {
+                meldung = "Möchten Sie die Sicht Artikel ändern verlassen?";
+                titel = "Artikel ändern verlassen";
+            }
+            if (fehlerhafteComponenten.size() < anzahlFehlerhafterComponenten) {
+                int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (antwort == JOptionPane.YES_OPTION) {
+                    this.setVisible(false);
+                    setzeFormularZurueck();
+                    jB_ZurueckActionPerformed(null);
+                } else {
+                    fehlerhafteComponenten.clear();
+                }
+            } else {
                 this.setVisible(false);
                 setzeFormularZurueck();
-            } else {
-                fehlerhafteComponenten.clear();
+//                fehlerhafteComponenten.clear();
             }
         } else {
             this.setVisible(false);
             setzeFormularZurueck();
+            jB_ZurueckActionPerformed(null);
+
         }
     }
 
@@ -170,7 +197,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         jToolBar1 = new javax.swing.JToolBar();
         jB_Zurueck = new javax.swing.JButton();
         jB_Speichern = new javax.swing.JButton();
-        jB_Anzeigen = new javax.swing.JButton();
+        jB_AnzeigenAEndern = new javax.swing.JButton();
         jB_Loeschen = new javax.swing.JButton();
         jB_Suchen = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
@@ -260,13 +287,18 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         });
         jToolBar1.add(jB_Speichern);
 
-        jB_Anzeigen.setText("Anzeige/Ändern");
-        jB_Anzeigen.setActionCommand("Anzeigen/Ändern");
-        jB_Anzeigen.setEnabled(false);
-        jToolBar1.add(jB_Anzeigen);
+        jB_AnzeigenAEndern.setText("Anzeige/Ändern");
+        jB_AnzeigenAEndern.setActionCommand("Anzeigen/Ändern");
+        jB_AnzeigenAEndern.setEnabled(false);
+        jToolBar1.add(jB_AnzeigenAEndern);
 
         jB_Loeschen.setText("Löschen");
         jB_Loeschen.setEnabled(false);
+        jB_Loeschen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_LoeschenActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_Loeschen);
 
         jB_Suchen.setText("Suchen");
@@ -672,7 +704,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
                     this.dao.createPaymentConditions(auftragsart, lieferzeitSOFORT,
                             sperrzeitWunsch, skontozeit1, skontozeit2, skonto1,
                             skonto2, mahnzeit1, mahnzeit2, mahnzeit3);
-                    zknummer++;
+//                    zknummer++;
                     setzeFormularZurueck();
                 } else {
                     String meldung = "Liefer- und Sperrzeit sowie Skonto- und Mahnzeiten sind alle standardmäßig auf 1 Tag gesetzt. Möchten Sie nun speichern?"
@@ -683,7 +715,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
                         this.dao.createPaymentConditions(auftragsart, lieferzeitSOFORT,
                                 sperrzeitWunsch, skontozeit1, skontozeit2, skonto1,
                                 skonto2, mahnzeit1, mahnzeit2, mahnzeit3);
-                        zknummer++;
+//                        zknummer++;
                         setzeFormularZurueck();
                     } else {
                         fehlerhafteComponenten.clear();
@@ -758,6 +790,19 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         beendenEingabeNachfrage();
     }//GEN-LAST:event_formInternalFrameClosing
 
+    private void jB_LoeschenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_LoeschenActionPerformed
+       try {
+            long zknr = nf.parse(jTF_ZahlungskonditionID.getText()).longValue();
+            int antwort = JOptionPane.showConfirmDialog(null, "Soll die Zahlungskondition wirklich gelöscht werden?", "Zahlungskondition löschen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (antwort == JOptionPane.YES_OPTION) {
+                factory.getDAO().loescheZahlungskondition(zknr);
+                jB_ZurueckActionPerformed(evt);
+            }
+        } catch (ParseException | ApplicationException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_jB_LoeschenActionPerformed
+
     public JTextField gibjTF_ZahlungskonditionID() {
         return jTF_ZahlungskonditionID;
     }
@@ -806,8 +851,9 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     /* 08.01.2015 Terrasi, implemtiereung der Referenzvariable "hauptfenster"*/
     /*----------------------------------------------------------*/
 
-    public void setzeFormularInZKAnlegenAEndern() {
+    public void setzeFormularInZKAnlegen() {
         setzeFormularZurueck();
+        sichtAnlegen = true;
         jCB_Auftragsart.setEnabled(true);
         jSP_LieferzeitSOFORT.setEnabled(true);
         jSP_SperrzeitWUNSCH.setEnabled(true);
@@ -818,6 +864,32 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         jSP_Mahnzeit1.setEnabled(true);
         jSP_Mahnzeit2.setEnabled(true);
         jSP_Mahnzeit3.setEnabled(true);
+
+        jB_Speichern.setEnabled(true);
+        jB_AnzeigenAEndern.setEnabled(false);
+        jB_Loeschen.setEnabled(false);
+
+        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
+    }
+
+    public void setzeFormularInZKAEndern() {
+        setzeFormularZurueck();
+        sichtAEndern = true;
+        jCB_Auftragsart.setEnabled(true);
+        jSP_LieferzeitSOFORT.setEnabled(true);
+        jSP_SperrzeitWUNSCH.setEnabled(true);
+        jSP_Skontozeit1.setEnabled(true);
+        jSP_Skontozeit2.setEnabled(true);
+        jCB_Skonto1.setEnabled(true);
+        jCB_Skonto2.setEnabled(true);
+        jSP_Mahnzeit1.setEnabled(true);
+        jSP_Mahnzeit2.setEnabled(true);
+        jSP_Mahnzeit3.setEnabled(true);
+
+        jB_Speichern.setEnabled(true);
+        jB_AnzeigenAEndern.setEnabled(true);
+        jB_Loeschen.setEnabled(true);
+
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
 
@@ -827,6 +899,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     /*----------------------------------------------------------*/
     public void setzeFormularInZKAnzeigen() {
         setzeFormularZurueck();
+        sichtAnzeigen = true;
         jCB_Auftragsart.setEnabled(false);
         jSP_LieferzeitSOFORT.setEnabled(false);
         jSP_SperrzeitWUNSCH.setEnabled(false);
@@ -837,11 +910,16 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         jSP_Mahnzeit1.setEnabled(false);
         jSP_Mahnzeit2.setEnabled(false);
         jSP_Mahnzeit3.setEnabled(false);
+
+        jB_Speichern.setEnabled(false);
+        jB_AnzeigenAEndern.setEnabled(true);
+        jB_Loeschen.setEnabled(false);
+
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jB_Anzeigen;
+    private javax.swing.JButton jB_AnzeigenAEndern;
     private javax.swing.JButton jB_Loeschen;
     private javax.swing.JButton jB_Speichern;
     private javax.swing.JButton jB_Suchen;

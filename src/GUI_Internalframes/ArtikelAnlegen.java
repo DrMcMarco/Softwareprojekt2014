@@ -38,7 +38,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     /*
      * Instanzvariablen der Klasse. 
      */
-    private int artikelnummer = 1;
+    private int artikelnummer;
 
 //  ArrayList, um fehlerhafte Componenten zu speichern.    
     private ArrayList<Component> fehlerhafteComponenten;
@@ -174,6 +174,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
      * Methode, die die Eingaben zurücksetzt, beim Zurücksetzen wird auch die Hintergrundfarbe zurückgesetzt. 
      */
     public final void setzeFormularZurueck() {
+        artikelnummer = this.factory.getDAO().gibNaechsteArtikelnummer();
         jTF_Artikelnummer.setText("" + artikelnummer);
         jTF_Artikelname.setText("");
         jTF_Artikelname.setBackground(JTF_FARBE_STANDARD);
@@ -242,7 +243,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jTB_Menueleiste = new javax.swing.JToolBar();
         jB_Zurueck = new javax.swing.JButton();
         jB_Speichern = new javax.swing.JButton();
-        jB_Anzeigen = new javax.swing.JButton();
+        jB_AnzeigenAEndern = new javax.swing.JButton();
         jB_Loeschen = new javax.swing.JButton();
         jB_Suchen = new javax.swing.JButton();
         jS_Trenner = new javax.swing.JSeparator();
@@ -330,10 +331,10 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         });
         jTB_Menueleiste.add(jB_Speichern);
 
-        jB_Anzeigen.setText("Anzeige/Ändern");
-        jB_Anzeigen.setActionCommand("Anzeigen/Ändern");
-        jB_Anzeigen.setEnabled(false);
-        jTB_Menueleiste.add(jB_Anzeigen);
+        jB_AnzeigenAEndern.setText("Anzeige/Ändern");
+        jB_AnzeigenAEndern.setActionCommand("Anzeigen/Ändern");
+        jB_AnzeigenAEndern.setEnabled(false);
+        jTB_Menueleiste.add(jB_AnzeigenAEndern);
 
         jB_Loeschen.setText("Löschen");
         jB_Loeschen.setEnabled(false);
@@ -682,7 +683,6 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 //          provisorisch wird der Artikel ausgegeben  
 //            System.out.println(artikelListe.get(artikelListe.size() - 1).toString());
 //          die artikelnummer wird erhöht  
-            artikelnummer++;
             jTF_Statuszeile.setText(STATUSZEILE);
 //          das Formular wird zurueckgesetzt  
             setzeFormularZurueck();
@@ -815,15 +815,17 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void jB_LoeschenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_LoeschenActionPerformed
-        try {
-            long artikelnr = nf.parse(jTF_Artikelnummer.getText()).longValue();
-            int antwort = JOptionPane.showConfirmDialog(null, "Soll der Artikel wirklich gelöscht werden?", "Artikel löschen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (antwort == JOptionPane.YES_OPTION) {
-                factory.getDAO().loescheArtikel(artikelnr);
-                jB_ZurueckActionPerformed(evt);
+        if (sichtAEndern) {
+            try {
+                long artikelnr = nf.parse(jTF_Artikelnummer.getText()).longValue();
+                int antwort = JOptionPane.showConfirmDialog(null, "Soll der Artikel wirklich gelöscht werden?", "Artikel löschen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (antwort == JOptionPane.YES_OPTION) {
+                    factory.getDAO().loescheArtikel(artikelnr);
+                    jB_ZurueckActionPerformed(evt);
+                }
+            } catch (ParseException | ApplicationException ex) {
+                System.out.println(ex.getMessage());
             }
-        } catch (ParseException | ApplicationException ex) {
-            System.out.println(ex.getMessage());
         }
     }//GEN-LAST:event_jB_LoeschenActionPerformed
 
@@ -882,7 +884,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jTF_Bestandsmenge_FREI.setEnabled(true);
 
         jB_Speichern.setEnabled(true);
-        jB_Anzeigen.setEnabled(false);
+        jB_AnzeigenAEndern.setEnabled(false);
         jB_Loeschen.setEnabled(false);
 
         sichtAnlegen = true;
@@ -904,8 +906,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jTF_Bestandsmenge_FREI.setEnabled(true);
 
         jB_Speichern.setEnabled(true);
-        jB_Anzeigen.setEnabled(true);
-        jB_Anzeigen.setFocusable(false);
+        jB_AnzeigenAEndern.setEnabled(true);
         jB_Loeschen.setEnabled(true);
 
         sichtAEndern = true;
@@ -927,14 +928,14 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jTF_Bestandsmenge_FREI.setEnabled(false);
 
         jB_Speichern.setEnabled(false);
-        jB_Anzeigen.setEnabled(true);
+        jB_AnzeigenAEndern.setEnabled(true);
         jB_Loeschen.setEnabled(false);
 
         sichtAnzeigen = true;
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jB_Anzeigen;
+    private javax.swing.JButton jB_AnzeigenAEndern;
     private javax.swing.JButton jB_Loeschen;
     private javax.swing.JButton jB_Speichern;
     private javax.swing.JButton jB_Suchen;
