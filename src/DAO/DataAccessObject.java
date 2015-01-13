@@ -199,6 +199,11 @@ public class DataAccessObject {
         em.getTransaction().commit();
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 12.12.14   loe     angelegt                              */
+    /* 22.12.14   loe     überarbeitet                          */
+    /*----------------------------------------------------------*/
     /**
      * Methode zur Erzeugung eines Auftragskopfes und seinen Positionen
      * @param Typ Typ des Auftrags (möglich sind: Barauftrag, Sofortauftrag, Terminauftrag, Bestellauftrag)
@@ -364,6 +369,10 @@ public class DataAccessObject {
         }
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 10.12.14   loe     angelegt                              */
+    /*----------------------------------------------------------*/
     /**
      * Methode zur Erzeugung eines Status
      * @param Status Name des Status
@@ -391,6 +400,11 @@ public class DataAccessObject {
         em.getTransaction().commit();
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 10.12.14   loe     angelegt                              */
+    /* 06.01.15   loe     überarbeitet                          */
+    /*----------------------------------------------------------*/
     /**
      * Methode zur Erzeugung einer Anschrift
      * @param Typ Art der Anschrift (Rechnungs-/Lieferanschrift)
@@ -491,7 +505,10 @@ public class DataAccessObject {
         em.getTransaction().commit();
     }
     
-    
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 10.12.14   loe     angelegt                              */
+    /*----------------------------------------------------------*/
     /**
      * Methode zur Erzeugung von Geschäftspartnern
      * Es muss zuerst eine Anschrift geholt oder angelegt werden
@@ -560,8 +577,12 @@ public class DataAccessObject {
         }
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 12.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
     /**
-     * 
+     * Methode zum Erstellen eines Benutzer
      * @param Benutzername Der Name des Benutzer (eindeutig)
      * @param Passwort Passwort, wird als MD5-Hash in der Datenbank abgelegt
      * @param istAdmin Bestimmt ob der Benutzer ein Admin ist oder nicht
@@ -793,6 +814,10 @@ public class DataAccessObject {
         }
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 07.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
     /**.
      * Methode zum Ändern von Artikeldaten
      * @param Artikelnummer ID des Artikels
@@ -913,6 +938,10 @@ public class DataAccessObject {
         em.getTransaction().commit();
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 12.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
     /**
      * Methode zum Ändern eines Benutzers
      * @param Benutzername Name des Benutzers (eindeutig)
@@ -1166,6 +1195,10 @@ public class DataAccessObject {
         return cat;
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 18.12.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
     /**
      * Methode zum Holen eine Artikels
      * @param Artikelnummer Nummer(ID) eines Artikels
@@ -1187,6 +1220,16 @@ public class DataAccessObject {
         return item;
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 18.12.14   loe     angelegt                              */
+    /*----------------------------------------------------------*/
+    /**
+     * Gibt einen Kunden anhand der ID zurück
+     * @param Kundennummer ID des Kunden
+     * @return die persistente Abbildung des Kunden
+     * @throws ApplicationException wenn der Kunde nicht gefunden werden kann
+     */
     public Kunde getCustomer(long Kundennummer) throws ApplicationException {
         
         Kunde kunde = em.find(Kunde.class, Kundennummer);
@@ -1199,6 +1242,16 @@ public class DataAccessObject {
         return kunde;
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 18.12.14   loe     angelegt                              */
+    /*----------------------------------------------------------*/
+    /**
+     * Gibt einen Lieferanten anhand der ID zurück
+     * @param Lieferantennummer ID des Lieferanten
+     * @return die persistente Abbildung eines Lieferanten
+     * @throws ApplicationException wenn der Lieferant nicht gefunden werden kann
+     */
     public Lieferant gibLieferant(long Lieferantennummer)
             throws ApplicationException {
         
@@ -1212,6 +1265,16 @@ public class DataAccessObject {
         return lieferant;
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 06.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
+    /**
+     * Gibt einen Geschäftspartner anhand der ID zurück
+     * @param GeschaeftspartnerID ID des Geschäftspartners
+     * @return eine persistente Abbildung des gefundenen Geschäftspartner
+     * @throws ApplicationException wenn der Geschäftspartner nicht gefunden werden kann
+     */
     public Geschaeftspartner gibGeschaeftspartner(long GeschaeftspartnerID) 
             throws ApplicationException {
         
@@ -1225,6 +1288,16 @@ public class DataAccessObject {
         return gp;
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 18.12.14   loe     angelegt                              */
+    /*----------------------------------------------------------*/
+    /**
+     * Sucht den Status anhand des Namens in der Datenbank
+     * @param name Name des Status
+     * @return die persistente Abbildung des Status
+     * @throws ApplicationException 
+     */
     public Status getStatusByName(String name) throws ApplicationException {
         
         Query query = null;
@@ -1247,6 +1320,11 @@ public class DataAccessObject {
         return status; 
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 18.12.14   loe     angelegt                              */
+    /* 22.12.14   loe     überarbeitet                          */
+    /*----------------------------------------------------------*/
     /**
      * Methode zum Holen von Aufträgen
      * @param Auftragsnummer Einzigartige Nummer des Auftrags
@@ -1267,6 +1345,10 @@ public class DataAccessObject {
         return auftragskopf;
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 06.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
     /**.
      * Die Methode gibt die Anzahl der Positionen eines Auftrages zurück.
      * @param AuftragskopfId ID des Auftrags.
@@ -1290,6 +1372,10 @@ public class DataAccessObject {
         return ak.getPositionsliste().size();      
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 13.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
     /**
      * Ermittelt die nächste Artikelnummer und gibt diese zurück
      * @return die nächste Artikelnummer
@@ -1302,6 +1388,10 @@ public class DataAccessObject {
         
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 13.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
     /**
      * Ermittelt die nächste Geschäftspartner ID und gibt diese zurück
      * @return die nächste Geschäftspartner ID
@@ -1314,6 +1404,10 @@ public class DataAccessObject {
         
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 13.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
     /**
      * Ermittel die nächste Zahlungskonditions ID und gibt diese zurück
      * @return die nächste Zahlungskonditions ID
@@ -1326,6 +1420,10 @@ public class DataAccessObject {
         
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 06.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
     /**
      * Erstellt eine Liste aller Zahlungskonditionen die in der Datenbank vorhanden 
      * sind zurück.
@@ -1346,6 +1444,10 @@ public class DataAccessObject {
         return liste;
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 06.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
     /**
      * Gibt eine Auftragsposition eines Auftrags zurück
      * @param AuftragskopfID ID des Auftragskopfes
@@ -1370,6 +1472,10 @@ public class DataAccessObject {
         return ap;
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 12.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
     /**
      * Sucht einen Benutzer in der Datenbank
      * @param Benutzername Name des Benutzers (eindeutig)
@@ -1389,8 +1495,12 @@ public class DataAccessObject {
         return benutzer;
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 13.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
     /**
-     * 
+     * Gibt die Namen der Spalten für eine Entity (Tabelle) als HashSet zurück
      * @param entity Entityklasse zu der die Metadaten geholt werden sollen (Übergabe: entity.class)
      * @return HashSet das die Namen der Spalten enthält
      */
@@ -1587,6 +1697,10 @@ public class DataAccessObject {
         em.getTransaction().commit();
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 13.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
     /**
      * Methode zum Löschen eines Benutzer (richtig löschen, kein LKZ!)
      * @param Benutzername Name des Benutzers (eindeutig)
