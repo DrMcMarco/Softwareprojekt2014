@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Suche;
+package GUI_Internalframes;
 
 import DAO.ApplicationException;
 import DTO.*;
@@ -23,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import org.apache.derby.client.am.ResultSet;
 import org.apache.openjpa.persistence.query.SquareRootExpression;
+import Interfaces.InterfaceJTreeFunction;
 
 /**
  *
@@ -38,6 +39,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
     private String suchEingabe;//Varible die die Sucheingabe speichert.
     private Collection<?> suchErgebnis; // Collection in der die gefunden Ergebnisse der Suche gespeichert werden.
 
+    private  InterfaceMainView hauptFenster;
     /*
      Variablen die für die Suchkategorien 
      */
@@ -60,10 +62,11 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
      *
      * @param factory, übergebene GuiFactory
      */
-    public AllgemeineSuche(GUIFactory factory) {
+    public AllgemeineSuche(GUIFactory factory, InterfaceMainView mainView) {
         initComponents();
         suchErgebnis = new ArrayList<>();//Initialisierung der Collection.
-
+        this.hauptFenster = mainView;
+//        this.hauptFenster.setFrame();
         // Variable erhält Wert aus der Combobox mit den Suchkategorien.
         suchKategorie = Auswahl_jComboBox.getSelectedItem().toString();
         legende_jTextArea.setText(gibLegendeAusDB(suchKategorie));//Übergebae der Legende durch Methode gibLegendeAusDB.

@@ -883,11 +883,13 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             if (fehlendeEingabenAuftragsposition.isEmpty()) {
 //                try{
                 typ = auftragsart_jComboBox.getSelectedItem().toString();
-//                artikel
                 auftragsText = auftragstext_jTextArea.getText();
                 geschaeftspartnerID = Long.parseLong(geschaeftspartner_jTextField.getText());
 //                zahlungskonditionID = Long.
                 //Auftragskopf und Position anlegen
+//                GUIFactory.getDAO().
+                //Überprüfung ob Gp vorhanden ist(Focuslost
+                
 //                GUIFactory.getDAO().erstelleAuftragskopf(typ, artikel, auftragsText, GeschaeftspartnerID, ZahlungskonditionID, status, abschlussdatum, lieferdatum);
 //                zuruecksetzen();//Methode die bestimmte Eingabefelder leert
                     
