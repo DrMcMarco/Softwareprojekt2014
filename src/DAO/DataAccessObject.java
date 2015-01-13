@@ -558,6 +558,53 @@ public class DataAccessObject {
         }
     }
     
+    /**
+     * 
+     * @param Benutzername Der Name des Benutzer (eindeutig)
+     * @param Passwort Passwort, wird als MD5-Hash in der Datenbank abgelegt
+     * @param istAdmin Bestimmt ob der Benutzer ein Admin ist oder nicht
+     * @throws ApplicationException wenn der Benutzer nicht angelegt werden konnte
+     */
+    public void erstelleBenutzer(String Benutzername, String Passwort, 
+            boolean istAdmin) throws ApplicationException {
+        
+        //Nach nach einem Benutzer mit dem angegebenen Benutzernamen in der
+        //Datenbank
+        Benutzer benutzer = em.find(Benutzer.class, Benutzername);
+        
+        //Wenn ein Benutzer in der Datenbank gefunden wird, ist der
+        //Benutzername bereits vergeben und es muss ein neuer ausgewählt werden
+        if (benutzer != null) {
+            throw new ApplicationException("Fehler", 
+                    "Es wurde bereits ein Benutzer mit diesem Benutzernamen erstellt.");
+        } else {
+            
+            //Neuen Benutzer anlegen
+            benutzer = new Benutzer();
+  
+            //Wenn beim Anlegen des Benutzer ein Fehler auftritt wird eine 
+            //entsprechende Exception geworfen
+            if (benutzer == null) {
+                throw new ApplicationException("Fehler", 
+                        "Fehler beim Anlegen des Benutzers");
+            }
+
+            //Übergebene Werte setzen
+            //Das Passwort wird vorher in einen MD5-Hashwert umgewandelt
+            benutzer.setBenutzername(Benutzername);
+            benutzer.setPasswort(this.getHash(Passwort));
+            benutzer.setIstAdmin(istAdmin);
+
+            //Transaktion starten
+            em.getTransaction().begin();
+            //Benutzer persistieren
+            em.persist(benutzer);
+            //Transaktion beenden
+            em.getTransaction().commit();
+            
+        }   
+    }
+    
 //</editor-fold>
   
 //<editor-fold defaultstate="collapsed" desc="update-Methoden">
@@ -757,7 +804,7 @@ public class DataAccessObject {
      * @throws ApplicationException wenn der Artikel nicht gefunden werden kann
      *                              oder wenn beim Ändern ein Fehler auftritt
      */
-    public void setzeArtikel(long Artikelnummer, String Kategorie, 
+    public void aendereArtikel(long Artikelnummer, String Kategorie, 
             String Artikeltext, String Bestelltext, double Verkaufswert, 
             double Einkaufswert, int MwST, int Frei) 
             throws ApplicationException {
@@ -800,34 +847,50 @@ public class DataAccessObject {
         }
     }
     
-//    public void setzeGeschaeftspartner() throws ApplicationException {
-//        
-//        Geschaeftspartner gp = em.find(Geschaeftspartner.class, GeschaeftspartnerID);
-//        
-//        if (gp == null || gp.isLKZ()) {
-//            throw new ApplicationException("Fehler", 
-//                    "Der Geschäftspartner konnte nicht gefunden werden");
-//        }
-//        
-//        gp.setKreditlimit(Kreditlimit);
-//        
-//        em.getTransaction().begin();
-//        em.persist(gp);
-//        em.getTransaction().commit();
-//    }
-    
-    public Anschrift setzeAnschrift(long AnschriftID, long GeschaeftspartnerID, 
-            double Kreditlimit, String Name, 
-            String Vorname, String Titel, String Strasse, String Hausnummer, 
-            String PLZ, String Ort, String Staat, String Telefon, String Fax,
-            String Email, Date Geburtsdatum) throws ApplicationException {
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 12.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
+    /**
+     * Ändert sowohl die Attribute des Geschäftspartners als auch der Adresse
+     * @param AnschriftID ID der Anschrift in der Datenbank
+     * @param GeschaeftspartnerID ID des Geschäftspartners in der Datenbank
+     * @param Kreditlimit Kreditlimit des Geschäftspartners
+     * @param Name Nachname
+     * @param Vorname Vorname
+     * @param Titel Anrede
+     * @param Strasse Straße (ohne Hausnummer)
+     * @param Hausnummer Hausnummer
+     * @param PLZ Postleitzahl
+     * @param Ort Ort
+     * @param Staat Staat (normalerweise Deutschland)
+     * @param Telefon Telefonnummer
+     * @param Fax Faxnummer
+     * @param Email Emailadresse
+     * @param Geburtsdatum Geburtsdatum des Geschäftspartners (über 18!)
+     * @throws ApplicationException wenn der Geschäftspartner oder die Anschrift nicht gefunden werden können
+     */
+    public void aendereGeschaeftspartner(long AnschriftID, long GeschaeftspartnerID, 
+            double Kreditlimit, String Name, String Vorname, String Titel, 
+            String Strasse, String Hausnummer, String PLZ, String Ort, 
+            String Staat, String Telefon, String Fax, String Email, 
+            Date Geburtsdatum) throws ApplicationException {
+        
+        Geschaeftspartner gp = em.find(Geschaeftspartner.class, GeschaeftspartnerID);
         
         Anschrift anschrift = em.find(Anschrift.class, AnschriftID);
+        
+        if (gp == null || gp.isLKZ()) {
+            throw new ApplicationException("Fehler", 
+                    "Der Geschäftspartner konnte nicht gefunden werden");
+        }
         
         if (anschrift == null || anschrift.isLKZ()) {
             throw new ApplicationException("Fehler", "Die Anschrift ist nicht "
                     + "vorhanden");
         }
+        
+        gp.setKreditlimit(Kreditlimit);
         
         anschrift.setName(Name);
         anschrift.setVorname(Vorname);
@@ -844,9 +907,29 @@ public class DataAccessObject {
         
         em.getTransaction().begin();
         em.persist(anschrift);
+        em.persist(gp);
         em.getTransaction().commit();
+    }
+    
+    /**
+     * Methode zum Ändern eines Benutzers
+     * @param Benutzername Name des Benutzers (eindeutig)
+     * @param Passwort Passwort des Benutzers, wird als MD5-Hash in der Datenbank abgelegt
+     * @param istAdmin Gibt an ob ein Benutzer ein Admin ist oder nicht
+     * @throws ApplicationException wenn der Benutzer nicht gefunden werden konnte
+     */
+    public void aendereBenutzer(String Benutzername, String Passwort, 
+            boolean istAdmin) throws ApplicationException {
         
-        return anschrift;
+        Benutzer benutzer = em.find(Benutzer.class, Benutzername);
+        
+        if (benutzer == null) {
+            throw new ApplicationException("Fehler", 
+                    "Der Benutzer konnte nicht gefunden werden.");
+        }
+        
+        benutzer.setPasswort(this.getHash(Passwort));
+        benutzer.setIstAdmin(istAdmin);
     }
     
 //</editor-fold>
@@ -1205,6 +1288,11 @@ public class DataAccessObject {
         return ak.getPositionsliste().size();      
     }
     
+    /**
+     * Erstellt eine Liste aller Zahlungskonditionen die in der Datenbank vorhanden 
+     * sind zurück.
+     * @return die oben genannte Liste
+     */
     public Collection<Zahlungskondition> gibAlleZahlungskonditionen() {
         
         List<Zahlungskondition> ergebnis = this.em.createQuery("SELECT ST FROM Zahlungskondition ST",
@@ -1220,6 +1308,13 @@ public class DataAccessObject {
         return liste;
     }
     
+    /**
+     * Gibt eine Auftragsposition eines Auftrags zurück
+     * @param AuftragskopfID ID des Auftragskopfes
+     * @param Positionsnummer Nummer einer Position im Auftrag
+     * @return eine persistene Abbilung der gefundenen Auftragsposition
+     * @throws ApplicationException wenn der Auftrag oder die Position nicht gefunden werden kann
+     */
     public Auftragsposition gibAuftragsposition(long AuftragskopfID, 
             long Positionsnummer) throws ApplicationException {
         
@@ -1235,6 +1330,25 @@ public class DataAccessObject {
         }
         
         return ap;
+    }
+    
+    /**
+     * Sucht einen Benutzer in der Datenbank
+     * @param Benutzername Name des Benutzers (eindeutig)
+     * @return eine persistente Abbildung des gefundenen Benutzers
+     * @throws ApplicationException wenn der Benutzer nicht gefunden werden konnte
+     */
+    public Benutzer gibBenutzer(String Benutzername) 
+            throws ApplicationException {
+        
+        Benutzer benutzer = em.find(Benutzer.class, Benutzername);
+        
+        if (benutzer == null) {
+            throw new ApplicationException("Fehler", 
+                    "Der Benutzer konnte nicht gefunden werden.");
+        }
+        
+        return benutzer;
     }
     
 //</editor-fold>
