@@ -16,11 +16,11 @@ public class Suchefenster extends javax.swing.JFrame {
      * Definition der Attribute
      */
     GUIFactory factory;
-    Parser parser;
+    
     /*
     Variablen für die Suchmasken.
     */
-    private Suche suche;
+//    private Suche suche;
     private AllgemeineSuche allgemeinesuche;
     
     /**
@@ -29,8 +29,6 @@ public class Suchefenster extends javax.swing.JFrame {
     public Suchefenster() {
         initComponents();
         this.factory = new GUIFactory();//Initialisierung der GuiFactory.
-//        this.parser = new Parser();
-//        suche = new Suche(this.factory);
         allgemeinesuche = new AllgemeineSuche(this.factory);
 
         //   Zuweisung der erzeugeten Masken an die DesktopPane.     

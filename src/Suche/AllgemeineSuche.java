@@ -3,46 +3,69 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Suche;
+
 import DAO.ApplicationException;
-import DTO.Auftragsposition;
+import DTO.*;
 import Interfaces.*;
 import JFrames.GUIFactory;
 import java.awt.Color;
 import java.awt.Component;
+import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.swing.JTextField;
 import java.util.Iterator;
+import java.util.Vector;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import org.apache.derby.client.am.ResultSet;
+import org.apache.openjpa.persistence.query.SquareRootExpression;
+
 /**
  *
- * @author Luca Terrasi
- * 10.12.2014 Terrasi,Erstellung 
- * 12.01.2015 Terrasi, Implementierung der Anwendungslogik
+ * @author Luca Terrasi 10.12.2014 Terrasi,Erstellung 12.01.2015 Terrasi,
+ * Implementierung der Anwendungslogik
  */
-public class AllgemeineSuche extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality{
+public class AllgemeineSuche extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
     /*
-    Speichervariablen
-    */
+     Speichervariablen
+     */
     private String suchKategorie;//Variable für den String aus der Combobox für Suchkategorien.
-    
+    private String suchEingabe;//Varible die die Sucheingabe speichert.
+    private Collection<?> suchErgebnis; // Collection in der die gefunden Ergebnisse der Suche gespeichert werden.
+
+    /*
+     Variablen die für die Suchkategorien 
+     */
+    private final String auftragskopf = " Auftragskopf";
+    private final String auftragsposition = "Auftragsposition";
+    private final String artikel = "Artikel";
+    private final String artikelkategorie = "Artikelkategorie";
+    private final String anschrift = "Anschrift";
+    private final String status = "Status";
+    private final String geschaeftspartner = "Geschäftspartner";
+    private final String zahlungskondition = "Zahlungskondition";
+
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi, angelegt */
     /* 12.01.2015 Terrasi, GuiFactoryübergeben und text für legende Übergeben.*/
     /*----------------------------------------------------------*/
     /**
-     * 
-     * @param factory, übergebene GuiFactory 
+     * Konstruktor, Suchfenster wird erzeugt.
+     *
+     * @param factory, übergebene GuiFactory
      */
     public AllgemeineSuche(GUIFactory factory) {
         initComponents();
-        
+        suchErgebnis = new ArrayList<>();//Initialisierung der Collection.
+
         // Variable erhält Wert aus der Combobox mit den Suchkategorien.
         suchKategorie = Auswahl_jComboBox.getSelectedItem().toString();
-        
         legende_jTextArea.setText(gibLegendeAusDB(suchKategorie));//Übergebae der Legende durch Methode gibLegendeAusDB.
     }
 
@@ -117,7 +140,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         Auswahl_jLabel.setLabelFor(Auswahl_jComboBox);
         Auswahl_jLabel.setText("Auswahl der Suche :");
 
-        Auswahl_jComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Auftragskopf", "Auftragsposition", "Artikel", "Geschäftspartner", "Zahlungskondition", "Anschrift", "Status" }));
+        Auswahl_jComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Auftragskopf", "Auftragsposition", "Artikel", "Artikelkategorie", "Geschäftspartner", "Zahlungskondition", "Anschrift", "Status" }));
         Auswahl_jComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Auswahl_jComboBoxActionPerformed(evt);
@@ -133,9 +156,6 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         suchfeld_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 suchfeld_jTextFieldFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                suchfeld_jTextFieldFocusLost(evt);
             }
         });
 
@@ -273,24 +293,21 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         suchfeld_jTextField.selectAll();
     }//GEN-LAST:event_suchfeld_jTextFieldFocusGained
 
-    private void suchfeld_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_suchfeld_jTextFieldFocusLost
-        
-    }//GEN-LAST:event_suchfeld_jTextFieldFocusLost
-
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi, Implementierung der Logik.*/
     /*----------------------------------------------------------*/
     /**
-     * Methode die aufgerufen wird beim wählen einer Suchkategorie.
-     * Je nach Suchkategorie wird eine passende Legende im in der Maske angezeigt.
+     * Methode die aufgerufen wird beim wählen einer Suchkategorie. Je nach
+     * Suchkategorie wird eine passende Legende im in der Maske angezeigt.
+     *
      * @param evt
-     */ 
+     */
     private void Auswahl_jComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Auswahl_jComboBoxActionPerformed
         // Variable erhält Wert aus der Combobox mit den Suchkategorien.
-        suchKategorie = Auswahl_jComboBox.getSelectedItem().toString(); 
-        
+        suchKategorie = Auswahl_jComboBox.getSelectedItem().toString();
+
         // Aufruf der gibLegendeAusDB-Methode und übergebn Rückgabewert an TextArea.
         legende_jTextArea.setText(gibLegendeAusDB(suchKategorie));
     }//GEN-LAST:event_Auswahl_jComboBoxActionPerformed
@@ -300,26 +317,100 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
     /* 16.12.2014 Terrasi,angelegt und Logik implementiert.*/
     /*----------------------------------------------------------*/
     /**
-     * Methode die anhand der eingegebenen Suchkriterien eine Suche Startet
-     * und das Ergebnis in der Ergebnistabelle der Maske anzeigt.
+     * Methode die anhand der eingegebenen Suchkriterien eine Suche startet und
+     * das Ergebnis in der Ergebnistabelle der Maske anzeigt.
+     *
      * @param evt
-     */ 
+     */
+    @SuppressWarnings("empty-statement")
     private void sucheStarten_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sucheStarten_jButtonActionPerformed
-        // TODO add your handling code here:
+        suchEingabe = suchfeld_jTextField.getText();
+//        suchErgebnis.clear();//Leeren der Collection für neue Suchergebnisse.
+//        String[][] info  ;
+        try {
+            if (!(suchErgebnis.isEmpty())) {
+                suchErgebnis.clear();//Leeren der Collection für neue Suchergebnisse.
+            }
+            suchErgebnis.clear();//Leeren der Collection für neue Suchergebnisse.
+            suchErgebnis = GUIFactory.getDAO().suchAbfrage(suchEingabe, suchKategorie);
+            if (suchKategorie.equals(auftragskopf)) {
+                for (Object o : suchErgebnis) {
+                    Auftragskopf ak = (Auftragskopf) o;
+                }
+            } else if (suchKategorie.equals(auftragsposition)) {
+                for (Object o : suchErgebnis) {
+                    Auftragsposition ak = (Auftragsposition) o;
+
+                }
+            } else if (suchKategorie.equals(artikel)) {
+                for (Object o : suchErgebnis) {
+                    Artikel ak = (Artikel) o;
+                }
+            } else if (suchKategorie.equals(artikelkategorie)) {
+                for (Object o : suchErgebnis) {
+                    Artikelkategorie ak = (Artikelkategorie) o;
+                    String[] tabelle = {"Kategorie-ID", "Beschreibung", "Kategoriename", "Kommentar"};
+                    String[][] info = {{String.valueOf(ak.getKategorieID())}
+                            , {ak.getBeschreibung()}, {ak.getKategoriename()}, {ak.getKommentar()}};
+                    
+                    System.out.println(String.valueOf(ak.getKategorieID()));
+                    System.out.println(ak.getBeschreibung());
+                    System.out.println(ak.getKategoriename());
+//                    ResultSet rs = GUIFactory.getDAO().gibAlleKategorien().;
+//                    ResultSetMetaData rsmetadata 0
+                    
+                    DefaultTableModel dtm = new DefaultTableModel();
+                    Vector spaltenNamen = new Vector();
+                    Vector zeilen = new Vector();
+                    
+                    for(String s: tabelle){
+                        spaltenNamen.addElement(s);
+                    }
+                    
+//                    System.out.println(info);
+                    for(int i = 0; i < info.length; i++){
+                        zeilen.addElement(info[i].toString());
+                    }
+                    dtm.setColumnIdentifiers(spaltenNamen);
+                    dtm.addRow(zeilen);
+                    jTable1.setModel(dtm);
+                    
+                }
+            } else if (suchKategorie.equals(status)) {
+                for (Object o : suchErgebnis) {
+                    Status ak = (Status) o;
+                }
+            } else if (suchKategorie.equals(geschaeftspartner)) {
+                for (Object o : suchErgebnis) {
+                    Geschaeftspartner ak = (Geschaeftspartner) o;
+                }
+            } else if (suchKategorie.equals(zahlungskondition)) {
+                for (Object o : suchErgebnis) {
+                    Zahlungskondition ak = (Zahlungskondition) o;
+                }
+
+            }
+        } catch (ApplicationException | NullPointerException | ClassCastException e) {//Fehlerbehandlung 
+            //einer ApplikationException oder einer NullpointerException
+
+        System.out.println(e.getMessage());//Ausgabe einer Fehlermeldung
+        }
+    
     }//GEN-LAST:event_sucheStarten_jButtonActionPerformed
 
-    /*----------------------------------------------------------*/
-    /* Datum Name Was */
-    /* 10.12.2014 Terrasi angelegt */
-    /* 12.12.2015 Terrasi, Implementierung der Logik.*/
-    /*----------------------------------------------------------*/
-    /**
-    * Methode der man eine Suchkategorie übergibt und die passenden Suchparameter
-    * herauffindet und diese als String wieder zurückgibt.
-    * @param suchkategorie, drie übergebene Suchkategorie
-    * @return String mit den aus der Datenbank gespeicherten Suchparametern.
-    */
-    public final String gibLegendeAusDB(String suchkategorie){
+/*----------------------------------------------------------*/
+/* Datum Name Was */
+/* 10.12.2014 Terrasi angelegt */
+/* 12.12.2015 Terrasi, Implementierung der Logik.*/
+/*----------------------------------------------------------*/
+/**
+ * Methode der man eine Suchkategorie übergibt und die passenden Suchparameter
+ * herauffindet und diese als String wieder zurückgibt.
+ *
+ * @param suchkategorie, drie übergebene Suchkategorie
+ * @return String mit den aus der Datenbank gespeicherten Suchparametern.
+ */
+public final String gibLegendeAusDB(String suchkategorie){
         String parameter = "";//Methodenvariable die die Suchparameter speichert.
         String ausgabelegende = "";// Variable die den Text enthält,
         // der als Legende in der Maske ausgegeben wird.
@@ -340,10 +431,10 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
                     + "Sortiert wird nach der ersten Spalte der Tabelle.\n\n"
                     + "Alle Suchabfragen sind durch ' ; ' zu trenne.";
         
-        }catch(ApplicationException e){//Fehlerbehandlung einer ApplikationException
-            System.out.println(e.getMessage());//Ausgabe des Fehlers. 
-        }catch(NullPointerException e){//Fehlerbehandlung einer NullPointerException
-            System.out.println(e.getMessage());//Ausgabe des Fehlers.
+        }catch(ApplicationException | NullPointerException e){//Fehlerbehandlung 
+            //einer ApplikationException oder einer NullpointerException
+            
+            System.out.println(e.getMessage());//Ausgabe einer Fehlermeldung
         }
         
         return ausgabelegende;//Rückgabe eines Strings.
@@ -357,7 +448,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
      * Schnittstellenmethode um alle eingabefelder zurück zu setzen.
      */
     @Override
-    public void zuruecksetzen() {
+        public void zuruecksetzen() {
         suchfeld_jTextField.setText("");
     }
 
@@ -369,7 +460,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
      * Schnittstellenmethode mit der auf vollständigkeit der Eingaben geprüft wird.
      */
     @Override
-    public void ueberpruefen() {
+        public void ueberpruefen() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -388,7 +479,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
      * @param fehlermeldung, String der die Fehlmeldung enthält.
      */
     @Override
-    public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
+        public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
@@ -409,7 +500,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
      * soll
      */
     @Override
-    public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
+        public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

@@ -587,7 +587,7 @@ public class Parser {
             GUIFactory gui = new GUIFactory();
             
             Collection<?>  a = GUIFactory.getDAO().suchAbfrage(
-                    "artikelnr = 1", "Artikel");
+                    "kategorienr = 1", "ARTIKELKATEGORIE");
             
             for (Object o : a) {
                 System.out.println(o.toString());

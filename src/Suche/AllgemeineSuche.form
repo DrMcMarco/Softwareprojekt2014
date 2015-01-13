@@ -171,14 +171,15 @@
     <Component class="javax.swing.JComboBox" name="Auswahl_jComboBox">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="7">
+          <StringArray count="8">
             <StringItem index="0" value="Auftragskopf"/>
             <StringItem index="1" value="Auftragsposition"/>
             <StringItem index="2" value="Artikel"/>
-            <StringItem index="3" value="Gesch&#xe4;ftspartner"/>
-            <StringItem index="4" value="Zahlungskondition"/>
-            <StringItem index="5" value="Anschrift"/>
-            <StringItem index="6" value="Status"/>
+            <StringItem index="3" value="Artikelkategorie"/>
+            <StringItem index="4" value="Gesch&#xe4;ftspartner"/>
+            <StringItem index="5" value="Zahlungskondition"/>
+            <StringItem index="6" value="Anschrift"/>
+            <StringItem index="7" value="Status"/>
           </StringArray>
         </Property>
       </Properties>
@@ -204,7 +205,6 @@
       </Properties>
       <Events>
         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="suchfeld_jTextFieldFocusGained"/>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="suchfeld_jTextFieldFocusLost"/>
       </Events>
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator1">

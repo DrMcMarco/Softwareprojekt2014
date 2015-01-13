@@ -1347,8 +1347,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         this.lieferdatum_jFormattedTextField.setEnabled(true);
         this.abschlussdatum_jFormattedTextField.setEnabled(true);
         this.erfasst_jRadioButton.setEnabled(true);
-        this.freigegeben_jRadioButton.setEnabled(true);
-        this.abgeschlossen_jRadioButton.setEnabled(true);
+        this.freigegeben_jRadioButton.setEnabled(false);
+        this.abgeschlossen_jRadioButton.setEnabled(false);
         this.positionsnummer_jTextField.setEnabled(true);
         this.materialnummer_jTextField.setEnabled(true);
         this.menge_jTextField.setEnabled(true);
