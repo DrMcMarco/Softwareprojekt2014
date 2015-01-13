@@ -5,6 +5,8 @@
  */
 package GUI_Internalframes;
 
+import DAO.ApplicationException;
+import DTO.Benutzer;
 import JFrames.GUIFactory;
 import java.awt.Component;
 import Interfaces.InterfaceViewsFunctionality;
@@ -18,9 +20,9 @@ import javax.swing.JTextField;
  *
  * @author Luca Terrasi
  *
- * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
- * 08.01.2015 Terrasi, implementierung der Schnittstellenmethoden und der
- * Ändern/Anzeigen Funktion.
+ * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button 08.01.2015
+ * Terrasi, implementierung der Schnittstellenmethoden und der Ändern/Anzeigen
+ * Funktion.
  */
 public class User_andernEinstieg extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
@@ -41,12 +43,11 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
      * Creates new form Fenster
      */
     /**
-     * Konstruktor,
-     * Erzeugung eines UseraendernEinstiegobjektes.
-     * @param factory 
+     * Konstruktor, Erzeugung eines UseraendernEinstiegobjektes.
+     *
+     * @param factory
      */
-    public User_andernEinstieg(GUIFactory factory, User_anlegen user
-            , InterfaceMainView main) {
+    public User_andernEinstieg(GUIFactory factory, User_anlegen user, InterfaceMainView main) {
         initComponents();
         this.factory = factory;
         this.userAnlegen = user;
@@ -187,23 +188,45 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
     private void Enter_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Enter_jButtonActionPerformed
+
+        Benutzer benutzer;// Anlegen eines Bentzers
+        
         // Überprüft anhand des Framestitels, ob es das nächste Fenster
-            // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
-        if(fehleingabefelder.isEmpty()){
-            if(this.getTitle().equals("Benutzer ändern")){
-                this.userAnlegen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
-                zuruecksetzen();//Methode die bestimmte Eingabefelder leert
-                this.setVisible(false);
-                this.hauptFenster.setFrame(this.userAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
-            }else{
-                this.userAnlegen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
-                zuruecksetzen();//Methode die bestimmte Eingabefelder leert
-                this.setVisible(false);
-                this.hauptFenster.setFrame(this.userAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
+        // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
+        if (fehleingabefelder.isEmpty()) {
+            try {
+                //Initialisierung eines Benutzers.
+                benutzer = GUIFactory.getDAO().gibBenutzer(BenutzerID_jTextField.getText());
+
+                if (benutzer != null) {
+
+                    if (this.getTitle().equals("Benutzer ändern")) {
+                        this.userAnlegen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
+                        this.userAnlegen.setBenutzername(benutzer.getBenutzername());// Benutzername aus der DB wird im Eingabefeld angezeigt.
+                        if(benutzer.isIstAdmin()){
+                            this.userAnlegen.setCheckBoxSelected(true);// Ceckbox wird selektiert.
+                        }else{
+                            this.userAnlegen.setCheckBoxSelected(false);//Checkbox wird nicht selektiert.
+                        }
+                        this.userAnlegen.setZustand(false);// Checkbox wird auf Enable false gesetzt.
+                        zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                        this.setVisible(false);
+                        this.hauptFenster.setFrame(this.userAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
+                    } else {
+                        this.userAnlegen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
+                        this.userAnlegen.setBenutzername(benutzer.getBenutzername());// Benutzername aus der DB wird im Eingabefeld angezeigt.
+                        this.userAnlegen.setCheckBoxSelected(false);//Checkbox wird nicht selektiert.
+                        this.userAnlegen.setZustand(false);// Checkbox wird auf Enable false gesetzt.
+                        zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                        this.setVisible(false);
+                        this.hauptFenster.setFrame(this.userAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
+                    }
+                } else {
+
+                }
+            } catch (ApplicationException e) {
+                this.hauptFenster.setStatusMeldung(e.getMessage());
             }
-            
-        }else{
-            
         }
     }//GEN-LAST:event_Enter_jButtonActionPerformed
 
@@ -256,7 +279,7 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
      */
     @Override
     public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
-       
+
     }
 
     /*----------------------------------------------------------*/
@@ -265,7 +288,7 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
     /*----------------------------------------------------------*/
     @Override
     public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
-       //Meldung die darauf hinweist das nicht alle Eingaben getätigt worden sind.
+        //Meldung die darauf hinweist das nicht alle Eingaben getätigt worden sind.
         JOptionPane.showMessageDialog(null, fehlermeldung,
                 fehlermelgungtitel, JOptionPane.WARNING_MESSAGE);
         list.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
@@ -277,7 +300,6 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
         list.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
     }
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BenutzerID_jLabel;

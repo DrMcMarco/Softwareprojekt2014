@@ -1,5 +1,6 @@
 package GUI_Internalframes;
 
+import DAO.ApplicationException;
 import java.awt.Component;
 import java.util.ArrayList;
 import Interfaces.*;
@@ -12,9 +13,10 @@ import javax.swing.JTextField;
  *
  * @author Luca Terrasi
  *
- * 10.12.2014 Dokumentation und Logik
- * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
- */
+ * 10.12.2014 Dokumentation und Logik */
+ /* 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button */
+ /* 13.01.2015 Terrasi, Implementierung der DAO-Methoden */
+ 
 public class User_anlegen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
     /*
@@ -34,17 +36,43 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     /*
      Ausgabetexte für Meldungen
      */
-    String fehlermeldung_titel = "Fehlerhafte Eingabe";
-    String fehlermeldung_text = "Es sind nicht alle Eingaben getätigt worden.\n"
+    final String fehlermeldung_titel = "Fehlerhafte Eingabe";
+    final String fehlermeldung_text = "Es sind nicht alle Eingaben getätigt worden.\n"
             + "Bitte geben Sie alle Eingaben ein um fortzufahren.";
+    final String erfolgreicheAnmeldung = "Der Benutzer wurde erfolgreich angelegt.";
+    final String erfolgreichAendernDerBenutzerdaten = "Die Benutzerdaten wurden erfolgreich geändert.";
+    final String erfogreichBenutzerGeloescht = "Der Benutzer wurde erfolgreich gelöscht";
+    /*
+     Spiechervariablen für die Eingabefelder
+     */
+    private String benutzerame;
+    private String passwort;
+    
+    /*
+    Variable für die vergabe der Adminrechte.
+    */
+    private boolean istAdmin;
 
     /**
      * Creates new form Fenster
+     */
+    /**
+     * Konstruktor, Erzeugung der Benutzeranlegen Maske.
+     *
+     * @param factory, Überabee einer GuiFactory
+     * @param mainView, übergabe des Hauptfensters.
      */
     public User_anlegen(GUIFactory factory, InterfaceMainView mainView) {
         initComponents();
         this.factory = factory;
         this.hauptFenster = mainView;
+
+        //Initialisierung
+        this.benutzerame = "";
+        this.passwort = "";
+        
+        istAdmin = false;// Übergabe eines boolenwertes
+
         //Initialisierung der Speichervariblen
         fehlendeEingaben = new ArrayList<Component>();
     }
@@ -57,6 +85,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         //Eingabefelder erhalten einen leeren String
         benutzername_jTextField.setText("");
         passwort_jTextField.setText("");
+        admin_jCheckBox.setSelected(false);
     }
 
     /**
@@ -117,7 +146,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
 
         list.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
     }
-    
+
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 08.01.2015 Terrasi angelegt,Logik und Dokumentation */
@@ -126,32 +155,33 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         this.setTitle("Benutzer anzeigen");
         zuruecksetzen();
         this.benutzername_jTextField.setEnabled(false);
-        this.passwort_jTextField.setEnabled(false);        
+        this.passwort_jTextField.setEnabled(false);
+        this.admin_jCheckBox.setEnabled(true);
         jB_Anzeigen.setText("Ändern");
         jB_Anzeigen.setEnabled(true);
         jB_Speichern.setEnabled(false);
         jB_Loeschen.setEnabled(false);
-        passwort_Generieren_jButton.setEnabled(false);
         this.hauptFenster.setComponent(this);
     }
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 08.01.2015 Terrasi angelegt,Logik und Dokumentation */
     /*----------------------------------------------------------*/
+
     /**
-     * Methode mit der das Internalframe nicht mehr als Anzeigefenster 
+     * Methode mit der das Internalframe nicht mehr als Anzeigefenster
      * dargestellt wird, sondern als Fenster in dem man Daten ändern kann.
      */
-    public void setStatusAender(){
+    public void setStatusAender() {
         this.setTitle("Benutzer ändern");
         zuruecksetzen();
-        this.benutzername_jTextField.setEnabled(true);
-        this.passwort_jTextField.setEnabled(true);        
+        this.benutzername_jTextField.setEnabled(false);
+        this.passwort_jTextField.setEnabled(true);
+        this.admin_jCheckBox.setEnabled(true);
         jB_Anzeigen.setText("Anzeigen");
         jB_Anzeigen.setEnabled(true);
         jB_Speichern.setEnabled(true);
         jB_Loeschen.setEnabled(true);
-        passwort_Generieren_jButton.setEnabled(true);
         this.hauptFenster.setComponent(this);
     }
 
@@ -159,19 +189,19 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     /* Datum Name Was */
     /* 08.01.2015 Terrasi angelegt und dokumentiert*/
     /*----------------------------------------------------------*/
-    public void setStatusAnlegen(){
+    public void setStatusAnlegen() {
         this.setTitle("Benutzer anlegen");
         zuruecksetzen();
         this.benutzername_jTextField.setEnabled(true);
-        this.passwort_jTextField.setEnabled(true);        
+        this.passwort_jTextField.setEnabled(true);
+        this.admin_jCheckBox.setEnabled(false);
         jB_Anzeigen.setText("Anzeigen");
         jB_Anzeigen.setEnabled(false);
         jB_Speichern.setEnabled(true);
         jB_Loeschen.setEnabled(true);
-        passwort_Generieren_jButton.setEnabled(true);
         this.hauptFenster.setComponent(this);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -192,8 +222,8 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         passwort_jLabel = new javax.swing.JLabel();
         benutzername_jTextField = new javax.swing.JTextField();
         statuszeile_jTextField = new javax.swing.JTextField();
-        passwort_Generieren_jButton = new javax.swing.JButton();
         passwort_jTextField = new javax.swing.JTextField();
+        admin_jCheckBox = new javax.swing.JCheckBox();
 
         setClosable(true);
         setIconifiable(true);
@@ -241,6 +271,11 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
 
         jB_Loeschen.setText("Löschen");
         jB_Loeschen.setEnabled(false);
+        jB_Loeschen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_LoeschenActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_Loeschen);
 
         jB_Suchen.setText("Suchen");
@@ -264,13 +299,6 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         statuszeile_jTextField.setText("Statuszeile");
         statuszeile_jTextField.setEnabled(false);
 
-        passwort_Generieren_jButton.setText("Passwort generieren");
-        passwort_Generieren_jButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passwort_Generieren_jButtonActionPerformed(evt);
-            }
-        });
-
         passwort_jTextField.setText("jTextField1");
         passwort_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -278,11 +306,18 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
             }
         });
 
+        admin_jCheckBox.setText("Admin");
+        admin_jCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                admin_jCheckBoxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
             .addComponent(jSeparator1)
             .addComponent(statuszeile_jTextField)
             .addGroup(layout.createSequentialGroup()
@@ -292,12 +327,12 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
                         .addComponent(passwort_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(benutzername_jLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(benutzername_jTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-                    .addComponent(passwort_jTextField))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(passwort_Generieren_jButton)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(admin_jCheckBox)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(benutzername_jTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                        .addComponent(passwort_jTextField)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -312,9 +347,10 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passwort_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(passwort_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(passwort_Generieren_jButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                    .addComponent(passwort_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(admin_jCheckBox)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                 .addComponent(statuszeile_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -324,23 +360,13 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Es wird ein Passwort wird den anzulegenden User generiert. Das generierte
-     * PAsswort erscheint im Eingabefeld.
-     *
-     * @param evt
-     */
-    private void passwort_Generieren_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwort_Generieren_jButtonActionPerformed
-        //Algo zum passwortgenerieren
-
-        // übergabe des passworts in das eingabefeld.
-    }//GEN-LAST:event_passwort_Generieren_jButtonActionPerformed
-
-    /**
      * Selektiert das Eingabefeld des Benutzernamens
      *
      * @param evt
      */
     private void benutzername_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_benutzername_jTextFieldFocusGained
+        this.hauptFenster.setStatusMeldung("");//Statusmeldung verschwindet.
+         
         benutzername_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
         benutzername_jTextField.setText("");//Übergabe eines leeren Strings an das Eingabefeld
     }//GEN-LAST:event_benutzername_jTextFieldFocusGained
@@ -351,6 +377,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
      * @param evt
      */
     private void passwort_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwort_jTextFieldFocusGained
+       this.hauptFenster.setStatusMeldung("");//Statusmeldung verschwindet.
         passwort_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
         passwort_jTextField.setText("");//Übergabe eines leeren Strings an das Eingabefeld
     }//GEN-LAST:event_passwort_jTextFieldFocusGained
@@ -367,17 +394,35 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     private void jB_SpeichernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SpeichernActionPerformed
         //Aufruf der Schnittstellenmethode um auf Vollständigkeit der Eingaben zu prüfen.
         ueberpruefen();
-        if (fehlendeEingaben.isEmpty()) {
-//            GUIFactory.getDAO().
-            //User anlegen
-            zuruecksetzen();//Methode die bestimmte Eingabefelder leert
-        } else {
-            fehlEingabenMarkierung(fehlendeEingaben, fehlermeldung_titel,
-                    fehlermeldung_text, warningfarbe);
+        try {
+            if (fehlendeEingaben.isEmpty()) {
+                //Übergabe der Eingaben an die Speichervariablen.
+                benutzerame = benutzername_jTextField.getText();
+                passwort = passwort_jTextField.getText();
+                    if(this.getTitle().equals("Benutzer anlegen")){//Überprüft aus in welcher Maske man sich befindet
+                        
+                    // Aufruf der erstelleBenutzer-Methode mit der ein Benutzer erzeugt wird.
+                    GUIFactory.getDAO().erstelleBenutzer(benutzerame, passwort, istAdmin);
+                    this.hauptFenster.setStatusMeldung(erfolgreicheAnmeldung);// Ausgabe einer Medung.
+                    }else if(this.getTitle().equals("Benutzer ändern")){// Überprüft ob man sich in der Benutzer ändern Maske befindet.
+                        GUIFactory.getDAO().aendereBenutzer(benutzerame, passwort, istAdmin);// Methodenaufruf zum ändern von Benutzerdaten.
+                        this.hauptFenster.setStatusMeldung(erfolgreichAendernDerBenutzerdaten);// Ausgabe einer Medung.
+                    }
+                    
+                zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+            } else {
+                fehlEingabenMarkierung(fehlendeEingaben, fehlermeldung_titel,
+                        fehlermeldung_text, warningfarbe);
+            }
+        } catch (ApplicationException e) {
+            System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_jB_SpeichernActionPerformed
 
-    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 13.01.2015 Terrasi, Implementierung der DAO-Methoden und Überarbeitung der Anwendungslogik*/
+    /*----------------------------------------------------------*/
     /**
      * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird. Es wird von
      * der Guifactory die letzte aufgerufene Component abgefragt wodurch man die
@@ -394,15 +439,101 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
     private void jB_AnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AnzeigenActionPerformed
-        if(jB_Anzeigen.getText().equals("Anzeigen")){
+        if (jB_Anzeigen.getText().equals("Anzeigen")) {
             this.setStatusAnzeigen();
-        }else{
+        } else {
             this.setStatusAender();
         }
     }//GEN-LAST:event_jB_AnzeigenActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 13.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
+    /**
+     * Methode in der geprüft wird ob der User ein Admin werden soll oder nur
+     * ein normaler User sein soll.
+     * @param evt
+     */ 
+    private void admin_jCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_admin_jCheckBoxActionPerformed
+        //Wenn selektiert wird, erhält der anzulegende User den Status eines Admins.
+        if(admin_jCheckBox.isSelected()){
+            istAdmin = true;// Übergabe eines Boelenwertes.
+        }else{// Falls User kein Admin werden soll.
+            istAdmin = false;
+        }
+    }//GEN-LAST:event_admin_jCheckBoxActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 13.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
+    /**
+     * Methode mit der ein Benutzer aus der Datenbank gelscht wird.
+     * @param evt 
+     */
+    private void jB_LoeschenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_LoeschenActionPerformed
+        benutzerame = benutzername_jTextField.getText();// Erhält den Benutzername aus dem Eingabefeld.
+        try{//TryBlock
+                GUIFactory.getDAO().loescheBenutzer(benutzerame);// Methodenaufruf zum lschen des Benutzers aus der DB.
+                this.hauptFenster.setStatusMeldung(erfogreichBenutzerGeloescht);//Ausgabe einer Meldung.
+                this.benutzername_jTextField.setText("");// Eingabefeld ist leer nachdem man den User gelöscht hat.
+        }catch(ApplicationException e){// Fehlerbehandlung.
+            this.hauptFenster.setStatusMeldung(e.getMessage());//Ausgabe einer Meldung.
+        }
+    }//GEN-LAST:event_jB_LoeschenActionPerformed
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 13.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
+    /**
+     * Methode mit der man dem eingabefeldes des Benutzernamens eine String übergibt.
+     * @param benutzername, String der übergebn wird und angezeigt wird. 
+     */
+    public void setBenutzername(String benutzername){
+        benutzername_jTextField.setText(benutzername);
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 13.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
+    /**
+     * Methode mit der man einen String dem Eingabefeldes des Passworts übergibt.
+     * @param passwort, String das das Passwort repräsentiert wird übergeben und dargestellt. 
+     */
+    public void setPasswort(String passwort){
+        passwort_jTextField.setText(passwort);
+    }
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 13.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
+    /**
+     * Methode mit der man die Checkbox, um den Zustand des User festzulegen,
+     * auf enable false oder true setzen kann.
+     * @param bearbeitung, bolleanwert mit der man entscheidet ob die Checkbox bearbeitet werden kann. 
+     */
+    public void setZustand(boolean bearbeitung){
+        admin_jCheckBox.setEnabled(bearbeitung);
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 13.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
+    /**
+     * Methode um die Checkbox zu selektieren.
+     * @param selektieren, Variable mit der man die Checkboy selektiert oder nicht. 
+     */
+    public void setCheckBoxSelected(boolean selektieren){
+        this.admin_jCheckBox.setSelected(selektieren);// Checkbox wird selektiert oder nicht.
+        
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox admin_jCheckBox;
     private javax.swing.JLabel benutzername_jLabel;
     private javax.swing.JTextField benutzername_jTextField;
     private javax.swing.JButton jB_Anzeigen;
@@ -412,7 +543,6 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     private javax.swing.JButton jB_Zurueck;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JButton passwort_Generieren_jButton;
     private javax.swing.JLabel passwort_jLabel;
     private javax.swing.JTextField passwort_jTextField;
     private javax.swing.JTextField statuszeile_jTextField;
