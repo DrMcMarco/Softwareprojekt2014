@@ -66,7 +66,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     private final String PRUEFUNG_EMAIL = "|^[a-zA-Z0-9][\\w\\.-]*@(?:[a-zA-Z0-9][a-zA-Z0-9_-]+\\.)+[A-Z,a-z]{2,5}$";
     private final String PRUEFUNG_TELEFON = "|^([+][ ]?[1-9][0-9][ ]?[-]?[ ]?|[(]?[0][ ]?)[0-9]{3,4}[-)/ ]?[ ]?[1-9][-0-9 ]{3,16}$";
 
-    private int geschaeftspartnerNr = 1;
+    private int geschaeftspartnerNr;
     private final SimpleDateFormat FORMAT;
 
     private boolean sichtAnlegen;
@@ -212,6 +212,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
      * Methode, die die das Formular zurücksetzt.
      */
     public final void setzeFormularZurueck() {
+        geschaeftspartnerNr = this.factory.getDAO().gibNaechsteGeschaeftpartnerID();
         jTF_GeschaeftspartnerID.setText("" + geschaeftspartnerNr);
         jCHB_Kunde.setSelected(false);
         jCHB_Lieferant.setSelected(false);
@@ -295,7 +296,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jToolBar1 = new javax.swing.JToolBar();
         jB_Zurueck = new javax.swing.JButton();
         jB_Speichern = new javax.swing.JButton();
-        jB_Anzeigen = new javax.swing.JButton();
+        jB_AnzeigenAEndern = new javax.swing.JButton();
         jB_Loeschen = new javax.swing.JButton();
         jB_Suchen = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
@@ -393,13 +394,18 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         });
         jToolBar1.add(jB_Speichern);
 
-        jB_Anzeigen.setText("Anzeige/Ändern");
-        jB_Anzeigen.setActionCommand("Anzeigen/Ändern");
-        jB_Anzeigen.setEnabled(false);
-        jToolBar1.add(jB_Anzeigen);
+        jB_AnzeigenAEndern.setText("Anzeige/Ändern");
+        jB_AnzeigenAEndern.setActionCommand("Anzeigen/Ändern");
+        jB_AnzeigenAEndern.setEnabled(false);
+        jToolBar1.add(jB_AnzeigenAEndern);
 
         jB_Loeschen.setText("Löschen");
         jB_Loeschen.setEnabled(false);
+        jB_Loeschen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_LoeschenActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_Loeschen);
 
         jB_Suchen.setText("Suchen");
@@ -1330,6 +1336,19 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         this.setzeFormularZurueck();
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
+    private void jB_LoeschenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_LoeschenActionPerformed
+        try {
+            long gpnr = nf.parse(jTF_GeschaeftspartnerID.getText()).longValue();
+            int antwort = JOptionPane.showConfirmDialog(null, "Soll der Geschäftspartner wirklich gelöscht werden?", "Geschäftspartner löschen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (antwort == JOptionPane.YES_OPTION) {
+                factory.getDAO().loescheGeschaeftspartner(gpnr);
+                jB_ZurueckActionPerformed(evt);
+            }
+        } catch (ParseException | ApplicationException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_jB_LoeschenActionPerformed
+
     public JTextField gibjTF_GeschaeftspartnerID() {
         return jTF_GeschaeftspartnerID;
     }
@@ -1427,6 +1446,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     /*----------------------------------------------------------*/
     public void setzeFormularInGPAnlegen() {
         setzeFormularZurueck();
+        sichtAnlegen = true;
         jCHB_Kunde.setEnabled(true);
         jCHB_Lieferant.setEnabled(true);
         jCB_Anrede.setEnabled(true);
@@ -1446,13 +1466,20 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_HausnummerLieferanschrift.setEnabled(true);
         jTF_PLZLieferanschrift.setEnabled(true);
         jTF_OrtLieferanschrift.setEnabled(true);
-        sichtAnlegen = true;
+
+        jB_Speichern.setEnabled(true);
+        jB_AnzeigenAEndern.setEnabled(false);
+        jB_Loeschen.setEnabled(false);
+
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
 
     public void setzeFormularInGPAEndern() {
         setzeFormularZurueck();
         sichtAEndern = true;
+
+        jB_Loeschen.setEnabled(true);
+
         jCHB_Kunde.setEnabled(true);
         jCHB_Lieferant.setEnabled(true);
         jCB_Anrede.setEnabled(true);
@@ -1472,7 +1499,11 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_HausnummerLieferanschrift.setEnabled(true);
         jTF_PLZLieferanschrift.setEnabled(true);
         jTF_OrtLieferanschrift.setEnabled(true);
-        sichtAEndern = true;
+
+        jB_Speichern.setEnabled(true);
+        jB_AnzeigenAEndern.setEnabled(true);
+        jB_Loeschen.setEnabled(true);
+
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
 
@@ -1482,6 +1513,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     /*----------------------------------------------------------*/
     public void setzeFormularInGPAnzeigen() {
         setzeFormularZurueck();
+        sichtAnzeigen = true;
         jCHB_Kunde.setEnabled(false);
         jCHB_Lieferant.setEnabled(false);
         jCB_Anrede.setEnabled(false);
@@ -1501,12 +1533,16 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_HausnummerLieferanschrift.setEnabled(false);
         jTF_PLZLieferanschrift.setEnabled(false);
         jTF_OrtLieferanschrift.setEnabled(false);
-        sichtAnzeigen = true;
+
+        jB_Speichern.setEnabled(false);
+        jB_AnzeigenAEndern.setEnabled(true);
+        jB_Loeschen.setEnabled(false);
+
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jB_Anzeigen;
+    private javax.swing.JButton jB_AnzeigenAEndern;
     private javax.swing.JButton jB_Loeschen;
     private javax.swing.JButton jB_Speichern;
     private javax.swing.JButton jB_Suchen;

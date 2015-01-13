@@ -23,10 +23,10 @@ import java.util.Calendar;
  * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
  */
 public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFrame {
-
     /*
      Hilfsvariablen
      */
+
     Component c;
     GUIFactory factory;
     ZahlungskonditionAnlegen z;
@@ -122,6 +122,12 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
         jL_Zahlungskondition_ID.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jL_Zahlungskondition_ID.setText("Zahlungskondition-ID:");
 
+        jTF_Zahlungskondition_ID.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTF_Zahlungskondition_IDKeyPressed(evt);
+            }
+        });
+
         jB_Enter.setText("Weiter");
         jB_Enter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -192,9 +198,10 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
             z.gibjSP_Mahnzeit3().setValue(za.getMahnzeit3());
             z.setVisible(true);
             this.setVisible(false);
+            jTF_Zahlungskondition_ID.setText("");
         } catch (ParseException ex) {
             System.out.println("Fehler beim Parsen in der Klasse ArtikelAnlegen!");
-            System.out.println(ex.getMessage());
+            jTF_Statuszeile.setText("Bitte geben Sie eine ZahlungskonditionsID ein!");
         } catch (ApplicationException ex) {
 //            Logger.getLogger(ArtikelAEndernEinstieg.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
@@ -204,7 +211,6 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
     }//GEN-LAST:event_jB_EnterActionPerformed
 
     private void jB_EnterFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jB_EnterFocusLost
-
         jTF_Statuszeile.setText("");
     }//GEN-LAST:event_jB_EnterFocusLost
 
@@ -226,6 +232,12 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         jB_ZurueckActionPerformed(null);
     }//GEN-LAST:event_formInternalFrameClosing
+
+    private void jTF_Zahlungskondition_IDKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTF_Zahlungskondition_IDKeyPressed
+        if (evt.getKeyCode() == evt.VK_ENTER) {
+            jB_EnterActionPerformed(null);
+        }
+    }//GEN-LAST:event_jTF_Zahlungskondition_IDKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

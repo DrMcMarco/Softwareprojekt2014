@@ -290,7 +290,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jB_SpeichernActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jB_Anzeigen">
+        <Component class="javax.swing.JButton" name="jB_AnzeigenAEndern">
           <Properties>
             <Property name="text" type="java.lang.String" value="Anzeige/&#xc4;ndern"/>
             <Property name="actionCommand" type="java.lang.String" value="Anzeigen/&#xc4;ndern"/>
@@ -302,6 +302,9 @@
             <Property name="text" type="java.lang.String" value="L&#xf6;schen"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jB_LoeschenActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jB_Suchen">
           <Properties>

@@ -636,7 +636,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
      */
     private void jMI_ArtikelAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ArtikelAnlegenActionPerformed
         artikelanlegen.setTitle(ARTIKEL_ANLEGEN);
-        artikelanlegen.setzeFormularInArtikelAEndern();
+        artikelanlegen.setzeFormularInArtikelAnlegen();
         if (c != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             c.setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
@@ -785,7 +785,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
      */
     private void jMI_ZKAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ZKAnlegenActionPerformed
         zahlungskonditionanlegen.setTitle(ZK_ANLEGEN);
-        zahlungskonditionanlegen.setzeFormularInZKAnlegenAEndern();
+        zahlungskonditionanlegen.setzeFormularInZKAnlegen();
         if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
@@ -811,7 +811,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     private void jMI_ZKAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ZKAEndernActionPerformed
         zahlungskonditionaendern.setTitle(ZK_AENDERN);
         zahlungskonditionanlegen.setTitle(ZK_ANLEGEN);
-        zahlungskonditionanlegen.setzeFormularInZKAnlegenAEndern();
+        zahlungskonditionanlegen.setzeFormularInZKAEndern();
         if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
