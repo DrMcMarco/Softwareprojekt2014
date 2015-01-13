@@ -356,7 +356,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
                     System.out.println(String.valueOf(ak.getKategorieID()));
                     System.out.println(ak.getBeschreibung());
                     System.out.println(ak.getKategoriename());
-//                    ResultSet rs = GUIFactory.getDAO().gibAlleKategorien().;
+//                    ResultSet rs = GUIFactory.getDAO()..;
 //                    ResultSetMetaData rsmetadata 0
                     
                     DefaultTableModel dtm = new DefaultTableModel();
