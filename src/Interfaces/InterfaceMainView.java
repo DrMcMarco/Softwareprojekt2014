@@ -5,7 +5,10 @@
  */
 package Interfaces;
 
+import GUI_Internalframes.ArtikelAnlegen;
 import java.awt.Component;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 
 /**
  *
@@ -75,4 +78,21 @@ public interface InterfaceMainView {
      * @param component, Component die übergeben wird.
      */
     public void setFrame(Component component);
+    
+    /**
+     * 
+     * @return 
+     */
+    public JInternalFrame gibLetzteAnzeige();
+    
+    /**
+     * 
+     * @param comp 
+     */
+    public void rufeSuche(JInternalFrame comp);
+    
+    public String gibTitel();
+    
+    public ArtikelAnlegen gibArtikelAnlegenFenster();
+    
 }

@@ -6,35 +6,14 @@ package JFrames;
  * and open the template in the editor.
  */
 import GUI_Internalframes.*;
-import UserHauptmenue.Hauptmenue_User;
 import AdminHauptmenue.Hauptmenue_Admin;
 import DAO.DataAccessObject;
 import java.awt.Component;
 import java.awt.Dimension;
 import javax.persistence.PersistenceException;
 import javax.swing.JOptionPane;
-import DAO.ApplicationException;
-import DAO.DataAccessObject;
-import DAO.Parser;
-import DTO.Artikel;
-import DTO.Auftragskopf;
-import DTO.Kunde;
-import DTO.Sofortauftragskopf;
-import DTO.Status;
-import DTO.Zahlungskondition;
-import GUI_Internalframes.*;
-import Interfaces.InterfaceViewsFunctionality;
-import UserHauptmenue.Hauptmenue_User;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.util.ArrayList;
-import static java.util.Collections.list;
-import java.util.Date;
-import java.util.HashMap;
-import javax.persistence.PersistenceException;
-import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
 import Interfaces.InterfaceMainView;
+import javax.swing.JInternalFrame;
 
 /**
  *
@@ -91,7 +70,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     Dimension desktopSize;//Speichervariable für die Größe der DesktopPane.
     Dimension jInternalFrameSize;//Speichervariable für die Größe des InternalFrames.
     Component c;// Speichervariable für Components.
-
+    private JInternalFrame letzteAnzeige;
     //Stringvariablen für die einzelnen Meldungen die ausgegeben werden können.
     private final String Beenden_Meldung = "Wollen sie wirklich das Programm beenden und sich abmelden?";
     private final String Beenden_Meldung_Typ = "Programm beenden";
@@ -993,6 +972,26 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         statusMeldung_jTextField.setText(status);
     }
 
+    @Override
+    public void rufeSuche(JInternalFrame comp) {
+        this.suche.setVisible(true);
+        this.letzteAnzeige = comp;
+    }
+
+    @Override
+    public JInternalFrame gibLetzteAnzeige() {
+        return this.letzteAnzeige;
+    }
+    
+    public ArtikelAnlegen gibArtikelAnlegenFenster() {
+        //this.artikelanlegen.setzeFormularInArtikelAEndern();
+        return this.artikelanlegen;
+    }
+    
+    public String gibTitel() {
+        return this.letzteAnzeige.getTitle();
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -1062,5 +1061,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JTextField statusMeldung_jTextField;
     // End of variables declaration//GEN-END:variables
+
+    
 
 }

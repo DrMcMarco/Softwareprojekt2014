@@ -22,6 +22,7 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -50,6 +51,9 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
      */
     private String tabelle;
     
+    /**
+     * 
+     */
     private Component comp;
     
     /**
@@ -306,11 +310,15 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         jToolBar1.add(Anzeige_jButton);
 
         Auswaehlen_jButton.setText("Auswählen");
-        Auswaehlen_jButton.setEnabled(false);
         Auswaehlen_jButton.setFocusable(false);
         Auswaehlen_jButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         Auswaehlen_jButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         Auswaehlen_jButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        Auswaehlen_jButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Auswaehlen_jButtonActionPerformed(evt);
+            }
+        });
         jToolBar1.add(Auswaehlen_jButton);
 
         jLabel1.setText("Ergebnis:");
@@ -492,8 +500,9 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         Start framestart = null;
         StartAdmin framestartadmin = null;
         Artikel artikel = null;
+        
         ArrayList<Artikel> artikelListe = null;
-        try {
+        if (this.hauptFenster instanceof Start) {
             framestart = (Start) this.hauptFenster;
             if (this.comp == null) {
                 switch (this.tabelle) {
@@ -510,16 +519,41 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                         framestart.artikelanlegen.gibjTA_Artikelbeschreibung().setText(artikel.getBestelltext());
                         framestart.artikelanlegen.gibjTF_BestandsmengeFREI().setText(String.valueOf(artikel.getFrei()));
                         framestart.artikelanlegen.gibjTF_BestandsmengeRESERVIERT().setText(String.valueOf(artikel.getReserviert()));
+                        framestart.artikelanlegen.gibjCB_Artikelkategorie().setSelectedItem(artikel.getKategorie().getKategoriename());
+                        
                         framestart.setFrame(framestart.artikelanlegen);
                         break;
-                    
                 }
             }
-        } catch (Exception e) { }
+        } else {
+            framestartadmin = (StartAdmin) this.hauptFenster;
+        }
+        
+        
+            
+            
         
         this.setVisible(false);
         
     }//GEN-LAST:event_Anzeige_jButtonActionPerformed
+
+    private void Auswaehlen_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Auswaehlen_jButtonActionPerformed
+        ArrayList<Artikelkategorie> artikelListe = null;
+        
+        
+        if (this.hauptFenster.gibLetzteAnzeige().getTitle().equals("Artikel anlegen")) {
+            if (this.tabelle.equals("Artikelkategorie")) {
+                artikelListe = new ArrayList<Artikelkategorie>(
+                        (Collection<? extends Artikelkategorie>) this.ergebnisDaten);
+                this.hauptFenster.gibArtikelAnlegenFenster()
+                        .gibjCB_Artikelkategorie().setSelectedItem(
+                                artikelListe.get(
+                                        this.Anzeige_jTable1.getSelectedRow())
+                                        .getKategoriename());
+            }
+        }
+        this.setVisible(false);
+    }//GEN-LAST:event_Auswaehlen_jButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

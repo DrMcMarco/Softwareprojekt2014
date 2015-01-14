@@ -38,6 +38,11 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
     private String suchEingabe;//Varible die die Sucheingabe speichert.
     private Collection<?> suchErgebnis; // Collection in der die gefunden Ergebnisse der Suche gespeichert werden.
     private String sortierung;
+    
+    /**
+     * 
+     */
+    private Component comp;
     private InterfaceMainView hauptFenster;
     /*
      Variablen die für die Suchkategorien 
@@ -84,6 +89,10 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         legende_jTextArea.setText(gibLegendeAusDB(suchKategorie));//Übergebae der Legende durch Methode gibLegendeAusDB.
     }
 
+    public void setzeFenster(Component fenster) {
+        this.comp = fenster;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
