@@ -1,5 +1,6 @@
 package GUI_Internalframes;
 
+import DAO.ApplicationException;
 import JFrames.GUIFactory;
 import Documents.*;
 import Interfaces.*;
@@ -8,30 +9,31 @@ import java.awt.Component;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import DTO.*;
 
 /**
  *
  * @author Luca Terrasi
  *
- * 10.12.2014 Dokumentation und Logik
- * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
- * 08.01.2015 Terrasi, Überarbeitung der Anwendungslogik und
- * das hinzufügen von weiteren Funktion.
+ * 10.12.2014 Dokumentation und Logik 16.12.2014 Terrasi,
+ * Funktionsimplementierung im "Zurück"-Button 08.01.2015 Terrasi, Überarbeitung
+ * der Anwendungslogik und das hinzufügen von weiteren Funktion.
  */
 public class AuftragskopfAendern extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
     /*
-    Hilfsvariable
-    */
+     Hilfsvariable
+     */
+    
     Component c;
-    GUIFactory factory ;
+    GUIFactory factory;
     InterfaceMainView hauptFenster;
     AuftragskopfAnlegen auftragskopfAnlegen;
-    
+
     /*
      Syntax
      */
     private static final String auftragskopfID_syntax = "|\\d{1,9}?";
-    
+
     /*
      Augabetexte für Meldungen
      */
@@ -56,19 +58,18 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
      * Creates new form Fenster
      */
     /**
-     * 
-     * 
-     *@param factory   
-     *@param auftragsKopf   
-     *@param mainView  
+     *
+     *
+     * @param factory
+     * @param auftragsKopf
+     * @param mainView
      */
-    public AuftragskopfAendern(GUIFactory factory,AuftragskopfAnlegen auftragsKopf
-            , InterfaceMainView mainView) {
+    public AuftragskopfAendern(GUIFactory factory, AuftragskopfAnlegen auftragsKopf, InterfaceMainView mainView) {
         initComponents();
         this.factory = factory;
         this.auftragskopfAnlegen = auftragsKopf;
         this.hauptFenster = mainView;
-        
+
         /*
          Initialisierung von Variablen
          */
@@ -101,9 +102,6 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         auftragskopfID_jTextField = new javax.swing.JTextField();
         weiter_jButton = new javax.swing.JButton();
 
-        setClosable(true);
-        setIconifiable(true);
-        setMaximizable(true);
         setResizable(true);
         setTitle("Auftragskopf ändern");
         setPreferredSize(new java.awt.Dimension(600, 400));
@@ -204,9 +202,9 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
     /**
      * Beim wählen des Eingabefeldes, wird alles selektiert.
+     *
      * @param evt
      */
     private void auftragskopfID_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_auftragskopfID_jTextFieldFocusGained
@@ -241,19 +239,40 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         //Aufruf der Schnittstellenmethode um auf Vollständigkeit der Eingaben zu prüfen.
         ueberpruefen();
         if (fehleingabefelder.isEmpty()) {//Bei ausgefüllten Eingabenfeldern
+            try {
             // Überprüft anhand des Framestitels, ob es das nächste Fenster
-            // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
-            if(this.getTitle().equals("Auftragskopf ändern")){
-                this.auftragskopfAnlegen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
-                zuruecksetzen();//Methode die bestimmte Eingabefelder leert
-                this.setVisible(false);
-                this.hauptFenster.setFrame(this.auftragskopfAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
-            }else{
-                this.auftragskopfAnlegen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
-                zuruecksetzen();//Methode die bestimmte Eingabefelder leert
-                this.setVisible(false);
-                this.hauptFenster.setFrame(this.auftragskopfAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
+                // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
+                if (this.getTitle().equals("Auftragskopf ändern")) {
+                    
+                    if (GUIFactory.getDAO().getOrderHead(Long.parseLong(auftragskopfID_jTextField.getText())) != null) {
+                    Auftragskopf aKopf = GUIFactory.getDAO().getOrderHead(Long.parseLong(auftragskopfID_jTextField.getText()));
+                    this.auftragskopfAnlegen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
+                    
+                    
+                    this.auftragskopfAnlegen.setzeEingabe(String.valueOf(aKopf.getGeschaeftspartner().getGeschaeftspartnerID()),
+                            String.valueOf(aKopf.getAuftragskopfID()), 
+                            String.valueOf(aKopf.getWert()), 
+                            aKopf.getAuftragstext(),aKopf.getClass().getName() ,
+                            String.valueOf(aKopf.getLieferdatum()),
+                            String.valueOf(aKopf.getAbschlussdatum()),
+                            aKopf.getStatus().getStatus());
+                    
+                    
+                    zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                    this.setVisible(false);
+                    this.hauptFenster.setFrame(this.auftragskopfAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
+                        
+                    }
+                } else {
+                    this.auftragskopfAnlegen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
+                    zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                    this.setVisible(false);
+                    this.hauptFenster.setFrame(this.auftragskopfAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
+                }
+            } catch (ApplicationException | NumberFormatException | NullPointerException e) {
+                this.hauptFenster.setStatusMeldung(e.getMessage());
             }
+            
         } else {//Wenn Eingaben fehlen.
             // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
             // getätigt worden sind
@@ -263,18 +282,17 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         }
     }//GEN-LAST:event_weiter_jButtonActionPerformed
 
-    
     /**
-     * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird.
-     * Es wird von der Guifactory die letzte aufgerufene Component abgefragt 
-     * wodurch man die jetzige Component verlässt und zur übergebnen Component 
-     * zurück kehrt.
-     * @param evt 
+     * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird. Es wird von
+     * der Guifactory die letzte aufgerufene Component abgefragt wodurch man die
+     * jetzige Component verlässt und zur übergebnen Component zurück kehrt.
+     *
+     * @param evt
      */
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
         c = null;   //Initialisierung der Componentspeichervariable
         //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-        c = this.factory.zurueckButton(); 
+        c = this.factory.zurueckButton();
         this.setVisible(false);// Internalframe wird nicht mehr dargestellt
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
