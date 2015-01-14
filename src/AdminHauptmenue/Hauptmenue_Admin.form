@@ -30,7 +30,6 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="Logo_jLabel" pref="359" max="32767" attributes="0"/>
           </Group>
-          <Component id="Statuszeile_jTextField" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -39,11 +38,9 @@
               <Component id="jToolBar1" min="-2" pref="30" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="Hauptmenu_jScrollPane" pref="323" max="32767" attributes="0"/>
+                  <Component id="Hauptmenu_jScrollPane" pref="353" max="32767" attributes="0"/>
                   <Component id="Logo_jLabel" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="Statuszeile_jTextField" min="-2" pref="20" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -128,12 +125,6 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/AdminHauptmenue/logo.PNG"/>
         </Property>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="Statuszeile_jTextField">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Statuszeile"/>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
   </SubComponents>
