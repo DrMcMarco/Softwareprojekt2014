@@ -201,6 +201,7 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
             a.gibjTF_BestandsmengeZULAUF().setText("" + artikel.getZulauf());
             a.gibjTF_BestandsmengeVERKAUFT().setText("" + artikel.getVerkauft());
             a.setVisible(true);
+            a.leseInhaltVomFormular();
             this.setVisible(false);
             jTF_Artikel_ID.setText("");
 

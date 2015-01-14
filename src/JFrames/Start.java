@@ -605,6 +605,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
     /* 07.01.2015 Sen anlegen Funktion hinzugefuegt */
+    /* 09.01.2015 Sen anlegen Funktion View erweitert */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Artikelanlegen Maske aufgerufen wird
@@ -612,7 +613,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
      * @param evt
      */
     private void jMI_ArtikelAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ArtikelAnlegenActionPerformed
-        artikelanlegen.setTitle(ARTIKEL_ANLEGEN);
+//        artikelanlegen.setTitle(ARTIKEL_ANLEGEN);
         artikelanlegen.setzeFormularInArtikelAnlegen();
         if (c != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             c.setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
@@ -628,7 +629,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
-    /* 07.01.2015 Sen aendern Funktion hinzugefuegt */
+    /* 07.01.2015 Sen aendern Funktion View hinzugefuegt */
+    /* 09.01.2015 Sen aendern Funktion View erweitert */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Artikeländern Maske aufgerufen wird
@@ -637,7 +639,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
      */
     private void jMI_ArtikelAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ArtikelAEndernActionPerformed
         artikelaendern.setTitle(ARTIKEL_AENDERN);
-        artikelanlegen.setTitle(ARTIKEL_AENDERN);
+//        artikelanlegen.setTitle(ARTIKEL_AENDERN);
         artikelanlegen.setzeFormularInArtikelAEndern();
         if (c != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             c.setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
@@ -654,6 +656,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
     /* 07.01.2015 Sen anzeigen Funktion hinzugefuegt */
+    /* 09.01.2015 Sen anzeigen Funktion erweitert */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Artikelanzeigen Maske aufgerufen wird
@@ -662,7 +665,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
      */
     private void jMI_ArtikelAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ArtikelAnzeigenActionPerformed
         artikelaendern.setTitle(ARTIKEL_ANZEIGEN);
-        artikelanlegen.setTitle(ARTIKEL_ANZEIGEN);
+//        artikelanlegen.setTitle(ARTIKEL_ANZEIGEN);
         artikelanlegen.setzeFormularInArtikelAnzeigen();
         if (c != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             c.setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
@@ -679,6 +682,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
     /* 07.01.2015 Sen anlegen Funktion hinzugefuegt */
+    /* 09.01.2015 Sen anlegen Funktion View erweitert */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Geschäftspartneranlegen Maske aufgerufen wird
@@ -703,6 +707,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
     /* 07.01.2015 Sen aendern Funktion hinzugefuegt */
+    /* 09.01.2015 Sen aendern Funktion View erweitert */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Geschäftspartnerändern Maske aufgerufen wird
@@ -728,6 +733,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
     /* 07.01.2015 Sen anzeigen Funktion hinzugefuegt */
+    /* 09.01.2015 Sen anzeigen Funktion View erweitert */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Geschäftspartneranzeigen Maske aufgerufen wird
@@ -753,6 +759,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet */
     /* 07.01.2015 Sen anlegen Funktion hinzugefuegt */
+    /* 09.01.2015 Sen anlegen Funktion View erweitert */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Zahlungskonditionenanlegen Maske aufgerufen
@@ -778,6 +785,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
     /* 07.01.2015 Sen aendern Funktion hinzugefuegt */
+    /* 09.01.2015 Sen aendern Funktion View erweitert */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Zahlungskonditionenändern Maske aufgerufen
@@ -802,6 +810,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt */
     /* 07.01.2015 Sen anzeigen Funktion hinzugefuegt */
+    /* 09.01.2015 Sen anzeigen Funktion View erweitert */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Zahlungskonditionenanzeigen Maske aufgerufen
