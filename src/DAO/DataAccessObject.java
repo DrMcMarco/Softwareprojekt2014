@@ -875,72 +875,7 @@ public class DataAccessObject {
             
         }
     }
-    
-    /*----------------------------------------------------------*/
-    /* Datum      Name    Was                                   */
-    /* 12.01.15   loe     angelegt                              */
-    /*----------------------------------------------------------*/
-    /**
-     * Ändert sowohl die Attribute des Geschäftspartners als auch der Adresse
-     * @param AnschriftID ID der Anschrift in der Datenbank
-     * @param GeschaeftspartnerID ID des Geschäftspartners in der Datenbank
-     * @param Kreditlimit Kreditlimit des Geschäftspartners
-     * @param Name Nachname
-     * @param Vorname Vorname
-     * @param Titel Anrede
-     * @param Strasse Straße (ohne Hausnummer)
-     * @param Hausnummer Hausnummer
-     * @param PLZ Postleitzahl
-     * @param Ort Ort
-     * @param Staat Staat (normalerweise Deutschland)
-     * @param Telefon Telefonnummer
-     * @param Fax Faxnummer
-     * @param Email Emailadresse
-     * @param Geburtsdatum Geburtsdatum des Geschäftspartners (über 18!)
-     * @throws ApplicationException wenn der Geschäftspartner oder die Anschrift nicht gefunden werden können
-     */
-    public void aendereGeschaeftspartner(long AnschriftID, long GeschaeftspartnerID, 
-            double Kreditlimit, String Name, String Vorname, String Titel, 
-            String Strasse, String Hausnummer, String PLZ, String Ort, 
-            String Staat, String Telefon, String Fax, String Email, 
-            Date Geburtsdatum) throws ApplicationException {
-        
-        Geschaeftspartner gp = em.find(Geschaeftspartner.class, GeschaeftspartnerID);
-        
-        Anschrift anschrift = em.find(Anschrift.class, AnschriftID);
-        
-        if (gp == null || gp.isLKZ()) {
-            throw new ApplicationException("Fehler", 
-                    "Der Geschäftspartner konnte nicht gefunden werden");
-        }
-        
-        if (anschrift == null || anschrift.isLKZ()) {
-            throw new ApplicationException("Fehler", "Die Anschrift ist nicht "
-                    + "vorhanden");
-        }
-        
-        gp.setKreditlimit(Kreditlimit);
-        
-        anschrift.setName(Name);
-        anschrift.setVorname(Vorname);
-        anschrift.setTitel(Titel);
-        anschrift.setStrasse(Strasse);
-        anschrift.setHausnummer(Hausnummer);
-        anschrift.setPLZ(PLZ);
-        anschrift.setOrt(Ort);
-        anschrift.setStaat(Staat);
-        anschrift.setTelefon(Telefon);
-        anschrift.setFAX(Fax);
-        anschrift.setEmail(Email);
-        anschrift.setGeburtsdatum(Geburtsdatum);
-        
-        em.getTransaction().begin();
-        em.persist(anschrift);
-        em.persist(gp);
-        em.getTransaction().commit();
-    }
-    
-    
+   
     /**
      * 
      * @param AuftragskopfID
@@ -1121,6 +1056,8 @@ public class DataAccessObject {
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
     /* 12.01.15   loe     angelegt                              */
+    /* 13.01.15   loe     überarbeitet                          */
+    /* 14.01.15   loe     überarbeitet                          */
     /*----------------------------------------------------------*/
     /**
      * Ändert sowohl die Attribute des Geschäftspartners als auch der Adresse
@@ -1161,20 +1098,30 @@ public class DataAccessObject {
                     "Der Geschäftspartner konnte nicht gefunden werden");
         }
         
+        rechnungsanschrift = gp.getRechnungsadresse();
+        lieferanschrift = gp.getLieferadresse();
+        
         gp.setKreditlimit(Kreditlimit);
         
+        rechnungsanschrift.setName(Name);
+        rechnungsanschrift.setVorname(Vorname);
+        rechnungsanschrift.setTitel(Titel);
+        rechnungsanschrift.setStaat(Staat);
+        rechnungsanschrift.setTelefon(Telefon);
+        rechnungsanschrift.setFAX(Fax);
+        rechnungsanschrift.setEmail(Email);
+        rechnungsanschrift.setGeburtsdatum(Geburtsdatum);
+        
+        lieferanschrift.setName(Name);
+        lieferanschrift.setVorname(Vorname);
+        lieferanschrift.setTitel(Titel);
+        lieferanschrift.setStaat(Staat);
+        lieferanschrift.setTelefon(Telefon);
+        lieferanschrift.setFAX(Fax);
+        lieferanschrift.setEmail(Email);
+        lieferanschrift.setGeburtsdatum(Geburtsdatum); 
+        
         if (gp.getRechnungsadresse().equals(gp.getLieferadresse())) {
-
-            rechnungsanschrift = gp.getRechnungsadresse();
-            
-            rechnungsanschrift.setName(Name);
-            rechnungsanschrift.setVorname(Vorname);
-            rechnungsanschrift.setTitel(Titel);
-            rechnungsanschrift.setStaat(Staat);
-            rechnungsanschrift.setTelefon(Telefon);
-            rechnungsanschrift.setFAX(Fax);
-            rechnungsanschrift.setEmail(Email);
-            rechnungsanschrift.setGeburtsdatum(Geburtsdatum); 
 
             if (modus && (!rStrasse.equals(rechnungsanschrift.getStrasse()) || 
                           !rHausnummer.equals(rechnungsanschrift.getHausnummer()) ||
@@ -1208,8 +1155,6 @@ public class DataAccessObject {
             
         } else {
             
-                lieferanschrift = gp.getLieferadresse();
-
                 rechnungsanschrift.setStrasse(rStrasse);
                 rechnungsanschrift.setHausnummer(rHausnummer);
                 rechnungsanschrift.setPLZ(rPLZ);
