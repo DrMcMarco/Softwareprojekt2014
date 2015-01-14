@@ -63,7 +63,6 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
         Hauptmenu_jScrollPane = new javax.swing.JScrollPane();
         hauptmenueAdmin_Tree = new javax.swing.JTree();
         Logo_jLabel = new javax.swing.JLabel();
-        Statuszeile_jTextField = new javax.swing.JTextField();
         jSeparator2 = new javax.swing.JSeparator();
         jToolBar1 = new javax.swing.JToolBar();
         jB_Zurueck = new javax.swing.JButton();
@@ -131,10 +130,6 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
         Logo_jLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Logo_jLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AdminHauptmenue/logo.PNG"))); // NOI18N
 
-        Statuszeile_jTextField.setBackground(new java.awt.Color(240, 240, 240));
-        Statuszeile_jTextField.setText("Statuszeile");
-        Statuszeile_jTextField.setEnabled(false);
-
         jToolBar1.setBorder(null);
         jToolBar1.setRollover(true);
         jToolBar1.setEnabled(false);
@@ -175,7 +170,6 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                 .addComponent(Hauptmenu_jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Logo_jLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE))
-            .addComponent(Statuszeile_jTextField)
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jSeparator2)
         );
@@ -187,10 +181,8 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Logo_jLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
-                    .addComponent(Hauptmenu_jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Statuszeile_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Hauptmenu_jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(Logo_jLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)))
         );
 
         pack();
@@ -411,7 +403,6 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane Hauptmenu_jScrollPane;
     private javax.swing.JLabel Logo_jLabel;
-    private javax.swing.JTextField Statuszeile_jTextField;
     private javax.swing.JTree hauptmenueAdmin_Tree;
     private javax.swing.JButton jB_Abbrechen;
     private javax.swing.JButton jB_Anzeigen;
