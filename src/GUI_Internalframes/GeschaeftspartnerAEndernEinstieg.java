@@ -28,7 +28,7 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
     /*
      Hilfsvariablen
      */
-    
+
     Component c;
     GUIFactory factory;
     GeschaeftspartnerAnlegen g;
@@ -41,7 +41,7 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
         initComponents();
         this.factory = factory;
         this.g = g;
-        
+
         nf = NumberFormat.getInstance();
         nf.setMinimumFractionDigits(2);
         nf.setMaximumFractionDigits(2);
@@ -184,7 +184,7 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void jB_EnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_EnterActionPerformed
-        
+
         String eingabe = jTF_Geschaeftspartner_ID.getText();
         long gpnr = 0;
         try {
@@ -221,16 +221,37 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
             } else {
                 t = "" + tag;
             }
-            
+
             if (mon < 10) {
                 m = "0" + mon;
             } else {
                 m = "" + mon;
             }
-            
+
             String s = t + "." + m + "." + jahr;
             System.out.println(s);
             g.gibjFTF_Geburtsdatum().setText(s);
+
+            cal.setTime(la.getErfassungsdatum());
+            tag = cal.get(Calendar.DAY_OF_MONTH);
+            mon = cal.get(Calendar.MONTH);
+            mon = mon + 1;
+            System.out.println(mon);
+            jahr = cal.get(Calendar.YEAR);
+            if (tag < 10) {
+                t = "0" + tag;
+            } else {
+                t = "" + tag;
+            }
+
+            if (mon < 10) {
+                m = "0" + mon;
+            } else {
+                m = "" + mon;
+            }
+
+            s = t + "." + m + "." + jahr;
+            g.gibjFTF_Erfassungsdatum().setText(s);
             g.gibjTF_EMail().setText(ra.getEmail());
             g.gibjTF_Kreditlimit().setText("" + nf.format(gp.getKreditlimit()));
             g.gibjTF_StrasseRechnungsanschrift().setText(ra.getStrasse());
@@ -257,7 +278,7 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
             g.setVisible(true);
             this.setVisible(false);
             jTF_Geschaeftspartner_ID.setText("");
-            
+
         } catch (ParseException ex) {
             System.out.println("Fehler beim Parsen in der Klasse ArtikelAnlegen!");
             jTF_Statuszeile.setText("Bitte geben Sie eine GeschäftspartnerID ein.");

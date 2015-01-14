@@ -99,12 +99,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 //        ArtikelAnzeigen Test
         this.factory = factory;
         this.dao = this.factory.getDAO();
-//        try{
 
-//        this.dao.createCategory("Kategorie 1", "eine Kategoriebeschreibung", "Test", false);
-//        }catch(ApplicationException e){
-//            System.out.println(e.getMessage());
-//        }
         fehlerhafteComponenten = new ArrayList<>();
         artikelListe = new ArrayList<>();
         ladeKategorienAusDatenbank();
@@ -120,18 +115,6 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jTF_Bestandsmenge_FREI.setDocument(new UniversalDocument("0123456789", false));
     }
 
-//    private void fuelleArrayListMitAllenComponenten() {
-//        alleComponenten.add(jTF_Artikelname);
-//        alleComponenten.add(jTA_Artikelbeschreibung);
-//        alleComponenten.add(jCB_Kategorie);
-//        alleComponenten.add(jTF_Einzelwert);
-//        alleComponenten.add(jTF_Bestellwert);
-//        alleComponenten.add(jCB_MwST);
-//        alleComponenten.add(jTF_Bestandsmenge_FREI);
-//        alleComponenten.add(jTF_Bestandsmenge_RES);
-//        alleComponenten.add(jTF_Bestandsmenge_ZULAUF);
-//        alleComponenten.add(jTF_Bestandsmenge_VERKAUFT);
-//    }
     private void ladeKategorienAusDatenbank() {
         try {
             kategorienAusDatenbank = this.dao.gibAlleKategorien();
@@ -655,26 +638,18 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
             artikelnameFurDB = jTF_Artikelname.getText();
             artikelbeschreibungFurDB = jTA_Artikelbeschreibung.getText();
             kategorieFurDB = (String) jCB_Kategorie.getSelectedItem();
+           
+            try {
+                einzelwertFurDB = nf.parse(jTF_Einzelwert.getText()).doubleValue();
+                bestellwertFurDB = nf.parse(jTF_Bestellwert.getText()).doubleValue();
 
+                mwstFurDB = nf.parse((String) jCB_MwST.getSelectedItem()).intValue();
+                bestandsmengeFREIFurDB = nf.parse(jTF_Bestandsmenge_FREI.getText()).intValue();
+            } catch (ParseException ex) {
+                System.out.println("Fehler beim Parsen in der Klasse ArtikelAnlegen!");
+            }
+            
             if (this.getTitle().equals(ARTIKEL_ANLEGEN)) {
-
-//            String einzelwert;
-//            String bestellwert;
-//            String mwst;
-//            String bestandsmengeFREI;
-                try {
-
-                    
-                    einzelwertFurDB = nf.parse(jTF_Einzelwert.getText()).doubleValue();
-                    bestellwertFurDB = nf.parse(jTF_Bestellwert.getText()).doubleValue();
-
-                    mwstFurDB = nf.parse((String) jCB_MwST.getSelectedItem()).intValue();
-                    bestandsmengeFREIFurDB = nf.parse(jTF_Bestandsmenge_FREI.getText()).intValue();
-                } catch (ParseException ex) {
-                    System.out.println("Fehler beim Parsen in der Klasse ArtikelAnlegen!");
-                }
-//
-
                 try {
                     this.dao.createItem(kategorieFurDB, artikelnameFurDB, artikelbeschreibungFurDB,
                             einzelwertFurDB, bestellwertFurDB, mwstFurDB, bestandsmengeFREIFurDB,
@@ -684,24 +659,6 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
                 } catch (ApplicationException e) {
                     System.out.println(e.getMessage());
                 }
-//            System.out.println("Geschäftspartner: \n"
-//                    + "Artikelnummer:                  " + artikelnummer + "\n"
-//                    + "Artikelname:                    " + artikelname + "\n"
-//                    + "Artikelbeschreibung:            " + artikelbeschreibung + "\n"
-//                    + "Kategorie:                      " + kategorie + "\n"
-//                    + "Einzelwert:                     " + einzelwert + "\n"
-//                    + "Bestellwert:                    " + bestellwert + "\n"
-//                    + "MwSt:                           " + mwst + "\n"
-//                    + "Bestangsmenge FREI:             " + bestandsmengeFREI + "\n"
-//                    + "Bestangsmenge RESERVIERT:       " + bestandsmengeRESERVIERT + "\n"
-//                    + "Bestangsmenge ZULAUF:           " + bestandsmengeZULAUF + "\n"
-//                    + "Bestangsmenge VERKAUFT:         " + bestandsmengeVERKAUFT + "\n");
-//          Artikel wird in ArrayList für Artikel hinzugefuegt    
-
-//            artikelListe.add(new Artikel(artikelnummer, artikelname, artikelbeschreibung, kategorie, einzelwert, bestellwert, mwst, bestandsmengeFREI, "0", "0", "0"));
-//          provisorisch wird der Artikel ausgegeben  
-//            System.out.println(artikelListe.get(artikelListe.size() - 1).toString());
-//          die artikelnummer wird erhöht  
                 jTF_Statuszeile.setText(STATUSZEILE);
 //          das Formular wird zurueckgesetzt  
                 setzeFormularZurueck();
@@ -719,45 +676,10 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
                         || !bestellwertVorher.equals(bestellwertNachher) || !mwstVorher.equals(mwstNachher)
                         || !bestandsmengeVorher.equals(bestandsmengeNachher)) {
                     try {
-                        //                    if (!artikelnameVorher.equals(artikelnameNachher)) {
-//                        System.out.println("Artkelname ungleich");
-//                        System.out.println("Vorher:" + artikelnameVorher);
-//                        System.out.println(artikelnameNachher);
-//                    }
-//                    if (!artikelbeschreibungVorher.equals(artikelbeschreibungNachher)) {
-//                        System.out.println("Artikelbeschreibung ungleleich");
-//                        System.out.println("Vorher:" + artikelbeschreibungVorher);
-//                        System.out.println(artikelbeschreibungNachher);
-//                    }
-//                    if (!kategorieVorher.equals(kategorieNachher)) {
-//                        System.out.println("Kategorie ungleich");
-//                        System.out.println("Vorher:" + kategorieVorher);
-//                        System.out.println(kategorieNachher);
-//                    }
-//                    if (!einzelwertVorher.equals(einzelwertNachher)) {
-//                        System.out.println("Einzelwert ungleich");
-//                        System.out.println("Vorher:" + einzelwertVorher);
-//                        System.out.println(einzelwertNachher);
-//                    }
-//                    if (!bestellwertVorher.equals(bestellwertNachher)) {
-//                        System.out.println("Bestellwert ungleich");
-//                        System.out.println("Vorher:" + bestellwertVorher);
-//                        System.out.println(bestellwertNachher);
-//                    }
-//                    if (!mwstVorher.equals(mwstNachher)) {
-//                        System.out.println("MwST ungleich");
-//                        System.out.println("Vorher:" + mwstVorher);
-//                        System.out.println(mwstNachher);
-//                    }
-//                    if (!bestandsmengeVorher.equals(bestandsmengeNachher)) {
-//                        System.out.println("Bestandsmenge ungleich");
-//                        System.out.println(bestandsmengeNachher);
-//                        System.out.println("Vorher:" + bestandsmengeVorher);
-//                    }
-//                    JOptionPane.showMessageDialog(null, "Es wurden Änderungen gemacht!", "Änderungen", JOptionPane.WARNING_MESSAGE);
                         artikelnummerFurDB = nf.parse(jTF_Artikelnummer.getText()).longValue();
                     } catch (ParseException ex) {
-                        Logger.getLogger(ArtikelAnlegen.class.getName()).log(Level.SEVERE, null, ex);
+//                        Logger.getLogger(ArtikelAnlegen.class.getName()).log(Level.SEVERE, null, ex);
+                        System.out.println("Fehler beim Parsen der ArtikelnummerFurDB");
                     }
                     if (!artikelnameVorher.equals(artikelnameNachher)) {
                         artikelnameFurDB = artikelnameNachher;
@@ -809,7 +731,6 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
                         fehlerhafteComponenten.clear();
                         this.setVisible(false);
                         jB_ZurueckActionPerformed(null);
-//                    setzeFormularZurueck();
                     } else {
                         fehlerhafteComponenten.clear();
                     }
@@ -946,7 +867,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void jB_LoeschenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_LoeschenActionPerformed
-        if (sichtAEndern) {
+        if (this.getTitle().equals(ARTIKEL_AENDERN)) {
             try {
                 long artikelnr = nf.parse(jTF_Artikelnummer.getText()).longValue();
                 int antwort = JOptionPane.showConfirmDialog(null, "Soll der Artikel wirklich gelöscht werden?", "Artikel löschen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);

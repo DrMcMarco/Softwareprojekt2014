@@ -73,6 +73,24 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     private boolean sichtAEndern;
     private boolean sichtAnzeigen;
 
+    private String typVorher;
+    private String anredeVorher;
+    private String nameVorher;
+    private String vornameVorher;
+    private String telefonVorher;
+    private String faxVorher;
+    private String geburtsdatumVorher;
+    private String eMailVorher;
+    private String kreditlimitVorher;
+    private String strasseRechnungsanschriftVorher;
+    private String hausnummerRechnungsanschriftVorher;
+    private String plzRechnungsanschriftVorher;
+    private String ortRechnungsanschriftVorher;
+    private String strasseLieferanschriftVorher;
+    private String hausnummerLieferanschriftVorher;
+    private String plzLieferanschriftVorher;
+    private String ortLieferanschriftVorher;
+
     private NumberFormat nf;
     Calendar cal = Calendar.getInstance();
 
@@ -1433,12 +1451,37 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         return jTF_OrtLieferanschrift;
     }
 
-//    public void speichereLieferadresse() {
-//        jTF_StrasseLieferanschriftFocusLost(null);
-//        jTF_HausnummerLieferanschriftFocusLost(null);
-//        jTF_PLZLieferanschriftFocusLost(null);
-//        jTF_OrtLieferanschriftFocusLost(null);
-//    }
+    public void leseInhaltVomFormular() {
+        if (jCHB_Kunde.isSelected()) {
+            typVorher = "Kunde";
+        } else {
+            typVorher = "Lieferant";
+        }
+        anredeVorher = (String) jCB_Anrede.getSelectedItem();
+        nameVorher = jTF_Name.getText();
+        vornameVorher = jTF_Vorname.getText();
+        telefonVorher = jTF_Telefon.getText();
+        faxVorher = jTF_Fax.getText();
+        geburtsdatumVorher = jFTF_Geburtsdatum.getText();
+        eMailVorher = jTF_EMail.getText();
+        kreditlimitVorher = jTF_Kreditlimit.getText();
+        strasseRechnungsanschriftVorher = jTF_StrasseRechnungsanschrift.getText();
+        hausnummerRechnungsanschriftVorher = jTF_HausnummerRechnungsanschrift.getText();
+        plzRechnungsanschriftVorher = jTF_PLZRechnungsanschrift.getText();
+        ortRechnungsanschriftVorher = jTF_OrtRechnungsanschrift.getText();
+        if (jCHB_WieAnschrift.isSelected()) {
+            strasseLieferanschriftVorher = strasseRechnungsanschriftVorher;
+            hausnummerLieferanschriftVorher = hausnummerRechnungsanschriftVorher;
+            plzLieferanschriftVorher = plzRechnungsanschriftVorher;
+            ortLieferanschriftVorher = ortRechnungsanschriftVorher;
+        } else {
+            strasseLieferanschriftVorher = jTF_StrasseLieferanschrift.getText();
+            hausnummerLieferanschriftVorher = jTF_HausnummerLieferanschrift.getText();
+            plzLieferanschriftVorher = jTF_PLZLieferanschrift.getText();
+            ortLieferanschriftVorher = jTF_OrtLieferanschrift.getText();
+        }
+        
+    }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
