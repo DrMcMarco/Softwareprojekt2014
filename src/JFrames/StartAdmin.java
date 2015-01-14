@@ -13,6 +13,7 @@ import java.awt.Dimension;
 import javax.persistence.PersistenceException;
 import javax.swing.JOptionPane;
 import Interfaces.InterfaceMainView;
+import java.awt.Toolkit;
 import javax.swing.JInternalFrame;
 
 /**
@@ -969,6 +970,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
      */
     @Override
     public void setStatusMeldung(String status) {
+        Toolkit.getDefaultToolkit().beep();
         statusMeldung_jTextField.setText(status);
     }
 

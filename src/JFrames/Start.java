@@ -1,30 +1,14 @@
 package JFrames;
 
-import DAO.ApplicationException;
 import DAO.DataAccessObject;
 import DAO.Parser;
-import DTO.Artikel;
-import DTO.Auftragskopf;
-import DTO.Auftragsposition;
-import DTO.Kunde;
-import DTO.Sofortauftragskopf;
-import DTO.Status;
-import DTO.Zahlungskondition;
 import GUI_Internalframes.*;
 import Interfaces.InterfaceMainView;
-import Interfaces.InterfaceViewsFunctionality;
 import UserHauptmenue.Hauptmenue_User;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.Collection;
-import static java.util.Collections.list;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.awt.Toolkit;
 import javax.persistence.PersistenceException;
-import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 
@@ -218,6 +202,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             }
         });
 
+        statusMeldung_jTextField.setForeground(new java.awt.Color(255, 0, 0));
         statusMeldung_jTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         statusMeldung_jTextField.setEnabled(false);
         desktopPane.add(statusMeldung_jTextField);
@@ -911,6 +896,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     /*----------------------------------------------------------*/
     /**
      * Methode mit der man die aktuell übergebene Component erhält.
+     * @return 
      */
     @Override
     public Component getComponent() {
@@ -926,6 +912,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
      */
     @Override
     public void setStatusMeldung(String status) {
+        Toolkit.getDefaultToolkit().beep();
         statusMeldung_jTextField.setText(status);
     }
 
