@@ -1198,6 +1198,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      * @param evt
      */
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
+        zuruecksetzen();
         c = null;   //Initialisierung der Componentspeichervariable
         //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
         c = this.factory.zurueckButton();
@@ -1230,6 +1231,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      */
     @Override
     public void zuruecksetzen() {
+        
         //Variablen für den Auftragswert werden alle auf 0 gesetzt.
         positionsZaehler = 0;
         gesamtAuftragswert = 0.00;
@@ -1237,13 +1239,20 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         einzelwert = 0.00;
         
         //Eingabefelder erhalten einen leeren String
+        geschaeftspartner_jTextField.setText("");
+        auftragswert_jTextField.setText("");
         positionsnummer_jTextField.setText(String.valueOf(positionsZaehler));
         materialnummer_jTextField.setText("");
         menge_jTextField.setText("");
         einzelwert_jTextField.setText("");
+        auftragstext_jTextArea.setText("");
         //Eingabefelder für das Erfassungsdatum erhalten das heutige Datum
 //        erfassungsdatum_jFormattedTextField.setText(format.format(heute));
 //        erfassungsdatum_auftragsposition_jFormattedTextField.setText(format.format(heute));
+        
+        dtm.setRowCount(0); 
+        
+        auftragsposition_jTable.setModel(dtm);
     }
 
     /**
