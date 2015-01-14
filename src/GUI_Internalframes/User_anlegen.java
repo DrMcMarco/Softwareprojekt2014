@@ -83,7 +83,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     @Override
     public void zuruecksetzen() {
         //Eingabefelder erhalten einen leeren String
-        benutzername_jTextField.setText("");
+//        benutzername_jTextField.setText("");
         passwort_jTextField.setText("");
         admin_jCheckBox.setSelected(false);
     }
