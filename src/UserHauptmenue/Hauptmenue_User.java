@@ -278,7 +278,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.auftragskopfanlegen.setTitle("Auftragskopf anzeigen");
 //                    this.internal.auftragskopfanlegen.setEnabled(false);
-                    setComponentVisible(this.internal.auftragskopfanlegen);
+                    setComponentVisible(this.internal.auftragskopfaendern);
                     this.internal.auftragskopfanlegen.setStatusAnzeigen();
                 }
                 // Vergleich des Pfades mit String um "Auftragsposition Ändern" aufzurufen.
