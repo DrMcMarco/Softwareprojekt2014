@@ -103,6 +103,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             + "\n Bitte geben Sie eine gültige Positionsnummer ein. (z.B. 1 oder 999999999)";
     String fehlermeldungGeschaeftspartnerID_text = "Keine Gültige Geschäftspartner-ID. \n"
             + " Bitte geben sie eine gültige Geschäftspartner-ID ein.";
+    
+    final String ERFOLGREICHEANMELDUNG = "Ihr Auftrags wurde erfolgreich angelegt.";
 
     /*
      Speichervariablen
@@ -899,12 +901,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      */
     private void ladeZahlungskonditionenAusDatenbank(String auftragsart) {
         try {
-            System.out.println("aaaaaaaaaaaaaaa");
-//            zahlungskondditionAusDatenbank.clear();
             //Collection erhält Zahlugskonditionen aus der Datenbank.   
             zahlungskondditionAusDatenbank = GUIFactory.getDAO().gibAlleZahlungskonditionen();//Aufruf der gibAlleZahlungskonditionen()-Methode.
-            System.out.println(zahlungskondditionAusDatenbank.size() + "sssssssssss");
-            System.out.println("hallo?");
             //ArrayList für die Combobox
             zahlungskonditionFuerCombobox.clear();
             if (auftragsart.equals("Barauftrag")) {
@@ -913,7 +911,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             } else {
                 Iterator<Zahlungskondition> it = zahlungskondditionAusDatenbank.iterator();
                 while (it.hasNext()) {
-//                        System.out.println(it.next().getAuftragsart());
 //                    if (it.next().getAuftragsart().equals(auftragsart)) {
                     zahlungskonditionFuerCombobox.add(String.valueOf(it.next().getZahlungskonditionID()));
 //                        System.out.println(String.valueOf(it.next().getZahlungskonditionID()));
@@ -948,8 +945,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                             auftragsText, geschaeftspartnerID,
                             Integer.parseInt(zahlungskonditionen_jComboBox.getSelectedItem().toString()),
                             "erfasst", abschlussdatum, lieferdatum);
-                    this.hauptFenster.setStatusMeldung("Erfolgreich");
-//                zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                    this.hauptFenster.setStatusMeldung(ERFOLGREICHEANMELDUNG);
+                zuruecksetzen();//Methode die bestimmte Eingabefelder leert
 
                 } else {
                     if (auftragsposition_jTable.getModel().getRowCount() == 0) {//Wenn nicht mindestens eine Auftragsposition zum Auftragskopf angelegt worden ist
@@ -1127,7 +1124,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             if (fehlendeEingabenAuftragsposition.isEmpty()) {
                 if (artikel.containsKey(Long.parseLong(materialnummer_jTextField.getText()))) {
                     artikelMenge = artikel.get(materialnummer_jTextField.getText());
-                    System.out.println("aaaaaaaaaaaaaa");
                     artikel.put(Long.parseLong(materialnummer_jTextField.getText()), artikelMenge);
                 } else {
                     //Pos anlegen
@@ -1142,7 +1138,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 gesamtAuftragswert += summenWertFuerPos;
                 auftragswert_jTextField.setText(String.valueOf(gesamtAuftragswert));
                 positionsZaehler++;
-                zuruecksetzen();
             } else {
                 int k = 2;
                 if (k == 2) {//Wenn nicht mindestens eine Auftragsposition zum Auftragskopf angelegt worden ist
@@ -1237,14 +1232,20 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      */
     @Override
     public void zuruecksetzen() {
+        //Variablen für den Auftragswert werden alle auf 0 gesetzt.
+        positionsZaehler = 0;
+        gesamtAuftragswert = 0.00;
+        summenWertFuerPos = 0.00;
+        einzelwert = 0.00;
+        
         //Eingabefelder erhalten einen leeren String
-//        positionsnummer_jTextField.setText("");
-//        materialnummer_jTextField.setText("");
-//        menge_jTextField.setText("");
-//        einzelwert_jTextField.setText("");
+        positionsnummer_jTextField.setText(String.valueOf(positionsZaehler));
+        materialnummer_jTextField.setText("");
+        menge_jTextField.setText("");
+        einzelwert_jTextField.setText("");
         //Eingabefelder für das Erfassungsdatum erhalten das heutige Datum
-        erfassungsdatum_jFormattedTextField.setText(format.format(heute));
-        erfassungsdatum_auftragsposition_jFormattedTextField.setText(format.format(heute));
+//        erfassungsdatum_jFormattedTextField.setText(format.format(heute));
+//        erfassungsdatum_auftragsposition_jFormattedTextField.setText(format.format(heute));
     }
 
     /**
