@@ -84,6 +84,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
 
     public User_anlegen useranlegen;
     public User_andernEinstieg useraendern;
+    
+    public Login logInFester;
 
     //Hilfsvariablen
     Dimension desktopSize;//Speichervariable für die Größe der DesktopPane.
@@ -105,10 +107,14 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     private final String GP_ANLEGEN = "Geschäftspartner anlegen";
     private final String GP_AENDERN = "Geschäftspartner ändern";
     private final String GP_ANZEIGEN = "Geschäftspartner anzeigen";
+    
+    
+    
+    
     /**
      * Creates new form Start
      */
-    public StartAdmin() {
+    public StartAdmin(Login login) {
         initComponents();
 
         // Try-Block
@@ -122,6 +128,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
 
         c = null; // Initialisierung der Hilfsvariable für die Components.
 
+        this.logInFester = login;
+        
         //Initialisierung der einzelnen Masken.
         hauptmenueadmin = new Hauptmenue_Admin(factory, this);
         hauptmenueadmin.setName("HauptmenüAdmin");
@@ -481,7 +489,9 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         int antwort = JOptionPane.showConfirmDialog(rootPane, Beenden_Meldung,
                 Beenden_Meldung_Typ, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (antwort == JOptionPane.YES_OPTION) {
-            System.exit(0);
+            this.logInFester.setVisible(true);
+            this.setVisible(false);
+//            System.exit(0);
         }
     }//GEN-LAST:event_jMI_LogoutActionPerformed
 
@@ -1013,7 +1023,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StartAdmin().setVisible(true);
+                new StartAdmin(new Login()).setVisible(true);
             }
         });
     }
