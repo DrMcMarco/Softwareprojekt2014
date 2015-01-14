@@ -298,6 +298,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         suchEingabe = suchfeld_jTextField.getText();
         Start framestart = null;
         StartAdmin framestartadmin = null;
+        String s = "";
         try {
             framestart = (Start) this.hauptFenster;
             try {
@@ -307,6 +308,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
                 framestart.detailSuche.setzeDaten(suchErgebnis);
                 framestart.detailSuche.setzeSucheingabe(suchEingabe);
                 framestart.detailSuche.setzeTabelle(suchKategorie);
+                framestart.detailSuche.setzeFenster(framestart.getComponent());
                 framestart.setFrame(framestart.detailSuche);
                 this.setVisible(false);
             } catch (Exception e) { //Fehlerbehandlung 

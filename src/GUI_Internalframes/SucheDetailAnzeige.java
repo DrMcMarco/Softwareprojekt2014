@@ -18,6 +18,7 @@ import Interfaces.InterfaceMainView;
 import JFrames.GUIFactory;
 import JFrames.Start;
 import JFrames.StartAdmin;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -40,15 +41,20 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
     private Collection<?> ergebnisDaten;
     
     /**
-     * Die getätigte Sucheingabe;
+     * Die getätigte Sucheingabe.
      */
     private String suchEingabe;
     
-    
+    /**
+     * Tabelle aus der die Ergebnisse geholt werden.
+     */
     private String tabelle;
+    
+    private Component comp;
     
     /**
      * Creates new form SucheDetailAnzeige
+     * @param mainView view
      */
     public SucheDetailAnzeige(InterfaceMainView mainView) {
         initComponents();
@@ -63,6 +69,10 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
     
     public void setzeSucheingabe(String eingabe) {
         this.Suchengabe_jTextArea1.setText(eingabe);
+    }
+    
+    public void setzeFenster(Component fenster) {
+        this.comp = fenster;
     }
     
     public void setzeTabelle(String tabelle) {
@@ -285,7 +295,6 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         jToolBar1.add(Zurueck_jButton1);
 
         Anzeige_jButton.setText("Anzeigen");
-        Anzeige_jButton.setEnabled(false);
         Anzeige_jButton.setFocusable(false);
         Anzeige_jButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         Anzeige_jButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -480,7 +489,36 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_Anzeige_jTable1MouseClicked
 
     private void Anzeige_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Anzeige_jButtonActionPerformed
-        // TODO add your handling code here:
+        Start framestart = null;
+        StartAdmin framestartadmin = null;
+        Artikel artikel = null;
+        ArrayList<Artikel> artikelListe = null;
+        try {
+            framestart = (Start) this.hauptFenster;
+            if (this.comp == null) {
+                switch (this.tabelle) {
+                    case "Auftragskopf" :
+                        framestart.auftragskopfanlegen.setStatusAnzeigen();
+                        framestart.setFrame(framestart.auftragskopfanlegen);
+                        break;
+                    case "Artikel" :
+                        artikelListe = new ArrayList<Artikel>((Collection<? extends Artikel>) this.ergebnisDaten);
+                        artikel = artikelListe.get(this.Anzeige_jTable1.getSelectedRow());
+                        framestart.artikelanlegen.setzeFormularInArtikelAnzeigen();
+                        framestart.artikelanlegen.gibjTF_Artikelnummer().setText(String.valueOf(artikel.getArtikelID()));
+                        framestart.artikelanlegen.gibjTF_Artikelname().setText(artikel.getArtikeltext());
+                        framestart.artikelanlegen.gibjTA_Artikelbeschreibung().setText(artikel.getBestelltext());
+                        framestart.artikelanlegen.gibjTF_BestandsmengeFREI().setText(String.valueOf(artikel.getFrei()));
+                        framestart.artikelanlegen.gibjTF_BestandsmengeRESERVIERT().setText(String.valueOf(artikel.getReserviert()));
+                        framestart.setFrame(framestart.artikelanlegen);
+                        break;
+                    
+                }
+            }
+        } catch (Exception e) { }
+        
+        this.setVisible(false);
+        
     }//GEN-LAST:event_Anzeige_jButtonActionPerformed
 
 
