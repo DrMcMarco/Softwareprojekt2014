@@ -286,6 +286,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.auftragsspositionaender.setTitle("Auftragsposition ändern");
+                    this.internal.auftragsspositionanzeigen.setStatusAender();
                     setComponentVisible(this.internal.auftragsspositionaender);
                 }
                 // Vergleich des Pfades mit String um "Auftragsposition Anzeigen" aufzurufen.
@@ -294,6 +295,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.auftragsspositionaender.setTitle("Auftragsposition anzeigen");
+                    this.internal.auftragsspositionanzeigen.setStatusAnzeigen();
                     setComponentVisible(this.internal.auftragsspositionaender);
                 }
                 // Vergleich des Pfades mit String um "Artikel Anlegen" aufzurufen.
