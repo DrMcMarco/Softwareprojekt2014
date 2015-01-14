@@ -27,13 +27,13 @@ import javax.swing.table.DefaultTableModel;
  * @author Luca Terrasi
  *
  *
- * 10.12.2014 Terrasi, Dokumentation und Logiküberarbetung 
- * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
- * 06.01.2015 Terrasi, Anwendungslogik für das ändern und anzeigen eines Auftragskopfs. 
- * 08.01.2015 Terrasi, Überarbeitung der Anwendungslogik für anzeigen/ändern Status und das
- * hinzufügen von weiteren Funktion.
- * 13.01.2015 Terrasi, Implementierung der DAO-Methoden zum anlegen eines Auftragskopfs 
- * und von Auftragspositionen. Desweiteren deren wiedergabe in ener Tabelle.
+ * 10.12.2014 Terrasi, Dokumentation und Logiküberarbetung 16.12.2014 Terrasi,
+ * Funktionsimplementierung im "Zurück"-Button 06.01.2015 Terrasi,
+ * Anwendungslogik für das ändern und anzeigen eines Auftragskopfs. 08.01.2015
+ * Terrasi, Überarbeitung der Anwendungslogik für anzeigen/ändern Status und das
+ * hinzufügen von weiteren Funktion. 13.01.2015 Terrasi, Implementierung der
+ * DAO-Methoden zum anlegen eines Auftragskopfs und von Auftragspositionen.
+ * Desweiteren deren wiedergabe in ener Tabelle.
  */
 public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
@@ -109,6 +109,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      */
     ArrayList<Component> fehlendeEingaben;// ArrayList für Eingabefelder des Auftragkopfes.
     ArrayList<Component> fehlendeEingabenAuftragsposition;// ArrayList für die Eingabefelder der Auftragsposition.
+    Double gesamtAuftragswert = 0.00;
+    Double einzelwert = 0.00;
+    Double summenWertFuerPos = 0.00;
 
     /*
      Variablen für Farben
@@ -117,11 +120,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     Color hintergrundfarbe = Color.WHITE;
 
     /*
-    Variable für die Erzeugung der Spaltenüberschriften der Auftragspositionstabelle.
-    */
-    final String[] tabelle = {"Positionsnummer", "Materialnummer", "Menge", "Einzelwert" ,"Erfassungsdatum"};
-    
-    
+     Variable für die Erzeugung der Spaltenüberschriften der Auftragspositionstabelle.
+     */
+    final String[] tabelle = {"Positionsnummer", "Materialnummer", "Menge", "Einzelwert", "Erfassungsdatum"};
+
     /**
      * Creates new form AuftragskopfAnlegen
      */
@@ -132,11 +134,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         this.dao = factory.getDAO();
         this.hauptFenster = mainView;
         artikel = new HashMap<>();
-        
-        
+
         heute = new Date();
-        lieferdatum = null;
-        abschlussdatum = null;
+        lieferdatum = heute;
+        abschlussdatum = heute;
 
         //Initialisierung der Speichervariblen
         listeVonZahlungskonditionen = new ArrayList<>();
@@ -155,7 +156,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         erfassungsdatum_auftragsposition_jFormattedTextField.setText(format.format(heute));
         lieferdatum_jFormattedTextField.setText(format.format(heute));
         abschlussdatum_jFormattedTextField.setText(format.format(heute));
-        
+
 
         /*
          Zuweisung von verschiedenen Documents 
@@ -178,16 +179,16 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         buttonGroup1.add(abgeschlossen_jRadioButton);
 
         status = erfasst_jRadioButton.getText();
-        
-        positionsnummer_jTextField.setText(positionsZaehler +"");
-        
+
+        positionsnummer_jTextField.setText(positionsZaehler + "");
+
         dtm = new DefaultTableModel();
         spaltenNamen = new Vector();
-                
-        for(String s: tabelle){
+
+        for (String s : tabelle) {
             spaltenNamen.addElement(s);
         }
-                
+
         dtm.setColumnIdentifiers(spaltenNamen);
         auftragsposition_jTable.setModel(dtm);
     }
@@ -856,6 +857,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 //                fehlermeldung_titel, fehlermeldungMaterial_text);
         try {
             GUIFactory.getDAO().getItem((Long.parseLong(materialnummer_jTextField.getText())));
+            einzelwert = (GUIFactory.getDAO().getItem(
+                    (Long.parseLong(materialnummer_jTextField.getText()))).getEinkaufswert());
+
+            einzelwert_jTextField.setText(String.valueOf(einzelwert));
 
         } catch (Exception e) {
             //Fehlermeldung das ein gültiger wert eingegeben werden soll.
@@ -901,7 +906,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             System.out.println(zahlungskondditionAusDatenbank.size() + "sssssssssss");
             System.out.println("hallo?");
             //ArrayList für die Combobox
-            zahlungskonditionFuerCombobox.clear(); 
+            zahlungskonditionFuerCombobox.clear();
             if (auftragsart.equals("Barauftrag")) {
                 zahlungskonditionFuerCombobox.add("Bitte auswählen");
 
@@ -910,7 +915,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 while (it.hasNext()) {
 //                        System.out.println(it.next().getAuftragsart());
 //                    if (it.next().getAuftragsart().equals(auftragsart)) {
-                        zahlungskonditionFuerCombobox.add(String.valueOf(it.next().getZahlungskonditionID()));
+                    zahlungskonditionFuerCombobox.add(String.valueOf(it.next().getZahlungskonditionID()));
 //                        System.out.println(String.valueOf(it.next().getZahlungskonditionID()));
 //                    }
                 }
@@ -933,16 +938,12 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         try {
             if (fehlendeEingaben.isEmpty()) {
                 if (fehlendeEingabenAuftragsposition.isEmpty()) {
-//                try{
                     typ = auftragsart_jComboBox.getSelectedItem().toString();
                     auftragsText = auftragstext_jTextArea.getText();
                     geschaeftspartnerID = Long.parseLong(geschaeftspartner_jTextField.getText());
-//                zahlungskonditionID = Long.parseLong()
                     //Auftragskopf und Position anlegen
 
-//                GUIFactory.getDAO().
                     //Überprüfung ob Gp vorhanden ist(Focuslost
-                    System.out.println(abschlussdatum);
                     GUIFactory.getDAO().erstelleAuftragskopf(typ, artikel,
                             auftragsText, geschaeftspartnerID,
                             Integer.parseInt(zahlungskonditionen_jComboBox.getSelectedItem().toString()),
@@ -950,12 +951,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                     this.hauptFenster.setStatusMeldung("Erfolgreich");
 //                zuruecksetzen();//Methode die bestimmte Eingabefelder leert
 
-//                }catch(ParseException e){
-//                    System.out.println(e.getMessage());
-//                }
                 } else {
-                    int k = 2;
-                    if (k == 2) {//Wenn nicht mindestens eine Auftragsposition zum Auftragskopf angelegt worden ist
+                    if (auftragsposition_jTable.getModel().getRowCount() == 0) {//Wenn nicht mindestens eine Auftragsposition zum Auftragskopf angelegt worden ist
                         // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben getätigt worden sind
                         fehlEingabenMarkierung(fehlendeEingabenAuftragsposition,
                                 fehlermeldung_unvollstaendig_titel,
@@ -1122,27 +1119,29 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      * @param evt
      */
     private void NeuePosition_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NeuePosition_jButtonActionPerformed
+
+        Integer artikelMenge = 0;
         //Aufruf der Schnittstellenmethode um auf Vollständigkeit der Eingaben zu prüfen.
         ueberpruefen();
         if (fehlendeEingaben.isEmpty()) {
             if (fehlendeEingabenAuftragsposition.isEmpty()) {
-                //Pos anlegen
-                artikel.put(Long.parseLong(materialnummer_jTextField.getText()), Integer.parseInt(menge_jTextField.getText()));
-                String[][] pos ={};
-                 zeilen = new Vector();
-//                
-//                DefaultTableModel dtm = new DefaultTableModel();
-//                Vector spaltenNamen = new Vector();
-//                
-                for(int i = 0; i < artikel.size(); i++){
-//                    String[][] pos ={artikel.};    
-                    zeilen.add(artikel.get(i));
-                    zeilen.addElement(artikel.get(i));
-                    }
-                    dtm.addRow(zeilen);
-                    auftragsposition_jTable.setModel(dtm);
-//                dtm.setColumnIdentifiers(spaltenNamen);
-//                auftragsposition_jTable.setModel(dtm);
+                if (artikel.containsKey(Long.parseLong(materialnummer_jTextField.getText()))) {
+                    artikelMenge = artikel.get(materialnummer_jTextField.getText());
+                    System.out.println("aaaaaaaaaaaaaa");
+                    artikel.put(Long.parseLong(materialnummer_jTextField.getText()), artikelMenge);
+                } else {
+                    //Pos anlegen
+                    artikel.put(Long.parseLong(materialnummer_jTextField.getText()), Integer.parseInt(menge_jTextField.getText()));
+                }
+                summenWertFuerPos = einzelwert * Integer.parseInt(menge_jTextField.getText());
+
+                dtm.addRow(new Object[]{positionsZaehler, materialnummer_jTextField.getText(),
+                    menge_jTextField.getText(), summenWertFuerPos, erfassungsdatum_auftragsposition_jFormattedTextField.getText()});
+                auftragsposition_jTable.setModel(dtm);
+
+                gesamtAuftragswert += summenWertFuerPos;
+                auftragswert_jTextField.setText(String.valueOf(gesamtAuftragswert));
+                positionsZaehler++;
                 zuruecksetzen();
             } else {
                 int k = 2;
