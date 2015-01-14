@@ -189,6 +189,11 @@ public class Anmeldung extends javax.swing.JInternalFrame {
             // Daten von der DB.
             benutzer = GUIFactory.getDAO().doLogin(benutzername_jTextField.getText()
                     , new String(passwort_jPasswordField.getPassword()));
+            
+            if (benutzer == null) {
+                throw new ApplicationException("Fehler",
+                        "Das Passwort ist falsch!");
+            }
 
             if (benutzer.isIstAdmin()) {//Überprüfung ob der user ein Admin ist
                 adminStart = new StartAdmin(this.login);// Initialisierung der Adminansicht.
