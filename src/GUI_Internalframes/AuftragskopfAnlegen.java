@@ -182,7 +182,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 
         status = erfasst_jRadioButton.getText();
 
-        positionsnummer_jTextField.setText(positionsZaehler + "");
 
         dtm = new DefaultTableModel();
         spaltenNamen = new Vector();
@@ -312,7 +311,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         auftragstext_jLabel.setLabelFor(auftragstext_jTextArea);
         auftragstext_jLabel.setText("Auftragstext :");
 
-        auftragskopfID_jTextField.setText("jTextField2");
         auftragskopfID_jTextField.setEnabled(false);
 
         erfassungsdatum_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N

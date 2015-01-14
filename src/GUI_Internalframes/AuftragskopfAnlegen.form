@@ -388,7 +388,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="auftragskopfID_jTextField">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField2"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
