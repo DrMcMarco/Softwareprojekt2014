@@ -267,6 +267,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.auftragskopfanlegen.setTitle("Auftragskopf anlegen");
+                    this.internal.auftragskopfanlegen.setEnabled(true);
                     setComponentVisible(this.internal.auftragskopfanlegen);
                 }
                 // Vergleich des Pfades mit String um "Auftragskopf Ändern" aufzurufen.
