@@ -69,7 +69,10 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
 
     public AuftragspositionAendern auftragsspositionaender;
     public AuftragspositionAnzeigen auftragsspositionanzeigen;
-
+    
+    public AllgemeineSuche suche;
+    public SucheDetailAnzeige detailSuche;
+    
     public ArtikelAnlegen artikelanlegen;
     public ArtikelAEndernEinstieg artikelaendern;
 
@@ -122,7 +125,10 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         //Initialisierung der einzelnen Masken.
         hauptmenueadmin = new Hauptmenue_Admin(factory, this);
         hauptmenueadmin.setName("HauptmenüAdmin");
-
+        
+        this.suche = new AllgemeineSuche(factory, this);
+        detailSuche = new SucheDetailAnzeige(this);
+        
         auftragskopfanlegen = new AuftragskopfAnlegen(factory, this);
         auftragskopfaendern = new AuftragskopfAendern(factory, auftragskopfanlegen,
          this);
@@ -155,6 +161,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         desktopPane.add(zahlungskonditionaendern);
         desktopPane.add(useranlegen);
         desktopPane.add(useraendern);
+        desktopPane.add(suche);
+        desktopPane.add(detailSuche);
 
         //Frames werden nicht sichtbar dargestellt. 
         auftragskopfaendern.setVisible(false);
@@ -169,6 +177,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         zahlungskonditionaendern.setVisible(false);
         useranlegen.setVisible(false);
         useraendern.setVisible(false);
+        suche.setVisible(false);
+        detailSuche.setVisible(false);
 
     }
 

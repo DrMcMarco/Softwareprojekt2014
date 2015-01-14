@@ -23,89 +23,82 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jTextField1" alignment="0" max="32767" attributes="0"/>
-          <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
           <Component id="Button_jToolBar" alignment="1" max="32767" attributes="0"/>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="Zusatzoption_jLabel" alignment="0" max="32767" attributes="0"/>
-                  <Component id="Suche_jLabel" alignment="0" max="32767" attributes="0"/>
-                  <Component id="Auswahl_jLabel" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jLabel1" max="32767" attributes="0"/>
-                  <Component id="jLabel2" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="AbgeschlossenjCheckBox" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Component id="aufsteigend_jRadioButton" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Component id="absteigend_jRadioButton" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="Auswahl_jLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="Suche_jLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="suchfeld_jTextField" alignment="0" min="-2" pref="275" max="-2" attributes="0"/>
-                      <Component id="Auswahl_jComboBox" alignment="0" min="-2" pref="275" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" alignment="0" min="-2" pref="275" max="-2" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="Erfasst_jCheckBox" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Component id="Freigegeben_jCheckBox" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="Auswahl_jComboBox" min="-2" pref="275" max="-2" attributes="0"/>
+                          <Component id="jScrollPane3" min="-2" pref="449" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="absteigend_jRadioButton" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
+                              <Component id="aufsteigend_jRadioButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
-                  <Component id="jScrollPane1" min="-2" pref="275" max="-2" attributes="0"/>
+                  <Component id="jTextField1" alignment="0" min="-2" pref="723" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="Button_jToolBar" min="-2" pref="25" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jSeparator1" min="-2" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                      <Component id="Auswahl_jLabel" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                      <Component id="Auswahl_jComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="suchfeld_jTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="Suche_jLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="aufsteigend_jRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="absteigend_jRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jScrollPane2" min="-2" pref="91" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="jScrollPane1" pref="191" max="32767" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="Erfasst_jCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="Freigegeben_jCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="Zusatzoption_jLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="Button_jToolBar" min="-2" pref="25" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="Auswahl_jLabel" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                                  <Component id="Auswahl_jComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jScrollPane3" min="-2" pref="66" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="aufsteigend_jRadioButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="absteigend_jRadioButton" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="AbgeschlossenjCheckBox" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
-                      <Component id="jTextField1" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
+                      <Component id="Suche_jLabel" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
+                  <Component id="jScrollPane1" pref="266" max="32767" attributes="0"/>
               </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jTextField1" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -122,7 +115,6 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="Auswaehlen_jButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Ausw&#xe4;hlen"/>
             <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalAlignment" type="int" value="2"/>
@@ -132,7 +124,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="Anzeige_jButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Anzeigen"/>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
@@ -165,7 +157,7 @@
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="Auswahl_jComboBox"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Auswahl der Suche :"/>
+        <Property name="text" type="java.lang.String" value="Sucheingabe:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JComboBox" name="Auswahl_jComboBox">
@@ -198,88 +190,21 @@
         <Property name="text" type="java.lang.String" value="Suche :"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="suchfeld_jTextField">
-      <Properties>
-        <Property name="horizontalAlignment" type="int" value="2"/>
-        <Property name="text" type="java.lang.String" value="Suchfeld"/>
-      </Properties>
-      <Events>
-        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="suchfeld_jTextFieldFocusGained"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JSeparator" name="jSeparator1">
-      <Properties>
-        <Property name="enabled" type="boolean" value="false"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="Zusatzoption_jLabel">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Tahoma" size="12" style="0"/>
-        </Property>
-        <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-          <ComponentRef name="Erfasst_jCheckBox"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Zusatzoption :"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JCheckBox" name="Erfasst_jCheckBox">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Tahoma" size="12" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Erfasst"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JCheckBox" name="Freigegeben_jCheckBox">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Tahoma" size="12" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Freigegeben"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JCheckBox" name="AbgeschlossenjCheckBox">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Tahoma" size="12" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Abgeschlossen"/>
-      </Properties>
-    </Component>
-    <Container class="javax.swing.JScrollPane" name="jScrollPane2">
-      <AuxValues>
-        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-      </AuxValues>
-
-      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-      <SubComponents>
-        <Component class="javax.swing.JTable" name="jTable1">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="12" style="0"/>
-            </Property>
-            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="4" rowCount="4">
-                <Column editable="true" title="Title 1" type="java.lang.Object"/>
-                <Column editable="true" title="Title 2" type="java.lang.Object"/>
-                <Column editable="true" title="Title 3" type="java.lang.Object"/>
-                <Column editable="true" title="Title 4" type="java.lang.Object"/>
-              </Table>
-            </Property>
-          </Properties>
-        </Component>
-      </SubComponents>
-    </Container>
     <Component class="javax.swing.JRadioButton" name="aufsteigend_jRadioButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Auftsteigend"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="aufsteigend_jRadioButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JRadioButton" name="absteigend_jRadioButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Absteigend"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="absteigend_jRadioButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
@@ -319,5 +244,21 @@
         <Property name="text" type="java.lang.String" value="Legende :"/>
       </Properties>
     </Component>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane3">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTextArea" name="suchfeld_jTextField">
+          <Properties>
+            <Property name="columns" type="int" value="20"/>
+            <Property name="rows" type="int" value="5"/>
+            <Property name="name" type="java.lang.String" value="suchfeld_jTextField" noResource="true"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
   </SubComponents>
 </Form>

@@ -8,22 +8,20 @@ package GUI_Internalframes;
 import DAO.ApplicationException;
 import DTO.*;
 import Interfaces.*;
+import Interfaces.InterfaceJTreeFunction;
 import JFrames.GUIFactory;
+import JFrames.Start;
 import java.awt.Color;
 import java.awt.Component;
 import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.Collection;
-import javax.swing.JTextField;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Vector;
-import javax.swing.JScrollPane;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import org.apache.derby.client.am.ResultSet;
-import org.apache.openjpa.persistence.query.SquareRootExpression;
-import Interfaces.InterfaceJTreeFunction;
 
 /**
  *
@@ -38,8 +36,8 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
     private String suchKategorie;//Variable für den String aus der Combobox für Suchkategorien.
     private String suchEingabe;//Varible die die Sucheingabe speichert.
     private Collection<?> suchErgebnis; // Collection in der die gefunden Ergebnisse der Suche gespeichert werden.
-
-    private  InterfaceMainView hauptFenster;
+    private String sortierung;
+    private  Start hauptFenster;
     /*
      Variablen die für die Suchkategorien 
      */
@@ -51,6 +49,8 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
     private final String status = "Status";
     private final String geschaeftspartner = "Geschäftspartner";
     private final String zahlungskondition = "Zahlungskondition";
+    private static final String ABSTEIGEND = "absteigend";
+    private static final String AUFSTEIGEND = "aufsteigend";
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
@@ -65,7 +65,10 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
     public AllgemeineSuche(GUIFactory factory, InterfaceMainView mainView) {
         initComponents();
         suchErgebnis = new ArrayList<>();//Initialisierung der Collection.
-        this.hauptFenster = mainView;
+        this.hauptFenster = (Start) mainView;
+        this.aufsteigend_jRadioButton.setSelected(true);
+        this.absteigend_jRadioButton.setSelected(false);
+        this.sortierung = AUFSTEIGEND;
 //        this.hauptFenster.setFrame();
         // Variable erhält Wert aus der Combobox mit den Suchkategorien.
         suchKategorie = Auswahl_jComboBox.getSelectedItem().toString();
@@ -89,20 +92,14 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         Auswahl_jLabel = new javax.swing.JLabel();
         Auswahl_jComboBox = new javax.swing.JComboBox();
         Suche_jLabel = new javax.swing.JLabel();
-        suchfeld_jTextField = new javax.swing.JTextField();
-        jSeparator1 = new javax.swing.JSeparator();
-        Zusatzoption_jLabel = new javax.swing.JLabel();
-        Erfasst_jCheckBox = new javax.swing.JCheckBox();
-        Freigegeben_jCheckBox = new javax.swing.JCheckBox();
-        AbgeschlossenjCheckBox = new javax.swing.JCheckBox();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         aufsteigend_jRadioButton = new javax.swing.JRadioButton();
         absteigend_jRadioButton = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         legende_jTextArea = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        suchfeld_jTextField = new javax.swing.JTextArea();
 
         setTitle("Suchen");
         setVisible(true);
@@ -111,7 +108,6 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         Button_jToolBar.setRollover(true);
         Button_jToolBar.setEnabled(false);
 
-        Auswaehlen_jButton.setText("Auswählen");
         Auswaehlen_jButton.setEnabled(false);
         Auswaehlen_jButton.setFocusable(false);
         Auswaehlen_jButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -119,7 +115,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         Auswaehlen_jButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         Button_jToolBar.add(Auswaehlen_jButton);
 
-        Anzeige_jButton.setText("Anzeigen");
+        Anzeige_jButton.setEnabled(false);
         Anzeige_jButton.setFocusable(false);
         Anzeige_jButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         Anzeige_jButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -141,7 +137,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
 
         Auswahl_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         Auswahl_jLabel.setLabelFor(Auswahl_jComboBox);
-        Auswahl_jLabel.setText("Auswahl der Suche :");
+        Auswahl_jLabel.setText("Sucheingabe:");
 
         Auswahl_jComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Auftragskopf", "Auftragsposition", "Artikel", "Artikelkategorie", "Geschäftspartner", "Zahlungskondition", "Anschrift", "Status" }));
         Auswahl_jComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -154,46 +150,19 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         Suche_jLabel.setLabelFor(suchfeld_jTextField);
         Suche_jLabel.setText("Suche :");
 
-        suchfeld_jTextField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        suchfeld_jTextField.setText("Suchfeld");
-        suchfeld_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                suchfeld_jTextFieldFocusGained(evt);
+        aufsteigend_jRadioButton.setText("Auftsteigend");
+        aufsteigend_jRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aufsteigend_jRadioButtonActionPerformed(evt);
             }
         });
 
-        jSeparator1.setEnabled(false);
-
-        Zusatzoption_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        Zusatzoption_jLabel.setLabelFor(Erfasst_jCheckBox);
-        Zusatzoption_jLabel.setText("Zusatzoption :");
-
-        Erfasst_jCheckBox.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        Erfasst_jCheckBox.setText("Erfasst");
-
-        Freigegeben_jCheckBox.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        Freigegeben_jCheckBox.setText("Freigegeben");
-
-        AbgeschlossenjCheckBox.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        AbgeschlossenjCheckBox.setText("Abgeschlossen");
-
-        jTable1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane2.setViewportView(jTable1);
-
-        aufsteigend_jRadioButton.setText("Auftsteigend");
-
         absteigend_jRadioButton.setText("Absteigend");
+        absteigend_jRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                absteigend_jRadioButtonActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel1.setText("Sortierung :");
@@ -209,92 +178,77 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("Legende :");
 
+        suchfeld_jTextField.setColumns(20);
+        suchfeld_jTextField.setRows(5);
+        suchfeld_jTextField.setName("suchfeld_jTextField"); // NOI18N
+        jScrollPane3.setViewportView(suchfeld_jTextField);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTextField1)
-            .addComponent(jSeparator1)
             .addComponent(Button_jToolBar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(51, 51, 51)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Zusatzoption_jLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Suche_jLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Auswahl_jLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(AbgeschlossenjCheckBox)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(aufsteigend_jRadioButton)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(absteigend_jRadioButton))
-                        .addComponent(suchfeld_jTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(Auswahl_jComboBox, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(Erfasst_jCheckBox)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(Freigegeben_jCheckBox)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(91, 91, 91))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Auswahl_jLabel)
+                            .addComponent(Suche_jLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Auswahl_jComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(absteigend_jRadioButton)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(aufsteigend_jRadioButton, javax.swing.GroupLayout.Alignment.LEADING))))
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 723, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addGap(28, 28, 28)
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(Button_jToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(Auswahl_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(Auswahl_jComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(suchfeld_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Suche_jLabel))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(aufsteigend_jRadioButton)
-                    .addComponent(absteigend_jRadioButton)
-                    .addComponent(jLabel1))
+                        .addComponent(Button_jToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(Auswahl_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Auswahl_jComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(aufsteigend_jRadioButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(absteigend_jRadioButton))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(74, 74, 74)
+                        .addComponent(Suche_jLabel)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Erfasst_jCheckBox)
-                            .addComponent(Freigegeben_jCheckBox)
-                            .addComponent(Zusatzoption_jLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(AbgeschlossenjCheckBox)
-                        .addGap(50, 50, 50)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    /*----------------------------------------------------------*/
-    /* Datum Name Was */
-    /* 10.12.2014 Terrasi angelegt */
-    /*----------------------------------------------------------*/
-    /*
-     Beim wählen des Eingabefeldes, wird alles selektiert.
-     */
-    private void suchfeld_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_suchfeld_jTextFieldFocusGained
-        suchfeld_jTextField.selectAll();
-    }//GEN-LAST:event_suchfeld_jTextFieldFocusGained
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
@@ -328,116 +282,85 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
     @SuppressWarnings("empty-statement")
     private void sucheStarten_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sucheStarten_jButtonActionPerformed
         suchEingabe = suchfeld_jTextField.getText();
-//        suchErgebnis.clear();//Leeren der Collection für neue Suchergebnisse.
-//        String[][] info  ;
+        
+
         try {
-            if (!(suchErgebnis.isEmpty())) {
-                suchErgebnis.clear();//Leeren der Collection für neue Suchergebnisse.
-            }
-            suchErgebnis.clear();//Leeren der Collection für neue Suchergebnisse.
-            suchErgebnis = GUIFactory.getDAO().suchAbfrage(suchEingabe, suchKategorie);
-            if (suchKategorie.equals(auftragskopf)) {
-                for (Object o : suchErgebnis) {
-                    Auftragskopf ak = (Auftragskopf) o;
-                }
-            } else if (suchKategorie.equals(auftragsposition)) {
-                for (Object o : suchErgebnis) {
-                    Auftragsposition ak = (Auftragsposition) o;
-
-                }
-            } else if (suchKategorie.equals(artikel)) {
-                for (Object o : suchErgebnis) {
-                    Artikel ak = (Artikel) o;
-                }
-            } else if (suchKategorie.equals(artikelkategorie)) {
-                for (Object o : suchErgebnis) {
-                    Artikelkategorie ak = (Artikelkategorie) o;
-                    String[] tabelle = {"Kategorie-ID", "Beschreibung", "Kategoriename", "Kommentar"};
-                    String[][] info = {{String.valueOf(ak.getKategorieID())}
-                            , {ak.getBeschreibung()}, {ak.getKategoriename()}, {ak.getKommentar()}};
-                    
-                    System.out.println(String.valueOf(ak.getKategorieID()));
-                    System.out.println(ak.getBeschreibung());
-                    System.out.println(ak.getKategoriename());
-//                    ResultSet rs = GUIFactory.getDAO()..;
-//                    ResultSetMetaData rsmetadata 0
-                    
-                    DefaultTableModel dtm = new DefaultTableModel();
-                    Vector spaltenNamen = new Vector();
-                    Vector zeilen = new Vector();
-                    
-                    for(String s: tabelle){
-                        spaltenNamen.addElement(s);
-                    }
-                    
-//                    System.out.println(info);
-                    for(int i = 0; i < info.length; i++){
-                        zeilen.addElement(info[i].toString());
-                    }
-                    dtm.setColumnIdentifiers(spaltenNamen);
-                    dtm.addRow(zeilen);
-                    jTable1.setModel(dtm);
-                    
-                }
-            } else if (suchKategorie.equals(status)) {
-                for (Object o : suchErgebnis) {
-                    Status ak = (Status) o;
-                }
-            } else if (suchKategorie.equals(geschaeftspartner)) {
-                for (Object o : suchErgebnis) {
-                    Geschaeftspartner ak = (Geschaeftspartner) o;
-                }
-            } else if (suchKategorie.equals(zahlungskondition)) {
-                for (Object o : suchErgebnis) {
-                    Zahlungskondition ak = (Zahlungskondition) o;
-                }
-
-            }
-        } catch (ApplicationException | NullPointerException | ClassCastException e) {//Fehlerbehandlung 
-            //einer ApplikationException oder einer NullpointerException
-
-        System.out.println(e.getMessage());//Ausgabe einer Fehlermeldung
+//            if (!(suchErgebnis.isEmpty())) {
+//                suchErgebnis.clear();//Leeren der Collection für neue Suchergebnisse.
+//            }
+            
+            suchErgebnis = GUIFactory.getDAO().suchAbfrage(suchEingabe, suchKategorie, this.sortierung);
+            this.hauptFenster.detailSuche.setzeDaten(suchErgebnis);
+            this.hauptFenster.detailSuche.setzeSucheingabe(suchEingabe);
+            this.hauptFenster.detailSuche.setzeTabelle(suchKategorie);
+            this.hauptFenster.setFrame(this.hauptFenster.detailSuche);
+            this.setVisible(false);
+        } catch (Exception e) { //Fehlerbehandlung 
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Fehler", 
+                    JOptionPane.WARNING_MESSAGE);
         }
-    
+        
     }//GEN-LAST:event_sucheStarten_jButtonActionPerformed
 
-/*----------------------------------------------------------*/
-/* Datum Name Was */
-/* 10.12.2014 Terrasi angelegt */
-/* 12.12.2015 Terrasi, Implementierung der Logik.*/
-/*----------------------------------------------------------*/
-/**
- * Methode der man eine Suchkategorie übergibt und die passenden Suchparameter
- * herauffindet und diese als String wieder zurückgibt.
- *
- * @param suchkategorie, drie übergebene Suchkategorie
- * @return String mit den aus der Datenbank gespeicherten Suchparametern.
- */
-public final String gibLegendeAusDB(String suchkategorie){
-        String parameter = "";//Methodenvariable die die Suchparameter speichert.
+    private void aufsteigend_jRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aufsteigend_jRadioButtonActionPerformed
+        this.absteigend_jRadioButton.setSelected(false);
+        this.sortierung = AUFSTEIGEND;
+    }//GEN-LAST:event_aufsteigend_jRadioButtonActionPerformed
+
+    private void absteigend_jRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_absteigend_jRadioButtonActionPerformed
+        this.aufsteigend_jRadioButton.setSelected(false);
+        this.sortierung = ABSTEIGEND;
+    }//GEN-LAST:event_absteigend_jRadioButtonActionPerformed
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt */
+    /* 12.12.2015 Terrasi, Implementierung der Logik.*/
+    /*----------------------------------------------------------*/
+    /**
+     * Methode der man eine Suchkategorie übergibt und 
+     * die passenden Suchparameter
+     * herauffindet und diese als String wieder zurückgibt.
+     *
+     * @param suchkategorie, drie übergebene Suchkategorie
+     * @return String mit den aus der Datenbank gespeicherten Suchparametern.
+     */
+    public final String gibLegendeAusDB(String suchkategorie) {
+        //Methodenvariable die die Suchparameter speichert.
+        String parameter = "";
         String ausgabelegende = "";// Variable die den Text enthält,
+        int count = 0;
         // der als Legende in der Maske ausgegeben wird.
         
-        
-        try{//Try-Block falls eine ApplicationExeption auftritt.
+        //Try-Block falls eine ApplicationExeption auftritt.
+        try {
             
             //Erzeugung eines Iterator um alle Werte der Collection zu erhalten.
             Iterator<String> it = GUIFactory.getDAO()
                     .gibSuchAttribute(suchkategorie).iterator();
-            while(it.hasNext()){//Schleife für das durchinterieren.
-                parameter += it.next() +", ";//Übergabe jedes einzelnen Wertes.
+            while (it.hasNext()) { //Schleife für das durchinterieren.
+                //Übergabe jedes einzelnen Wertes.
+                parameter += it.next() + ", ";
+                if (count == 5) {
+                    parameter += "\n";
+                    count = 0;
+                }
+                count++;
             }
-            // Speichervariabel erhält Text für die Legende und die passenden Suchparameter.
+            // Speichervariabel erhält Text für die Legende und 
+            //die passenden Suchparameter.
             ausgabelegende = "Suchbefehl für " + suchKategorie +":\n\n"
-                    + parameter + "\n\n"
-                    + "Operatoren: =>  <=  <>  =  ?  <  >  *  \n\n"
-                    + "Sortiert wird nach der ersten Spalte der Tabelle.\n\n"
-                    + "Alle Suchabfragen sind durch ' ; ' zu trenne.";
+                    + parameter + "\n"
+                    + "Vergleichsoperatoren: =>  <=  <>  =  <  >  \n\n"
+                    + "Wildcards: ? * für die Textsuche. \n\n"
+                    + "Sortiert wird nach dem ersten Literal oben im Suchfeld.\n\n"
+                    + "Alle Suchabfragen sind durch  ;  zu trennen.";
         
-        }catch(ApplicationException | NullPointerException e){//Fehlerbehandlung 
+        } catch(ApplicationException | NullPointerException e) {
+            //Fehlerbehandlung 
             //einer ApplikationException oder einer NullpointerException
             
-            System.out.println(e.getMessage());//Ausgabe einer Fehlermeldung
+            System.out.println(e.getMessage()); //Ausgabe einer Fehlermeldung
         }
         
         return ausgabelegende;//Rückgabe eines Strings.
@@ -511,27 +434,21 @@ public final String gibLegendeAusDB(String suchkategorie){
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox AbgeschlossenjCheckBox;
     private javax.swing.JButton Anzeige_jButton;
     private javax.swing.JButton Auswaehlen_jButton;
     private javax.swing.JComboBox Auswahl_jComboBox;
     private javax.swing.JLabel Auswahl_jLabel;
     private javax.swing.JToolBar Button_jToolBar;
-    private javax.swing.JCheckBox Erfasst_jCheckBox;
-    private javax.swing.JCheckBox Freigegeben_jCheckBox;
     private javax.swing.JLabel Suche_jLabel;
-    private javax.swing.JLabel Zusatzoption_jLabel;
     private javax.swing.JRadioButton absteigend_jRadioButton;
     private javax.swing.JRadioButton aufsteigend_jRadioButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextArea legende_jTextArea;
     private javax.swing.JButton sucheStarten_jButton;
-    private javax.swing.JTextField suchfeld_jTextField;
+    private javax.swing.JTextArea suchfeld_jTextField;
     // End of variables declaration//GEN-END:variables
 }

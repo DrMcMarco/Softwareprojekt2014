@@ -69,13 +69,15 @@ public class DataAccessObject {
      * Hier wird die Klasse Parser benutzt.
      * @param eingabe Sucheingabe 
      * @param tabelle Tabelle in der gesucht werden soll
+     * @param sortierung Absteigend oder Aufsteigende sortierung.
      * @return gibt eine Collection<?> zurück mit allen gefunden Datensätzen
      * @throws DAO.ApplicationException Die Exception wird durchgereicht
      * 
      * TO-DO: Anpassung wenn nach einem String gesucht wird müssen hochkommas
      * hinzugefügt werden
      */
-    public Collection<?> suchAbfrage(String eingabe, String tabelle) 
+    public Collection<?> suchAbfrage(String eingabe, String tabelle, 
+            String sortierung) 
         throws ApplicationException {
         //Datendeklaration
         String sqlAbfrage = null;
@@ -84,7 +86,7 @@ public class DataAccessObject {
         //Erstelle den Parser und übergebe die Suchattribute.
         Parser parser = new Parser(this.gibAlleSuchAttribute());
         //Parse den Suchausdruck und hole das SQL-Statement
-        sqlAbfrage = parser.parse(eingabe, tabelle);
+        sqlAbfrage = parser.parse(eingabe, tabelle, sortierung);
         //Prüfe, ob das Parsen erfolgreich war.
         if (sqlAbfrage == null) {
             throw new ApplicationException(FEHLER_TITEL, 
@@ -109,7 +111,7 @@ public class DataAccessObject {
 
         } catch (Exception e) {
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Die Daten konnten nicht gefunden werden!" + e.getMessage());
+                    "Die Daten konnten nicht gefunden werden!");
         }
         
 
@@ -1065,7 +1067,8 @@ public class DataAccessObject {
             prmtr = this.em.createQuery(sqlAbfrage, 
                     Parameterdaten.class).getSingleResult();
         } catch (PersistenceException e) {
-            throw new ApplicationException(FEHLER_TITEL, "");
+            throw new ApplicationException(FEHLER_TITEL, "Das Suchkürzel ist "
+                    + "nicht auf diese Tabelle (" + tabelle + ") anwendbar.");
         }
         //Prüfe, ob ein Datensatz gefunden wurde.
         if (prmtr == null) {

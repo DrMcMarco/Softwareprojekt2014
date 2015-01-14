@@ -160,6 +160,11 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
         jToolBar1.add(jB_Loeschen);
 
         jB_Suchen.setText("Suchen");
+        jB_Suchen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_SuchenActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_Suchen);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -219,6 +224,13 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
             System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_hauptmenueAdmin_TreeMouseClicked
+
+    private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
+
+        internal.setFrame(this.internal.suche);
+        //this.internal.suche.setVisible(true);
+        //this.setVisible(false);
+    }//GEN-LAST:event_jB_SuchenActionPerformed
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */

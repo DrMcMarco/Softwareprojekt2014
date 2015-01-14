@@ -139,13 +139,14 @@ public class Parser {
      * Parst den übergebenen String und gibt die DB-Attributnamen zurück.
      * @param eingabe Sucheingabe
      * @param tabelle Tabelle in der gesucht werden soll (Hier nur null Prüfung)
+     * @param sortierung String nach dem Sortiert werden soll.
      * @return Es wird eine Hashmap zurückgegeben mit dem Inhalt der 
      *         DB-Attributnamen zur weiteren Generierung der SQL-Statements
      * @throws ApplicationException Sollten Eingaben ungültig sein,
      *         so wird eine AE geworfen.
      * 
      */
-    public String parse(String eingabe, String tabelle) 
+    public String parse(String eingabe, String tabelle, String sortierung) 
         throws ApplicationException {
         //Daten Deklaration
         String[] praefixListe = null;
@@ -256,14 +257,32 @@ public class Parser {
                 sqlAbfrage += " AND ";
             }
         }
+        
+        if (eingabe.equals(LEER)) {
+            sqlAbfrage += "" + tabelle + "." + LKZ;
+            sortierung = LEER;
+        } else {
+            sqlAbfrage += " AND " + tabelle + "." + LKZ;
+        }
+        
         //Es wird das komplette SQL Statement hier zusammengesetzt
         //es wird hier noch eine UND Verknüpfung zum LKZ gemacht, da nur 
         //Ergebnisse angezeigt werden soll, die nicht als gelöscht vorgemerkt 
         //sind. desweiteren wird noch die Sortierung nach dem Literal, welches
         //An erster Stelle in der Suchabfrage steht, angehängt.
         //DESC ASC muss geklärt werden
-        sqlAbfrage += " AND " + tabelle + "." + LKZ + SORTIEREN 
-                + this.sortierAttribut + ABSTEIGEND;
+        switch (sortierung) {
+            case "absteigend" :
+                sqlAbfrage += SORTIEREN + this.sortierAttribut + ABSTEIGEND;
+                break;
+            case "aufsteigend" :
+                sqlAbfrage += SORTIEREN + this.sortierAttribut + AUFSTEIGEND;
+                break;
+            default :
+                sqlAbfrage += LEER;
+                break;
+        }
+
         return sqlAbfrage;
     }
     /*----------------------------------------------------------*/
@@ -515,7 +534,7 @@ public class Parser {
             //Prüfe ob der eingegebene Wert dem Datentyp-Format entspricht.
             //Wichtig ist, dass int und long ok sind!
             if (!typ.equals(datentyp) && (!typ.equals("Integer") 
-                    && !datentyp.equals("Long"))) {
+                    || !datentyp.equals("Long"))) {
                 //Generiere Fehlermeldung
                 switch (datentyp) {
                     //Es wurde eine natürliche Zahl erwartet
@@ -530,6 +549,10 @@ public class Parser {
                     case "String":
                         typ = "Der Wert muss ein Text sein!";
                         break;
+                    //Es wurde eine Zahl erwartet    
+                    case "Long":
+                        typ = "Der Wert muss eine Zahl sein!";
+                        break;
                     //Es wurde ein unbestimmter Typ eingegeben    
                     default:
                         typ = "Der Typ konnte nicht ermittelt werden!";
@@ -538,6 +561,7 @@ public class Parser {
                 throw new ApplicationException(FEHLER_TITEL, 
                         "Die Ergebniseingabe: " + "" + dbWert 
                                 + " ist ungültig! \n " + typ);
+                
             }
         }
 
@@ -582,21 +606,21 @@ public class Parser {
         return ergebnis;
     }
     
-    public static void main(String[] args) {
-        try {
-            GUIFactory gui = new GUIFactory();
-            
-            Collection<?>  a = GUIFactory.getDAO().suchAbfrage(
-                    "kategorienr = 1", "ARTIKELKATEGORIE");
-            
-            for (Object o : a) {
-                System.out.println(o.toString());
-//                Geschaeftspartner gp = (Geschaeftspartner) o;
-//                System.out.println(gp.getLieferadresse().getName());
-            }
-        } catch (ApplicationException ex) {
-            //Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println(ex.getMessage());
-        }
-    }
+//    public static void main(String[] args) {
+//        try {
+//            GUIFactory gui = new GUIFactory();
+//            
+//            Collection<?>  a = GUIFactory.getDAO().suchAbfrage(
+//                    "kategorienr = 1", "ARTIKELKATEGORIE");
+//            
+//            for (Object o : a) {
+//                System.out.println(o.toString());
+////                Geschaeftspartner gp = (Geschaeftspartner) o;
+////                System.out.println(gp.getLieferadresse().getName());
+//            }
+//        } catch (ApplicationException ex) {
+//            //Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
+//            System.out.println(ex.getMessage());
+//        }
+//    }
 }

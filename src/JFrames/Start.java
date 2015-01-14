@@ -11,8 +11,8 @@ import DTO.Sofortauftragskopf;
 import DTO.Status;
 import DTO.Zahlungskondition;
 import GUI_Internalframes.*;
-import Interfaces.InterfaceViewsFunctionality;
 import Interfaces.InterfaceMainView;
+import Interfaces.InterfaceViewsFunctionality;
 import UserHauptmenue.Hauptmenue_User;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -57,6 +57,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     Parser parser;
     // Erzeugung von variablen für die einzelnen Masken.
     public Hauptmenue_User hauptmenueuser;
+    public AllgemeineSuche suche;
+    public SucheDetailAnzeige detailSuche;
 
     public AuftragskopfAnlegen auftragskopfanlegen;
     public AuftragskopfAendern auftragskopfaendern;
@@ -115,6 +117,9 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         hauptmenueuser.setName("HauptmenüUser");
 
         auftragskopfanlegen = new AuftragskopfAnlegen(factory, this);
+        this.suche = new AllgemeineSuche(factory, this);
+        detailSuche = new SucheDetailAnzeige(this);
+        
         auftragskopfaendern = new AuftragskopfAendern(factory,auftragskopfanlegen,
          this);
         auftragsspositionanzeigen = new AuftragspositionAnzeigen(factory,
@@ -142,6 +147,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         desktopPane.add(geschaeftspartneraendern);
         desktopPane.add(zahlungskonditionanlegen);
         desktopPane.add(zahlungskonditionaendern);
+        desktopPane.add(suche);
+        desktopPane.add(detailSuche);
 
         //Frames werden nicht sichtbar dargestellt. 
         auftragskopfaendern.setVisible(false);
@@ -154,51 +161,9 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         geschaeftspartneraendern.setVisible(false);
         zahlungskonditionanlegen.setVisible(false);
         zahlungskonditionaendern.setVisible(false);
+        suche.setVisible(false);
+        detailSuche.setVisible(false);
 
-        //Erstmal zu Testzwecken, kommt noch woanders hin
-//        DAO = new DataAccessObject();
-        try {
-//            Kunde k = (Kunde) dao.getCustomer(1);
-//            Status stat = dao.getStatusByName("erfasst");
-//            Status statneu = dao.getStatusByName("freigegeben");
-//            Status statneu2 = dao.getStatusByName("abgeschlossen");
-//            Artikel a = dao.getItem(1);
-//            Artikel a2 = dao.getItem(2);
-//            Zahlungskondition zahlkon = dao.getPaymentConditionsById(1);
-//            Sofortauftragskopf auftrag = new Sofortauftragskopf("Auftragtest",
-//                    0, k, stat, zahlkon, new Date(), new Date(), new Date());
-//            auftrag.addPosition(a, 4);
-//            auftrag.addPosition(a, 4);
-//            GUIFactory.getDAO().createCategory("Kategorie 1", "besc", "asd");
-//            GUIFactory.getDAO().createItem("Kategorie 1", "Artikel1", "test1", 12, 11, 19, 5, 0, 0, 0);
-//            GUIFactory.getDAO().createItem("Kategorie 1", "Artikel2", "test2", 13, 11, 19, 5, 0, 0, 0);
-//            
-//            GUIFactory.getDAO().createStatus("erfasst");
-//            GUIFactory.getDAO().createStatus("freigegeben");
-//            GUIFactory.getDAO().createStatus("abgeschlossen");
-//            GUIFactory.getDAO().createPaymentConditions("Sofortauftrag", 1, 2, 2, 2, 4, 5, 2, 3, 4);
-//            HashMap<Long, Integer> map = new HashMap<>();
-//            map.put(new Long(1), new Integer(9));
-//            map.put(new Long(2), new Integer(6));
-//            dao.createOrderHead("Terminauftrag", map, "auftragtext", 1, 1, 122.0, "erfasst", new Date(), new Date());
-//            Auftragskopf auftrag = dao.getOrderHead(4);
-//            dao.setzeAuftragsstatus(auftrag, statneu);//freigegeben
-//            dao.setzeAuftragsstatus(auftrag, stat);    //erfasst
-//            //auftrag.setStatus(statneu2);//abgeschlossen
-//            dao.setzeAuftragsstatus(auftrag, statneu);//freigegeben
-//            dao.setzeAuftragsstatus(auftrag, statneu2);//abgeschlossen
-//            Collection<?> list = GUIFactory.getDAO().suchAbfrage("auftragstext = ????1", "Auftragskopf");
-//            Iterator i = list.iterator();
-//            while(i.hasNext()) {
-//                //Object[] o = (Object[]) i.next();
-//                
-//                Sofortauftragskopf posi = (Sofortauftragskopf) i.next();
-//                System.out.println(posi.getAuftragskopfID());
-//            }
-
-        } catch (Exception e) {
-            System.out.println("" + e.getMessage());
-        }
     }
 
     /**
