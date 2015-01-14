@@ -137,7 +137,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
         treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Artikel verwalten");
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Anlegenl");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Anlegen");
         treeNode2.add(treeNode3);
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Ändern");
         treeNode2.add(treeNode3);
