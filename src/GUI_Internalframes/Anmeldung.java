@@ -191,14 +191,14 @@ public class Anmeldung extends javax.swing.JInternalFrame {
                     , new String(passwort_jPasswordField.getPassword()));
 
             if (benutzer.isIstAdmin()) {//Überprüfung ob der user ein Admin ist
-                adminStart = new StartAdmin();// Initialisierung der Adminansicht.
+                adminStart = new StartAdmin(this.login);// Initialisierung der Adminansicht.
                 adminStart.setStatusMeldung(WILLKOMMENSMELDUNG 
                         + benutzername_jTextField.getText());// Übergabe einer Statusmeldung
                 adminStart.setVisible(true);// Adminansicht wird sichtbar.
                 this.login.setVisible(false);//Anmeldefenster wird nicht mehr 
                 //sichtbar dargestellt.
             } else {
-                userStart = new Start();// Initialisierung der Useransicht.
+                userStart = new Start(this.login);// Initialisierung der Useransicht.
                 userStart.setStatusMeldung(WILLKOMMENSMELDUNG 
                         + benutzername_jTextField.getText());// Übergabe einer Statusmeldung
                 // an die User ansicht.
