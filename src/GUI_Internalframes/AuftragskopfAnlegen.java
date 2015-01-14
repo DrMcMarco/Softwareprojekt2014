@@ -20,6 +20,10 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -1445,6 +1449,78 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         this.hauptFenster.setComponent(this);
     }
 
+    public void setArtikel(HashMap<Long, Integer> artikel) {
+        this.artikel = artikel;
+    }
+
+    public void setAbschlussdatum(Date abschlussdatum) {
+        this.abschlussdatum = abschlussdatum;
+    }
+
+    public void setAbschlussdatum_jFormattedTextField(JFormattedTextField abschlussdatum_jFormattedTextField) {
+        this.abschlussdatum_jFormattedTextField = abschlussdatum_jFormattedTextField;
+    }
+
+    public void setAuftragsart_jComboBox(String auftragsArt) {
+        if(auftragsart_jComboBox.getItemAt(0).toString().equals(auftragsArt)){
+            auftragsart_jComboBox.setSelectedIndex(0);
+        }
+        if(auftragsart_jComboBox.getItemAt(1).toString().equals(auftragsArt)){
+            auftragsart_jComboBox.setSelectedIndex(1);
+        }
+        if(auftragsart_jComboBox.getItemAt(2).toString().equals(auftragsArt)){
+            auftragsart_jComboBox.setSelectedIndex(2);
+        }
+        if(auftragsart_jComboBox.getItemAt(3).toString().equals(auftragsArt)){
+            auftragsart_jComboBox.setSelectedIndex(3);
+        }
+    }
+
+    public void setAuftragskopfID_jTextField(String id) {
+        this.auftragskopfID_jTextField.setText(id);
+    }
+
+    public void setAuftragsposition_jTable(JTable auftragsposition_jTable) {
+        this.auftragsposition_jTable = auftragsposition_jTable;
+    }
+
+    public void setAuftragstext_jTextArea(String auftragstext) {
+        this.auftragstext_jTextArea.setText(auftragstext);
+    }
+
+    public void setAuftragswert_jTextField(String wert) {
+        this.auftragswert_jTextField.setText(wert);
+    }
+    public void setGeschaeftspartnerID(String id){
+        this.geschaeftspartner_jTextField.setText(id);
+    }
+    public void setzeEingabe(String geschaeftsPID, String auftragsKopfID,
+            String auftragsWert, String auftragsText, String auftragsArt,
+            String lieferDatum, String abschlussDatum,
+            String status){
+        this.geschaeftspartner_jTextField.setText(geschaeftsPID);
+        this.auftragskopfID_jTextField.setText(auftragsKopfID);
+        this.auftragswert_jTextField.setText(auftragsWert);
+        
+        if(auftragsart_jComboBox.getItemAt(0).toString().equals(auftragsArt)){
+            auftragsart_jComboBox.setSelectedIndex(0);
+        }
+        if(auftragsart_jComboBox.getItemAt(1).toString().equals(auftragsArt)){
+            auftragsart_jComboBox.setSelectedIndex(1);
+        }
+        if(auftragsart_jComboBox.getItemAt(2).toString().equals(auftragsArt)){
+            auftragsart_jComboBox.setSelectedIndex(2);
+        }
+        if(auftragsart_jComboBox.getItemAt(3).toString().equals(auftragsArt)){
+            auftragsart_jComboBox.setSelectedIndex(3);
+        }
+        this.auftragstext_jTextArea.setText(auftragsText);
+//        this.erfassungsdatum_jFormattedTextField.setText(erfassungsDatum);
+        this.lieferdatum_jFormattedTextField.setText(lieferDatum);
+        this.abschlussdatum_jFormattedTextField.setText(abschlussDatum);
+    }
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton NeuePosition_jButton;

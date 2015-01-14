@@ -117,9 +117,6 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
         jLabel1 = new javax.swing.JLabel();
         AuftragspositionID_jTextField = new javax.swing.JTextField();
 
-        setClosable(true);
-        setIconifiable(true);
-        setMaximizable(true);
         setResizable(true);
         setTitle("Auftragsposition ändern");
         setPreferredSize(new java.awt.Dimension(600, 400));
