@@ -275,6 +275,7 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
                 g.gibjTF_PLZLieferanschrift().setText(la.getPLZ());
                 g.gibjTF_OrtLieferanschrift().setText(la.getOrt());
             }
+            g.leseInhaltVomFormular();
             g.setVisible(true);
             this.setVisible(false);
             jTF_Geschaeftspartner_ID.setText("");

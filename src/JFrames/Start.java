@@ -702,7 +702,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
      */
     private void jMI_GPAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_GPAEndernActionPerformed
         geschaeftspartneraendern.setTitle(GP_AENDERN);
-        geschaeftspartneranlegen.setTitle(GP_AENDERN);
+//        geschaeftspartneranlegen.setTitle(GP_AENDERN);
         geschaeftspartneranlegen.setzeFormularInGPAEndern();
         if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
@@ -728,7 +728,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
      */
     private void jMI_GPAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_GPAnzeigenActionPerformed
         geschaeftspartneraendern.setTitle(GP_ANZEIGEN);
-        geschaeftspartneranlegen.setTitle(GP_ANZEIGEN);
+//        geschaeftspartneranlegen.setTitle(GP_ANZEIGEN);
         geschaeftspartneranlegen.setzeFormularInGPAnzeigen();
         if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
@@ -781,7 +781,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
      */
     private void jMI_ZKAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ZKAEndernActionPerformed
         zahlungskonditionaendern.setTitle(ZK_AENDERN);
-        zahlungskonditionanlegen.setTitle(ZK_ANLEGEN);
+//        zahlungskonditionanlegen.setTitle(ZK_ANLEGEN);
         zahlungskonditionanlegen.setzeFormularInZKAEndern();
         if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
@@ -806,7 +806,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
      */
     private void jMI_ZKAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ZKAnzeigenActionPerformed
         zahlungskonditionaendern.setTitle(ZK_AZEIGEN);
-        zahlungskonditionanlegen.setTitle(ZK_AZEIGEN);
+//        zahlungskonditionanlegen.setTitle(ZK_AZEIGEN);
         zahlungskonditionanlegen.setzeFormularInZKAnzeigen();
         if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt

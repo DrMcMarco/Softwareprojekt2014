@@ -69,9 +69,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     private int geschaeftspartnerNr;
     private final SimpleDateFormat FORMAT;
 
-    private boolean sichtAnlegen;
-    private boolean sichtAEndern;
-    private boolean sichtAnzeigen;
+    private final String GP_ANLEGEN = "Geschäftspartner anlegen";
+    private final String GP_AENDERN = "Geschäftspartner ändern";
+    private final String GP_ANZEIGEN = "Geschäftspartner anzeigen";
 
     private String typVorher;
     private String anredeVorher;
@@ -134,8 +134,6 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_OrtRechnungsanschrift.setDocument(new UniversalDocument("-", true));
         jTF_OrtLieferanschrift.setDocument(new UniversalDocument("-", true));
 
-        this.setzeFormularZurueck();
-
         GregorianCalendar aktuellesDaum = new GregorianCalendar();
         DateFormat df_aktuellesDatum = DateFormat.getDateInstance(DateFormat.MEDIUM);    //05.12.2014     
         aktuellesDatum = df_aktuellesDatum.format(aktuellesDaum.getTime());
@@ -167,6 +165,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         DefaultFormatterFactory dff = new DefaultFormatterFactory(mf);
         jFTF_Geburtsdatum.setFormatterFactory(dff);
         jFTF_Geburtsdatum.setText("##.##.####");
+        this.setzeFormularZurueck();
     }
 
     /*
@@ -246,6 +245,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_Fax.setBackground(JTF_FARBE_STANDARD);
         jFTF_Geburtsdatum.setValue(null);
         jFTF_Geburtsdatum.setBackground(JTF_FARBE_STANDARD);
+        jFTF_Erfassungsdatum.setText(aktuellesDatum);
         jTF_EMail.setText("");
         jTF_EMail.setBackground(JTF_FARBE_STANDARD);
         jTF_Kreditlimit.setText("");
@@ -265,17 +265,14 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_PLZLieferanschrift.setBackground(JTF_FARBE_STANDARD);
         jTF_OrtLieferanschrift.setBackground(JTF_FARBE_STANDARD);
 
-        sichtAnlegen = false;
-        sichtAEndern = false;
-        sichtAnzeigen = false;
     }
 
     private void beendenEingabeNachfrage() {
-        if (sichtAnlegen || sichtAEndern) {
+        if (this.getTitle().equals(GP_ANLEGEN) || this.getTitle().equals(GP_AENDERN)) {
             ueberpruefeFormular();
             String meldung = "Möchten Sie die Eingaben verwerfen? Klicken Sie auf JA, wenn Sie die Eingaben verwerfen möchten.";
             String titel = "Achtung Eingaben gehen verloren!";
-            if (sichtAEndern) {
+            if (this.getTitle().equals(GP_AENDERN)) {
                 meldung = "Möchten Sie die Sicht Artikel ändern verlassen?";
                 titel = "Artikel ändern verlassen";
             }
@@ -905,10 +902,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         String vorname;
         String telefon;
         String fax;
-//        Date geburtsdatum;
-        String erfassungsdatum;
         String eMail;
-        String kreditlimit;
+        double kreditlimit = 0;
         String strasseAnschrift;
         String strasseLieferanschrift;
         String hausnummerAnschrift;
@@ -921,91 +916,83 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
 //      koennen wir sicher sein, dass alle Felder ausgefuellt sind, nun
 //      werden die Eingaben in die entsprechenden Variablen gespeichert
         if (fehlerhafteComponenten.isEmpty()) {
+            if (jCHB_Kunde.isSelected()) {
+                typ = "Kunde";
+            } else {
+                typ = "Lieferant";
+            }
+            titel = (String) jCB_Anrede.getSelectedItem();
+            name = jTF_Name.getText();
+            vorname = jTF_Vorname.getText();
+            telefon = jTF_Telefon.getText();
+            fax = jTF_Fax.getText();
+            eMail = jTF_EMail.getText();
+            strasseAnschrift = jTF_StrasseRechnungsanschrift.getText();
+            hausnummerAnschrift = jTF_HausnummerRechnungsanschrift.getText();
+            plzAnschrift = jTF_PLZRechnungsanschrift.getText();
+            ortAnschrift = jTF_OrtRechnungsanschrift.getText();
+            try {
+                kreditlimit = nf.parse(jTF_Kreditlimit.getText()).doubleValue();
+            } catch (ParseException e) {
+                System.out.println(e.getMessage());
+            }
             if (jCHB_Kunde.isSelected() || jCHB_Lieferant.isSelected()) {
-                if (jCHB_Kunde.isSelected()) {
-                    typ = "Kunde";
-                } else {
-                    typ = "Lieferant";
-                }
-                titel = (String) jCB_Anrede.getSelectedItem();
-                name = jTF_Name.getText();
-                vorname = jTF_Vorname.getText();
-                telefon = jTF_Telefon.getText();
-                fax = jTF_Fax.getText();
-//                geburtsdatum = jFTF_Geburtsdatum.getText();
-                erfassungsdatum = jFTF_Erfassungsdatum.getText();
-                eMail = jTF_EMail.getText();
-                kreditlimit = jTF_Kreditlimit.getText();
-                strasseAnschrift = jTF_StrasseRechnungsanschrift.getText();
-                hausnummerAnschrift = jTF_HausnummerRechnungsanschrift.getText();
-                plzAnschrift = jTF_PLZRechnungsanschrift.getText();
-                ortAnschrift = jTF_OrtRechnungsanschrift.getText();
-                double k = 0;
-                try {
-                    k = nf.parse(jTF_Kreditlimit.getText()).doubleValue();
-                } catch (ParseException e) {
-                    System.out.println(e.getMessage());
-                }
-                try {
-                    anschrift = this.dao.createAdress("Rechnungsadresse", name, vorname,
-                            titel, strasseAnschrift, hausnummerAnschrift, plzAnschrift,
-                            ortAnschrift, "Deutschland", telefon, fax, eMail, eingabeDatum);
-
-                } catch (ApplicationException e) {
-                    System.out.println(e.getMessage());
-                }
-
-                if (jCHB_WieAnschrift.isSelected()) {
-                    strasseLieferanschrift = strasseAnschrift;
-                    hausnummerLieferanschrift = hausnummerAnschrift;
-                    plzLieferanschrift = plzAnschrift;
-                    ortLieferanschrift = ortAnschrift;
-                    lieferanschrift = anschrift;
-                } else {
-                    strasseLieferanschrift = jTF_StrasseLieferanschrift.getText();
-                    hausnummerLieferanschrift = jTF_HausnummerLieferanschrift.getText();
-                    plzLieferanschrift = jTF_PLZLieferanschrift.getText();
-                    ortLieferanschrift = jTF_OrtLieferanschrift.getText();
-                    System.out.println(tempGebuDate);
+//                speichern fuer aendern wird aufgerufen
+                if (this.getTitle().equals(GP_ANLEGEN)) {
                     try {
-                        lieferanschrift = this.dao.createAdress("Lieferadresse", name, vorname,
-                                titel, strasseLieferanschrift, hausnummerLieferanschrift, plzLieferanschrift,
-                                ortLieferanschrift, "Deutschland", telefon, fax, eMail, eingabeDatum);
+                        anschrift = this.dao.createAdress("Rechnungsadresse", name, vorname,
+                                titel, strasseAnschrift, hausnummerAnschrift, plzAnschrift,
+                                ortAnschrift, "Deutschland", telefon, fax, eMail, eingabeDatum);
 
+                        if (jCHB_WieAnschrift.isSelected()) {
+                            lieferanschrift = anschrift;
+                        } else {
+                            strasseLieferanschrift = jTF_StrasseLieferanschrift.getText();
+                            hausnummerLieferanschrift = jTF_HausnummerLieferanschrift.getText();
+                            plzLieferanschrift = jTF_PLZLieferanschrift.getText();
+                            ortLieferanschrift = jTF_OrtLieferanschrift.getText();
+
+                            titel = (String) jCB_Anrede.getSelectedItem();
+                            name = jTF_Name.getText();
+                            vorname = jTF_Vorname.getText();
+                            telefon = jTF_Telefon.getText();
+                            fax = jTF_Fax.getText();
+                            eMail = jTF_EMail.getText();
+
+                            lieferanschrift = this.dao.createAdress("Lieferadresse", name, vorname,
+                                    titel, strasseLieferanschrift, hausnummerLieferanschrift, plzLieferanschrift,
+                                    ortLieferanschrift, "Deutschland", telefon, fax, eMail, eingabeDatum);
+                        }
+                        this.dao.createBusinessPartner(typ, lieferanschrift, anschrift, kreditlimit);
                     } catch (ApplicationException e) {
                         System.out.println(e.getMessage());
                     }
+                    setzeFormularZurueck();
+                } else {
+                    String typNachher;
+                    if (jCHB_Kunde.isSelected()) {
+                        typNachher = "Kunde";
+                    } else {
+                        typNachher = "Lieferant";
+                    }
+                    String titelNachher = (String) jCB_Anrede.getSelectedItem();
+                    String nameNachher = jTF_Name.getText();
+                    String vornameNachher = jTF_Vorname.getText();
+                    String telefonNachher = jTF_Telefon.getText();
+                    String faxNachher = jTF_Fax.getText();
+                    String eMailNachher = jTF_EMail.getText();
+                    String strasseAnschriftNachher = jTF_StrasseRechnungsanschrift.getText();
+                    String hausnummerAnschriftNachher = jTF_HausnummerRechnungsanschrift.getText();
+                    String plzAnschriftNachher = jTF_PLZRechnungsanschrift.getText();
+                    String ortAnschriftNachher = jTF_OrtRechnungsanschrift.getText();
+                    double kreditlimitNachher = 0;
+                    try {
+                        kreditlimitNachher = nf.parse(jTF_Kreditlimit.getText()).doubleValue();
+                    } catch (ParseException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    
                 }
-                try {
-
-                    this.dao.createBusinessPartner(typ, lieferanschrift, anschrift, k);
-                } catch (ApplicationException e) {
-                    System.out.println(e.getMessage());
-                }
-
-//                System.out.println("Geschäftspartner: \n"
-//                        + "Geschäftspartnernummer:      " + geschaeftspartnerNr + "\n"
-//                        + "Typ:                         " + typ + "\n"
-//                        + "Titel:                       " + titel + "\n"
-//                        + "Name:                        " + name + "\n"
-//                        + "Vorname:                     " + vorname + "\n"
-//                        + "Telefon:                     " + telefon + "\n"
-//                        + "Fax:                         " + fax + "\n"
-//                        + "Geburtsdatum:                " + eingabeDatum + "\n"
-//                        + "Erfassungsdatum:             " + erfassungsdatum + "\n"
-//                        + "eMail:                       " + eMail + "\n"
-//                        + "Kreditlimit:                 " + kreditlimit + "\n"
-//                        + "Straße Anschrift:            " + strasseAnschrift + "\n"
-//                        + "Hausnummer Anschrift:        " + hausnummerAnschrift + "\n"
-//                        + "PLZ Anschrift:               " + plzAnschrift + "\n"
-//                        + "Ort Anschrift:               " + ortAnschrift + "\n"
-//                        + "Straße LAnschrift:           " + strasseLieferanschrift + "\n"
-//                        + "Hausnummer LAnschrift:       " + hausnummerLieferanschrift + "\n"
-//                        + "PLZ LAnschrift:              " + plzLieferanschrift + "\n"
-//                        + "Ort LAnschrift:              " + ortLieferanschrift + "\n");
-                geschaeftspartnerNr++;
-                setzeFormularZurueck();
-
             } else {
                 JOptionPane.showMessageDialog(null, "Bitte wählen Sie den Typ des Geschäftspartners.", "Unvollständige Eingabe", JOptionPane.ERROR_MESSAGE);
                 jCHB_Kunde.requestFocusInWindow();
@@ -1480,7 +1467,6 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
             plzLieferanschriftVorher = jTF_PLZLieferanschrift.getText();
             ortLieferanschriftVorher = jTF_OrtLieferanschrift.getText();
         }
-        
     }
 
     /*----------------------------------------------------------*/
@@ -1489,7 +1475,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     /*----------------------------------------------------------*/
     public void setzeFormularInGPAnlegen() {
         setzeFormularZurueck();
-        sichtAnlegen = true;
+        this.setTitle(GP_ANLEGEN);
         jCHB_Kunde.setEnabled(true);
         jCHB_Lieferant.setEnabled(true);
         jCB_Anrede.setEnabled(true);
@@ -1519,8 +1505,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
 
     public void setzeFormularInGPAEndern() {
         setzeFormularZurueck();
-        sichtAEndern = true;
-
+        this.setTitle(GP_AENDERN);
         jB_Loeschen.setEnabled(true);
 
         jCHB_Kunde.setEnabled(true);
@@ -1556,7 +1541,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     /*----------------------------------------------------------*/
     public void setzeFormularInGPAnzeigen() {
         setzeFormularZurueck();
-        sichtAnzeigen = true;
+        this.setTitle(GP_ANZEIGEN);
+//        sichtAnzeigen = true;
         jCHB_Kunde.setEnabled(false);
         jCHB_Lieferant.setEnabled(false);
         jCB_Anrede.setEnabled(false);
