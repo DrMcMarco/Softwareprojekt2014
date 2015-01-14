@@ -20,6 +20,7 @@ import java.util.Date;
  * 10.12.2014 Dokumentation und Logik 16.12.2014 Terrasi,
  * Funktionsimplementierung im "Zurück"-Button 08.01.2015 Terrasi, Überarbeitung
  * der Anwendungslogik und das hinzufügen von weiteren Funktion.
+ * 14.01.2015 Terrasi, Implementierung der DAO-Methode für das finden eines Auftrags.
  */
 public class AuftragskopfAendern extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
     /*

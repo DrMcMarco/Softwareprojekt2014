@@ -36,13 +36,81 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Group type="103" alignment="0" groupAlignment="0" attributes="0">
+                  <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Group type="103" groupAlignment="1" attributes="0">
+                                                  <Component id="auftragsID_jLabel" alignment="1" min="-2" pref="117" max="-2" attributes="0"/>
+                                                  <Component id="geschaeftspartnerID_jLabel" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace min="22" pref="22" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="auftragskopfID_jTextField" min="-2" pref="207" max="-2" attributes="0"/>
+                                                  <Component id="geschaeftspartner_jTextField" alignment="1" min="-2" pref="207" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="-2" pref="140" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="1" attributes="0">
+                                                  <Component id="lieferdatum_jFormattedTextField" min="-2" pref="208" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Component id="erfassungsdatum_jFormattedTextField" min="-2" pref="207" max="-2" attributes="0"/>
+                                                      <Component id="jScrollPane1" min="-2" pref="207" max="-2" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                          </Group>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                      <Component id="positionsnummer_jTextField" alignment="0" min="-2" pref="208" max="-2" attributes="0"/>
+                                      <Component id="materialnummer_jTextField" alignment="0" min="-2" pref="208" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="140" max="-2" attributes="0"/>
+                                      <Component id="abschlussdatum_jFormattedTextField" min="-2" pref="209" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="-2" pref="146" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="abgeschlossen_jRadioButton" min="-2" max="-2" attributes="0"/>
+                                          <Component id="freigegeben_jRadioButton" min="-2" max="-2" attributes="0"/>
+                                          <Component id="erfasst_jRadioButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                                          <Component id="menge_jLabel" min="-2" pref="100" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="menge_jTextField" min="-2" pref="208" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="einzelwert_jLabel" min="-2" pref="100" max="-2" attributes="0"/>
+                                              <Component id="erfassungsdatum_jLabel1" alignment="1" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="einzelwert_jTextField" pref="208" max="32767" attributes="0"/>
+                                              <Component id="erfassungsdatum_auftragsposition_jFormattedTextField" max="32767" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="19" pref="19" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="1" attributes="0">
                                           <Component id="auftragstext_jLabel" alignment="0" min="-2" pref="117" max="-2" attributes="0"/>
                                           <Group type="102" alignment="1" attributes="0">
@@ -56,124 +124,63 @@
                                           <Component id="eurosymbol_jLabel" min="-2" max="-2" attributes="0"/>
                                           <Group type="102" alignment="0" attributes="0">
                                               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Component id="auftragsart_jLabel" max="32767" attributes="0"/>
-                                                  <Component id="zahlungskonditionen_jLabel" pref="142" max="32767" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="zahlungskonditionen_jComboBox" min="-2" pref="150" max="-2" attributes="0"/>
-                                                  <Component id="auftragsart_jComboBox" min="-2" pref="150" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                      </Group>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="1" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Group type="102" alignment="0" attributes="0">
-                                                      <Group type="103" groupAlignment="1" attributes="0">
-                                                          <Component id="auftragsID_jLabel" alignment="1" min="-2" pref="117" max="-2" attributes="0"/>
-                                                          <Component id="geschaeftspartnerID_jLabel" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="status_jLabel" min="-2" max="-2" attributes="0"/>
+                                                  <Group type="102" attributes="0">
+                                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                          <Component id="auftragsart_jLabel" max="32767" attributes="0"/>
+                                                          <Component id="zahlungskonditionen_jLabel" pref="142" max="32767" attributes="0"/>
                                                       </Group>
-                                                      <EmptySpace min="22" pref="22" max="-2" attributes="0"/>
+                                                      <EmptySpace max="-2" attributes="0"/>
                                                       <Group type="103" groupAlignment="0" attributes="0">
-                                                          <Component id="auftragskopfID_jTextField" min="-2" pref="207" max="-2" attributes="0"/>
-                                                          <Component id="geschaeftspartner_jTextField" alignment="1" min="-2" pref="207" max="-2" attributes="0"/>
+                                                          <Component id="zahlungskonditionen_jComboBox" min="-2" pref="150" max="-2" attributes="0"/>
+                                                          <Component id="auftragsart_jComboBox" min="-2" pref="150" max="-2" attributes="0"/>
                                                       </Group>
-                                                  </Group>
-                                                  <Group type="102" alignment="0" attributes="0">
-                                                      <EmptySpace min="-2" pref="140" max="-2" attributes="0"/>
-                                                      <Group type="103" groupAlignment="1" attributes="0">
-                                                          <Component id="lieferdatum_jFormattedTextField" min="-2" pref="208" max="-2" attributes="0"/>
-                                                          <Group type="103" groupAlignment="0" attributes="0">
-                                                              <Component id="erfassungsdatum_jFormattedTextField" min="-2" pref="207" max="-2" attributes="0"/>
-                                                              <Component id="jScrollPane1" min="-2" pref="207" max="-2" attributes="0"/>
-                                                          </Group>
-                                                      </Group>
-                                                  </Group>
-                                              </Group>
-                                              <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                              <Component id="positionsnummer_jTextField" alignment="0" min="-2" pref="208" max="-2" attributes="0"/>
-                                              <Component id="materialnummer_jTextField" alignment="0" min="-2" pref="208" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <EmptySpace min="-2" pref="140" max="-2" attributes="0"/>
-                                              <Component id="abschlussdatum_jFormattedTextField" min="-2" pref="209" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <Component id="status_jLabel" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="abgeschlossen_jRadioButton" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="freigegeben_jRadioButton" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="erfasst_jRadioButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="menge_jLabel" min="-2" pref="100" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
-                                                  <Component id="menge_jTextField" min="-2" pref="208" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="1" attributes="0">
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="einzelwert_jLabel" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
-                                                      <Component id="erfassungsdatum_jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <EmptySpace min="46" max="32767" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                      <Component id="einzelwert_jTextField" pref="208" max="32767" attributes="0"/>
-                                                      <Component id="erfassungsdatum_auftragsposition_jFormattedTextField" max="32767" attributes="0"/>
                                                   </Group>
                                               </Group>
                                           </Group>
                                       </Group>
                                   </Group>
-                                  <Component id="jScrollPane2" alignment="1" min="-2" pref="740" max="-2" attributes="0"/>
-                              </Group>
-                              <Component id="auftragskopfdaten_titel_jLabel" alignment="0" min="-2" pref="158" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="0" pref="31" max="32767" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="positionsnummer_jLabel" min="-2" max="-2" attributes="0"/>
-                                  <Component id="materialnummer_jLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="erfassungsdatum_jLabel" max="32767" attributes="0"/>
+                                      <Component id="lieferdatum_jLabel" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="abschlussdatum_jLabel" alignment="0" pref="117" max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
-                          <Component id="jLabel1" alignment="0" min="-2" pref="142" max="-2" attributes="0"/>
-                          <Component id="auftragspositions_titel_jLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="auftragskopfdaten_titel_jLabel" alignment="0" min="-2" pref="158" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
-              </Group>
-          </Group>
-          <Group type="102" attributes="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="erfassungsdatum_jLabel" max="32767" attributes="0"/>
-                          <Component id="lieferdatum_jLabel" alignment="0" max="32767" attributes="0"/>
-                          <Component id="abschlussdatum_jLabel" alignment="0" pref="117" max="32767" attributes="0"/>
-                      </Group>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="159" max="-2" attributes="0"/>
-                      <Component id="NeuePosition_jButton" min="-2" pref="429" max="-2" attributes="0"/>
+                      <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="NeuePosition_jButton" min="-2" pref="359" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="jButton2" min="-2" pref="370" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="positionsnummer_jLabel" min="-2" max="-2" attributes="0"/>
+                                          <Component id="materialnummer_jLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Component id="jLabel1" alignment="0" min="-2" pref="142" max="-2" attributes="0"/>
+                                  <Component id="auftragspositions_titel_jLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace pref="22" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="jScrollPane2" min="-2" pref="740" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
               </Group>
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
@@ -230,11 +237,11 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="abgeschlossen_jRadioButton" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="status_jLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="erfassungsdatum_jFormattedTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="erfassungsdatum_jLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="status_jLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -270,24 +277,26 @@
                   <Group type="102" attributes="0">
                       <Component id="positionsnummer_jTextField" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="erfassungsdatum_auftragsposition_jFormattedTextField" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="erfassungsdatum_jLabel1" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="erfassungsdatum_auftragsposition_jFormattedTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="erfassungsdatum_jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" pref="90" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="NeuePosition_jButton" min="-2" pref="31" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="128" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="NeuePosition_jButton" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                  <Component id="jButton2" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="22" max="32767" attributes="0"/>
           </Group>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Component id="jToolBar1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="728" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="616" max="32767" attributes="0"/>
               </Group>
           </Group>
       </Group>
@@ -335,6 +344,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="L&#xf6;schen"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jB_LoeschenActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jB_Suchen">
           <Properties>
@@ -730,6 +742,11 @@
         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="geschaeftspartner_jTextFieldFocusGained"/>
         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="geschaeftspartner_jTextFieldFocusLost"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButton2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Position entfernen"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
