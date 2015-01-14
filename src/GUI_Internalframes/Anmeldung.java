@@ -5,6 +5,7 @@
  */
 package GUI_Internalframes;
 
+import DAO.ApplicationException;
 import JFrames.Login;
 import JFrames.*;
 import GUI_Internalframes.*;
@@ -31,8 +32,9 @@ public class Anmeldung extends javax.swing.JInternalFrame {
     Login login;// Erzeugung des Anmeldefensters.
 
     //Variablen für Meldungen
-    String willkommensMeldung = "Willkommen ";
-    String fehlermelgungtitel = "Fehler";
+    final String WILLKOMMENSMELDUNG = "Willkommen ";
+    final String FEHLERMELDUNGSTITEL = "Fehler";
+    
 
     /**
      * Creates new form Hauptmenue
@@ -49,7 +51,7 @@ public class Anmeldung extends javax.swing.JInternalFrame {
             
             //Ausgabe einer Fehlermeldung
             JOptionPane.showMessageDialog(null, e.getMessage(), 
-                    fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
+                    FEHLERMELDUNGSTITEL, JOptionPane.ERROR_MESSAGE);
         }
         benutzer = new Benutzer();// Initialisierung eines Benutzers.
 
@@ -190,14 +192,14 @@ public class Anmeldung extends javax.swing.JInternalFrame {
 
             if (benutzer.isIstAdmin()) {//Überprüfung ob der user ein Admin ist
                 adminStart = new StartAdmin();// Initialisierung der Adminansicht.
-                adminStart.setStatusMeldung(willkommensMeldung 
+                adminStart.setStatusMeldung(WILLKOMMENSMELDUNG 
                         + benutzername_jTextField.getText());// Übergabe einer Statusmeldung
                 adminStart.setVisible(true);// Adminansicht wird sichtbar.
                 this.login.setVisible(false);//Anmeldefenster wird nicht mehr 
                 //sichtbar dargestellt.
             } else {
                 userStart = new Start();// Initialisierung der Useransicht.
-                userStart.setStatusMeldung(willkommensMeldung 
+                userStart.setStatusMeldung(WILLKOMMENSMELDUNG 
                         + benutzername_jTextField.getText());// Übergabe einer Statusmeldung
                 // an die User ansicht.
                 userStart.setVisible(true);// Useransicht wird sichtbar.
@@ -205,12 +207,12 @@ public class Anmeldung extends javax.swing.JInternalFrame {
                 //sichtbar dargestellt.
             }
 
-        } catch (Exception e) {
+        } catch (ApplicationException e) {
             // Fehlerausgabe falls Passwort oder Benutzernamen nicht in der
             // DB vorhanden sind.
             //Ausgabe einer Fehlermeldung
             JOptionPane.showMessageDialog(null, e.getMessage(), 
-                    fehlermelgungtitel, JOptionPane.WARNING_MESSAGE);
+                    FEHLERMELDUNGSTITEL, JOptionPane.WARNING_MESSAGE);
             
         }
     }//GEN-LAST:event_Anmelde_buttonActionPerformed
