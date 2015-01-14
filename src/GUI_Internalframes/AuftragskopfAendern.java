@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import DTO.*;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
@@ -23,7 +25,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
     /*
      Hilfsvariable
      */
-    
+
     Component c;
     GUIFactory factory;
     InterfaceMainView hauptFenster;
@@ -240,39 +242,52 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         ueberpruefen();
         if (fehleingabefelder.isEmpty()) {//Bei ausgefüllten Eingabenfeldern
             try {
-            // Überprüft anhand des Framestitels, ob es das nächste Fenster
+                Auftragskopf aKopf = GUIFactory.getDAO().getOrderHead(Long.parseLong(auftragskopfID_jTextField.getText()));
+                // Überprüft anhand des Framestitels, ob es das nächste Fenster
                 // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
                 if (this.getTitle().equals("Auftragskopf ändern")) {
-                    
+
                     if (GUIFactory.getDAO().getOrderHead(Long.parseLong(auftragskopfID_jTextField.getText())) != null) {
-                    Auftragskopf aKopf = GUIFactory.getDAO().getOrderHead(Long.parseLong(auftragskopfID_jTextField.getText()));
-                    this.auftragskopfAnlegen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
-                    
-                    
-                    this.auftragskopfAnlegen.setzeEingabe(String.valueOf(aKopf.getGeschaeftspartner().getGeschaeftspartnerID()),
-                            String.valueOf(aKopf.getAuftragskopfID()), 
-                            String.valueOf(aKopf.getWert()), 
-                            aKopf.getAuftragstext(),aKopf.getClass().getName() ,
-                            String.valueOf(aKopf.getLieferdatum()),
-                            String.valueOf(aKopf.getAbschlussdatum()),
-                            aKopf.getStatus().getStatus());
-                    
-                    
-                    zuruecksetzen();//Methode die bestimmte Eingabefelder leert
-                    this.setVisible(false);
-                    this.hauptFenster.setFrame(this.auftragskopfAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
-                        
+
+                        this.auftragskopfAnlegen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
+
+                        this.auftragskopfAnlegen.setzeEingabe(
+                                String.valueOf(aKopf.getGeschaeftspartner().getGeschaeftspartnerID()),
+                                String.valueOf(aKopf.getAuftragskopfID()),
+                                String.valueOf(aKopf.getWert()),
+                                aKopf.getAuftragstext(), aKopf.getClass().getName(),
+                                gibDatumAlsString(aKopf.getErfassungsdatum()),
+                                gibDatumAlsString(aKopf.getLieferdatum()),
+                                gibDatumAlsString(aKopf.getAbschlussdatum()),
+                                aKopf.getStatus().getStatus());
+
+                        zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                        this.setVisible(false);
+                        this.hauptFenster.setFrame(this.auftragskopfAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
+
                     }
                 } else {
                     this.auftragskopfAnlegen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
+
+                    this.auftragskopfAnlegen.setzeEingabe(
+                            String.valueOf(aKopf.getGeschaeftspartner().getGeschaeftspartnerID()),
+                            String.valueOf(aKopf.getAuftragskopfID()),
+                            String.valueOf(aKopf.getWert()),
+                            aKopf.getAuftragstext(), aKopf.getClass().getName(),
+                            gibDatumAlsString(aKopf.getErfassungsdatum()),
+                            gibDatumAlsString(aKopf.getLieferdatum()),
+                            gibDatumAlsString(aKopf.getAbschlussdatum()),
+                            aKopf.getStatus().getStatus());
+
                     zuruecksetzen();//Methode die bestimmte Eingabefelder leert
                     this.setVisible(false);
+                    this.auftragskopfAnlegen.setStatusAnzeigen();
                     this.hauptFenster.setFrame(this.auftragskopfAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
                 }
             } catch (ApplicationException | NumberFormatException | NullPointerException e) {
                 this.hauptFenster.setStatusMeldung(e.getMessage());
             }
-            
+
         } else {//Wenn Eingaben fehlen.
             // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
             // getätigt worden sind
@@ -369,6 +384,37 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
             list.get(i).setBackground(farbe);
         }
         list.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
+    }
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
+    public String gibDatumAlsString(Date date) {
+        Calendar cal = Calendar.getInstance();
+        String datum = "";
+        cal.setTime(date);
+        int tag = cal.get(Calendar.DAY_OF_MONTH);
+        int mon = cal.get(Calendar.MONTH);
+        mon = mon + 1;
+        System.out.println(mon);
+        int jahr = cal.get(Calendar.YEAR);
+        String t;
+        String m;
+        if (tag < 10) {
+            t = "0" + tag;
+        } else {
+            t = "" + tag;
+        }
+
+        if (mon < 10) {
+            m = "0" + mon;
+        } else {
+            m = "" + mon;
+        }
+
+        datum = t + "." + m + "." + jahr;
+        return datum;
     }
 
 

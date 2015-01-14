@@ -1363,15 +1363,15 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         this.setTitle("Auftragskopf ändern");
         zuruecksetzen();
         this.geschaeftspartner_jTextField.setEnabled(true);
-        this.auftragskopfID_jTextField.setEnabled(true);
-        this.auftragswert_jTextField.setEnabled(true);
+        this.auftragskopfID_jTextField.setEnabled(false);
+        this.auftragswert_jTextField.setEnabled(false);
         this.auftragsart_jComboBox.setEnabled(true);
         this.zahlungskonditionen_jComboBox.setEnabled(true);
         this.auftragstext_jTextArea.setEnabled(true);
-        this.erfassungsdatum_jFormattedTextField.setEnabled(true);
+        this.erfassungsdatum_jFormattedTextField.setEnabled(false);
         this.lieferdatum_jFormattedTextField.setEnabled(true);
         this.abschlussdatum_jFormattedTextField.setEnabled(true);
-        this.erfasst_jRadioButton.setEnabled(true);
+        this.erfasst_jRadioButton.setEnabled(false);
         this.freigegeben_jRadioButton.setEnabled(true);
         this.abgeschlossen_jRadioButton.setEnabled(true);
         this.positionsnummer_jTextField.setEnabled(true);
@@ -1462,26 +1462,16 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     }
 
     public void setAuftragsart_jComboBox(String auftragsArt) {
-        if(auftragsart_jComboBox.getItemAt(0).toString().equals(auftragsArt)){
-            auftragsart_jComboBox.setSelectedIndex(0);
-        }
-        if(auftragsart_jComboBox.getItemAt(1).toString().equals(auftragsArt)){
-            auftragsart_jComboBox.setSelectedIndex(1);
-        }
-        if(auftragsart_jComboBox.getItemAt(2).toString().equals(auftragsArt)){
-            auftragsart_jComboBox.setSelectedIndex(2);
-        }
-        if(auftragsart_jComboBox.getItemAt(3).toString().equals(auftragsArt)){
-            auftragsart_jComboBox.setSelectedIndex(3);
-        }
+        auftragsart_jComboBox.setSelectedItem(auftragsArt);
     }
 
     public void setAuftragskopfID_jTextField(String id) {
         this.auftragskopfID_jTextField.setText(id);
     }
 
-    public void setAuftragsposition_jTable(JTable auftragsposition_jTable) {
-        this.auftragsposition_jTable = auftragsposition_jTable;
+    public void setAuftragsposition_jTable(Object[] obj) {
+        dtm.addRow(obj);
+        auftragsposition_jTable.setModel(dtm);
     }
 
     public void setAuftragstext_jTextArea(String auftragstext) {
@@ -1496,12 +1486,13 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     }
     public void setzeEingabe(String geschaeftsPID, String auftragsKopfID,
             String auftragsWert, String auftragsText, String auftragsArt,
-            String lieferDatum, String abschlussDatum,
+            String erfassungsDatum, String lieferDatum, String abschlussDatum,
             String status){
-        this.geschaeftspartner_jTextField.setText(geschaeftsPID);
+        this.geschaeftspartner_jTextField.setText(geschaeftsPID); 
         this.auftragskopfID_jTextField.setText(auftragsKopfID);
         this.auftragswert_jTextField.setText(auftragsWert);
         
+//        this.auftragsart_jComboBox.setSelectedItem(auftragsArt);
         if(auftragsart_jComboBox.getItemAt(0).toString().equals(auftragsArt)){
             auftragsart_jComboBox.setSelectedIndex(0);
         }
@@ -1515,7 +1506,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             auftragsart_jComboBox.setSelectedIndex(3);
         }
         this.auftragstext_jTextArea.setText(auftragsText);
-//        this.erfassungsdatum_jFormattedTextField.setText(erfassungsDatum);
+        this.erfassungsdatum_jFormattedTextField.setText(erfassungsDatum);
         this.lieferdatum_jFormattedTextField.setText(lieferDatum);
         this.abschlussdatum_jFormattedTextField.setText(abschlussDatum);
     }
