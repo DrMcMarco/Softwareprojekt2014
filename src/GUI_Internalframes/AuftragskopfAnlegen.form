@@ -252,31 +252,28 @@
               <Component id="auftragspositions_titel_jLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                          <Component id="positionsnummer_jLabel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                          <Component id="materialnummer_jLabel" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="menge_jLabel" alignment="3" min="-2" pref="15" max="-2" attributes="0"/>
+                          <Component id="menge_jTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="positionsnummer_jLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="menge_jLabel" alignment="3" min="-2" pref="15" max="-2" attributes="0"/>
-                              <Component id="menge_jTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="positionsnummer_jTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="einzelwert_jTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="einzelwert_jLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="materialnummer_jTextField" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="einzelwert_jTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="einzelwert_jLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="materialnummer_jLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="materialnummer_jTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="erfassungsdatum_auftragsposition_jFormattedTextField" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="erfassungsdatum_jLabel1" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="positionsnummer_jTextField" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="erfassungsdatum_auftragsposition_jFormattedTextField" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="erfassungsdatum_jLabel1" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
@@ -391,7 +388,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="auftragskopfID_jTextField">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField2"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
