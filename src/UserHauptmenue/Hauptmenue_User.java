@@ -237,6 +237,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
     /* 10.12.2014 Terrasi angelegt und Dokumentation*/
     /* 02.01.2015 Terrasi  Überarbeitung der Funktion und Dokumentation*/
     /* 08.01.2015 Terrasi  implementierung von Auftrgaskopf,
+    /* 14.01.2015 Sen      setStatus() bzw. setzeFormularIn..() methode implementiert aussser bei Auftragsposition!
     Auftragspositionen und Zahlungskonditionen Masken in die Baumnavigation*/
     /*----------------------------------------------------------*/
     /**
@@ -258,8 +259,9 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.auftragskopfanlegen.setTitle("Auftragskopf anlegen");
-                    this.internal.auftragskopfanlegen.setEnabled(true);
+//                    this.internal.auftragskopfanlegen.setEnabled(true);
                     setComponentVisible(this.internal.auftragskopfanlegen);
+                    this.internal.auftragskopfanlegen.setStatusAnlegen();
                 }
                 // Vergleich des Pfades mit String um "Auftragskopf Ändern" aufzurufen.
                 if (node.equals("[Navigation, Auftrag verwalten, Auftragskopf, Ändern]")) {
@@ -267,6 +269,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     setComponentVisible(this.internal.auftragskopfaendern);
+                    this.internal.auftragskopfanlegen.setStatusAender();
                 }
                 // Vergleich des Pfades mit String um "Auftragskopf Anzeigen" aufzurufen.
                 if (node.equals("[Navigation, Auftrag verwalten, Auftragskopf, Anzeigen]")) {
@@ -274,8 +277,9 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.auftragskopfanlegen.setTitle("Auftragskopf anzeigen");
-                    this.internal.auftragskopfanlegen.setEnabled(false);
+//                    this.internal.auftragskopfanlegen.setEnabled(false);
                     setComponentVisible(this.internal.auftragskopfanlegen);
+                    this.internal.auftragskopfanlegen.setStatusAnzeigen();
                 }
                 // Vergleich des Pfades mit String um "Auftragsposition Ändern" aufzurufen.
                 if (node.equals("[Navigation, Auftrag verwalten, Auftragsposition, Ändern]")) {
@@ -300,6 +304,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.artikelanlegen.setTitle("Artikel anlegen");
                     setComponentVisible(this.internal.artikelanlegen);
+                    this.internal.artikelanlegen.setzeFormularInArtikelAnlegen();
                 }
                 // Vergleich des Pfades mit String um "Artikel Ändern" aufzurufen.
                 if (node.equals("[Navigation, Artikel verwalten, Ändern]")) {
@@ -308,6 +313,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.artikelaendern.setTitle("Artikel ändern");
                     setComponentVisible(this.internal.artikelaendern);
+                    this.internal.artikelanlegen.setzeFormularInArtikelAEndern();
                 }
                 // Vergleich des Pfades mit String um "Artikel Anzeigen" aufzurufen.
                 if (node.equals("[Navigation, Artikel verwalten, Anzeigen]")) {
@@ -316,7 +322,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.artikelaendern.setTitle("Artikel anzeigen");
                     setComponentVisible(this.internal.artikelaendern);
-
+                    this.internal.artikelanlegen.setzeFormularInArtikelAnzeigen();
                 }
                 // Vergleich des Pfades mit String um "Geschäftspartner Anlegen" aufzurufen.
                 if (node.equals("[Navigation, Geschäftspartner verwalten, Anlegen]")) {
@@ -325,6 +331,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.geschaeftspartneranlegen.setTitle("Geschäftspartner anlegen");
                     setComponentVisible(this.internal.geschaeftspartneranlegen);
+                    this.internal.geschaeftspartneranlegen.setzeFormularInGPAnlegen();
                 }
                 // Vergleich des Pfades mit String um "Geschäftspartner Ändern" aufzurufen.
                 if (node.equals("[Navigation, Geschäftspartner verwalten, Ändern]")) {
@@ -333,6 +340,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // aufzurufendenen Maske ein Titel übergeben.
                     this.internal.geschaeftspartneraendern.setTitle("Geschäftspartner ändern");
                     setComponentVisible(this.internal.geschaeftspartneraendern);
+                    this.internal.geschaeftspartneranlegen.setzeFormularInGPAEndern();
                 }
                 // Vergleich des Pfades mit String um "Geschäftspartner Anzeigen" aufzurufen.
                 if (node.equals("[Navigation, Geschäftspartner verwalten, Anzeigen]")) {
@@ -341,7 +349,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // aufzurufendenen Maske ein Titel übergeben.
                     this.internal.geschaeftspartneraendern.setTitle("Geschäftspartner anzeigen");
                     setComponentVisible(this.internal.geschaeftspartneraendern);
-
+                    this.internal.geschaeftspartneranlegen.setzeFormularInGPAnzeigen();
                 }
                 // Vergleich des Pfades mit String um "Zahlungskonditionen Anlegen" aufzurufen.
                 if (node.equals("[Navigation, Zahlungskonditionen verwalten, Anlegen]")) {
@@ -350,6 +358,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // aufzurufendenen Maske ein Titel übergeben.
                     this.internal.zahlungskonditionaendern.setTitle("Zahlungskonditionen anlegen");
                     setComponentVisible(this.internal.zahlungskonditionanlegen);
+                    this.internal.zahlungskonditionanlegen.setzeFormularInZKAnlegen();
                 }
                 // Vergleich des Pfades mit String um "Zahlungskonditionen Ändern" aufzurufen.
                 if (node.equals("[Navigation, Zahlungskonditionen verwalten, Ändern]")) {
@@ -358,6 +367,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // aufzurufendenen Maske ein Titel übergeben.
                     this.internal.zahlungskonditionaendern.setTitle("Zahlungskonditionen ändern");
                     setComponentVisible(this.internal.zahlungskonditionaendern);
+                    this.internal.zahlungskonditionanlegen.setzeFormularInZKAEndern();
                 }
                 // Vergleich des Pfades mit String um "Zahlungskonditionen Anzeigen" aufzurufen.
                 if (node.equals("[Navigation, Zahlungskonditionen verwalten, Anzeigen]")) {
@@ -366,7 +376,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // aufzurufendenen Maske ein Titel übergeben.
                     this.internal.zahlungskonditionaendern.setTitle("Zahlungskonditionen anzeigen");
                     setComponentVisible(this.internal.zahlungskonditionaendern);
-
+                    this.internal.zahlungskonditionanlegen.setzeFormularInZKAnzeigen();
                 }
             }
         } catch (NullPointerException e) {//Fehlerbehandlung bei einer NullpointerException
