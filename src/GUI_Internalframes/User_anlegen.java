@@ -289,7 +289,6 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         passwort_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         passwort_jLabel.setText("Passwort          :");
 
-        benutzername_jTextField.setText("jTextField1");
         benutzername_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 benutzername_jTextFieldFocusGained(evt);
@@ -299,7 +298,6 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         statuszeile_jTextField.setText("Statuszeile");
         statuszeile_jTextField.setEnabled(false);
 
-        passwort_jTextField.setText("jTextField1");
         passwort_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 passwort_jTextFieldFocusGained(evt);
