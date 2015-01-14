@@ -74,6 +74,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
 
     public ZahlungskonditionAnlegen zahlungskonditionanlegen;
     public ZahlungskonditionenAEndernEinstieg zahlungskonditionaendern;
+    
+    public Login logInFester;
 
     //Hilfsvariablen
     Dimension desktopSize;//Speichervariable für die Größe der DesktopPane.
@@ -99,7 +101,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     /**
      * Creates new form Start
      */
-    public Start() {
+    public Start(Login login) {
         initComponents();
         // Try-Block
         try {
@@ -112,6 +114,9 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
 
         c = null; // Initialisierung der Hilfsvariable für die Components.
 
+        
+        this.logInFester = login;
+        
         //Initialisierung der einzelnen Masken.
         hauptmenueuser = new Hauptmenue_User(factory, this);
         hauptmenueuser.setName("HauptmenüUser");
@@ -372,6 +377,11 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
 
         jM_Logout.setText("Logout");
         jM_Logout.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jM_Logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jM_LogoutActionPerformed(evt);
+            }
+        });
 
         jMI_Logout.setText("Abmelden");
         jMI_Logout.addActionListener(new java.awt.event.ActionListener() {
@@ -451,7 +461,9 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         int antwort = JOptionPane.showConfirmDialog(rootPane, Beenden_Meldung,
                 Beenden_Meldung_Typ, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (antwort == JOptionPane.YES_OPTION) {
-            System.exit(0);
+            this.logInFester.setVisible(true);
+            this.setVisible(false);
+//            System.exit(0);
         }
     }//GEN-LAST:event_jMI_LogoutActionPerformed
 
@@ -810,6 +822,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         setComponent(zahlungskonditionaendern);
     }//GEN-LAST:event_jMI_ZKAnzeigenActionPerformed
 
+    private void jM_LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jM_LogoutActionPerformed
+        
+    }//GEN-LAST:event_jM_LogoutActionPerformed
+
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt */
@@ -913,7 +929,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Start().setVisible(true);
+                new Start(new Login()).setVisible(true);
             }
         });
     }
