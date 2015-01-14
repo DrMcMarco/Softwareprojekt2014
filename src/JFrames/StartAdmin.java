@@ -985,6 +985,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         return this.letzteAnzeige;
     }
     
+    @Override
     public ArtikelAnlegen gibArtikelAnlegenFenster() {
         //this.artikelanlegen.setzeFormularInArtikelAEndern();
         return this.artikelanlegen;
