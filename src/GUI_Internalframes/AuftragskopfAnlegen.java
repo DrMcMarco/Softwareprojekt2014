@@ -1250,7 +1250,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 //        erfassungsdatum_jFormattedTextField.setText(format.format(heute));
 //        erfassungsdatum_auftragsposition_jFormattedTextField.setText(format.format(heute));
         
-        dtm.setRowCount(0);
+        dtm.setRowCount(0); 
+        
         auftragsposition_jTable.setModel(dtm);
     }
 
