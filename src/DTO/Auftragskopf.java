@@ -267,6 +267,13 @@ public abstract class Auftragskopf implements Serializable {
         return verfuegbar;
     }
     
+    public String getTyp(){
+        
+        DiscriminatorValue val = this.getClass().getAnnotation( DiscriminatorValue.class );
+
+        return val == null ? null : val.value();
+    }
+    
     /*----------------------------------------------------------*/
     /* Datum Name Was                                           */
     /* 11.11.14 sch angelegt                                    */
