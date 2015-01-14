@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import javax.persistence.PersistenceException;
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 
@@ -81,7 +82,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     Dimension desktopSize;//Speichervariable für die Größe der DesktopPane.
     Dimension jInternalFrameSize;//Speichervariable für die Größe des InternalFrames.
     Component c;// Speichervariable für Components.
-
+    private JInternalFrame letzteAnzeige;
     //Stringvariablen für die einzelnen Meldungen die ausgegeben werden können.
     private final String Beenden_Meldung = "Wollen sie wirklich das Programm beenden und sich abmelden?";
     private final String Beenden_Meldung_Typ = "Programm beenden";
@@ -113,7 +114,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         }
 
         c = null; // Initialisierung der Hilfsvariable für die Components.
-
+        this.letzteAnzeige = null;
         
         this.logInFester = login;
         
@@ -869,7 +870,27 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     public void setFrame(Component component) {
         component.setVisible(true);
     }
+    
+    @Override
+    public void rufeSuche(JInternalFrame comp) {
+        this.suche.setVisible(true);
+        this.letzteAnzeige = comp;
+    }
 
+    @Override
+    public JInternalFrame gibLetzteAnzeige() {
+        return this.letzteAnzeige;
+    }
+    
+    public String gibTitel() {
+        return this.letzteAnzeige.getTitle();
+    }
+    
+    public ArtikelAnlegen gibArtikelAnlegenFenster() {
+        //this.artikelanlegen.setzeFormularInArtikelAEndern();
+        return this.artikelanlegen;
+    }
+    
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt und Logik implementiert*/

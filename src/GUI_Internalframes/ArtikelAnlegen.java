@@ -343,6 +343,11 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jTB_Menueleiste.add(jB_Loeschen);
 
         jB_Suchen.setText("Suchen");
+        jB_Suchen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_SuchenActionPerformed(evt);
+            }
+        });
         jTB_Menueleiste.add(jB_Suchen);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -881,6 +886,10 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jB_LoeschenActionPerformed
 
+    private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
+        this.hauptFenster.rufeSuche(this);
+    }//GEN-LAST:event_jB_SuchenActionPerformed
+
     public JTextField gibjTF_Artikelnummer() {
         return jTF_Artikelnummer;
     }
@@ -978,6 +987,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
 
+    
+    
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 08.01.2015 Terrasi, implemtiereung der Referenzvariable "hauptfenster"*/

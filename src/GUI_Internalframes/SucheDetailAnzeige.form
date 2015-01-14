@@ -126,12 +126,14 @@
         <Component class="javax.swing.JButton" name="Auswaehlen_jButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Ausw&#xe4;hlen"/>
-            <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalAlignment" type="int" value="2"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Auswaehlen_jButtonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
