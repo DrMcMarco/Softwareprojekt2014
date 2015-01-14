@@ -17,9 +17,11 @@ import DTO.Zahlungskondition;
 import Interfaces.InterfaceMainView;
 import JFrames.GUIFactory;
 import JFrames.Start;
+import JFrames.StartAdmin;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -239,8 +241,8 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         Anzeige_jTable1 = new javax.swing.JTable();
         jToolBar1 = new javax.swing.JToolBar();
         Zurueck_jButton1 = new javax.swing.JButton();
-        Auswaehlen_jButton = new javax.swing.JButton();
         Anzeige_jButton = new javax.swing.JButton();
+        Auswaehlen_jButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         position_jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -282,6 +284,18 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         });
         jToolBar1.add(Zurueck_jButton1);
 
+        Anzeige_jButton.setText("Anzeigen");
+        Anzeige_jButton.setEnabled(false);
+        Anzeige_jButton.setFocusable(false);
+        Anzeige_jButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        Anzeige_jButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        Anzeige_jButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Anzeige_jButtonActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(Anzeige_jButton);
+
         Auswaehlen_jButton.setText("Auswählen");
         Auswaehlen_jButton.setEnabled(false);
         Auswaehlen_jButton.setFocusable(false);
@@ -289,13 +303,6 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         Auswaehlen_jButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         Auswaehlen_jButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(Auswaehlen_jButton);
-
-        Anzeige_jButton.setText("Anzeigen");
-        Anzeige_jButton.setEnabled(false);
-        Anzeige_jButton.setFocusable(false);
-        Anzeige_jButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        Anzeige_jButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(Anzeige_jButton);
 
         jLabel1.setText("Ergebnis:");
 
@@ -386,11 +393,27 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void Zurueck_jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Zurueck_jButton1ActionPerformed
-        Start frame = (Start) this.hauptFenster;
-        frame.setFrame(frame.suche);
-        this.position_jPanel1.setVisible(false);
-        this.Positionanzeige_jTable2.setVisible(false);
-        this.setVisible(false);
+        Start framestart = null;
+        StartAdmin framestartadmin = null;
+        
+        try {
+            framestart = (Start) this.hauptFenster;
+            framestart.setFrame(framestart.suche);
+            this.position_jPanel1.setVisible(false);
+            this.Positionanzeige_jTable2.setVisible(false);
+            this.setVisible(false);
+        } catch (ClassCastException e) {
+ 
+        }
+        if (framestart == null) {
+            framestartadmin = (StartAdmin) this.hauptFenster;
+            framestartadmin.setFrame(framestartadmin.suche);
+            this.position_jPanel1.setVisible(false);
+            this.Positionanzeige_jTable2.setVisible(false);
+            this.setVisible(false);
+        }
+        
+        
     }//GEN-LAST:event_Zurueck_jButton1ActionPerformed
 
     private void Anzeige_jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Anzeige_jTable1MouseClicked
@@ -455,6 +478,10 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
             this.Positionanzeige_jTable2.setModel(dtm);
         }
     }//GEN-LAST:event_Anzeige_jTable1MouseClicked
+
+    private void Anzeige_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Anzeige_jButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Anzeige_jButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

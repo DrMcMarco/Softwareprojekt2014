@@ -11,6 +11,7 @@ import Interfaces.*;
 import Interfaces.InterfaceJTreeFunction;
 import JFrames.GUIFactory;
 import JFrames.Start;
+import JFrames.StartAdmin;
 import java.awt.Color;
 import java.awt.Component;
 import java.sql.ResultSetMetaData;
@@ -37,7 +38,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
     private String suchEingabe;//Varible die die Sucheingabe speichert.
     private Collection<?> suchErgebnis; // Collection in der die gefunden Ergebnisse der Suche gespeichert werden.
     private String sortierung;
-    private  Start hauptFenster;
+    private InterfaceMainView hauptFenster;
     /*
      Variablen die für die Suchkategorien 
      */
@@ -65,7 +66,15 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
     public AllgemeineSuche(GUIFactory factory, InterfaceMainView mainView) {
         initComponents();
         suchErgebnis = new ArrayList<>();//Initialisierung der Collection.
-        this.hauptFenster = (Start) mainView;
+        try {
+            this.hauptFenster = (Start) mainView;
+            
+        } catch (ClassCastException e) {
+ 
+        }
+        if (this.hauptFenster == null) {
+            this.hauptFenster = (StartAdmin) mainView;
+        }
         this.aufsteigend_jRadioButton.setSelected(true);
         this.absteigend_jRadioButton.setSelected(false);
         this.sortierung = AUFSTEIGEND;
@@ -85,7 +94,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
     private void initComponents() {
 
         Button_jToolBar = new javax.swing.JToolBar();
-        Auswaehlen_jButton = new javax.swing.JButton();
+        Zurück_jButton = new javax.swing.JButton();
         Anzeige_jButton = new javax.swing.JButton();
         sucheStarten_jButton = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
@@ -108,12 +117,17 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         Button_jToolBar.setRollover(true);
         Button_jToolBar.setEnabled(false);
 
-        Auswaehlen_jButton.setEnabled(false);
-        Auswaehlen_jButton.setFocusable(false);
-        Auswaehlen_jButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        Auswaehlen_jButton.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        Auswaehlen_jButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        Button_jToolBar.add(Auswaehlen_jButton);
+        Zurück_jButton.setText("Zurück");
+        Zurück_jButton.setFocusable(false);
+        Zurück_jButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        Zurück_jButton.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        Zurück_jButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        Zurück_jButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Zurück_jButtonActionPerformed(evt);
+            }
+        });
+        Button_jToolBar.add(Zurück_jButton);
 
         Anzeige_jButton.setEnabled(false);
         Anzeige_jButton.setFocusable(false);
@@ -282,23 +296,44 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
     @SuppressWarnings("empty-statement")
     private void sucheStarten_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sucheStarten_jButtonActionPerformed
         suchEingabe = suchfeld_jTextField.getText();
-        
-
+        Start framestart = null;
+        StartAdmin framestartadmin = null;
         try {
-//            if (!(suchErgebnis.isEmpty())) {
-//                suchErgebnis.clear();//Leeren der Collection für neue Suchergebnisse.
-//            }
+            framestart = (Start) this.hauptFenster;
+            try {
             
-            suchErgebnis = GUIFactory.getDAO().suchAbfrage(suchEingabe, suchKategorie, this.sortierung);
-            this.hauptFenster.detailSuche.setzeDaten(suchErgebnis);
-            this.hauptFenster.detailSuche.setzeSucheingabe(suchEingabe);
-            this.hauptFenster.detailSuche.setzeTabelle(suchKategorie);
-            this.hauptFenster.setFrame(this.hauptFenster.detailSuche);
-            this.setVisible(false);
-        } catch (Exception e) { //Fehlerbehandlung 
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Fehler", 
-                    JOptionPane.WARNING_MESSAGE);
+                suchErgebnis = GUIFactory.getDAO().suchAbfrage(suchEingabe, 
+                        suchKategorie, this.sortierung);
+                framestart.detailSuche.setzeDaten(suchErgebnis);
+                framestart.detailSuche.setzeSucheingabe(suchEingabe);
+                framestart.detailSuche.setzeTabelle(suchKategorie);
+                framestart.setFrame(framestart.detailSuche);
+                this.setVisible(false);
+            } catch (Exception e) { //Fehlerbehandlung 
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Fehler", 
+                        JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (ClassCastException e) {
+ 
         }
+        if (framestart == null) {
+            framestartadmin = (StartAdmin) this.hauptFenster;
+            try {
+            
+                suchErgebnis = GUIFactory.getDAO().suchAbfrage(suchEingabe, 
+                        suchKategorie, this.sortierung);
+                framestartadmin.detailSuche.setzeDaten(suchErgebnis);
+                framestartadmin.detailSuche.setzeSucheingabe(suchEingabe);
+                framestartadmin.detailSuche.setzeTabelle(suchKategorie);
+                framestartadmin.setFrame(framestartadmin.detailSuche);
+                this.setVisible(false);
+            } catch (Exception e) { //Fehlerbehandlung 
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Fehler", 
+                        JOptionPane.WARNING_MESSAGE);
+            }
+        }
+
+        
         
     }//GEN-LAST:event_sucheStarten_jButtonActionPerformed
 
@@ -311,6 +346,10 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         this.aufsteigend_jRadioButton.setSelected(false);
         this.sortierung = ABSTEIGEND;
     }//GEN-LAST:event_absteigend_jRadioButtonActionPerformed
+
+    private void Zurück_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Zurück_jButtonActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_Zurück_jButtonActionPerformed
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
@@ -435,11 +474,11 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Anzeige_jButton;
-    private javax.swing.JButton Auswaehlen_jButton;
     private javax.swing.JComboBox Auswahl_jComboBox;
     private javax.swing.JLabel Auswahl_jLabel;
     private javax.swing.JToolBar Button_jToolBar;
     private javax.swing.JLabel Suche_jLabel;
+    private javax.swing.JButton Zurück_jButton;
     private javax.swing.JRadioButton absteigend_jRadioButton;
     private javax.swing.JRadioButton aufsteigend_jRadioButton;
     private javax.swing.JLabel jLabel1;
