@@ -734,7 +734,7 @@ public class DataAccessObject {
         
         try {
             //Transaktion starten
-            em.getTransaction().begin();
+            //em.getTransaction().begin();
 
             //Der Status wird erstmalig auf erfasst gesetzt.
             //Hier muss noch keine Bestandsführung durchgeführt werden, da 
@@ -810,7 +810,7 @@ public class DataAccessObject {
                 }
             }
             //Commit Ausführen
-            em.getTransaction().commit();
+            //em.getTransaction().commit();
         } catch (Exception e) {
             throw new ApplicationException(FEHLER_TITEL, e.getMessage());
         }
@@ -937,6 +937,295 @@ public class DataAccessObject {
         em.getTransaction().begin();
         em.persist(anschrift);
         em.persist(gp);
+        em.getTransaction().commit();
+    }
+    
+    
+    /**
+     * 
+     * @param AuftragskopfID
+     * @param GeschaeftspartnerID
+     * @param ZahlungskonditionID
+     * @param Artikel
+     * @param Auftragstext
+     * @param Status
+     * @param Abschlussdatum
+     * @param Lieferdatum
+     * @return
+     * @throws ApplicationException 
+     */
+    public String aendereAuftrag(long AuftragskopfID, long GeschaeftspartnerID,
+            long ZahlungskonditionID, HashMap<Long, Integer> Artikel, 
+            String Auftragstext, String Status, Date Abschlussdatum, 
+            Date Lieferdatum) throws ApplicationException {
+        
+        //String der je nach Ergebnis der Abfrage eine spezifische Meldung 
+        //enthält
+        String ergebnis = "";
+        
+        //Auftragswert, wird später aufsummiert
+        double Auftragswert = 0;
+        
+        //Liste aller Auftragspositionen
+        ArrayList<Auftragsposition> positionen = new ArrayList<>();
+        
+        //Suche den Auftragskopf anhand der ID in der Datenbank
+        Auftragskopf ak = em.find(Auftragskopf.class, AuftragskopfID);
+        
+        //Suche den Geschäftspartner anhand der ID in der Datenbank
+        Geschaeftspartner gp = em.find(Geschaeftspartner.class, 
+                GeschaeftspartnerID);
+        
+        //Suche die Zahlungskondition anhand der ID in der Datenbank
+        Zahlungskondition zk = em.find(Zahlungskondition.class,
+                ZahlungskonditionID);
+        
+        //Wenn der Auftrag nicht gefunden werden konnte
+        if (ak == null) {
+            throw new ApplicationException("Fehler",
+                    "Der Auftragskopf konnte nicht gefunden werden.");
+        }
+        
+        //Wenn der Geschäftspartner nicht gefunden werden konnte
+        if (gp == null) {
+            throw new ApplicationException("Fehler",
+                    "Der Geschäftspartner konnte nicht gefunden werden.");
+        }
+        
+        //Wenn die Zahlungskondition nicht gefunden werden konnte
+        if (zk == null) {
+            throw new ApplicationException("Fehler",
+                    "Die Zahlungskondition konnte nicht gefunden werden.");
+        }
+        
+        //Je nach dem aktuellen Status des Auftrags
+        switch (ak.getStatus().getStatus().toLowerCase()) {
+            case "abgeschlossen":
+                ergebnis = "Dieser Auftrag ist abgeschlossen und kann daher nicht "
+                        + "mehr geändert werden.";
+                break;
+            case "freigegeben":
+                //TODO: Weitere Attribute? + Fehlerbehandelung
+                em.getTransaction().begin();
+                ak.setAuftragstext(Auftragstext);
+                this.setzeAuftragsstatus(ak, this.getStatusByName(Status));
+                em.persist(ak);
+                em.getTransaction().commit();
+                ergebnis = "Dieser Auftrag ist bereits freigegeben, "
+                        + "daher kann nur der Status geändert werden.";
+                break;
+            default:
+                
+                try {
+                    
+                    //Transaktion starten
+                    em.getTransaction().begin();
+                    
+                    //Auftragsattribute setzen
+                    ak.setAuftragstext(Auftragstext);
+                    ak.setAbschlussdatum(Abschlussdatum);
+                    ak.setLieferdatum(Lieferdatum);
+                    ak.setGeschaeftspartner(gp);
+   
+                    for (Auftragsposition ap : ak.getPositionsliste()) {
+                        em.remove(ap);
+                    }
+                    
+                    //TODO: Den ganzen Krempel in ne eigene Methode
+                    //Hole alle ID aus der Artikelliste
+                    Set<Long> artikelIDS = Artikel.keySet();
+
+                    //Für jede ID...
+                    for (long ID : artikelIDS) {
+
+                        //...wird der entsprechende Artikel in der Datenbank gesucht
+                        Artikel artikel = em.find(Artikel.class, ID);
+
+                        //Es wird geprüft ob der Artikel existiert
+                        if(artikel == null) {
+                        throw new ApplicationException("Fehler", 
+                                "Der angegebene Artikel konne nicht gefunden werden");
+                        }
+
+                        //Neue Position anlegen
+                        Auftragsposition ap = new Auftragsposition();
+
+                        //Verweis auf den gerade erstellten Auftrag
+                        ap.setAuftrag(ak);
+
+                        //Verweis auf den jweiligen Artikel
+                        ap.setArtikel(artikel);
+
+                        //Handelt es sich um einen Bestellauftrag ergibt sich der
+                        //Wert der Position aus dem Einkaufswert mal der Menge
+                        if (ak instanceof Bestellauftragskopf) {
+                            ap.setEinzelwert(artikel.getEinkaufswert() * Artikel.get(ID));
+
+                        //In allen anderen Fällen ergibt sich der Wert der Position aus
+                        //dem Verkaufswert mal der Menge
+                        } else {
+                            ap.setEinzelwert(artikel.getVerkaufswert() * Artikel.get(ID));    
+                        }
+
+                        //Zusammenrechnen des Auftragswerts
+                        Auftragswert += ap.getEinzelwert();
+
+                        //Setzen der Menge
+                        ap.setMenge(Artikel.get(ID));
+
+                        //Setzen des Erfasungsdatums
+                        ap.setErfassungsdatum(new Date());
+
+                        //Füge die Position zur Liste aller Positionen hinzu
+                        positionen.add(ap);
+
+                        //Persistiere die angelegte Position
+                        em.persist(ap);
+                    }
+
+                    //Füge die Liste aller Positionen dem Auftrag hinzu
+                    //Dadurch kann man über den Auftrag auf die hinterlegten 
+                    //Positionen zugreifen
+                    ak.setPositionsliste(positionen);
+                    
+                    //Auftragswert, zusammengerechnet aus den Einzelwerten der 
+                    //Positionen
+                    ak.setWert(Auftragswert);
+                    
+                    this.setzeAuftragsstatus(ak, this.getStatusByName(Status));
+                    
+                    //Auftragskopf persistieren
+                    em.persist(ak);
+                    
+                    //Transaktion beenden
+                    em.getTransaction().commit();
+                    
+                    ergebnis = "Änderungen erfolgreich durchgeführt.";
+                
+                } catch (Exception e) {
+                    
+                    //Sollte eine Fehler auftreten, wird ein Rollback der 
+                    //Transaktion ausgelöst
+                    em.getTransaction().rollback();
+                    
+                    throw new ApplicationException("Fehler", 
+                            e.getMessage());
+                    
+                }
+                
+                break;
+        }
+        return ergebnis;
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 12.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
+    /**
+     * Ändert sowohl die Attribute des Geschäftspartners als auch der Adresse
+     * @param GeschaeftspartnerID ID des Geschäftspartners in der Datenbank
+     * @param Kreditlimit Kreditlimit des Geschäftspartners
+     * @param Name Nachname
+     * @param Vorname Vorname
+     * @param Titel Anrede
+     * @param rStrasse Straße (ohne Hausnummer) (Rechnung)
+     * @param rHausnummer Hausnummer (Rechnung)
+     * @param rPLZ Postleitzahl (Rechnung)
+     * @param rOrt Ort (Rechnung)
+     * @param lStrasse Straße (ohne Hausnummer) (Liefer)
+     * @param lHausnummer Hausnummer (Liefer)
+     * @param lPLZ Postleitzahl (Liefer)
+     * @param lOrt Ort (Liefer)
+     * @param Staat Staat (normalerweise Deutschland)
+     * @param Telefon Telefonnummer
+     * @param Fax Faxnummer
+     * @param Email Emailadresse
+     * @param Geburtsdatum Geburtsdatum des Geschäftspartners (über 18!)
+     * @throws ApplicationException wenn der Geschäftspartner oder die Anschrift nicht gefunden werden können
+     */
+    public void aendereGeschaeftspartner(long GeschaeftspartnerID, boolean modus,
+            double Kreditlimit, String Name, String Vorname, String Titel, 
+            String rStrasse, String rHausnummer, String rPLZ, String rOrt, 
+            String lStrasse, String lHausnummer, String lPLZ, String lOrt,
+            String Staat, String Telefon, String Fax, String Email, 
+            Date Geburtsdatum) throws ApplicationException {
+        
+        Anschrift rechnungsanschrift = null;
+        Anschrift lieferanschrift = null;
+        
+        Geschaeftspartner gp = em.find(Geschaeftspartner.class, GeschaeftspartnerID);
+        
+        if (gp == null || gp.isLKZ()) {
+            throw new ApplicationException("Fehler", 
+                    "Der Geschäftspartner konnte nicht gefunden werden");
+        }
+        
+        gp.setKreditlimit(Kreditlimit);
+        
+        if (gp.getRechnungsadresse().equals(gp.getLieferadresse())) {
+
+            rechnungsanschrift = gp.getRechnungsadresse();
+            
+            rechnungsanschrift.setName(Name);
+            rechnungsanschrift.setVorname(Vorname);
+            rechnungsanschrift.setTitel(Titel);
+            rechnungsanschrift.setStaat(Staat);
+            rechnungsanschrift.setTelefon(Telefon);
+            rechnungsanschrift.setFAX(Fax);
+            rechnungsanschrift.setEmail(Email);
+            rechnungsanschrift.setGeburtsdatum(Geburtsdatum); 
+
+            if (modus && (!rStrasse.equals(rechnungsanschrift.getStrasse()) || 
+                          !rHausnummer.equals(rechnungsanschrift.getHausnummer()) ||
+                          !rPLZ.equals(rechnungsanschrift.getPLZ()) || 
+                          !rOrt.equals(rechnungsanschrift.getOrt()))) {
+
+                rechnungsanschrift.setStrasse(rStrasse);
+                rechnungsanschrift.setHausnummer(rHausnummer);
+                rechnungsanschrift.setPLZ(rPLZ);
+                rechnungsanschrift.setOrt(rOrt);  
+                
+            } else {
+                
+            }
+            
+            if (!modus && (!lStrasse.equals(rechnungsanschrift.getStrasse()) || 
+                           !lHausnummer.equals(rechnungsanschrift.getHausnummer()) ||
+                           !lPLZ.equals(rechnungsanschrift.getPLZ()) || 
+                           !lOrt.equals(rechnungsanschrift.getOrt()))) {
+                
+                rechnungsanschrift.setStrasse(rStrasse);
+                rechnungsanschrift.setHausnummer(rHausnummer);
+                rechnungsanschrift.setPLZ(rPLZ);
+                rechnungsanschrift.setOrt(rOrt);
+                
+                lieferanschrift = this.createAdress("Lieferadresse", Name, 
+                        Vorname, Titel, lStrasse, lHausnummer, lPLZ, lOrt,
+                        Staat, Telefon, Fax, Email, Geburtsdatum);
+                
+            }
+            
+        } else {
+            
+                lieferanschrift = gp.getLieferadresse();
+
+                rechnungsanschrift.setStrasse(rStrasse);
+                rechnungsanschrift.setHausnummer(rHausnummer);
+                rechnungsanschrift.setPLZ(rPLZ);
+                rechnungsanschrift.setOrt(rOrt);
+                
+                lieferanschrift.setStrasse(lStrasse);
+                lieferanschrift.setHausnummer(lHausnummer);
+                lieferanschrift.setPLZ(lPLZ);
+                lieferanschrift.setOrt(lOrt);    
+        }
+        
+        gp.setLieferadresse(lieferanschrift);
+        gp.setRechnungsadresse(rechnungsanschrift);
+        
+        em.getTransaction().begin();
+        em.merge(gp);
         em.getTransaction().commit();
     }
     
@@ -1521,6 +1810,29 @@ public class DataAccessObject {
         }
         
         return namen;
+    }
+    
+        /**
+     * Gibt eine Liste mit Zahlungskonditionen für eine Auftragsart zurück
+     * @param Auftragsart Der Name der Auftragsart
+     * @return eine Liste mit Zahlungskonditionen zu dieser Auftragsart
+     * @throws ApplicationException wenn es zu der Auftragsart keine 
+     *         Zahlungskonditionen gibt
+     */
+    public ArrayList<Zahlungskondition> gibZahlungskonditionenFürAuftragsart(String Auftragsart) 
+            throws ApplicationException {
+        
+        ArrayList<Zahlungskondition> ergebnis = 
+                (ArrayList<Zahlungskondition>)em.createQuery("SELECT ST FROM "
+                        + "Zahlungskondition ST WHERE ST.Auftragsart LIKE '" 
+                        + Auftragsart + "'").getResultList();
+        
+        if (ergebnis.isEmpty()) {
+            throw new ApplicationException("Fehler", 
+                    "Für diese Auftragsart gibt es keine Zahlungskonditionen");
+        }
+        
+        return ergebnis;
     }
     
 //</editor-fold>
