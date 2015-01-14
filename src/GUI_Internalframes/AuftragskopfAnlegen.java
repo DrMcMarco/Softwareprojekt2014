@@ -674,26 +674,24 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 .addComponent(auftragspositions_titel_jLabel)
                 .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(33, 33, 33)
-                            .addComponent(positionsnummer_jLabel)
-                            .addGap(14, 14, 14)
-                            .addComponent(materialnummer_jLabel))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(menge_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(menge_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(positionsnummer_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(einzelwert_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(einzelwert_jLabel))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(materialnummer_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(erfassungsdatum_auftragsposition_jFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(erfassungsdatum_jLabel1)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(menge_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(menge_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(positionsnummer_jLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(einzelwert_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(einzelwert_jLabel)
+                            .addComponent(materialnummer_jLabel)
+                            .addComponent(materialnummer_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(31, 31, 31))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(positionsnummer_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(erfassungsdatum_auftragsposition_jFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(erfassungsdatum_jLabel1))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -854,15 +852,17 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      */
     private void materialnummer_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_materialnummer_jTextFieldFocusLost
         // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
-
-        //        ueberpruefungVonFocusLost(materialnummer_jTextField, materialnummer_syntax,
-//                fehlermeldung_titel, fehlermeldungMaterial_text);
         try {
             GUIFactory.getDAO().getItem((Long.parseLong(materialnummer_jTextField.getText())));
-            einzelwert = (GUIFactory.getDAO().getItem(
+            if( auftragsart_jComboBox.getSelectedItem().toString().equals("Bestellauftrag")){
+                einzelwert = (GUIFactory.getDAO().getItem(
                     (Long.parseLong(materialnummer_jTextField.getText()))).getEinkaufswert());
-
-            einzelwert_jTextField.setText(String.valueOf(einzelwert));
+                einzelwert_jTextField.setText(String.valueOf(einzelwert));
+                
+            }else{
+                einzelwert =(GUIFactory.getDAO().getItem(
+                    (Long.parseLong(materialnummer_jTextField.getText()))).getVerkaufswert());
+            }
 
         } catch (Exception e) {
             //Fehlermeldung das ein gültiger wert eingegeben werden soll.
@@ -1415,21 +1415,21 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         this.setTitle("Auftragskopf anlegen");
         zuruecksetzen();
         this.geschaeftspartner_jTextField.setEnabled(true);
-        this.auftragskopfID_jTextField.setEnabled(true);
-        this.auftragswert_jTextField.setEnabled(true);
+        this.auftragskopfID_jTextField.setEnabled(false);
+        this.auftragswert_jTextField.setEnabled(false);
         this.auftragsart_jComboBox.setEnabled(true);
-        this.zahlungskonditionen_jComboBox.setEnabled(true);
+        this.zahlungskonditionen_jComboBox.setEnabled(false);
         this.auftragstext_jTextArea.setEnabled(true);
-        this.erfassungsdatum_jFormattedTextField.setEnabled(true);
+        this.erfassungsdatum_jFormattedTextField.setEnabled(false);
         this.lieferdatum_jFormattedTextField.setEnabled(true);
         this.abschlussdatum_jFormattedTextField.setEnabled(true);
         this.erfasst_jRadioButton.setEnabled(true);
         this.freigegeben_jRadioButton.setEnabled(false);
         this.abgeschlossen_jRadioButton.setEnabled(false);
-        this.positionsnummer_jTextField.setEnabled(true);
+        this.positionsnummer_jTextField.setEnabled(false);
         this.materialnummer_jTextField.setEnabled(true);
         this.menge_jTextField.setEnabled(true);
-        this.erfassungsdatum_auftragsposition_jFormattedTextField.setEnabled(true);
+        this.erfassungsdatum_auftragsposition_jFormattedTextField.setEnabled(false);
         this.auftragsposition_jTable.setEnabled(true);
         jB_Anzeigen.setText("Anzeigen");
         jB_Anzeigen.setEnabled(false);
