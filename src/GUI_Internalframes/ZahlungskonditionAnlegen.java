@@ -2,6 +2,7 @@ package GUI_Internalframes;
 
 import DAO.ApplicationException;
 import DAO.DataAccessObject;
+import DTO.Zahlungskondition;
 import Documents.UniversalDocument;
 import JFrames.GUIFactory;
 import java.awt.Color;
@@ -28,33 +29,29 @@ import Interfaces.InterfaceViewsFunctionality;
 
 /**
  *
- * @author Tahir
- *  * Klassenhistorie:
- * 27.11.2014 Sen, angelegt      
- * 28.11.2014 Sen, textfelder, Comboboxe, Buttons angelegt      
- * 01.12.2014 Sen, grundlegende Funktionen implementiert
- * 02.12.2014 Sen, beendenNachfrage() und ueberprufeFormular() Methoden implementiert
- * 05.12.2014 Sen, setzteFormularZurueck() und ..focusLost() Methoden implementiert
- * 08.12.2014 Sen, angelegt Methoden erweitert
- * 07.12.2014 Sen, Componenten mit leben befuellt
- * 10.12.2014 Sen, grundlegenden Ueberarbeitung der Maske, Fehler korigiert
- * 11.12.2014 Sen, taskleiste implementiert und funktionen erweitert
+ * @author Tahir * Klassenhistorie: 27.11.2014 Sen, angelegt 28.11.2014 Sen,
+ * textfelder, Comboboxe, Buttons angelegt 01.12.2014 Sen, grundlegende
+ * Funktionen implementiert 02.12.2014 Sen, beendenNachfrage() und
+ * ueberprufeFormular() Methoden implementiert 05.12.2014 Sen,
+ * setzteFormularZurueck() und ..focusLost() Methoden implementiert 08.12.2014
+ * Sen, angelegt Methoden erweitert 07.12.2014 Sen, Componenten mit leben
+ * befuellt 10.12.2014 Sen, grundlegenden Ueberarbeitung der Maske, Fehler
+ * korigiert 11.12.2014 Sen, taskleiste implementiert und funktionen erweitert
  * 15.12.2014 Sen, ArtikelAnlegen Sicht zum groeßten Teils implementiert
- * 17.12.2014 Sen, speichern Button impelementiert, ein Aritkel kann nun in die 
- *                 Datenbank geschrieben werden
- * 19.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button der Schnittstelle für InternalFrames
- * 20.12.2014 Sen, ArtikelAnlegen in AritkelAENdern Funktion angefangen
- * 25.12.2014 Sen, methode zum Ändern von ArtikelAnlegen in ArtikelÄndern implementiert
- * 26.12.2014 Sen, ArtikelAnlegen in AritkelAnzeigen Funktion angefangen
- * 01.01.2015 Sen, Methode zum Ändern von ArtikelAnlegen in ArtikelAnzeigen implementiert
- * 02.01.2015 Sen, Löschen von Artikel Funktion implementiert
- * 07.01.2015 Sen, Löschen von Artikel Funktion Fehler korriegiert
- * 08.01.2015 Terrasi, Implementierung der Anzeigen/Ändern Funktion, hinzufügen
- * 12.01.2015 Sen, Artikel aus Datenbank laden und diese anzegien lassen angelegt, bzw Felder 
- *                 mit den Daten der Artikel befuellt
- * 14.01.2015 Sen, ArtikelAendern speichern Funktion angefangen
+ * 17.12.2014 Sen, speichern Button impelementiert, ein Aritkel kann nun in die
+ * Datenbank geschrieben werden 19.12.2014 Terrasi, Funktionsimplementierung im
+ * "Zurück"-Button der Schnittstelle für InternalFrames 20.12.2014 Sen,
+ * ArtikelAnlegen in AritkelAENdern Funktion angefangen 25.12.2014 Sen, methode
+ * zum Ändern von ArtikelAnlegen in ArtikelÄndern implementiert 26.12.2014 Sen,
+ * ArtikelAnlegen in AritkelAnzeigen Funktion angefangen 01.01.2015 Sen, Methode
+ * zum Ändern von ArtikelAnlegen in ArtikelAnzeigen implementiert 02.01.2015
+ * Sen, Löschen von Artikel Funktion implementiert 07.01.2015 Sen, Löschen von
+ * Artikel Funktion Fehler korriegiert 08.01.2015 Terrasi, Implementierung der
+ * Anzeigen/Ändern Funktion, hinzufügen 12.01.2015 Sen, Artikel aus Datenbank
+ * laden und diese anzegien lassen angelegt, bzw Felder mit den Daten der
+ * Artikel befuellt 14.01.2015 Sen, ArtikelAendern speichern Funktion angefangen
  * 15.01.2015 Sen, ArtikelAendern speichern Funktion anbgeschlossen
- * 
+ *
  * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button 08.01.2015
  * Terrasi, Implementierung der Anzeigen/Ändern Funktion, hinzufügen der
  * Schnittstelle für InternalFrames
@@ -112,7 +109,11 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     private boolean sichtAnlegen;
     private boolean sichtAEndern;
     private boolean sichtAnzeigen;
-    
+
+    private final String ZK_ANLEGEN = "Zahlungskondition anlegen";
+    private final String ZK_AENDERN = "Zahlungskondition ändern";
+    private final String ZK_ANZEIGEN = "Zahlungskondition anzeigen";
+
     int i = 0;
 
     /**
@@ -150,8 +151,6 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
      * Methode, die die Eingaben zurücksetzt, beim Zurücksetzen wird auch die Hintergrundfarbe zurückgesetzt. 
      */
     public final void setzeFormularZurueck() {
-        System.out.println(i);
-        i++;
         zknummer = this.factory.getDAO().gibNaechsteZahlungskonditionID();
         jTF_ZahlungskonditionID.requestFocus();
         jTF_ZahlungskonditionID.setText("" + zknummer);
@@ -169,20 +168,16 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         jSP_Mahnzeit2.setValue(1);
         jSP_Mahnzeit3.setValue(1);
 
-        sichtAnlegen = false;
-        sichtAEndern = false;
-        sichtAnzeigen = false;
-
         fehlerhafteComponenten.clear();
     }
 
     private void beendenEingabeNachfrage() {
-        if (sichtAnlegen || sichtAEndern) {
+        if (this.getTitle().equals(ZK_ANLEGEN) || this.getTitle().equals(ZK_AENDERN)) {
             String meldung = "Möchten Sie die Eingaben verwerfen? Klicken Sie"
                     + " auf JA, wenn Sie die Eingaben verwerfen möchten.";
             String titel = "Achtung Eingaben gehen verloren!";
             ueberpruefeFormular();
-            if (sichtAEndern) {
+            if (this.getTitle().equals(ZK_AENDERN)) {
                 meldung = "Möchten Sie die Sicht Artikel ändern verlassen?";
                 titel = "Artikel ändern verlassen";
             }
@@ -198,7 +193,6 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
             } else {
                 this.setVisible(false);
                 setzeFormularZurueck();
-//                fehlerhafteComponenten.clear();
             }
         } else {
             this.setVisible(false);
@@ -217,8 +211,6 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField4 = new javax.swing.JTextField();
-        jTF_Statuszeile = new javax.swing.JTextField();
         jToolBar1 = new javax.swing.JToolBar();
         jB_Zurueck = new javax.swing.JButton();
         jB_Speichern = new javax.swing.JButton();
@@ -258,11 +250,6 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         jSP_Mahnzeit3 = new javax.swing.JSpinner();
         jSP_LieferzeitSOFORT = new javax.swing.JSpinner();
         jSP_SperrzeitWUNSCH = new javax.swing.JSpinner();
-
-        jTextField4.setText("jTextField4");
-
-        jTF_Statuszeile.setText("Statuszeile");
-        jTF_Statuszeile.setEnabled(false);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(true);
@@ -703,8 +690,10 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
             int mahnzeit1 = 0;
             int mahnzeit2 = 0;
             int mahnzeit3 = 0;
+            long zknr = 0;
 
             try {
+                zknr = nf.parse(jTF_ZahlungskonditionID.getText()).longValue();
                 lieferzeitSOFORT = ((Number) jSP_LieferzeitSOFORT.getValue()).intValue();
                 sperrzeitWunsch = ((Number) jSP_SperrzeitWUNSCH.getValue()).intValue();
                 skonto1 = nf.parse((String) jCB_Skonto1.getSelectedItem()).doubleValue();
@@ -715,52 +704,56 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
                 mahnzeit2 = ((Number) jSP_Mahnzeit2.getValue()).intValue();
                 mahnzeit3 = ((Number) jSP_Mahnzeit3.getValue()).intValue();
 
-                if (lieferzeitSOFORT != 1 || sperrzeitWunsch != 1 || skontozeit1 != 1 || skontozeit2 != 1 || mahnzeit1 != 1 || mahnzeit2 != 1 || mahnzeit3 != 1) {
-                    this.dao.createPaymentConditions(auftragsart, lieferzeitSOFORT,
-                            sperrzeitWunsch, skontozeit1, skontozeit2, skonto1,
-                            skonto2, mahnzeit1, mahnzeit2, mahnzeit3);
-//                    zknummer++;
-                    setzeFormularZurueck();
-                } else {
-                    String meldung = "Liefer- und Sperrzeit sowie Skonto- und Mahnzeiten sind alle standardmäßig auf 1 Tag gesetzt. Möchten Sie nun speichern?"
-                            + "\nKlicken Sie auf Nein, wenn Sie die Eingaben bearbeiten möchten.";
-                    String titel = "Zahlungskondititon speichern";
-                    int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                    if (antwort == JOptionPane.YES_OPTION) {
+                if (this.getTitle().equals(ZK_ANLEGEN)) {
+                    if (lieferzeitSOFORT != 1 || sperrzeitWunsch != 1 || skontozeit1 != 1 || skontozeit2 != 1 || mahnzeit1 != 1 || mahnzeit2 != 1 || mahnzeit3 != 1) {
                         this.dao.createPaymentConditions(auftragsart, lieferzeitSOFORT,
                                 sperrzeitWunsch, skontozeit1, skontozeit2, skonto1,
                                 skonto2, mahnzeit1, mahnzeit2, mahnzeit3);
-//                        zknummer++;
                         setzeFormularZurueck();
                     } else {
-                        fehlerhafteComponenten.clear();
+                        String meldung = "Liefer- und Sperrzeit sowie Skonto- und Mahnzeiten sind alle standardmäßig auf 1 Tag gesetzt. Möchten Sie nun speichern?"
+                                + "\nKlicken Sie auf Nein, wenn Sie die Eingaben bearbeiten möchten.";
+                        String titel = "Zahlungskondititon speichern";
+                        int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        if (antwort == JOptionPane.YES_OPTION) {
+                            this.dao.createPaymentConditions(auftragsart, lieferzeitSOFORT,
+                                    sperrzeitWunsch, skontozeit1, skontozeit2, skonto1,
+                                    skonto2, mahnzeit1, mahnzeit2, mahnzeit3);
+                            setzeFormularZurueck();
+                        } else {
+                            fehlerhafteComponenten.clear();
+                        }
                     }
+                } else {
+                    Zahlungskondition ZKVorher = this.dao.getPaymentConditionsById(zknr); 
+                    Zahlungskondition ZKNachher = new Zahlungskondition(auftragsart, lieferzeitSOFORT,
+                            sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2, mahnzeit1, 
+                            mahnzeit2, mahnzeit3);
+                     if (ZKVorher.equals(ZKNachher)) {
+                            JOptionPane.showMessageDialog(null, "Es wurden keine Änderungen gemacht!", "Keine Änderungen", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            int antwort = JOptionPane.showConfirmDialog(null, "Möchten Sie die Änderungen speichern?", ZK_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                            if (antwort == JOptionPane.YES_OPTION) { // falls ja,
+                                try { // Geschäftspartner verändern
+                                    this.dao.aendereZahlungskondition(zknr, auftragsart, lieferzeitSOFORT,
+                                            sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2,
+                                            mahnzeit1, mahnzeit2, mahnzeit3);
+                                } catch (ApplicationException e) { // falls ein Fehler auftaucht
+                                    System.out.println("Fehler beim veraendern der ZK in Sicht ZK Anlegen Methode speichern: " + e.getMessage());
+                                }
+                                setzeFormularZurueck(); // Formular zuruecksetzen
+                                this.setVisible(false); // diese Sicht ausblenden 
+                                jB_ZurueckActionPerformed(null); // Button Zurueck Action ausführen
+                            } else {
+                                fehlerhafteComponenten.clear(); // Nein button wird geklickt, keine Aktion nur fehlerhafte Komponenten müssen geleert werden
+                            }
+                        }
                 }
 
 //          Artikel wird in ArrayList für Artikel hinzugefuegt     
-            } catch (ParseException ex) {
+            } catch (ParseException | ApplicationException ex) {
                 System.out.println(ex.getMessage());
-            } catch (ApplicationException ax) {
-                System.out.println(ax.getMessage());
             }
-
-//            zkListe.add(new Zahlungskondition("" + zknummer, auftragsart, lieferzeitSOFORT, sperrzeitWUNSCH, "" + skontozeit1, "" + skontozeit2, skonto1, skonto2, "" + mahnzeitzeit1, "" + mahnzeitzeit2, "" + mahnzeitzeit3));
-//          provisorisch wird der Artikel ausgegeben  
-//            System.out.println(zkListe.get(zkListe.size() - 1).toString());
-//          die artikelnummer wird erhöht 
-//            System.out.println(zknummer);
-//            System.out.println(auftragsart);
-//            System.out.println(lieferzeitSOFORT);
-//            System.out.println(sperrzeitWunsch);
-//            System.out.println(skonto1);
-//            System.out.println(skonto2);
-//            System.out.println(skontozeit1);
-//            System.out.println(skontozeit2);
-//            System.out.println(mahnzeit1);
-//            System.out.println(mahnzeit2);
-//            System.out.println(mahnzeit3);
-//            System.out.println(STATUSZEILE);
-            jTF_Statuszeile.setText(STATUSZEILE);
 //          das Formular wird zurueckgesetzt  
         } else {
 //          fehlerhafteComponenten ist nicht leer (es sind fehlerhafte Componenten vorhanden)
@@ -806,7 +799,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void jB_LoeschenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_LoeschenActionPerformed
-       try {
+        try {
             long zknr = nf.parse(jTF_ZahlungskonditionID.getText()).longValue();
             int antwort = JOptionPane.showConfirmDialog(null, "Soll die Zahlungskondition wirklich gelöscht werden?", "Zahlungskondition löschen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (antwort == JOptionPane.YES_OPTION) {
@@ -868,7 +861,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
 
     public void setzeFormularInZKAnlegen() {
         setzeFormularZurueck();
-        sichtAnlegen = true;
+        this.setTitle(ZK_ANLEGEN);
         jCB_Auftragsart.setEnabled(true);
         jSP_LieferzeitSOFORT.setEnabled(true);
         jSP_SperrzeitWUNSCH.setEnabled(true);
@@ -889,7 +882,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
 
     public void setzeFormularInZKAEndern() {
         setzeFormularZurueck();
-        sichtAEndern = true;
+        this.setTitle(ZK_AENDERN);
         jCB_Auftragsart.setEnabled(true);
         jSP_LieferzeitSOFORT.setEnabled(true);
         jSP_SperrzeitWUNSCH.setEnabled(true);
@@ -914,7 +907,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     /*----------------------------------------------------------*/
     public void setzeFormularInZKAnzeigen() {
         setzeFormularZurueck();
-        sichtAnzeigen = true;
+        this.setTitle(ZK_ANZEIGEN);
         jCB_Auftragsart.setEnabled(false);
         jSP_LieferzeitSOFORT.setEnabled(false);
         jSP_SperrzeitWUNSCH.setEnabled(false);
@@ -971,9 +964,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     private javax.swing.JSpinner jSP_Skontozeit2;
     private javax.swing.JSpinner jSP_SperrzeitWUNSCH;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTF_Statuszeile;
     private javax.swing.JTextField jTF_ZahlungskonditionID;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }

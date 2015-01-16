@@ -27,9 +27,11 @@ import javax.swing.text.MaskFormatter;
 
 /**
  *
- * @author Tahir * Klassenhistorie: 27.11.2014 Sen, angelegt 28.11.2014 Sen,
- * textfelder, Comboboxe, Buttons angelegt 01.12.2014 Sen, grundlegende
- * Funktionen implementiert 02.12.2014 Sen, beendenNachfrage() und
+ * @author Tahir * 
+ * Klassenhistorie: 27.11.2014 Sen, angelegt 
+ * 28.11.2014 Sen, textfelder, Comboboxe, Buttons angelegt 01.12.2014 Sen, grundlegende
+ *                 Funktionen implementiert 
+ * 02.12.2014 Sen, beendenNachfrage() und
  * ueberprufeFormular() Methoden implementiert 05.12.2014 Sen,
  * setzteFormularZurueck() und ..focusLost() Methoden implementiert 08.12.2014
  * Sen, angelegt Methoden erweitert 07.12.2014 Sen, Componenten mit leben

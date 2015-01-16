@@ -11,6 +11,7 @@ import DTO.Artikel;
 import DTO.Geschaeftspartner;
 import DTO.Lieferanschrift;
 import Documents.UniversalDocument;
+import Interfaces.InterfaceMainView;
 import JFrames.GUIFactory;
 import java.awt.Component;
 import java.text.DateFormat;

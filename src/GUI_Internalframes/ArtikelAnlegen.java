@@ -27,29 +27,30 @@ import javax.swing.JTextField;
  *
  * @author Tahir
  *
- * Klassenhistorie: 27.11.2014 Sen, angelegt 28.11.2014 Sen, textfelder,
- * Comboboxe, Buttons angelegt 01.12.2014 Sen, grundlegende Funktionen
- * implementiert 02.12.2014 Sen, beendenNachfrage() und ueberprufeFormular()
- * Methoden implementiert 05.12.2014 Sen, setzteFormularZurueck() und
- * ..focusLost() Methoden implementiert 08.12.2014 Sen, angelegt Methoden
- * erweitert 07.12.2014 Sen, Componenten mit leben befuellt 10.12.2014 Sen,
- * grundlegenden Ueberarbeitung der Maske, Fehler korigiert 11.12.2014 Sen,
- * taskleiste implementiert und funktionen erweitert 15.12.2014 Sen,
- * ArtikelAnlegen Sicht zum groeßten Teils implementiert 17.12.2014 Sen,
- * speichern Button impelementiert, ein Aritkel kann nun in die Datenbank
- * geschrieben werden 19.12.2014 Terrasi, Funktionsimplementierung im
- * "Zurück"-Button der Schnittstelle für InternalFrames 20.12.2014 Sen,
- * ArtikelAnlegen in AritkelAENdern Funktion angefangen 25.12.2014 Sen, methode
- * zum Ändern von ArtikelAnlegen in ArtikelÄndern implementiert 26.12.2014 Sen,
- * ArtikelAnlegen in AritkelAnzeigen Funktion angefangen 01.01.2015 Sen, Methode
- * zum Ändern von ArtikelAnlegen in ArtikelAnzeigen implementiert 02.01.2015
- * Sen, Löschen von Artikel Funktion implementiert 07.01.2015 Sen, Löschen von
- * Artikel Funktion Fehler korriegiert 08.01.2015 Terrasi, Implementierung der
- * Anzeigen/Ändern Funktion, hinzufügen 12.01.2015 Sen, Artikel aus Datenbank
- * laden und diese anzegien lassen angelegt, bzw Felder mit den Daten der
- * Artikel befuellt 14.01.2015 Sen, ArtikelAendern speichern Funktion angefangen
+ * Klassenhistorie: 
+ * 27.11.2014 Sen, angelegt 
+ * 28.11.2014 Sen, textfelder, Comboboxe, Buttons angelegt 
+ * 01.12.2014 Sen, grundlegende Funktionen implementiert 
+ * 02.12.2014 Sen, beendenNachfrage() und ueberprufeFormular()
+ *                 Methoden implementiert 05.12.2014 Sen, setzteFormularZurueck() und
+ *                 ..focusLost() Methoden implementiert 08.12.2014 Sen, angelegt Methoden erweitert 
+ * 07.12.2014 Sen, Componenten mit leben befuellt 
+ * 10.12.2014 Sen, grundlegenden Ueberarbeitung der Maske, Fehler korigiert 
+ * 11.12.2014 Sen, taskleiste implementiert und funktionen erweitert 15.12.2014 Sen, ArtikelAnlegen Sicht zum groeßten Teils implementiert 
+ * 17.12.2014 Sen, speichern Button impelementiert, ein Aritkel kann nun in die Datenbank
+ *                 geschrieben werden 
+ * 19.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button der Schnittstelle für InternalFrames
+ * 20.12.2014 Sen, ArtikelAnlegen in AritkelAENdern Funktion angefangen 
+ * 25.12.2014 Sen, methode zum Ändern von ArtikelAnlegen in ArtikelÄndern implementiert 
+ * 26.12.2014 Sen, ArtikelAnlegen in AritkelAnzeigen Funktion angefangen 
+ * 01.01.2015 Sen, Methode zum Ändern von ArtikelAnlegen in ArtikelAnzeigen implementiert
+ * 02.01.2015 Sen, Löschen von Artikel Funktion implementiert 07.01.2015 Sen, Löschen von Artikel Funktion Fehler korriegiert
+ * 08.01.2015 Terrasi, Implementierung der Anzeigen/Ändern Funktion, hinzufügen 
+ * 12.01.2015 Sen, Artikel aus Datenbank laden und diese anzegien lassen angelegt, bzw Felder mit den Daten der Artikel befuellt
+ * 14.01.2015 Sen, ArtikelAendern speichern Funktion angefangen
  * 15.01.2015 Sen, ArtikelAendern speichern Funktion anbgeschlossen
  */
+
 public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
     private Component c;
@@ -641,7 +642,6 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 //      falls fehlerhafteComponenten leer ist (es sind keine fehlerhaften Componenten verfuegbar), 
 //      werden die Eingaben in die entsprechenden Variablen gespeichert
         if (fehlerhafteComponenten.isEmpty()) {
-            long artikelnummerFurDB = 0;
             String artikelname;
             String artikelbeschreibung;
             String kategorie;
@@ -680,84 +680,6 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 //          das Formular wird zurueckgesetzt  
                 setzeFormularZurueck();
             } else {
-//                Überschreiben eins Artikels Lösung 1:
-//                String artikelnummer = jTF_Artikelnummer.getText();
-//                String artikelnameNachher = jTF_Artikelname.getText();
-//                String artikelbeschreibungNachher = jTA_Artikelbeschreibung.getText();
-//                String kategorieNachher = (String) jCB_Kategorie.getSelectedItem();
-//                String einzelwertNachher = jTF_Einzelwert.getText();
-//                String bestellwertNachher = jTF_Bestellwert.getText();
-//                String mwstNachher = (String) jCB_MwST.getSelectedItem();
-//                String bestandsmengeNachher = jTF_Bestandsmenge_FREI.getText();
-//
-//                if (!artikelnameVorher.equals(artikelnameNachher) || !artikelbeschreibungVorher.equals(artikelbeschreibungNachher)
-//                        || !kategorieVorher.equals(kategorieNachher) || !einzelwertVorher.equals(einzelwertNachher)
-//                        || !bestellwertVorher.equals(bestellwertNachher) || !mwstVorher.equals(mwstNachher)
-//                        || !bestandsmengeVorher.equals(bestandsmengeNachher)) {
-//                    try {
-//                        artikelnummerFurDB = nf.parse(jTF_Artikelnummer.getText()).longValue();
-//                    } catch (ParseException ex) {
-////                        Logger.getLogger(ArtikelAnlegen.class.getName()).log(Level.SEVERE, null, ex);
-//                        System.out.println("Fehler beim Parsen der ArtikelnummerFurDB");
-//                    }
-//                    if (!artikelnameVorher.equals(artikelnameNachher)) {
-//                        artikelnameFurDB = artikelnameNachher;
-//                    }
-//                    if (!artikelbeschreibungVorher.equals(artikelbeschreibungNachher)) {
-//                        artikelbeschreibungFurDB = artikelbeschreibungNachher;
-//                    }
-//                    if (!kategorieVorher.equals(kategorieNachher)) {
-//                        kategorieFurDB = kategorieNachher;
-//                    }
-//                    if (!einzelwertVorher.equals(einzelwertNachher)) {
-//                        try {
-//                            einzelwertFurDB = nf.parse(einzelwertNachher).doubleValue();
-//                        } catch (ParseException ex) {
-//                            System.out.println("Fehler beim Parsen bei Änderung des Einzelwertes!");
-//                        }
-//                    }
-//                    if (!bestellwertVorher.equals(bestellwertNachher)) {
-//                        try {
-//                            bestellwertFurDB = nf.parse(bestellwertNachher).doubleValue();
-//                        } catch (ParseException ex) {
-//                            System.out.println("Fehler beim Parsen bei Änderung des Bestellwertes!");
-//                        }
-//                    }
-//                    if (!mwstVorher.equals(mwstNachher)) {
-//                        try {
-//                            mwstFurDB = nf.parse(mwstNachher).intValue();
-//                        } catch (ParseException ex) {
-//                            System.out.println("Fehler beim Parsen bei Änderung der MwSt!");
-//                        }
-//                    }
-//                    if (!bestandsmengeVorher.equals(bestandsmengeNachher)) {
-//                        try {
-//                            bestandsmengeFREIFurDB = nf.parse(bestandsmengeNachher).intValue();
-//                        } catch (ParseException ex) {
-//                            System.out.println("Fehler beim Parsen bei Änderung der BestandsmengeFREI!");
-//                        }
-//                    }
-//                    int antwort = JOptionPane.showConfirmDialog(null, "Möchten Sie die Änderungen speichern?", ARTIKEL_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-//                    if (antwort == JOptionPane.YES_OPTION) {
-//                        try {
-//                            this.dao.aendereArtikel(artikelnummerFurDB, kategorieFurDB, artikelnameFurDB, artikelbeschreibungFurDB, einzelwertFurDB,
-//                                    bestellwertFurDB, mwstFurDB, bestandsmengeFREIFurDB);
-//                        } catch (ApplicationException e) {
-//                            System.out.println(e.getMessage());
-//                        }
-////          das Formular wird zurueckgesetzt  
-//                        setzeFormularZurueck();
-//                        fehlerhafteComponenten.clear();
-//                        this.setVisible(false);
-//                        jB_ZurueckActionPerformed(null);
-//                    } else {
-//                        fehlerhafteComponenten.clear();
-//                    }
-//                } else {
-//                    JOptionPane.showMessageDialog(null, "Es wurden keine Änderungen gemacht!", "Keine Änderungen", JOptionPane.INFORMATION_MESSAGE);
-//                }
-//                Überschreiben eines Artikel Lösung 1 zu Ende:
-
 //                Überschreibung eines Artikel Lösung 2: 
                 try {
 //                zunächst werden die Felder des Formulars neue gelesen.
