@@ -163,8 +163,39 @@ public class Zahlungskondition implements Serializable {
         if (this.ZahlungskonditionID != other.ZahlungskonditionID) {
             return false;
         }
+        if (!Objects.equals(this.Auftragsart, other.Auftragsart)) {
+            return false;
+        }
+        if (this.LieferzeitSofort != other.LieferzeitSofort) {
+            return false;
+        }
+        if (this.SperrzeitWunsch != other.SperrzeitWunsch) {
+            return false;
+        }
+        if (this.Skontozeit1 != other.Skontozeit1) {
+            return false;
+        }
+        if (this.Skontozeit2 != other.Skontozeit2) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.Skonto1) != Double.doubleToLongBits(other.Skonto1)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.Skonto2) != Double.doubleToLongBits(other.Skonto2)) {
+            return false;
+        }
+        if (this.Mahnzeit1 != other.Mahnzeit1) {
+            return false;
+        }
+        if (this.Mahnzeit2 != other.Mahnzeit2) {
+            return false;
+        }
+        if (this.Mahnzeit3 != other.Mahnzeit3) {
+            return false;
+        }
+        if (this.LKZ != other.LKZ) {
+            return false;
+        }
         return true;
     }
-
-    
 }
