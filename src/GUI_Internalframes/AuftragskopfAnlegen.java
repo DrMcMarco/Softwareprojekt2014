@@ -284,6 +284,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(true);
         setTitle("Auftragskopf anlegen");
+        setAutoscrolls(true);
         setVisible(true);
 
         jToolBar1.setBorder(null);
@@ -593,7 +594,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                             .addComponent(menge_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(layout.createSequentialGroup()
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addComponent(einzelwert_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addComponent(erfassungsdatum_jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))

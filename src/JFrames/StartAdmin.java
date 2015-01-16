@@ -225,10 +225,10 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         });
 
         statusMeldung_jTextField.setEditable(false);
+        statusMeldung_jTextField.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         statusMeldung_jTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        desktopPane.add(statusMeldung_jTextField);
-        statusMeldung_jTextField.setBounds(0, 528, 790, 30);
-        desktopPane.setLayer(statusMeldung_jTextField, javax.swing.JLayeredPane.PALETTE_LAYER);
+        statusMeldung_jTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        statusMeldung_jTextField.setEnabled(false);
 
         jM_Navigation.setMnemonic('n');
         jM_Navigation.setText("Navigation");
@@ -444,11 +444,15 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 786, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 810, Short.MAX_VALUE)
+            .addComponent(statusMeldung_jTextField)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 561, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(statusMeldung_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         getAccessibleContext().setAccessibleName("");
