@@ -334,6 +334,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        Positionanzeige_jTable2.setEnabled(false);
         jScrollPane2.setViewportView(Positionanzeige_jTable2);
 
         javax.swing.GroupLayout position_jPanel1Layout = new javax.swing.GroupLayout(position_jPanel1);

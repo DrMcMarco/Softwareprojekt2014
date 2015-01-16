@@ -165,12 +165,9 @@ public class Parser {
         }
         //Initialisiere StringTokenizer
         st = new StringTokenizer(eingabe);
-         
-        //Durchlaufe alle Token
-        while (st.hasMoreTokens()) {
-            eingabeOhneLeerzeichen += st.nextToken();
-        }
         
+        //Entferne alle Leerzeichen
+        eingabeOhneLeerzeichen = this.loescheLeerzeichen(st);
         //Speicher alle praefixe in das array unter gegebenen Trennzeichen
         praefixListe = eingabeOhneLeerzeichen.split(TRENNZEICHEN);
         
@@ -219,7 +216,8 @@ public class Parser {
                                     tabelle, OPERATORLIKE));
                         } else {
                             throw new ApplicationException(FEHLER_TITEL, 
-                                    "Operator falsch?");
+                                    "Platzhalter können nur mit dem "
+                                            + "= Operator genutzt werden!");
                         }
                     } else {
                         //SQL-Statement aus suchkürzel , wert, tabelle 
@@ -257,11 +255,15 @@ public class Parser {
                 sqlAbfrage += " AND ";
             }
         }
-        
+        //Prüfe, ob eine Eingabe getätigt wurde
         if (eingabe.equals(LEER)) {
+            //Wenn nicht wird das SQL Statement so aufgebaut, dass das
+            //LKZ nicht mit einem UND Verknüpft wird, da es als einziges 
+            //Literal in der Abfrage steht.
             sqlAbfrage += "" + tabelle + "." + LKZ;
             sortierung = LEER;
         } else {
+            //LKZ Wird mit AND Verknüpft.
             sqlAbfrage += " AND " + tabelle + "." + LKZ;
         }
         
@@ -285,6 +287,125 @@ public class Parser {
 
         return sqlAbfrage;
     }
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 05.01.15 sch angelegt                                    */
+    /*----------------------------------------------------------*/
+    /**
+     * Löscht alle Leerzeichen, bis auf die, die als Wert (Ergebnis) einer
+     * Abfrage stehen(*).
+     * @param st StringTokenizer mit dem gesamt Ausdruck.
+     * @return Gibt den vollständig geparsten Ausdruck ohne Leerzeichen(*)
+     * zurück
+     */
+    public String loescheLeerzeichen(StringTokenizer st) {
+        String naechsterAusdruck = LEER;
+        boolean operatorOffen = false;
+        String ergebnisOhneLeer = LEER;
+        //Durchlaufe den Gesamtenausdruck und parse ihn so, dass 
+        //Alle Leerzeichen verschwinden, AUSSER die, die im Ergebnis stehen 
+        //sollen und somit auch in der Datenbank.
+        //Beispiel: art ikel name = Schoene Schuhe -> artikelname=Schoene Schuhe
+        while (st.hasMoreTokens()) {
+            naechsterAusdruck = st.nextToken();
+            //Durchlaufe und guck ob ein operator vorhanden ist
+            //und ob ein zugehöriges trennzeichen vorhanden ist
+            for (int i = 0; i <= naechsterAusdruck.length() - 1; i++) {
+                //Prüfe, ob im Zeichen ein Operator ist.
+                if (naechsterAusdruck.substring(i, i).equals(OPERATOR[0]) 
+                        || naechsterAusdruck.substring(i, 
+                                i + 1).equals(OPERATOR[1])
+                        || naechsterAusdruck.substring(i, 
+                                i + 1).equals(OPERATOR[2])
+                        || naechsterAusdruck.substring(i, 
+                                i + 1).equals(OPERATOR[3])
+                        || naechsterAusdruck.substring(i, 
+                                i + 1).equals(OPERATOR[4])
+                        || naechsterAusdruck.substring(i, 
+                                i + 1).equals(OPERATOR[5])) {
+                    //Ist ein Operator vorhanden setzen wir die bool
+                    //Variable "operatorOffen" auf true, das bedeutet, dass
+                    //Es ein Operator gibt der durch ein ; zu schliessen ist
+                    //Alle folgenden Tokens werden nun mit einem Leerzeichen
+                    //versehen. -> ausdruck>=SC next next ... ;
+                    operatorOffen = true;
+                }
+                //Ist der Operator geöffnet muss zur gleichen Zeit auch geprüft
+                //Werden, ob dieser auch wieder durch ein ; geschlossen wird
+                if (operatorOffen) {
+                    //ist das Zeichen ein ; 
+                    if (naechsterAusdruck.substring(i, 
+                            i + 1).equals(TRENNZEICHEN)) {
+                        //Dann wird der Ausdruck geschlossen.
+                        operatorOffen = false;
+                    }
+                }
+            }
+            //Ist ein operator offen also ohne trennzeichen im Ausdruck
+            //So muss überprüft werden ob die nächsten Tokens mit einem 
+            //Leerzeichen versehen werden.
+            if (operatorOffen) {
+                //Gibt es noch weitere Tokens?
+                if (st.hasMoreElements()) {
+                    //Sollte der nächste Ausdruck mit einem Operator oder 
+                    //Einem ; Enden, so müssen wir kein Leerzeichen einfügen
+                    if (naechsterAusdruck.endsWith(OPERATOR[0]) 
+                            || naechsterAusdruck.endsWith(OPERATOR[1])
+                            || naechsterAusdruck.endsWith(OPERATOR[2])
+                            || naechsterAusdruck.endsWith(OPERATOR[3])
+                            || naechsterAusdruck.endsWith(OPERATOR[4])
+                            || naechsterAusdruck.endsWith(OPERATOR[5])
+                            || naechsterAusdruck.endsWith(TRENNZEICHEN)) {
+                        //Wenn ein Leerzeichen sich am Ende des Ausdrucks 
+                        //befindet, so muss dieser entfernt werden.
+                        if (ergebnisOhneLeer.endsWith(" ")) {
+                            //Der Ausdruck wird ersetzt durch sich selbst als
+                            //Substring jedoch ohne das letzte Element.
+                            ergebnisOhneLeer = ergebnisOhneLeer
+                                    .substring(0, 
+                                            ergebnisOhneLeer.length());
+                        }
+                        //So wird anschliessend der nächste Ausdruck an den 
+                        //Gesamten Ausdruck gehängt. BSP: ausdruck=nächsterAusdr
+                        ergebnisOhneLeer += naechsterAusdruck;
+                    //Sollte sich am nächsten Ausdruck keines der oben 
+                    //genannten Zeichen befinden, so wird ein Leerzeichen
+                    //angehängt BSP: ausdruck=nächsterausdrLEER
+                    } else {
+                        ergebnisOhneLeer += naechsterAusdruck + " ";
+                    }
+
+                    //Sind am Ende angekommen und 
+                    //es gibt keine weitere tokens mehr
+                    //st.hasMoreTokens()
+                } else {
+                    //Zum Schluss wird der ausdruck nur noch angehängt
+                    ergebnisOhneLeer += naechsterAusdruck;
+                }
+                //Wenn kein Operator offen ist d.h zu jedem 
+                //Operator gibt es ein ;
+                //operatorOffen = false
+            } else {
+                //Falls sich am Ende des gesamt Ausdruck ein Leerzeichen
+                //befindet
+                if (ergebnisOhneLeer.endsWith(" ")) {
+                    //So wird dieses entfernt wie oben bereits beschrieben.
+                    ergebnisOhneLeer = ergebnisOhneLeer
+                                    .substring(0, ergebnisOhneLeer
+                                            .length() - 1);
+                }
+                //Der Ausdruck wird ohne Leerzeichen angehängt.
+                //BSP: ausdruck>ausdruck;nächsterausdruck
+                ergebnisOhneLeer += naechsterAusdruck;
+            }
+            
+        }
+        //Gib den Gesamtausdruck zurück.
+        return ergebnisOhneLeer;
+    }
+    
+    
     /*----------------------------------------------------------*/
     /* Datum Name Was                                           */
     /* 11.11.14 sch angelegt                                    */
@@ -523,7 +644,7 @@ public class Parser {
             }
             
             //Ermittle den Typ des übergebenen wertes.
-            Object objektTyp = gibObjektNachTyp(dbWert);
+            Object objektTyp = gibTypAusString(dbWert);
             //Prüfe, ob der Typ gefunden wurde
             if (objektTyp == null) {
                 throw new ApplicationException(FEHLER_TITEL, 
@@ -558,6 +679,7 @@ public class Parser {
                         typ = "Der Typ konnte nicht ermittelt werden!";
                         break;
                 }
+                //Delegiere die Exception weiter.
                 throw new ApplicationException(FEHLER_TITEL, 
                         "Die Ergebniseingabe: " + "" + dbWert 
                                 + " ist ungültig! \n " + typ);
@@ -569,58 +691,31 @@ public class Parser {
     }
     
     /**
-     * 
-     * @param dbWert
-     * @return 
+     * Ermittelt mit einem Scanner, um was für einen Typ es sich handelt,
+     * der sich im String text befindet.
+     * @param textWert der Zu üerprüfende String
+     * @return Datentyp des Wertes im String.
      */
-    static Object gibObjektNachTyp(String dbWert) {
-        Scanner sc = new Scanner(dbWert);
-        return
-            sc.hasNextInt() ? sc.nextInt() :
-            sc.hasNextLong() ? sc.nextLong() :
-            sc.hasNextDouble() ? sc.nextDouble() :
-            sc.hasNext() ? sc.next() :
-            dbWert;
-    }
-    
-    /**
-     * 
-     * @param s
-     * @return 
-     */
-    public Object gibObjektNachTyp1(String s) {
-        Scanner sc = new Scanner(s);
+    public Object gibTypAusString(String textWert) {
+        Scanner sc = new Scanner(textWert);
         Object ergebnis = null;
-        
+        //Handelt es sich um ein Integer Wert?
         if (sc.hasNextInt()) {
             ergebnis = sc.nextInt();
+        //Handelt es sich um ein Long Wert?
         } else if (sc.hasNextLong()) {
             ergebnis = sc.nextLong();
+        //Handelt es sich um ein Double Wert?
         } else if (sc.hasNextDouble()) {
             ergebnis = sc.nextDouble();
+        //Handelt es sich um ein Objekt Wert?
         } else if (sc.hasNext()) {
             ergebnis = sc.next();
+        //Handelt es sich um ein Text Wert?
         } else {
-            ergebnis = s;
+            ergebnis = textWert;
         }
         return ergebnis;
     }
     
-//    public static void main(String[] args) {
-//        try {
-//            GUIFactory gui = new GUIFactory();
-//            
-//            Collection<?>  a = GUIFactory.getDAO().suchAbfrage(
-//                    "kategorienr = 1", "ARTIKELKATEGORIE");
-//            
-//            for (Object o : a) {
-//                System.out.println(o.toString());
-////                Geschaeftspartner gp = (Geschaeftspartner) o;
-////                System.out.println(gp.getLieferadresse().getName());
-//            }
-//        } catch (ApplicationException ex) {
-//            //Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
-//            System.out.println(ex.getMessage());
-//        }
-//    }
 }

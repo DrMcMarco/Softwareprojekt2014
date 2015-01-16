@@ -290,6 +290,8 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
 
         // Aufruf der gibLegendeAusDB-Methode und übergebn Rückgabewert an TextArea.
         legende_jTextArea.setText(gibLegendeAusDB(suchKategorie));
+        
+        this.suchfeld_jTextField.setText("");
     }//GEN-LAST:event_Auswahl_jComboBoxActionPerformed
 
     /*----------------------------------------------------------*/
