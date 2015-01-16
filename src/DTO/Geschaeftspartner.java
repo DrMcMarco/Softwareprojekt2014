@@ -106,9 +106,6 @@ public abstract class Geschaeftspartner implements Serializable {
             return false;
         }
         final Geschaeftspartner other = (Geschaeftspartner) obj;
-        if (this.GeschaeftspartnerID != other.GeschaeftspartnerID) {
-            return false;
-        }
         if (!Objects.equals(this.Lieferadresse, other.Lieferadresse)) {
             return false;
         }

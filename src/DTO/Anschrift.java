@@ -187,7 +187,21 @@ public abstract class Anschrift implements Serializable {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 61 * hash + (int) (this.AnschriftID ^ (this.AnschriftID >>> 32));
+        hash = 79 * hash + (int) (this.AnschriftID ^ (this.AnschriftID >>> 32));
+        hash = 79 * hash + Objects.hashCode(this.Name);
+        hash = 79 * hash + Objects.hashCode(this.Vorname);
+        hash = 79 * hash + Objects.hashCode(this.Titel);
+        hash = 79 * hash + Objects.hashCode(this.Strasse);
+        hash = 79 * hash + Objects.hashCode(this.Hausnummer);
+        hash = 79 * hash + Objects.hashCode(this.PLZ);
+        hash = 79 * hash + Objects.hashCode(this.Ort);
+        hash = 79 * hash + Objects.hashCode(this.Staat);
+        hash = 79 * hash + Objects.hashCode(this.Telefon);
+        hash = 79 * hash + Objects.hashCode(this.FAX);
+        hash = 79 * hash + Objects.hashCode(this.Email);
+        hash = 79 * hash + Objects.hashCode(this.Geburtsdatum);
+        hash = 79 * hash + Objects.hashCode(this.Erfassungsdatum);
+        hash = 79 * hash + (this.LKZ ? 1 : 0);
         return hash;
     }
 
@@ -200,14 +214,51 @@ public abstract class Anschrift implements Serializable {
             return false;
         }
         final Anschrift other = (Anschrift) obj;
-        if (this.AnschriftID != other.AnschriftID) {
+        if (!Objects.equals(this.Name, other.Name)) {
+            return false;
+        }
+        if (!Objects.equals(this.Vorname, other.Vorname)) {
+            return false;
+        }
+        if (!Objects.equals(this.Titel, other.Titel)) {
+            return false;
+        }
+        if (!Objects.equals(this.Strasse, other.Strasse)) {
+            return false;
+        }
+        if (!Objects.equals(this.Hausnummer, other.Hausnummer)) {
+            return false;
+        }
+        if (!Objects.equals(this.PLZ, other.PLZ)) {
+            return false;
+        }
+        if (!Objects.equals(this.Ort, other.Ort)) {
+            return false;
+        }
+        if (!Objects.equals(this.Staat, other.Staat)) {
+            return false;
+        }
+        if (!Objects.equals(this.Telefon, other.Telefon)) {
+            return false;
+        }
+        if (!Objects.equals(this.FAX, other.FAX)) {
+            return false;
+        }
+        if (!Objects.equals(this.Email, other.Email)) {
+            return false;
+        }
+        if (!Objects.equals(this.Geburtsdatum, other.Geburtsdatum)) {
+            return false;
+        }
+        if (!Objects.equals(this.Erfassungsdatum, other.Erfassungsdatum)) {
+            return false;
+        }
+        if (this.LKZ != other.LKZ) {
             return false;
         }
         return true;
     }
     
-    
-
     @Override
     public String toString() {
         return "Anschrift{" + "AnschriftID=" + AnschriftID + ", Name=" + Name + ", Vorname=" + Vorname + ", Titel=" + Titel + ", Strasse=" + Strasse + ", Hausnummer=" + Hausnummer + ", PLZ=" + PLZ + ", Ort=" + Ort + ", Staat=" + Staat + ", Telefon=" + Telefon + ", FAX=" + FAX + ", Email=" + Email + ", Geburtsdatum=" + Geburtsdatum + ", Erfassungsdatum=" + Erfassungsdatum + '}';

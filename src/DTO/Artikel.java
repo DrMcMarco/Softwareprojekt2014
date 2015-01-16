@@ -6,6 +6,7 @@
 package DTO;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.*;
 
 /**
@@ -152,8 +153,19 @@ public class Artikel implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 29 * hash + (int) (this.Id ^ (this.Id >>> 32));
+        int hash = 3;
+        hash = 53 * hash + (int) (this.Id ^ (this.Id >>> 32));
+        hash = 53 * hash + Objects.hashCode(this.Kategorie);
+        hash = 53 * hash + Objects.hashCode(this.Artikeltext);
+        hash = 53 * hash + Objects.hashCode(this.Bestelltext);
+        hash = 53 * hash + (int) (Double.doubleToLongBits(this.Verkaufswert) ^ (Double.doubleToLongBits(this.Verkaufswert) >>> 32));
+        hash = 53 * hash + (int) (Double.doubleToLongBits(this.Einkaufswert) ^ (Double.doubleToLongBits(this.Einkaufswert) >>> 32));
+        hash = 53 * hash + this.MwST;
+        hash = 53 * hash + this.Frei;
+        hash = 53 * hash + this.Reserviert;
+        hash = 53 * hash + this.Zulauf;
+        hash = 53 * hash + this.Verkauft;
+        hash = 53 * hash + (this.LKZ ? 1 : 0);
         return hash;
     }
 
@@ -166,7 +178,37 @@ public class Artikel implements Serializable {
             return false;
         }
         final Artikel other = (Artikel) obj;
-        if (this.Id != other.Id) {
+        if (!Objects.equals(this.Kategorie, other.Kategorie)) {
+            return false;
+        }
+        if (!Objects.equals(this.Artikeltext, other.Artikeltext)) {
+            return false;
+        }
+        if (!Objects.equals(this.Bestelltext, other.Bestelltext)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.Verkaufswert) != Double.doubleToLongBits(other.Verkaufswert)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.Einkaufswert) != Double.doubleToLongBits(other.Einkaufswert)) {
+            return false;
+        }
+        if (this.MwST != other.MwST) {
+            return false;
+        }
+        if (this.Frei != other.Frei) {
+            return false;
+        }
+        if (this.Reserviert != other.Reserviert) {
+            return false;
+        }
+        if (this.Zulauf != other.Zulauf) {
+            return false;
+        }
+        if (this.Verkauft != other.Verkauft) {
+            return false;
+        }
+        if (this.LKZ != other.LKZ) {
             return false;
         }
         return true;

@@ -146,8 +146,19 @@ public class Zahlungskondition implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 37 * hash + (int) (this.ZahlungskonditionID ^ (this.ZahlungskonditionID >>> 32));
+        int hash = 7;
+        hash = 83 * hash + (int) (this.ZahlungskonditionID ^ (this.ZahlungskonditionID >>> 32));
+        hash = 83 * hash + Objects.hashCode(this.Auftragsart);
+        hash = 83 * hash + this.LieferzeitSofort;
+        hash = 83 * hash + this.SperrzeitWunsch;
+        hash = 83 * hash + this.Skontozeit1;
+        hash = 83 * hash + this.Skontozeit2;
+        hash = 83 * hash + (int) (Double.doubleToLongBits(this.Skonto1) ^ (Double.doubleToLongBits(this.Skonto1) >>> 32));
+        hash = 83 * hash + (int) (Double.doubleToLongBits(this.Skonto2) ^ (Double.doubleToLongBits(this.Skonto2) >>> 32));
+        hash = 83 * hash + this.Mahnzeit1;
+        hash = 83 * hash + this.Mahnzeit2;
+        hash = 83 * hash + this.Mahnzeit3;
+        hash = 83 * hash + (this.LKZ ? 1 : 0);
         return hash;
     }
 
@@ -160,11 +171,39 @@ public class Zahlungskondition implements Serializable {
             return false;
         }
         final Zahlungskondition other = (Zahlungskondition) obj;
-        if (this.ZahlungskonditionID != other.ZahlungskonditionID) {
+        if (!Objects.equals(this.Auftragsart, other.Auftragsart)) {
+            return false;
+        }
+        if (this.LieferzeitSofort != other.LieferzeitSofort) {
+            return false;
+        }
+        if (this.SperrzeitWunsch != other.SperrzeitWunsch) {
+            return false;
+        }
+        if (this.Skontozeit1 != other.Skontozeit1) {
+            return false;
+        }
+        if (this.Skontozeit2 != other.Skontozeit2) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.Skonto1) != Double.doubleToLongBits(other.Skonto1)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.Skonto2) != Double.doubleToLongBits(other.Skonto2)) {
+            return false;
+        }
+        if (this.Mahnzeit1 != other.Mahnzeit1) {
+            return false;
+        }
+        if (this.Mahnzeit2 != other.Mahnzeit2) {
+            return false;
+        }
+        if (this.Mahnzeit3 != other.Mahnzeit3) {
+            return false;
+        }
+        if (this.LKZ != other.LKZ) {
             return false;
         }
         return true;
     }
-
-    
 }
