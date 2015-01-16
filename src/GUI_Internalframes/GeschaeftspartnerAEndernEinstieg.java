@@ -17,12 +17,33 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
- * @author Tahir
- *
- * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
+ * @author Tahir * Klassenhistorie: 27.11.2014 Sen, angelegt 28.11.2014 Sen,
+ * textfelder, Comboboxe, Buttons angelegt 01.12.2014 Sen, grundlegende
+ * Funktionen implementiert 02.12.2014 Sen, beendenNachfrage() und
+ * ueberprufeFormular() Methoden implementiert 05.12.2014 Sen,
+ * setzteFormularZurueck() und ..focusLost() Methoden implementiert 08.12.2014
+ * Sen, angelegt Methoden erweitert 07.12.2014 Sen, Componenten mit leben
+ * befuellt 10.12.2014 Sen, grundlegenden Ueberarbeitung der Maske, Fehler
+ * korigiert 11.12.2014 Sen, taskleiste implementiert und funktionen erweitert
+ * 15.12.2014 Sen, ArtikelAnlegen Sicht zum groeßten Teils implementiert
+ * 17.12.2014 Sen, speichern Button impelementiert, ein Aritkel kann nun in die
+ * Datenbank geschrieben werden 19.12.2014 Terrasi, Funktionsimplementierung im
+ * "Zurück"-Button der Schnittstelle für InternalFrames 20.12.2014 Sen,
+ * ArtikelAnlegen in AritkelAENdern Funktion angefangen 25.12.2014 Sen, methode
+ * zum Ändern von ArtikelAnlegen in ArtikelÄndern implementiert 26.12.2014 Sen,
+ * ArtikelAnlegen in AritkelAnzeigen Funktion angefangen 01.01.2015 Sen, Methode
+ * zum Ändern von ArtikelAnlegen in ArtikelAnzeigen implementiert 02.01.2015
+ * Sen, Löschen von Artikel Funktion implementiert 07.01.2015 Sen, Löschen von
+ * Artikel Funktion Fehler korriegiert 08.01.2015 Terrasi, Implementierung der
+ * Anzeigen/Ändern Funktion, hinzufügen 12.01.2015 Sen, Artikel aus Datenbank
+ * laden und diese anzegien lassen angelegt, bzw Felder mit den Daten der
+ * Artikel befuellt 14.01.2015 Sen, ArtikelAendern speichern Funktion angefangen
+ * 15.01.2015 Sen, ArtikelAendern speichern Funktion anbgeschlossen 16.12.2014
+ * Terrasi, Funktionsimplementierung im "Zurück"-Button
  */
 public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame {
     /*
@@ -193,72 +214,81 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
             Anschrift la = gp.getLieferadresse();
             Anschrift ra = gp.getRechnungsadresse();
             String typ = gp.getTyp();
+            System.out.println(typ);
             if (typ.equals("Kunde")) {
                 g.gibjCHB_Kunde().setSelected(true);
             } else {
                 g.gibjCHB_Lieferant().setSelected(true);
             }
-
-//            g.gibjCHB_Kunde().setSelected(true);
-//            g.gibjCHB_Lieferant().setSelected(false);
             g.gibjTF_GeschaeftspartnerID().setText("" + gpnr);
             g.gibjCB_Anrede().setSelectedItem(ra.getTitel());
             g.gibjTF_Name().setText(ra.getName());
             g.gibjTF_Vorname().setText(ra.getVorname());
             g.gibjTF_Telefon().setText(ra.getTelefon());
             g.gibjTF_Fax().setText(ra.getFAX());
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(la.getGeburtsdatum());
-            int tag = cal.get(Calendar.DAY_OF_MONTH);
-            int mon = cal.get(Calendar.MONTH);
-            mon = mon + 1;
-            System.out.println(mon);
-            int jahr = cal.get(Calendar.YEAR);
-            String t;
-            String m;
-            if (tag < 10) {
-                t = "0" + tag;
-            } else {
-                t = "" + tag;
-            }
+//            Calendar cal = Calendar.getInstance();
+//            cal.setTime(la.getGeburtsdatum());
+//            int tag = cal.get(Calendar.DAY_OF_MONTH);
+//            int mon = cal.get(Calendar.MONTH);
+//            mon = mon + 1;
+//            int jahr = cal.get(Calendar.YEAR);
+//            String t;
+//            String m;
+//            if (tag < 10) {
+//                t = "0" + tag;
+//            } else {
+//                t = "" + tag;
+//            }
+//
+//            if (mon < 10) {
+//                m = "0" + mon;
+//            } else {
+//                m = "" + mon;
+//            }
+//
+//            String s = t + "." + m + "." + jahr;
+            g.gibjFTF_Geburtsdatum().setText(gibDatumAusDatenbank(la.getGeburtsdatum()));
 
-            if (mon < 10) {
-                m = "0" + mon;
-            } else {
-                m = "" + mon;
-            }
-
-            String s = t + "." + m + "." + jahr;
-            System.out.println(s);
-            g.gibjFTF_Geburtsdatum().setText(s);
-
-            cal.setTime(la.getErfassungsdatum());
-            tag = cal.get(Calendar.DAY_OF_MONTH);
-            mon = cal.get(Calendar.MONTH);
-            mon = mon + 1;
-            System.out.println(mon);
-            jahr = cal.get(Calendar.YEAR);
-            if (tag < 10) {
-                t = "0" + tag;
-            } else {
-                t = "" + tag;
-            }
-
-            if (mon < 10) {
-                m = "0" + mon;
-            } else {
-                m = "" + mon;
-            }
-
-            s = t + "." + m + "." + jahr;
-            g.gibjFTF_Erfassungsdatum().setText(s);
+//            cal.setTime(la.getErfassungsdatum());
+//            tag = cal.get(Calendar.DAY_OF_MONTH);
+//            mon = cal.get(Calendar.MONTH);
+//            mon = mon + 1;
+//            jahr = cal.get(Calendar.YEAR);
+//            if (tag < 10) {
+//                t = "0" + tag;
+//            } else {
+//                t = "" + tag;
+//            }
+//
+//            if (mon < 10) {
+//                m = "0" + mon;
+//            } else {
+//                m = "" + mon;
+//            }
+//
+//            s = t + "." + m + "." + jahr;
+            g.gibjFTF_Erfassungsdatum().setText(gibDatumAusDatenbank(la.getErfassungsdatum()));
             g.gibjTF_EMail().setText(ra.getEmail());
             g.gibjTF_Kreditlimit().setText("" + nf.format(gp.getKreditlimit()));
             g.gibjTF_StrasseRechnungsanschrift().setText(ra.getStrasse());
             g.gibjTF_HausnummerRechnungsanschrift().setText(ra.getHausnummer());
             g.gibjTF_PLZRechnungsanschrift().setText(ra.getPLZ());
             g.gibjTF_OrtRechnungsanschrift().setText(ra.getOrt());
-            if (ra.getAnschriftID() == la.getAnschriftID()) {
+//            if (ra.getAnschriftID() == la.getAnschriftID()) {
+//                g.gibjCHB_WieAnschrift().setSelected(true);
+//                g.gibjTF_StrasseLieferanschrift().setText(ra.getStrasse());
+//                g.gibjTF_StrasseLieferanschrift().setEnabled(false);
+//                g.gibjTF_HausnummerLieferanschrift().setText(ra.getHausnummer());
+//                g.gibjTF_HausnummerLieferanschrift().setEnabled(false);
+//                g.gibjTF_PLZLieferanschrift().setText(ra.getPLZ());
+//                g.gibjTF_PLZLieferanschrift().setEnabled(false);
+//                g.gibjTF_OrtLieferanschrift().setText(ra.getOrt());
+//                g.gibjTF_OrtLieferanschrift().setEnabled(false);
+//            hier nicht nur die IDs vergleichen, sondern auch die Attribute, denn es können jetzt zwei objekte entstehen, die gleich sind
+            if (ra.getStrasse().equals(la.getStrasse())
+                    && ra.getHausnummer().equals(la.getHausnummer())
+                    && ra.getOrt().equals(la.getOrt())
+                    && ra.getPLZ().equals(la.getPLZ())) {
                 g.gibjCHB_WieAnschrift().setSelected(true);
                 g.gibjTF_StrasseLieferanschrift().setText(ra.getStrasse());
                 g.gibjTF_StrasseLieferanschrift().setEnabled(false);
@@ -284,38 +314,35 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
             System.out.println("Fehler beim Parsen in der Klasse ArtikelAnlegen!");
             jTF_Statuszeile.setText("Bitte geben Sie eine GeschäftspartnerID ein.");
         } catch (ApplicationException ex) {
-//            Logger.getLogger(ArtikelAEndernEinstieg.class.getName()).log(Level.SEVERE, null, ex);
             jTF_Statuszeile.setText("Kein passender Geschäftspartner in Datenbank!");
             jTF_Geschaeftspartner_ID.setText("");
         }
-//        if (jTF_Geschaeftspartner_ID.getText().equals("Ändern")) {
-////            Daten aus Datenbank laden
-//            g.gibjCHB_Kunde().setSelected(true);
-//            g.gibjCHB_Lieferant().setSelected(false);
-//            g.gibjCB_Anrede().setSelectedItem("Herr");
-//            g.gibjTF_Name().setText("Sen");
-//            g.gibjTF_Vorname().setText("Tahir");
-//            g.gibjTF_Telefon().setText("01775113084");
-//            g.gibjTF_Fax().setText("02043203322");
-//            g.gibjFTF_Geburtsdatum().setText("25.04.1989");
-//            g.gibjTF_EMail().setText("tahirsen@hotmail.de");
-//            g.gibjTF_Kreditlimit().setText("1000");
-//            g.gibjCHB_WieAnschrift().setSelected(true);
-//            g.gibjTF_StrasseRechnungsanschrift().setText("Landstr.");
-//            g.gibjTF_StrasseLieferanschrift().setText("Landstr.");
-//            g.gibjTF_HausnummerRechnungsanschrift().setText("84");
-//            g.gibjTF_HausnummerLieferanschrift().setText("84");
-//            g.gibjTF_PLZRechnungsanschrift().setText("45968");
-//            g.gibjTF_PLZLieferanschrift().setText("45968");
-//            g.gibjTF_OrtRechnungsanschrift().setText("Galdbeck");
-//            g.gibjTF_OrtLieferanschrift().setText("Galdbeck");
-//            g.setVisible(true);
-//            this.setVisible(false);
-//            jTF_Geschaeftspartner_ID.setText("");
-//        } else {
-//            jTF_Statuszeile.setText("Kein passender Artikel in Datenbank!");
-//        }
     }//GEN-LAST:event_jB_EnterActionPerformed
+
+    private String gibDatumAusDatenbank(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int tag = cal.get(Calendar.DAY_OF_MONTH);
+        int mon = cal.get(Calendar.MONTH);
+        mon = mon + 1;
+        int jahr = cal.get(Calendar.YEAR);
+        String tagAlsString;
+        String monatAlsString;
+        if (tag < 10) {
+            tagAlsString = "0" + tag;
+        } else {
+            tagAlsString = "" + tag;
+        }
+
+        if (mon < 10) {
+            monatAlsString = "0" + mon;
+        } else {
+            monatAlsString = "" + mon;
+        }
+
+        String ausgabeDatum = tagAlsString + "." + monatAlsString + "." + jahr;
+        return ausgabeDatum;
+    }
 
     private void jB_EnterFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jB_EnterFocusLost
         jTF_Statuszeile.setText("");

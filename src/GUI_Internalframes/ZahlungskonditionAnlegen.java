@@ -29,7 +29,32 @@ import Interfaces.InterfaceViewsFunctionality;
 /**
  *
  * @author Tahir
- *
+ *  * Klassenhistorie:
+ * 27.11.2014 Sen, angelegt      
+ * 28.11.2014 Sen, textfelder, Comboboxe, Buttons angelegt      
+ * 01.12.2014 Sen, grundlegende Funktionen implementiert
+ * 02.12.2014 Sen, beendenNachfrage() und ueberprufeFormular() Methoden implementiert
+ * 05.12.2014 Sen, setzteFormularZurueck() und ..focusLost() Methoden implementiert
+ * 08.12.2014 Sen, angelegt Methoden erweitert
+ * 07.12.2014 Sen, Componenten mit leben befuellt
+ * 10.12.2014 Sen, grundlegenden Ueberarbeitung der Maske, Fehler korigiert
+ * 11.12.2014 Sen, taskleiste implementiert und funktionen erweitert
+ * 15.12.2014 Sen, ArtikelAnlegen Sicht zum groeßten Teils implementiert
+ * 17.12.2014 Sen, speichern Button impelementiert, ein Aritkel kann nun in die 
+ *                 Datenbank geschrieben werden
+ * 19.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button der Schnittstelle für InternalFrames
+ * 20.12.2014 Sen, ArtikelAnlegen in AritkelAENdern Funktion angefangen
+ * 25.12.2014 Sen, methode zum Ändern von ArtikelAnlegen in ArtikelÄndern implementiert
+ * 26.12.2014 Sen, ArtikelAnlegen in AritkelAnzeigen Funktion angefangen
+ * 01.01.2015 Sen, Methode zum Ändern von ArtikelAnlegen in ArtikelAnzeigen implementiert
+ * 02.01.2015 Sen, Löschen von Artikel Funktion implementiert
+ * 07.01.2015 Sen, Löschen von Artikel Funktion Fehler korriegiert
+ * 08.01.2015 Terrasi, Implementierung der Anzeigen/Ändern Funktion, hinzufügen
+ * 12.01.2015 Sen, Artikel aus Datenbank laden und diese anzegien lassen angelegt, bzw Felder 
+ *                 mit den Daten der Artikel befuellt
+ * 14.01.2015 Sen, ArtikelAendern speichern Funktion angefangen
+ * 15.01.2015 Sen, ArtikelAendern speichern Funktion anbgeschlossen
+ * 
  * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button 08.01.2015
  * Terrasi, Implementierung der Anzeigen/Ändern Funktion, hinzufügen der
  * Schnittstelle für InternalFrames

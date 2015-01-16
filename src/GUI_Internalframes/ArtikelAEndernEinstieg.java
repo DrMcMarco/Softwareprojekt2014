@@ -18,7 +18,23 @@ import java.util.logging.Logger;
 /**
  *
  * @author Tahir
- *
+ *  * Klassenhistorie:
+ * 30.11.2014 Sen, angelegt      
+ * 01.12.2014 Sen, textfeld,Button angelegt      
+ * 07.12.2014 Sen, Componenten mit leben befuellt
+ * 10.12.2014 Sen, grundlegenden Ueberarbeitung der Maske, Fehler korigiert
+ * 15.12.2014 Sen, taskleiste implementiert und funktionen erweitert
+ * 19.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button der Schnittstelle für InternalFrames
+ * 25.12.2014 Sen, UniversalDocument() implementiert, denn es sollen nur Zahlen eingegeben werden können
+ * 26.12.2014 Sen, ArtikelAnlegen in AritkelAnzeigen Funktion angefangen
+ * 01.01.2015 Sen, Methode zum Ändern von ArtikelAnlegen in ArtikelAnzeigen implementiert
+ * 02.01.2015 Sen, Löschen von Artikel Funktion implementiert
+ * 07.01.2015 Sen, Löschen von Artikel Funktion Fehler korriegiert
+ * 08.01.2015 Terrasi, Implementierung der Anzeigen/Ändern Funktion, hinzufügen
+ * 12.01.2015 Sen, Artikel aus Datenbank laden und diese anzegien lassen angelegt, bzw Felder 
+ *                 mit den Daten der Artikel befuellt
+ * 14.01.2015 Sen, ArtikelAendern speichern Funktion angefangen
+ * 15.01.2015 Sen, ArtikelAendern speichern Funktion anbgeschlossen
  * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
  */
 public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
