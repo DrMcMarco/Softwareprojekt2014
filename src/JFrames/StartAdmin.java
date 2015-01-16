@@ -6,7 +6,7 @@ package JFrames;
  * and open the template in the editor.
  */
 import GUI_Internalframes.*;
-import AdminHauptmenue.Hauptmenue_Admin;
+import Hauptmenue.Hauptmenue_Admin;
 import DAO.DataAccessObject;
 import java.awt.Component;
 import java.awt.Dimension;
