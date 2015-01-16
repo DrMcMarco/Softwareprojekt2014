@@ -187,7 +187,21 @@ public abstract class Anschrift implements Serializable {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 61 * hash + (int) (this.AnschriftID ^ (this.AnschriftID >>> 32));
+        hash = 79 * hash + (int) (this.AnschriftID ^ (this.AnschriftID >>> 32));
+        hash = 79 * hash + Objects.hashCode(this.Name);
+        hash = 79 * hash + Objects.hashCode(this.Vorname);
+        hash = 79 * hash + Objects.hashCode(this.Titel);
+        hash = 79 * hash + Objects.hashCode(this.Strasse);
+        hash = 79 * hash + Objects.hashCode(this.Hausnummer);
+        hash = 79 * hash + Objects.hashCode(this.PLZ);
+        hash = 79 * hash + Objects.hashCode(this.Ort);
+        hash = 79 * hash + Objects.hashCode(this.Staat);
+        hash = 79 * hash + Objects.hashCode(this.Telefon);
+        hash = 79 * hash + Objects.hashCode(this.FAX);
+        hash = 79 * hash + Objects.hashCode(this.Email);
+        hash = 79 * hash + Objects.hashCode(this.Geburtsdatum);
+        hash = 79 * hash + Objects.hashCode(this.Erfassungsdatum);
+        hash = 79 * hash + (this.LKZ ? 1 : 0);
         return hash;
     }
 
@@ -200,9 +214,6 @@ public abstract class Anschrift implements Serializable {
             return false;
         }
         final Anschrift other = (Anschrift) obj;
-        if (this.AnschriftID != other.AnschriftID) {
-            return false;
-        }
         if (!Objects.equals(this.Name, other.Name)) {
             return false;
         }

@@ -146,8 +146,19 @@ public class Zahlungskondition implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 37 * hash + (int) (this.ZahlungskonditionID ^ (this.ZahlungskonditionID >>> 32));
+        int hash = 7;
+        hash = 83 * hash + (int) (this.ZahlungskonditionID ^ (this.ZahlungskonditionID >>> 32));
+        hash = 83 * hash + Objects.hashCode(this.Auftragsart);
+        hash = 83 * hash + this.LieferzeitSofort;
+        hash = 83 * hash + this.SperrzeitWunsch;
+        hash = 83 * hash + this.Skontozeit1;
+        hash = 83 * hash + this.Skontozeit2;
+        hash = 83 * hash + (int) (Double.doubleToLongBits(this.Skonto1) ^ (Double.doubleToLongBits(this.Skonto1) >>> 32));
+        hash = 83 * hash + (int) (Double.doubleToLongBits(this.Skonto2) ^ (Double.doubleToLongBits(this.Skonto2) >>> 32));
+        hash = 83 * hash + this.Mahnzeit1;
+        hash = 83 * hash + this.Mahnzeit2;
+        hash = 83 * hash + this.Mahnzeit3;
+        hash = 83 * hash + (this.LKZ ? 1 : 0);
         return hash;
     }
 
@@ -160,9 +171,6 @@ public class Zahlungskondition implements Serializable {
             return false;
         }
         final Zahlungskondition other = (Zahlungskondition) obj;
-        if (this.ZahlungskonditionID != other.ZahlungskonditionID) {
-            return false;
-        }
         if (!Objects.equals(this.Auftragsart, other.Auftragsart)) {
             return false;
         }
