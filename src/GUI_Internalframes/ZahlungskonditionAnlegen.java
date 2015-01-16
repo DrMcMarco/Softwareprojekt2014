@@ -251,7 +251,6 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
-        jTF_Statuszeile1 = new javax.swing.JTextField();
         jSP_Skontozeit1 = new javax.swing.JSpinner();
         jSP_Skontozeit2 = new javax.swing.JSpinner();
         jSP_Mahnzeit1 = new javax.swing.JSpinner();
@@ -265,10 +264,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         jTF_Statuszeile.setText("Statuszeile");
         jTF_Statuszeile.setEnabled(false);
 
-        setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setIconifiable(true);
-        setMaximizable(true);
         setResizable(true);
         setTitle("Zahlungskonditonen anlegen");
         setPreferredSize(new java.awt.Dimension(500, 720));
@@ -421,9 +417,6 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         jLabel21.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel21.setText("Allgemeine Daten:");
 
-        jTF_Statuszeile1.setText("Statuszeile");
-        jTF_Statuszeile1.setEnabled(false);
-
         jSP_Skontozeit1.setModel(new javax.swing.SpinnerNumberModel(1, 1, 31, 1));
         jSP_Skontozeit1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -534,7 +527,6 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
                             .addComponent(jSP_LieferzeitSOFORT, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jSP_SperrzeitWUNSCH, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(119, Short.MAX_VALUE))
-            .addComponent(jTF_Statuszeile1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -622,8 +614,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jLabel11)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
-                .addComponent(jTF_Statuszeile1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(123, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -637,7 +628,6 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     private void jCB_AuftragsartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCB_AuftragsartActionPerformed
         if (jCB_Auftragsart.getSelectedIndex() != 0) {
             jCB_Auftragsart.setBackground(JCB_FARBE_STANDARD);
-            jTF_Statuszeile1.setText("");
         }
     }//GEN-LAST:event_jCB_AuftragsartActionPerformed
 
@@ -982,7 +972,6 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     private javax.swing.JSpinner jSP_SperrzeitWUNSCH;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTF_Statuszeile;
-    private javax.swing.JTextField jTF_Statuszeile1;
     private javax.swing.JTextField jTF_ZahlungskonditionID;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JToolBar jToolBar1;

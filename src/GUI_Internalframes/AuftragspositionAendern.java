@@ -110,7 +110,6 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
         jB_Loeschen = new javax.swing.JButton();
         jB_Suchen = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        jTextField1 = new javax.swing.JTextField();
         AuftragskopfID_jLabel = new javax.swing.JLabel();
         AuftragskopfID_jTextField = new javax.swing.JTextField();
         Enter_jButton = new javax.swing.JButton();
@@ -156,10 +155,6 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
         jB_Suchen.setText("Suchen");
         jToolBar1.add(jB_Suchen);
 
-        jTextField1.setEditable(false);
-        jTextField1.setText("Statuszeile");
-        jTextField1.setEnabled(false);
-
         AuftragskopfID_jLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         AuftragskopfID_jLabel.setLabelFor(AuftragskopfID_jTextField);
         AuftragskopfID_jLabel.setText("Auftragskopf-ID :");
@@ -173,8 +168,13 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
                 AuftragskopfID_jTextFieldFocusLost(evt);
             }
         });
+        AuftragskopfID_jTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                AuftragskopfID_jTextFieldKeyPressed(evt);
+            }
+        });
 
-        Enter_jButton.setText("Enter");
+        Enter_jButton.setText("Weiter");
         Enter_jButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Enter_jButtonActionPerformed(evt);
@@ -193,13 +193,17 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
                 AuftragspositionID_jTextFieldFocusLost(evt);
             }
         });
+        AuftragspositionID_jTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                AuftragspositionID_jTextFieldKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jTextField1)
             .addComponent(jSeparator1)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -229,8 +233,7 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
                     .addComponent(jLabel1)
                     .addComponent(AuftragspositionID_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Enter_jButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 182, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -329,6 +332,31 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 08.01.2015 Terrasi, angelegt, Dokumentation und Logik. */
+    /*----------------------------------------------------------*/
+    private void AuftragspositionID_jTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_AuftragspositionID_jTextFieldKeyPressed
+        if (evt.getKeyCode() == evt.VK_ENTER) {
+            Enter_jButtonActionPerformed(null);
+        }
+    }//GEN-LAST:event_AuftragspositionID_jTextFieldKeyPressed
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 08.01.2015 Terrasi, angelegt, Dokumentation und Logik. */
+    /*----------------------------------------------------------*/
+    private void AuftragskopfID_jTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_AuftragskopfID_jTextFieldKeyPressed
+        if (evt.getKeyCode() == evt.VK_ENTER) {
+            Enter_jButtonActionPerformed(null);
+        }
+    }//GEN-LAST:event_AuftragskopfID_jTextFieldKeyPressed
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der alle Eingabefelder zurückgesetzt werden
      */
@@ -339,6 +367,11 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
         AuftragspositionID_jTextField.setText("");
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /*
      Schnittstellenmethode mit der geprüft wird ob alle Eingaben getätigt worden sind.
      */
@@ -355,6 +388,11 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
         }
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der die Eingaben beim FocusLost auf Richtigkeit
      * geprüft werden.
@@ -378,6 +416,11 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
         }
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der die Eingabefelder die nicht ausgefüllt
      * worden sind, farblich markiert werden und eine Meldung ausgegeben wird,
@@ -417,7 +460,6 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
     private javax.swing.JButton jB_Zurueck;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }

@@ -8,6 +8,7 @@ package GUI_Internalframes;
 import DAO.ApplicationException;
 import DTO.Artikel;
 import Documents.UniversalDocument;
+import Interfaces.InterfaceMainView;
 import JFrames.*;
 import java.awt.Component;
 import java.text.NumberFormat;
@@ -42,17 +43,20 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
     Component c;
     GUIFactory factory;
 
+    InterfaceMainView hauptFenster;
+    
     private ArtikelAnlegen a;
     private NumberFormat nf;
 
     /**
      * Creates new form Fenster
      */
-    public ArtikelAEndernEinstieg(GUIFactory factory, ArtikelAnlegen a) {
+    public ArtikelAEndernEinstieg(GUIFactory factory, ArtikelAnlegen a, InterfaceMainView mainView) {
         initComponents();
         this.factory = factory;
         this.a = a;
-
+        this.hauptFenster = mainView;
+        
         nf = NumberFormat.getInstance();
         nf.setMinimumFractionDigits(2);
         nf.setMaximumFractionDigits(2);
@@ -78,12 +82,8 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
         jL_Artikel_ID = new javax.swing.JLabel();
         jTF_Artikel_ID = new javax.swing.JTextField();
         jB_Enter = new javax.swing.JButton();
-        jTF_Statuszeile = new javax.swing.JTextField();
 
-        setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setIconifiable(true);
-        setMaximizable(true);
         setResizable(true);
         setTitle("Artikel ändern");
         setPreferredSize(new java.awt.Dimension(580, 300));
@@ -159,16 +159,12 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
             }
         });
 
-        jTF_Statuszeile.setText("Statuszeile");
-        jTF_Statuszeile.setEnabled(false);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jSeparator1)
-            .addComponent(jTF_Statuszeile)
             .addGroup(layout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addComponent(jL_Artikel_ID, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -189,8 +185,7 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
                     .addComponent(jL_Artikel_ID, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTF_Artikel_ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jB_Enter))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
-                .addComponent(jTF_Statuszeile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(111, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -202,7 +197,6 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
         String artikelnummer = jTF_Artikel_ID.getText();
         long artikelnr = 0;
         try {
-            jTF_Statuszeile.setText("");
             artikelnr = nf.parse(artikelnummer).longValue();
             Artikel artikel = this.factory.getDAO().getItem(artikelnr);
             a.gibjTF_Artikelnummer().setText("" + artikel.getArtikelID());
@@ -223,10 +217,10 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
 
         } catch (ParseException ex) {
             System.out.println("Fehler beim Parsen in der Klasse ArtikelAEndernEinstieg!");
-            jTF_Statuszeile.setText("Bitte geben Sie eine Artikelnummer ein!");
+            this.hauptFenster.setStatusMeldung("Bitte geben Sie eine Artikelnummer ein!");
         } catch (ApplicationException ex) {
 //            Logger.getLogger(ArtikelAEndernEinstieg.class.getName()).log(Level.SEVERE, null, ex);
-            jTF_Statuszeile.setText("Kein passender Artikel in Datenbank!");
+            this.hauptFenster.setStatusMeldung("Kein passender Artikel in Datenbank!");
             jTF_Artikel_ID.setText("");
         }
 //        if (jTF_Artikel_ID.getText().equals("Ändern")) {
@@ -248,7 +242,7 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jB_EnterActionPerformed
 
     private void jB_EnterFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jB_EnterFocusLost
-        jTF_Statuszeile.setText("");
+
     }//GEN-LAST:event_jB_EnterFocusLost
 
     /**
@@ -267,7 +261,7 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
     private void jTF_Artikel_IDFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_Artikel_IDFocusGained
-        jTF_Statuszeile.setText("");
+
     }//GEN-LAST:event_jTF_Artikel_IDFocusGained
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
@@ -297,7 +291,6 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jL_Artikel_ID;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTF_Artikel_ID;
-    private javax.swing.JTextField jTF_Statuszeile;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }

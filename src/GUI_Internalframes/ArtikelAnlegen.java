@@ -281,7 +281,6 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jTF_Statuszeile = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -301,9 +300,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
         jTextField4.setText("jTextField4");
 
-        setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setIconifiable(true);
         setResizable(true);
         setTitle("Artikel anlegen");
         setPreferredSize(new java.awt.Dimension(500, 630));
@@ -436,9 +433,6 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel11.setText("€");
 
-        jTF_Statuszeile.setText("Statuszeile");
-        jTF_Statuszeile.setEnabled(false);
-
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel13.setText("Allgemeine Daten:");
 
@@ -495,7 +489,6 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jS_Trenner)
             .addComponent(jTB_Menueleiste, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jTF_Statuszeile)
             .addGroup(layout.createSequentialGroup()
                 .addGap(49, 49, 49)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -631,8 +624,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
                     .addComponent(jLabel18)
                     .addComponent(jTF_Bestandsmenge_VERKAUFT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel21))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                .addComponent(jTF_Statuszeile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -684,7 +676,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
                 } catch (ApplicationException e) {
                     System.out.println(e.getMessage());
                 }
-                jTF_Statuszeile.setText(STATUSZEILE);
+                this.hauptFenster.setStatusMeldung(STATUSZEILE);
 //          das Formular wird zurueckgesetzt  
                 setzeFormularZurueck();
             } else {
@@ -833,7 +825,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     private void jTF_ArtikelnameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_ArtikelnameFocusLost
         if (!jTF_Artikelname.getText().equals("")) {
             jTF_Artikelname.setBackground(JTF_FARBE_STANDARD);
-            jTF_Statuszeile.setText("");
+            
         }
     }//GEN-LAST:event_jTF_ArtikelnameFocusLost
     /*
@@ -1116,7 +1108,6 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTF_Bestandsmenge_ZULAUF;
     private javax.swing.JTextField jTF_Bestellwert;
     private javax.swing.JTextField jTF_Einzelwert;
-    private javax.swing.JTextField jTF_Statuszeile;
     private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 }

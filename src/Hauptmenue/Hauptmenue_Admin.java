@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package AdminHauptmenue;
+package Hauptmenue;
 
 import JFrames.GUIFactory;
 import JFrames.Start;
 import java.awt.Component;
-import AdminHauptmenue.*;
 import Interfaces.InterfaceJTreeFunction;
 import JFrames.StartAdmin;
 import javax.swing.JInternalFrame;
@@ -177,7 +176,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
         Hauptmenu_jScrollPane.setViewportView(hauptmenueAdmin_Tree);
 
         Logo_jLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Logo_jLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AdminHauptmenue/logo.PNG"))); // NOI18N
+        Logo_jLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Hauptmenue/logo.PNG"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

@@ -1062,6 +1062,7 @@ public class DataAccessObject {
     /**
      * Ändert sowohl die Attribute des Geschäftspartners als auch der Adresse
      * @param GeschaeftspartnerID ID des Geschäftspartners in der Datenbank
+     * @param modus Status der Checkbox 'wie Anschrift' in der Geschäftspartnerverwaltung
      * @param Kreditlimit Kreditlimit des Geschäftspartners
      * @param Name Nachname
      * @param Vorname Vorname
@@ -1171,6 +1172,61 @@ public class DataAccessObject {
         
         em.getTransaction().begin();
         em.merge(gp);
+        em.getTransaction().commit();
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 16.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
+    /**
+     * Ändert die eine Zahlungskondition
+     * @param ZahlungskonditionsID ID der Zahlungskondition in der Datenbank
+     * @param Auftragsart Auftragsart für diese Zahlungskondition
+     * @param LieferzeitSofort Festgelegte Lieferzeit in Tagen
+     * @param SperrzeitWunsch Festgelegt Wunschzeit in Tagen
+     * @param Skontozeit1 Erste Skontozeit in Tagen
+     * @param Skontozeit2 Zweite Skontozeit in Tagen
+     * @param Skonto1 Erster Skontosatz
+     * @param Skonto2 Zweiter Skontosatz
+     * @param Mahnzeit1 Erste Manhzeit in Tagen
+     * @param Mahnzeit2 Zweite Mahnzeit in Tagen
+     * @param Mahnzeit3 Dritte Mahnzeit in Tagen
+     * @throws ApplicationException wenn die Zahlungskondition nicht gefunden werden kann
+     */
+    public void aendereZahlungskondition(long ZahlungskonditionsID, 
+            String Auftragsart, int LieferzeitSofort, int SperrzeitWunsch, 
+            int Skontozeit1, int Skontozeit2, double Skonto1, double Skonto2, 
+            int Mahnzeit1, int Mahnzeit2, int Mahnzeit3) 
+            throws ApplicationException {
+        
+        //Zahlungskondition anhand der ID aus der Datenbank holen
+        Zahlungskondition zk = em.find(Zahlungskondition.class, 
+                ZahlungskonditionsID);
+        
+        //Wenn die Zahlungskondition nicht gefunden werden kann
+        if (zk == null) {
+            throw new ApplicationException("Fehler", 
+                    "Die Zahlungskondition konnte nicht aktualisiert werden.");
+        }
+        
+        //Ändern der Attribute
+        zk.setAuftragsart(Auftragsart);
+        zk.setLieferzeitSofort(LieferzeitSofort);
+        zk.setSperrzeitWunsch(SperrzeitWunsch);
+        zk.setSkontozeit1(Skontozeit1);
+        zk.setSkontozeit2(Skontozeit2);
+        zk.setSkonto1(Skonto1);
+        zk.setSkonto2(Skonto2);
+        zk.setMahnzeit1(Mahnzeit1);
+        zk.setMahnzeit2(Mahnzeit2);
+        zk.setMahnzeit3(Mahnzeit3);
+        
+        //Transaktions starten
+        em.getTransaction().begin();
+        //Zahlungskondition persistieren
+        em.persist(zk);
+        //Transaktion beenden
         em.getTransaction().commit();
     }
     

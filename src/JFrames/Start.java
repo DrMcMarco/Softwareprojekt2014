@@ -4,13 +4,16 @@ import DAO.DataAccessObject;
 import DAO.Parser;
 import GUI_Internalframes.*;
 import Interfaces.InterfaceMainView;
-import UserHauptmenue.Hauptmenue_User;
+import Hauptmenue.Hauptmenue_User;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.persistence.PersistenceException;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 /**
  *
@@ -117,11 +120,11 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         auftragsspositionaender = new AuftragspositionAendern(factory
                 ,auftragsspositionanzeigen, this);
         artikelanlegen = new ArtikelAnlegen(factory, this);
-        artikelaendern = new ArtikelAEndernEinstieg(factory, artikelanlegen);
+        artikelaendern = new ArtikelAEndernEinstieg(factory, artikelanlegen, this);
         geschaeftspartneranlegen = new GeschaeftspartnerAnlegen(factory, this);
-        geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg(factory, geschaeftspartneranlegen);
+        geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg(factory, geschaeftspartneranlegen, this);
         zahlungskonditionanlegen = new ZahlungskonditionAnlegen(factory, this);
-        zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg(factory, zahlungskonditionanlegen);
+        zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg(factory, zahlungskonditionanlegen, this);
 
         // Aufruf der setCenterJIF-Methode
         setCenterJIF(hauptmenueuser);
@@ -202,11 +205,9 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             }
         });
 
-        statusMeldung_jTextField.setForeground(new java.awt.Color(255, 0, 0));
+        statusMeldung_jTextField.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         statusMeldung_jTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         statusMeldung_jTextField.setEnabled(false);
-        desktopPane.add(statusMeldung_jTextField);
-        statusMeldung_jTextField.setBounds(0, 690, 800, 30);
 
         jM_Navigation.setMnemonic('n');
         jM_Navigation.setText("Navigation");
@@ -398,11 +399,15 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(statusMeldung_jTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 820, Short.MAX_VALUE)
+            .addComponent(desktopPane)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 714, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(statusMeldung_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -817,8 +822,26 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         setComponent(zahlungskonditionaendern);
     }//GEN-LAST:event_jMI_ZKAnzeigenActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt */
+    /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
+    /*----------------------------------------------------------*/
+    /**
+     * Methode in der definiert wird was beim betätigen des Logouts in der
+     * Navigation passiert
+     *
+     * @param evt
+     */
     private void jM_LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jM_LogoutActionPerformed
-        
+        // Erzeugen eine Meldung mit Abfrage
+        int antwort = JOptionPane.showConfirmDialog(rootPane, Beenden_Meldung,
+                Beenden_Meldung_Typ, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (antwort == JOptionPane.YES_OPTION) {
+            this.logInFester.setVisible(true);
+            this.setVisible(false);
+//            System.exit(0);
+        }
     }//GEN-LAST:event_jM_LogoutActionPerformed
 
     /*----------------------------------------------------------*/
@@ -912,8 +935,18 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
      */
     @Override
     public void setStatusMeldung(String status) {
+        // Erzeugung eines Peeptons.
         Toolkit.getDefaultToolkit().beep();
-        statusMeldung_jTextField.setText(status);
+        
+        statusMeldung_jTextField.setText(status);//Meldung wird angezeigt.
+        
+        // Erzeugung eines Timers, der nach 5 Sekunden die Meldung löscht.
+        new Timer(5000, new ActionListener(){
+            public void actionPerformed(ActionEvent ae){
+                
+                // Übergabe eines leeren Strings.
+                statusMeldung_jTextField.setText("");
+        }}).start();// Timer wird gestartet.
     }
 
     /**

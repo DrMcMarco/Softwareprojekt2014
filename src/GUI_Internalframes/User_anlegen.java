@@ -13,9 +13,11 @@ import javax.swing.JTextField;
  *
  * @author Luca Terrasi
  *
- * 10.12.2014 Dokumentation und Logik */
- /* 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button */
- /* 13.01.2015 Terrasi, Implementierung der DAO-Methoden */
+/* 10.12.2014 Dokumentation und Logik */
+/* 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button  un der 
+   Schnittstellenmethoden*/
+/* 08.01.2015 Terrasi, anlegen von SetStatus Methoden*/
+/* 13.01.2015 Terrasi, Implementierung der DAO-Methoden */
  
 public class User_anlegen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
@@ -77,6 +79,11 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         fehlendeEingaben = new ArrayList<Component>();
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 16.12.2014 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der alle Eingabefelder zurückgesetzt werden.
      */
@@ -88,6 +95,11 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         admin_jCheckBox.setSelected(false);
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 16.12.2014 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der geprüft wird ob alle Eingaben getätigt
      * worden sind.
@@ -105,6 +117,11 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         }
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 16.12.2014 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der die Eingaben beim FocusLost auf Richtigkeit
      * geprüft werden.
@@ -121,6 +138,11 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
 
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 16.12.2014 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der die Eingabefelder die nicht ausgefüllt
      * worden sind, farblich markiert werden und eine Meldung ausgegeben wird,
@@ -149,7 +171,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 08.01.2015 Terrasi angelegt,Logik und Dokumentation */
+    /* 08.01.2015 Terrasi angelegt und Logik implementiert*/
     /*----------------------------------------------------------*/
     public void setStatusAnzeigen() {
         this.setTitle("Benutzer anzeigen");
@@ -165,7 +187,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     }
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 08.01.2015 Terrasi angelegt,Logik und Dokumentation */
+    /* 08.01.2015 Terrasi angelegt und Logik implementiert */
     /*----------------------------------------------------------*/
 
     /**
@@ -187,7 +209,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 08.01.2015 Terrasi angelegt und dokumentiert*/
+    /* 08.01.2015 Terrasi angelegt und Logik implementiert*/
     /*----------------------------------------------------------*/
     public void setStatusAnlegen() {
         this.setTitle("Benutzer anlegen");
@@ -221,7 +243,6 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         benutzername_jLabel = new javax.swing.JLabel();
         passwort_jLabel = new javax.swing.JLabel();
         benutzername_jTextField = new javax.swing.JTextField();
-        statuszeile_jTextField = new javax.swing.JTextField();
         passwort_jTextField = new javax.swing.JTextField();
         admin_jCheckBox = new javax.swing.JCheckBox();
 
@@ -295,9 +316,6 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
             }
         });
 
-        statuszeile_jTextField.setText("Statuszeile");
-        statuszeile_jTextField.setEnabled(false);
-
         passwort_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 passwort_jTextFieldFocusGained(evt);
@@ -317,7 +335,6 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
             .addComponent(jSeparator1)
-            .addComponent(statuszeile_jTextField)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -348,8 +365,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
                     .addComponent(passwort_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(admin_jCheckBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
-                .addComponent(statuszeile_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -357,6 +373,10 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt und Logik implementiert*/
+    /*----------------------------------------------------------*/
     /**
      * Selektiert das Eingabefeld des Benutzernamens
      *
@@ -369,6 +389,10 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         benutzername_jTextField.setText("");//Übergabe eines leeren Strings an das Eingabefeld
     }//GEN-LAST:event_benutzername_jTextFieldFocusGained
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt und Logik implementiert*/
+    /*----------------------------------------------------------*/
     /**
      * Selektiert das Eingabefeld des Passworts
      *
@@ -380,6 +404,10 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         passwort_jTextField.setText("");//Übergabe eines leeren Strings an das Eingabefeld
     }//GEN-LAST:event_passwort_jTextFieldFocusGained
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 13.01.2015 Terrasi, angelegt und Logik implementiert*/
+    /*----------------------------------------------------------*/
     /**
      * Beim Speichern wird geprüft ob alle notwendigen Eingaben vorhanden sind.
      * Wenn diese vorhadnen sind, wird ein User mit seinem dazugehörigem
@@ -436,6 +464,10 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 13.01.2015 Terrasi, angelegt und Logik implementiert*/
+    /*----------------------------------------------------------*/
     private void jB_AnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AnzeigenActionPerformed
         if (jB_Anzeigen.getText().equals("Anzeigen")) {
             this.setStatusAnzeigen();
@@ -543,6 +575,5 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JLabel passwort_jLabel;
     private javax.swing.JTextField passwort_jTextField;
-    private javax.swing.JTextField statuszeile_jTextField;
     // End of variables declaration//GEN-END:variables
 }

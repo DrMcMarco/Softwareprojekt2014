@@ -6,7 +6,7 @@ package JFrames;
  * and open the template in the editor.
  */
 import GUI_Internalframes.*;
-import AdminHauptmenue.Hauptmenue_Admin;
+import Hauptmenue.Hauptmenue_Admin;
 import DAO.DataAccessObject;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -14,7 +14,10 @@ import javax.persistence.PersistenceException;
 import javax.swing.JOptionPane;
 import Interfaces.InterfaceMainView;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JInternalFrame;
+import javax.swing.Timer;
 
 /**
  *
@@ -124,11 +127,11 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         auftragsspositionaender = new AuftragspositionAendern(factory,
         auftragsspositionanzeigen, this);
         artikelanlegen = new ArtikelAnlegen(factory, this);
-        artikelaendern = new ArtikelAEndernEinstieg(factory, artikelanlegen);
+        artikelaendern = new ArtikelAEndernEinstieg(factory, artikelanlegen, this);
         geschaeftspartneranlegen = new GeschaeftspartnerAnlegen(factory, this);
-        geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg(factory, geschaeftspartneranlegen);
+        geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg(factory, geschaeftspartneranlegen, this);
         zahlungskonditionanlegen = new ZahlungskonditionAnlegen(factory, this);
-        zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg(factory, zahlungskonditionanlegen);
+        zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg(factory, zahlungskonditionanlegen, this);
         useranlegen = new User_anlegen(factory, this);
         useraendern = new User_andernEinstieg(factory, useranlegen, this);
 
@@ -222,10 +225,10 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         });
 
         statusMeldung_jTextField.setEditable(false);
+        statusMeldung_jTextField.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         statusMeldung_jTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        desktopPane.add(statusMeldung_jTextField);
-        statusMeldung_jTextField.setBounds(0, 528, 790, 30);
-        desktopPane.setLayer(statusMeldung_jTextField, javax.swing.JLayeredPane.PALETTE_LAYER);
+        statusMeldung_jTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        statusMeldung_jTextField.setEnabled(false);
 
         jM_Navigation.setMnemonic('n');
         jM_Navigation.setText("Navigation");
@@ -441,11 +444,15 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 786, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 810, Short.MAX_VALUE)
+            .addComponent(statusMeldung_jTextField)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 561, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(statusMeldung_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         getAccessibleContext().setAccessibleName("");
@@ -970,8 +977,18 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
      */
     @Override
     public void setStatusMeldung(String status) {
+        // Erzeugung eines Peeptons.
         Toolkit.getDefaultToolkit().beep();
-        statusMeldung_jTextField.setText(status);
+        
+        statusMeldung_jTextField.setText(status);//Meldung wird angezeigt.
+        
+        // Erzeugung eines Timers, der nach 5 Sekunden die Meldung löscht.
+        new Timer(5000, new ActionListener(){
+            public void actionPerformed(ActionEvent ae){
+                
+                // Übergabe eines leeren Strings.
+                statusMeldung_jTextField.setText("");
+        }}).start();// Timer wird gestartet.
     }
 
     @Override

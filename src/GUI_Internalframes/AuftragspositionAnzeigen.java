@@ -113,7 +113,6 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         jB_Loeschen = new javax.swing.JButton();
         jB_Suchen = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        Statuszeile_jTextField = new javax.swing.JTextField();
         auftragspositionsID_jLabel = new javax.swing.JLabel();
         positionsnummer_jLabel = new javax.swing.JLabel();
         materialnummer_jLabel = new javax.swing.JLabel();
@@ -160,9 +159,6 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
 
         jB_Suchen.setText("Suchen");
         jToolBar1.add(jB_Suchen);
-
-        Statuszeile_jTextField.setText("Statuszeile");
-        Statuszeile_jTextField.setEnabled(false);
 
         auftragspositionsID_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         auftragspositionsID_jLabel.setLabelFor(auftragspositionsID_jTextField);
@@ -259,7 +255,6 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE)
-            .addComponent(Statuszeile_jTextField)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -318,13 +313,12 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(erfassungsdatum_jLabel)
                     .addComponent(erfassungsdatum_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
-                .addComponent(Statuszeile_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(80, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(22, 22, 22)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(402, Short.MAX_VALUE)))
+                    .addContainerGap(320, Short.MAX_VALUE)))
         );
 
         pack();
@@ -509,6 +503,11 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         }
     }//GEN-LAST:event_jB_AnzeigenActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der alle Eingabefelder zurückgesetzt werden
      */
@@ -524,6 +523,11 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         erfassungsdatum_jTextField.setText(format.format(heute));
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /*
      Schnittstellenmethode mit der geprüft wird ob alle Eingaben getätigt worden sind.
      */
@@ -553,6 +557,11 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         }
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der die Eingaben beim FocusLost auf Richtigkeit
      * geprüft werden.
@@ -576,6 +585,11 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         }
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der die Eingabefelder die nicht ausgefüllt
      * worden sind, farblich markiert werden und eine Meldung ausgegeben wird,
@@ -648,7 +662,6 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField Statuszeile_jTextField;
     private javax.swing.JLabel auftragspositionsID_jLabel;
     private javax.swing.JTextField auftragspositionsID_jTextField;
     private javax.swing.JLabel einzelwert_jLabel;

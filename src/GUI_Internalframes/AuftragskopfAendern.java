@@ -13,20 +13,22 @@ import DTO.*;
 import java.util.Calendar;
 import java.util.Date;
 
+
+ /* 10.12.2014 Dokumentation und Logik */
+ /* 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button */
+ /* 08.01.2015 Terrasi, Überarbeitung der Anwendungslogik und das hinzufügen von
+    weiteren Funktion. */
+ /* 14.01.2015 Terrasi, Implementierung der DAO-Methode für das finden 
+    eines Auftrags.
+ */
 /**
- *
+ * 
  * @author Luca Terrasi
- *
- * 10.12.2014 Dokumentation und Logik 16.12.2014 Terrasi,
- * Funktionsimplementierung im "Zurück"-Button 08.01.2015 Terrasi, Überarbeitung
- * der Anwendungslogik und das hinzufügen von weiteren Funktion.
- * 14.01.2015 Terrasi, Implementierung der DAO-Methode für das finden eines Auftrags.
  */
 public class AuftragskopfAendern extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
     /*
      Hilfsvariable
      */
-
     Component c;
     GUIFactory factory;
     InterfaceMainView hauptFenster;
@@ -57,11 +59,13 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
     Color warningfarbe = Color.YELLOW;
     Color hintergrundfarbe = Color.WHITE;
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
     /**
-     * Creates new form Fenster
-     */
-    /**
-     *
+     * Kostruktor,
+     * Erzeugung eines AuftragskopfAendernobjektes.
      *
      * @param factory
      * @param auftragsKopf
@@ -100,7 +104,6 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         jB_Loeschen = new javax.swing.JButton();
         jB_Suchen = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        jTextField1 = new javax.swing.JTextField();
         auftragskopfID_jLabel = new javax.swing.JLabel();
         auftragskopfID_jTextField = new javax.swing.JTextField();
         weiter_jButton = new javax.swing.JButton();
@@ -144,10 +147,6 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         jB_Suchen.setEnabled(false);
         jToolBar1.add(jB_Suchen);
 
-        jTextField1.setEditable(false);
-        jTextField1.setText("Statuszeile");
-        jTextField1.setEnabled(false);
-
         auftragskopfID_jLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         auftragskopfID_jLabel.setLabelFor(auftragskopfID_jTextField);
         auftragskopfID_jLabel.setText("Auftragskopf-ID :");
@@ -159,6 +158,11 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 auftragskopfID_jTextFieldFocusLost(evt);
+            }
+        });
+        auftragskopfID_jTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                auftragskopfID_jTextFieldKeyPressed(evt);
             }
         });
 
@@ -181,8 +185,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
                 .addComponent(auftragskopfID_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(weiter_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(174, Short.MAX_VALUE))
-            .addComponent(jTextField1)
+                .addContainerGap(108, Short.MAX_VALUE))
             .addComponent(jSeparator1)
         );
         layout.setVerticalGroup(
@@ -196,8 +199,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
                     .addComponent(auftragskopfID_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(weiter_jButton)
                     .addComponent(auftragskopfID_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 184, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(157, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -205,6 +207,10 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
     /**
      * Beim wählen des Eingabefeldes, wird alles selektiert.
      *
@@ -215,6 +221,10 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         auftragskopfID_jTextField.setText("");//Übergabe eines leeren Strings an das Eingabefeld
     }//GEN-LAST:event_auftragskopfID_jTextFieldFocusGained
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
     /**
      * Beim Focuslost des Eingabefeldes für die Auftragskopf-ID, wird auf die
      * Richtigkeit der Eingabe geprüft und gibt gegebenen falls eine
@@ -229,6 +239,13 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
 
     }//GEN-LAST:event_auftragskopfID_jTextFieldFocusLost
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und dokumentiert*/
+    /* 14.01.2015 Terrasi, implementierung der DAOMethode "getOrderHead"
+    und Logiküberarbeitung.
+    */
+    /*----------------------------------------------------------*/
     /**
      * Auszuführende Aktion beim betätigen des "Weiter"-Buttons. Es wird geprüft
      * ob das eingabefeld leer ist und wenn ja wird eine Meldung ausgegeben in
@@ -298,6 +315,10 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         }
     }//GEN-LAST:event_weiter_jButtonActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 16.12.2014 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
     /**
      * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird. Es wird von
      * der Guifactory die letzte aufgerufene Component abgefragt wodurch man die
@@ -313,6 +334,21 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 08.01.2015 Terrasi, angelegt, Dokumentation und Logik. */
+    /*----------------------------------------------------------*/
+    private void auftragskopfID_jTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_auftragskopfID_jTextFieldKeyPressed
+        if (evt.getKeyCode() == evt.VK_ENTER) {
+            weiter_jButtonActionPerformed(null);
+        }
+    }//GEN-LAST:event_auftragskopfID_jTextFieldKeyPressed
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der alle Eingabefelder zurückgesetzt werden
      *
@@ -323,6 +359,11 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         auftragskopfID_jTextField.setText("");
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der geprüft wird ob alle Eingaben getätigt
      * worden sind.
@@ -339,6 +380,11 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         }
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der die Eingaben beim FocusLost auf Richtigkeit
      * geprüft werden.
@@ -362,6 +408,11 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         }
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der die Eingabefelder die nicht ausgefüllt
      * worden sind, farblich markiert werden und eine Meldung ausgegeben wird,
@@ -428,7 +479,6 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
     private javax.swing.JButton jB_Suchen;
     private javax.swing.JButton jB_Zurueck;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JButton weiter_jButton;
     // End of variables declaration//GEN-END:variables

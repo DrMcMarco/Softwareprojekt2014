@@ -1,4 +1,4 @@
-package UserHauptmenue;
+package Hauptmenue;
 
 import GUI_Internalframes.*;
 import Interfaces.*;
@@ -128,7 +128,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
         Hauptmenu_jScrollPane.setViewportView(hauptmenueAdmin_Tree);
 
         Logo_jLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Logo_jLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AdminHauptmenue/logo.PNG"))); // NOI18N
+        Logo_jLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Hauptmenue/logo.PNG"))); // NOI18N
 
         jToolBar1.setBorder(null);
         jToolBar1.setRollover(true);
