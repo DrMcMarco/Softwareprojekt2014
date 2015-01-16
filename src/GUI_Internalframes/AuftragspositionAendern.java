@@ -329,6 +329,11 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der alle Eingabefelder zurückgesetzt werden
      */
@@ -339,6 +344,11 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
         AuftragspositionID_jTextField.setText("");
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /*
      Schnittstellenmethode mit der geprüft wird ob alle Eingaben getätigt worden sind.
      */
@@ -355,6 +365,11 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
         }
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der die Eingaben beim FocusLost auf Richtigkeit
      * geprüft werden.
@@ -378,6 +393,11 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
         }
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der die Eingabefelder die nicht ausgefüllt
      * worden sind, farblich markiert werden und eine Meldung ausgegeben wird,

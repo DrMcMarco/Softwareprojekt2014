@@ -93,7 +93,6 @@
                                           <Component id="menge_jTextField" min="-2" pref="208" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="1" attributes="0">
-                                          <EmptySpace max="32767" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="einzelwert_jLabel" min="-2" pref="100" max="-2" attributes="0"/>
                                               <Component id="erfassungsdatum_jLabel1" alignment="1" min="-2" max="-2" attributes="0"/>

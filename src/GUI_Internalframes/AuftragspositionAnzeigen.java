@@ -509,6 +509,11 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         }
     }//GEN-LAST:event_jB_AnzeigenActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der alle Eingabefelder zurückgesetzt werden
      */
@@ -524,6 +529,11 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         erfassungsdatum_jTextField.setText(format.format(heute));
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /*
      Schnittstellenmethode mit der geprüft wird ob alle Eingaben getätigt worden sind.
      */
@@ -553,6 +563,11 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         }
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der die Eingaben beim FocusLost auf Richtigkeit
      * geprüft werden.
@@ -576,6 +591,11 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         }
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der die Eingabefelder die nicht ausgefüllt
      * worden sind, farblich markiert werden und eine Meldung ausgegeben wird,

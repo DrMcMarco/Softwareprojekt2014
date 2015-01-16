@@ -13,20 +13,22 @@ import DTO.*;
 import java.util.Calendar;
 import java.util.Date;
 
+
+ /* 10.12.2014 Dokumentation und Logik */
+ /* 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button */
+ /* 08.01.2015 Terrasi, Überarbeitung der Anwendungslogik und das hinzufügen von
+    weiteren Funktion. */
+ /* 14.01.2015 Terrasi, Implementierung der DAO-Methode für das finden 
+    eines Auftrags.
+ */
 /**
- *
+ * 
  * @author Luca Terrasi
- *
- * 10.12.2014 Dokumentation und Logik 16.12.2014 Terrasi,
- * Funktionsimplementierung im "Zurück"-Button 08.01.2015 Terrasi, Überarbeitung
- * der Anwendungslogik und das hinzufügen von weiteren Funktion.
- * 14.01.2015 Terrasi, Implementierung der DAO-Methode für das finden eines Auftrags.
  */
 public class AuftragskopfAendern extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
     /*
      Hilfsvariable
      */
-
     Component c;
     GUIFactory factory;
     InterfaceMainView hauptFenster;
@@ -57,11 +59,13 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
     Color warningfarbe = Color.YELLOW;
     Color hintergrundfarbe = Color.WHITE;
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
     /**
-     * Creates new form Fenster
-     */
-    /**
-     *
+     * Kostruktor,
+     * Erzeugung eines AuftragskopfAendernobjektes.
      *
      * @param factory
      * @param auftragsKopf
@@ -205,6 +209,10 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
     /**
      * Beim wählen des Eingabefeldes, wird alles selektiert.
      *
@@ -215,6 +223,10 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         auftragskopfID_jTextField.setText("");//Übergabe eines leeren Strings an das Eingabefeld
     }//GEN-LAST:event_auftragskopfID_jTextFieldFocusGained
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
     /**
      * Beim Focuslost des Eingabefeldes für die Auftragskopf-ID, wird auf die
      * Richtigkeit der Eingabe geprüft und gibt gegebenen falls eine
@@ -229,6 +241,13 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
 
     }//GEN-LAST:event_auftragskopfID_jTextFieldFocusLost
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und dokumentiert*/
+    /* 14.01.2015 Terrasi, implementierung der DAOMethode "getOrderHead"
+    und Logiküberarbeitung.
+    */
+    /*----------------------------------------------------------*/
     /**
      * Auszuführende Aktion beim betätigen des "Weiter"-Buttons. Es wird geprüft
      * ob das eingabefeld leer ist und wenn ja wird eine Meldung ausgegeben in
@@ -298,6 +317,10 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         }
     }//GEN-LAST:event_weiter_jButtonActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 16.12.2014 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
     /**
      * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird. Es wird von
      * der Guifactory die letzte aufgerufene Component abgefragt wodurch man die
@@ -313,6 +336,11 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der alle Eingabefelder zurückgesetzt werden
      *
@@ -323,6 +351,11 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         auftragskopfID_jTextField.setText("");
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der geprüft wird ob alle Eingaben getätigt
      * worden sind.
@@ -339,6 +372,11 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         }
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der die Eingaben beim FocusLost auf Richtigkeit
      * geprüft werden.
@@ -362,6 +400,11 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         }
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der die Eingabefelder die nicht ausgefüllt
      * worden sind, farblich markiert werden und eine Meldung ausgegeben wird,

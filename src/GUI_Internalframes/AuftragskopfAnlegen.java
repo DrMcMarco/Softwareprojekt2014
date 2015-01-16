@@ -20,32 +20,48 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
+
+ /* 10.12.2014 Terrasi, angelegt, Sschnittstellenimplementierung, Dokumentation und Logiküberarbetung */
+ /* 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button */
+ /* 06.01.2015 Terrasi, Anwendungslogik für das ändern und anzeigen eines Auftragskopfs. */
+ /* 08.01.2015 Terrasi, Überarbeitung der Anwendungslogik für anzeigen/ändern Status und das
+  * hinzufügen von weiteren Funktion. 
+ /* 13.01.2015 Terrasi, Implementierung der DAO-Methoden zum anlegen eines 
+    Auftragskopfs und von Auftragspositionen. Desweiteren deren wiedergabe in 
+    ener Tabelle. */
+ /* 14.01.2015 Terrasi, Implementierung der Löschmethode der DAO und Überprüfung
+    der Eingabefelder überarbeitet.*/
 /**
- *
+ * 
  * @author Luca Terrasi
- *
- *
- * 10.12.2014 Terrasi, Dokumentation und Logiküberarbetung 16.12.2014 Terrasi,
- * Funktionsimplementierung im "Zurück"-Button 06.01.2015 Terrasi,
- * Anwendungslogik für das ändern und anzeigen eines Auftragskopfs. 08.01.2015
- * Terrasi, Überarbeitung der Anwendungslogik für anzeigen/ändern Status und das
- * hinzufügen von weiteren Funktion. 13.01.2015 Terrasi, Implementierung der
- * DAO-Methoden zum anlegen eines Auftragskopfs und von Auftragspositionen.
- * Desweiteren deren wiedergabe in ener Tabelle.
+ * 
+ * Die Maske um einen Auftragskopf anzulegen wird erzeugt. Es können alle
+ * Eingaben die für einen Auftragskopf notwendig sind eingegeben werden.
+ * Es findet eine Überprüfung auf Vollständigkeit der eingaben statt und es wird
+ * dementsprechend eine Meldung ausgegeben. Desweitere besitzt die Maske die 
+ * Funktionen um einen Auftrgaskopf mit den dazu angelegten Auftragspositionen 
+ * zu löschen, bearbeiten und anzulegen.
+ * Die Maske besitzt anhand von Methoden auch die Fähigkeit sich in verschiedenen
+ * Stati anzeigen zu lassen.
+ * 
  */
 public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
-
-    Component c;
+    /*
+    Deklaration von Speicher und Referenzvariablen.
+    */
+    Component letzteComponent;
     GUIFactory factory;
     DataAccessObject dao;
     InterfaceMainView hauptFenster;
     DefaultTableModel dtm;
+    
+    /*
+    Variablen für die erzeugung der Spalten und Zeilen für die Auftragspositins-
+    tabelle.
+    */
     Vector spaltenNamen;
     Vector zeilen;
 
@@ -53,29 +69,33 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      Hilfsvaribalen
      */
     private Collection<Zahlungskondition> zahlungskondditionAusDatenbank;
-    private ArrayList<Zahlungskondition> listeVonZahlungskonditionen;
+    private ArrayList<String> listeVonZahlungskonditionen = new ArrayList<>();
     private ArrayList<String> zahlungskonditionFuerCombobox = new ArrayList<>();
+    private String status = "";
     private String typ;
     private HashMap<Long, Integer> artikel;
     private String auftragsText;
     private Long geschaeftspartnerID;
-    private Long zahlungskonditionID;
-    private String status;
     private Date abschlussdatum;
     private Date lieferdatum;
+    
     /*
-     Varibalendefinition
+     Varibalendefinition für Datumseingaben.
      */
     public Date heute;// heutiges Datum
     public SimpleDateFormat format; //Umwandler für Datum
+    
+    /*
+    Variable für die Zählung von Auftragspositionen.
+    */
     private Integer positionsZaehler = 1;
+    
     /*
      Syntaxvariablen
      */
-    private static final String preis_syntax = "|(\\d*,?\\d{1,2})|(\\d{0,3}(\\.\\d{3})*,?\\d{1,2})";
-    private static final String materialnummer_syntax = "|\\d{8}?";
-    private static final String positionsnummer_syntax = "|\\d{1,9}?";
-    private static final String geschaeftspartner_syntax = "|\\d{1,8}?";
+    private static final String PEIS_SYNTAX = "|(\\d*,?\\d{1,2})|(\\d{0,3}(\\.\\d{3})*,?\\d{1,2})";
+    private static final String POSITIONSNUMMER_SYNTAX = "|\\d{1,9}?";
+    private static final String GESCHAEFTSPARTNER_SYNTAX = "|\\d{1,8}?";
 
 
     /*
@@ -88,9 +108,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             + "Bitte überprüfen Sie ihr Lieferdatum";
     final String FEHLERMELDUNG_ABSCHLUSSDATUM_TEXT = "Das Abschlussdatum darf nicht in der Vergangenheit liegen.\n"
             + "Bitte überprüfen Sie ihr Abschlussdatum";
-    final String fehlermeldung_abschlussdatumVorlieferdatum_text = "Das Abschlussdatum darf vor dem Lieferdatum liegen.\n"
+    final String FEHLERMELDUNG_ABSCHLUSSDATUMVORLIEFERDATUM_TEXT = "Das Abschlussdatum darf vor dem Lieferdatum liegen.\n"
             + "Bitte überprüfen Sie ihr Abschlussdatum";
-    final String fehlermeldung_ungueltigesdatum = "Üngültigesdatum. Bitte geben Sie eine gültiges Datum ein. (z.B 01.01.2016)";
+    final String FEHLERMELDUNG_UNGUELTIGESDATUM = "Üngültigesdatum. Bitte geben Sie eine gültiges Datum ein. (z.B 01.01.2016)";
     final String fehlermeldung_unvollstaendig_auftragskopf_text = "Es wurden nicht alle Eingaben getätigt.\n"
             + "Bitte geben Sie die benötigten Eingaben für den Auftragskopf in die markierten Eingabefelder ein.";
     final String fehlermeldung_unvollstaendig_auftragsposition_text = "Es wurden nicht alle Eingaben getätigt.\n"
@@ -835,7 +855,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      */
     private void auftragswert_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_auftragswert_jTextFieldFocusLost
         // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
-        ueberpruefungVonFocusLost(auftragswert_jTextField, preis_syntax,
+        ueberpruefungVonFocusLost(auftragswert_jTextField, PEIS_SYNTAX,
                 FEHLERMELDUNG_TITEL, fehlermeldungPreis_text);
 
     }//GEN-LAST:event_auftragswert_jTextFieldFocusLost
@@ -849,7 +869,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      */
     private void einzelwert_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_einzelwert_jTextFieldFocusLost
         // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
-        ueberpruefungVonFocusLost(einzelwert_jTextField, preis_syntax,
+        ueberpruefungVonFocusLost(einzelwert_jTextField, PEIS_SYNTAX,
                 FEHLERMELDUNG_TITEL, fehlermeldungPreis_text);
     }//GEN-LAST:event_einzelwert_jTextFieldFocusLost
 
@@ -899,7 +919,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      */
     private void positionsnummer_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_positionsnummer_jTextFieldFocusLost
         // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
-        ueberpruefungVonFocusLost(positionsnummer_jTextField, positionsnummer_syntax,
+        ueberpruefungVonFocusLost(positionsnummer_jTextField, POSITIONSNUMMER_SYNTAX,
                 FEHLERMELDUNG_TITEL, fehlermeldungPositionsnummer_text);
     }//GEN-LAST:event_positionsnummer_jTextFieldFocusLost
 
@@ -1043,7 +1063,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     private void geschaeftspartner_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_geschaeftspartner_jTextFieldFocusLost
         // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
         ueberpruefungVonFocusLost(geschaeftspartner_jTextField,
-                geschaeftspartner_syntax, FEHLERMELDUNG_TITEL,
+                GESCHAEFTSPARTNER_SYNTAX, FEHLERMELDUNG_TITEL,
                 fehlermeldungGeschaeftspartnerID_text);
     }//GEN-LAST:event_geschaeftspartner_jTextFieldFocusLost
 
@@ -1074,7 +1094,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         } catch (ParseException e) {// Exception wird abgefangen, falls nicht geparst werden kann.
             //Ausgabe einer Fehlermeldung
             JOptionPane.showMessageDialog(rootPane,
-                    fehlermeldung_ungueltigesdatum, FEHLERMELDUNG_TITEL,
+                    FEHLERMELDUNG_UNGUELTIGESDATUM, FEHLERMELDUNG_TITEL,
                     JOptionPane.ERROR_MESSAGE);
             //Mit dem Focus in das Eingabefeld springen
             lieferdatum_jFormattedTextField.requestFocusInWindow();
@@ -1102,7 +1122,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                     if (abschlussdatum.before(lieferdatum)) {//Wenn Abschlussdatum vor dem Lieferdatum liegt
                         //Ausgabe eine Fehlermeldung
                         JOptionPane.showMessageDialog(null,
-                                fehlermeldung_abschlussdatumVorlieferdatum_text,
+                                FEHLERMELDUNG_ABSCHLUSSDATUMVORLIEFERDATUM_TEXT,
                                 FEHLERMELDUNG_TITEL, JOptionPane.ERROR_MESSAGE);
                         //In das Eingabefeld springen
                         abschlussdatum_jFormattedTextField.requestFocusInWindow();
@@ -1120,7 +1140,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         } catch (ParseException e) {// Exception wird abgefangen, falls nicht geparst werden kann.
             //Ausgabe einer Fehlermeldung
             JOptionPane.showMessageDialog(rootPane,
-                    fehlermeldung_ungueltigesdatum, FEHLERMELDUNG_TITEL,
+                    FEHLERMELDUNG_UNGUELTIGESDATUM, FEHLERMELDUNG_TITEL,
                     JOptionPane.ERROR_MESSAGE);
             //In das Eingabefeld springen
             abschlussdatum_jFormattedTextField.requestFocusInWindow();
@@ -1128,6 +1148,11 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         }
     }//GEN-LAST:event_abschlussdatum_jFormattedTextFieldFocusLost
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, Dokumentation und Logik. */
+    /* 13.01.2015 Terrasi, Logik implementiert*/
+    /*----------------------------------------------------------*/
     /**
      * Aktion in der überprüft wird ob alle erforderlichen Eingaben für eine
      * Auftragsposition vorhanden sind und diese dann zum jeweiligen
@@ -1212,6 +1237,11 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 
     }//GEN-LAST:event_NeuePosition_jButtonActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, Dokumentation und Logik. */
+    /* 16.12.2014 Terrasi, Logik implementiert*/
+    /*----------------------------------------------------------*/
     /**
      * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird. Es wird von
      * der Guifactory die letzte aufgerufene Component abgefragt wodurch man die
@@ -1220,12 +1250,12 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      * @param evt
      */
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
-        zuruecksetzen();
-        c = null;   //Initialisierung der Componentspeichervariable
+        zuruecksetzen();// Eingabefelder werden zurückgesetzt.
+        letzteComponent = null;   //Initialisierung der Componentspeichervariable
         //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-        c = this.factory.zurueckButton();
+        letzteComponent = this.factory.zurueckButton();
         this.setVisible(false);// Internalframe wird nicht mehr dargestellt
-        c.setVisible(true);// Übergebene Component wird sichtbar gemacht
+        letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
     /*----------------------------------------------------------*/
@@ -1241,32 +1271,54 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      * @param
      */
     private void jB_AnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AnzeigenActionPerformed
-        if (jB_Anzeigen.getText().equals("Anzeigen")) {
-            this.setStatusAnzeigen();
+        if (jB_Anzeigen.getText().equals("Anzeigen")) {// Überprüfung des Namens des Ändern/Anzeige-Buttons.
+            this.setStatusAnzeigen();// Button in Anzeigestatus setzen.
         } else {
-            this.setStatusAender();
+            this.setStatusAender();// Button in Ändernstatus setzen.
         }
     }//GEN-LAST:event_jB_AnzeigenActionPerformed
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 14.01.2015 Terrasi angelegt */
+    /* 14.01.2015 Terrasi, angelegt */
+    /* 14.01.2015 Terrasi, Logik implementiert */
     /*----------------------------------------------------------*/
+    /**
+     * Methode die beim Löschen genutzt wird. Es erscheint eine ABfrage die
+     * der Benutzer bejahen muss um den ausgewählten Auftrag zu löschen.
+     * Der ausgewählte Auftrag wird in der DB mit einem Löschkennzeichen
+     * versehen. Nachdem der Auftrag gelöscht wurden ist, erscheint in 
+     * der Statuszeile eine Meldung ber die erfolgreiche Löschung des
+     * Auftrags und alle Eingabefelder werden geleert.
+     * Bei einem Fehler wird auch eine entsprechende Fehlermeldung in der 
+     * Statuszeile angezeigt.
+     * 
+     * @param evt 
+     */
     private void jB_LoeschenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_LoeschenActionPerformed
+        // Erzeugung einer Abfrage und Speicherung der antwort
         int antwort = JOptionPane.showConfirmDialog(rootPane, LOESCHENMELDUNG,
                 LOESCHEN_TITEL, JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
-        try {
+        try {// Try-Block
 
-            if (antwort == JOptionPane.YES_OPTION) {
+            if (antwort == JOptionPane.YES_OPTION) { // Abfrage ob gegebene Antwort "Ja" ist.
+                
+                // Aufruf der Löschmethode der DAO.
                 GUIFactory.getDAO().loescheAuftrag(Long.parseLong(auftragskopfID_jTextField.getText()));
-                this.hauptFenster.setStatusMeldung(ERFOLGREICHESLOESCHEN);
+                this.hauptFenster.setStatusMeldung(ERFOLGREICHESLOESCHEN);// Meldung wird an Statuszeile übergeben.
+                zuruecksetzen();// Felder werden zurückgesetzt.
             }
-        }catch(ApplicationException | NullPointerException e){
-            this.hauptFenster.setStatusMeldung(e.getMessage());
+        }catch(ApplicationException | NullPointerException e){ // Abfnagen von Fehlern.
+            this.hauptFenster.setStatusMeldung(e.getMessage()); // Ausgabe der Fehlermeldung.
         }
     }//GEN-LAST:event_jB_LoeschenActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der alle Eingabefelder zurückgesetzt werden.
      */
@@ -1282,7 +1334,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         //Eingabefelder erhalten einen leeren String
         geschaeftspartner_jTextField.setText("");
         auftragswert_jTextField.setText("");
-        positionsnummer_jTextField.setText(String.valueOf(positionsZaehler));
+        positionsnummer_jTextField.setText("");
+//        positionsnummer_jTextField.setText(String.valueOf(positionsZaehler));
         materialnummer_jTextField.setText("");
         menge_jTextField.setText("");
         einzelwert_jTextField.setText("");
@@ -1296,6 +1349,11 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         auftragsposition_jTable.setModel(dtm);
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der geprüft wird ob alle Eingaben getätigt
      * worden sind.
@@ -1308,10 +1366,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         //Eingabefelder für Auftragskopf werden in Variable "fehlendeEingaben" festgehalten.
         if (geschaeftspartner_jTextField.getText().equals("")) {
             fehlendeEingaben.add(geschaeftspartner_jTextField);
-        }
-//        if (auftragswert_jTextField.getText().equals("")) {
-//            fehlendeEingaben.add(auftragswert_jTextField);
-//        }
+        }      
         if (auftragstext_jTextArea.getText().equals("")) {
             fehlendeEingaben.add(auftragstext_jTextArea);
         }
@@ -1323,20 +1378,19 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         }
         //Eingabefelder für Auftragsposition werden in Variable 
         // "fehlendeEingabenAuftragsposition" feestgehalten.
-//        if (positionsnummer_jTextField.getText().equals("")) {
-//            fehlendeEingabenAuftragsposition.add(positionsnummer_jTextField);
-//        }
         if (materialnummer_jTextField.getText().equals("")) {
             fehlendeEingabenAuftragsposition.add(materialnummer_jTextField);
         }
         if (menge_jTextField.getText().equals("")) {
             fehlendeEingabenAuftragsposition.add(menge_jTextField);
         }
-//        if (einzelwert_jTextField.getText().equals("")) {
-//            fehlendeEingabenAuftragsposition.add(einzelwert_jTextField);
-//        }
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der die Eingaben beim FocusLost auf Richtigkeit
      * geprüft werden.
@@ -1360,6 +1414,11 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         }
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /* 08.01.2015 Terrasi, Logik implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der die Eingabefelder die nicht ausgefüllt
      * worden sind, farblich markiert werden und eine Meldung ausgegeben wird,
@@ -1428,6 +1487,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     /* 06.01.2015 Terrasi angelegt,Logik und Dokumentation */
     /* 08.01.2015 Terrasi Anwendungslogik überarbeitet*/
     /*----------------------------------------------------------*/
+    /**
+     * Methode mit der das Internalframe wieder als Anzeigefenster
+     * dargestellt wird. Dadurch sind keine Eingaben möglich. 
+     */
     public void setStatusAnzeigen() {
         this.setTitle("Auftragsposition anzeigen");
         zuruecksetzen();
@@ -1459,6 +1522,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     /* Datum Name Was */
     /* 08.01.2015 Terrasi angelegt und dokumentiert*/
     /*----------------------------------------------------------*/
+    /**
+     * Methode mit der das Internalframe als Anlegenfenster
+     * dargestellt wird um einen Auftragskopf alegen zu können.
+     */
     public void setStatusAnlegen() {
         this.setTitle("Auftragskopf anlegen");
         zuruecksetzen();
@@ -1486,43 +1553,83 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         this.hauptFenster.setComponent(this);
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
     public void setArtikel(HashMap<Long, Integer> artikel) {
         this.artikel = artikel;
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
     public void setAbschlussdatum(Date abschlussdatum) {
         this.abschlussdatum = abschlussdatum;
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
     public void setAbschlussdatum_jFormattedTextField(JFormattedTextField abschlussdatum_jFormattedTextField) {
         this.abschlussdatum_jFormattedTextField = abschlussdatum_jFormattedTextField;
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
     public void setAuftragsart_jComboBox(String auftragsArt) {
         auftragsart_jComboBox.setSelectedItem(auftragsArt);
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
     public void setAuftragskopfID_jTextField(String id) {
         this.auftragskopfID_jTextField.setText(id);
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
     public void setAuftragsposition_jTable(Object[] obj) {
         dtm.addRow(obj);
         auftragsposition_jTable.setModel(dtm);
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
     public void setAuftragstext_jTextArea(String auftragstext) {
         this.auftragstext_jTextArea.setText(auftragstext);
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
     public void setAuftragswert_jTextField(String wert) {
         this.auftragswert_jTextField.setText(wert);
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
     public void setGeschaeftspartnerID(String id) {
         this.geschaeftspartner_jTextField.setText(id);
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
     public void setzeEingabe(String geschaeftsPID, String auftragsKopfID,
             String auftragsWert, String auftragsText, String auftragsArt,
             String erfassungsDatum, String lieferDatum, String abschlussDatum,
