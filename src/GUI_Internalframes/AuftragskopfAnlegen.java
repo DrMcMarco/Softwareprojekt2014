@@ -34,6 +34,7 @@ import javax.swing.table.DefaultTableModel;
     ener Tabelle. */
  /* 14.01.2015 Terrasi, Implementierung der Löschmethode der DAO und Überprüfung
     der Eingabefelder überarbeitet.*/
+ /* 17.01.2015 Schulz Such button und setMethode Artikel eingefügt.*/
 /**
  * 
  * @author Luca Terrasi
@@ -324,6 +325,11 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         jToolBar1.add(jB_Loeschen);
 
         jB_Suchen.setText("Suchen");
+        jB_Suchen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_SuchenActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_Suchen);
 
         jSeparator1.setEnabled(false);
@@ -1314,6 +1320,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         }
     }//GEN-LAST:event_jB_LoeschenActionPerformed
 
+    private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
+        this.hauptFenster.rufeSuche(this);
+    }//GEN-LAST:event_jB_SuchenActionPerformed
+
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi, angelegt */
@@ -1575,6 +1585,14 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     /*----------------------------------------------------------*/
     public void setAbschlussdatum_jFormattedTextField(JFormattedTextField abschlussdatum_jFormattedTextField) {
         this.abschlussdatum_jFormattedTextField = abschlussdatum_jFormattedTextField;
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 14.01.2015 sch angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
+    public void setArtikelid_jTextField(String id) {
+        this.materialnummer_jTextField.setText(id);
     }
 
     /*----------------------------------------------------------*/

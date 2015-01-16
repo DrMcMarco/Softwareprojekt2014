@@ -67,10 +67,11 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
      * Konstruktor, Suchfenster wird erzeugt.
      *
      * @param factory, übergebene GuiFactory
+     * @param mainView
      */
     public AllgemeineSuche(GUIFactory factory, InterfaceMainView mainView) {
         initComponents();
-        suchErgebnis = new ArrayList<>();//Initialisierung der Collection.
+        suchErgebnis = new ArrayList<>(); //Initialisierung der Collection.
         try {
             this.hauptFenster = (Start) mainView;
             
@@ -362,6 +363,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
 
     private void Zurück_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Zurück_jButtonActionPerformed
         this.setVisible(false);
+        this.suchfeld_jTextField.setText("");
     }//GEN-LAST:event_Zurück_jButtonActionPerformed
 
     /*----------------------------------------------------------*/
@@ -426,7 +428,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
      * Schnittstellenmethode um alle eingabefelder zurück zu setzen.
      */
     @Override
-        public void zuruecksetzen() {
+    public void zuruecksetzen() {
         suchfeld_jTextField.setText("");
     }
 

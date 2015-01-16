@@ -1008,6 +1008,11 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         return this.artikelanlegen;
     }
     
+    @Override
+    public AuftragskopfAnlegen gibAuftragskopfanlegenFenster() {
+        return this.auftragskopfanlegen;
+    }
+    
     public String gibTitel() {
         return this.letzteAnzeige.getTitle();
     }

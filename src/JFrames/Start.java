@@ -890,13 +890,20 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         return this.letzteAnzeige;
     }
     
+    @Override
     public String gibTitel() {
         return this.letzteAnzeige.getTitle();
     }
     
+    @Override
     public ArtikelAnlegen gibArtikelAnlegenFenster() {
         //this.artikelanlegen.setzeFormularInArtikelAEndern();
         return this.artikelanlegen;
+    }
+    
+    @Override
+    public AuftragskopfAnlegen gibAuftragskopfanlegenFenster() {
+        return this.auftragskopfanlegen;
     }
     
     /*----------------------------------------------------------*/

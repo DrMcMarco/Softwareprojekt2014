@@ -31,6 +31,10 @@ import javax.swing.table.DefaultTableModel;
  * @author Simon <Simon.Simon at your.org>
  */
 public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
+    
+    private static final String FEHLER_AUSWAHL = "Bitte wählen Sie "
+                            + "eine Zeile aus!";
+    
     /**
      * Zur View Kontrolle.
      */
@@ -539,21 +543,67 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_Anzeige_jButtonActionPerformed
 
     private void Auswaehlen_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Auswaehlen_jButtonActionPerformed
-        ArrayList<Artikelkategorie> artikelListe = null;
+        ArrayList<Artikelkategorie> kategorieListe = null;
+        ArrayList<Geschaeftspartner> gpListe = null;
+        ArrayList<Artikel> artikelListe = null;
         
-        
-        if (this.hauptFenster.gibLetzteAnzeige().getTitle().equals("Artikel anlegen")) {
+        if (this.hauptFenster.gibLetzteAnzeige().getTitle().equals("Artikel "
+                + "anlegen")) {
             if (this.tabelle.equals("Artikelkategorie")) {
-                artikelListe = new ArrayList<Artikelkategorie>(
-                        (Collection<? extends Artikelkategorie>) this.ergebnisDaten);
-                this.hauptFenster.gibArtikelAnlegenFenster()
-                        .gibjCB_Artikelkategorie().setSelectedItem(
-                                artikelListe.get(
-                                        this.Anzeige_jTable1.getSelectedRow())
-                                        .getKategoriename());
+                if (this.Anzeige_jTable1.getSelectedRow() != -1) {
+                    kategorieListe = new ArrayList<>(
+                            (Collection<? extends Artikelkategorie>) 
+                                    this.ergebnisDaten);
+
+                    this.hauptFenster.gibArtikelAnlegenFenster()
+                            .gibjCB_Artikelkategorie().setSelectedItem(
+                                    kategorieListe.get(this.Anzeige_jTable1
+                                            .getSelectedRow())
+                                            .getKategoriename());
+                    this.setVisible(false);
+                } else {
+                    JOptionPane.showMessageDialog(null, FEHLER_AUSWAHL, 
+                            "Fehler", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        } else if (this.hauptFenster.gibLetzteAnzeige().getTitle().equals(
+                "Auftragskopf anlegen")) {
+            if (this.tabelle.equals("Geschäftspartner")) {
+                if (this.Anzeige_jTable1.getSelectedRow() != -1) {
+                    gpListe = new ArrayList<>(
+                        (Collection<? 
+                                extends Geschaeftspartner>) this.ergebnisDaten);
+                    
+                    
+                    this.hauptFenster.gibAuftragskopfanlegenFenster()
+                            .setGeschaeftspartnerID(String.valueOf(gpListe.get(
+                                    this.Anzeige_jTable1.getSelectedRow())
+                                    .getGeschaeftspartnerID()));
+                    this.setVisible(false);
+                } else {
+                    JOptionPane.showMessageDialog(null, FEHLER_AUSWAHL, 
+                            "Fehler", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+            if (this.tabelle.equals("Artikel")) {
+                if (this.Anzeige_jTable1.getSelectedRow() != -1) {
+                    artikelListe = new ArrayList<>(
+                        (Collection<? 
+                                extends Artikel>) this.ergebnisDaten);
+                    
+                    
+                    this.hauptFenster.gibAuftragskopfanlegenFenster()
+                            .setArtikelid_jTextField(String.valueOf(artikelListe.get(
+                                    this.Anzeige_jTable1.getSelectedRow())
+                                    .getArtikelID()));
+                    this.setVisible(false);
+                } else {
+                    JOptionPane.showMessageDialog(null, FEHLER_AUSWAHL, 
+                            "Fehler", JOptionPane.WARNING_MESSAGE);
+                }
             }
         }
-        this.setVisible(false);
+        
     }//GEN-LAST:event_Auswaehlen_jButtonActionPerformed
 
 
