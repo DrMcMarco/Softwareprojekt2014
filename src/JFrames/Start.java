@@ -8,9 +8,12 @@ import UserHauptmenue.Hauptmenue_User;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.persistence.PersistenceException;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 /**
  *
@@ -912,8 +915,18 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
      */
     @Override
     public void setStatusMeldung(String status) {
+        // Erzeugung eines Peeptons.
         Toolkit.getDefaultToolkit().beep();
-        statusMeldung_jTextField.setText(status);
+        
+        statusMeldung_jTextField.setText(status);//Meldung wird angezeigt.
+        
+        // Erzeugung eines Timers, der nach 5 Sekunden die Meldung löscht.
+        new Timer(5000, new ActionListener(){
+            public void actionPerformed(ActionEvent ae){
+                
+                // Übergabe eines leeren Strings.
+                statusMeldung_jTextField.setText("");
+        }}).start();// Timer wird gestartet.
     }
 
     /**
