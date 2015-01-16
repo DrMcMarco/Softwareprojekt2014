@@ -110,7 +110,6 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
         jB_Loeschen = new javax.swing.JButton();
         jB_Suchen = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        jTextField1 = new javax.swing.JTextField();
         AuftragskopfID_jLabel = new javax.swing.JLabel();
         AuftragskopfID_jTextField = new javax.swing.JTextField();
         Enter_jButton = new javax.swing.JButton();
@@ -155,10 +154,6 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
 
         jB_Suchen.setText("Suchen");
         jToolBar1.add(jB_Suchen);
-
-        jTextField1.setEditable(false);
-        jTextField1.setText("Statuszeile");
-        jTextField1.setEnabled(false);
 
         AuftragskopfID_jLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         AuftragskopfID_jLabel.setLabelFor(AuftragskopfID_jTextField);
@@ -209,7 +204,6 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jTextField1)
             .addComponent(jSeparator1)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -239,8 +233,7 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
                     .addComponent(jLabel1)
                     .addComponent(AuftragspositionID_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Enter_jButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 182, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -467,7 +460,6 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
     private javax.swing.JButton jB_Zurueck;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }

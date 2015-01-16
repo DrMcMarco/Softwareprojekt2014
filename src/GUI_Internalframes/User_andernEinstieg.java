@@ -74,9 +74,6 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
         BenutzerID_jTextField = new javax.swing.JTextField();
         Weiter_jButton = new javax.swing.JButton();
 
-        setClosable(true);
-        setIconifiable(true);
-        setMaximizable(true);
         setResizable(true);
         setTitle("User ändern");
         setPreferredSize(new java.awt.Dimension(600, 400));

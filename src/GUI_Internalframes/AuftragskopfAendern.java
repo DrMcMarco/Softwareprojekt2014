@@ -104,7 +104,6 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         jB_Loeschen = new javax.swing.JButton();
         jB_Suchen = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        jTextField1 = new javax.swing.JTextField();
         auftragskopfID_jLabel = new javax.swing.JLabel();
         auftragskopfID_jTextField = new javax.swing.JTextField();
         weiter_jButton = new javax.swing.JButton();
@@ -148,10 +147,6 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         jB_Suchen.setEnabled(false);
         jToolBar1.add(jB_Suchen);
 
-        jTextField1.setEditable(false);
-        jTextField1.setText("Statuszeile");
-        jTextField1.setEnabled(false);
-
         auftragskopfID_jLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         auftragskopfID_jLabel.setLabelFor(auftragskopfID_jTextField);
         auftragskopfID_jLabel.setText("Auftragskopf-ID :");
@@ -190,8 +185,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
                 .addComponent(auftragskopfID_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(weiter_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(174, Short.MAX_VALUE))
-            .addComponent(jTextField1)
+                .addContainerGap(108, Short.MAX_VALUE))
             .addComponent(jSeparator1)
         );
         layout.setVerticalGroup(
@@ -205,8 +199,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
                     .addComponent(auftragskopfID_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(weiter_jButton)
                     .addComponent(auftragskopfID_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 184, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(157, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -486,7 +479,6 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
     private javax.swing.JButton jB_Suchen;
     private javax.swing.JButton jB_Zurueck;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JButton weiter_jButton;
     // End of variables declaration//GEN-END:variables

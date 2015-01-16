@@ -17,6 +17,7 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Calendar;
+import Interfaces.*;
 
 /**
  *
@@ -33,15 +34,17 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
     GUIFactory factory;
     GeschaeftspartnerAnlegen g;
     private NumberFormat nf;
+    InterfaceMainView hauptFenster;
 
     /**
      * Creates new form Fenster
      */
-    public GeschaeftspartnerAEndernEinstieg(GUIFactory factory, GeschaeftspartnerAnlegen g) {
+    public GeschaeftspartnerAEndernEinstieg(GUIFactory factory, GeschaeftspartnerAnlegen g, InterfaceMainView mainView) {
         initComponents();
         this.factory = factory;
         this.g = g;
 
+        this.hauptFenster = mainView;
         nf = NumberFormat.getInstance();
         nf.setMinimumFractionDigits(2);
         nf.setMaximumFractionDigits(2);
@@ -68,12 +71,8 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
         jL_Artikel_ID = new javax.swing.JLabel();
         jTF_Geschaeftspartner_ID = new javax.swing.JTextField();
         jB_Enter = new javax.swing.JButton();
-        jTF_Statuszeile = new javax.swing.JTextField();
 
-        setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setIconifiable(true);
-        setMaximizable(true);
         setResizable(true);
         setTitle("Geschäftspartner ändern");
         setPreferredSize(new java.awt.Dimension(580, 300));
@@ -144,16 +143,12 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
             }
         });
 
-        jTF_Statuszeile.setText("Statuszeile");
-        jTF_Statuszeile.setEnabled(false);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
             .addComponent(jSeparator1)
-            .addComponent(jTF_Statuszeile)
             .addGroup(layout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addComponent(jL_Artikel_ID, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -174,8 +169,7 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
                     .addComponent(jL_Artikel_ID, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTF_Geschaeftspartner_ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jB_Enter))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
-                .addComponent(jTF_Statuszeile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(135, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -282,10 +276,10 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
 
         } catch (ParseException ex) {
             System.out.println("Fehler beim Parsen in der Klasse ArtikelAnlegen!");
-            jTF_Statuszeile.setText("Bitte geben Sie eine GeschäftspartnerID ein.");
+            this.hauptFenster.setStatusMeldung("Bitte geben Sie eine GeschäftspartnerID ein.");
         } catch (ApplicationException ex) {
 //            Logger.getLogger(ArtikelAEndernEinstieg.class.getName()).log(Level.SEVERE, null, ex);
-            jTF_Statuszeile.setText("Kein passender Geschäftspartner in Datenbank!");
+            this.hauptFenster.setStatusMeldung("Kein passender Geschäftspartner in Datenbank!");
             jTF_Geschaeftspartner_ID.setText("");
         }
 //        if (jTF_Geschaeftspartner_ID.getText().equals("Ändern")) {
@@ -318,7 +312,7 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
     }//GEN-LAST:event_jB_EnterActionPerformed
 
     private void jB_EnterFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jB_EnterFocusLost
-        jTF_Statuszeile.setText("");
+
     }//GEN-LAST:event_jB_EnterFocusLost
 
     /**
@@ -357,7 +351,6 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
     private javax.swing.JLabel jL_Artikel_ID;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTF_Geschaeftspartner_ID;
-    private javax.swing.JTextField jTF_Statuszeile;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }

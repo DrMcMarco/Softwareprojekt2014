@@ -243,7 +243,6 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         benutzername_jLabel = new javax.swing.JLabel();
         passwort_jLabel = new javax.swing.JLabel();
         benutzername_jTextField = new javax.swing.JTextField();
-        statuszeile_jTextField = new javax.swing.JTextField();
         passwort_jTextField = new javax.swing.JTextField();
         admin_jCheckBox = new javax.swing.JCheckBox();
 
@@ -317,9 +316,6 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
             }
         });
 
-        statuszeile_jTextField.setText("Statuszeile");
-        statuszeile_jTextField.setEnabled(false);
-
         passwort_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 passwort_jTextFieldFocusGained(evt);
@@ -339,7 +335,6 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
             .addComponent(jSeparator1)
-            .addComponent(statuszeile_jTextField)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -370,8 +365,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
                     .addComponent(passwort_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(admin_jCheckBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
-                .addComponent(statuszeile_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -581,6 +575,5 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JLabel passwort_jLabel;
     private javax.swing.JTextField passwort_jTextField;
-    private javax.swing.JTextField statuszeile_jTextField;
     // End of variables declaration//GEN-END:variables
 }

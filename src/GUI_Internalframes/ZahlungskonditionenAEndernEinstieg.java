@@ -15,6 +15,7 @@ import java.awt.Component;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Calendar;
+import Interfaces.*;
 
 /**
  *
@@ -30,15 +31,18 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
     Component c;
     GUIFactory factory;
     ZahlungskonditionAnlegen z;
+    InterfaceMainView hauptFenster;
+    
     private NumberFormat nf;
 
     /**
      * Creates new form Fenster
      */
-    public ZahlungskonditionenAEndernEinstieg(GUIFactory factory, ZahlungskonditionAnlegen z) {
+    public ZahlungskonditionenAEndernEinstieg(GUIFactory factory, ZahlungskonditionAnlegen z, InterfaceMainView mainViev) {
         initComponents();
         this.factory = factory;
         this.z = z;
+        this.hauptFenster = mainViev;
         nf = NumberFormat.getInstance();
         nf.setMinimumFractionDigits(2);
         nf.setMaximumFractionDigits(2);
@@ -64,12 +68,8 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
         jL_Zahlungskondition_ID = new javax.swing.JLabel();
         jTF_Zahlungskondition_ID = new javax.swing.JTextField();
         jB_Enter = new javax.swing.JButton();
-        jTF_Statuszeile = new javax.swing.JTextField();
 
-        setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setIconifiable(true);
-        setMaximizable(true);
         setResizable(true);
         setTitle("Zahlungskonditionen ändern");
         setPreferredSize(new java.awt.Dimension(580, 300));
@@ -140,16 +140,12 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
             }
         });
 
-        jTF_Statuszeile.setText("Statuszeile");
-        jTF_Statuszeile.setEnabled(false);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
             .addComponent(jSeparator1)
-            .addComponent(jTF_Statuszeile)
             .addGroup(layout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addComponent(jL_Zahlungskondition_ID)
@@ -170,8 +166,7 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
                     .addComponent(jL_Zahlungskondition_ID, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTF_Zahlungskondition_ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jB_Enter))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
-                .addComponent(jTF_Statuszeile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(135, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -201,17 +196,17 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
             jTF_Zahlungskondition_ID.setText("");
         } catch (ParseException ex) {
             System.out.println("Fehler beim Parsen in der Klasse ArtikelAnlegen!");
-            jTF_Statuszeile.setText("Bitte geben Sie eine ZahlungskonditionsID ein!");
+            this.hauptFenster.setStatusMeldung("Bitte geben Sie eine ZahlungskonditionsID ein!");
         } catch (ApplicationException ex) {
 //            Logger.getLogger(ArtikelAEndernEinstieg.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
-            jTF_Statuszeile.setText("Kein passender Geschäftspartner in Datenbank!");
+            this.hauptFenster.setStatusMeldung("Kein passender Geschäftspartner in Datenbank!");
             jTF_Zahlungskondition_ID.setText("");
         }
     }//GEN-LAST:event_jB_EnterActionPerformed
 
     private void jB_EnterFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jB_EnterFocusLost
-        jTF_Statuszeile.setText("");
+   
     }//GEN-LAST:event_jB_EnterFocusLost
 
     /**
@@ -249,7 +244,6 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
     private javax.swing.JButton jB_Zurueck;
     private javax.swing.JLabel jL_Zahlungskondition_ID;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTF_Statuszeile;
     private javax.swing.JTextField jTF_Zahlungskondition_ID;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables

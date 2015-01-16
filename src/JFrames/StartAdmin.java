@@ -127,11 +127,11 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         auftragsspositionaender = new AuftragspositionAendern(factory,
         auftragsspositionanzeigen, this);
         artikelanlegen = new ArtikelAnlegen(factory, this);
-        artikelaendern = new ArtikelAEndernEinstieg(factory, artikelanlegen);
+        artikelaendern = new ArtikelAEndernEinstieg(factory, artikelanlegen, this);
         geschaeftspartneranlegen = new GeschaeftspartnerAnlegen(factory, this);
-        geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg(factory, geschaeftspartneranlegen);
+        geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg(factory, geschaeftspartneranlegen, this);
         zahlungskonditionanlegen = new ZahlungskonditionAnlegen(factory, this);
-        zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg(factory, zahlungskonditionanlegen);
+        zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg(factory, zahlungskonditionanlegen, this);
         useranlegen = new User_anlegen(factory, this);
         useraendern = new User_andernEinstieg(factory, useranlegen, this);
 

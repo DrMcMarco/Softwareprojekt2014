@@ -315,7 +315,6 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jB_Loeschen = new javax.swing.JButton();
         jB_Suchen = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        jTF_Statuszeile = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -361,10 +360,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_PLZRechnungsanschrift = new javax.swing.JTextField();
         jTF_PLZLieferanschrift = new javax.swing.JTextField();
 
-        setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setIconifiable(true);
-        setMaximizable(true);
         setResizable(true);
         setTitle("Geschäftspartner anlegen");
         setPreferredSize(new java.awt.Dimension(680, 660));
@@ -425,9 +421,6 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
 
         jB_Suchen.setText("Suchen");
         jToolBar1.add(jB_Suchen);
-
-        jTF_Statuszeile.setText("Statuszeile");
-        jTF_Statuszeile.setEnabled(false);
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel13.setText("Persöhnliche Daten:");
@@ -673,7 +666,6 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator1)
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 667, Short.MAX_VALUE)
-            .addComponent(jTF_Statuszeile)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -742,7 +734,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jTF_PLZLieferanschrift, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jTF_OrtLieferanschrift, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)))))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -827,8 +819,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTF_OrtLieferanschrift, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel20))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
-                .addComponent(jTF_Statuszeile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(134, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -1018,7 +1009,6 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     private void jCB_AnredeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCB_AnredeActionPerformed
         if (jCB_Anrede.getSelectedIndex() != 0) {
             jCB_Anrede.setBackground(JCB_FARBE_STANDARD);
-            jTF_Statuszeile.setText("");
         }
     }//GEN-LAST:event_jCB_AnredeActionPerformed
     /*
@@ -1617,7 +1607,6 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTF_OrtRechnungsanschrift;
     private javax.swing.JTextField jTF_PLZLieferanschrift;
     private javax.swing.JTextField jTF_PLZRechnungsanschrift;
-    private javax.swing.JTextField jTF_Statuszeile;
     private javax.swing.JTextField jTF_StrasseLieferanschrift;
     private javax.swing.JTextField jTF_StrasseRechnungsanschrift;
     private javax.swing.JTextField jTF_Telefon;
