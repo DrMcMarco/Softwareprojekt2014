@@ -70,10 +70,9 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
         jB_Loeschen = new javax.swing.JButton();
         jB_Suchen = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        jTextField1 = new javax.swing.JTextField();
         BenutzerID_jLabel = new javax.swing.JLabel();
         BenutzerID_jTextField = new javax.swing.JTextField();
-        Enter_jButton = new javax.swing.JButton();
+        Weiter_jButton = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -119,19 +118,21 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
 
         jSeparator1.setEnabled(false);
 
-        jTextField1.setEditable(false);
-        jTextField1.setText("Statuszeile");
-        jTextField1.setEnabled(false);
-
         BenutzerID_jLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         BenutzerID_jLabel.setLabelFor(BenutzerID_jTextField);
         BenutzerID_jLabel.setText("Benutzer-ID :");
         BenutzerID_jLabel.setToolTipText("");
 
-        Enter_jButton.setText("Weiter");
-        Enter_jButton.addActionListener(new java.awt.event.ActionListener() {
+        BenutzerID_jTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                BenutzerID_jTextFieldKeyPressed(evt);
+            }
+        });
+
+        Weiter_jButton.setText("Weiter");
+        Weiter_jButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Enter_jButtonActionPerformed(evt);
+                Weiter_jButtonActionPerformed(evt);
             }
         });
 
@@ -139,17 +140,16 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
+            .addComponent(jSeparator1)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(48, 48, 48)
                 .addComponent(BenutzerID_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BenutzerID_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Enter_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35))
-            .addComponent(jTextField1)
-            .addComponent(jSeparator1)
+                .addComponent(Weiter_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,13 +157,12 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(82, 82, 82)
+                .addGap(117, 117, 117)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BenutzerID_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BenutzerID_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Enter_jButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(BenutzerID_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Weiter_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(190, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -186,7 +185,7 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
-    private void Enter_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Enter_jButtonActionPerformed
+    private void Weiter_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Weiter_jButtonActionPerformed
 
         Benutzer benutzer;// Anlegen eines Bentzers
         
@@ -227,7 +226,17 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
                 this.hauptFenster.setStatusMeldung(e.getMessage());
             }
         }
-    }//GEN-LAST:event_Enter_jButtonActionPerformed
+    }//GEN-LAST:event_Weiter_jButtonActionPerformed
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 08.01.2015 Terrasi, angelegt, Dokumentation und Logik. */
+    /*----------------------------------------------------------*/
+    private void BenutzerID_jTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BenutzerID_jTextFieldKeyPressed
+        if (evt.getKeyCode() == evt.VK_ENTER) {
+            Weiter_jButtonActionPerformed(null);
+        }
+    }//GEN-LAST:event_BenutzerID_jTextFieldKeyPressed
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
@@ -303,14 +312,13 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BenutzerID_jLabel;
     private javax.swing.JTextField BenutzerID_jTextField;
-    private javax.swing.JButton Enter_jButton;
+    private javax.swing.JButton Weiter_jButton;
     private javax.swing.JButton jB_Anzeigen;
     private javax.swing.JButton jB_Loeschen;
     private javax.swing.JButton jB_Speichern;
     private javax.swing.JButton jB_Suchen;
     private javax.swing.JButton jB_Zurueck;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }

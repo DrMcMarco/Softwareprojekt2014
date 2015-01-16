@@ -4,7 +4,7 @@ import DAO.DataAccessObject;
 import DAO.Parser;
 import GUI_Internalframes.*;
 import Interfaces.InterfaceMainView;
-import UserHauptmenue.Hauptmenue_User;
+import AdminHauptmenue.Hauptmenue_User;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;

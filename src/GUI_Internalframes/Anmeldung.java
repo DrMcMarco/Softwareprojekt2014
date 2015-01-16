@@ -101,6 +101,11 @@ public class Anmeldung extends javax.swing.JInternalFrame {
                 passwort_jPasswordFieldFocusGained(evt);
             }
         });
+        passwort_jPasswordField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passwort_jPasswordFieldKeyPressed(evt);
+            }
+        });
 
         passwort_vergessen_label.setText("Passwort vergessen");
 
@@ -161,7 +166,7 @@ public class Anmeldung extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
         );
 
         pack();
@@ -239,6 +244,19 @@ public class Anmeldung extends javax.swing.JInternalFrame {
     private void passwort_jPasswordFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwort_jPasswordFieldFocusGained
         passwort_jPasswordField.selectAll();// Selektiert das Eingabefeld.
     }//GEN-LAST:event_passwort_jPasswordFieldFocusGained
+
+    /**
+     * 14.01.2015 Terrasi, Erstellung. 
+     * 
+     * Methode mit der man anhand des Enterbuttons, man die gleiche Funktion
+     * aufruft, wie wenn man auf den Anmeldebutton klickt.
+     * @param evt 
+     */
+    private void passwort_jPasswordFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwort_jPasswordFieldKeyPressed
+        if (evt.getKeyCode() == evt.VK_ENTER) {
+            Anmelde_buttonActionPerformed(null);
+        }
+    }//GEN-LAST:event_passwort_jPasswordFieldKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

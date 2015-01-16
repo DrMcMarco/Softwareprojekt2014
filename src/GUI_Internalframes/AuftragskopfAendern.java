@@ -165,6 +165,11 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
                 auftragskopfID_jTextFieldFocusLost(evt);
             }
         });
+        auftragskopfID_jTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                auftragskopfID_jTextFieldKeyPressed(evt);
+            }
+        });
 
         weiter_jButton.setText("Weiter");
         weiter_jButton.addActionListener(new java.awt.event.ActionListener() {
@@ -335,6 +340,16 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         this.setVisible(false);// Internalframe wird nicht mehr dargestellt
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 08.01.2015 Terrasi, angelegt, Dokumentation und Logik. */
+    /*----------------------------------------------------------*/
+    private void auftragskopfID_jTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_auftragskopfID_jTextFieldKeyPressed
+        if (evt.getKeyCode() == evt.VK_ENTER) {
+            weiter_jButtonActionPerformed(null);
+        }
+    }//GEN-LAST:event_auftragskopfID_jTextFieldKeyPressed
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */

@@ -173,8 +173,13 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
                 AuftragskopfID_jTextFieldFocusLost(evt);
             }
         });
+        AuftragskopfID_jTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                AuftragskopfID_jTextFieldKeyPressed(evt);
+            }
+        });
 
-        Enter_jButton.setText("Enter");
+        Enter_jButton.setText("Weiter");
         Enter_jButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Enter_jButtonActionPerformed(evt);
@@ -191,6 +196,11 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 AuftragspositionID_jTextFieldFocusLost(evt);
+            }
+        });
+        AuftragspositionID_jTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                AuftragspositionID_jTextFieldKeyPressed(evt);
             }
         });
 
@@ -328,6 +338,26 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
         this.setVisible(false);// Internalframe wird nicht mehr dargestellt
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 08.01.2015 Terrasi, angelegt, Dokumentation und Logik. */
+    /*----------------------------------------------------------*/
+    private void AuftragspositionID_jTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_AuftragspositionID_jTextFieldKeyPressed
+        if (evt.getKeyCode() == evt.VK_ENTER) {
+            Enter_jButtonActionPerformed(null);
+        }
+    }//GEN-LAST:event_AuftragspositionID_jTextFieldKeyPressed
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 08.01.2015 Terrasi, angelegt, Dokumentation und Logik. */
+    /*----------------------------------------------------------*/
+    private void AuftragskopfID_jTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_AuftragskopfID_jTextFieldKeyPressed
+        if (evt.getKeyCode() == evt.VK_ENTER) {
+            Enter_jButtonActionPerformed(null);
+        }
+    }//GEN-LAST:event_AuftragskopfID_jTextFieldKeyPressed
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
