@@ -20,10 +20,9 @@ import javax.swing.JTextField;
  *
  * @author Luca Terrasi
  *
- * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button 08.01.2015
- * Terrasi, implementierung der Schnittstellenmethoden und der Ändern/Anzeigen
- * Funktion.
- */
+/* 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button */
+/* 08.01.2015  Terrasi, implementierung der Schnittstellenmethoden und 
+   der Ändern/Anzeigen Funktion. */
 public class User_andernEinstieg extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
     /*
