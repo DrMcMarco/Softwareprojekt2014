@@ -860,7 +860,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         // Zahlungskonditionen auf enable(true) gesetezt
         if (auftragsart_jComboBox.getSelectedIndex() != 0) {
             zahlungskonditionen_jComboBox.setEnabled(true);
-//            ladeZahlungskonditionenAusDatenbank(auftragsart_jComboBox.getSelectedItem().toString());
+            ladeZahlungskonditionenAusDatenbank(auftragsart_jComboBox.getSelectedItem().toString());
             zahlungskonditionen_jComboBox.setModel(new DefaultComboBoxModel(zahlungskonditionFuerCombobox.toArray()));
         } else {//Combobox für die Zahlungskonditionen wird nicht wählbar gemacht
             zahlungskonditionen_jComboBox.setEnabled(false);
@@ -1380,6 +1380,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         Object o = auftragsposition_jTable.getSelectedRow();
+        
         System.out.println(o.toString());
 
         dtm.removeRow(auftragsposition_jTable.getSelectedRow());
