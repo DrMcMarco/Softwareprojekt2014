@@ -905,6 +905,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     public AuftragskopfAnlegen gibAuftragskopfanlegenFenster() {
         return this.auftragskopfanlegen;
     }
+    @Override
+    public GeschaeftspartnerAnlegen gibGeschaeftspartneranlegenFenster() {
+        return this.geschaeftspartneranlegen;
+    }
     
     /*----------------------------------------------------------*/
     /* Datum Name Was */

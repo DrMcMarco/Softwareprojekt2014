@@ -54,6 +54,10 @@ import javax.swing.text.MaskFormatter;
  * Terrasi, Funktionsimplementierung im "Zurück"-Button 08.01.2015 Terrasi,
  * Implementierung der Anzeigen/Ändern Funktion, hinzufügen der Schnittstelle
  * für InternalFrames
+ * 
+ * 17.01.2015 Schulz Suchbutton event eingefügt
+ *            Set Methode zum setzen der Anschriftsdaten aus einem Anschrifts-
+ *            objekt
  */
 public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
 
@@ -442,6 +446,11 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jToolBar1.add(jB_Loeschen);
 
         jB_Suchen.setText("Suchen");
+        jB_Suchen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_SuchenActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_Suchen);
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -1411,6 +1420,10 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jB_LoeschenActionPerformed
 
+    private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
+        this.hauptFenster.rufeSuche(this);
+    }//GEN-LAST:event_jB_SuchenActionPerformed
+
     public JTextField gibjTF_GeschaeftspartnerID() {
         return jTF_GeschaeftspartnerID;
     }
@@ -1625,6 +1638,29 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jB_Loeschen.setEnabled(false);
 
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 17.01.2015 Schulz, Anlegen*/
+    /*----------------------------------------------------------*/
+    /**
+     * Setzt alle Anschriftsfelder.
+     * @param anschriftDaten Die zu übergebenen Daten
+     */
+    public void setzeAnschrift(Anschrift anschriftDaten) {
+        this.jCB_Anrede.setSelectedItem(anschriftDaten.getTitel());
+        this.jTF_Name.setText(anschriftDaten.getName());
+        this.jTF_Vorname.setText(anschriftDaten.getVorname());
+        //TBD
+        //this.jFTF_Geburtsdatum.setValue(anschriftDaten.getGeburtsdatum());
+        this.jTF_Fax.setText(anschriftDaten.getFAX());
+        this.jTF_Telefon.setText(anschriftDaten.getTelefon());
+        this.jTF_EMail.setText(anschriftDaten.getEmail());
+        this.jTF_StrasseRechnungsanschrift.setText(anschriftDaten.getStrasse());
+        this.jTF_HausnummerRechnungsanschrift.setText(anschriftDaten.getHausnummer());
+        this.jTF_PLZRechnungsanschrift.setText(anschriftDaten.getPLZ());
+        this.jTF_OrtRechnungsanschrift.setText(anschriftDaten.getOrt());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

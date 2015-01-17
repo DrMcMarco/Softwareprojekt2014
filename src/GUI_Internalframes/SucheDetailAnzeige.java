@@ -35,6 +35,9 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
     private static final String FEHLER_AUSWAHL = "Bitte wählen Sie "
                             + "eine Zeile aus!";
     
+    private static final String FEHLER_TABELLE = "Die Informationen aus dieser "
+            + "Tabelle werden in diesem Fenster nicht referenziert!";
+    
     /**
      * Zur View Kontrolle.
      */
@@ -546,6 +549,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         ArrayList<Artikelkategorie> kategorieListe = null;
         ArrayList<Geschaeftspartner> gpListe = null;
         ArrayList<Artikel> artikelListe = null;
+        ArrayList<Anschrift> anschriftListe = null;
         
         if (this.hauptFenster.gibLetzteAnzeige().getTitle().equals("Artikel "
                 + "anlegen")) {
@@ -565,6 +569,9 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, FEHLER_AUSWAHL, 
                             "Fehler", JOptionPane.WARNING_MESSAGE);
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, FEHLER_TABELLE, 
+                            "Fehler", JOptionPane.WARNING_MESSAGE);
             }
         } else if (this.hauptFenster.gibLetzteAnzeige().getTitle().equals(
                 "Auftragskopf anlegen")) {
@@ -584,8 +591,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, FEHLER_AUSWAHL, 
                             "Fehler", JOptionPane.WARNING_MESSAGE);
                 }
-            }
-            if (this.tabelle.equals("Artikel")) {
+            } else if (this.tabelle.equals("Artikel")) {
                 if (this.Anzeige_jTable1.getSelectedRow() != -1) {
                     artikelListe = new ArrayList<>(
                         (Collection<? 
@@ -601,6 +607,30 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, FEHLER_AUSWAHL, 
                             "Fehler", JOptionPane.WARNING_MESSAGE);
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, FEHLER_TABELLE, 
+                            "Fehler", JOptionPane.WARNING_MESSAGE);
+            }
+        } else if (this.hauptFenster.gibLetzteAnzeige().getTitle().equals(
+                "Geschäftspartner anlegen")) {
+            if (this.tabelle.equals("Anschrift")) {
+                if (this.Anzeige_jTable1.getSelectedRow() != -1) {
+                    anschriftListe = new ArrayList<>(
+                        (Collection<? 
+                                extends Anschrift>) this.ergebnisDaten);
+                    
+                    
+                    this.hauptFenster.gibGeschaeftspartneranlegenFenster()
+                            .setzeAnschrift(anschriftListe.get(
+                                    this.Anzeige_jTable1.getSelectedRow()));
+                    this.setVisible(false);
+                } else {
+                    JOptionPane.showMessageDialog(null, FEHLER_AUSWAHL, 
+                            "Fehler", JOptionPane.WARNING_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, FEHLER_TABELLE, 
+                            "Fehler", JOptionPane.WARNING_MESSAGE);
             }
         }
         

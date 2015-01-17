@@ -1013,6 +1013,11 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         return this.auftragskopfanlegen;
     }
     
+    @Override
+    public GeschaeftspartnerAnlegen gibGeschaeftspartneranlegenFenster() {
+        return this.geschaeftspartneranlegen;
+    }
+    
     public String gibTitel() {
         return this.letzteAnzeige.getTitle();
     }

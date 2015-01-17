@@ -7,6 +7,7 @@ package Interfaces;
 
 import GUI_Internalframes.ArtikelAnlegen;
 import GUI_Internalframes.AuftragskopfAnlegen;
+import GUI_Internalframes.GeschaeftspartnerAnlegen;
 import java.awt.Component;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
@@ -97,5 +98,7 @@ public interface InterfaceMainView {
     public ArtikelAnlegen gibArtikelAnlegenFenster();
     
     public AuftragskopfAnlegen gibAuftragskopfanlegenFenster();
+    
+    public GeschaeftspartnerAnlegen gibGeschaeftspartneranlegenFenster();
     
 }
