@@ -348,6 +348,11 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jB_AnzeigenAEndern.setText("Anzeige/Ändern");
         jB_AnzeigenAEndern.setActionCommand("Anzeigen/Ändern");
         jB_AnzeigenAEndern.setEnabled(false);
+        jB_AnzeigenAEndern.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_AnzeigenAEndernActionPerformed(evt);
+            }
+        });
         jTB_Menueleiste.add(jB_AnzeigenAEndern);
 
         jB_Loeschen.setText("Löschen");
@@ -883,6 +888,14 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         this.hauptFenster.rufeSuche(this);
     }//GEN-LAST:event_jB_SuchenActionPerformed
 
+    private void jB_AnzeigenAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AnzeigenAEndernActionPerformed
+        if(this.getTitle().equals(ARTIKEL_AENDERN)) {
+            setzFormularInArtikelAnzeigenFuerButton();
+        } else if(this.getTitle().equals(ARTIKEL_ANZEIGEN)) {
+            setzFormularInArtikelAEndernFuerButton();
+        }
+    }//GEN-LAST:event_jB_AnzeigenAEndernActionPerformed
+
     public JTextField gibjTF_Artikelnummer() {
         return jTF_Artikelnummer;
     }
@@ -950,6 +963,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
         jB_Speichern.setEnabled(true);
         jB_AnzeigenAEndern.setEnabled(false);
+        jB_AnzeigenAEndern.setText("Anzeigen/Ändern");
         jB_Loeschen.setEnabled(false);
 
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
@@ -961,6 +975,30 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     /*----------------------------------------------------------*/
     public void setzeFormularInArtikelAEndern() {
         setzeFormularZurueck();
+//        this.setTitle(ARTIKEL_AENDERN);
+////        leseInhaltVomFormular();
+//        jTF_Artikelname.setEnabled(true);
+//        jTA_Artikelbeschreibung.setEnabled(true);
+//        jCB_Kategorie.setEnabled(true);
+//        jTF_Einzelwert.setEnabled(true);
+//        jTF_Bestellwert.setEnabled(true);
+//        jCB_MwST.setEnabled(true);
+//        jTF_Bestandsmenge_FREI.setEnabled(true);
+//
+//        jB_Speichern.setEnabled(true);
+//        jB_AnzeigenAEndern.setEnabled(true);
+//        jB_AnzeigenAEndern.setText("Ändern");
+//        jB_Loeschen.setEnabled(true);
+        setzFormularInArtikelAEndernFuerButton();
+        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
+    }
+    
+    /**
+     * Methode wird aufgerufen, wenn auf Button Anzeigen/Aendern geklickt wird,
+     * das Formular wird nicht zurueckgesetzt, deswegen musste eine extra Methode 
+     * geschrieben werden
+     */
+        private void setzFormularInArtikelAEndernFuerButton() {
         this.setTitle(ARTIKEL_AENDERN);
 //        leseInhaltVomFormular();
         jTF_Artikelname.setEnabled(true);
@@ -973,10 +1011,10 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
         jB_Speichern.setEnabled(true);
         jB_AnzeigenAEndern.setEnabled(true);
+        jB_AnzeigenAEndern.setText("Anzeigen");
         jB_Loeschen.setEnabled(true);
-
-        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
+
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
@@ -984,6 +1022,30 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     /*----------------------------------------------------------*/
     public void setzeFormularInArtikelAnzeigen() {
         setzeFormularZurueck();
+//        this.setTitle(ARTIKEL_ANZEIGEN);
+//        jTF_Artikelname.setEnabled(false);
+//        jTA_Artikelbeschreibung.setEnabled(false);
+//        jCB_Kategorie.setEnabled(false);
+//        jTF_Einzelwert.setEnabled(false);
+//        jTF_Bestellwert.setEnabled(false);
+//        jCB_MwST.setEnabled(false);
+//        jTF_Bestandsmenge_FREI.setEnabled(false);
+//
+//        jB_Speichern.setEnabled(false);
+//        jB_AnzeigenAEndern.setEnabled(true);
+//        jB_AnzeigenAEndern.setText("Anzeigen");
+//        jB_Loeschen.setEnabled(false);
+        setzFormularInArtikelAnzeigenFuerButton();
+
+        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
+    }
+     
+   /**
+     * Methode wird aufgerufen, wenn auf Button Anzeigen/Aendern geklickt wird,
+     * das Formular wird nicht zurueckgesetzt, deswegen musste eine extra Methode 
+     * geschrieben werden
+     */
+    private void setzFormularInArtikelAnzeigenFuerButton() {
         this.setTitle(ARTIKEL_ANZEIGEN);
         jTF_Artikelname.setEnabled(false);
         jTA_Artikelbeschreibung.setEnabled(false);
@@ -995,14 +1057,14 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
         jB_Speichern.setEnabled(false);
         jB_AnzeigenAEndern.setEnabled(true);
+        jB_AnzeigenAEndern.setText("Ändern");
         jB_Loeschen.setEnabled(false);
-
-        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
 
     /**
      *
-     * @param kategorie
+     * @param kategorie 
+     * Datum Name Was 17.01.2015 SEN angelegt
      */
     public void setzteKategorie(Artikelkategorie kategorie) {
         jCB_Kategorie.setSelectedItem(kategorie.getKategoriename());
