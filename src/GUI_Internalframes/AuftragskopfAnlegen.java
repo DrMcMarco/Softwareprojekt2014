@@ -35,6 +35,7 @@ import javax.swing.table.DefaultTableModel;
  /* 14.01.2015 Terrasi, Implementierung der Löschmethode der DAO und Überprüfung
     der Eingabefelder überarbeitet.*/
  /* 17.01.2015 Schulz Such button und setMethode Artikel eingefügt.*/
+ /* 17.01.2015 Terrasi, Überarbeitung der ladeZahlungskonditionen-Methode.*/
 /**
  * 
  * @author Luca Terrasi
@@ -385,6 +386,11 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 lieferdatum_jFormattedTextFieldFocusLost(evt);
             }
         });
+        lieferdatum_jFormattedTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lieferdatum_jFormattedTextFieldActionPerformed(evt);
+            }
+        });
 
         abschlussdatum_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         abschlussdatum_jLabel.setLabelFor(abschlussdatum_jFormattedTextField);
@@ -398,6 +404,11 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 abschlussdatum_jFormattedTextFieldFocusLost(evt);
+            }
+        });
+        abschlussdatum_jFormattedTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abschlussdatum_jFormattedTextFieldActionPerformed(evt);
             }
         });
 
@@ -549,6 +560,11 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         });
 
         jButton2.setText("Position entfernen");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -843,9 +859,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         //Falls in der Combox nicht der erste Eintrag ausgewählt wird, wird die Combobox für die 
         // Zahlungskonditionen auf enable(true) gesetezt
         if (auftragsart_jComboBox.getSelectedIndex() != 0) {
-            ladeZahlungskonditionenAusDatenbank(auftragsart_jComboBox.getSelectedItem().toString());
-            zahlungskonditionen_jComboBox.setModel(new DefaultComboBoxModel(zahlungskonditionFuerCombobox.toArray()));
             zahlungskonditionen_jComboBox.setEnabled(true);
+//            ladeZahlungskonditionenAusDatenbank(auftragsart_jComboBox.getSelectedItem().toString());
+            zahlungskonditionen_jComboBox.setModel(new DefaultComboBoxModel(zahlungskonditionFuerCombobox.toArray()));
         } else {//Combobox für die Zahlungskonditionen wird nicht wählbar gemacht
             zahlungskonditionen_jComboBox.setEnabled(false);
         }
@@ -901,6 +917,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         try {
             GUIFactory.getDAO().getItem((Long.parseLong(materialnummer_jTextField.getText())));
             if (auftragsart_jComboBox.getSelectedItem().toString().equals("Bestellauftrag")) {
+               
                 einzelwert = (GUIFactory.getDAO().getItem(
                         (Long.parseLong(materialnummer_jTextField.getText()))).getEinkaufswert());
                 einzelwert_jTextField.setText(String.valueOf(einzelwert));
@@ -908,11 +925,12 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             } else {
                 einzelwert = (GUIFactory.getDAO().getItem(
                         (Long.parseLong(materialnummer_jTextField.getText()))).getVerkaufswert());
+                einzelwert_jTextField.setText(String.valueOf(einzelwert));
             }
 
-        } catch (Exception e) {
+        } catch (ApplicationException  e) {
             //Fehlermeldung das ein gültiger wert eingegeben werden soll.
-            System.out.println(e.getMessage());
+            this.hauptFenster.setStatusMeldung(e.getMessage());
         }
     }//GEN-LAST:event_materialnummer_jTextFieldFocusLost
 
@@ -939,6 +957,11 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         auftragstext_jTextArea.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_auftragstext_jTextAreaFocusGained
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 14.01.2015 Terrasi, angelegt und dokumentiert */
+    /* 17.01.2015 Terrasi, gibZahlungskonditionenFürAuftragsart implementiert */
+    /*----------------------------------------------------------*/
     /**
      * Methode um die Zahlungskonditionen die in der Datenbank gespeichert sind,
      * aufzurufen und diese in einer ArrayList zu speichern.
@@ -948,7 +971,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     private void ladeZahlungskonditionenAusDatenbank(String auftragsart) {
         try {
             //Collection erhält Zahlugskonditionen aus der Datenbank.   
-            zahlungskondditionAusDatenbank = GUIFactory.getDAO().gibAlleZahlungskonditionen();//Aufruf der gibAlleZahlungskonditionen()-Methode.
+//            zahlungskondditionAusDatenbank = GUIFactory.getDAO().gibAlleZahlungskonditionen();//Aufruf der gibAlleZahlungskonditionen()-Methode.
+            zahlungskondditionAusDatenbank = 
+                    GUIFactory.getDAO().gibZahlungskonditionenFürAuftragsart(auftragsart);// Aufruf der Zahlungskonditionen zur jeweiligen Aufragsart.
             //ArrayList für die Combobox
             zahlungskonditionFuerCombobox.clear();
             if (auftragsart.equals("Barauftrag")) {
@@ -957,14 +982,15 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             } else {
                 Iterator<Zahlungskondition> it = zahlungskondditionAusDatenbank.iterator();
                 while (it.hasNext()) {
-//                    if (it.next().getAuftragsart().equals(auftragsart)) {
-                    zahlungskonditionFuerCombobox.add(String.valueOf(it.next().getZahlungskonditionID()));
-//                        System.out.println(String.valueOf(it.next().getZahlungskonditionID()));
-//                    }
+                    
+                    zahlungskonditionFuerCombobox.add(
+                            String.valueOf(it.next().getZahlungskonditionID()));  
+                    
                 }
             }
-        } catch (NullPointerException | NoSuchElementException ex) {
-            this.hauptFenster.setStatusMeldung(ex.getMessage());
+        } catch (NullPointerException | NoSuchElementException 
+                | ApplicationException ex) {//Abfangen von fehlern
+            this.hauptFenster.setStatusMeldung(ex.getMessage());// Fehlermeldung wird in Statuszeile ausgegeben.
         }
     }
 
@@ -1055,7 +1081,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      */
     private void geschaeftspartner_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_geschaeftspartner_jTextFieldFocusGained
         geschaeftspartner_jTextField.setBackground(hintergrundfarbe);// Hintergrundsfarbe wird gesetzt
-        geschaeftspartner_jTextField.setText("");//Eingabefeld erhält einen leeren String
         geschaeftspartner_jTextField.selectAll();//Eingabefeld wird selektiert
     }//GEN-LAST:event_geschaeftspartner_jTextFieldFocusGained
 
@@ -1315,14 +1340,52 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 this.hauptFenster.setStatusMeldung(ERFOLGREICHESLOESCHEN);// Meldung wird an Statuszeile übergeben.
                 zuruecksetzen();// Felder werden zurückgesetzt.
             }
-        }catch(ApplicationException | NullPointerException e){ // Abfnagen von Fehlern.
+        }catch(ApplicationException | NullPointerException e){ // Abfanagen von Fehlern.
             this.hauptFenster.setStatusMeldung(e.getMessage()); // Ausgabe der Fehlermeldung.
         }
     }//GEN-LAST:event_jB_LoeschenActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 17.01.2015 Sch, angelegt */
+    /*----------------------------------------------------------*/
     private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
         this.hauptFenster.rufeSuche(this);
     }//GEN-LAST:event_jB_SuchenActionPerformed
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /*----------------------------------------------------------*/
+    private void lieferdatum_jFormattedTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lieferdatum_jFormattedTextFieldActionPerformed
+        lieferdatum_jFormattedTextField.selectAll();
+    }//GEN-LAST:event_lieferdatum_jFormattedTextFieldActionPerformed
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, angelegt */
+    /*----------------------------------------------------------*/
+    private void abschlussdatum_jFormattedTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abschlussdatum_jFormattedTextFieldActionPerformed
+        abschlussdatum_jFormattedTextField.selectAll();
+    }//GEN-LAST:event_abschlussdatum_jFormattedTextFieldActionPerformed
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 17.01.2015 Terrasi, angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
+    /**
+     * Methode um eine Auftragsposition zu aus der Auftragspositionstabelle 
+     * zu löschen.
+     * @param evt 
+     */
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Object o = auftragsposition_jTable.getSelectedRow();
+        System.out.println(o.toString());
+
+        dtm.removeRow(auftragsposition_jTable.getSelectedRow());
+        auftragsposition_jTable.setModel(dtm);
+        positionsZaehler--;
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
