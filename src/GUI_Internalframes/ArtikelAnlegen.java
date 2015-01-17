@@ -27,30 +27,29 @@ import javax.swing.JTextField;
  *
  * @author Tahir
  *
- * Klassenhistorie: 
- * 27.11.2014 Sen, angelegt 
- * 28.11.2014 Sen, textfelder, Comboboxe, Buttons angelegt 
- * 01.12.2014 Sen, grundlegende Funktionen implementiert 
- * 02.12.2014 Sen, beendenNachfrage() und ueberprufeFormular()
- *                 Methoden implementiert 05.12.2014 Sen, setzteFormularZurueck() und
- *                 ..focusLost() Methoden implementiert 08.12.2014 Sen, angelegt Methoden erweitert 
- * 07.12.2014 Sen, Componenten mit leben befuellt 
- * 10.12.2014 Sen, grundlegenden Ueberarbeitung der Maske, Fehler korigiert 
- * 11.12.2014 Sen, taskleiste implementiert und funktionen erweitert 15.12.2014 Sen, ArtikelAnlegen Sicht zum groeßten Teils implementiert 
- * 17.12.2014 Sen, speichern Button impelementiert, ein Aritkel kann nun in die Datenbank
- *                 geschrieben werden 
- * 19.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button der Schnittstelle für InternalFrames
- * 20.12.2014 Sen, ArtikelAnlegen in AritkelAENdern Funktion angefangen 
- * 25.12.2014 Sen, methode zum Ändern von ArtikelAnlegen in ArtikelÄndern implementiert 
- * 26.12.2014 Sen, ArtikelAnlegen in AritkelAnzeigen Funktion angefangen 
- * 01.01.2015 Sen, Methode zum Ändern von ArtikelAnlegen in ArtikelAnzeigen implementiert
- * 02.01.2015 Sen, Löschen von Artikel Funktion implementiert 07.01.2015 Sen, Löschen von Artikel Funktion Fehler korriegiert
- * 08.01.2015 Terrasi, Implementierung der Anzeigen/Ändern Funktion, hinzufügen 
- * 12.01.2015 Sen, Artikel aus Datenbank laden und diese anzegien lassen angelegt, bzw Felder mit den Daten der Artikel befuellt
- * 14.01.2015 Sen, ArtikelAendern speichern Funktion angefangen
+ * Klassenhistorie: 27.11.2014 Sen, angelegt 28.11.2014 Sen, textfelder,
+ * Comboboxe, Buttons angelegt 01.12.2014 Sen, grundlegende Funktionen
+ * implementiert 02.12.2014 Sen, beendenNachfrage() und ueberprufeFormular()
+ * Methoden implementiert 05.12.2014 Sen, setzteFormularZurueck() und
+ * ..focusLost() Methoden implementiert 08.12.2014 Sen, angelegt Methoden
+ * erweitert 07.12.2014 Sen, Componenten mit leben befuellt 10.12.2014 Sen,
+ * grundlegenden Ueberarbeitung der Maske, Fehler korigiert 11.12.2014 Sen,
+ * taskleiste implementiert und funktionen erweitert 15.12.2014 Sen,
+ * ArtikelAnlegen Sicht zum groeßten Teils implementiert 17.12.2014 Sen,
+ * speichern Button impelementiert, ein Aritkel kann nun in die Datenbank
+ * geschrieben werden 19.12.2014 Terrasi, Funktionsimplementierung im
+ * "Zurück"-Button der Schnittstelle für InternalFrames 20.12.2014 Sen,
+ * ArtikelAnlegen in AritkelAENdern Funktion angefangen 25.12.2014 Sen, methode
+ * zum Ändern von ArtikelAnlegen in ArtikelÄndern implementiert 26.12.2014 Sen,
+ * ArtikelAnlegen in AritkelAnzeigen Funktion angefangen 01.01.2015 Sen, Methode
+ * zum Ändern von ArtikelAnlegen in ArtikelAnzeigen implementiert 02.01.2015
+ * Sen, Löschen von Artikel Funktion implementiert 07.01.2015 Sen, Löschen von
+ * Artikel Funktion Fehler korriegiert 08.01.2015 Terrasi, Implementierung der
+ * Anzeigen/Ändern Funktion, hinzufügen 12.01.2015 Sen, Artikel aus Datenbank
+ * laden und diese anzegien lassen angelegt, bzw Felder mit den Daten der
+ * Artikel befuellt 14.01.2015 Sen, ArtikelAendern speichern Funktion angefangen
  * 15.01.2015 Sen, ArtikelAendern speichern Funktion anbgeschlossen
  */
-
 public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
     private Component c;
@@ -304,7 +303,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(true);
         setTitle("Artikel anlegen");
-        setPreferredSize(new java.awt.Dimension(500, 630));
+        setPreferredSize(new java.awt.Dimension(800, 610));
         setRequestFocusEnabled(false);
         setVisible(true);
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
@@ -349,6 +348,11 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         jB_AnzeigenAEndern.setText("Anzeige/Ändern");
         jB_AnzeigenAEndern.setActionCommand("Anzeigen/Ändern");
         jB_AnzeigenAEndern.setEnabled(false);
+        jB_AnzeigenAEndern.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_AnzeigenAEndernActionPerformed(evt);
+            }
+        });
         jTB_Menueleiste.add(jB_AnzeigenAEndern);
 
         jB_Loeschen.setText("Löschen");
@@ -491,71 +495,80 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
             .addComponent(jS_Trenner)
             .addComponent(jTB_Menueleiste, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(49, 49, 49)
+                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel15)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel17)
-                            .addComponent(jLabel18))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTF_Bestandsmenge_VERKAUFT, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel21))
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addComponent(jSP_Artikelbeschreibung, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jTF_Artikelname, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(226, 226, 226)))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTF_Bestandsmenge_ZULAUF, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel20))
+                                .addComponent(jLabel8)
+                                .addGap(46, 46, 46)
+                                .addComponent(jTF_Artikelnummer, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel13)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTF_Bestandsmenge_RES, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel19))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(57, 57, 57)
-                        .addComponent(jTF_Bestandsmenge_FREI, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel10))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jSP_Artikelbeschreibung, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jTF_Artikelname, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(226, 226, 226)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(46, 46, 46)
-                        .addComponent(jTF_Artikelnummer, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel14)
+                                .addComponent(jLabel5)
+                                .addGap(73, 73, 73)
+                                .addComponent(jCB_Kategorie, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(443, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(51, 51, 51)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel15)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jCB_MwST, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel16)
+                                    .addComponent(jLabel17)
+                                    .addComponent(jLabel18))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jTF_Bestandsmenge_VERKAUFT, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel21))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jTF_Bestandsmenge_ZULAUF, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel20))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jTF_Bestandsmenge_RES, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel19))))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTF_Einzelwert, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel4)
+                                .addGap(57, 57, 57)
+                                .addComponent(jTF_Bestandsmenge_FREI, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel10)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel14)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTF_Bestellwert, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jCB_Kategorie, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(70, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(51, 51, 51)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jCB_MwST, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jTF_Einzelwert, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jTF_Bestellwert, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(36, 36, 36))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -582,50 +595,52 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
                     .addComponent(jLabel5)
                     .addComponent(jCB_Kategorie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel14)
-                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel15)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jTF_Einzelwert, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel4)
+                            .addComponent(jTF_Bestandsmenge_FREI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10))
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel16)
+                            .addComponent(jTF_Bestandsmenge_RES, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel19))
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel7))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel17)
+                            .addComponent(jTF_Bestandsmenge_ZULAUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel20)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addGap(18, 18, 18)
+                        .addComponent(jLabel14)
+                        .addGap(24, 24, 24)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTF_Bestellwert, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel22)
-                            .addComponent(jCB_MwST, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(20, 20, 20)
-                .addComponent(jLabel15)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTF_Bestandsmenge_FREI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16)
-                    .addComponent(jTF_Bestandsmenge_RES, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel19))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel17)
-                    .addComponent(jTF_Bestandsmenge_ZULAUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel20))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jTF_Einzelwert, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel6)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel7))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTF_Bestellwert, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel9))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel22)
+                                    .addComponent(jCB_MwST, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
                     .addComponent(jTF_Bestandsmenge_VERKAUFT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel21))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -747,7 +762,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     private void jTF_ArtikelnameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_ArtikelnameFocusLost
         if (!jTF_Artikelname.getText().equals("")) {
             jTF_Artikelname.setBackground(JTF_FARBE_STANDARD);
-            
+
         }
     }//GEN-LAST:event_jTF_ArtikelnameFocusLost
     /*
@@ -873,6 +888,14 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         this.hauptFenster.rufeSuche(this);
     }//GEN-LAST:event_jB_SuchenActionPerformed
 
+    private void jB_AnzeigenAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AnzeigenAEndernActionPerformed
+        if(this.getTitle().equals(ARTIKEL_AENDERN)) {
+            setzFormularInArtikelAnzeigenFuerButton();
+        } else if(this.getTitle().equals(ARTIKEL_ANZEIGEN)) {
+            setzFormularInArtikelAEndernFuerButton();
+        }
+    }//GEN-LAST:event_jB_AnzeigenAEndernActionPerformed
+
     public JTextField gibjTF_Artikelnummer() {
         return jTF_Artikelnummer;
     }
@@ -940,6 +963,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
         jB_Speichern.setEnabled(true);
         jB_AnzeigenAEndern.setEnabled(false);
+        jB_AnzeigenAEndern.setText("Anzeigen/Ändern");
         jB_Loeschen.setEnabled(false);
 
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
@@ -951,6 +975,30 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     /*----------------------------------------------------------*/
     public void setzeFormularInArtikelAEndern() {
         setzeFormularZurueck();
+//        this.setTitle(ARTIKEL_AENDERN);
+////        leseInhaltVomFormular();
+//        jTF_Artikelname.setEnabled(true);
+//        jTA_Artikelbeschreibung.setEnabled(true);
+//        jCB_Kategorie.setEnabled(true);
+//        jTF_Einzelwert.setEnabled(true);
+//        jTF_Bestellwert.setEnabled(true);
+//        jCB_MwST.setEnabled(true);
+//        jTF_Bestandsmenge_FREI.setEnabled(true);
+//
+//        jB_Speichern.setEnabled(true);
+//        jB_AnzeigenAEndern.setEnabled(true);
+//        jB_AnzeigenAEndern.setText("Ändern");
+//        jB_Loeschen.setEnabled(true);
+        setzFormularInArtikelAEndernFuerButton();
+        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
+    }
+    
+    /**
+     * Methode wird aufgerufen, wenn auf Button Anzeigen/Aendern geklickt wird,
+     * das Formular wird nicht zurueckgesetzt, deswegen musste eine extra Methode 
+     * geschrieben werden
+     */
+        private void setzFormularInArtikelAEndernFuerButton() {
         this.setTitle(ARTIKEL_AENDERN);
 //        leseInhaltVomFormular();
         jTF_Artikelname.setEnabled(true);
@@ -963,10 +1011,10 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
         jB_Speichern.setEnabled(true);
         jB_AnzeigenAEndern.setEnabled(true);
+        jB_AnzeigenAEndern.setText("Anzeigen");
         jB_Loeschen.setEnabled(true);
-
-        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
+
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
@@ -974,6 +1022,30 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     /*----------------------------------------------------------*/
     public void setzeFormularInArtikelAnzeigen() {
         setzeFormularZurueck();
+//        this.setTitle(ARTIKEL_ANZEIGEN);
+//        jTF_Artikelname.setEnabled(false);
+//        jTA_Artikelbeschreibung.setEnabled(false);
+//        jCB_Kategorie.setEnabled(false);
+//        jTF_Einzelwert.setEnabled(false);
+//        jTF_Bestellwert.setEnabled(false);
+//        jCB_MwST.setEnabled(false);
+//        jTF_Bestandsmenge_FREI.setEnabled(false);
+//
+//        jB_Speichern.setEnabled(false);
+//        jB_AnzeigenAEndern.setEnabled(true);
+//        jB_AnzeigenAEndern.setText("Anzeigen");
+//        jB_Loeschen.setEnabled(false);
+        setzFormularInArtikelAnzeigenFuerButton();
+
+        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
+    }
+     
+   /**
+     * Methode wird aufgerufen, wenn auf Button Anzeigen/Aendern geklickt wird,
+     * das Formular wird nicht zurueckgesetzt, deswegen musste eine extra Methode 
+     * geschrieben werden
+     */
+    private void setzFormularInArtikelAnzeigenFuerButton() {
         this.setTitle(ARTIKEL_ANZEIGEN);
         jTF_Artikelname.setEnabled(false);
         jTA_Artikelbeschreibung.setEnabled(false);
@@ -985,10 +1057,44 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
         jB_Speichern.setEnabled(false);
         jB_AnzeigenAEndern.setEnabled(true);
+        jB_AnzeigenAEndern.setText("Ändern");
         jB_Loeschen.setEnabled(false);
-
-        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
+
+    /**
+     *
+     * @param kategorie 
+     * Datum Name Was 17.01.2015 SEN angelegt
+     */
+    public void setzteKategorie(Artikelkategorie kategorie) {
+        jCB_Kategorie.setSelectedItem(kategorie.getKategoriename());
+    }
+
+    /**
+     * @param artikel
+     *
+     * Datum Name Was 17.01.2015 SEN angelegt
+     */
+//    public void zeigeArtikelAusSucheAn(long artikelnummer, String artikelname, String artikelbeschreibung,
+//            Artikelkategorie artikelkategorie, double einzelwert, double bestellwert,
+//            int mwst, int bestandsmengeFREI, int bestandsmengeRES, int bestandsmengeZULAUF, int bestandsmengeVERKAUFT) {
+//   setzeMethode, die aus der Suche aufgerufen wird. Es wird die Sicht GP Anzeigen aufgerufen und der gesuchte GP angezeigt
+    public void zeigeArtikelAusSucheAn(Artikel artikel) {
+        setzeFormularInArtikelAnzeigen();
+        jTF_Artikelnummer.setText("" + artikel.getArtikelID());
+        jTF_Artikelname.setText(artikel.getArtikeltext());
+        jTA_Artikelbeschreibung.setText(artikel.getBestelltext());
+        jCB_Kategorie.setSelectedItem(artikel.getKategorie().getKategoriename());
+        jTF_Einzelwert.setText("" + nf.format(artikel.getVerkaufswert()));
+        jTF_Bestellwert.setText("" + nf.format(artikel.getEinkaufswert()));
+        jCB_MwST.setSelectedItem("" + artikel.getMwST());
+        jTF_Bestandsmenge_FREI.setText("" + artikel.getFrei());
+        jTF_Bestandsmenge_RES.setText("" + artikel.getReserviert());
+        jTF_Bestandsmenge_ZULAUF.setText("" + artikel.getZulauf());
+        jTF_Bestandsmenge_VERKAUFT.setText("" + artikel.getVerkauft());
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_AnzeigenAEndern;
     private javax.swing.JButton jB_Loeschen;

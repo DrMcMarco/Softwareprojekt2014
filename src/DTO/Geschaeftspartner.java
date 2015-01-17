@@ -102,9 +102,6 @@ public abstract class Geschaeftspartner implements Serializable {
         if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
         final Geschaeftspartner other = (Geschaeftspartner) obj;
         if (!Objects.equals(this.Lieferadresse, other.Lieferadresse)) {
             return false;

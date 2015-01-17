@@ -725,29 +725,29 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
                         }
                     }
                 } else {
-                    Zahlungskondition ZKVorher = this.dao.getPaymentConditionsById(zknr); 
+                    Zahlungskondition ZKVorher = this.dao.getPaymentConditionsById(zknr);
                     Zahlungskondition ZKNachher = new Zahlungskondition(auftragsart, lieferzeitSOFORT,
-                            sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2, mahnzeit1, 
+                            sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2, mahnzeit1,
                             mahnzeit2, mahnzeit3);
-                     if (ZKVorher.equals(ZKNachher)) {
-                            JOptionPane.showMessageDialog(null, "Es wurden keine Änderungen gemacht!", "Keine Änderungen", JOptionPane.INFORMATION_MESSAGE);
-                        } else {
-                            int antwort = JOptionPane.showConfirmDialog(null, "Möchten Sie die Änderungen speichern?", ZK_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                            if (antwort == JOptionPane.YES_OPTION) { // falls ja,
-                                try { // Geschäftspartner verändern
-                                    this.dao.aendereZahlungskondition(zknr, auftragsart, lieferzeitSOFORT,
-                                            sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2,
-                                            mahnzeit1, mahnzeit2, mahnzeit3);
-                                } catch (ApplicationException e) { // falls ein Fehler auftaucht
-                                    System.out.println("Fehler beim veraendern der ZK in Sicht ZK Anlegen Methode speichern: " + e.getMessage());
-                                }
-                                setzeFormularZurueck(); // Formular zuruecksetzen
-                                this.setVisible(false); // diese Sicht ausblenden 
-                                jB_ZurueckActionPerformed(null); // Button Zurueck Action ausführen
-                            } else {
-                                fehlerhafteComponenten.clear(); // Nein button wird geklickt, keine Aktion nur fehlerhafte Komponenten müssen geleert werden
+                    if (ZKVorher.equals(ZKNachher)) {
+                        JOptionPane.showMessageDialog(null, "Es wurden keine Änderungen gemacht!", "Keine Änderungen", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        int antwort = JOptionPane.showConfirmDialog(null, "Möchten Sie die Änderungen speichern?", ZK_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        if (antwort == JOptionPane.YES_OPTION) { // falls ja,
+                            try { // Geschäftspartner verändern
+                                this.dao.aendereZahlungskondition(zknr, auftragsart, lieferzeitSOFORT,
+                                        sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2,
+                                        mahnzeit1, mahnzeit2, mahnzeit3);
+                            } catch (ApplicationException e) { // falls ein Fehler auftaucht
+                                System.out.println("Fehler beim veraendern der ZK in Sicht ZK Anlegen Methode speichern: " + e.getMessage());
                             }
+                            setzeFormularZurueck(); // Formular zuruecksetzen
+                            this.setVisible(false); // diese Sicht ausblenden 
+                            jB_ZurueckActionPerformed(null); // Button Zurueck Action ausführen
+                        } else {
+                            fehlerhafteComponenten.clear(); // Nein button wird geklickt, keine Aktion nur fehlerhafte Komponenten müssen geleert werden
                         }
+                    }
                 }
 
 //          Artikel wird in ArrayList für Artikel hinzugefuegt     
@@ -924,6 +924,27 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         jB_Loeschen.setEnabled(false);
 
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
+    }
+
+//   setzeMethode, die aus der Suche aufgerufen wird. Es wird die Sicht ZK Anzeigen aufgerufen und die gesuchte ZK angezeigt
+    /**
+     * 
+     * @param zk 
+     * Datum Name Was 17.01.2015 SEN angelegt
+     */
+    public void zeigeZKausSucheAn(Zahlungskondition zk) {
+        setzeFormularInZKAnzeigen();
+        jTF_ZahlungskonditionID.setText("" + zk.getZahlungskonditionID());
+        jCB_Auftragsart.setSelectedItem(zk.getAuftragsart());
+        jSP_LieferzeitSOFORT.setValue(zk.getLieferzeitSofort());
+        jSP_SperrzeitWUNSCH.setValue(zk.getSperrzeitWunsch());
+        jSP_Skontozeit1.setValue(zk.getSkontozeit1());
+        jSP_Skontozeit2.setValue(zk.getSkontozeit2());
+        jCB_Skonto1.setSelectedItem(("" + zk.getSkonto1()).replace('.', ','));
+        jCB_Skonto2.setSelectedItem(("" + zk.getSkonto2()).replace('.', ','));
+        jSP_Mahnzeit1.setValue(zk.getMahnzeit1());
+        jSP_Mahnzeit2.setValue(zk.getMahnzeit2());
+        jSP_Mahnzeit3.setValue(zk.getMahnzeit3());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

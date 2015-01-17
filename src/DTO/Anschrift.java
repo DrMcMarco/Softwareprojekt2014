@@ -210,9 +210,6 @@ public abstract class Anschrift implements Serializable {
         if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
         final Anschrift other = (Anschrift) obj;
         if (!Objects.equals(this.Name, other.Name)) {
             return false;
@@ -248,9 +245,6 @@ public abstract class Anschrift implements Serializable {
             return false;
         }
         if (!Objects.equals(this.Geburtsdatum, other.Geburtsdatum)) {
-            return false;
-        }
-        if (!Objects.equals(this.Erfassungsdatum, other.Erfassungsdatum)) {
             return false;
         }
         if (this.LKZ != other.LKZ) {
