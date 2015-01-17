@@ -224,6 +224,11 @@ public class DataAccessObject {
             Date Abschlussdatum, Date Lieferdatum) 
             throws ApplicationException {
         
+        if (Artikel.isEmpty()) {
+            throw new ApplicationException("Fehler", 
+                    "Es wurden keine Auftragspositionen angegeben.");
+        }
+        
         //Variable für den berechneten Auftragswert
         double Auftragswert = 0;
         
@@ -1161,10 +1166,17 @@ public class DataAccessObject {
                 rechnungsanschrift.setPLZ(rPLZ);
                 rechnungsanschrift.setOrt(rOrt);
                 
-                lieferanschrift.setStrasse(lStrasse);
-                lieferanschrift.setHausnummer(lHausnummer);
-                lieferanschrift.setPLZ(lPLZ);
-                lieferanschrift.setOrt(lOrt);    
+                if (modus) {
+                    
+                    lieferanschrift = rechnungsanschrift;
+                    
+                } else {
+                
+                    lieferanschrift.setStrasse(lStrasse);
+                    lieferanschrift.setHausnummer(lHausnummer);
+                    lieferanschrift.setPLZ(lPLZ);
+                    lieferanschrift.setOrt(lOrt);    
+                }
         }
         
         gp.setLieferadresse(lieferanschrift);
@@ -1820,11 +1832,10 @@ public class DataAccessObject {
      * @throws ApplicationException wenn es zu der Auftragsart keine 
      *         Zahlungskonditionen gibt
      */
-    public ArrayList<Zahlungskondition> gibZahlungskonditionenFürAuftragsart(String Auftragsart) 
+    public List<Zahlungskondition> gibZahlungskonditionenFürAuftragsart(String Auftragsart) 
             throws ApplicationException {
         
-        ArrayList<Zahlungskondition> ergebnis = 
-                (ArrayList<Zahlungskondition>)em.createQuery("SELECT ST FROM "
+        List<Zahlungskondition> ergebnis = em.createQuery("SELECT ST FROM "
                         + "Zahlungskondition ST WHERE ST.Auftragsart LIKE '" 
                         + Auftragsart + "'").getResultList();
         
