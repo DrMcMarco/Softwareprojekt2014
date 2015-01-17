@@ -18,6 +18,8 @@ import javax.swing.JTextField;
    Schnittstellenmethoden*/
 /* 08.01.2015 Terrasi, anlegen von SetStatus Methoden*/
 /* 13.01.2015 Terrasi, Implementierung der DAO-Methoden */
+/* 17.01.2015 Terrasi, ertsellen von Setter-Methode um einen Benutzernamen 
+    an das Eingabefeld übergeben zu können. */
  
 public class User_anlegen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
@@ -383,10 +385,9 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
      * @param evt
      */
     private void benutzername_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_benutzername_jTextFieldFocusGained
-        this.hauptFenster.setStatusMeldung("");//Statusmeldung verschwindet.
-         
+        
         benutzername_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
-        benutzername_jTextField.setText("");//Übergabe eines leeren Strings an das Eingabefeld
+        benutzername_jTextField.selectAll();// Eingabefeld wrd selektiert.
     }//GEN-LAST:event_benutzername_jTextFieldFocusGained
 
     /*----------------------------------------------------------*/
@@ -562,6 +563,17 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         this.admin_jCheckBox.setSelected(selektieren);// Checkbox wird selektiert oder nicht.
         
     }
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 17.01.2015 Terrasi angelegt und Dokumentation */
+    /*----------------------------------------------------------*/
+    public void setBenutzername_jTextField(String benutzername) {
+        this.benutzername_jTextField.setText(benutzername);
+    }
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox admin_jCheckBox;
     private javax.swing.JLabel benutzername_jLabel;

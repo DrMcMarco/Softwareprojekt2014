@@ -26,6 +26,7 @@ import JFrames.*;
  * Auftragspositionen.
  * 08.01.2015 Terrasi, Überarbeitung der Anwendungslogik für anzeigen/ändern 
  * Status und das hinzufügen von weiteren Funktion. 
+ * 17.01.2015 Terrasi, erstelln von Setter-Methoden um Werte den Eingabefelder zu übergeben.
  */
 public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
@@ -239,7 +240,6 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
             }
         });
 
-        erfassungsdatum_jTextField.setText("jTextField6");
         erfassungsdatum_jTextField.setEnabled(false);
         erfassungsdatum_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -659,6 +659,56 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         jB_Loeschen.setEnabled(false);
         this.hauptFenster.setComponent(this);
     }
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 17.01.2015 Terrasi angelegt und Dokumentation */
+    /*----------------------------------------------------------*/
+    public void setAuftragspositionsID_jTextField(String id) {
+        this.auftragspositionsID_jTextField.setText(id);
+    }
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 17.01.2015 Terrasi angelegt und Dokumentation */
+    /*----------------------------------------------------------*/
+    public void setEinzelwert_jTextField(String einzelwert) {
+        this.einzelwert_jTextField.setText(einzelwert);
+    }
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 17.01.2015 Terrasi angelegt und Dokumentation */
+    /*----------------------------------------------------------*/
+    public void setErfassungsdatum_jTextField(String erfassungsDatum) {
+        this.erfassungsdatum_jTextField.setText(erfassungsDatum);
+    }
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 17.01.2015 Terrasi angelegt und Dokumentation */
+    /*----------------------------------------------------------*/
+    public void setMaterialnummer_jTextField(String materialnummer) {
+        this.materialnummer_jTextField.setText(materialnummer);
+    }
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 17.01.2015 Terrasi angelegt und Dokumentation */
+    /*----------------------------------------------------------*/
+    public void setMenge_jTextField(String menge) {
+        this.menge_jTextField.setText(menge);
+    }
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 17.01.2015 Terrasi angelegt und Dokumentation */
+    /*----------------------------------------------------------*/
+    public void setPositionsnummer_jTextField(String position) {
+        this.positionsnummer_jTextField.setText(position);
+    }
+    
+    
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
