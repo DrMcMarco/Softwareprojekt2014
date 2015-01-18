@@ -342,7 +342,6 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      */
     private void positionsnummer_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_positionsnummer_jTextFieldFocusGained
         positionsnummer_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
-        positionsnummer_jTextField.setText("");//Eingabefeld erhält einen leeren String
         positionsnummer_jTextField.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_positionsnummer_jTextFieldFocusGained
 
@@ -353,7 +352,6 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      */
     private void materialnummer_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_materialnummer_jTextFieldFocusGained
         materialnummer_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
-        materialnummer_jTextField.setText("");//Eingabefeld erhält einen leeren String
         materialnummer_jTextField.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_materialnummer_jTextFieldFocusGained
 
@@ -364,7 +362,6 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      */
     private void menge_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_menge_jTextFieldFocusGained
         menge_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
-        menge_jTextField.setText("");//Eingabefeld erhält einen leeren String
         menge_jTextField.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_menge_jTextFieldFocusGained
 
@@ -375,7 +372,6 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      */
     private void einzelwert_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_einzelwert_jTextFieldFocusGained
         einzelwert_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
-        einzelwert_jTextField.setText("");//Eingabefeld erhält einen leeren String
         einzelwert_jTextField.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_einzelwert_jTextFieldFocusGained
 
