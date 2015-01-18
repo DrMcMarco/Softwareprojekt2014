@@ -26,22 +26,31 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+/*----------------------------------------------------------*/
+/* Datum Name Was                                           */
+/* 15.01.15 sch angelegt                                    */
+/*----------------------------------------------------------*/
 /**
  *
  * @author Simon <Simon.Simon at your.org>
  */
 public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
     
+    /**
+     * Fehler-Meldung zur Auswahl.
+     */
     private static final String FEHLER_AUSWAHL = "Bitte wählen Sie "
                             + "eine Zeile aus!";
-    
+    /**
+     * Fehler-Meldung zur Auswahl der Tabelle.
+     */
     private static final String FEHLER_TABELLE = "Die Informationen aus dieser "
             + "Tabelle werden in diesem Fenster nicht referenziert!";
     
     /**
      * Zur View Kontrolle.
      */
-    private  InterfaceMainView hauptFenster;
+    private InterfaceMainView hauptFenster;
     
     /**
      * Ergebnis Daten aus der Suche.
@@ -64,7 +73,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
     private Component comp;
     
     /**
-     * Creates new form SucheDetailAnzeige
+     * Creates new form SucheDetailAnzeige.
      * @param mainView view
      */
     public SucheDetailAnzeige(InterfaceMainView mainView) {
@@ -74,27 +83,60 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         this.position_jPanel1.setVisible(false);
     }
     
+    /**
+     * Setzt die gefundenen Daten.
+     * @param daten Ergebnis Collection aus der Suche.
+     */
     public void setzeDaten(Collection<?> daten) {
         this.ergebnisDaten = daten;
+        if (this.hauptFenster.gibLetzteAnzeige() == null) {
+            this.Auswaehlen_jButton.setEnabled(false);
+        } else {
+            this.Auswaehlen_jButton.setEnabled(true);
+        }
     }
     
+    /**
+     * Setzt die getätigte Sucheingabe.
+     * Sie wird noch einmal oberhalb der View angezeigt.
+     * @param eingabe die Sucheingabe
+     */
     public void setzeSucheingabe(String eingabe) {
         this.Suchengabe_jTextArea1.setText(eingabe);
     }
     
+    /**
+     * 
+     * @param fenster 
+     */
     public void setzeFenster(Component fenster) {
         this.comp = fenster;
     }
     
+    /**
+     * Setzt den Tabellennamen in dem gesucht wurde.
+     * @param tabelle Tabelle
+     */
     public void setzeTabelle(String tabelle) {
         this.tabelle = tabelle;
         this.initTabelle();
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 15.01.15 sch angelegt                                    */
+    /*----------------------------------------------------------*/
+    /**
+     * Initialisiert die erste Tabelle.
+     */
     private void initTabelle() {
         DefaultTableModel dtm = new DefaultTableModel();
+        //In Abhängigkeit der gesuchten Tabelle, wird die jTable erzeugt und 
+        //gesetzt.
         switch (tabelle) {
+            //Es wurde in Auftragskopf gesucht
             case "Auftragskopf":
+                //Setze Spaltennamen
                 dtm.addColumn("Auftragsnummer");
                 dtm.addColumn("Abschlussdatum");
                 dtm.addColumn("Auftragstext");
@@ -106,18 +148,27 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                 dtm.addColumn("Kundenname");
                 dtm.addColumn("Status");
                 dtm.addColumn("Zahlungskondition");
+                //Iteriere über alle gefundenen Datensätze und zeige sie 
+                //In der Anzeige Tabelle an.
                 for (Object o : ergebnisDaten) {
+                    //Caste nach Auftragskopf
                     Auftragskopf ak = (Auftragskopf) o;
-                    dtm.addRow(new Object[] {ak.getAuftragskopfID(), ak.getAbschlussdatum(), 
-                    ak.getAuftragstext(), ak.getErfassungsdatum(), ak.getLieferdatum(),
-                    ak.getWert(), "Art", ak.getGeschaeftspartner().getGeschaeftspartnerID(),
-                    ak.getGeschaeftspartner().getRechnungsadresse().getName(),
-                    ak.getStatus().getStatus(), "ZK"});
+                    //Füge dem Model einen neuen Datensatz als Zeile hinzu
+                    dtm.addRow(new Object[] {ak.getAuftragskopfID(), 
+                        ak.getAbschlussdatum(), ak.getAuftragstext(), 
+                        ak.getErfassungsdatum(), ak.getLieferdatum(), 
+                        ak.getWert(), "Art", 
+                        ak.getGeschaeftspartner().getGeschaeftspartnerID(), 
+                        ak.getGeschaeftspartner().getRechnungsadresse()
+                                .getName(), 
+                        ak.getStatus().getStatus(), "ZK"});
                     
                 }
+                //Setze das Model
                 this.Anzeige_jTable1.setModel(dtm);
                 break;
             case "Auftragsposition":
+                //Setze Spaltennamen
                 dtm.addColumn("Artikelnummer");
                 dtm.addColumn("Artikelname");
                 dtm.addColumn("Auftragsnummer");
@@ -125,9 +176,14 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                 dtm.addColumn("Einzelwert");
                 dtm.addColumn("Menge");
                 dtm.addColumn("Erfassungsdatum");
+                //Iteriere über alle gefundenen Datensätze und zeige sie 
+                //In der Anzeige Tabelle an.
                 for (Object o : ergebnisDaten) {
+                    //Caste nach Auftragsposition
                     Auftragsposition position = (Auftragsposition) o;
-                    dtm.addRow(new Object[] {position.getArtikel().getArtikelID(),
+                    //Füge dem Model einen neuen Datensatz als Zeile hinzu
+                    dtm.addRow(new Object[] {position.getArtikel()
+                            .getArtikelID(),
                                 position.getArtikel().getArtikeltext(), 
                                 position.getAuftrag().getAuftragskopfID(), 
                                 position.getPositionsnummer(), 
@@ -135,10 +191,11 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                                 position.getMenge(),
                                 position.getErfassungsdatum()});
                 }
+                //Setze das Model
                 this.Anzeige_jTable1.setModel(dtm);
                 break;
             case "Artikel":
- 
+                //Setze Spaltennamen
                 dtm.addColumn("Artnr");
                 dtm.addColumn("Arttext");
                 dtm.addColumn("Bestelltext");
@@ -150,8 +207,13 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                 dtm.addColumn("Verkaufswert");
                 dtm.addColumn("Verkauft");
                 dtm.addColumn("Zulauf");
+                //Iteriere über alle gefundenen Datensätze und zeige sie 
+                //In der Anzeige Tabelle an.
                 for (Object o : ergebnisDaten) {
+                    //Caste nach Artikel
                     Artikel artikel = (Artikel) o;
+                    //Erstelle ein Objekt Array mit allen Informationen aus dem
+                    //Artikel Objekt
                     Object[] ausgabe = {artikel.getArtikelID(), 
                         artikel.getArtikeltext(), artikel.getBestelltext(), 
                         artikel.getEinkaufswert() , artikel.getFrei() ,
@@ -159,47 +221,67 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                         artikel.getMwST(), artikel.getReserviert(), 
                         artikel.getVerkaufswert(), artikel.getVerkaufswert(), 
                         artikel.getVerkauft(), artikel.getZulauf() };
+                    //Füge dem Model einen neuen Datensatz als Zeile hinzu
                     dtm.addRow(ausgabe);
                 }
+                //Setze das Model
                 this.Anzeige_jTable1.setModel(dtm);
                 break;
             case "Artikelkategorie":
+                //Setze Spaltennamen
                 dtm.addColumn("Kategorienummer");
                 dtm.addColumn("Beschreibung");
                 dtm.addColumn("Name");
                 dtm.addColumn("Kommentar");
+                //Iteriere über alle gefundenen Datensätze und zeige sie 
+                //In der Anzeige Tabelle an.
                 for (Object o : ergebnisDaten) {
+                    //Caste nach Artikelkategorie
                     Artikelkategorie ak = (Artikelkategorie) o;
-                    dtm.addRow(new Object[] {ak.getKategorieID(), ak.getBeschreibung(),
-                    ak.getKategoriename(), ak.getKommentar()});
+                    //Füge dem Model einen neuen Datensatz als Zeile hinzu
+                    dtm.addRow(new Object[] {ak.getKategorieID(), 
+                        ak.getBeschreibung(), ak.getKategoriename(), 
+                        ak.getKommentar()});
                 }
+                //Setze das Model
                 this.Anzeige_jTable1.setModel(dtm);
                 break;
             case "Status":
+                //Setze Spaltennamen
                 dtm.addColumn("Statusnummer");
                 dtm.addColumn("Status");
+                //Iteriere über alle gefundenen Datensätze und zeige sie 
+                //In der Anzeige Tabelle an.
                 for (Object o : ergebnisDaten) {
+                    //Caste nach Status
                     Status ak = (Status) o;
+                    //Füge dem Model einen neuen Datensatz als Zeile hinzu
                     dtm.addRow(new Object[] {ak.getStatusID(), 
                         ak.getStatus() });
                 }
+                //Setze das Model
                 this.Anzeige_jTable1.setModel(dtm);
                 break;
             case "Geschäftspartner":
+                //Setze Spaltennamen
                 dtm.addColumn("GpNummer");
                 dtm.addColumn("Kreditlimit");
                 dtm.addColumn("Typ");
+                //Iteriere über alle gefundenen Datensätze und zeige sie 
+                //In der Anzeige Tabelle an.
                 for (Object o : ergebnisDaten) {
+                    //Caste nach Geschaeftspartner
                     Geschaeftspartner partner = (Geschaeftspartner) o;
+                    //Füge dem Model einen neuen Datensatz als Zeile hinzu
                     Object[] ausgabe = {partner.getGeschaeftspartnerID(), 
                         partner.getKreditlimit(), partner.getTyp()};
                     dtm.addRow(ausgabe);
                 }
-                    
-                   
+                //Setze das Model
                 this.Anzeige_jTable1.setModel(dtm);
                 break;
             case "Zahlungskondition":
+                //Setze Spaltennamen
                 dtm.addColumn("Nummer");
                 dtm.addColumn("Auftragsart");
                 dtm.addColumn("Lieferzeitsofort");
@@ -211,17 +293,23 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                 dtm.addColumn("Skontozeit1");
                 dtm.addColumn("Skontozeit2");
                 dtm.addColumn("Sperrzeitwunsch");
+                //Iteriere über alle gefundenen Datensätze und zeige sie 
+                //In der Anzeige Tabelle an.
                 for (Object o : ergebnisDaten) {
+                    //Caste nach Zahlungskondition
                     Zahlungskondition zk = (Zahlungskondition) o;
-                    dtm.addRow(new Object[] {zk.getZahlungskonditionID(),
-                    zk.getAuftragsart(), zk.getLieferzeitSofort(),
-                    zk.getMahnzeit1(), zk.getMahnzeit2(), zk.getMahnzeit3(),
-                    zk.getSkonto1(), zk.getSkonto2(), zk.getSkontozeit1(),
-                    zk.getSkontozeit2(), zk.getSperrzeitWunsch()});
+                    //Füge dem Model einen neuen Datensatz als Zeile hinzu
+                    dtm.addRow(new Object[] {zk.getZahlungskonditionID(), 
+                        zk.getAuftragsart(), zk.getLieferzeitSofort(), 
+                        zk.getMahnzeit1(), zk.getMahnzeit2(), zk.getMahnzeit3(),
+                        zk.getSkonto1(), zk.getSkonto2(), zk.getSkontozeit1(),
+                        zk.getSkontozeit2(), zk.getSperrzeitWunsch()});
                 }
+                //Setze das Model
                 this.Anzeige_jTable1.setModel(dtm);
                 break;
             case "Anschrift" : 
+                //Setze Spaltennamen
                 dtm.addColumn("Nummer");
                 dtm.addColumn("Titel");
                 dtm.addColumn("Name");
@@ -233,16 +321,21 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                 dtm.addColumn("Email");
                 dtm.addColumn("Fax");
                 dtm.addColumn("Telefonnummer");
-                
+                //Iteriere über alle gefundenen Datensätze und zeige sie 
+                //In der Anzeige Tabelle an.
                 for (Object o : ergebnisDaten) {
+                    //Caste nach Anschrift
                     Anschrift anschrift = (Anschrift) o;
-                    Object[] ausgabe = {anschrift.getAnschriftID(), anschrift.getTitel(), anschrift.getName(),
+                    //Füge dem Model einen neuen Datensatz als Zeile hinzu
+                    Object[] ausgabe = {anschrift.getAnschriftID(), 
+                        anschrift.getTitel(), anschrift.getName(),
                         anschrift.getVorname(), anschrift.getGeburtsdatum(),
                         anschrift.getStrasse(), anschrift.getPLZ(),
                         anschrift.getOrt(), anschrift.getEmail(),
                         anschrift.getFAX(), anschrift.getTelefon()};
                     dtm.addRow(ausgabe);
                 }
+                //Setze das Model
                 this.Anzeige_jTable1.setModel(dtm);
                 break;
         }
@@ -441,16 +534,32 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_Zurueck_jButton1ActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 15.01.15 sch angelegt                                    */
+    /*----------------------------------------------------------*/
+    /**
+     * Wird auf ein Datensatz in der Tabelle "Anzeige_jTable" getätigt,
+     * so wird überprüft, ob es weitere Informationen zu diesem Datensatz gibt.
+     * Beispiel: Geschäftspartner -> die Anschriftsdaten werden seperat 
+     * unterhalb in der positions_jTable angezeigt.
+     * Auftragskopf -> Die Positionen werden seperat 
+     * unterhalb in der positions_jTable angezeigt.
+     * 
+     * @param evt event.
+     */
     private void Anzeige_jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Anzeige_jTable1MouseClicked
         DefaultTableModel dtm = new DefaultTableModel();
         ArrayList<Geschaeftspartner> listePartner = null;
         ArrayList<Auftragskopf> listeAuftrag = null;
         Geschaeftspartner gp = null;
         Auftragskopf ak = null;
-        
+        //Prüfe, ob nach einem Geschäftspartner gesucht wurde
         if (this.tabelle.equals("Geschäftspartner")) {
+            //Setze die positions Tabelle auf sichtbar
             this.position_jPanel1.setVisible(true);
             this.Positionanzeige_jTable2.setVisible(true);
+            //Setze die Spaltennamen
             dtm.addColumn("Titel");
             dtm.addColumn("Name");
             dtm.addColumn("Vorname");
@@ -462,27 +571,49 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
             dtm.addColumn("Fax");
             dtm.addColumn("Telefonnummer");
             dtm.addColumn("Anschrift");
-            
-            listePartner = new ArrayList<Geschaeftspartner>((Collection<? extends Geschaeftspartner>) this.ergebnisDaten);
+            //Initialisiere die Informationen aus der Suche in eine 
+            //nach GP Typisierte Liste
+            listePartner = new ArrayList<>((Collection<? 
+                    extends Geschaeftspartner>) this.ergebnisDaten);
+            //Hole aus dieser Liste das selektierte GP-Objekt anhand, der
+            //getSelectedRow index
             gp = listePartner.get(this.Anzeige_jTable1.getSelectedRow());
-            Object[] ausgabeRechnung = {gp.getRechnungsadresse().getTitel(), gp.getRechnungsadresse().getName(),
-                gp.getRechnungsadresse().getVorname(), gp.getRechnungsadresse().getGeburtsdatum(),
-                gp.getRechnungsadresse().getStrasse(), gp.getRechnungsadresse().getPLZ(),
-                gp.getRechnungsadresse().getOrt(), gp.getRechnungsadresse().getEmail(),
-                gp.getRechnungsadresse().getFAX(), gp.getRechnungsadresse().getTelefon(),
+            //Erstelle ein Objekt Array mit allen Informationen aus dem GP
+            //Zunächst die Rechnungsanschrift
+            Object[] ausgabeRechnung = {gp.getRechnungsadresse().getTitel(), 
+                gp.getRechnungsadresse().getName(), 
+                gp.getRechnungsadresse().getVorname(), 
+                gp.getRechnungsadresse().getGeburtsdatum(),
+                gp.getRechnungsadresse().getStrasse(), 
+                gp.getRechnungsadresse().getPLZ(),
+                gp.getRechnungsadresse().getOrt(), 
+                gp.getRechnungsadresse().getEmail(),
+                gp.getRechnungsadresse().getFAX(), 
+                gp.getRechnungsadresse().getTelefon(),
                 "Rechnung"};
+            //Füge dem Tabellen-Modell einen Datensatz als Zeile hinzu
             dtm.addRow(ausgabeRechnung);
-            Object[] ausgabeLiefer = {gp.getLieferadresse().getTitel(), gp.getLieferadresse().getName(),
-                gp.getLieferadresse().getVorname(), gp.getLieferadresse().getGeburtsdatum(),
-                gp.getLieferadresse().getStrasse(), gp.getLieferadresse().getPLZ(),
-                gp.getLieferadresse().getOrt(), gp.getLieferadresse().getEmail(),
-                gp.getLieferadresse().getFAX(), gp.getLieferadresse().getTelefon(),
+            //Wie oben nur mit der Lieferadresse
+            Object[] ausgabeLiefer = {gp.getLieferadresse().getTitel(), 
+                gp.getLieferadresse().getName(),
+                gp.getLieferadresse().getVorname(), 
+                gp.getLieferadresse().getGeburtsdatum(),
+                gp.getLieferadresse().getStrasse(), 
+                gp.getLieferadresse().getPLZ(),
+                gp.getLieferadresse().getOrt(), 
+                gp.getLieferadresse().getEmail(),
+                gp.getLieferadresse().getFAX(), 
+                gp.getLieferadresse().getTelefon(),
                 "Liefer"};
+            //Füge dem Tabellen-Modell einen Datensatz als Zeile hinzu
             dtm.addRow(ausgabeLiefer);
+            //Übergebe das Model an die Table
             this.Positionanzeige_jTable2.setModel(dtm);
         } else if (this.tabelle.equals("Auftragskopf")) {
+            //Setze die positions Tabelle auf sichtbar
             this.position_jPanel1.setVisible(true);
             this.Positionanzeige_jTable2.setVisible(true);
+            //Setze die Spaltennamen
             dtm.addColumn("Artikelnummer");
             dtm.addColumn("Artikelname");
             dtm.addColumn("Auftragsnummer");
@@ -490,20 +621,38 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
             dtm.addColumn("Einzelwert");
             dtm.addColumn("Menge");
             dtm.addColumn("Erfassungsdatum");
-            
-            listeAuftrag = new ArrayList<Auftragskopf>((Collection<? extends Auftragskopf>) this.ergebnisDaten);
+            //Initialisiere die Informationen aus der Suche in eine 
+            //nach Auftragskopf Typisierte Liste
+            listeAuftrag = new ArrayList<>((Collection<? 
+                    extends Auftragskopf>) this.ergebnisDaten);
+            //Hole aus dieser Liste das selektierte GP-Objekt anhand, der
+            //getSelectedRow index
             ak = listeAuftrag.get(this.Anzeige_jTable1.getSelectedRow());
-            
+            //Iteriere über alle Positionen 
             for (Auftragsposition position : ak.getPositionsliste()) {
+                //Füge dem Tabellen-Modell einen Datensatz als Zeile hinzu
                 dtm.addRow(new Object[] {position.getArtikel().getArtikelID(),
-                position.getArtikel().getArtikeltext(), position.getAuftrag().getAuftragskopfID(),
-                position.getPositionsnummer(), position.getEinzelwert(), position.getMenge(),
-                position.getErfassungsdatum()});
+                    position.getArtikel().getArtikeltext(), 
+                    position.getAuftrag().getAuftragskopfID(),
+                    position.getPositionsnummer(), 
+                    position.getEinzelwert(), position.getMenge(),
+                    position.getErfassungsdatum()});
             }
+            //Übergebe das Model an die Table
             this.Positionanzeige_jTable2.setModel(dtm);
         }
     }//GEN-LAST:event_Anzeige_jTable1MouseClicked
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 15.01.15 sch angelegt                                    */
+    /*----------------------------------------------------------*/
+    /**
+     * Der Anzeige Button übernimmt alle Informationen aus dem Datensatz
+     * und ruft die entsprechende View zur Anzeige dieser Daten auf.
+     * Von dort an ist es möglich die Daten zu bearbeiten.
+     * @param evt event
+     */
     private void Anzeige_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Anzeige_jButtonActionPerformed
         Start framestart = null;
         StartAdmin framestartadmin = null;
@@ -544,90 +693,199 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         this.setVisible(false);
         
     }//GEN-LAST:event_Anzeige_jButtonActionPerformed
-
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was                                           */
+    /* 15.01.15 sch angelegt                                    */
+    /*----------------------------------------------------------*/
+    /**
+     * Auswählen Button übernimmt den gesuchten Datensatz in die View,
+     * von wo die Suche aufgerufen wurde.
+     * Hier wird geprüft, wohin die Informationen gehen sollen, und welche
+     * Informationen benötigt werden.
+     */
     private void Auswaehlen_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Auswaehlen_jButtonActionPerformed
+        //Einzelne Typisierte Listen 
         ArrayList<Artikelkategorie> kategorieListe = null;
         ArrayList<Geschaeftspartner> gpListe = null;
         ArrayList<Artikel> artikelListe = null;
         ArrayList<Anschrift> anschriftListe = null;
         
+        //Prüfe, aus welcher View die Suche aufgerufen worden ist.
+        //Dies ist entscheiden, da in jeder View nur IN speziellen Tabellen
+        //und nach speziellen Attributen gesucht werden kann
+        //Prüfe, ob die Suche von Artikel anlegen oder ändern gerufen wurde.
         if (this.hauptFenster.gibLetzteAnzeige().getTitle().equals("Artikel "
-                + "anlegen")) {
+                + "anlegen") || this.hauptFenster.gibLetzteAnzeige().getTitle()
+                        .equals("Artikel ändern")) {
+            //Prüfe, ob sich die Suche auf Artikelkategorie bezieht
             if (this.tabelle.equals("Artikelkategorie")) {
+                //Prüfe, ob ein Datensatz selektiert wurde.
                 if (this.Anzeige_jTable1.getSelectedRow() != -1) {
+                    //Caste die Ergebnisliste aus der Suche nach Artikelkat.
                     kategorieListe = new ArrayList<>(
                             (Collection<? extends Artikelkategorie>) 
                                     this.ergebnisDaten);
-
+                    //Setze in der View entsprechend das Feld mit den 
+                    //Informationen
                     this.hauptFenster.gibArtikelAnlegenFenster()
                             .gibjCB_Artikelkategorie().setSelectedItem(
                                     kategorieListe.get(this.Anzeige_jTable1
                                             .getSelectedRow())
                                             .getKategoriename());
+                    //Schließe die Suche
                     this.setVisible(false);
+                    //Setze ggf. die Positions-Table auf nicht sichtbar
+                    this.position_jPanel1.setVisible(false);
+                    this.Positionanzeige_jTable2.setVisible(false);
+                //Wenn kein Datensatz ausgewählt wurde, wird der Benutzer
+                //Daraufhin aufmerksam gemacht
                 } else {
                     JOptionPane.showMessageDialog(null, FEHLER_AUSWAHL, 
                             "Fehler", JOptionPane.WARNING_MESSAGE);
                 }
+            //Wenn eine Tabelle ausgewählt wurde die nicht hierauf 
+            //Referenziert, dann gib eine Meldung aus und der Benutzer
+            //Muss seine Eingabe wiederholen
             } else {
                 JOptionPane.showMessageDialog(null, FEHLER_TABELLE, 
                             "Fehler", JOptionPane.WARNING_MESSAGE);
             }
+        //Prüfe, ob die Suche von Auftragskopf anlegen oder ändern gerufen wurde
         } else if (this.hauptFenster.gibLetzteAnzeige().getTitle().equals(
-                "Auftragskopf anlegen")) {
+                "Auftragskopf anlegen") || this.hauptFenster.gibLetzteAnzeige()
+                        .getTitle().equals("Auftragskopf ändern")) {
+            //Prüfe, ob sich die Suche auf GP bezieht
             if (this.tabelle.equals("Geschäftspartner")) {
+                //Prüfe, ob ein Datensatz selektiert wurde.
                 if (this.Anzeige_jTable1.getSelectedRow() != -1) {
+                    //Caste die Ergebnisliste aus der Suche nach GP.
                     gpListe = new ArrayList<>(
                         (Collection<? 
                                 extends Geschaeftspartner>) this.ergebnisDaten);
                     
-                    
+                    //Setze in der View entsprechend das Feld mit den 
+                    //Informationen
                     this.hauptFenster.gibAuftragskopfanlegenFenster()
                             .setGeschaeftspartnerID(String.valueOf(gpListe.get(
                                     this.Anzeige_jTable1.getSelectedRow())
                                     .getGeschaeftspartnerID()));
+                    //Schließe die Suche
                     this.setVisible(false);
+                    //Setze ggf. die Positions-Table auf nicht sichtbar
+                    this.position_jPanel1.setVisible(false);
+                    this.Positionanzeige_jTable2.setVisible(false);
+                //Wenn kein Datensatz ausgewählt wurde, wird der Benutzer
+                //Daraufhin aufmerksam gemacht
                 } else {
                     JOptionPane.showMessageDialog(null, FEHLER_AUSWAHL, 
                             "Fehler", JOptionPane.WARNING_MESSAGE);
                 }
+            //Prüfe, ob sich die Suche auf Artikel bezieht
             } else if (this.tabelle.equals("Artikel")) {
+                //Prüfe, ob ein Datensatz selektiert wurde.
                 if (this.Anzeige_jTable1.getSelectedRow() != -1) {
+                    //Caste die Ergebnisliste aus der Suche nach Artikel.
                     artikelListe = new ArrayList<>(
                         (Collection<? 
                                 extends Artikel>) this.ergebnisDaten);
                     
-                    
+                    //Setze in der View entsprechend das Feld mit den 
+                    //Informationen
                     this.hauptFenster.gibAuftragskopfanlegenFenster()
-                            .setArtikelid_jTextField(String.valueOf(artikelListe.get(
+                            .setArtikelid_jTextField(String.valueOf(
+                                    artikelListe.get(
                                     this.Anzeige_jTable1.getSelectedRow())
                                     .getArtikelID()));
+                    //Schließe die Suche
                     this.setVisible(false);
+                    //Setze ggf. die Positions-Table auf nicht sichtbar
+                    this.position_jPanel1.setVisible(false);
+                    this.Positionanzeige_jTable2.setVisible(false);
+                //Wenn kein Datensatz ausgewählt wurde, wird der Benutzer
+                //Daraufhin aufmerksam gemacht
                 } else {
                     JOptionPane.showMessageDialog(null, FEHLER_AUSWAHL, 
                             "Fehler", JOptionPane.WARNING_MESSAGE);
                 }
+            //Wenn eine Tabelle ausgewählt wurde die nicht hierauf 
+            //Referenziert, dann gib eine Meldung aus und der Benutzer
+            //Muss seine Eingabe wiederholen
             } else {
                 JOptionPane.showMessageDialog(null, FEHLER_TABELLE, 
                             "Fehler", JOptionPane.WARNING_MESSAGE);
             }
+        //Prüfe, ob die Suche von Geschäftspartner anlegen 
+        //oder ändern gerufen wurde
         } else if (this.hauptFenster.gibLetzteAnzeige().getTitle().equals(
-                "Geschäftspartner anlegen")) {
+                "Geschäftspartner anlegen") || this.hauptFenster
+                        .gibLetzteAnzeige().getTitle().equals("Geschäftspartner"
+                                + " ändern")) {
+            //Prüfe, ob sich die Suche auf Anschrift bezieht
             if (this.tabelle.equals("Anschrift")) {
+                //Prüfe, ob ein Datensatz selektiert wurde.
                 if (this.Anzeige_jTable1.getSelectedRow() != -1) {
+                    //Caste die Ergebnisliste aus der Suche nach Anschrift.
                     anschriftListe = new ArrayList<>(
                         (Collection<? 
                                 extends Anschrift>) this.ergebnisDaten);
                     
-                    
+                    //Setze in der View entsprechend das Feld mit den 
+                    //Informationen
                     this.hauptFenster.gibGeschaeftspartneranlegenFenster()
                             .setzeAnschrift(anschriftListe.get(
                                     this.Anzeige_jTable1.getSelectedRow()));
+                    //Schließe die Suche
                     this.setVisible(false);
+                    //Setze ggf. die Positions-Table auf nicht sichtbar
+                    this.position_jPanel1.setVisible(false);
+                    this.Positionanzeige_jTable2.setVisible(false);
+                //Wenn kein Datensatz ausgewählt wurde, wird der Benutzer
+                //Daraufhin aufmerksam gemacht
                 } else {
                     JOptionPane.showMessageDialog(null, FEHLER_AUSWAHL, 
                             "Fehler", JOptionPane.WARNING_MESSAGE);
                 }
+            //Wenn eine Tabelle ausgewählt wurde die nicht hierauf 
+            //Referenziert, dann gib eine Meldung aus und der Benutzer
+            //Muss seine Eingabe wiederholen
+            } else {
+                JOptionPane.showMessageDialog(null, FEHLER_TABELLE, 
+                            "Fehler", JOptionPane.WARNING_MESSAGE);
+            }
+        //Prüfe, ob die Suche von X anlegen oder ändern gerufen wurde
+        } else if (this.hauptFenster.gibLetzteAnzeige().getTitle().equals(
+                "Geschäftspartner anlegen") || this.hauptFenster
+                        .gibLetzteAnzeige().getTitle().equals("Geschäftspartner"
+                                + " ändern")) {
+            //Prüfe, ob sich die Suche auf Anschrift bezieht
+            if (this.tabelle.equals("Anschrift")) {
+                //Prüfe, ob ein Datensatz selektiert wurde.
+                if (this.Anzeige_jTable1.getSelectedRow() != -1) {
+                    //Caste die Ergebnisliste aus der Suche nach Anschrift.
+                    anschriftListe = new ArrayList<>(
+                        (Collection<? 
+                                extends Anschrift>) this.ergebnisDaten);
+                    
+                    //Setze in der View entsprechend das Feld mit den 
+                    //Informationen
+                    this.hauptFenster.gibGeschaeftspartneranlegenFenster()
+                            .setzeAnschrift(anschriftListe.get(
+                                    this.Anzeige_jTable1.getSelectedRow()));
+                    //Schließe die Suche
+                    this.setVisible(false);
+                    //Setze ggf. die Positions-Table auf nicht sichtbar
+                    this.position_jPanel1.setVisible(false);
+                    this.Positionanzeige_jTable2.setVisible(false);
+                //Wenn kein Datensatz ausgewählt wurde, wird der Benutzer
+                //Daraufhin aufmerksam gemacht
+                } else {
+                    JOptionPane.showMessageDialog(null, FEHLER_AUSWAHL, 
+                            "Fehler", JOptionPane.WARNING_MESSAGE);
+                }
+            //Wenn eine Tabelle ausgewählt wurde die nicht hierauf 
+            //Referenziert, dann gib eine Meldung aus und der Benutzer
+            //Muss seine Eingabe wiederholen
             } else {
                 JOptionPane.showMessageDialog(null, FEHLER_TABELLE, 
                             "Fehler", JOptionPane.WARNING_MESSAGE);

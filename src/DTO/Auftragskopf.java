@@ -379,28 +379,29 @@ public abstract class Auftragskopf implements Serializable {
     /*----------------------------------------------------------*/
     /**
      * Führt eine Verfügbarkeitsprüfung in Abhängigkeit des Auftragsstatus und
-     * Auftragsart durch
-     * @param status
+     * Auftragsart durch.
+     * @param status Der zu setzende Status
      * @return True: Der Bestand ist hinreichend für die Bestellmenge
      *         False: Der Bestand ist nicht hinreichen für die Bestellmenge
      * @throws ApplicationException Wirft eine Exception falls das Kreditlimit
      *                              Des Kunden nicht ausreichend ist.
      */
-    public boolean pruefeVerfügbarkeit(String status) 
-            throws ApplicationException {
+    public boolean pruefeVerfuegbarkeit(String status) 
+        throws ApplicationException {
         //Flag, ob Bestand verfügbar ist.
         boolean verfuegbar = true;
         //Prüfe, ob es sich, um eine Bestellung handelt
         if (this instanceof Bestellauftragskopf) {
             if (status.equals("abgeschlossen")) {
-                for (int i = 0; i < this.Positionsliste.size() && verfuegbar; 
-                        i++) {
+                for (int i = 0; i < this.getPositionsliste().size() 
+                        && verfuegbar; i++) {
                     //Setze Flag, ob der Zulauf hinreichend für den Abschluss
                     //Des Bestellauftrages ist und der Bestand auf Frei
                     //Übertragen werden kann
                     verfuegbar = 
-                            this.Positionsliste.get(i).getArtikel().getZulauf() 
-                            >= this.Positionsliste.get(i).getMenge();
+                            this.getPositionsliste().get(i).getArtikel()
+                                    .getZulauf() 
+                            >= this.getPositionsliste().get(i).getMenge();
                 }
             } else {
                 //Bei einer Bestellung wird nur der Zulauf erhöht
@@ -414,32 +415,32 @@ public abstract class Auftragskopf implements Serializable {
                 //Prüfe, welcher Status gesetzt werden soll
                 if (status.equals("freigegeben")) {
                     //Durchlaufe alle Positionen des Auftrags
-                    for (int i = 0; i < this.Positionsliste.size()  
+                    for (int i = 0; i < this.getPositionsliste().size()  
                             && verfuegbar; i++) {
                         //Setze das Flag nach den Kriterium, ob die Anzahl Frei
                         //kleiner o. gleich der Menge 
                         //aus der Bestellung entspricht
                         verfuegbar = 
-                                this.Positionsliste.get(i).getArtikel().
-                                        getFrei() >= 
-                                this.Positionsliste.get(i).getMenge(); 
+                                this.getPositionsliste().get(i).getArtikel()
+                                        .getFrei() 
+                                >= this.getPositionsliste().get(i).getMenge(); 
                     }
                 } else if (status.equals("abgeschlossen")) {
                     //Durchlaufe alle Positionen des Auftrags
-                    for (int i = 0; i < this.Positionsliste.size() && 
-                            verfuegbar; i++) {
+                    for (int i = 0; i < this.getPositionsliste().size() 
+                            && verfuegbar; i++) {
                         //Setze das Flag nach den Kriterium, ob die Anzahl Frei
                         //kleiner gleich der Menge aus der Bestellung entspricht
                         verfuegbar = 
-                                this.Positionsliste.get(i).getArtikel().
-                                        getReserviert() >= 
-                                this.Positionsliste.get(i).getMenge();
+                                this.getPositionsliste().get(i).getArtikel()
+                                        .getReserviert() 
+                                >= this.getPositionsliste().get(i).getMenge();
                     }
                 }
             //Kreditlimit ist nicht hinreichend
             } else {
-                throw new ApplicationException("Fehler", "Das Kreditlimit " + 
-                        "reicht nicht aus!");
+                throw new ApplicationException("Fehler", "Das Kreditlimit " 
+                        + "reicht nicht aus!");
             }
         }
         return verfuegbar;

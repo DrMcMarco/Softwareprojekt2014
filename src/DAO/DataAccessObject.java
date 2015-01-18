@@ -746,7 +746,7 @@ public class DataAccessObject {
                 auftrag.setStatus(status);
             } else {
                 //Prüfe zunächst die Verfügbarkeit
-                if (auftrag.pruefeVerfügbarkeit(status.getStatus())) {
+                if (auftrag.pruefeVerfuegbarkeit(status.getStatus())) {
                     //Handelt es sich um eine Bestellung unserer Seits
                     if (auftrag instanceof Bestellauftragskopf) {
                         //Bei Freigegeben werden die Bestände 
