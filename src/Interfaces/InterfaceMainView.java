@@ -18,7 +18,7 @@ import javax.swing.JInternalFrame;
  * 
  * Schnittstelle für die Hauptfenster.
  * 
- * 05.01.2015 Erstellung und Dokumentation.
+ * 05.01.2015 Terrasi, Erstellung und Dokumentation.
  */
 public interface InterfaceMainView {
     
