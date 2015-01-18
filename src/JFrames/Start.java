@@ -488,9 +488,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
      * @param evt
      */
     private void jMI_AuftragskopfAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragskopfAnlegenActionPerformed
-       
+        System.out.println(getComponent() != null);
         if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaa");
         }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
