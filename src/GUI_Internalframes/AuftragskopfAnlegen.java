@@ -1679,7 +1679,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     /* Datum Name Was */
     /* 14.01.2015 Terrasi angelegt und dokumentiert*/
     /*----------------------------------------------------------*/
-    public void setAuftragsposition_jTable(Object[] obj) {
+    public void setAuftragspositionInTabelle_jTable(Object[] obj) {
         dtm.addRow(obj);
         auftragsposition_jTable.setModel(dtm);
     }
@@ -1708,6 +1708,55 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         this.geschaeftspartner_jTextField.setText(id);
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
+    public void setErfassungsdatum_auftragsposition_jFormattedTextField(String erfassungsdatumAuftragsposition) {
+        this.erfassungsdatum_auftragsposition_jFormattedTextField.setText(erfassungsdatumAuftragsposition);
+    }
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
+    public void setErfassungsdatum_jFormattedTextField(String erfassungsdatum) {
+        this.erfassungsdatum_jFormattedTextField.setText(erfassungsdatum);
+    }
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
+    public void setLieferdatum_jFormattedTextField(String lieferdatum) {
+        this.lieferdatum_jFormattedTextField.setText(lieferdatum);
+    }
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
+    public void setMaterialnummer_jTextField(String materialnummer) {
+        this.materialnummer_jTextField.setText(materialnummer);
+    }
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
+    public void setMenge_jTextField(String menge) {
+        this.menge_jTextField.setText(menge);
+    }
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
+    public void setPositionsnummer_jTextField(String positionsnummer) {
+        this.positionsnummer_jTextField.setText(positionsnummer);
+    }
+
+    
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 14.01.2015 Terrasi angelegt und dokumentiert*/
