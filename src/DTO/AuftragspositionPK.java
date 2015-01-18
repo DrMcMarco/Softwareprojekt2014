@@ -13,22 +13,15 @@ public class AuftragspositionPK implements java.io.Serializable {
     
     private long Auftrag;
     
-    private long Positionsnummer;
-    
     private long Artikel;
     
     public AuftragspositionPK() {
         
     }
 
-//    public AuftragspositionPK(long Auftrag, long Artikel) {
-//        this.Auftrag = Auftrag;
-//        this.Artikel = Artikel;
-//    }
-    public AuftragspositionPK(long Auftrag, long Positionsnummer, long Artikel) {
+    public AuftragspositionPK(long Auftrag, long Positionsnummer) {
         this.Auftrag = Auftrag;
-        this.Positionsnummer = Positionsnummer;
-        this.Artikel = Artikel;
+        this.Artikel = Positionsnummer;
     }
 
     
@@ -37,7 +30,6 @@ public class AuftragspositionPK implements java.io.Serializable {
     public int hashCode() {
         int hash = 7;
         hash = 89 * hash + (int) (this.Auftrag ^ (this.Auftrag >>> 32));
-        hash = 89 * hash + (int) (this.Positionsnummer ^ (this.Positionsnummer >>> 32));
         hash = 89 * hash + (int) (this.Artikel ^ (this.Artikel >>> 32));
         return hash;
     }
@@ -52,9 +44,6 @@ public class AuftragspositionPK implements java.io.Serializable {
         }
         final AuftragspositionPK other = (AuftragspositionPK) obj;
         if (this.Auftrag != other.Auftrag) {
-            return false;
-        }
-        if (this.Positionsnummer != other.Positionsnummer) {
             return false;
         }
         if (this.Artikel != other.Artikel) {

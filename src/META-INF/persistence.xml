@@ -26,6 +26,7 @@
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
       <property name="javax.persistence.jdbc.password" value="root"/>
       <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>
+      <property name="javax.persistence.validation.mode" value="NONE" />
     </properties>
   </persistence-unit>
 </persistence>

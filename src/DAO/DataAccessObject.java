@@ -9,6 +9,7 @@ package DAO;
 import DTO.Anschrift;
 import DTO.Artikel;
 import DTO.Artikelkategorie;
+import DTO.Auftragsart;
 import DTO.Auftragskopf;
 import DTO.Auftragsposition;
 import DTO.Barauftragskopf;
@@ -265,42 +266,42 @@ public class DataAccessObject {
         Calendar cal = Calendar.getInstance();
         Date Erfassungsdatum = cal.getTime();
         
-        Auftragskopf orderhead = null;
+        Auftragskopf ak = null;
         ArrayList<Auftragsposition> positionen = new ArrayList<>();
         
         //Anhand des übergebenen Typs wird ein entsprechendes Objekt erzeugt
-        if(Typ.equals("Barauftrag")) {
-            orderhead = new Barauftragskopf(Auftragstext, Auftragswert, businessPartner,
-                    state, Abschlussdatum, Erfassungsdatum, Lieferdatum);
-        } else if(Typ.equals("Sofortauftrag")) {
-            orderhead = new Sofortauftragskopf(Auftragstext, Auftragswert, 
-                    businessPartner, state, paymentCondition, 
-                    Abschlussdatum, Erfassungsdatum, Lieferdatum);
-        } else if(Typ.equals("Terminauftrag")) {
-            orderhead = new Terminauftragskopf(Auftragstext, Auftragswert, 
-                    businessPartner, state, paymentCondition, 
-                    Abschlussdatum, Erfassungsdatum, Lieferdatum);
-        } else if(Typ.equals("Bestellauftrag")) {
-            orderhead = new Bestellauftragskopf(Auftragstext, Auftragswert, 
-                    businessPartner, state, paymentCondition, 
-                    Abschlussdatum, Erfassungsdatum, Lieferdatum);
-        //Wenn keine gültige Auftragsart übergeben wurde
-        } else {
-            throw new ApplicationException("Fehler", "Ungültige Auftragsart!");
+        switch (Typ) {
+            case "Barauftrag":
+                ak = new Barauftragskopf(Auftragstext, Auftragswert, businessPartner,
+                        state, Abschlussdatum, Erfassungsdatum, Lieferdatum);
+                break;
+            case "Sofortauftrag":
+                ak = new Sofortauftragskopf(Auftragstext, Auftragswert,
+                        businessPartner, state, paymentCondition,
+                        Abschlussdatum, Erfassungsdatum, Lieferdatum);
+                break;
+            case "Terminauftrag":
+                ak = new Terminauftragskopf(Auftragstext, Auftragswert,
+                        businessPartner, state, paymentCondition,
+                        Abschlussdatum, Erfassungsdatum, Lieferdatum);
+                break;
+            case "Bestellauftrag":
+                ak = new Bestellauftragskopf(Auftragstext, Auftragswert,
+                        businessPartner, state, paymentCondition,
+                        Abschlussdatum, Erfassungsdatum, Lieferdatum);
+                //Wenn keine gültige Auftragsart übergeben wurde
+                break;
+            default:
+                throw new ApplicationException("Fehler", "Ungültige Auftragsart!");
         }
         
         //Prüfe ob der Auftragskopf nicht erstellt worden ist
-        if (orderhead == null) {
+        if (ak == null) {
             throw new ApplicationException("Fehler", 
                     "Fehler bei der Erzeugung des Auftragskopfes");
         }
         
         try {
-            
-            //Transaktion starten
-            em.getTransaction().begin();
-            //Auftragskopf persistieren
-            em.persist(orderhead);
             
             //Hole alle ID aus der Artikelliste
             Set<Long> artikelIDS = Artikel.keySet();
@@ -316,52 +317,15 @@ public class DataAccessObject {
                 throw new ApplicationException("Fehler", "Der angegebene Artikel konne nicht gefunden werden");
                 }
             
-                //Neue Position anlegen
-                Auftragsposition ap = new Auftragsposition();
+                ak.addPosition(artikel, Artikel.get(ID));
                 
-                //Verweis auf den gerade erstellten Auftrag
-                ap.setAuftrag(orderhead);
-                
-                //Verweis auf den jweiligen Artikel
-                ap.setArtikel(artikel);
-                
-                //Handelt es sich um einen Bestellauftrag ergibt sich der
-                //Wert der Position aus dem Einkaufswert mal der Menge
-                if (orderhead instanceof Bestellauftragskopf) {
-                    ap.setEinzelwert(artikel.getEinkaufswert() * Artikel.get(ID));
-                    
-                //In allen anderen Fällen ergibt sich der Wert der Position aus
-                //dem Verkaufswert mal der Menge
-                } else {
-                    ap.setEinzelwert(artikel.getVerkaufswert() * Artikel.get(ID));    
-                }
-                
-                //Zusammenrechnen des Auftragswerts
-                Auftragswert += ap.getEinzelwert();
-                
-                //Setzen der Menge
-                ap.setMenge(Artikel.get(ID));
-                
-                //Setzen des Erfasungsdatums
-                ap.setErfassungsdatum(Erfassungsdatum);
-            
-                //Füge die Position zur Liste aller Positionen hinzu
-                positionen.add(ap);
-                
-                //Persistiere die angelegte Position
-                em.persist(ap);
             }
             
-            //Füge die Liste aller Positionen dem Auftrag hinzu
-            //Dadurch kann man über den Auftrag auf die hinterlegten Positionen
-            //zugreifen
-            orderhead.setPositionsliste(positionen);
-            
-            //Setzen des berechneten Auftragswerts
-            orderhead.setWert(Auftragswert);
+            //Transaktion starten
+            em.getTransaction().begin();
             
             //Persistieren den Auftrag mit der Positionsliste
-            em.persist(orderhead);
+            em.persist(ak);
             
             //Transaktion beenden
             em.getTransaction().commit();
@@ -370,9 +334,9 @@ public class DataAccessObject {
             
             //Falls ein Fehler auftritt, mache die Transaktion rückgängig
             //(Auftragskopf + Positionen) und gebe eine Fehlermeldung aus
-            em.getTransaction().rollback();
+
             throw new ApplicationException("Fehler", 
-                    "Fehler beim persistieren der Daten");
+                    e.getMessage());
         }
     }
     
@@ -966,72 +930,24 @@ public class DataAccessObject {
                     ak.setAbschlussdatum(Abschlussdatum);
                     ak.setLieferdatum(Lieferdatum);
                     ak.setGeschaeftspartner(gp);
-   
-                    for (Auftragsposition ap : ak.getPositionsliste()) {
-                        em.remove(ap);
-                    }
                     
-                    //TODO: Den ganzen Krempel in ne eigene Methode
-                    //Hole alle ID aus der Artikelliste
-                    Set<Long> artikelIDS = Artikel.keySet();
-
-                    //Für jede ID...
-                    for (long ID : artikelIDS) {
-
-                        //...wird der entsprechende Artikel in der Datenbank gesucht
-                        Artikel artikel = em.find(Artikel.class, ID);
-
-                        //Es wird geprüft ob der Artikel existiert
-                        if(artikel == null) {
-                        throw new ApplicationException("Fehler", 
-                                "Der angegebene Artikel konne nicht gefunden werden");
-                        }
-
-                        //Neue Position anlegen
-                        Auftragsposition ap = new Auftragsposition();
-
-                        //Verweis auf den gerade erstellten Auftrag
-                        ap.setAuftrag(ak);
-
-                        //Verweis auf den jweiligen Artikel
-                        ap.setArtikel(artikel);
-
-                        //Handelt es sich um einen Bestellauftrag ergibt sich der
-                        //Wert der Position aus dem Einkaufswert mal der Menge
-                        if (ak instanceof Bestellauftragskopf) {
-                            ap.setEinzelwert(artikel.getEinkaufswert() * Artikel.get(ID));
-
-                        //In allen anderen Fällen ergibt sich der Wert der Position aus
-                        //dem Verkaufswert mal der Menge
-                        } else {
-                            ap.setEinzelwert(artikel.getVerkaufswert() * Artikel.get(ID));    
-                        }
-
-                        //Zusammenrechnen des Auftragswerts
-                        Auftragswert += ap.getEinzelwert();
-
-                        //Setzen der Menge
-                        ap.setMenge(Artikel.get(ID));
-
-                        //Setzen des Erfasungsdatums
-                        ap.setErfassungsdatum(new Date());
-
-                        //Füge die Position zur Liste aller Positionen hinzu
-                        positionen.add(ap);
-
-                        //Persistiere die angelegte Position
-                        em.persist(ap);
-                    }
-
-                    //Füge die Liste aller Positionen dem Auftrag hinzu
-                    //Dadurch kann man über den Auftrag auf die hinterlegten 
-                    //Positionen zugreifen
-                    ak.setPositionsliste(positionen);
+                    //Methode zum Aktualisieren der Positionen
+                    this.aenderePositionen(ak, Artikel);
                     
-                    //Auftragswert, zusammengerechnet aus den Einzelwerten der 
-                    //Positionen
-                    ak.setWert(Auftragswert);
+                    //Nachdem die Positionen aktualisiert wurden, wird der 
+                    //Auftragswert neu berechnet
+                    ak.berrechneAuftragswert();
                     
+                    /*
+                        Wenn alle vorherigen Schritte fehlerfrei durchlaufen 
+                        wurden, wird der Auftragsstatus gesetzt.
+                        Bei den Statusänderungen:
+                            - erfasst -> freigegeben
+                            - freigegben -> erfasst
+                            - freigegeben -> abgeschlossen
+                        wird zusätzlich durch diese Methode die Verfügbarkeits-
+                        prüfung und die Bestandsführung durchgeführt
+                    */
                     this.setzeAuftragsstatus(ak, this.getStatusByName(Status));
                     
                     //Auftragskopf persistieren
@@ -1094,19 +1010,24 @@ public class DataAccessObject {
             String Staat, String Telefon, String Fax, String Email, 
             Date Geburtsdatum) throws ApplicationException {
         
+        //Variablen für die Anschriften
         Anschrift rechnungsanschrift = null;
         Anschrift lieferanschrift = null;
         
+        //Suche einen Geschäftspartner anhand der ID in der Datenbank
         Geschaeftspartner gp = em.find(Geschaeftspartner.class, GeschaeftspartnerID);
         
+        //Wenn der Geschäftspartner nicht gefunden werden kann oder gelöscht ist
         if (gp == null || gp.isLKZ()) {
             throw new ApplicationException("Fehler", 
                     "Der Geschäftspartner konnte nicht gefunden werden");
         }
         
+        //Anschriften aus dem Geschäftspartner-Objekt holen
         rechnungsanschrift = gp.getRechnungsadresse();
         lieferanschrift = gp.getLieferadresse();
         
+        //Grundlegende Attribute ändern
         gp.setKreditlimit(Kreditlimit);
         
         rechnungsanschrift.setName(Name);
@@ -1127,51 +1048,73 @@ public class DataAccessObject {
         lieferanschrift.setEmail(Email);
         lieferanschrift.setGeburtsdatum(Geburtsdatum); 
         
+        //Wenn die beiden Adressen gleich sind...
         if (gp.getRechnungsadresse().equals(gp.getLieferadresse())) {
 
+            /*
+             *   ...prüfe:
+             *       - Möchte der Kunde seine Lieferanschrift = Rechnungsanschrift
+             *         setzen (Variable modus) UND
+             *       - Hat sich die Anschrift überhaupt verändertn
+             */
             if (modus && (!rStrasse.equals(rechnungsanschrift.getStrasse()) || 
                           !rHausnummer.equals(rechnungsanschrift.getHausnummer()) ||
                           !rPLZ.equals(rechnungsanschrift.getPLZ()) || 
                           !rOrt.equals(rechnungsanschrift.getOrt()))) {
-
+                
+                //Wenn ja, ändere die Adresse
                 rechnungsanschrift.setStrasse(rStrasse);
                 rechnungsanschrift.setHausnummer(rHausnummer);
                 rechnungsanschrift.setPLZ(rPLZ);
                 rechnungsanschrift.setOrt(rOrt);  
-                
-            } else {
-                
             }
             
+            /*
+             *   ...prüfe:
+             *       - Möchte der Kunde unterschiedliche Anschriften haben 
+             *         (Variable modus) UND
+             *       - Hat sich die Adresse überhaupt verändertn
+             */
             if (!modus && (!lStrasse.equals(rechnungsanschrift.getStrasse()) || 
                            !lHausnummer.equals(rechnungsanschrift.getHausnummer()) ||
                            !lPLZ.equals(rechnungsanschrift.getPLZ()) || 
                            !lOrt.equals(rechnungsanschrift.getOrt()))) {
                 
+                //Wenn ja, ändere die Rechnungsanschrift
                 rechnungsanschrift.setStrasse(rStrasse);
                 rechnungsanschrift.setHausnummer(rHausnummer);
                 rechnungsanschrift.setPLZ(rPLZ);
                 rechnungsanschrift.setOrt(rOrt);
                 
+                //Da vorher beide Anschriften gleich waren, muss jetzt eine neue
+                //Lieferanschrift erstellt werden
                 lieferanschrift = this.createAdress("Lieferadresse", Name, 
                         Vorname, Titel, lStrasse, lHausnummer, lPLZ, lOrt,
                         Staat, Telefon, Fax, Email, Geburtsdatum);
                 
             }
-            
+        
+        //Wenn die Anschriften unterschiedlich sind...
         } else {
             
+                //...wird grundsätzlich die Rechnungsanschrift überschrieben.
+                //Falls keine Änderungen gemacht worden sind, werden die gleichen
+                //Werte in die Datenbank geschrieben
                 rechnungsanschrift.setStrasse(rStrasse);
                 rechnungsanschrift.setHausnummer(rHausnummer);
                 rechnungsanschrift.setPLZ(rPLZ);
                 rechnungsanschrift.setOrt(rOrt);
                 
+                //Prüfe, ob der Kunde seine Lieferanschrift = Rechnungsanschrift
+                //setzen will
                 if (modus) {
                     
+                    //Wenn ja, tue genau das
                     lieferanschrift = rechnungsanschrift;
                     
                 } else {
                 
+                    //Ansonsten, ändere ebenfalls die Lieferanschrift
                     lieferanschrift.setStrasse(lStrasse);
                     lieferanschrift.setHausnummer(lHausnummer);
                     lieferanschrift.setPLZ(lPLZ);
@@ -1179,11 +1122,16 @@ public class DataAccessObject {
                 }
         }
         
+        //Die bearbeiten Anschrift werden dem Geschäftspartner zugewiesen
         gp.setLieferadresse(lieferanschrift);
         gp.setRechnungsadresse(rechnungsanschrift);
         
+        //Transaktions starten
         em.getTransaction().begin();
+        //Geschäftspartner persistieren
+        //Die Anschriften werden über Kaskaden automatisch persistiert
         em.merge(gp);
+        //Transaktion beenden
         em.getTransaction().commit();
     }
     
@@ -1777,6 +1725,59 @@ public class DataAccessObject {
         return ap;
     }
     
+    /**
+     * Methode um eine Auftragsposition anhand des Auftrags und des Artikels zu 
+     * holen.
+     * Diese Methode wird nur von der Methode "aenderePositionen()" aufgerufen!
+     * @param AuftragskopfID ID des Auftrags
+     * @param Artikelnummer ID des Artikels
+     * @return eine Auftragsposition
+     * @throws ApplicationException Wenn weder Auftrag noch Artikel in der DB 
+     *                              gefunden werden können
+     */
+    private Auftragsposition gibAuftragspositionNachArtikel(long AuftragskopfID, 
+            long Artikelnummer) throws ApplicationException {
+        
+        //Artikel sowie Auftrag aus der Datenbank holen
+        Artikel a = em.find(Artikel.class, Artikelnummer);   
+        Auftragskopf ak = em.find(Auftragskopf.class, AuftragskopfID);
+        
+        //Prüfen ob beide vorhanden sind
+        if (a == null) {
+            throw new ApplicationException("Fehler", 
+                    "Der Artikel konnte nicht gefunden werden.");
+        }
+        
+        if (ak == null) {
+            throw new ApplicationException("Fehler", 
+                    "Der Auftrag konnte nicht gefunden werden.");
+        }
+        
+        Auftragsposition ap = null;
+        
+        //Query für das Selektieren einer Auftragsposition anhand der AuftragsID
+        //sowie des Artikels
+        Query query = this.em.createQuery
+                 ("SELECT ST "
+                + "FROM Auftragsposition ST "
+                + "WHERE ST.Auftrag = :auftrag AND ST.Artikel = :artikel");
+        query.setParameter("auftrag", ak);
+        query.setParameter("artikel", a);
+        
+        //Ergebnisliste
+        //Es sollte zwar nur ein Eintrag gefunden werden "getSingleResult()"
+        //wirft allerdings sofort eine Exception falls kein Eintrag gefunden wird
+        List<Auftragsposition> ergebnis = query.getResultList();
+        
+        //Wenn die Ergebnisliste nicht leer ist...
+        if (!ergebnis.isEmpty()) {
+            //...holen den ersten Eintrag (einziges Ergebnis)
+            ap = ergebnis.get(0);
+        }
+        
+        return ap;
+    }
+    
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
     /* 12.01.15   loe     angelegt                              */
@@ -2052,6 +2053,33 @@ public class DataAccessObject {
         //Transaktion beenden
         em.getTransaction().commit();
     }
+    
+    public void loeschePosition(long AuftragsID, long Positionnummer) 
+            throws ApplicationException {
+        
+        Auftragskopf ak = em.find(Auftragskopf.class, AuftragsID);
+        
+        Auftragsposition ap = null;
+        
+        Query query = em.createQuery("SELECT ST "
+                        + "FROM Auftragsposition ST "
+                        + "WHERE ST.Auftrag = :auftrag "
+                        + "AND ST.Positionsnummer = :position");
+        
+        query.setParameter("auftrag", ak);
+        query.setParameter("position", Positionnummer);
+        
+        ap = (Auftragsposition) query.getSingleResult();
+        
+        if (ap == null) {
+            throw new ApplicationException("Fehler", 
+                    "Die Auftragsposition konnte nicht gefunden werden.");
+        }
+        
+        ap.setLKZ(true);
+        
+        em.persist(ap);
+    }
 
     
 //</editor-fold>
@@ -2113,6 +2141,75 @@ public class DataAccessObject {
         } catch (UnsupportedEncodingException | NoSuchAlgorithmException ex) {
             throw new ApplicationException("Fehler", ex.getMessage());
         }
+    }
+    
+    private void aenderePositionen(Auftragskopf Auftrag, HashMap<Long, Integer> artikel) 
+            throws ApplicationException {
+        
+        //Positionsliste aus dem Auftrag holen und zwischenspeichern
+        ArrayList<Auftragsposition> positionsliste = Auftrag.getPositionsliste();
+        
+        //Artikel-IDs aus der HashMap holen
+        Set<Long> artikelSet = artikel.keySet();
+        
+        //Für jede Artikel-ID im Set...
+        for (long ID : artikelSet) {
+            
+            //...wird der entsprechende Artikel in der Datenbank gesucht
+            Artikel artikelObj = em.find(Artikel.class, ID);
+            
+            //Wenn der Artikel nicht gefunden werden kann
+            if (artikelObj == null) {
+                throw new ApplicationException("Fehler", 
+                        "Der Artikel mit der ID " + ID + " konnte nicht gefundern werden.");
+            }
+            
+            /*
+                ...wird, zusammen mit der Auftrags-ID, versucht eine 
+                Auftragsposition zu finden.
+                Wird keine gefunden, gibt die Methode "null" zurück
+            */
+            Auftragsposition ap = this.gibAuftragspositionNachArtikel
+                                            (Auftrag.getAuftragskopfID(), ID);
+            
+            //Wurde eine Auftragsposition gefunden...
+            if (ap != null) {
+                
+                //...wird geprüft, ob die Position vorher bereits existiert hat
+                //aber gelöscht wurde
+                if (ap.isLKZ()) {
+                    //WEnn ja, wird vor dem Ändern das LKZ entfernt
+                    ap.setLKZ(false);
+                }
+                
+                //Suche die Auftragsposition in der Positionsliste
+                int index = Auftrag.getPositionsliste().indexOf(ap);
+                //Setze den Artikel in der Position
+                Auftrag.getPositionsliste().get(index).setArtikel(artikelObj);
+                //Setze die Menge in der Position
+                Auftrag.getPositionsliste().get(index).setMenge(artikel.get(ID));
+                //Lösche die Position aus der zwischengespeicherten Positionsliste
+                positionsliste.remove(ap);
+            
+            //Wenn in der Datenbank keine Position zu den IDs gefunden wurde...
+            } else {
+                
+                //...wird eine neue Position erzeugt und der Positionsliste
+                //hinzugefügt
+                Auftrag.addPosition(artikelObj, artikel.get(ID));
+                
+            }
+        }
+        
+        //Alle Position die am Ende der Schleife noch in der zwischengespeicherten
+        //Positionsliste vorkommen, hat der Benutzer in der GUI gelöscht
+        for (Auftragsposition ap : positionsliste) {
+            
+            //Für diese Positionen wird das LKZ gesetzt
+            this.loeschePosition(Auftrag.getAuftragskopfID(), ap.getPositionsnummer());
+            
+        }
+        
     }
     
     //Tbd

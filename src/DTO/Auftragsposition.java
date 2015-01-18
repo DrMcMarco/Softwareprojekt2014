@@ -5,6 +5,7 @@
  */
 package DTO;
 
+import JFrames.GUIFactory;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.*;
@@ -20,15 +21,13 @@ public class Auftragsposition implements java.io.Serializable {
     @ManyToOne
     @JoinColumn(name = "Auftrag")
     private Auftragskopf Auftrag;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long Positionsnummer;
     
     @Id
     @ManyToOne
     @JoinColumn(name = "Artikel")
     private Artikel Artikel;
+    
+    private long Positionsnummer;
     
     private int Menge;
     
@@ -82,6 +81,13 @@ public class Auftragsposition implements java.io.Serializable {
 
     public void setMenge(int Menge) {
         this.Menge = Menge;
+        
+        if (Auftrag instanceof Bestellauftragskopf) {
+            this.Einzelwert = this.Artikel.getEinkaufswert() * this.Menge;
+        } else {
+            this.Einzelwert = this.Artikel.getVerkaufswert() * this.Menge;
+        }
+        
     }
 
     public double getEinzelwert() {
@@ -113,7 +119,6 @@ public class Auftragsposition implements java.io.Serializable {
         int hash = 5;
         hash = 97 * hash + Objects.hashCode(this.Auftrag);
         hash = 97 * hash + (int) (this.Positionsnummer ^ (this.Positionsnummer >>> 32));
-        hash = 97 * hash + Objects.hashCode(this.Artikel);
         return hash;
     }
 
@@ -130,9 +135,6 @@ public class Auftragsposition implements java.io.Serializable {
             return false;
         }
         if (this.Positionsnummer != other.Positionsnummer) {
-            return false;
-        }
-        if (!Objects.equals(this.Artikel, other.Artikel)) {
             return false;
         }
         return true;

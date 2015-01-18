@@ -15,7 +15,10 @@ import java.util.Objects;
 import javax.persistence.*;
 
 /**
- *
+ * Entitiyklasse für den Aufragskopf.
+ * - Spaltet sich in vier Auftragsarten auf, allerdings wird diese Entity
+ *   in der Datenbank abgelegt. Unterschieden werden diese durch eine
+ *   Tabellenspalte "Auftragsart"
  * @author Marco
  */
 @Entity
@@ -24,39 +27,92 @@ import javax.persistence.*;
 @Table(name = "Auftragskopf")
 public abstract class Auftragskopf implements Serializable {
     
+    /**
+     * ID des Auftragskopfs
+     * Primärschlüssel
+     * Wird von der Datenbank generiert
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long AuftragskopfID;
     
+    /**
+     * Gedaxht für Anmerkungen/Notizen zum Auftrag
+     */
     private String Auftragstext;
     
+    /**
+     * Auftragswert
+     * Wird anhand der vorhandenen Positionen errechnet
+     */
     private double Wert;
     
+    /**
+     * Assoziation zur Tabelle Geschäftspartner
+     */
     @OneToOne
     @JoinColumn(name = "Geschäftspartner")
     private Geschaeftspartner Geschaeftspartner;
     
+    /**
+     * Assoziation zur Tabelle Status
+     */
     @ManyToOne
     @JoinColumn(name = "Status")
     private Status Status;
     
+    /**
+     * Abschlussdatum
+     */
     @Temporal(TemporalType.DATE)
     private Date Abschlussdatum;
     
+    /**
+     * Erfassungsdatum
+     */
     @Temporal(TemporalType.DATE)
     private Date Erfassungsdatum;
     
+    /**
+     * Lieferdatum
+     * wird anhand der Zahlungskondition errechnet
+     */
     @Temporal(TemporalType.DATE)
     private Date Lieferdatum;
     
+    /**
+     * Liste aller Auftragspositionen für diesen Auftrag
+     * Assoziation zur Tabelle Auftragsposition
+     * 
+     * Wird der Auftrag persistiert werden auch alle zugewiesenen
+     * Auftragspositionen persistiert (Cascade)
+     */
     @OneToMany(mappedBy = "Auftrag", cascade = CascadeType.ALL)
     private ArrayList<Auftragsposition> Positionsliste;
     
+    /**
+     * Aufträge werden nicht real gelöscht, sondern mit einem Löschkennzeichen
+     * versehen
+     */
     private boolean LKZ;
 
+    /**
+     * Generiert
+     * Standardkonstruktor
+     */
     public Auftragskopf() {
     }
 
+    /**
+     * Generiert.
+     * @param Auftragstext Anmerkungen zum Auftrag
+     * @param Wert Auftragswert, wird später berrechnet
+     * @param Geschaeftspartner Geschäftspartnerobjekt
+     * @param Status Statusobjekt
+     * @param Abschlussdatum Abschlussdatum
+     * @param Erfassungsdatum Erfassungsdatum, wird intern bestimmt
+     * @param Lieferdatum Lieferdatum, wird berechnet
+     */
     public Auftragskopf(String Auftragstext, double Wert,
             Geschaeftspartner Geschaeftspartner, Status Status, 
             Date Abschlussdatum, Date Erfassungsdatum, Date Lieferdatum) {
@@ -71,95 +127,212 @@ public abstract class Auftragskopf implements Serializable {
         this.LKZ = false;
     }
 
+    /**
+     * Generiert.
+     * @return ID des Auftrags
+     */
     public long getAuftragskopfID() {
         return AuftragskopfID;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public String getAuftragstext() {
         return Auftragstext;
     }
 
+    /**
+     * 
+     * @param Auftragstext 
+     */
     public void setAuftragstext(String Auftragstext) {
         this.Auftragstext = Auftragstext;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public double getWert() {
         return Wert;
     }
 
+    /**
+     * 
+     * @param Wert 
+     */
     public void setWert(double Wert) {
         this.Wert = Wert;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public Geschaeftspartner getGeschaeftspartner() {
         return Geschaeftspartner;
     }
 
+    /**
+     * 
+     * @param Geschaeftspartner 
+     */
     public void setGeschaeftspartner(Geschaeftspartner Geschaeftspartner) {
         this.Geschaeftspartner = Geschaeftspartner;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public Status getStatus() {
         return Status;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public Date getAbschlussdatum() {
         return Abschlussdatum;
     }
 
+    /**
+     * 
+     * @param Abschlussdatum 
+     */
     public void setAbschlussdatum(Date Abschlussdatum) {
         this.Abschlussdatum = Abschlussdatum;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public Date getErfassungsdatum() {
         return Erfassungsdatum;
     }
 
+    /**
+     * 
+     * @param Erfassungsdatum 
+     */
     public void setErfassungsdatum(Date Erfassungsdatum) {
         this.Erfassungsdatum = Erfassungsdatum;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public Date getLieferdatum() {
         return Lieferdatum;
     }
 
+    /**
+     * 
+     * @param Lieferdatum 
+     */
     public void setLieferdatum(Date Lieferdatum) {
         this.Lieferdatum = Lieferdatum;
     }
 
+    /**
+     * Gibt alle Positionen eines Auftrags, für die kein LKZ gesetzt ist, zurück
+     * @return eine Positionsliste
+     */
     public ArrayList<Auftragsposition> getPositionsliste() {
         ArrayList<Auftragsposition> ergebnis = new ArrayList<>();
+        //Iteration über die Positionsliste
         for (Auftragsposition ap : Positionsliste) {
+            //Ist die Position nicht mit einem LKZ versehen..
             if (!ap.isLKZ()) {
+                //...wird sie einer Ergebnisliste hinzugefügt
                 ergebnis.add(ap);
             }
         }
         return ergebnis;
     }
 
+    /**
+     * 
+     * @param Positionsliste 
+     */
     public void setPositionsliste(ArrayList<Auftragsposition> Positionsliste) {
         this.Positionsliste = Positionsliste;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public boolean isLKZ() {
         return LKZ;
     }
 
+    /**
+     * 
+     * @param LKZ 
+     */
     public void setLKZ(boolean LKZ) {
         this.LKZ = LKZ;
     }
 
-//Könnte später noch gebraucht werden
-//    public void addPosition(Artikel artikel, int Menge) {
-//        Auftragsposition ap = new Auftragsposition();
-//        ap.setAuftrag(this);
-//        ap.setArtikel(artikel);
-//        ap.setMenge(Menge);
-//        ap.setEinzelwert(artikel.getVerkaufswert() * Menge);
-//        ap.setErfassungsdatum(this.Erfassungsdatum);
-//        this.Positionsliste.add(ap);
-//    }
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 15.12.14   loe     angelegt                              */
+    /* 22.12.14   loe     aufgrund von Problemen entfernt       */
+    /* 17.01.15   loe     neu angelegt                          */
+    /* 18.01.15   loe     überarbeitet                          */
+    /*----------------------------------------------------------*/
+    /**
+     * Fügt einem Auftrag eine neue Position hinzu
+     * @param artikel ein Artikel-Objekt
+     * @param Menge die Menge an verkauften Artikeln
+     */
+    public void addPosition(Artikel artikel, int Menge) {
+        //Neue Position anlegen und mit Attributen füllen
+        Auftragsposition ap = new Auftragsposition();
+        ap.setPositionsnummer(this.Positionsliste.size()+1);
+        ap.setAuftrag(this);
+        ap.setArtikel(artikel);
+        ap.setMenge(Menge);
+        ap.setEinzelwert(artikel.getVerkaufswert() * Menge);
+        ap.setErfassungsdatum(this.Erfassungsdatum);
+        //Wert der Position zum Gesamtwert hinzufügen
+        this.Wert = this.Wert + ap.getEinzelwert();
+        //Position der Liste hinzufügen
+        this.Positionsliste.add(ap);
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 12.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
+    /**
+     * Berechnet den Auftragswert neu.
+     * Sollte nur von der "aendereAuftrag"-Methode in der DAO verwendet werden!
+     */
+    public void berrechneAuftragswert() {   
+        double Auftragswert = 0;
+        //Iteration über die Positionsliste
+        for (Auftragsposition ap : this.Positionsliste) {
+            //Wenn für die Position kein LKZ gesetzt ist...
+            if (!ap.isLKZ()) {
+                //...füge den Einzelwert der Position dem Gesamtwert hinzu
+                Auftragswert = Auftragswert + ap.getEinzelwert();
+            }     
+        }
+        //Wenn alle Position abgearbeitet sind, setze den Auftragswert
+        this.Wert = Auftragswert;   
+    }
 
+    /**
+     * Generiert.
+     * @return 
+     */
     @Override
     public int hashCode() {
         int hash = 7;
@@ -167,6 +340,11 @@ public abstract class Auftragskopf implements Serializable {
         return hash;
     }
 
+    /**
+     * Generiert.
+     * @param obj
+     * @return 
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
