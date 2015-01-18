@@ -384,7 +384,8 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
     /*----------------------------------------------------------*/
     /**
      * Methode setComponentVisible erhält ein Frame das sichtbar gemacht werden
-     * soll und ruft dafür die Methoden des InternalFrames. Sie übergibt sich
+     * soll und ruft dafür die Methoden des InternalFrames. Sie ü
+     * bergibt sich
      * selbst auch der Guifactory, damit beim betätigen des Zurück-Buttons auch
      * immer das Menü aufgerufen wird. Bei jedem aufruf dieser Methode, wird das
      * Menü nicht mehr sichtbar für den User.
@@ -396,9 +397,11 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
         this.internal.setCenterJIF(frame);// Aufruf der Methode "setCenterJIF"
         this.internal.setFrame(frame);//Aufruf der Internalframe-Methode "setFrame".
         this.internal.setComponent(frame);// Aufruf der Internalframe-Methode "setComponent".
-        this.factory.setComponent(this.internal.hauptmenueuser);// Aufruf der
-        // "setComponent"-Methode der Guifactory.
+        // Aufruf der "setComponent"-Methode der Guifactory.
+        this.factory.setComponent(this.internal.hauptmenueuser);
+        System.out.println("01");
         this.setVisible(false);// Setzt sich selbst auf visible false um nicht
+        System.out.println("02");
         // mehr sichtbar zu sein.
     }
 
