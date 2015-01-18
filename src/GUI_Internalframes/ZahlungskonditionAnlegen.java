@@ -781,12 +781,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
     private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
-//        System.out.println(((JSpinner.DefaultEditor) jSP_Mahnzeit1.getEditor()).getTextField().getBackground());
-//        ((JSpinner.DefaultEditor) jSP_Mahnzeit1.getEditor()).getTextField().setBackground(Color.RED);
-        JTextField tf = ((JSpinner.DefaultEditor) jSP_Mahnzeit1.getEditor()).getTextField();
-        tf.setDisabledTextColor(Color.red);
-//        tf.setText("12");
-        System.out.println(((JSpinner.DefaultEditor) jSP_Mahnzeit1.getEditor()).getTextField().getBackground());
+        this.hauptFenster.rufeSuche(this);
     }//GEN-LAST:event_jB_SuchenActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing

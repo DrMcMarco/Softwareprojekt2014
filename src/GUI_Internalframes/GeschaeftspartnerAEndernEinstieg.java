@@ -138,6 +138,11 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
         jToolBar1.add(jB_Loeschen);
 
         jB_Suchen.setText("Suchen");
+        jB_Suchen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_SuchenActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_Suchen);
 
         jL_Artikel_ID.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -314,6 +319,10 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
             jB_EnterActionPerformed(null);
         }
     }//GEN-LAST:event_jTF_Geschaeftspartner_IDKeyPressed
+
+    private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
+        this.hauptFenster.rufeSuche(this);
+    }//GEN-LAST:event_jB_SuchenActionPerformed
 
     public void setzeGP_IDAusSuche(Geschaeftspartner geschaeftspartner) {
         jTF_Geschaeftspartner_ID.setText("" + geschaeftspartner.getGeschaeftspartnerID());
