@@ -7,19 +7,15 @@ package GUI_Internalframes;
 
 import DAO.ApplicationException;
 import DTO.Anschrift;
-import DTO.Artikel;
 import DTO.Geschaeftspartner;
-import DTO.Lieferanschrift;
 import Documents.UniversalDocument;
 import Interfaces.InterfaceMainView;
 import JFrames.GUIFactory;
 import java.awt.Component;
-import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
-import Interfaces.*;
 
 /**
  *
@@ -159,11 +155,6 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
                 jB_EnterActionPerformed(evt);
             }
         });
-        jB_Enter.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jB_EnterFocusLost(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -209,7 +200,6 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
             Anschrift la = gp.getLieferadresse();
             Anschrift ra = gp.getRechnungsadresse();
             String typ = gp.getTyp();
-            System.out.println(typ);
             if (typ.equals("Kunde")) {
                 g.gibjCHB_Kunde().setSelected(true);
             } else {
@@ -221,47 +211,7 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
             g.gibjTF_Vorname().setText(ra.getVorname());
             g.gibjTF_Telefon().setText(ra.getTelefon());
             g.gibjTF_Fax().setText(ra.getFAX());
-//            Calendar cal = Calendar.getInstance();
-//            cal.setTime(la.getGeburtsdatum());
-//            int tag = cal.get(Calendar.DAY_OF_MONTH);
-//            int mon = cal.get(Calendar.MONTH);
-//            mon = mon + 1;
-//            int jahr = cal.get(Calendar.YEAR);
-//            String t;
-//            String m;
-//            if (tag < 10) {
-//                t = "0" + tag;
-//            } else {
-//                t = "" + tag;
-//            }
-//
-//            if (mon < 10) {
-//                m = "0" + mon;
-//            } else {
-//                m = "" + mon;
-//            }
-//
-//            String s = t + "." + m + "." + jahr;
             g.gibjFTF_Geburtsdatum().setText(gibDatumAusDatenbank(la.getGeburtsdatum()));
-
-//            cal.setTime(la.getErfassungsdatum());
-//            tag = cal.get(Calendar.DAY_OF_MONTH);
-//            mon = cal.get(Calendar.MONTH);
-//            mon = mon + 1;
-//            jahr = cal.get(Calendar.YEAR);
-//            if (tag < 10) {
-//                t = "0" + tag;
-//            } else {
-//                t = "" + tag;
-//            }
-//
-//            if (mon < 10) {
-//                m = "0" + mon;
-//            } else {
-//                m = "" + mon;
-//            }
-//
-//            s = t + "." + m + "." + jahr;
             g.gibjFTF_Erfassungsdatum().setText(gibDatumAusDatenbank(la.getErfassungsdatum()));
             g.gibjTF_EMail().setText(ra.getEmail());
             g.gibjTF_Kreditlimit().setText("" + nf.format(gp.getKreditlimit()));
@@ -300,7 +250,7 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
                 g.gibjTF_PLZLieferanschrift().setText(la.getPLZ());
                 g.gibjTF_OrtLieferanschrift().setText(la.getOrt());
             }
-            g.leseInhaltVomFormular();
+//            g.leseInhaltVomFormular();
             g.setVisible(true);
             this.setVisible(false);
             jTF_Geschaeftspartner_ID.setText("");
@@ -340,10 +290,6 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
         return ausgabeDatum;
     }
 
-    private void jB_EnterFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jB_EnterFocusLost
-
-    }//GEN-LAST:event_jB_EnterFocusLost
-
     /**
      * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird. Es wird von
      * der Guifactory die letzte aufgerufene Component abgefragt wodurch man die
@@ -369,6 +315,9 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
         }
     }//GEN-LAST:event_jTF_Geschaeftspartner_IDKeyPressed
 
+    public void setzeGP_IDAusSuche(Geschaeftspartner geschaeftspartner) {
+        jTF_Geschaeftspartner_ID.setText("" + geschaeftspartner.getGeschaeftspartnerID());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_Anzeigen;

@@ -6,21 +6,16 @@
 package GUI_Internalframes;
 
 import DAO.ApplicationException;
-import DTO.Anschrift;
-import DTO.Geschaeftspartner;
 import DTO.Zahlungskondition;
 import Documents.UniversalDocument;
 import JFrames.GUIFactory;
 import java.awt.Component;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.Calendar;
 import Interfaces.*;
 
-/**
- *
- * @author Tahir
- *  * Klassenhistorie:
+/*
+ * Klassenhistorie:
  * 27.11.2014 Sen, angelegt      
  * 28.11.2014 Sen, textfelder, Comboboxe, Buttons angelegt      
  * 01.12.2014 Sen, grundlegende Funktionen implementiert
@@ -47,6 +42,10 @@ import Interfaces.*;
  * 15.01.2015 Sen, ArtikelAendern speichern Funktion anbgeschlossen
  * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
  */
+/**
+ *
+ * @author Tahir
+ */
 public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFrame {
     /*
      Hilfsvariablen
@@ -56,7 +55,7 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
     GUIFactory factory;
     ZahlungskonditionAnlegen z;
     InterfaceMainView hauptFenster;
-    
+
     private NumberFormat nf;
 
     /**
@@ -230,7 +229,7 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
     }//GEN-LAST:event_jB_EnterActionPerformed
 
     private void jB_EnterFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jB_EnterFocusLost
-   
+
     }//GEN-LAST:event_jB_EnterFocusLost
 
     /**
@@ -258,6 +257,14 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
         }
     }//GEN-LAST:event_jTF_Zahlungskondition_IDKeyPressed
 
+    /**
+     * setterMethode für Simon
+     *
+     * @param zk Datum Name Was 18.01.2015 SEN angelegt
+     */
+    public void setzeGP_IDAusSuche(Zahlungskondition zk) {
+        jTF_Zahlungskondition_ID.setText("" + zk.getZahlungskonditionID());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_Anzeigen;

@@ -271,6 +271,9 @@
             <Property name="actionCommand" type="java.lang.String" value="Anzeigen/&#xc4;ndern"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jB_AnzeigenAEndernActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jB_Loeschen">
           <Properties>

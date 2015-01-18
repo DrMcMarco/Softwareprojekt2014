@@ -3,29 +3,19 @@ package GUI_Internalframes;
 import DAO.ApplicationException;
 import DAO.DataAccessObject;
 import DTO.Zahlungskondition;
-import Documents.UniversalDocument;
 import JFrames.GUIFactory;
 import java.awt.Color;
 import java.awt.Component;
-import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.MaskFormatter;
 import Interfaces.InterfaceMainView;
-import Interfaces.InterfaceViewsFunctionality;
 
 /**
  *
@@ -298,6 +288,11 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         jB_AnzeigenAEndern.setText("Anzeige/Ändern");
         jB_AnzeigenAEndern.setActionCommand("Anzeigen/Ändern");
         jB_AnzeigenAEndern.setEnabled(false);
+        jB_AnzeigenAEndern.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_AnzeigenAEndernActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_AnzeigenAEndern);
 
         jB_Loeschen.setText("Löschen");
@@ -811,6 +806,14 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jB_LoeschenActionPerformed
 
+    private void jB_AnzeigenAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AnzeigenAEndernActionPerformed
+        if (this.getTitle().equals(ZK_AENDERN)) {
+            setzFormularInZKAnzeigenFuerButton();
+        } else if (this.getTitle().equals(ZK_ANZEIGEN)) {
+            setzFormularInZKAEndernFuerButton();
+        }
+    }//GEN-LAST:event_jB_AnzeigenAEndernActionPerformed
+
     public JTextField gibjTF_ZahlungskonditionID() {
         return jTF_ZahlungskonditionID;
     }
@@ -875,6 +878,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
 
         jB_Speichern.setEnabled(true);
         jB_AnzeigenAEndern.setEnabled(false);
+        jB_AnzeigenAEndern.setText("Anzeigen/Ändern");
         jB_Loeschen.setEnabled(false);
 
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
@@ -882,6 +886,32 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
 
     public void setzeFormularInZKAEndern() {
         setzeFormularZurueck();
+        setzFormularInZKAEndernFuerButton();
+//        this.setTitle(ZK_AENDERN);
+//        jCB_Auftragsart.setEnabled(true);
+//        jSP_LieferzeitSOFORT.setEnabled(true);
+//        jSP_SperrzeitWUNSCH.setEnabled(true);
+//        jSP_Skontozeit1.setEnabled(true);
+//        jSP_Skontozeit2.setEnabled(true);
+//        jCB_Skonto1.setEnabled(true);
+//        jCB_Skonto2.setEnabled(true);
+//        jSP_Mahnzeit1.setEnabled(true);
+//        jSP_Mahnzeit2.setEnabled(true);
+//        jSP_Mahnzeit3.setEnabled(true);
+//
+//        jB_Speichern.setEnabled(true);
+//        jB_AnzeigenAEndern.setEnabled(true);
+//        jB_Loeschen.setEnabled(true);
+
+        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
+    }
+
+    /**
+     * Methode wird aufgerufen, wenn auf Button Anzeigen/Aendern geklickt wird,
+     * das Formular wird nicht zurueckgesetzt, deswegen musste eine extra
+     * Methode geschrieben werden
+     */
+    private void setzFormularInZKAEndernFuerButton() {
         this.setTitle(ZK_AENDERN);
         jCB_Auftragsart.setEnabled(true);
         jSP_LieferzeitSOFORT.setEnabled(true);
@@ -896,9 +926,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
 
         jB_Speichern.setEnabled(true);
         jB_AnzeigenAEndern.setEnabled(true);
+        jB_AnzeigenAEndern.setText("Anzeigen");
         jB_Loeschen.setEnabled(true);
-
-        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
 
     /*----------------------------------------------------------*/
@@ -907,6 +936,32 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     /*----------------------------------------------------------*/
     public void setzeFormularInZKAnzeigen() {
         setzeFormularZurueck();
+        setzFormularInZKAnzeigenFuerButton();
+//        this.setTitle(ZK_ANZEIGEN);
+//        jCB_Auftragsart.setEnabled(false);
+//        jSP_LieferzeitSOFORT.setEnabled(false);
+//        jSP_SperrzeitWUNSCH.setEnabled(false);
+//        jSP_Skontozeit1.setEnabled(false);
+//        jSP_Skontozeit2.setEnabled(false);
+//        jCB_Skonto1.setEnabled(false);
+//        jCB_Skonto2.setEnabled(false);
+//        jSP_Mahnzeit1.setEnabled(false);
+//        jSP_Mahnzeit2.setEnabled(false);
+//        jSP_Mahnzeit3.setEnabled(false);
+//
+//        jB_Speichern.setEnabled(false);
+//        jB_AnzeigenAEndern.setEnabled(true);
+//        jB_Loeschen.setEnabled(false);
+
+        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
+    }
+
+    /**
+     * Methode wird aufgerufen, wenn auf Button Anzeigen/Aendern geklickt wird,
+     * das Formular wird nicht zurueckgesetzt, deswegen musste eine extra
+     * Methode geschrieben werden
+     */
+    private void setzFormularInZKAnzeigenFuerButton() {
         this.setTitle(ZK_ANZEIGEN);
         jCB_Auftragsart.setEnabled(false);
         jSP_LieferzeitSOFORT.setEnabled(false);
@@ -921,16 +976,14 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
 
         jB_Speichern.setEnabled(false);
         jB_AnzeigenAEndern.setEnabled(true);
+        jB_AnzeigenAEndern.setText("Ändern");
         jB_Loeschen.setEnabled(false);
-
-        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
 
 //   setzeMethode, die aus der Suche aufgerufen wird. Es wird die Sicht ZK Anzeigen aufgerufen und die gesuchte ZK angezeigt
     /**
-     * 
-     * @param zk 
-     * Datum Name Was 17.01.2015 SEN angelegt
+     *
+     * @param zk Datum Name Was 17.01.2015 SEN angelegt
      */
     public void zeigeZKausSucheAn(Zahlungskondition zk) {
         setzeFormularInZKAnzeigen();

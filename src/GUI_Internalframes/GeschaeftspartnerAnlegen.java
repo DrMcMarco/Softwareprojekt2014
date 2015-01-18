@@ -57,15 +57,15 @@ import javax.swing.text.MaskFormatter;
  * Anschriftsdaten aus einem Anschrifts- objekt
  */
 public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
-    
+
     Component c;
     GUIFactory factory;
     DataAccessObject dao;
     InterfaceMainView hauptFenster;
-    
+
     Anschrift anschrift;
     Anschrift lieferanschrift;
-    
+
     private String aktuellesDatum;
 
 //  ArrayList, um fehlerhafte Componenten zu speichern.    
@@ -82,20 +82,20 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
 //  Insantzvariablen für die Meldungen         
     private final String MELDUNG_PFLICHTFELDER_TITEL = "Felder nicht ausgefüllt";
     private final String MELDUNG_PFLICHTFELDER_TEXT = "Einige Felder wurden nicht ausgefüllt! Bitte füllen Sie diese aus!";
-    
+
     private final String PRUEFUNG_PREIS = "|(\\d*,?\\d{1,2})|(\\d{0,3}(\\.\\d{3})*,?\\d{1,2})";
     private final String PRUEFUNG_HAUSNUMMER = "|[1-9][0-9]{0,2}[a-zA-Z]?";
     private final String PRUEFUNG_PLZ = "|[0-9]{5}";
     private final String PRUEFUNG_EMAIL = "|^[a-zA-Z0-9][\\w\\.-]*@(?:[a-zA-Z0-9][a-zA-Z0-9_-]+\\.)+[A-Z,a-z]{2,5}$";
     private final String PRUEFUNG_TELEFON = "|^([+][ ]?[1-9][0-9][ ]?[-]?[ ]?|[(]?[0][ ]?)[0-9]{3,4}[-)/ ]?[ ]?[1-9][-0-9 ]{3,16}$";
-    
+
     private int geschaeftspartnerNr;
     private final SimpleDateFormat FORMAT;
-    
+
     private final String GP_ANLEGEN = "Geschäftspartner anlegen";
     private final String GP_AENDERN = "Geschäftspartner ändern";
     private final String GP_ANZEIGEN = "Geschäftspartner anzeigen";
-    
+
     private String typVorher;
     private String anredeVorher;
     private String nameVorher;
@@ -113,14 +113,14 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     private String hausnummerLieferanschriftVorher;
     private String plzLieferanschriftVorher;
     private String ortLieferanschriftVorher;
-    
+
     private NumberFormat nf;
     Calendar cal = Calendar.getInstance();
-    
+
     Date eingabeGeburtsdatum;
-    
+
     Date tempGebuDate;
-    
+
     private int anzahlFehlerhafterComponenten = 16;
 
     /**
@@ -138,10 +138,10 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         anschrift = null;
         lieferanschrift = null;
         nf = NumberFormat.getInstance();
-        
+
         nf.setMinimumFractionDigits(2);
         nf.setMaximumFractionDigits(2);
-        
+
         jTF_Name.setDocument(new UniversalDocument("-.´", true));
         jTF_Vorname.setDocument(new UniversalDocument("-.´", true));
         jTF_Telefon.setDocument(new UniversalDocument("0123456789/-", false));
@@ -156,11 +156,11 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_PLZLieferanschrift.setDocument(new UniversalDocument("0123456789", false));
         jTF_OrtRechnungsanschrift.setDocument(new UniversalDocument("-", true));
         jTF_OrtLieferanschrift.setDocument(new UniversalDocument("-", true));
-        
+
         GregorianCalendar aktuellesDaum = new GregorianCalendar();
         DateFormat df_aktuellesDatum = DateFormat.getDateInstance(DateFormat.MEDIUM);    //05.12.2014     
         aktuellesDatum = df_aktuellesDatum.format(aktuellesDaum.getTime());
-        
+
         DateFormat df_jTF = DateFormat.getDateInstance();
         df_jTF.setLenient(false);
         DateFormatter dform1 = new DateFormatter(df_jTF);
@@ -290,9 +290,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
 
 //        fehlerhafteComponenten werden immer gelöscht, wenn das Formular zureckgesetzt wird!
         fehlerhafteComponenten.clear();
-        
+
     }
-    
+
     private void beendenEingabeNachfrage() {
         if (this.getTitle().equals(GP_ANLEGEN) || this.getTitle().equals(GP_AENDERN)) {
             ueberpruefeFormular();
@@ -431,6 +431,11 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jB_AnzeigenAEndern.setText("Anzeige/Ändern");
         jB_AnzeigenAEndern.setActionCommand("Anzeigen/Ändern");
         jB_AnzeigenAEndern.setEnabled(false);
+        jB_AnzeigenAEndern.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_AnzeigenAEndernActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_AnzeigenAEndern);
 
         jB_Loeschen.setText("Löschen");
@@ -950,6 +955,12 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
             hausnummerAnschrift = jTF_HausnummerRechnungsanschrift.getText();
             plzAnschrift = jTF_PLZRechnungsanschrift.getText();
             ortAnschrift = jTF_OrtRechnungsanschrift.getText();
+
+            strasseLieferanschrift = jTF_StrasseLieferanschrift.getText();
+            hausnummerLieferanschrift = jTF_HausnummerLieferanschrift.getText();
+            plzLieferanschrift = jTF_PLZLieferanschrift.getText();
+            ortLieferanschrift = jTF_OrtLieferanschrift.getText();
+
             try {
                 kreditlimit = nf.parse(jTF_Kreditlimit.getText()).doubleValue();
             } catch (ParseException e) {
@@ -962,22 +973,10 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                         anschrift = this.dao.createAdress("Rechnungsadresse", name, vorname,
                                 titel, strasseAnschrift, hausnummerAnschrift, plzAnschrift,
                                 ortAnschrift, "Deutschland", telefon, fax, eMail, eingabeGeburtsdatum);
-                        
+
                         if (jCHB_WieAnschrift.isSelected()) {
                             lieferanschrift = anschrift;
                         } else {
-                            strasseLieferanschrift = jTF_StrasseLieferanschrift.getText();
-                            hausnummerLieferanschrift = jTF_HausnummerLieferanschrift.getText();
-                            plzLieferanschrift = jTF_PLZLieferanschrift.getText();
-                            ortLieferanschrift = jTF_OrtLieferanschrift.getText();
-                            
-                            titel = (String) jCB_Anrede.getSelectedItem();
-                            name = jTF_Name.getText();
-                            vorname = jTF_Vorname.getText();
-                            telefon = jTF_Telefon.getText();
-                            fax = jTF_Fax.getText();
-                            eMail = jTF_EMail.getText();
-                            
                             lieferanschrift = this.dao.createAdress("Lieferadresse", name, vorname,
                                     titel, strasseLieferanschrift, hausnummerLieferanschrift, plzLieferanschrift,
                                     ortLieferanschrift, "Deutschland", telefon, fax, eMail, eingabeGeburtsdatum);
@@ -988,61 +987,48 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                     }
                     setzeFormularZurueck();
                 } else {
-                    String titelNachher = (String) jCB_Anrede.getSelectedItem();
-                    String nameNachher = jTF_Name.getText();
-                    String vornameNachher = jTF_Vorname.getText();
-                    String telefonNachher = jTF_Telefon.getText();
-                    String faxNachher = jTF_Fax.getText();
-                    String eMailNachher = jTF_EMail.getText();
-                    String strasseAnschriftNachher = jTF_StrasseRechnungsanschrift.getText();
-                    String hausnummerAnschriftNachher = jTF_HausnummerRechnungsanschrift.getText();
-                    String plzAnschriftNachher = jTF_PLZRechnungsanschrift.getText();
-                    String ortAnschriftNachher = jTF_OrtRechnungsanschrift.getText();
-                    String strasseLieferanschriftNachher = jTF_StrasseLieferanschrift.getText();
-                    String hausnummerLieferanschriftNachher = jTF_HausnummerLieferanschrift.getText();
-                    String plzLieferanschriftNachher = jTF_PLZLieferanschrift.getText();
-                    String ortLieferanschriftNachher = jTF_OrtLieferanschrift.getText();
-                    
-                    Date eingabeGeburtsdatumNachher = null;
-                    double kreditlimitNachher = 0;
                     long gpnr = 0;
-                    
+
                     Anschrift rechnungsanschriftNachher;
                     Anschrift lieferanschriftNachher;
-                    
+
                     try {
-                        kreditlimitNachher = nf.parse(jTF_Kreditlimit.getText()).doubleValue();
-                        eingabeGeburtsdatumNachher = FORMAT.parse(jFTF_Geburtsdatum.getText());
+                        eingabeGeburtsdatum = FORMAT.parse(jFTF_Geburtsdatum.getText());
                         gpnr = nf.parse(jTF_GeschaeftspartnerID.getText()).longValue();
-                        
+
                         Geschaeftspartner gpVorher = this.factory.getDAO().gibGeschaeftspartner(gpnr);
                         Geschaeftspartner gpNachher;
-                        
-                        rechnungsanschriftNachher = new Rechnungsanschrift(nameNachher, vornameNachher, titelNachher, strasseAnschriftNachher, hausnummerAnschriftNachher,
-                                plzAnschriftNachher, ortAnschriftNachher, "Deutschland", telefonNachher, faxNachher, eMailNachher, eingabeGeburtsdatumNachher, gpVorher.getRechnungsadresse().getErfassungsdatum());
-                        
+
+                        rechnungsanschriftNachher = new Rechnungsanschrift(name, vorname, titel, strasseAnschrift, hausnummerAnschrift,
+                                plzAnschrift, ortAnschrift, "Deutschland", telefon, fax, eMail, eingabeGeburtsdatum, gpVorher.getRechnungsadresse().getErfassungsdatum());
+
                         if (jCHB_WieAnschrift.isSelected()) {
                             lieferanschriftNachher = rechnungsanschriftNachher;
                         } else {
-                            lieferanschriftNachher = new Lieferanschrift(nameNachher, vornameNachher, titelNachher, strasseLieferanschriftNachher, hausnummerLieferanschriftNachher,
-                                    plzLieferanschriftNachher, ortLieferanschriftNachher, "Deutschland", telefonNachher, faxNachher, eMailNachher, eingabeGeburtsdatumNachher, gpVorher.getLieferadresse().getErfassungsdatum());
+                            lieferanschriftNachher = new Lieferanschrift(name, vorname, titel, strasseLieferanschrift, hausnummerLieferanschrift,
+                                    plzLieferanschrift, ortLieferanschrift, "Deutschland", telefon, fax, eMail, eingabeGeburtsdatum, gpVorher.getLieferadresse().getErfassungsdatum());
                         }
                         if (jCHB_Kunde.isSelected()) {
-                            gpNachher = new Kunde(lieferanschriftNachher, rechnungsanschriftNachher, kreditlimitNachher, false);
+                            gpNachher = new Kunde(lieferanschriftNachher, rechnungsanschriftNachher, kreditlimit, false);
                         } else {
-                            gpNachher = new Lieferant(lieferanschriftNachher, rechnungsanschriftNachher, kreditlimitNachher, false);
+                            gpNachher = new Lieferant(lieferanschriftNachher, rechnungsanschriftNachher, kreditlimit, false);
                         }
-                        
+
                         if (gpVorher.equals(gpNachher)) {
                             JOptionPane.showMessageDialog(null, "Es wurden keine Änderungen gemacht!", "Keine Änderungen", JOptionPane.INFORMATION_MESSAGE);
                         } else {
                             int antwort = JOptionPane.showConfirmDialog(null, "Möchten Sie die Änderungen speichern?", GP_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+//                            System.out.println(gpVorher.getLieferadresse());
+//                            System.out.println(gpVorher.getRechnungsadresse());
+//                            System.out.println("");
+//                            System.out.println(gpNachher.getLieferadresse());
+//                            System.out.println(gpNachher.getRechnungsadresse());
                             if (antwort == JOptionPane.YES_OPTION) { // falls ja,
                                 try { // Geschäftspartner verändern
                                     this.dao.aendereGeschaeftspartner(gpVorher.getGeschaeftspartnerID(), jCHB_WieAnschrift.isSelected(),
-                                            kreditlimitNachher, nameNachher, vornameNachher, titelNachher, strasseAnschriftNachher, hausnummerAnschriftNachher,
-                                            plzAnschriftNachher, ortAnschriftNachher, strasseLieferanschriftNachher, hausnummerLieferanschriftNachher,
-                                            plzLieferanschriftNachher, ortLieferanschriftNachher, "Deutschland", telefonNachher, faxNachher, eMailNachher, eingabeGeburtsdatumNachher);
+                                            kreditlimit, name, vorname, titel, strasseAnschrift, hausnummerAnschrift,
+                                            plzAnschrift, ortAnschrift, strasseLieferanschrift, hausnummerLieferanschrift,
+                                            plzLieferanschrift, ortLieferanschrift, "Deutschland", telefon, fax, eMail, eingabeGeburtsdatum);
                                 } catch (ApplicationException e) { // falls ein Fehler auftaucht
                                     System.out.println("Fehler beim veraendern des Geschäftspartners in Sicht Geschäftspartner Anlegen Methode speichern: " + e.getMessage());
                                 }
@@ -1139,11 +1125,11 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
             try {
                 eingabeGeburtsdatum = FORMAT.parse(jFTF_Geburtsdatum.getText());
                 heutigesDatum = FORMAT.parse(aktuellesDatum);
-                
+
                 cal.setTime(heutigesDatum);
                 cal.add(Calendar.YEAR, -18);
                 Date dateBefore18Years = cal.getTime();
-                
+
                 if (eingabeGeburtsdatum.after(heutigesDatum)) {
                     String meldung = "Das eingegebene Geburtsdatum ist in der Zukunft! \nBitte geben Sie ein gültiges Geburtsdatm Datum ein. (z.B. 01.01.1980)";
                     String titel = "Fehlerhafte Eingabe";
@@ -1420,91 +1406,99 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
         this.hauptFenster.rufeSuche(this);
     }//GEN-LAST:event_jB_SuchenActionPerformed
-    
+
+    private void jB_AnzeigenAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AnzeigenAEndernActionPerformed
+        if (this.getTitle().equals(GP_AENDERN)) {
+            setzeFormularInGPAnzeigenFuerButton();
+        } else if (this.getTitle().equals(GP_ANZEIGEN)) {
+            setzeFormularInGPAEndernFuerButton();
+        }
+    }//GEN-LAST:event_jB_AnzeigenAEndernActionPerformed
+
     public JTextField gibjTF_GeschaeftspartnerID() {
         return jTF_GeschaeftspartnerID;
     }
-    
+
     public JCheckBox gibjCHB_Kunde() {
         return jCHB_Kunde;
     }
-    
+
     public JCheckBox gibjCHB_Lieferant() {
         return jCHB_Lieferant;
     }
-    
+
     public JComboBox gibjCB_Anrede() {
         return jCB_Anrede;
     }
-    
+
     public JTextField gibjTF_Name() {
         return jTF_Name;
     }
-    
+
     public JTextField gibjTF_Vorname() {
         return jTF_Vorname;
     }
-    
+
     public JTextField gibjTF_Telefon() {
         return jTF_Telefon;
     }
-    
+
     public JTextField gibjTF_Fax() {
         return jTF_Fax;
     }
-    
+
     public JFormattedTextField gibjFTF_Geburtsdatum() {
         return jFTF_Geburtsdatum;
     }
-    
+
     public JFormattedTextField gibjFTF_Erfassungsdatum() {
         return jFTF_Erfassungsdatum;
     }
-    
+
     public JTextField gibjTF_EMail() {
         return jTF_EMail;
     }
-    
+
     public JTextField gibjTF_Kreditlimit() {
         return jTF_Kreditlimit;
     }
-    
+
     public JCheckBox gibjCHB_WieAnschrift() {
         return jCHB_WieAnschrift;
     }
-    
+
     public JTextField gibjTF_StrasseRechnungsanschrift() {
         return jTF_StrasseRechnungsanschrift;
     }
-    
+
     public JTextField gibjTF_HausnummerRechnungsanschrift() {
         return jTF_HausnummerRechnungsanschrift;
     }
-    
+
     public JTextField gibjTF_PLZRechnungsanschrift() {
         return jTF_PLZRechnungsanschrift;
     }
-    
+
     public JTextField gibjTF_OrtRechnungsanschrift() {
         return jTF_OrtRechnungsanschrift;
     }
-    
+
     public JTextField gibjTF_StrasseLieferanschrift() {
         return jTF_StrasseLieferanschrift;
     }
-    
+
     public JTextField gibjTF_HausnummerLieferanschrift() {
         return jTF_HausnummerLieferanschrift;
     }
-    
+
     public JTextField gibjTF_PLZLieferanschrift() {
         return jTF_PLZLieferanschrift;
     }
-    
+
     public JTextField gibjTF_OrtLieferanschrift() {
         return jTF_OrtLieferanschrift;
     }
-    
+
     public void leseInhaltVomFormular() {
         if (jCHB_Kunde.isSelected()) {
             typVorher = "Kunde";
@@ -1543,7 +1537,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     public void setzeFormularInGPAnlegen() {
         setzeFormularZurueck();
         this.setTitle(GP_ANLEGEN);
-        
+
         jCHB_Kunde.setEnabled(true);
         jCHB_Lieferant.setEnabled(true);
         jCB_Anrede.setEnabled(true);
@@ -1563,18 +1557,24 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_HausnummerLieferanschrift.setEnabled(true);
         jTF_PLZLieferanschrift.setEnabled(true);
         jTF_OrtLieferanschrift.setEnabled(true);
-        
+
         jB_Speichern.setEnabled(true);
         jB_AnzeigenAEndern.setEnabled(false);
+        jB_AnzeigenAEndern.setText("Anzeigen/Ändern");
         jB_Loeschen.setEnabled(false);
-        
+
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
-    
+
     public void setzeFormularInGPAEndern() {
         setzeFormularZurueck();
+        setzeFormularInGPAEndernFuerButton();
+        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
+    }
+
+    private void setzeFormularInGPAEndernFuerButton() {
         this.setTitle(GP_AENDERN);
-        
+
         jCHB_Kunde.setEnabled(true);
         jCHB_Lieferant.setEnabled(true);
         jCB_Anrede.setEnabled(true);
@@ -1590,16 +1590,23 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_HausnummerRechnungsanschrift.setEnabled(true);
         jTF_PLZRechnungsanschrift.setEnabled(true);
         jTF_OrtRechnungsanschrift.setEnabled(true);
-        jTF_StrasseLieferanschrift.setEnabled(true);
-        jTF_HausnummerLieferanschrift.setEnabled(true);
-        jTF_PLZLieferanschrift.setEnabled(true);
-        jTF_OrtLieferanschrift.setEnabled(true);
-        
+
+        if (jCHB_WieAnschrift.isSelected()) {
+            jTF_StrasseLieferanschrift.setEnabled(false);
+            jTF_HausnummerLieferanschrift.setEnabled(false);
+            jTF_PLZLieferanschrift.setEnabled(false);
+            jTF_OrtLieferanschrift.setEnabled(false);
+        } else {
+            jTF_StrasseLieferanschrift.setEnabled(true);
+            jTF_HausnummerLieferanschrift.setEnabled(true);
+            jTF_PLZLieferanschrift.setEnabled(true);
+            jTF_OrtLieferanschrift.setEnabled(true);
+        }
+
         jB_Speichern.setEnabled(true);
         jB_AnzeigenAEndern.setEnabled(true);
+        jB_AnzeigenAEndern.setText("Anzeigen");
         jB_Loeschen.setEnabled(true);
-        
-        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
 
     /*----------------------------------------------------------*/
@@ -1608,8 +1615,13 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     /*----------------------------------------------------------*/
     public void setzeFormularInGPAnzeigen() {
         setzeFormularZurueck();
+        setzeFormularInGPAnzeigenFuerButton();
+        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
+    }
+
+    private void setzeFormularInGPAnzeigenFuerButton() {
         this.setTitle(GP_ANZEIGEN);
-        
+
         jCHB_Kunde.setEnabled(false);
         jCHB_Lieferant.setEnabled(false);
         jCB_Anrede.setEnabled(false);
@@ -1629,12 +1641,12 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jTF_HausnummerLieferanschrift.setEnabled(false);
         jTF_PLZLieferanschrift.setEnabled(false);
         jTF_OrtLieferanschrift.setEnabled(false);
-        
+
         jB_Speichern.setEnabled(false);
         jB_AnzeigenAEndern.setEnabled(true);
+        jB_AnzeigenAEndern.setText("Ändern");
         jB_Loeschen.setEnabled(false);
-        
-        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
+
     }
 
     /*----------------------------------------------------------*/
@@ -1652,12 +1664,12 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         this.jTF_PLZRechnungsanschrift.setText(anschriftDaten.getPLZ());
         this.jTF_OrtRechnungsanschrift.setText(anschriftDaten.getOrt());
     }
-    
+
 //   setzeMethode, die aus der Suche aufgerufen wird. Es wird die Sicht GP Anzeigen aufgerufen und der gesuchte GP angezeigt
     /**
      *
-     * @param gp Geschaeftspartner Objekt aus Suche
-     * Datum Name Was 17.01.2015 SEN angelegt
+     * @param gp Geschaeftspartner Objekt aus Suche Datum Name Was 17.01.2015
+     * SEN angelegt
      */
     public void zeigeGPausSucheAN(Geschaeftspartner gp) {
         setzeFormularInGPAnzeigen();
@@ -1678,7 +1690,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         jFTF_Geburtsdatum.setText(gibDatumAusDatenbank(la.getGeburtsdatum()));
         jFTF_Erfassungsdatum.setText(gibDatumAusDatenbank(la.getErfassungsdatum()));
         jTF_EMail.setText(ra.getEmail());
-        jTF_Kreditlimit.setText(""+ nf.format(gp.getKreditlimit()));
+        jTF_Kreditlimit.setText("" + nf.format(gp.getKreditlimit()));
         jTF_StrasseRechnungsanschrift.setText(ra.getStrasse());
         jTF_HausnummerRechnungsanschrift.setText(ra.getHausnummer());
         jTF_PLZRechnungsanschrift.setText(ra.getPLZ());
@@ -1704,7 +1716,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
             jTF_OrtLieferanschrift.setText(la.getOrt());
         }
     }
-    
+
     private String gibDatumAusDatenbank(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -1719,13 +1731,13 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         } else {
             tagAlsString = "" + tag;
         }
-        
+
         if (mon < 10) {
             monatAlsString = "0" + mon;
         } else {
             monatAlsString = "" + mon;
         }
-        
+
         String ausgabeDatum = tagAlsString + "." + monatAlsString + "." + jahr;
         return ausgabeDatum;
     }

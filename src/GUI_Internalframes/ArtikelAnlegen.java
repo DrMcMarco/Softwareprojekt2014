@@ -6,8 +6,6 @@ import java.awt.Component;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import JFrames.*;
 import DAO.*;
@@ -16,7 +14,6 @@ import DTO.Artikelkategorie;
 import Interfaces.InterfaceMainView;
 import java.util.Collection;
 import java.util.Iterator;
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
@@ -92,17 +89,6 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     private final String ARTIKEL_AENDERN = "Artikel ändern";
     private final String ARTIKEL_ANZEIGEN = "Artikel anzeigen";
 
-//    Variablen, die gefuellt werden, wenn die View Artikel aendern aufgerufen wird,
-//    diese werden, wenn auf speichern geklickt wird mit den Daten, die neu angelegt werden verglichen
-    private String artikelnameVorher;
-    private String artikelbeschreibungVorher;
-    private String kategorieVorher;
-    private String einzelwertVorher;
-    private String bestellwertVorher;
-    private String mwstVorher;
-    private String bestandsmengeVorher;
-
-//    KategorieArraylist aus DB
     /**
      * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die
      * Documents.
@@ -120,8 +106,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
         fehlerhafteComponenten = new ArrayList<>();
         artikelListe = new ArrayList<>();
+
         ladeKategorienAusDatenbank();
-        jCB_Kategorie.setModel(new DefaultComboBoxModel(kategorienFuerCombobox.toArray()));
 
         nf = NumberFormat.getInstance();
         nf.setMinimumFractionDigits(2);
@@ -146,13 +132,10 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
             kategorienFuerCombobox.add("Bitte auswählen");
             Iterator<Artikelkategorie> it = kategorienAusDatenbank.iterator();
             while (it.hasNext()) {
-//                System.out.println(it.next().getKategoriename());
                 kategorienFuerCombobox.add(it.next().getKategoriename());
             }
-//            for(Artikelkategorie a: kategorienAusDatenbank) {
-//                System.out.println(a.getKategoriename());
-//            }
-        } catch (ApplicationException ex) {
+            jCB_Kategorie.setModel(new DefaultComboBoxModel(kategorienFuerCombobox.toArray()));
+        } catch (ApplicationException | NullPointerException ex) {
             System.out.println("Fehler beim Laden der Kategorien");
         }
     }
@@ -661,9 +644,9 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
             String artikelbeschreibung;
             String kategorie;
             double einzelwert = 0;
-            double bestellwertFurDB = 0;
-            int mwstFurDB = 0;
-            int bestandsmengeFREIFurDB = 0;
+            double bestellwert = 0;
+            int mwst = 0;
+            int bestandsmengeFREI = 0;
             int bestandsmengeRESERVIERT = 0;
             int bestandsmengeZULAUF = 0;
             int bestandsmengeVERKAUFT = 0;
@@ -673,10 +656,10 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
             try {
                 einzelwert = nf.parse(jTF_Einzelwert.getText()).doubleValue();
-                bestellwertFurDB = nf.parse(jTF_Bestellwert.getText()).doubleValue();
+                bestellwert = nf.parse(jTF_Bestellwert.getText()).doubleValue();
 
-                mwstFurDB = nf.parse((String) jCB_MwST.getSelectedItem()).intValue();
-                bestandsmengeFREIFurDB = nf.parse(jTF_Bestandsmenge_FREI.getText()).intValue();
+                mwst = nf.parse((String) jCB_MwST.getSelectedItem()).intValue();
+                bestandsmengeFREI = nf.parse(jTF_Bestandsmenge_FREI.getText()).intValue();
             } catch (ParseException ex) {
                 System.out.println("Fehler beim Parsen in der Klasse ArtikelAnlegen! " + ex.getMessage());
             }
@@ -684,7 +667,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
             if (this.getTitle().equals(ARTIKEL_ANLEGEN)) {
                 try {
                     this.dao.createItem(kategorie, artikelname, artikelbeschreibung,
-                            einzelwert, bestellwertFurDB, mwstFurDB, bestandsmengeFREIFurDB,
+                            einzelwert, bestellwert, mwst, bestandsmengeFREI,
                             bestandsmengeRESERVIERT, bestandsmengeZULAUF,
                             bestandsmengeVERKAUFT);
 
@@ -698,26 +681,16 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 //                Überschreibung eines Artikel Lösung 2: 
                 try {
 //                zunächst werden die Felder des Formulars neue gelesen.
-                    String artikelnameNachher = jTF_Artikelname.getText();
-                    String artikelbeschreibungNachher = jTA_Artikelbeschreibung.getText();
-                    String kategorieNachher = (String) jCB_Kategorie.getSelectedItem();
-                    double einzelwertNachher = nf.parse(jTF_Einzelwert.getText()).doubleValue();
-                    double bestellwertNachher = nf.parse(jTF_Bestellwert.getText()).doubleValue();
-                    int mwstNachher = nf.parse((String) jCB_MwST.getSelectedItem()).intValue();
-                    int bestandsmengeFREINachher = nf.parse(jTF_Bestandsmenge_FREI.getText()).intValue();
-                    int bestandsmengeRESERVIERTNachher = nf.parse(jTF_Bestandsmenge_RES.getText()).intValue();
-                    int bestandsmengeZULAUFNachher = nf.parse(jTF_Bestandsmenge_ZULAUF.getText()).intValue();
-                    int bestandsmengeVERKAUFTNachher = nf.parse(jTF_Bestandsmenge_VERKAUFT.getText()).intValue();
                     long artikelnr = nf.parse(jTF_Artikelnummer.getText()).longValue();
 
                     Artikel artikelVorher = this.factory.getDAO().getItem(artikelnr); // Artikel Vorher aus Datenbank laden
                     Artikel artikelNachher = new Artikel(artikelVorher.getKategorie(), // vergleich Artikel erzeugen
-                            artikelnameNachher, artikelbeschreibungNachher,
-                            einzelwertNachher, bestellwertNachher, mwstNachher, bestandsmengeFREINachher,
-                            bestandsmengeRESERVIERTNachher, bestandsmengeZULAUFNachher, bestandsmengeVERKAUFTNachher);
+                            artikelname, artikelbeschreibung,
+                            einzelwert, bestellwert, mwst, bestandsmengeFREI,
+                            bestandsmengeRESERVIERT, bestandsmengeZULAUF, bestandsmengeVERKAUFT);
                     artikelNachher.setArtikelID(artikelnr); // ArtikelID des Nachher Artikel setzen
 //                    Falls die Kategorienamen und auch die Artikel selbst gleich sind ist keine keine Veränderung
-                    if (artikelVorher.getKategorie().getKategoriename().equals(kategorieNachher) && artikelVorher.equals(artikelNachher)) {
+                    if (artikelVorher.getKategorie().getKategoriename().equals(kategorie) && artikelVorher.equals(artikelNachher)) {
                         JOptionPane.showMessageDialog(null, "Es wurden keine Änderungen gemacht!", "Keine Änderungen", JOptionPane.INFORMATION_MESSAGE);
 //                     etwas ist nicht gleich
                     } else {
@@ -725,8 +698,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
                         int antwort = JOptionPane.showConfirmDialog(null, "Möchten Sie die Änderungen speichern?", ARTIKEL_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                         if (antwort == JOptionPane.YES_OPTION) { // falls ja,
                             try { // artikel verändern
-                                this.dao.aendereArtikel(artikelnr, kategorieNachher, artikelnameNachher, artikelbeschreibungNachher, einzelwertNachher,
-                                        bestellwertNachher, mwstNachher, bestandsmengeFREINachher);
+                                this.dao.aendereArtikel(artikelnr, kategorie, artikelname, artikelbeschreibung, einzelwert,
+                                        bestellwert, mwst, bestandsmengeFREI);
                             } catch (ApplicationException e) { // falls ein Fehler auftaucht
                                 System.out.println("Fehler beim veraendern des Artikel in Sicht Artikel Anlegen Methode speichern: " + e.getMessage());
                             }
@@ -889,9 +862,9 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jB_SuchenActionPerformed
 
     private void jB_AnzeigenAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AnzeigenAEndernActionPerformed
-        if(this.getTitle().equals(ARTIKEL_AENDERN)) {
+        if (this.getTitle().equals(ARTIKEL_AENDERN)) {
             setzFormularInArtikelAnzeigenFuerButton();
-        } else if(this.getTitle().equals(ARTIKEL_ANZEIGEN)) {
+        } else if (this.getTitle().equals(ARTIKEL_ANZEIGEN)) {
             setzFormularInArtikelAEndernFuerButton();
         }
     }//GEN-LAST:event_jB_AnzeigenAEndernActionPerformed
@@ -940,16 +913,6 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
         return jTF_Bestandsmenge_VERKAUFT;
     }
 
-    public void leseInhaltVomFormular() {
-        artikelnameVorher = jTF_Artikelname.getText();
-        artikelbeschreibungVorher = jTA_Artikelbeschreibung.getText();
-        kategorieVorher = (String) jCB_Kategorie.getSelectedItem();
-        einzelwertVorher = jTF_Einzelwert.getText();
-        bestellwertVorher = jTF_Bestellwert.getText();
-        mwstVorher = (String) jCB_MwST.getSelectedItem();
-        bestandsmengeVorher = jTF_Bestandsmenge_FREI.getText();
-    }
-
     public void setzeFormularInArtikelAnlegen() {
         setzeFormularZurueck();
         this.setTitle(ARTIKEL_ANLEGEN);
@@ -975,30 +938,16 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     /*----------------------------------------------------------*/
     public void setzeFormularInArtikelAEndern() {
         setzeFormularZurueck();
-//        this.setTitle(ARTIKEL_AENDERN);
-////        leseInhaltVomFormular();
-//        jTF_Artikelname.setEnabled(true);
-//        jTA_Artikelbeschreibung.setEnabled(true);
-//        jCB_Kategorie.setEnabled(true);
-//        jTF_Einzelwert.setEnabled(true);
-//        jTF_Bestellwert.setEnabled(true);
-//        jCB_MwST.setEnabled(true);
-//        jTF_Bestandsmenge_FREI.setEnabled(true);
-//
-//        jB_Speichern.setEnabled(true);
-//        jB_AnzeigenAEndern.setEnabled(true);
-//        jB_AnzeigenAEndern.setText("Ändern");
-//        jB_Loeschen.setEnabled(true);
         setzFormularInArtikelAEndernFuerButton();
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
-    
+
     /**
      * Methode wird aufgerufen, wenn auf Button Anzeigen/Aendern geklickt wird,
-     * das Formular wird nicht zurueckgesetzt, deswegen musste eine extra Methode 
-     * geschrieben werden
+     * das Formular wird nicht zurueckgesetzt, deswegen musste eine extra
+     * Methode geschrieben werden
      */
-        private void setzFormularInArtikelAEndernFuerButton() {
+    private void setzFormularInArtikelAEndernFuerButton() {
         this.setTitle(ARTIKEL_AENDERN);
 //        leseInhaltVomFormular();
         jTF_Artikelname.setEnabled(true);
@@ -1022,28 +971,15 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
     /*----------------------------------------------------------*/
     public void setzeFormularInArtikelAnzeigen() {
         setzeFormularZurueck();
-//        this.setTitle(ARTIKEL_ANZEIGEN);
-//        jTF_Artikelname.setEnabled(false);
-//        jTA_Artikelbeschreibung.setEnabled(false);
-//        jCB_Kategorie.setEnabled(false);
-//        jTF_Einzelwert.setEnabled(false);
-//        jTF_Bestellwert.setEnabled(false);
-//        jCB_MwST.setEnabled(false);
-//        jTF_Bestandsmenge_FREI.setEnabled(false);
-//
-//        jB_Speichern.setEnabled(false);
-//        jB_AnzeigenAEndern.setEnabled(true);
-//        jB_AnzeigenAEndern.setText("Anzeigen");
-//        jB_Loeschen.setEnabled(false);
         setzFormularInArtikelAnzeigenFuerButton();
 
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
-     
-   /**
+
+    /**
      * Methode wird aufgerufen, wenn auf Button Anzeigen/Aendern geklickt wird,
-     * das Formular wird nicht zurueckgesetzt, deswegen musste eine extra Methode 
-     * geschrieben werden
+     * das Formular wird nicht zurueckgesetzt, deswegen musste eine extra
+     * Methode geschrieben werden
      */
     private void setzFormularInArtikelAnzeigenFuerButton() {
         this.setTitle(ARTIKEL_ANZEIGEN);
@@ -1063,8 +999,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame {
 
     /**
      *
-     * @param kategorie 
-     * Datum Name Was 17.01.2015 SEN angelegt
+     * @param kategorie Datum Name Was 17.01.2015 SEN angelegt
      */
     public void setzteKategorie(Artikelkategorie kategorie) {
         jCB_Kategorie.setSelectedItem(kategorie.getKategoriename());
