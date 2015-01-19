@@ -488,7 +488,6 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         System.out.println(getComponent() != null);
         if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
-            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaa");
         }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);

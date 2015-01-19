@@ -212,16 +212,13 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                 // Knoten des Baums.
                 openJtreeNodes(pfad);//Aufruf der Schnittstellenmethode.
             }
-        } catch (NullPointerException e) {//Fehlerbehandlung.
-            System.out.println(e.getMessage());
+        } catch (NullPointerException e) {//Fehlerbehandlung
         }
     }//GEN-LAST:event_hauptmenueAdmin_TreeMouseClicked
 
     private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
 
         internal.setFrame(this.internal.suche);
-        //this.internal.suche.setVisible(true);
-        //this.setVisible(false);
     }//GEN-LAST:event_jB_SuchenActionPerformed
 
     /*----------------------------------------------------------*/
