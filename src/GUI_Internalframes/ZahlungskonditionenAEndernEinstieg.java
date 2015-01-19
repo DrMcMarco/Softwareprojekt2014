@@ -49,7 +49,7 @@ import javax.swing.JTextField;
  *
  * @author Tahir
  */
-public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
+public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFrame {
     /*
      Hilfsvariablen
      */
@@ -283,25 +283,7 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 
-    @Override
     public void zuruecksetzen() {
         jTF_Zahlungskondition_ID.setText("");
-    }
-
-    @Override
-    @Deprecated
-    public void ueberpruefen() {
-    }
-
-    @Override
-    @Deprecated
-    public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    @Deprecated
-    public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

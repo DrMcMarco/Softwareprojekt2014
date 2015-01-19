@@ -37,7 +37,7 @@ import javax.swing.JTextField;
  * ArtikelAendern speichern Funktion anbgeschlossen 16.12.2014 Terrasi,
  * Funktionsimplementierung im "Zurück"-Button
  */
-public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
+public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
 
     private Component c;
     private GUIFactory factory;
@@ -268,23 +268,7 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame implement
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 
-    @Override
     public void zuruecksetzen() {
         jTF_Artikel_ID.setText("");
-    }
-
-    @Override
-    @Deprecated
-    public void ueberpruefen() {
-    }
-
-    @Override
-    @Deprecated
-    public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
-    }
-
-    @Override
-    @Deprecated
-    public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
     }
 }
