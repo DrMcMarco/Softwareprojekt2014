@@ -407,23 +407,24 @@ public class DataAccessObject {
         Anschrift anschrift = null;
         
         //Anhand des übergebenen Typs wird ein entsprechendes Objekt erzeugt
-        if (Typ.equals("Lieferadresse")) {
-        
-            //Erzeugung des persistenten Anschrift-Objektes
-            anschrift = new Lieferanschrift(Name, Vorname, Titel,
-                    Strasse, Hausnummer, PLZ, Ort, Staat, Telefon, Fax, Email,
-                    Geburtsdatum, Erfassungsdatum);
-        } else if (Typ.equals("Rechnungsadresse")) {
-            
-            //Erzeugung des persistenten Anschrift-Objektes
-            anschrift = new Rechnungsanschrift(Name, Vorname, Titel,
-                    Strasse, Hausnummer, PLZ, Ort, Staat, Telefon, Fax, Email,
-                    Geburtsdatum, Erfassungsdatum);
-            
-        //Wenn der Typ ungültig ist
-        } else {
-            throw new ApplicationException("Fehler", 
-                    "Der angegebene Adresstyp existiert nicht");
+        switch (Typ) {
+            case "Lieferadresse":
+                //Erzeugung des persistenten Anschrift-Objektes
+                anschrift = new Lieferanschrift(Name, Vorname, Titel,
+                        Strasse, Hausnummer, PLZ, Ort, Staat, Telefon, Fax, Email,
+                        Geburtsdatum, Erfassungsdatum);
+                break;
+            case "Rechnungsadresse":
+                //Erzeugung des persistenten Anschrift-Objektes
+                anschrift = new Rechnungsanschrift(Name, Vorname, Titel,
+                        Strasse, Hausnummer, PLZ, Ort, Staat, Telefon, Fax, Email,
+                        Geburtsdatum, Erfassungsdatum);
+                
+                //Wenn der Typ ungültig ist
+                break;
+            default:
+                throw new ApplicationException("Fehler",
+                        "Der angegebene Adresstyp existiert nicht");
         }
         
         //Wenn bei der Erzeugung ein Fehler auftritt
@@ -487,7 +488,6 @@ public class DataAccessObject {
      * @param Lieferadresse
      * @param Rechnungsadresse
      * @param Kreditlimit
-     * @param LKZ
      * @throws ApplicationException 
      */
     public void createBusinessPartner(String Typ, Anschrift Lieferadresse, 
@@ -845,18 +845,28 @@ public class DataAccessObject {
         }
     }
    
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 12.01.15   loe     angelegt                              */
+    /* 13.01.15   loe     überarbeitet                          */
+    /* 14.01.15   loe     überarbeitet                          */
+    /* 17.01.15   loe     grundlegend überarbeitet              */
+    /* 18.01.15   loe     Verbesserungen/letzte Änderungen/     */
+    /*                    Kommentare                            */
+    /*----------------------------------------------------------*/
     /**
-     * 
-     * @param AuftragskopfID
-     * @param GeschaeftspartnerID
-     * @param ZahlungskonditionID
-     * @param Artikel
-     * @param Auftragstext
-     * @param Status
-     * @param Abschlussdatum
-     * @param Lieferdatum
-     * @return
-     * @throws ApplicationException 
+     * Methode zum Ändern von Aufträgen und Auftragspositionen.
+     * @param AuftragskopfID ID des Auftrags (eindeutig)
+     * @param GeschaeftspartnerID ID des Geschäftspartners (eindeutig)
+     * @param ZahlungskonditionID ID einer Zahlungskondition (eindeutig)
+     * @param Artikel HashMap: Key = Artikel-ID, Value = Menge
+     * @param Auftragstext Zusatztext für einen Auftrag
+     * @param Status Name des Status
+     * @param Abschlussdatum Abschlussdatum
+     * @param Lieferdatum Lieferdatum
+     * @return ein String der verschiedene Statusnachrichten ausgibt
+     * @throws ApplicationException wenn zu den übergebenen IDs keine passenden
+     *                              Objekte gefunden werden können
      */
     public String aendereAuftrag(long AuftragskopfID, long GeschaeftspartnerID,
             long ZahlungskonditionID, HashMap<Long, Integer> Artikel, 
@@ -1378,42 +1388,6 @@ public class DataAccessObject {
         return liste;
     }
     
-//    /**
-//     * 
-//     * @param type
-//     * @return
-//     * @throws ApplicationException 
-//     */
-//    public Zahlungskondition getPaymentConditionsByType(Auftragsart type) 
-//            throws ApplicationException {
-//        String sqlQuery = null;
-//        Zahlungskondition conditions = null;
-//        //Prüfe, ob eine Auftragsart übergeben wurde
-//        if (type == null) {
-//            throw new ApplicationException("Fehler", 
-//                    "Übergeben Sie eine gültige Auftragsart!");
-//        }
-//        //Sql-Statement erstellen
-//        sqlQuery =
-//                "SELECT ST FROM Zahlungskondition ST WHERE ST.Auftragsart = '" +
-//                type.getAuftragsart() + "'";
-//        
-//        try {
-//            //Konditionen aus der DB Laden
-//            conditions = (Zahlungskondition) 
-//                    em.createQuery(sqlQuery).getSingleResult();
-//        } catch (Exception e) {
-//            throw new ApplicationException("Fehler", e.getMessage());
-//        }
-//        
-//        //Prüfen, ob was gefunden wurde
-//        if (conditions == null)
-//            throw new ApplicationException("Fehler",
-//                    "Es wurde keine Kategorie gefunden!");
-//        
-//        return conditions;
-//    }
-    
     /*----------------------------------------------------------*/
     /* Datum Name Was                                           */
     /* 11.11.14 sch angelegt                                    */
@@ -1725,6 +1699,12 @@ public class DataAccessObject {
         return ap;
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 16.01.15   loe     angelegt                              */
+    /* 17.01.15   loe     überarbeitet                          */
+    /* 18.01.15   loe     überarbeitet                          */
+    /*----------------------------------------------------------*/
     /**
      * Methode um eine Auftragsposition anhand des Auftrags und des Artikels zu 
      * holen.
@@ -1826,7 +1806,11 @@ public class DataAccessObject {
         return namen;
     }
     
-        /**
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 12.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
+    /**
      * Gibt eine Liste mit Zahlungskonditionen für eine Auftragsart zurück
      * @param Auftragsart Der Name der Auftragsart
      * @return eine Liste mit Zahlungskonditionen zu dieser Auftragsart
@@ -2054,36 +2038,59 @@ public class DataAccessObject {
         em.getTransaction().commit();
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 12.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
+    /**
+     * Setzt das Löschkennzeichen für eine Auftragsposition.
+     * Diese Methode muss innerhalb einer Transaktion aufgerufen werden, weil
+     * sie selber keine Transaktion startet!
+     * @param AuftragsID ID des Auftrags
+     * @param Positionnummer Nummer der Position im Auftrag
+     * @throws ApplicationException wenn der Auftrag oder die Position nicht
+     *                              gefunden werden kann
+     */
     public void loeschePosition(long AuftragsID, long Positionnummer) 
             throws ApplicationException {
         
+        //Suche den Auftragskopf anhand der ID in der Datenbank
         Auftragskopf ak = em.find(Auftragskopf.class, AuftragsID);
         
         Auftragsposition ap = null;
         
+        //SQL-Query für das Selektieren einer Auftragsposition anhand
+        //des Auftrags und der Positionnummer
         Query query = em.createQuery("SELECT ST "
                         + "FROM Auftragsposition ST "
                         + "WHERE ST.Auftrag = :auftrag "
-                        + "AND ST.Positionsnummer = :position");
-        
+                        + "AND ST.Positionsnummer = :position");        
         query.setParameter("auftrag", ak);
         query.setParameter("position", Positionnummer);
         
+        //Hole das erste Ergebnis
         ap = (Auftragsposition) query.getSingleResult();
         
+        //Wenn die Posistion nicht gefunden werden kann
         if (ap == null) {
             throw new ApplicationException("Fehler", 
                     "Die Auftragsposition konnte nicht gefunden werden.");
         }
         
+        //Setze das Löschkennzeichen
         ap.setLKZ(true);
         
+        //Auftragsposition persisieren
         em.persist(ap);
     }
 
     
 //</editor-fold>
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 10.12.14   loe     angelegt                              */
+    /*----------------------------------------------------------*/
     /**
      * Loginfunktion
      * @param username Benutzername
@@ -2114,6 +2121,10 @@ public class DataAccessObject {
         }
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 12.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
     /**
      * Methode zur Generierung eines MD5 Hashs aus dem Passwort
      * @param password Eingegebenes Passwort
@@ -2143,6 +2154,19 @@ public class DataAccessObject {
         }
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 17.01.15   loe     angelegt                              */
+    /* 18.01.15   loe     überarbeitet                          */
+    /*----------------------------------------------------------*/
+    /**
+     * Methode zum Ändern der Positionen.
+     * Diese Methode sollte nur in der Methode "aendereAuftrag" aufgerufen werden!
+     * @param Auftrag Auftragskopf-Objekt
+     * @param artikel HashMap: Key = Artikel-ID, Value = Menge
+     * @throws ApplicationException wenn zu den übergebenen IDs keine passenden
+     *                              Objekte gefunden werden können
+     */
     private void aenderePositionen(Auftragskopf Auftrag, HashMap<Long, Integer> artikel) 
             throws ApplicationException {
         
