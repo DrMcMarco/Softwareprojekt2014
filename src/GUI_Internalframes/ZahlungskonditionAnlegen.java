@@ -122,6 +122,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      */
     @Override
     public final void zuruecksetzen() {
+        try {
         zknummer = this.dao.gibNaechsteZahlungskonditionID();
         jTF_ZahlungskonditionID.requestFocus();
         jTF_ZahlungskonditionID.setText("" + zknummer);
@@ -140,6 +141,9 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         jSP_Mahnzeit3.setValue(1);
 
         fehlerhafteComponenten.clear();
+        }catch (NullPointerException e) {
+            System.out.println(e.getMessage());
+        }
     }
     
     
@@ -679,16 +683,16 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
 //      werden die Eingaben in die entsprechenden Variablen gespeichert
         if (fehlerhafteComponenten.isEmpty()) {
             String auftragsart = (String) jCB_Auftragsart.getSelectedItem();
-            int lieferzeitSOFORT = 0;
-            int sperrzeitWunsch = 0;
-            int skontozeit1 = 0;
-            int skontozeit2 = 0;
-            double skonto1 = 0;
-            double skonto2 = 0;
-            int mahnzeit1 = 0;
-            int mahnzeit2 = 0;
-            int mahnzeit3 = 0;
-            long zknr = 0;
+            int lieferzeitSOFORT;
+            int sperrzeitWunsch;
+            int skontozeit1;
+            int skontozeit2;
+            double skonto1;
+            double skonto2;
+            int mahnzeit1;
+            int mahnzeit2;
+            int mahnzeit3;
+            long zknr;
 
             try {
                 zknr = nf.parse(jTF_ZahlungskonditionID.getText()).longValue();
@@ -746,7 +750,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                 }
 
 //          Artikel wird in ArrayList für Artikel hinzugefuegt     
-            } catch (ParseException | ApplicationException ex) {
+            } catch (ParseException | ApplicationException | NullPointerException ex ) {
                 System.out.println(ex.getMessage());
             }
 //          das Formular wird zurueckgesetzt  
@@ -797,7 +801,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                 factory.getDAO().loescheZahlungskondition(zknr);
                 jB_ZurueckActionPerformed(evt);
             }
-        } catch (ParseException | ApplicationException ex) {
+        } catch (ParseException | ApplicationException | NullPointerException ex) {
             System.out.println(ex.getMessage());
         }
     }//GEN-LAST:event_jB_LoeschenActionPerformed

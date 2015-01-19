@@ -131,7 +131,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
             }
             jCB_Kategorie.setModel(new DefaultComboBoxModel(kategorienFuerCombobox.toArray()));
         } catch (ApplicationException | NullPointerException ex) {
-            System.out.println("Fehler beim Laden der Kategorien");
+            System.out.println("Fehler beim Laden der Kategorien " + ex.getMessage());
         }
     }
 
@@ -173,24 +173,28 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
      */
     @Override
     public final void zuruecksetzen() {
-        artikelnummer = this.dao.gibNaechsteArtikelnummer();
-        jTF_Artikelnummer.setText("" + artikelnummer);
-        jTF_Artikelname.setText("");
-        jTF_Artikelname.setBackground(JTF_FARBE_STANDARD);
-        jTA_Artikelbeschreibung.setText("");
-        jTA_Artikelbeschreibung.setBackground(JTF_FARBE_STANDARD);
-        jCB_Kategorie.setSelectedIndex(0);
-        jCB_Kategorie.setBackground(JCB_FARBE_STANDARD);
-        jTF_Einzelwert.setText("");
-        jTF_Einzelwert.setBackground(JTF_FARBE_STANDARD);
-        jTF_Bestellwert.setText("");
-        jTF_Bestellwert.setBackground(JTF_FARBE_STANDARD);
-        jCB_MwST.setSelectedIndex(0);
-        jCB_MwST.setBackground(JCB_FARBE_STANDARD);
-        jTF_Bestandsmenge_FREI.setText("");
-        jTF_Bestandsmenge_FREI.setBackground(JTF_FARBE_STANDARD);
+        try {
+            artikelnummer = this.dao.gibNaechsteArtikelnummer();
+            jTF_Artikelnummer.setText("" + artikelnummer);
+            jTF_Artikelname.setText("");
+            jTF_Artikelname.setBackground(JTF_FARBE_STANDARD);
+            jTA_Artikelbeschreibung.setText("");
+            jTA_Artikelbeschreibung.setBackground(JTF_FARBE_STANDARD);
+            jCB_Kategorie.setSelectedIndex(0);
+            jCB_Kategorie.setBackground(JCB_FARBE_STANDARD);
+            jTF_Einzelwert.setText("");
+            jTF_Einzelwert.setBackground(JTF_FARBE_STANDARD);
+            jTF_Bestellwert.setText("");
+            jTF_Bestellwert.setBackground(JTF_FARBE_STANDARD);
+            jCB_MwST.setSelectedIndex(0);
+            jCB_MwST.setBackground(JCB_FARBE_STANDARD);
+            jTF_Bestandsmenge_FREI.setText("");
+            jTF_Bestandsmenge_FREI.setBackground(JTF_FARBE_STANDARD);
 
-        fehlerhafteComponenten.clear();
+            fehlerhafteComponenten.clear();
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
@@ -680,10 +684,10 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
             String artikelname;
             String artikelbeschreibung;
             String kategorie;
-            double einzelwert = 0;
-            double bestellwert = 0;
-            int mwst = 0;
-            int bestandsmengeFREI = 0;
+            double einzelwert;
+            double bestellwert;
+            int mwst;
+            int bestandsmengeFREI;
             int bestandsmengeRESERVIERT = 0;
             int bestandsmengeZULAUF = 0;
             int bestandsmengeVERKAUFT = 0;
@@ -713,7 +717,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                     //                zunächst werden die Felder des Formulars neue gelesen.
                     long artikelnr = nf.parse(jTF_Artikelnummer.getText()).longValue();
 
-                    Artikel artikelVorher = this.factory.getDAO().getItem(artikelnr); // Artikel Vorher aus Datenbank laden
+                    Artikel artikelVorher = this.dao.getItem(artikelnr); // Artikel Vorher aus Datenbank laden
                     Artikel artikelNachher = new Artikel(artikelVorher.getKategorie(), // vergleich Artikel erzeugen
                             artikelname, artikelbeschreibung,
                             einzelwert, bestellwert, mwst, bestandsmengeFREI,
@@ -741,7 +745,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
 
                 }
 
-            } catch (ApplicationException | ParseException e) {
+            } catch (ApplicationException | ParseException | NullPointerException e) {
                 System.out.println("Fehler in Sicht Artikel anlegen Methode Speichern " + e.getMessage());
             }
         } else {
@@ -881,7 +885,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                 long artikelnr = nf.parse(jTF_Artikelnummer.getText()).longValue();
                 int antwort = JOptionPane.showConfirmDialog(null, "Soll der Artikel wirklich gelöscht werden?", "Artikel löschen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (antwort == JOptionPane.YES_OPTION) {
-                    factory.getDAO().loescheArtikel(artikelnr);
+                    this.dao.loescheArtikel(artikelnr);
                     jB_ZurueckActionPerformed(evt);
                 }
             } catch (ParseException | ApplicationException ex) {
@@ -989,7 +993,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         jTF_Einzelwert.setEnabled(true);
         jTF_Bestellwert.setEnabled(true);
         jCB_MwST.setEnabled(true);
-        jTF_Bestandsmenge_FREI.setEnabled(true);
+        jTF_Bestandsmenge_FREI.setEnabled(false);
 
         jB_Speichern.setEnabled(true);
         jB_AnzeigenAEndern.setEnabled(true);

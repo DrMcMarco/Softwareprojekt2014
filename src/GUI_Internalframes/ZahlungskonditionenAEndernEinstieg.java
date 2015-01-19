@@ -229,6 +229,8 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
         } catch (ApplicationException ex) {
             this.hauptFenster.setStatusMeldung("Kein passender Geschäftspartner in Datenbank! " + ex.getMessage());
             jTF_Zahlungskondition_ID.setText("");
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_jB_EnterActionPerformed
 

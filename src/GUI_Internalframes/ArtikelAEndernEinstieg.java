@@ -216,6 +216,8 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
             this.hauptFenster.setStatusMeldung("Kein passender Artikel in Datenbank!");
 //            jTF_Artikel_ID.setText("");
             zuruecksetzen();
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_jB_EnterActionPerformed
 

@@ -122,8 +122,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 
         jTF_Name.setDocument(new UniversalDocument("-.´", true));
         jTF_Vorname.setDocument(new UniversalDocument("-.´", true));
-        jTF_Telefon.setDocument(new UniversalDocument("0123456789/-", false));
-        jTF_Fax.setDocument(new UniversalDocument("0123456789/", false));
+        jTF_Telefon.setDocument(new UniversalDocument("0123456789/-+", false));
+        jTF_Fax.setDocument(new UniversalDocument("0123456789/-+", false));
         jTF_EMail.setDocument(new UniversalDocument("0123456789@-.", true));
         jTF_Kreditlimit.setDocument(new UniversalDocument("0123456789.,", false));
         jTF_StrasseRechnungsanschrift.setDocument(new UniversalDocument("-.´", true));
@@ -227,44 +227,48 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      */
     @Override
     public void zuruecksetzen() {
-        geschaeftspartnerNr = this.factory.getDAO().gibNaechsteGeschaeftpartnerID();
-        jTF_GeschaeftspartnerID.setText("" + geschaeftspartnerNr);
-        jCHB_Kunde.setSelected(false);
-        jCHB_Lieferant.setSelected(false);
-        jCB_Anrede.setSelectedIndex(0);
-        jCB_Anrede.setBackground(JCB_FARBE_STANDARD);
-        jTF_Name.setText("");
-        jTF_Name.setBackground(JTF_FARBE_STANDARD);
-        jTF_Vorname.setText("");
-        jTF_Vorname.setBackground(JTF_FARBE_STANDARD);
-        jTF_Telefon.setText("");
-        jTF_Telefon.setBackground(JTF_FARBE_STANDARD);
-        jTF_Fax.setText("");
-        jTF_Fax.setBackground(JTF_FARBE_STANDARD);
-        jFTF_Geburtsdatum.setValue(null);
-        jFTF_Geburtsdatum.setBackground(JTF_FARBE_STANDARD);
-        jFTF_Erfassungsdatum.setText(aktuellesDatum);
-        jTF_EMail.setText("");
-        jTF_EMail.setBackground(JTF_FARBE_STANDARD);
-        jTF_Kreditlimit.setText("");
-        jTF_Kreditlimit.setBackground(JTF_FARBE_STANDARD);
-        jTF_StrasseRechnungsanschrift.setText("");
-        jTF_StrasseRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
-        jTF_HausnummerRechnungsanschrift.setText("");
-        jTF_HausnummerRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
-        jTF_PLZRechnungsanschrift.setText("");
-        jTF_PLZRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
-        jTF_OrtRechnungsanschrift.setText("");
-        jTF_OrtRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
-        jCHB_WieAnschrift.setSelected(false);
-        jCHB_WieAnschriftActionPerformed(null);
-        jTF_StrasseLieferanschrift.setBackground(JTF_FARBE_STANDARD);
-        jTF_HausnummerLieferanschrift.setBackground(JTF_FARBE_STANDARD);
-        jTF_PLZLieferanschrift.setBackground(JTF_FARBE_STANDARD);
-        jTF_OrtLieferanschrift.setBackground(JTF_FARBE_STANDARD);
+        try {
+            geschaeftspartnerNr = this.dao.gibNaechsteGeschaeftpartnerID();
+            jTF_GeschaeftspartnerID.setText("" + geschaeftspartnerNr);
+            jCHB_Kunde.setSelected(false);
+            jCHB_Lieferant.setSelected(false);
+            jCB_Anrede.setSelectedIndex(0);
+            jCB_Anrede.setBackground(JCB_FARBE_STANDARD);
+            jTF_Name.setText("");
+            jTF_Name.setBackground(JTF_FARBE_STANDARD);
+            jTF_Vorname.setText("");
+            jTF_Vorname.setBackground(JTF_FARBE_STANDARD);
+            jTF_Telefon.setText("");
+            jTF_Telefon.setBackground(JTF_FARBE_STANDARD);
+            jTF_Fax.setText("");
+            jTF_Fax.setBackground(JTF_FARBE_STANDARD);
+            jFTF_Geburtsdatum.setValue(null);
+            jFTF_Geburtsdatum.setBackground(JTF_FARBE_STANDARD);
+            jFTF_Erfassungsdatum.setText(aktuellesDatum);
+            jTF_EMail.setText("");
+            jTF_EMail.setBackground(JTF_FARBE_STANDARD);
+            jTF_Kreditlimit.setText("");
+            jTF_Kreditlimit.setBackground(JTF_FARBE_STANDARD);
+            jTF_StrasseRechnungsanschrift.setText("");
+            jTF_StrasseRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
+            jTF_HausnummerRechnungsanschrift.setText("");
+            jTF_HausnummerRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
+            jTF_PLZRechnungsanschrift.setText("");
+            jTF_PLZRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
+            jTF_OrtRechnungsanschrift.setText("");
+            jTF_OrtRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
+            jCHB_WieAnschrift.setSelected(false);
+            jCHB_WieAnschriftActionPerformed(null);
+            jTF_StrasseLieferanschrift.setBackground(JTF_FARBE_STANDARD);
+            jTF_HausnummerLieferanschrift.setBackground(JTF_FARBE_STANDARD);
+            jTF_PLZLieferanschrift.setBackground(JTF_FARBE_STANDARD);
+            jTF_OrtLieferanschrift.setBackground(JTF_FARBE_STANDARD);
 
 //        fehlerhafteComponenten werden immer gelöscht, wenn das Formular zureckgesetzt wird!
-        fehlerhafteComponenten.clear();
+            fehlerhafteComponenten.clear();
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
@@ -1039,7 +1043,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                     jCHB_Kunde.requestFocusInWindow();
                 }
 
-            } catch (ApplicationException | ParseException e) {
+            } catch (ApplicationException | ParseException | NullPointerException e) {
                 System.out.println(e.getMessage());
             }
         } else {
@@ -1448,7 +1452,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                 this.dao.loescheGeschaeftspartner(gpnr);
                 jB_ZurueckActionPerformed(evt);
             }
-        } catch (ParseException | ApplicationException ex) {
+        } catch (ParseException | ApplicationException |NullPointerException ex) {
             System.out.println(ex.getMessage());
         }
     }//GEN-LAST:event_jB_LoeschenActionPerformed
