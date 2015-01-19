@@ -5,11 +5,15 @@
  */
 package Interfaces;
 
+import GUI_Internalframes.ArtikelAEndernEinstieg;
 import GUI_Internalframes.ArtikelAnlegen;
+import GUI_Internalframes.AuftragskopfAendern;
 import GUI_Internalframes.AuftragskopfAnlegen;
+import GUI_Internalframes.AuftragspositionAendern;
+import GUI_Internalframes.GeschaeftspartnerAEndernEinstieg;
 import GUI_Internalframes.GeschaeftspartnerAnlegen;
+import GUI_Internalframes.ZahlungskonditionenAEndernEinstieg;
 import java.awt.Component;
-import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 
 /**
@@ -101,4 +105,13 @@ public interface InterfaceMainView {
     
     public GeschaeftspartnerAnlegen gibGeschaeftspartneranlegenFenster();
     
+    public ArtikelAEndernEinstieg gibArtikelaendernEinstieg();
+    
+    public GeschaeftspartnerAEndernEinstieg gibGeschaeftspartnerAendernEinstieg();
+    
+    public ZahlungskonditionenAEndernEinstieg gibZkAendernEinstieg();
+    
+    public AuftragskopfAendern gibAkAendernEinstieg();
+    
+    public AuftragspositionAendern gibPositionAendernEinstieg();
 }

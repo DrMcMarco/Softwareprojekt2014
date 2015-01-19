@@ -94,7 +94,7 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(true);
-        setTitle("Zahlungskonditionen ändern");
+        setTitle("Zahlungskonditionen ändern Einstieg");
         setPreferredSize(new java.awt.Dimension(580, 300));
         setRequestFocusEnabled(false);
         setVisible(true);

@@ -305,7 +305,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
-                    this.internal.artikelaendern.setTitle("Artikel ändern");
+                    this.internal.artikelaendern.setTitle("Artikel ändern Einstieg");
                     setComponentVisible(this.internal.artikelaendern);
                     this.internal.artikelanlegen.setzeFormularInArtikelAEndern();
                 }
@@ -332,7 +332,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufendenen Maske ein Titel übergeben.
-                    this.internal.geschaeftspartneraendern.setTitle("Geschäftspartner ändern");
+                    this.internal.geschaeftspartneraendern.setTitle("Geschäftspartner ändern Einstieg");
                     setComponentVisible(this.internal.geschaeftspartneraendern);
                     this.internal.geschaeftspartneranlegen.setzeFormularInGPAEndern();
                 }
@@ -359,7 +359,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufendenen Maske ein Titel übergeben.
-                    this.internal.zahlungskonditionaendern.setTitle("Zahlungskonditionen ändern");
+                    this.internal.zahlungskonditionaendern.setTitle("Zahlungskondition ändern Einstieg");
                     setComponentVisible(this.internal.zahlungskonditionaendern);
                     this.internal.zahlungskonditionanlegen.setzeFormularInZKAEndern();
                 }

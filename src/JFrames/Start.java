@@ -919,6 +919,30 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         return this.geschaeftspartneranlegen;
     }
     
+    @Override
+    public ZahlungskonditionenAEndernEinstieg gibZkAendernEinstieg() {
+        return this.zahlungskonditionaendern;
+    }
+    
+    @Override
+    public GeschaeftspartnerAEndernEinstieg gibGeschaeftspartnerAendernEinstieg() {
+        return this.geschaeftspartneraendern;
+    }
+    
+    @Override
+    public ArtikelAEndernEinstieg gibArtikelaendernEinstieg() {
+        return this.artikelaendern;
+    }
+    @Override
+    public AuftragskopfAendern gibAkAendernEinstieg() {
+        return this.auftragskopfaendern;
+    }
+    
+    @Override
+    public AuftragspositionAendern gibPositionAendernEinstieg() {
+        return this.auftragsspositionaender;
+    }
+    
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt und Logik implementiert*/

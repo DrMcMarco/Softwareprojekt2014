@@ -1043,7 +1043,29 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     public String gibTitel() {
         return this.letzteAnzeige.getTitle();
     }
+    @Override
+    public ZahlungskonditionenAEndernEinstieg gibZkAendernEinstieg() {
+        return this.zahlungskonditionaendern;
+    }
     
+    @Override
+    public GeschaeftspartnerAEndernEinstieg gibGeschaeftspartnerAendernEinstieg() {
+        return this.geschaeftspartneraendern;
+    }
+    
+    @Override
+    public ArtikelAEndernEinstieg gibArtikelaendernEinstieg() {
+        return this.artikelaendern;
+    }
+    @Override
+    public AuftragskopfAendern gibAkAendernEinstieg() {
+        return this.auftragskopfaendern;
+    }
+    
+    @Override
+    public AuftragspositionAendern gibPositionAendernEinstieg() {
+        return this.auftragsspositionaender;
+    }
     /**
      * @param args the command line arguments
      */
