@@ -5,6 +5,7 @@ import DTO.*;
 import DAO.DataAccessObject;
 import Documents.UniversalDocument;
 import Interfaces.InterfaceMainView;
+import Interfaces.InterfaceViewsFunctionality;
 import JFrames.GUIFactory;
 import java.awt.Color;
 import java.awt.Component;
@@ -56,28 +57,25 @@ import javax.swing.text.MaskFormatter;
  * 17.01.2015 Schulz Suchbutton event eingefügt Set Methode zum setzen der
  * Anschriftsdaten aus einem Anschrifts- objekt
  */
-public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
+public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
-    Component c;
-    GUIFactory factory;
-    DataAccessObject dao;
-    InterfaceMainView hauptFenster;
+    private Component c;
+    private GUIFactory factory;
+    private DataAccessObject dao;
+    private InterfaceMainView hauptFenster;
 
-    Anschrift anschrift;
-    Anschrift lieferanschrift;
+    private Anschrift anschrift;
+    private Anschrift lieferanschrift;
 
     private String aktuellesDatum;
 
 //  ArrayList, um fehlerhafte Componenten zu speichern.    
     private ArrayList<Component> fehlerhafteComponenten;
 //  ArrayList, um angelegte Artikel zu speichern     
-//    public ArrayList<Zahlungskondition> zkListe;
 //  Insantzvariablen für die standard Farben der Componenten    
     private final Color JCB_FARBE_STANDARD = new Color(214, 217, 223);
     private final Color JTF_FARBE_STANDARD = new Color(255, 255, 255);
-//  Insantzvariablen für die Farben von fehlerhaften Componenten         
-//    private final Color FARBE_FEHLERHAFT = new Color(255, 239, 219);
-//    private final Color FARBE_FEHLERHAFT = new Color(255, 165, 79);
+//  Insantzvariablen für die Farben von fehlerhaften Componenten       
     private final Color FARBE_FEHLERHAFT = Color.YELLOW;
 //  Insantzvariablen für die Meldungen         
     private final String MELDUNG_PFLICHTFELDER_TITEL = "Felder nicht ausgefüllt";
@@ -96,30 +94,10 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     private final String GP_AENDERN = "Geschäftspartner ändern";
     private final String GP_ANZEIGEN = "Geschäftspartner anzeigen";
 
-    private String typVorher;
-    private String anredeVorher;
-    private String nameVorher;
-    private String vornameVorher;
-    private String telefonVorher;
-    private String faxVorher;
-    private String geburtsdatumVorher;
-    private String eMailVorher;
-    private String kreditlimitVorher;
-    private String strasseRechnungsanschriftVorher;
-    private String hausnummerRechnungsanschriftVorher;
-    private String plzRechnungsanschriftVorher;
-    private String ortRechnungsanschriftVorher;
-    private String strasseLieferanschriftVorher;
-    private String hausnummerLieferanschriftVorher;
-    private String plzLieferanschriftVorher;
-    private String ortLieferanschriftVorher;
-
     private NumberFormat nf;
-    Calendar cal = Calendar.getInstance();
+    private Calendar cal = Calendar.getInstance();
 
-    Date eingabeGeburtsdatum;
-
-    Date tempGebuDate;
+    private Date eingabeGeburtsdatum;
 
     private int anzahlFehlerhafterComponenten = 16;
 
@@ -131,7 +109,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         initComponents();
         fehlerhafteComponenten = new ArrayList<>();
         this.factory = factory;
-        this.dao = factory.getDAO();
+        this.dao = GUIFactory.getDAO();
         this.hauptFenster = mainView;
         FORMAT = new SimpleDateFormat("dd.MM.yyyy");
         FORMAT.setLenient(false);
@@ -164,16 +142,11 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         DateFormat df_jTF = DateFormat.getDateInstance();
         df_jTF.setLenient(false);
         DateFormatter dform1 = new DateFormatter(df_jTF);
-//        DateFormatter dform2 = new DateFormatter(df_jTF);
         dform1.setOverwriteMode(true);
-//        dform2.setOverwriteMode(true);
         dform1.setAllowsInvalid(false);
-//        dform2.setAllowsInvalid(false);
         DefaultFormatterFactory dff1 = new DefaultFormatterFactory(dform1);
-//        DefaultFormatterFactory dff2 = new DefaultFormatterFactory(dform2);
         jFTF_Erfassungsdatum.setFormatterFactory(dff1);
         jFTF_Erfassungsdatum.setText(aktuellesDatum);
-//        jFTF_Geburtsdatum.setFormatterFactory(dff2);
 
         MaskFormatter mf = null;
         try {
@@ -188,14 +161,15 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         DefaultFormatterFactory dff = new DefaultFormatterFactory(mf);
         jFTF_Geburtsdatum.setFormatterFactory(dff);
         jFTF_Geburtsdatum.setText("##.##.####");
-        this.setzeFormularZurueck();
+        this.zuruecksetzen();
     }
 
     /*
      * Methode die überprüft, welche Componenten fehlerhaft sind.
      * Fehlerhafte Componenten werden in einer ArrayList gespeichert.
      */
-    private void ueberpruefeFormular() {
+    @Override
+    public void ueberpruefen() {
         if (jCB_Anrede.getSelectedIndex() == 0) {
             fehlerhafteComponenten.add(jCB_Anrede);
         }
@@ -248,10 +222,11 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         }
     }
 
-    /*
+    /**
      * Methode, die die das Formular zurücksetzt.
      */
-    public final void setzeFormularZurueck() {
+    @Override
+    public void zuruecksetzen() {
         geschaeftspartnerNr = this.factory.getDAO().gibNaechsteGeschaeftpartnerID();
         jTF_GeschaeftspartnerID.setText("" + geschaeftspartnerNr);
         jCHB_Kunde.setSelected(false);
@@ -290,12 +265,37 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
 
 //        fehlerhafteComponenten werden immer gelöscht, wenn das Formular zureckgesetzt wird!
         fehlerhafteComponenten.clear();
+    }
 
+    @Override
+    public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
+        if (!textfield.getText().matches(syntax)) {
+            JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
+            textfield.requestFocusInWindow();
+            textfield.setText("");
+        } else if (!textfield.getText().equals("")) {
+            textfield.setBackground(JTF_FARBE_STANDARD);
+        }
+    }
+
+    @Override
+    public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
+//          fehlerhafteComponenten ist nicht leer (es sind fehlerhafte Componenten vorhanden)
+//          eine Meldung wird ausgegeben  
+        JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
+//          an die erste fehlerhafte Componenten wird der Focus gesetzt  
+        list.get(0).requestFocusInWindow();
+//          ueber die fehlerhaften Komponenten wird iteriert und bei allen fehlerhaften Componenten wird der Hintergrund in der fehlerhaften Farbe gefaerbt 
+        for (int i = 0; i <= list.size() - 1; i++) {
+            list.get(i).setBackground(farbe);
+        }
+//          ArrayList fue fehlerhafte Componenten wird geleert
+        list.clear();
     }
 
     private void beendenEingabeNachfrage() {
         if (this.getTitle().equals(GP_ANLEGEN) || this.getTitle().equals(GP_AENDERN)) {
-            ueberpruefeFormular();
+            ueberpruefen();
             String meldung = "Möchten Sie die Eingaben verwerfen? Klicken Sie auf JA, wenn Sie die Eingaben verwerfen möchten.";
             String titel = "Achtung Eingaben gehen verloren!";
             if (this.getTitle().equals(GP_AENDERN)) {
@@ -305,18 +305,18 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
             if (fehlerhafteComponenten.size() < anzahlFehlerhafterComponenten) {
                 int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (antwort == JOptionPane.YES_OPTION) {
-                    setzeFormularZurueck();
+                    zuruecksetzen();
                     this.setVisible(false);
                     jB_ZurueckActionPerformed(null);
                 } else {
                     fehlerhafteComponenten.clear();
                 }
             } else {
-                setzeFormularZurueck();
+                zuruecksetzen();
                 this.setVisible(false);
             }
         } else {
-            setzeFormularZurueck();
+            zuruecksetzen();
             this.setVisible(false);
             jB_ZurueckActionPerformed(null);
         }
@@ -919,7 +919,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
      */
     private void jB_SpeichernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SpeichernActionPerformed
         //      zunaechst werdne die Eingaben ueberprueft.    
-        ueberpruefeFormular();
+        ueberpruefen();
         String typ;
         String titel;
         String name;
@@ -963,13 +963,11 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
 
             try {
                 kreditlimit = nf.parse(jTF_Kreditlimit.getText()).doubleValue();
-            } catch (ParseException e) {
-                System.out.println(e.getMessage());
-            }
-            if (jCHB_Kunde.isSelected() || jCHB_Lieferant.isSelected()) {
+
+                if (jCHB_Kunde.isSelected() || jCHB_Lieferant.isSelected()) {
 //                speichern fuer aendern wird aufgerufen
-                if (this.getTitle().equals(GP_ANLEGEN)) {
-                    try {
+                    if (this.getTitle().equals(GP_ANLEGEN)) {
+
                         anschrift = this.dao.createAdress("Rechnungsadresse", name, vorname,
                                 titel, strasseAnschrift, hausnummerAnschrift, plzAnschrift,
                                 ortAnschrift, "Deutschland", telefon, fax, eMail, eingabeGeburtsdatum);
@@ -982,17 +980,14 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
                                     ortLieferanschrift, "Deutschland", telefon, fax, eMail, eingabeGeburtsdatum);
                         }
                         this.dao.createBusinessPartner(typ, lieferanschrift, anschrift, kreditlimit);
-                    } catch (ApplicationException e) {
-                        System.out.println(e.getMessage());
-                    }
-                    setzeFormularZurueck();
-                } else {
-                    long gpnr = 0;
 
-                    Anschrift rechnungsanschriftNachher;
-                    Anschrift lieferanschriftNachher;
+                        zuruecksetzen();
+                    } else {
+                        long gpnr = 0;
 
-                    try {
+                        Anschrift rechnungsanschriftNachher;
+                        Anschrift lieferanschriftNachher;
+
                         eingabeGeburtsdatum = FORMAT.parse(jFTF_Geburtsdatum.getText());
                         gpnr = nf.parse(jTF_GeschaeftspartnerID.getText()).longValue();
 
@@ -1024,41 +1019,42 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
 //                            System.out.println(gpNachher.getLieferadresse());
 //                            System.out.println(gpNachher.getRechnungsadresse());
                             if (antwort == JOptionPane.YES_OPTION) { // falls ja,
-                                try { // Geschäftspartner verändern
-                                    this.dao.aendereGeschaeftspartner(gpVorher.getGeschaeftspartnerID(), jCHB_WieAnschrift.isSelected(),
-                                            kreditlimit, name, vorname, titel, strasseAnschrift, hausnummerAnschrift,
-                                            plzAnschrift, ortAnschrift, strasseLieferanschrift, hausnummerLieferanschrift,
-                                            plzLieferanschrift, ortLieferanschrift, "Deutschland", telefon, fax, eMail, eingabeGeburtsdatum);
-                                } catch (ApplicationException e) { // falls ein Fehler auftaucht
-                                    System.out.println("Fehler beim veraendern des Geschäftspartners in Sicht Geschäftspartner Anlegen Methode speichern: " + e.getMessage());
-                                }
-                                setzeFormularZurueck(); // Formular zuruecksetzen
+
+                                this.dao.aendereGeschaeftspartner(gpVorher.getGeschaeftspartnerID(), jCHB_WieAnschrift.isSelected(),
+                                        kreditlimit, name, vorname, titel, strasseAnschrift, hausnummerAnschrift,
+                                        plzAnschrift, ortAnschrift, strasseLieferanschrift, hausnummerLieferanschrift,
+                                        plzLieferanschrift, ortLieferanschrift, "Deutschland", telefon, fax, eMail, eingabeGeburtsdatum);
+
+                                zuruecksetzen(); // Formular zuruecksetzen
                                 this.setVisible(false); // diese Sicht ausblenden 
                                 jB_ZurueckActionPerformed(null); // Button Zurueck Action ausführen
                             } else {
                                 fehlerhafteComponenten.clear(); // Nein button wird geklickt, keine Aktion nur fehlerhafte Komponenten müssen geleert werden
                             }
                         }
-                    } catch (ApplicationException | ParseException e) {
-                        System.out.println(e.getMessage());
+
                     }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Bitte wählen Sie den Typ des Geschäftspartners.", "Unvollständige Eingabe", JOptionPane.ERROR_MESSAGE);
+                    jCHB_Kunde.requestFocusInWindow();
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "Bitte wählen Sie den Typ des Geschäftspartners.", "Unvollständige Eingabe", JOptionPane.ERROR_MESSAGE);
-                jCHB_Kunde.requestFocusInWindow();
+
+            } catch (ApplicationException | ParseException e) {
+                System.out.println(e.getMessage());
             }
         } else {
-//          fehlerhafteComponenten ist nicht leer (es sind fehlerhafte Componenten vorhanden)
-//          eine Meldung wird ausgegeben  
-            JOptionPane.showMessageDialog(null, MELDUNG_PFLICHTFELDER_TEXT, MELDUNG_PFLICHTFELDER_TITEL, JOptionPane.ERROR_MESSAGE);
-//          an die erste fehlerhafte Componenten wird der Focus gesetzt  
-            fehlerhafteComponenten.get(0).requestFocusInWindow();
-//          ueber die fehlerhaften Komponenten wird iteriert und bei allen fehlerhaften Componenten wird der Hintergrund in der fehlerhaften Farbe gefaerbt 
-            for (int i = 0; i <= fehlerhafteComponenten.size() - 1; i++) {
-                fehlerhafteComponenten.get(i).setBackground(FARBE_FEHLERHAFT);
-            }
-//          ArrayList fue fehlerhafte Componenten wird geleert
-            fehlerhafteComponenten.clear();
+////          fehlerhafteComponenten ist nicht leer (es sind fehlerhafte Componenten vorhanden)
+////          eine Meldung wird ausgegeben  
+//            JOptionPane.showMessageDialog(null, MELDUNG_PFLICHTFELDER_TEXT, MELDUNG_PFLICHTFELDER_TITEL, JOptionPane.ERROR_MESSAGE);
+////          an die erste fehlerhafte Componenten wird der Focus gesetzt  
+//            fehlerhafteComponenten.get(0).requestFocusInWindow();
+////          ueber die fehlerhaften Komponenten wird iteriert und bei allen fehlerhaften Componenten wird der Hintergrund in der fehlerhaften Farbe gefaerbt 
+//            for (int i = 0; i <= fehlerhafteComponenten.size() - 1; i++) {
+//                fehlerhafteComponenten.get(i).setBackground(FARBE_FEHLERHAFT);
+//            }
+////          ArrayList fue fehlerhafte Componenten wird geleert
+//            fehlerhafteComponenten.clear();
+            fehlEingabenMarkierung(fehlerhafteComponenten, MELDUNG_PFLICHTFELDER_TITEL, MELDUNG_PFLICHTFELDER_TEXT, FARBE_FEHLERHAFT);
         }
 
     }//GEN-LAST:event_jB_SpeichernActionPerformed
@@ -1091,30 +1087,46 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
      * Wenn nicht, wird eine Meldung ausgegeben.
      */
     private void jTF_TelefonFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_TelefonFocusLost
-        if (!jTF_Telefon.getText().matches(PRUEFUNG_TELEFON)) {
-            String meldung = "Die eingegebene Telefonnummer ist nicht richtig! \n Bitte geben Sie eine richtige Telefonnummer ein. (z.B. 1234123)";
-            String titel = "Fehlerhafte Eingabe";
-            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-            jTF_Telefon.requestFocusInWindow();
-            jTF_Telefon.setText("");
-        } else if (!jTF_Telefon.getText().equals("")) {
-            jTF_Telefon.setBackground(JTF_FARBE_STANDARD);
-        }
+//        if (!jTF_Telefon.getText().matches(PRUEFUNG_TELEFON)) {
+//            String meldung = "Die eingegebene Telefonnummer ist nicht richtig! \n Bitte geben Sie eine richtige Telefonnummer ein. (z.B. 1234123)";
+//            String titel = "Fehlerhafte Eingabe";
+//            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+//            jTF_Telefon.requestFocusInWindow();
+//            jTF_Telefon.setText("");
+//        } else if (!jTF_Telefon.getText().equals("")) {
+//            jTF_Telefon.setBackground(JTF_FARBE_STANDARD);
+//        }
+        String meldung = "Die eingegebene Telefonnummer ist nicht richtig! \n Bitte geben Sie eine richtige Telefonnummer ein. (z.B. 1234123)";
+        String titel = "Fehlerhafte Eingabe";
+        ueberpruefungVonFocusLost(jTF_Telefon, PRUEFUNG_TELEFON, titel, meldung);
+
     }//GEN-LAST:event_jTF_TelefonFocusLost
     /*
      * Methode prüft, ob Eingabe getätigt wurde. Wenn Eingabe korrekt ist, wird der Hintergrund in standard gefärbt.
      * Wenn nicht, wird eine Meldung ausgegeben.
      */
     private void jTF_FaxFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_FaxFocusLost
-        if (!jTF_Fax.getText().matches(PRUEFUNG_TELEFON)) {
-            String meldung = "Die eingegebene Faxnummer ist nicht richtig! \n Bitte geben Sie eine richtige Faxnummer ein. (z.B. 1234123)";
-            String titel = "Fehlerhafte Eingabe";
-            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-            jTF_Fax.requestFocusInWindow();
-            jTF_Fax.setText("");
-        } else if (!jTF_Fax.getText().equals("")) {
-            jTF_Fax.setBackground(JTF_FARBE_STANDARD);
-        }
+//        if (!jTF_Fax.getText().matches(PRUEFUNG_TELEFON)) {
+//            String meldung = "Die eingegebene Faxnummer ist nicht richtig! \n Bitte geben Sie eine richtige Faxnummer ein. (z.B. 1234123)";
+//            String titel = "Fehlerhafte Eingabe";
+//            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+//            jTF_Fax.requestFocusInWindow();
+//            jTF_Fax.setText("");
+//        } else if (!jTF_Fax.getText().equals("")) {
+//            jTF_Fax.setBackground(JTF_FARBE_STANDARD);
+//        }
+
+//        if (!textfield.getText().matches(syntax)) {
+//            JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
+//            textfield.requestFocusInWindow();
+//            textfield.setText("");
+//        } else if (!textfield.getText().equals("")) {
+//            textfield.setBackground(JTF_FARBE_STANDARD);
+//        }
+        String meldung = "Die eingegebene Faxnummer ist nicht richtig! \n Bitte geben Sie eine richtige Faxnummer ein. (z.B. 1234123)";
+        String titel = "Fehlerhafte Eingabe";
+        ueberpruefungVonFocusLost(jTF_Fax, PRUEFUNG_TELEFON, titel, meldung);
+
     }//GEN-LAST:event_jTF_FaxFocusLost
     /*
      * Methode die prüft, ob das einegegebene Geburtsdatum gültig ist.
@@ -1159,15 +1171,29 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
      * Wenn nicht, wird eine Meldung ausgegeben.
      */
     private void jTF_EMailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_EMailFocusLost
-        if (!jTF_EMail.getText().matches(PRUEFUNG_EMAIL)) {
-            String meldung = "Die einegebene eMail ist nicht richtig! \nBitte geben Sie eine richtige eMail Adresse ein. (z.B. abc@abc.de)";
-            String titel = "Fehlerhafte Eingabe";
-            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-            jTF_EMail.requestFocusInWindow();
-            jTF_EMail.setText("");
-        } else if (!jTF_EMail.getText().equals("")) {
-            jTF_EMail.setBackground(JTF_FARBE_STANDARD);
-        }
+//        if (!jTF_EMail.getText().matches(PRUEFUNG_EMAIL)) {
+//            String meldung = "Die einegebene eMail ist nicht richtig! \nBitte geben Sie eine richtige eMail Adresse ein. (z.B. abc@abc.de)";
+//            String titel = "Fehlerhafte Eingabe";
+//            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+//            jTF_EMail.requestFocusInWindow();
+//            jTF_EMail.setText("");
+//        } else if (!jTF_EMail.getText().equals("")) {
+//            jTF_EMail.setBackground(JTF_FARBE_STANDARD);
+//        }
+
+        //        if (!textfield.getText().matches(syntax)) {
+//            JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
+//            textfield.requestFocusInWindow();
+//            textfield.setText("");
+//        } else if (!textfield.getText().equals("")) {
+//            textfield.setBackground(JTF_FARBE_STANDARD);
+//        }
+        String meldung = "Die einegebene eMail ist nicht richtig! \nBitte geben Sie eine richtige eMail Adresse ein. (z.B. abc@abc.de)";
+        String titel = "Fehlerhafte Eingabe";
+
+        ueberpruefungVonFocusLost(jTF_EMail, PRUEFUNG_EMAIL, titel, meldung);
+
+
     }//GEN-LAST:event_jTF_EMailFocusLost
     /*
      * Methode prüft, ob Eingabe getätigt wurde. Wenn Eingabe korrekt ist, wird der Hintergrund in standard gefärbt.
@@ -1212,60 +1238,84 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
      * Wenn nicht, wird eine Meldung ausgegeben.
      */
     private void jTF_HausnummerRechnungsanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_HausnummerRechnungsanschriftFocusLost
-        if (!jTF_HausnummerRechnungsanschrift.getText().matches(PRUEFUNG_HAUSNUMMER)) {
-            String meldung = "Die eingegebene Hausnummer ist nicht richtig! \n Bitte geben Sie eine richtige Hausnummer ein. (z.B. 10A oder 10)";
-            String titel = "Fehlerhafte Eingabe";
-            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-            jTF_HausnummerRechnungsanschrift.requestFocusInWindow();
-            jTF_HausnummerRechnungsanschrift.setText("");
-        } else if (!jTF_HausnummerRechnungsanschrift.getText().equals("")) {
-            jTF_HausnummerRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
-        }
+//        if (!jTF_HausnummerRechnungsanschrift.getText().matches(PRUEFUNG_HAUSNUMMER)) {
+//            String meldung = "Die eingegebene Hausnummer ist nicht richtig! \n Bitte geben Sie eine richtige Hausnummer ein. (z.B. 10A oder 10)";
+//            String titel = "Fehlerhafte Eingabe";
+//            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+//            jTF_HausnummerRechnungsanschrift.requestFocusInWindow();
+//            jTF_HausnummerRechnungsanschrift.setText("");
+//        } else if (!jTF_HausnummerRechnungsanschrift.getText().equals("")) {
+//            jTF_HausnummerRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
+//        }
+
+        //        if (!textfield.getText().matches(syntax)) {
+//            JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
+//            textfield.requestFocusInWindow();
+//            textfield.setText("");
+//        } else if (!textfield.getText().equals("")) {
+//            textfield.setBackground(JTF_FARBE_STANDARD);
+//        }
+        String meldung = "Die eingegebene Hausnummer ist nicht richtig! \n Bitte geben Sie eine richtige Hausnummer ein. (z.B. 10A oder 10)";
+        String titel = "Fehlerhafte Eingabe";
+        ueberpruefungVonFocusLost(jTF_HausnummerRechnungsanschrift, PRUEFUNG_HAUSNUMMER, titel, meldung);
+
+
     }//GEN-LAST:event_jTF_HausnummerRechnungsanschriftFocusLost
     /*
      * Methode prüft, ob Eingabe getätigt wurde. Wenn Eingabe korrekt ist, wird der Hintergrund in standard gefärbt.
      * Wenn nicht, wird eine Meldung ausgegeben.
      */
     private void jTF_HausnummerLieferanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_HausnummerLieferanschriftFocusLost
-        if (!jTF_HausnummerLieferanschrift.getText().matches(PRUEFUNG_HAUSNUMMER)) {
-            String meldung = "Die eingegebene Hausnummer ist nicht richtig! \n Bitte geben Sie eine richtige Hausnummer ein. (z.B. 10A oder 10)";
-            String titel = "Fehlerhafte Eingabe";
-            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-            jTF_HausnummerLieferanschrift.requestFocusInWindow();
-            jTF_HausnummerLieferanschrift.setText("");
-        } else if (!jTF_HausnummerLieferanschrift.getText().equals("")) {
-            jTF_HausnummerLieferanschrift.setBackground(JTF_FARBE_STANDARD);
-        }
+//        if (!jTF_HausnummerLieferanschrift.getText().matches(PRUEFUNG_HAUSNUMMER)) {
+//            String meldung = "Die eingegebene Hausnummer ist nicht richtig! \n Bitte geben Sie eine richtige Hausnummer ein. (z.B. 10A oder 10)";
+//            String titel = "Fehlerhafte Eingabe";
+//            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+//            jTF_HausnummerLieferanschrift.requestFocusInWindow();
+//            jTF_HausnummerLieferanschrift.setText("");
+//        } else if (!jTF_HausnummerLieferanschrift.getText().equals("")) {
+//            jTF_HausnummerLieferanschrift.setBackground(JTF_FARBE_STANDARD);
+//        }
+
+        String meldung = "Die eingegebene Hausnummer ist nicht richtig! \n Bitte geben Sie eine richtige Hausnummer ein. (z.B. 10A oder 10)";
+        String titel = "Fehlerhafte Eingabe";
+        ueberpruefungVonFocusLost(jTF_HausnummerLieferanschrift, PRUEFUNG_HAUSNUMMER, titel, meldung);
     }//GEN-LAST:event_jTF_HausnummerLieferanschriftFocusLost
     /*
      * Methode prüft, ob Eingabe getätigt wurde. Wenn Eingabe korrekt ist, wird der Hintergrund in standard gefärbt.
      * Wenn nicht, wird eine Meldung ausgegeben.
      */
     private void jTF_PLZRechnungsanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_PLZRechnungsanschriftFocusLost
-        if (!jTF_PLZRechnungsanschrift.getText().matches(PRUEFUNG_PLZ)) {
-            String meldung = "Die eingegebene Postleitzahl ist nicht richtig! \n Bitte geben Sie eine richtige Postleitzahl ein. (z.B. 45968)";
-            String titel = "Fehlerhafte Eingabe";
-            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-            jTF_PLZRechnungsanschrift.requestFocusInWindow();
-            jTF_PLZRechnungsanschrift.setText("");
-        } else if (!jTF_PLZRechnungsanschrift.getText().equals("")) {
-            jTF_PLZRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
-        }
+//        if (!jTF_PLZRechnungsanschrift.getText().matches(PRUEFUNG_PLZ)) {
+//            String meldung = "Die eingegebene Postleitzahl ist nicht richtig! \n Bitte geben Sie eine richtige Postleitzahl ein. (z.B. 45968)";
+//            String titel = "Fehlerhafte Eingabe";
+//            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+//            jTF_PLZRechnungsanschrift.requestFocusInWindow();
+//            jTF_PLZRechnungsanschrift.setText("");
+//        } else if (!jTF_PLZRechnungsanschrift.getText().equals("")) {
+//            jTF_PLZRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
+//        }
+        String meldung = "Die eingegebene Postleitzahl ist nicht richtig! \n Bitte geben Sie eine richtige Postleitzahl ein. (z.B. 45968)";
+        String titel = "Fehlerhafte Eingabe";
+        ueberpruefungVonFocusLost(jTF_PLZRechnungsanschrift, PRUEFUNG_PLZ, titel, meldung);
     }//GEN-LAST:event_jTF_PLZRechnungsanschriftFocusLost
     /*
      * Methode prüft, ob Eingabe getätigt wurde. Wenn Eingabe korrekt ist, wird der Hintergrund in standard gefärbt.
      * Wenn nicht, wird eine Meldung ausgegeben.
      */
     private void jTF_PLZLieferanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_PLZLieferanschriftFocusLost
-        if (!jTF_PLZLieferanschrift.getText().matches(PRUEFUNG_PLZ)) {
-            String meldung = "Die eingegebene Postleitzahl ist nicht richtig! \n Bitte geben Sie eine richtige Postleitzahl ein. (z.B. 45968)";
-            String titel = "Fehlerhafte Eingabe";
-            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-            jTF_PLZLieferanschrift.requestFocusInWindow();
-            jTF_PLZLieferanschrift.setText("");
-        } else if (!jTF_PLZLieferanschrift.getText().equals("")) {
-            jTF_PLZLieferanschrift.setBackground(JTF_FARBE_STANDARD);
-        }
+//        if (!jTF_PLZLieferanschrift.getText().matches(PRUEFUNG_PLZ)) {
+//            String meldung = "Die eingegebene Postleitzahl ist nicht richtig! \n Bitte geben Sie eine richtige Postleitzahl ein. (z.B. 45968)";
+//            String titel = "Fehlerhafte Eingabe";
+//            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+//            jTF_PLZLieferanschrift.requestFocusInWindow();
+//            jTF_PLZLieferanschrift.setText("");
+//        } else if (!jTF_PLZLieferanschrift.getText().equals("")) {
+//            jTF_PLZLieferanschrift.setBackground(JTF_FARBE_STANDARD);
+//        }
+
+        String meldung = "Die eingegebene Postleitzahl ist nicht richtig! \n Bitte geben Sie eine richtige Postleitzahl ein. (z.B. 45968)";
+        String titel = "Fehlerhafte Eingabe";
+        ueberpruefungVonFocusLost(jTF_PLZLieferanschrift, PRUEFUNG_PLZ, titel, meldung);
     }//GEN-LAST:event_jTF_PLZLieferanschriftFocusLost
     /*
      * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
@@ -1395,7 +1445,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
             long gpnr = nf.parse(jTF_GeschaeftspartnerID.getText()).longValue();
             int antwort = JOptionPane.showConfirmDialog(null, "Soll der Geschäftspartner wirklich gelöscht werden?", "Geschäftspartner löschen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (antwort == JOptionPane.YES_OPTION) {
-                factory.getDAO().loescheGeschaeftspartner(gpnr);
+                this.dao.loescheGeschaeftspartner(gpnr);
                 jB_ZurueckActionPerformed(evt);
             }
         } catch (ParseException | ApplicationException ex) {
@@ -1499,43 +1549,43 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
         return jTF_OrtLieferanschrift;
     }
 
-    public void leseInhaltVomFormular() {
-        if (jCHB_Kunde.isSelected()) {
-            typVorher = "Kunde";
-        } else {
-            typVorher = "Lieferant";
-        }
-        anredeVorher = (String) jCB_Anrede.getSelectedItem();
-        nameVorher = jTF_Name.getText();
-        vornameVorher = jTF_Vorname.getText();
-        telefonVorher = jTF_Telefon.getText();
-        faxVorher = jTF_Fax.getText();
-        geburtsdatumVorher = jFTF_Geburtsdatum.getText();
-        eMailVorher = jTF_EMail.getText();
-        kreditlimitVorher = jTF_Kreditlimit.getText();
-        strasseRechnungsanschriftVorher = jTF_StrasseRechnungsanschrift.getText();
-        hausnummerRechnungsanschriftVorher = jTF_HausnummerRechnungsanschrift.getText();
-        plzRechnungsanschriftVorher = jTF_PLZRechnungsanschrift.getText();
-        ortRechnungsanschriftVorher = jTF_OrtRechnungsanschrift.getText();
-        if (jCHB_WieAnschrift.isSelected()) {
-            strasseLieferanschriftVorher = strasseRechnungsanschriftVorher;
-            hausnummerLieferanschriftVorher = hausnummerRechnungsanschriftVorher;
-            plzLieferanschriftVorher = plzRechnungsanschriftVorher;
-            ortLieferanschriftVorher = ortRechnungsanschriftVorher;
-        } else {
-            strasseLieferanschriftVorher = jTF_StrasseLieferanschrift.getText();
-            hausnummerLieferanschriftVorher = jTF_HausnummerLieferanschrift.getText();
-            plzLieferanschriftVorher = jTF_PLZLieferanschrift.getText();
-            ortLieferanschriftVorher = jTF_OrtLieferanschrift.getText();
-        }
-    }
+//    public void leseInhaltVomFormular() {
+//        if (jCHB_Kunde.isSelected()) {
+//            typVorher = "Kunde";
+//        } else {
+//            typVorher = "Lieferant";
+//        }
+//        anredeVorher = (String) jCB_Anrede.getSelectedItem();
+//        nameVorher = jTF_Name.getText();
+//        vornameVorher = jTF_Vorname.getText();
+//        telefonVorher = jTF_Telefon.getText();
+//        faxVorher = jTF_Fax.getText();
+//        geburtsdatumVorher = jFTF_Geburtsdatum.getText();
+//        eMailVorher = jTF_EMail.getText();
+//        kreditlimitVorher = jTF_Kreditlimit.getText();
+//        strasseRechnungsanschriftVorher = jTF_StrasseRechnungsanschrift.getText();
+//        hausnummerRechnungsanschriftVorher = jTF_HausnummerRechnungsanschrift.getText();
+//        plzRechnungsanschriftVorher = jTF_PLZRechnungsanschrift.getText();
+//        ortRechnungsanschriftVorher = jTF_OrtRechnungsanschrift.getText();
+//        if (jCHB_WieAnschrift.isSelected()) {
+//            strasseLieferanschriftVorher = strasseRechnungsanschriftVorher;
+//            hausnummerLieferanschriftVorher = hausnummerRechnungsanschriftVorher;
+//            plzLieferanschriftVorher = plzRechnungsanschriftVorher;
+//            ortLieferanschriftVorher = ortRechnungsanschriftVorher;
+//        } else {
+//            strasseLieferanschriftVorher = jTF_StrasseLieferanschrift.getText();
+//            hausnummerLieferanschriftVorher = jTF_HausnummerLieferanschrift.getText();
+//            plzLieferanschriftVorher = jTF_PLZLieferanschrift.getText();
+//            ortLieferanschriftVorher = jTF_OrtLieferanschrift.getText();
+//        }
+//    }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 08.01.2015 Terrasi, implemtiereung der Referenzvariable "hauptfenster"*/
     /*----------------------------------------------------------*/
     public void setzeFormularInGPAnlegen() {
-        setzeFormularZurueck();
+        zuruecksetzen();
         this.setTitle(GP_ANLEGEN);
 
         jCHB_Kunde.setEnabled(true);
@@ -1567,7 +1617,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     }
 
     public void setzeFormularInGPAEndern() {
-        setzeFormularZurueck();
+        zuruecksetzen();
         setzeFormularInGPAEndernFuerButton();
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
@@ -1614,7 +1664,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame {
     /* 08.01.2015 Terrasi, implemtiereung der Referenzvariable "hauptfenster"*/
     /*----------------------------------------------------------*/
     public void setzeFormularInGPAnzeigen() {
-        setzeFormularZurueck();
+        zuruecksetzen();
         setzeFormularInGPAnzeigenFuerButton();
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }

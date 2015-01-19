@@ -10,12 +10,16 @@ import DTO.Anschrift;
 import DTO.Geschaeftspartner;
 import Documents.UniversalDocument;
 import Interfaces.InterfaceMainView;
+import Interfaces.InterfaceViewsFunctionality;
 import JFrames.GUIFactory;
+import java.awt.Color;
 import java.awt.Component;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import javax.swing.JTextField;
 
 /**
  *
@@ -43,16 +47,16 @@ import java.util.Date;
  * 15.01.2015 Sen, ArtikelAendern speichern Funktion anbgeschlossen 16.12.2014
  * Terrasi, Funktionsimplementierung im "Zurück"-Button
  */
-public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame {
+public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
     /*
      Hilfsvariablen
      */
 
-    Component c;
-    GUIFactory factory;
-    GeschaeftspartnerAnlegen g;
+    private Component c;
+    private GUIFactory factory;
+    private GeschaeftspartnerAnlegen g;
     private NumberFormat nf;
-    InterfaceMainView hauptFenster;
+    private InterfaceMainView hauptFenster;
 
     /**
      * Creates new form Fenster
@@ -67,7 +71,6 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
         nf.setMinimumFractionDigits(2);
         nf.setMaximumFractionDigits(2);
         jTF_Geschaeftspartner_ID.setDocument(new UniversalDocument("0123456789", false));
-//        this.getContentPane().add(a);
     }
 
     /**
@@ -201,7 +204,7 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
         long gpnr = 0;
         try {
             gpnr = nf.parse(eingabe).longValue();
-            Geschaeftspartner gp = this.factory.getDAO().gibGeschaeftspartner(gpnr);
+            Geschaeftspartner gp = GUIFactory.getDAO().gibGeschaeftspartner(gpnr);
             Anschrift la = gp.getLieferadresse();
             Anschrift ra = gp.getRechnungsadresse();
             String typ = gp.getTyp();
@@ -255,18 +258,18 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
                 g.gibjTF_PLZLieferanschrift().setText(la.getPLZ());
                 g.gibjTF_OrtLieferanschrift().setText(la.getOrt());
             }
-//            g.leseInhaltVomFormular();
             g.setVisible(true);
             this.setVisible(false);
-            jTF_Geschaeftspartner_ID.setText("");
+//            jTF_Geschaeftspartner_ID.setText("");
+            zuruecksetzen();
 
         } catch (ParseException ex) {
             System.out.println("Fehler beim Parsen in der Klasse ArtikelAnlegen!");
             this.hauptFenster.setStatusMeldung("Bitte geben Sie eine GeschäftspartnerID ein.");
         } catch (ApplicationException ex) {
-//            Logger.getLogger(ArtikelAEndernEinstieg.class.getName()).log(Level.SEVERE, null, ex);
             this.hauptFenster.setStatusMeldung("Kein passender Geschäftspartner in Datenbank!");
-            jTF_Geschaeftspartner_ID.setText("");
+//            jTF_Geschaeftspartner_ID.setText("");
+            zuruecksetzen();
         }
     }//GEN-LAST:event_jB_EnterActionPerformed
 
@@ -340,4 +343,24 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
     private javax.swing.JTextField jTF_Geschaeftspartner_ID;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void zuruecksetzen() {
+        jTF_Geschaeftspartner_ID.setText("");
+    }
+
+    @Override
+    @Deprecated
+    public void ueberpruefen() {
+    }
+
+    @Override
+    @Deprecated
+    public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
+    }
+
+    @Override
+    @Deprecated
+    public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
+    }
 }

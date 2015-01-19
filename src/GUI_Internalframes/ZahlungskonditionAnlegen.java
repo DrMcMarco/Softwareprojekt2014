@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import Interfaces.InterfaceMainView;
+import Interfaces.InterfaceViewsFunctionality;
 
 /**
  *
@@ -46,28 +47,23 @@ import Interfaces.InterfaceMainView;
  * Terrasi, Implementierung der Anzeigen/Ändern Funktion, hinzufügen der
  * Schnittstelle für InternalFrames
  */
-public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
+public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
     /*
      Hilfsvariablen
      */
-    Component c;
-    GUIFactory factory;
-    DataAccessObject dao;
-    InterfaceMainView hauptFenster;
+    private Component c;
+    private GUIFactory factory;
+    private DataAccessObject dao;
+    private InterfaceMainView hauptFenster;
 
 //  Insanzvariablen eines Artikels
     private int zknummer;
-    private int skontozeit1;
-    private int skontozeit2;
-    private int mahnzeitzeit1;
-    private int mahnzeitzeit2;
-    private int mahnzeitzeit3;
 
 //  ArrayList, um fehlerhafte Componenten zu speichern.    
     private ArrayList<Component> fehlerhafteComponenten;
 //  ArrayList, um angelegte Artikel zu speichern     
-    public ArrayList<Component> zkListe;
+//    public ArrayList<Component> zkListe;
 //  Insantzvariablen für die standard Farben der Componenten    
     private final Color JCB_FARBE_STANDARD = new Color(214, 217, 223);
     private final Color JTF_FARBE_STANDARD = new Color(255, 255, 255);
@@ -77,28 +73,10 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
 //  Insantzvariablen für die Meldungen         
     private final String TITEL_PFLICHTFELDER = "Felder nicht ausgefüllt";
     private final String TEXT_PFLICHTFELDER = "Einige Felder wurden nicht ausgefüllt! Bitte füllen Sie diese aus!";
-//    private final String TEXT_LIEFERZEIT = "Das eingegebene Lieferdatumdatum liegt in der Vergangenheit! \nDas Lieferdatum muss in der Zukunft liegen.";
-    private final String TEXT_LIEFERZEIT = "Bitte geben Sie eine zweistellige Lieferzeit ein!";
-    private final String TITEL_FEHLERHAFTE_EINGABE = "Fehlerhafte Eingabe";
-    private final String TEXT_LIEFERZEIT_2 = "Das eingegebene Lieferdatum ist in nicht gültig! \nBitte geben Sie ein gültiges Lieferdatm Datum ein. (z.B. 16.12.2014)";
-//    private final String TEXT_SPERRZEIT = "Die eingegebene Sperrzeit liegt in der Vergangenheit! \nDas Lieferdatum muss in der Zukunft liegen.";
-    private final String TEXT_SPERRZEIT = "Bitte geben Sie eine zweistellige Sperrzeit ein!";
-    private final String TEXT_SPERRZEIT_2 = "Die eingegebene Sperrzeit ist in nicht gültig! \nBitte geben Sie eine gültige Sperrzeit ein.";
-    private final String STATUSZEILE = "Zahlungskondition wurde angelegt!";
 
-    private final SimpleDateFormat FORMAT = new SimpleDateFormat("dd.mm.yyyy");
-
-    Calendar cal = Calendar.getInstance();
-    private String aktuellesDatum;
-
-    private final String PRUEFUNG_TAGE = "|[0-9]{1,2}";
     private NumberFormat nf;
 
     private final int anzahlFehlerhafterComponenten = 3;
-
-    private boolean sichtAnlegen;
-    private boolean sichtAEndern;
-    private boolean sichtAnzeigen;
 
     private final String ZK_ANLEGEN = "Zahlungskondition anlegen";
     private final String ZK_AENDERN = "Zahlungskondition ändern";
@@ -115,9 +93,9 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         this.hauptFenster = mainView;
         this.nf = NumberFormat.getInstance();
         this.factory = factory;
-        this.dao = factory.getDAO();
+        this.dao = GUIFactory.getDAO();
         this.fehlerhafteComponenten = new ArrayList<>();
-        this.zkListe = new ArrayList<>();
+//        this.zkListe = new ArrayList<>();
     }
 
     /*
@@ -125,7 +103,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
      * fehlerhafte Componenten hinzugefuegt. Falls bei eine Compobox der selektierte Index auf 0 ("Bitte auswählen")
      * steht, wird diese ebenfalls in die ArrayList uebernommen 
      */
-    private void ueberpruefeFormular() {
+    @Override
+    public void ueberpruefen() {
         if (jCB_Auftragsart.getSelectedIndex() == 0) {
             fehlerhafteComponenten.add(jCB_Auftragsart);
         }
@@ -137,11 +116,13 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
         }
     }
 
-    /*
-     * Methode, die die Eingaben zurücksetzt, beim Zurücksetzen wird auch die Hintergrundfarbe zurückgesetzt. 
+    /**
+     * Methode, die die Eingaben zurücksetzt, beim Zurücksetzen wird auch die
+     * Hintergrundfarbe zurückgesetzt.
      */
-    public final void setzeFormularZurueck() {
-        zknummer = this.factory.getDAO().gibNaechsteZahlungskonditionID();
+    @Override
+    public final void zuruecksetzen() {
+        zknummer = this.dao.gibNaechsteZahlungskonditionID();
         jTF_ZahlungskonditionID.requestFocus();
         jTF_ZahlungskonditionID.setText("" + zknummer);
         jCB_Auftragsart.setSelectedIndex(0);
@@ -160,13 +141,35 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
 
         fehlerhafteComponenten.clear();
     }
+    
+    
+    @Override
+    @Deprecated
+    public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
+
+    }
+
+    @Override
+    public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
+//          fehlerhafteComponenten ist nicht leer (es sind fehlerhafte Componenten vorhanden)
+//          eine Meldung wird ausgegeben  
+        JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
+//          an die erste fehlerhafte Componenten wird der Focus gesetzt  
+        list.get(0).requestFocusInWindow();
+//          ueber die fehlerhaften Komponenten wird iteriert und bei allen fehlerhaften Componenten wird der Hintergrund in der fehlerhaften Farbe gefaerbt 
+        for (int i = 0; i <= list.size() - 1; i++) {
+            list.get(i).setBackground(farbe);
+        }
+//          ArrayList fue fehlerhafte Componenten wird geleert
+        list.clear();
+    }
 
     private void beendenEingabeNachfrage() {
         if (this.getTitle().equals(ZK_ANLEGEN) || this.getTitle().equals(ZK_AENDERN)) {
             String meldung = "Möchten Sie die Eingaben verwerfen? Klicken Sie"
                     + " auf JA, wenn Sie die Eingaben verwerfen möchten.";
             String titel = "Achtung Eingaben gehen verloren!";
-            ueberpruefeFormular();
+            ueberpruefen();
             if (this.getTitle().equals(ZK_AENDERN)) {
                 meldung = "Möchten Sie die Sicht Artikel ändern verlassen?";
                 titel = "Artikel ändern verlassen";
@@ -175,18 +178,18 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
                 int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (antwort == JOptionPane.YES_OPTION) {
                     this.setVisible(false);
-                    setzeFormularZurueck();
+                    zuruecksetzen();
                     jB_ZurueckActionPerformed(null);
                 } else {
                     fehlerhafteComponenten.clear();
                 }
             } else {
                 this.setVisible(false);
-                setzeFormularZurueck();
+                zuruecksetzen();
             }
         } else {
             this.setVisible(false);
-            setzeFormularZurueck();
+            zuruecksetzen();
             jB_ZurueckActionPerformed(null);
 
         }
@@ -671,7 +674,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
      */
     private void jB_SpeichernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SpeichernActionPerformed
         //      zunaechst werdne die Eingaben ueberprueft.    
-        ueberpruefeFormular();
+        ueberpruefen();
 //      falls fehlerhafteComponenten leer ist (es sind keine fehlerhaften Componenten verfuegbar), 
 //      werden die Eingaben in die entsprechenden Variablen gespeichert
         if (fehlerhafteComponenten.isEmpty()) {
@@ -704,7 +707,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
                         this.dao.createPaymentConditions(auftragsart, lieferzeitSOFORT,
                                 sperrzeitWunsch, skontozeit1, skontozeit2, skonto1,
                                 skonto2, mahnzeit1, mahnzeit2, mahnzeit3);
-                        setzeFormularZurueck();
+                        zuruecksetzen();
                     } else {
                         String meldung = "Liefer- und Sperrzeit sowie Skonto- und Mahnzeiten sind alle standardmäßig auf 1 Tag gesetzt. Möchten Sie nun speichern?"
                                 + "\nKlicken Sie auf Nein, wenn Sie die Eingaben bearbeiten möchten.";
@@ -714,7 +717,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
                             this.dao.createPaymentConditions(auftragsart, lieferzeitSOFORT,
                                     sperrzeitWunsch, skontozeit1, skontozeit2, skonto1,
                                     skonto2, mahnzeit1, mahnzeit2, mahnzeit3);
-                            setzeFormularZurueck();
+                            zuruecksetzen();
                         } else {
                             fehlerhafteComponenten.clear();
                         }
@@ -729,14 +732,11 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
                     } else {
                         int antwort = JOptionPane.showConfirmDialog(null, "Möchten Sie die Änderungen speichern?", ZK_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                         if (antwort == JOptionPane.YES_OPTION) { // falls ja,
-                            try { // Geschäftspartner verändern
-                                this.dao.aendereZahlungskondition(zknr, auftragsart, lieferzeitSOFORT,
-                                        sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2,
-                                        mahnzeit1, mahnzeit2, mahnzeit3);
-                            } catch (ApplicationException e) { // falls ein Fehler auftaucht
-                                System.out.println("Fehler beim veraendern der ZK in Sicht ZK Anlegen Methode speichern: " + e.getMessage());
-                            }
-                            setzeFormularZurueck(); // Formular zuruecksetzen
+                            this.dao.aendereZahlungskondition(zknr, auftragsart, lieferzeitSOFORT,
+                                    sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2,
+                                    mahnzeit1, mahnzeit2, mahnzeit3);
+
+                            zuruecksetzen(); // Formular zuruecksetzen
                             this.setVisible(false); // diese Sicht ausblenden 
                             jB_ZurueckActionPerformed(null); // Button Zurueck Action ausführen
                         } else {
@@ -751,17 +751,18 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
             }
 //          das Formular wird zurueckgesetzt  
         } else {
-//          fehlerhafteComponenten ist nicht leer (es sind fehlerhafte Componenten vorhanden)
-//          eine Meldung wird ausgegeben  
-            JOptionPane.showMessageDialog(null, TEXT_PFLICHTFELDER, TITEL_PFLICHTFELDER, JOptionPane.ERROR_MESSAGE);
-//          an die erste fehlerhafte Componenten wird der Focus gesetzt  
-            fehlerhafteComponenten.get(0).requestFocusInWindow();
-//          ueber die fehlerhaften Komponenten wird iteriert und bei allen fehlerhaften Componenten wird der Hintergrund in der fehlerhaften Farbe gefaerbt 
-            for (int i = 0; i <= fehlerhafteComponenten.size() - 1; i++) {
-                fehlerhafteComponenten.get(i).setBackground(FARBE_FEHLERHAFT);
-            }
-//          ArrayList fue fehlerhafte Componenten wird geleert
-            fehlerhafteComponenten.clear();
+////          fehlerhafteComponenten ist nicht leer (es sind fehlerhafte Componenten vorhanden)
+////          eine Meldung wird ausgegeben  
+//            JOptionPane.showMessageDialog(null, TEXT_PFLICHTFELDER, TITEL_PFLICHTFELDER, JOptionPane.ERROR_MESSAGE);
+////          an die erste fehlerhafte Componenten wird der Focus gesetzt  
+//            fehlerhafteComponenten.get(0).requestFocusInWindow();
+////          ueber die fehlerhaften Komponenten wird iteriert und bei allen fehlerhaften Componenten wird der Hintergrund in der fehlerhaften Farbe gefaerbt 
+//            for (int i = 0; i <= fehlerhafteComponenten.size() - 1; i++) {
+//                fehlerhafteComponenten.get(i).setBackground(FARBE_FEHLERHAFT);
+//            }
+////          ArrayList fue fehlerhafte Componenten wird geleert
+//            fehlerhafteComponenten.clear();
+            fehlEingabenMarkierung(fehlerhafteComponenten, TITEL_PFLICHTFELDER, TEXT_PFLICHTFELDER, FARBE_FEHLERHAFT);
         }
     }//GEN-LAST:event_jB_SpeichernActionPerformed
 
@@ -858,7 +859,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     /*----------------------------------------------------------*/
 
     public void setzeFormularInZKAnlegen() {
-        setzeFormularZurueck();
+        zuruecksetzen();
         this.setTitle(ZK_ANLEGEN);
         jCB_Auftragsart.setEnabled(true);
         jSP_LieferzeitSOFORT.setEnabled(true);
@@ -880,24 +881,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     }
 
     public void setzeFormularInZKAEndern() {
-        setzeFormularZurueck();
+        zuruecksetzen();
         setzFormularInZKAEndernFuerButton();
-//        this.setTitle(ZK_AENDERN);
-//        jCB_Auftragsart.setEnabled(true);
-//        jSP_LieferzeitSOFORT.setEnabled(true);
-//        jSP_SperrzeitWUNSCH.setEnabled(true);
-//        jSP_Skontozeit1.setEnabled(true);
-//        jSP_Skontozeit2.setEnabled(true);
-//        jCB_Skonto1.setEnabled(true);
-//        jCB_Skonto2.setEnabled(true);
-//        jSP_Mahnzeit1.setEnabled(true);
-//        jSP_Mahnzeit2.setEnabled(true);
-//        jSP_Mahnzeit3.setEnabled(true);
-//
-//        jB_Speichern.setEnabled(true);
-//        jB_AnzeigenAEndern.setEnabled(true);
-//        jB_Loeschen.setEnabled(true);
-
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
 
@@ -930,24 +915,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame {
     /* 08.01.2015 Terrasi, implemtiereung der Referenzvariable "hauptfenster"*/
     /*----------------------------------------------------------*/
     public void setzeFormularInZKAnzeigen() {
-        setzeFormularZurueck();
+        zuruecksetzen();
         setzFormularInZKAnzeigenFuerButton();
-//        this.setTitle(ZK_ANZEIGEN);
-//        jCB_Auftragsart.setEnabled(false);
-//        jSP_LieferzeitSOFORT.setEnabled(false);
-//        jSP_SperrzeitWUNSCH.setEnabled(false);
-//        jSP_Skontozeit1.setEnabled(false);
-//        jSP_Skontozeit2.setEnabled(false);
-//        jCB_Skonto1.setEnabled(false);
-//        jCB_Skonto2.setEnabled(false);
-//        jSP_Mahnzeit1.setEnabled(false);
-//        jSP_Mahnzeit2.setEnabled(false);
-//        jSP_Mahnzeit3.setEnabled(false);
-//
-//        jB_Speichern.setEnabled(false);
-//        jB_AnzeigenAEndern.setEnabled(true);
-//        jB_Loeschen.setEnabled(false);
-
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
 

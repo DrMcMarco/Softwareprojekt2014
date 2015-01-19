@@ -13,6 +13,9 @@ import java.awt.Component;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import Interfaces.*;
+import java.awt.Color;
+import java.util.ArrayList;
+import javax.swing.JTextField;
 
 /*
  * Klassenhistorie:
@@ -46,20 +49,22 @@ import Interfaces.*;
  *
  * @author Tahir
  */
-public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFrame {
+public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
     /*
      Hilfsvariablen
      */
 
-    Component c;
-    GUIFactory factory;
-    ZahlungskonditionAnlegen z;
-    InterfaceMainView hauptFenster;
+    private Component c;
+    private GUIFactory factory;
+    private ZahlungskonditionAnlegen z;
+    private InterfaceMainView hauptFenster;
 
     private NumberFormat nf;
 
     /**
      * Creates new form Fenster
+     *
+     * @param factory
      */
     public ZahlungskonditionenAEndernEinstieg(GUIFactory factory, ZahlungskonditionAnlegen z, InterfaceMainView mainViev) {
         initComponents();
@@ -162,11 +167,6 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
                 jB_EnterActionPerformed(evt);
             }
         });
-        jB_Enter.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jB_EnterFocusLost(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -207,7 +207,7 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
         long zknr = 0;
         try {
             zknr = nf.parse(eingabe).longValue();
-            Zahlungskondition za = this.factory.getDAO().getPaymentConditionsById(zknr);
+            Zahlungskondition za = GUIFactory.getDAO().getPaymentConditionsById(zknr);
             z.gibjTF_ZahlungskonditionID().setText("" + za.getZahlungskonditionID());
             z.gibjCB_Auftragsart().setSelectedItem(za.getAuftragsart());
             z.gibjSP_LieferzeitSOFORT().setValue(za.getLieferzeitSofort());
@@ -221,21 +221,16 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
             z.gibjSP_Mahnzeit3().setValue(za.getMahnzeit3());
             z.setVisible(true);
             this.setVisible(false);
-            jTF_Zahlungskondition_ID.setText("");
+//            jTF_Zahlungskondition_ID.setText("");
+            zuruecksetzen();
         } catch (ParseException ex) {
-            System.out.println("Fehler beim Parsen in der Klasse ArtikelAnlegen!");
+            System.out.println("Fehler beim Parsen in der Klasse ArtikelAnlegen! " + ex.getMessage());
             this.hauptFenster.setStatusMeldung("Bitte geben Sie eine ZahlungskonditionsID ein!");
         } catch (ApplicationException ex) {
-//            Logger.getLogger(ArtikelAEndernEinstieg.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println(ex.getMessage());
-            this.hauptFenster.setStatusMeldung("Kein passender Geschäftspartner in Datenbank!");
+            this.hauptFenster.setStatusMeldung("Kein passender Geschäftspartner in Datenbank! " + ex.getMessage());
             jTF_Zahlungskondition_ID.setText("");
         }
     }//GEN-LAST:event_jB_EnterActionPerformed
-
-    private void jB_EnterFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jB_EnterFocusLost
-
-    }//GEN-LAST:event_jB_EnterFocusLost
 
     /**
      * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird. Es wird von
@@ -263,7 +258,7 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
     }//GEN-LAST:event_jTF_Zahlungskondition_IDKeyPressed
 
     private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
-       this.hauptFenster.rufeSuche(this);
+        this.hauptFenster.rufeSuche(this);
     }//GEN-LAST:event_jB_SuchenActionPerformed
 
     /**
@@ -287,4 +282,26 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
     private javax.swing.JTextField jTF_Zahlungskondition_ID;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void zuruecksetzen() {
+        jTF_Zahlungskondition_ID.setText("");
+    }
+
+    @Override
+    @Deprecated
+    public void ueberpruefen() {
+    }
+
+    @Override
+    @Deprecated
+    public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    @Deprecated
+    public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

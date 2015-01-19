@@ -130,7 +130,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTF_Artikel_ID">
       <Events>
-        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTF_Artikel_IDFocusGained"/>
         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTF_Artikel_IDKeyPressed"/>
       </Events>
     </Component>
@@ -140,7 +139,6 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jB_EnterActionPerformed"/>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jB_EnterFocusLost"/>
       </Events>
     </Component>
   </SubComponents>

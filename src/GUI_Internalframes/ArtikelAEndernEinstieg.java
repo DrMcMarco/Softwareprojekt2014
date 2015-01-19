@@ -9,10 +9,14 @@ import DAO.ApplicationException;
 import DTO.Artikel;
 import Documents.UniversalDocument;
 import Interfaces.InterfaceMainView;
+import Interfaces.InterfaceViewsFunctionality;
 import JFrames.*;
+import java.awt.Color;
 import java.awt.Component;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
+import javax.swing.JTextField;
 
 /**
  *
@@ -33,12 +37,12 @@ import java.text.ParseException;
  * ArtikelAendern speichern Funktion anbgeschlossen 16.12.2014 Terrasi,
  * Funktionsimplementierung im "Zurück"-Button
  */
-public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
+public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
-    Component c;
-    GUIFactory factory;
+    private Component c;
+    private GUIFactory factory;
 
-    InterfaceMainView hauptFenster;
+    private InterfaceMainView hauptFenster;
 
     private ArtikelAnlegen a;
     private NumberFormat nf;
@@ -136,11 +140,6 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
         jL_Artikel_ID.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jL_Artikel_ID.setText("Artikelnummer:");
 
-        jTF_Artikel_ID.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jTF_Artikel_IDFocusGained(evt);
-            }
-        });
         jTF_Artikel_ID.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTF_Artikel_IDKeyPressed(evt);
@@ -151,11 +150,6 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
         jB_Enter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_EnterActionPerformed(evt);
-            }
-        });
-        jB_Enter.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jB_EnterFocusLost(evt);
             }
         });
 
@@ -198,7 +192,7 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
         long artikelnr = 0;
         try {
             artikelnr = nf.parse(artikelnummer).longValue();
-            Artikel artikel = this.factory.getDAO().getItem(artikelnr);
+            Artikel artikel = GUIFactory.getDAO().getItem(artikelnr);
             a.gibjTF_Artikelnummer().setText("" + artikel.getArtikelID());
             a.gibjTF_Artikelname().setText(artikel.getArtikeltext());
             a.gibjTA_Artikelbeschreibung().setText(artikel.getBestelltext());
@@ -211,23 +205,19 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
             a.gibjTF_BestandsmengeZULAUF().setText("" + artikel.getZulauf());
             a.gibjTF_BestandsmengeVERKAUFT().setText("" + artikel.getVerkauft());
             a.setVisible(true);
-//            a.leseInhaltVomFormular();
             this.setVisible(false);
-            jTF_Artikel_ID.setText("");
+//            jTF_Artikel_ID.setText("");
+            zuruecksetzen();
 
         } catch (ParseException ex) {
             System.out.println("Fehler beim Parsen in der Klasse ArtikelAEndernEinstieg!");
             this.hauptFenster.setStatusMeldung("Bitte geben Sie eine Artikelnummer ein!");
         } catch (ApplicationException ex) {
-//            Logger.getLogger(ArtikelAEndernEinstieg.class.getName()).log(Level.SEVERE, null, ex);
             this.hauptFenster.setStatusMeldung("Kein passender Artikel in Datenbank!");
-            jTF_Artikel_ID.setText("");
+//            jTF_Artikel_ID.setText("");
+            zuruecksetzen();
         }
     }//GEN-LAST:event_jB_EnterActionPerformed
-
-    private void jB_EnterFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jB_EnterFocusLost
-
-    }//GEN-LAST:event_jB_EnterFocusLost
 
     /**
      * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird. Es wird von
@@ -243,10 +233,6 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
         this.setVisible(false);// Internalframe wird nicht mehr dargestellt
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
-
-    private void jTF_Artikel_IDFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_Artikel_IDFocusGained
-
-    }//GEN-LAST:event_jTF_Artikel_IDFocusGained
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         jB_ZurueckActionPerformed(null);
@@ -281,4 +267,24 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTF_Artikel_ID;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void zuruecksetzen() {
+        jTF_Artikel_ID.setText("");
+    }
+
+    @Override
+    @Deprecated
+    public void ueberpruefen() {
+    }
+
+    @Override
+    @Deprecated
+    public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
+    }
+
+    @Override
+    @Deprecated
+    public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
+    }
 }
