@@ -73,8 +73,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
     private final String PREUFUNG_PREIS = "|(\\d*,?\\d{1,2})|(\\d{0,3}(\\.\\d{3})*,?\\d{1,2})";
 //  Insantzvariablen für die Meldungen         
     private final String TITEL_PFLICHTFELDER = "Felder nicht ausgefüllt";
-    private final String TEXT_PFLICHTFELDER = "Einige Felder wurden nicht ausgefüllt! Bitte füllen Sie diese aus!";
-    private final String TEXT_EINZELWERT = "Der eingegebene Preisr ist nicht richtig! \n Bitte geben Sie eine richtige Preis ein. (z.B. 99,99 oder 999.999,99)";
+    private final String TEXT_PFLICHTFELDER = "Einige Felder wurden nicht ausgefüllt!Bitte füllen Sie diese aus!";
+    private final String TEXT_EINZELWERT = "Der eingegebene Preisr ist nicht richtig! \nBitte geben Sie eine richtige Preis ein. (z.B. 99,99 oder 999.999,99)";
     private final String TITEL_FEHLERHAFTE_EINGABE = "Fehlerhafte Eingabe";
     private final String STATUSZEILE = "Artikel wurde angelegt!";
 
@@ -807,7 +807,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
 //                System.out.println(ex.getMessage());
 //            }
 //        }
-        ueberpruefungVonFocusLost(jTF_Einzelwert, PREUFUNG_PREIS, TEXT_EINZELWERT, TITEL_FEHLERHAFTE_EINGABE);
+        ueberpruefungVonFocusLost(jTF_Einzelwert, PREUFUNG_PREIS, TITEL_FEHLERHAFTE_EINGABE, TEXT_EINZELWERT);
     }//GEN-LAST:event_jTF_EinzelwertFocusLost
     /*
      * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.
@@ -833,7 +833,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
 //                System.out.println("Fehler in der Methode jTF_BestellwertFocusLost() " + ex.getMessage());
 //            }
 //        }
-        ueberpruefungVonFocusLost(jTF_Bestellwert, PREUFUNG_PREIS, TEXT_EINZELWERT, TITEL_FEHLERHAFTE_EINGABE);
+        ueberpruefungVonFocusLost(jTF_Bestellwert, PREUFUNG_PREIS, TITEL_FEHLERHAFTE_EINGABE, TEXT_EINZELWERT);
     }//GEN-LAST:event_jTF_BestellwertFocusLost
     /*
      * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund in standard gefärbt.

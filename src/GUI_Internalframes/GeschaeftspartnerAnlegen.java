@@ -390,7 +390,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(true);
         setTitle("Geschäftspartner anlegen");
-        setPreferredSize(new java.awt.Dimension(680, 660));
+        setPreferredSize(new java.awt.Dimension(680, 620));
         setRequestFocusEnabled(false);
         setVisible(false);
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
@@ -460,7 +460,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         jToolBar1.add(jB_Suchen);
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel13.setText("Persöhnliche Daten:");
+        jLabel13.setText("Persönliche Daten:");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel1.setText("Geschäftspartner-ID:");
@@ -1629,8 +1629,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
     private void setzeFormularInGPAEndernFuerButton() {
         this.setTitle(GP_AENDERN);
 
-        jCHB_Kunde.setEnabled(true);
-        jCHB_Lieferant.setEnabled(true);
+        jCHB_Kunde.setEnabled(false);
+        jCHB_Lieferant.setEnabled(false);
         jCB_Anrede.setEnabled(true);
         jTF_Name.setEnabled(true);
         jTF_Vorname.setEnabled(true);

@@ -251,7 +251,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(true);
         setTitle("Zahlungskonditonen anlegen");
-        setPreferredSize(new java.awt.Dimension(500, 720));
+        setPreferredSize(new java.awt.Dimension(460, 690));
         setVisible(true);
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
@@ -515,7 +515,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSP_LieferzeitSOFORT, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jSP_SperrzeitWUNSCH, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(119, Short.MAX_VALUE))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -603,7 +603,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jLabel11)))
-                .addContainerGap(123, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");

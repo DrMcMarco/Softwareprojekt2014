@@ -131,13 +131,16 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
         jToolBar1.add(jB_Zurueck);
 
         jB_Speichern.setText("Speichern");
+        jB_Speichern.setEnabled(false);
         jToolBar1.add(jB_Speichern);
 
         jB_Anzeigen.setText("Anzeige/Ändern");
         jB_Anzeigen.setActionCommand("Anzeigen/Ändern");
+        jB_Anzeigen.setEnabled(false);
         jToolBar1.add(jB_Anzeigen);
 
         jB_Loeschen.setText("Löschen");
+        jB_Loeschen.setEnabled(false);
         jToolBar1.add(jB_Loeschen);
 
         jB_Suchen.setText("Suchen");

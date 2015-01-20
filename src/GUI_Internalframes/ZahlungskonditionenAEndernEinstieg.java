@@ -100,6 +100,7 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(true);
         setTitle("Zahlungskonditionen ändern Einstieg");
+        setEnabled(false);
         setPreferredSize(new java.awt.Dimension(580, 300));
         setRequestFocusEnabled(false);
         setVisible(true);
@@ -135,13 +136,16 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
         jToolBar1.add(jB_Zurueck);
 
         jB_Speichern.setText("Speichern");
+        jB_Speichern.setEnabled(false);
         jToolBar1.add(jB_Speichern);
 
         jB_Anzeigen.setText("Anzeige/Ändern");
         jB_Anzeigen.setActionCommand("Anzeigen/Ändern");
+        jB_Anzeigen.setEnabled(false);
         jToolBar1.add(jB_Anzeigen);
 
         jB_Loeschen.setText("Löschen");
+        jB_Loeschen.setEnabled(false);
         jToolBar1.add(jB_Loeschen);
 
         jB_Suchen.setText("Suchen");
