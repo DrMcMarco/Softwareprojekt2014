@@ -167,12 +167,13 @@ public class DatumParser {
      */
     private static void checkDatum(int tag, int monat, int jahr) {
 
-        if (tag < 0) {
-            throw new IllegalArgumentException("Tag darf nicht negativ sein.");
+        if (tag <= 0) {
+            throw new IllegalArgumentException("Tag darf nicht "
+                    + "kleiner als 1 sein.");
         }
-        if (monat < 0) {
+        if (monat <= 0) {
             throw new IllegalArgumentException("Monat darf nicht "
-                    + "negativ sein.");
+                    + "kleiner als 1 sein.");
         }
         if (jahr < 1000) {
             throw new IllegalArgumentException("Jahreszahlen unter 1000 "
