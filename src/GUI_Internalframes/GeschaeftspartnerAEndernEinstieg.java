@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GUI_Internalframes;
 
 import DAO.ApplicationException;
@@ -10,62 +5,64 @@ import DTO.Anschrift;
 import DTO.Geschaeftspartner;
 import Documents.UniversalDocument;
 import Interfaces.InterfaceMainView;
-import Interfaces.InterfaceViewsFunctionality;
 import JFrames.GUIFactory;
-import java.awt.Color;
 import java.awt.Component;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import javax.swing.JTextField;
 
 /**
+ * Klasse fuer die Maske Geschaeftspartner (GP) aendern/anzeigen Einstieg je
+ * nachdem von welchem Button diese Klasse aufgerufen wird aendert sie sich in
+ * den Zustand GP aendern Einstieg oder GP anzeigen Einstieg
  *
- * @author Tahir * Klassenhistorie: 27.11.2014 Sen, angelegt 28.11.2014 Sen,
- * textfelder, Comboboxe, Buttons angelegt 01.12.2014 Sen, grundlegende
- * Funktionen implementiert 02.12.2014 Sen, beendenNachfrage() und
- * ueberprufeFormular() Methoden implementiert 05.12.2014 Sen,
- * setzteFormularZurueck() und ..focusLost() Methoden implementiert 08.12.2014
- * Sen, angelegt Methoden erweitert 07.12.2014 Sen, Componenten mit leben
- * befuellt 10.12.2014 Sen, grundlegenden Ueberarbeitung der Maske, Fehler
- * korigiert 11.12.2014 Sen, taskleiste implementiert und funktionen erweitert
- * 15.12.2014 Sen, ArtikelAnlegen Sicht zum groeßten Teils implementiert
- * 17.12.2014 Sen, speichern Button impelementiert, ein Aritkel kann nun in die
- * Datenbank geschrieben werden 19.12.2014 Terrasi, Funktionsimplementierung im
- * "Zurück"-Button der Schnittstelle für InternalFrames 20.12.2014 Sen,
- * ArtikelAnlegen in AritkelAENdern Funktion angefangen 25.12.2014 Sen, methode
- * zum Ändern von ArtikelAnlegen in ArtikelÄndern implementiert 26.12.2014 Sen,
- * ArtikelAnlegen in AritkelAnzeigen Funktion angefangen 01.01.2015 Sen, Methode
- * zum Ändern von ArtikelAnlegen in ArtikelAnzeigen implementiert 02.01.2015
- * Sen, Löschen von Artikel Funktion implementiert 07.01.2015 Sen, Löschen von
- * Artikel Funktion Fehler korriegiert 08.01.2015 Terrasi, Implementierung der
- * Anzeigen/Ändern Funktion, hinzufügen 12.01.2015 Sen, Artikel aus Datenbank
- * laden und diese anzegien lassen angelegt, bzw Felder mit den Daten der
- * Artikel befuellt 14.01.2015 Sen, ArtikelAendern speichern Funktion angefangen
- * 15.01.2015 Sen, ArtikelAendern speichern Funktion anbgeschlossen 16.12.2014
- * Terrasi, Funktionsimplementierung im "Zurück"-Button
+ * @author Tahir
  */
 public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame {
-    /*
-     Hilfsvariablen
-     */
-
-    private Component c;
-    private GUIFactory factory;
-    private GeschaeftspartnerAnlegen g;
-    private NumberFormat nf;
-    private InterfaceMainView hauptFenster;
 
     /**
-     * Creates new form Fenster
+     * Variable, die für die Navigation benoetigt wird, in ihr wird gespeichert,
+     * welche View zuletzt geöffnet war.
      */
-    public GeschaeftspartnerAEndernEinstieg(GUIFactory factory, GeschaeftspartnerAnlegen g, InterfaceMainView mainView) {
+    private Component c;
+    /**
+     * Varibale für die GUI Factory
+     */
+    private GUIFactory factory;
+    /**
+     * Referenzvaribale der Sicht GP anlegen
+     */
+    private GeschaeftspartnerAnlegen g;
+    /**
+     * Number Formatter wird benoetigt fuer das Parsen der Eingaben, sowie das
+     * Anzeigen von Preisen
+     */
+    private NumberFormat nf;
+    /**
+     * Variable für das Start Fenster. Es kann sein, dass sich ein Admin
+     * anmeldet, dann waere unser StartFenster die StartAdmin. Falls sich ein
+     * User anmeldet, ist unser StartFenster Start.
+     */
+    private InterfaceMainView hauptFenster;
+    /**
+     * Variablen fuer die Fehlermeldungen
+     */
+    private final String KEINE_GPNR_EINGEGEBEN = "Bitte geben Sie eine GeschäftspartnerID ein.";
+    private final String KEINE_GP_IN_DATENBANK = "Kein passender Geschäftspartner in Datenbank!";
+
+    /**
+     * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die
+     * Documents.
+     *
+     * @param factory beinhaltet das factory Obejekt
+     * @param gp Referenzvariable der GP anlegen Klasse
+     * @param mainView beinhaltet das Objekt des StartFenster
+     */
+    public GeschaeftspartnerAEndernEinstieg(GUIFactory factory, GeschaeftspartnerAnlegen gp, InterfaceMainView mainView) {
         initComponents();
         this.factory = factory;
-        this.g = g;
-
+        this.g = gp;
         this.hauptFenster = mainView;
         nf = NumberFormat.getInstance();
         nf.setMinimumFractionDigits(2);
@@ -200,17 +197,28 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+ /**
+     * Methode, die aufgerufen wird, wenn man auf weiter klickt.
+     *
+     * @param evt automatisch generiert
+     */
+    /*
+     * Historie:
+     * 14.12.2014   Sen     angelegt
+     * 17.12.2014   Sen     ueberarbeitet
+     */
     private void jB_EnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_EnterActionPerformed
-
         String eingabe = jTF_Geschaeftspartner_ID.getText();
         long gpnr = 0;
         try {
+//              GP mit der eingegebenen GP nummer wird versucht aus der Datenbank zu laden
+//              Alle Felder der Sicht GP anlegen werden befuellt            
             gpnr = nf.parse(eingabe).longValue();
             Geschaeftspartner gp = GUIFactory.getDAO().gibGeschaeftspartner(gpnr);
             Anschrift la = gp.getLieferadresse();
             Anschrift ra = gp.getRechnungsadresse();
             String typ = gp.getTyp();
+//            Pruefung des Typs des GP
             if (typ.equals("Kunde")) {
                 g.gibjCHB_Kunde().setSelected(true);
             } else {
@@ -241,6 +249,11 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
 //                g.gibjTF_OrtLieferanschrift().setText(ra.getOrt());
 //                g.gibjTF_OrtLieferanschrift().setEnabled(false);
 //            hier nicht nur die IDs vergleichen, sondern auch die Attribute, denn es können jetzt zwei objekte entstehen, die gleich sind
+
+//            Pruefung, ob Rechnungsanschrfit und Lieferanschrift gleich:
+//            Falls die strasse, hausnummer, ort und plz beider anschriften gleich sind,
+//            wird die checkbox wie anschrift in Sicht gp anlegen gesetzt und die 
+//            strasse, hausnummer, ort und plz der Lieferanschrift auf enabled false gesetzt
             if (ra.getStrasse().equals(la.getStrasse())
                     && ra.getHausnummer().equals(la.getHausnummer())
                     && ra.getOrt().equals(la.getOrt())
@@ -255,6 +268,7 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
                 g.gibjTF_OrtLieferanschrift().setText(ra.getOrt());
                 g.gibjTF_OrtLieferanschrift().setEnabled(false);
             } else {
+//                Nicht gleich, also checkbox auf false
                 g.gibjCHB_WieAnschrift().setSelected(false);
                 g.gibjTF_StrasseLieferanschrift().setText(la.getStrasse());
                 g.gibjTF_HausnummerLieferanschrift().setText(la.getHausnummer());
@@ -263,42 +277,55 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
             }
             g.setVisible(true);
             this.setVisible(false);
-//            jTF_Geschaeftspartner_ID.setText("");
             zuruecksetzen();
-
+//            entsprechende Fehlermeldungen werden in der Statuszeile angezeigt
         } catch (ParseException ex) {
             System.out.println("Fehler beim Parsen in der Klasse ArtikelAnlegen!");
-            this.hauptFenster.setStatusMeldung("Bitte geben Sie eine GeschäftspartnerID ein.");
+            this.hauptFenster.setStatusMeldung(KEINE_GPNR_EINGEGEBEN);
         } catch (ApplicationException ex) {
-            this.hauptFenster.setStatusMeldung("Kein passender Geschäftspartner in Datenbank!");
-//            jTF_Geschaeftspartner_ID.setText("");
+            this.hauptFenster.setStatusMeldung(KEINE_GP_IN_DATENBANK);
             zuruecksetzen();
         } catch (NullPointerException e) {
             System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_jB_EnterActionPerformed
-
+    /**
+     * Methode, die aus dem uebergebenem Date Objekt ein String mit dem
+     * richtigen Format zureueckgibt.
+     *
+     * @param date date objekt, welches uebergeben wird
+     * @return String Datum im richtigen Format (z.B. 01.01.2014)
+     */
+    /*
+     * Historie:
+     * 14.12.2014   Sen     angelegt
+     */
     private String gibDatumAusDatenbank(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
+//        tag, monat, jahr werden aus dem Date Objekt herausgenommen
         int tag = cal.get(Calendar.DAY_OF_MONTH);
         int mon = cal.get(Calendar.MONTH);
+//        auf den monat wird eine 1 addiert, da sie von 0 anfaengt, d.h 0 = januar
         mon = mon + 1;
         int jahr = cal.get(Calendar.YEAR);
         String tagAlsString;
         String monatAlsString;
+//        Preufung ob Tag einstellig
         if (tag < 10) {
+//            Falls ja, wird eine 0 davorgetan also wird aus 8 = 08
             tagAlsString = "0" + tag;
         } else {
+//            wenn nicht, wird es in ein String gepackt
             tagAlsString = "" + tag;
         }
-
+//      wie in tag
         if (mon < 10) {
             monatAlsString = "0" + mon;
         } else {
             monatAlsString = "" + mon;
         }
-
+//      Ausgabe String wird erzeugt
         String ausgabeDatum = tagAlsString + "." + monatAlsString + "." + jahr;
         return ausgabeDatum;
     }
@@ -308,7 +335,11 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
      * der Guifactory die letzte aufgerufene Component abgefragt wodurch man die
      * jetzige Component verlässt und zur übergebnen Component zurück kehrt.
      *
-     * @param evt
+     * @param evt automatishc generiert
+     */
+    /*
+     * Historie:
+     * 03.12.2014   Sen     angelegt
      */
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
         c = null;   //Initialisierung der Componentspeichervariable
@@ -317,25 +348,67 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
         this.setVisible(false);// Internalframe wird nicht mehr dargestellt
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
-
+    /**
+     * Aktion die beim betätigen schliesen des Fenster ausgefuert wird
+     *
+     * @param evt automatishc generiert
+     */
+    /*
+     * Historie:
+     * 01.12.2014   Sen     angelegt
+     */
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         jB_ZurueckActionPerformed(null);
     }//GEN-LAST:event_formInternalFrameClosing
-
+    /**
+     * Aktion die beim klicken auf Enter durchgefuert wird
+     *
+     * @param evt automatishc generiert
+     */
+    /*
+     * Historie:
+     * 02.01.2015   Sen     angelegt
+     */
     private void jTF_Geschaeftspartner_IDKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTF_Geschaeftspartner_IDKeyPressed
         if (evt.getKeyCode() == evt.VK_ENTER) {
             jB_EnterActionPerformed(null);
         }
     }//GEN-LAST:event_jTF_Geschaeftspartner_IDKeyPressed
-
+    /**
+     * Aktion die beim klicken auf Button Suche durchgefuert wird
+     *
+     * @param evt automatishc generiert
+     */
+    /*
+     * Historie:
+     * 16.01.2015   Terrasi     angelegt
+     */
     private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
         this.hauptFenster.rufeSuche(this);
     }//GEN-LAST:event_jB_SuchenActionPerformed
-
+    /**
+     * setterMethode für die Suche
+     *
+     * @param geschaeftspartner GP Obkjekt, aus dem die gp nummer gelesen wird
+     */
+    /*
+     * Historie:
+     * 18.01.2015   Sen     angelegt
+     */
     public void setzeGP_IDAusSuche(Geschaeftspartner geschaeftspartner) {
         jTF_Geschaeftspartner_ID.setText("" + geschaeftspartner.getGeschaeftspartnerID());
     }
 
+    /**
+     * methode, die die Eingaben zuruecksetzt
+     */
+    /*
+     * Historie:
+     * 18.01.2015   Sen     angelegt
+     */
+    public void zuruecksetzen() {
+        jTF_Geschaeftspartner_ID.setText("");
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_Anzeigen;
     private javax.swing.JButton jB_Enter;
@@ -348,8 +421,4 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
     private javax.swing.JTextField jTF_Geschaeftspartner_ID;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
-
-    public void zuruecksetzen() {
-        jTF_Geschaeftspartner_ID.setText("");
-    }
 }

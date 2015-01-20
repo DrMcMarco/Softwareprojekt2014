@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GUI_Internalframes;
 
 import DAO.ApplicationException;
@@ -13,63 +8,58 @@ import java.awt.Component;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import Interfaces.*;
-import java.awt.Color;
-import java.util.ArrayList;
-import javax.swing.JTextField;
 
-/*
- * Klassenhistorie:
- * 27.11.2014 Sen, angelegt      
- * 28.11.2014 Sen, textfelder, Comboboxe, Buttons angelegt      
- * 01.12.2014 Sen, grundlegende Funktionen implementiert
- * 02.12.2014 Sen, beendenNachfrage() und ueberprufeFormular() Methoden implementiert
- * 05.12.2014 Sen, setzteFormularZurueck() und ..focusLost() Methoden implementiert
- * 08.12.2014 Sen, angelegt Methoden erweitert
- * 07.12.2014 Sen, Componenten mit leben befuellt
- * 10.12.2014 Sen, grundlegenden Ueberarbeitung der Maske, Fehler korigiert
- * 11.12.2014 Sen, taskleiste implementiert und funktionen erweitert
- * 15.12.2014 Sen, ArtikelAnlegen Sicht zum groeßten Teils implementiert
- * 17.12.2014 Sen, speichern Button impelementiert, ein Aritkel kann nun in die 
- *                 Datenbank geschrieben werden
- * 19.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button der Schnittstelle für InternalFrames
- * 20.12.2014 Sen, ArtikelAnlegen in AritkelAENdern Funktion angefangen
- * 25.12.2014 Sen, methode zum Ändern von ArtikelAnlegen in ArtikelÄndern implementiert
- * 26.12.2014 Sen, ArtikelAnlegen in AritkelAnzeigen Funktion angefangen
- * 01.01.2015 Sen, Methode zum Ändern von ArtikelAnlegen in ArtikelAnzeigen implementiert
- * 02.01.2015 Sen, Löschen von Artikel Funktion implementiert
- * 07.01.2015 Sen, Löschen von Artikel Funktion Fehler korriegiert
- * 08.01.2015 Terrasi, Implementierung der Anzeigen/Ändern Funktion, hinzufügen
- * 12.01.2015 Sen, Artikel aus Datenbank laden und diese anzegien lassen angelegt, bzw Felder 
- *                 mit den Daten der Artikel befuellt
- * 14.01.2015 Sen, ArtikelAendern speichern Funktion angefangen
- * 15.01.2015 Sen, ArtikelAendern speichern Funktion anbgeschlossen
- * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
- */
 /**
+ * Klasse fuer die Maske Zahlingskondition (ZK) aendern/anzeigen Einstieg. Je
+ * nachdem von welchem Button diese Klasse aufgerufen wird aendert sie sich in
+ * den Zustand ZK aendern Einstieg oder ZK anzeigen Einstieg
  *
  * @author Tahir
  */
 public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFrame {
-    /*
-     Hilfsvariablen
-     */
-
-    private Component c;
-    private GUIFactory factory;
-    private ZahlungskonditionAnlegen z;
-    private InterfaceMainView hauptFenster;
-
-    private NumberFormat nf;
 
     /**
-     * Creates new form Fenster
-     *
-     * @param factory
+     * Variable, die für die Navigation benoetigt wird, in ihr wird gespeichert,
+     * welche View zuletzt geöffnet war.
      */
-    public ZahlungskonditionenAEndernEinstieg(GUIFactory factory, ZahlungskonditionAnlegen z, InterfaceMainView mainViev) {
+    private Component c;
+    /**
+     * Varibale für die GUI Factory
+     */
+    private GUIFactory factory;
+    /**
+     * Referenzvaribale der Sicht ZK anlegen
+     */
+    private ZahlungskonditionAnlegen zk;
+    /**
+     * Variable für das Start Fenster. Es kann sein, dass sich ein Admin
+     * anmeldet, dann waere unser StartFenster die StartAdmin. Falls sich ein
+     * User anmeldet, ist unser StartFenster Start.
+     */
+    private InterfaceMainView hauptFenster;
+    /**
+     * Number Formatter wird benoetigt fuer das Parsen der Eingaben, sowie das
+     * Anzeigen von Preisen
+     */
+    private NumberFormat nf;
+    /**
+     * Variablen fuer die Fehlermeldungen
+     */
+    private final String KEINE_ZKNR_EINGEGEBEN = "Bitte geben Sie eine ZahlungskonditionsID ein!";
+    private final String KEINE_ZK_IN_DATENBANK = "Keine passender Zahlungskondition in Datenbank!";
+
+    /**
+     * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die
+     * Documents.
+     *
+     * @param factory beinhaltet das factory Obejekt
+     * @param zk Referenzvariable der ZK anlegen Klasse
+     * @param mainViev beinhaltet das Objekt des StartFenster
+     */
+    public ZahlungskonditionenAEndernEinstieg(GUIFactory factory, ZahlungskonditionAnlegen zk, InterfaceMainView mainViev) {
         initComponents();
         this.factory = factory;
-        this.z = z;
+        this.zk = zk;
         this.hauptFenster = mainViev;
         nf = NumberFormat.getInstance();
         nf.setMinimumFractionDigits(2);
@@ -205,33 +195,44 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Methode, die aufgerufen wird, wenn man auf weiter klickt.
+     *
+     * @param evt automatisch generiert
+     */
+    /*
+     * Historie:
+     * 11.12.2014   Sen     angelegt
+     * 14.12.2014   Sen     ueberarbeitet
+     */
     private void jB_EnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_EnterActionPerformed
         String eingabe = jTF_Zahlungskondition_ID.getText();
-        long zknr = 0;
+        long zknr;
         try {
+            //             ZK mit der eingegebenen ZK nummer wird versucht aus der Datenbank zu laden
+//              Alle Felder der Sicht ZK anlegen werden befuellt
             zknr = nf.parse(eingabe).longValue();
             Zahlungskondition za = GUIFactory.getDAO().getPaymentConditionsById(zknr);
-            z.gibjTF_ZahlungskonditionID().setText("" + za.getZahlungskonditionID());
-            z.gibjCB_Auftragsart().setSelectedItem(za.getAuftragsart());
-            z.gibjSP_LieferzeitSOFORT().setValue(za.getLieferzeitSofort());
-            z.gibjSP_SperrzeitWUNSCH().setValue(za.getSperrzeitWunsch());
-            z.gibjSP_Skontozeit1().setValue(za.getSkontozeit1());
-            z.gibjSP_Skontozeit2().setValue(za.getSkontozeit2());
-            z.gibjCB_Skonto1().setSelectedItem(("" + za.getSkonto1()).replace('.', ','));
-            z.gibjCB_Skonto2().setSelectedItem(("" + za.getSkonto2()).replace('.', ','));
-            z.gibjSP_Mahnzeit1().setValue(za.getMahnzeit1());
-            z.gibjSP_Mahnzeit2().setValue(za.getMahnzeit2());
-            z.gibjSP_Mahnzeit3().setValue(za.getMahnzeit3());
-            z.setVisible(true);
+            zk.gibjTF_ZahlungskonditionID().setText("" + za.getZahlungskonditionID());
+            zk.gibjCB_Auftragsart().setSelectedItem(za.getAuftragsart());
+            zk.gibjSP_LieferzeitSOFORT().setValue(za.getLieferzeitSofort());
+            zk.gibjSP_SperrzeitWUNSCH().setValue(za.getSperrzeitWunsch());
+            zk.gibjSP_Skontozeit1().setValue(za.getSkontozeit1());
+            zk.gibjSP_Skontozeit2().setValue(za.getSkontozeit2());
+            zk.gibjCB_Skonto1().setSelectedItem(("" + za.getSkonto1()).replace('.', ','));
+            zk.gibjCB_Skonto2().setSelectedItem(("" + za.getSkonto2()).replace('.', ','));
+            zk.gibjSP_Mahnzeit1().setValue(za.getMahnzeit1());
+            zk.gibjSP_Mahnzeit2().setValue(za.getMahnzeit2());
+            zk.gibjSP_Mahnzeit3().setValue(za.getMahnzeit3());
+            zk.setVisible(true);
             this.setVisible(false);
-//            jTF_Zahlungskondition_ID.setText("");
             zuruecksetzen();
+//            entsprechende Fehlermeldungen werden in der Statuszeile angezeigt
         } catch (ParseException ex) {
             System.out.println("Fehler beim Parsen in der Klasse ArtikelAnlegen! " + ex.getMessage());
-            this.hauptFenster.setStatusMeldung("Bitte geben Sie eine ZahlungskonditionsID ein!");
+            this.hauptFenster.setStatusMeldung(KEINE_ZKNR_EINGEGEBEN);
         } catch (ApplicationException ex) {
-            this.hauptFenster.setStatusMeldung("Kein passender Geschäftspartner in Datenbank! " + ex.getMessage());
+            this.hauptFenster.setStatusMeldung(KEINE_ZK_IN_DATENBANK);
             jTF_Zahlungskondition_ID.setText("");
         } catch (NullPointerException e) {
             System.out.println(e.getMessage());
@@ -243,7 +244,11 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
      * der Guifactory die letzte aufgerufene Component abgefragt wodurch man die
      * jetzige Component verlässt und zur übergebnen Component zurück kehrt.
      *
-     * @param evt
+     * @param evt automatisch generiert
+     */
+    /*
+     * Historie:
+     * 01.12.2014   Sen     angelegt
      */
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
         c = null;   //Initialisierung der Componentspeichervariable
@@ -252,30 +257,68 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
         this.setVisible(false);// Internalframe wird nicht mehr dargestellt
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
-
+    /**
+     * Aktion die beim betätigen schliesen des Fenster ausgefuert wird
+     *
+     * @param evt automatisch generiert
+     */
+    /*
+     * Historie:
+     * 01.12.2014   Sen     angelegt
+     */
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         jB_ZurueckActionPerformed(null);
     }//GEN-LAST:event_formInternalFrameClosing
-
+    /**
+     * Aktion die beim klicken auf Enter durchgefuert wird
+     *
+     * @param evt automatisch generiert
+     */
+    /*
+     * Historie:
+     * 02.01.2015   Sen     angelegt
+     */
     private void jTF_Zahlungskondition_IDKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTF_Zahlungskondition_IDKeyPressed
         if (evt.getKeyCode() == evt.VK_ENTER) {
             jB_EnterActionPerformed(null);
         }
     }//GEN-LAST:event_jTF_Zahlungskondition_IDKeyPressed
-
+    /**
+     * Aktion die beim klicken auf Button Suche durchgefuert wird
+     *
+     * @param evt automatisch generiert
+     */
+    /*
+     * Historie:
+     * 16.01.2015   Sen     angelegt
+     */
     private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
         this.hauptFenster.rufeSuche(this);
     }//GEN-LAST:event_jB_SuchenActionPerformed
 
-    /**
-     * setterMethode für Simon
+     /**
+     * setterMethode für die Suche
      *
-     * @param zk Datum Name Was 18.01.2015 SEN angelegt
+     * @param zk ZK Obkjekt, aus dem die ZK nummer gelesen wird
+     */
+    /*
+     * Historie:
+     * 18.01.2015   Sen     angelegt
      */
     public void setzeGP_IDAusSuche(Zahlungskondition zk) {
         jTF_Zahlungskondition_ID.setText("" + zk.getZahlungskonditionID());
     }
 
+    /**
+     * methode, die die Eingaben zuruecksetzt
+     */
+    /*
+     * Historie:
+     * 18.01.2015   Sen     angelegt
+     */
+    public void zuruecksetzen() {
+        jTF_Zahlungskondition_ID.setText("");
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_Anzeigen;
     private javax.swing.JButton jB_Enter;
@@ -288,8 +331,4 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
     private javax.swing.JTextField jTF_Zahlungskondition_ID;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
-
-    public void zuruecksetzen() {
-        jTF_Zahlungskondition_ID.setText("");
-    }
 }
