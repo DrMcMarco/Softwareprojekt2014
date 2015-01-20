@@ -957,7 +957,9 @@ public class DataAccessObject {
                         wird zusätzlich durch diese Methode die Verfügbarkeits-
                         prüfung und die Bestandsführung durchgeführt
                     */
-                    this.setzeAuftragsstatus(ak, this.getStatusByName(Status));
+                    if (!Status.toLowerCase().equals("erfasst")) {
+                        this.setzeAuftragsstatus(ak, this.getStatusByName(Status));
+                    }
                     
                     //Auftragskopf persistieren
                     em.persist(ak);
