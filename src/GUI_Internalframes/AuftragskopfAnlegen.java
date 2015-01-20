@@ -149,6 +149,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     final String aenderungVonDaten_Text = "Es wurden Daten geändert. Wollen sie wirklich"
             + "die Daten überspeichern?";
     final String aenderungVonDaten_Titel = "Änderung von Daten";
+    final String keineAenderungen_Titel = "Auftragskopf bereits angelegt";
+    final String keineAenderung_Text = "Der Auftrag existiert bereits.";
     /*
      Speichervariablen
      */
@@ -1014,7 +1016,18 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      * @param evt
      */
     private void jB_SpeichernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SpeichernActionPerformed
-        //Aufruf der Schnittstellenmethode um auf Vollständigkeit der Eingaben zu prüfen.
+
+        Auftragskopf kopf;
+
+        String dbGeschaeftspartnerID;
+        String dbAuftragsart;
+        String dbZahlungskondition;
+        String dbStatus;
+        String dbLieferdatum;
+        String dbAbschlussdatum;
+        boolean positionenSindGleich = true;
+
+//Aufruf der Schnittstellenmethode um auf Vollständigkeit der Eingaben zu prüfen.
         ueberpruefen();
         try {
             if (fehlendeEingaben.isEmpty()) {
@@ -1034,24 +1047,45 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                         zuruecksetzen();//Methode die bestimmte Eingabefelder leert
                     } else if (this.getTitle().equals("Auftragskopf ändern")) {
 
-                        Auftragskopf kopf = GUIFactory.getDAO().
+                        kopf = GUIFactory.getDAO().
                                 getOrderHead(Long.parseLong(auftragskopfID_jTextField.getText()));
 
-                        String dbGeschaeftspartnerID
+                        dbGeschaeftspartnerID
                                 = String.valueOf(kopf.getGeschaeftspartner().getGeschaeftspartnerID());
-                        String dbAuftragsart = kopf.getTyp();
-                        String dbZahlungskondition = kopf.;
-                        String dbLieferdatum = gibDatumAlsString(kopf.getLieferdatum());
-                        String dbAbschlussdatum = gibDatumAlsString(kopf.getAbschlussdatum());
+                        dbAuftragsart = kopf.getTyp();
+                        dbZahlungskondition
+                                = String.valueOf(kopf.getZahlungskondition().getZahlungskonditionID());
+                        dbStatus = kopf.getStatus().getStatus();
+                        dbLieferdatum = gibDatumAlsString(kopf.getLieferdatum());
+                        dbAbschlussdatum = gibDatumAlsString(kopf.getAbschlussdatum());
 
                         ArrayList<Auftragsposition> dbAuftragspositionen = new ArrayList<>();
                         dbAuftragspositionen = kopf.getPositionsliste();
 
+                        if (dbAuftragspositionen.size() == auftragspositionen.size()) {
+                            for (int i = 0; i < dbAuftragspositionen.size() && positionenSindGleich; i++) {
+                                if (dbAuftragspositionen.get(i).getArtikel().getArtikelID()
+                                        == auftragspositionen.get(i).getArtikel().getArtikelID()
+                                        && dbAuftragspositionen.get(i).getPositionsnummer()
+                                        == auftragspositionen.get(i).getPositionsnummer()
+                                        && dbAuftragspositionen.get(i).getEinzelwert()
+                                        == auftragspositionen.get(i).getEinzelwert()
+                                        && gibDatumAlsString(dbAuftragspositionen.get(i).getErfassungsdatum()).
+                                        equals(gibDatumAlsString(auftragspositionen.get(i).getErfassungsdatum()))) {
+                                    positionenSindGleich = true;
+                                } else {
+                                    positionenSindGleich = false;
+                                }
+                            }
+                        }
+
                         if (!(dbGeschaeftspartnerID.equals(geschaeftspartner_jTextField.getText())
                                 || dbAuftragsart.equals(auftragsart_jComboBox.getSelectedItem().toString())
                                 || dbZahlungskondition.equals(zahlungskonditionen_jComboBox.getSelectedItem().toString())
+                                || dbStatus.equals(buttonGroup1.getSelection().toString())
                                 || dbLieferdatum.equals(lieferdatum_jFormattedTextField.getText())
-                                || dbAbschlussdatum.equals(abschlussdatum_jFormattedTextField.getText()))) {
+                                || dbAbschlussdatum.equals(abschlussdatum_jFormattedTextField.getText()))
+                                || positionenSindGleich == true) {
 
                             int antwort = JOptionPane.showConfirmDialog(rootPane, aenderungVonDaten_Text,
                                     aenderungVonDaten_Titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -1068,6 +1102,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 
                             }
                         }
+                        JOptionPane.showMessageDialog(null, keineAenderung_Text,
+                                keineAenderungen_Titel, JOptionPane.OK_OPTION);
                     }
 
                 } else {
@@ -1892,7 +1928,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 //            String erfassungsDatum, String lieferDatum, String abschlussDatum,
 //            String status) {
         ArrayList<Auftragsposition> liste = auftragskopf.getPositionsliste();
-        
+
         this.geschaeftspartner_jTextField.setText(String.valueOf(auftragskopf.getGeschaeftspartner().getGeschaeftspartnerID()));
         this.auftragskopfID_jTextField.setText(String.valueOf(auftragskopf.getAuftragskopfID()));
         this.auftragswert_jTextField.setText(String.valueOf(auftragskopf.getWert()));
@@ -1927,13 +1963,11 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 //                    liste.get(i).getMenge());
 //
 //        }
-
         for (int i = 0; i < liste.size(); i++) {
 
             artikel.put(liste.get(i).getArtikel().getArtikelID(),
                     liste.get(i).getMenge());
-            
-            
+
             summenWertFuerPos = liste.get(i).getEinzelwert()
                     * liste.get(i).getMenge();
 
