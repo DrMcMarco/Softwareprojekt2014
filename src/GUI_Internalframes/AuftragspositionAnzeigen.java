@@ -5,6 +5,7 @@
  */
 package GUI_Internalframes;
 
+import DTO.Auftragsposition;
 import Documents.*;
 import Interfaces.*;
 import java.awt.Color;
@@ -15,6 +16,8 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import JFrames.*;
+import java.util.Calendar;
+import static jdk.nashorn.internal.runtime.Debug.id;
 
 /**
  *
@@ -660,50 +663,74 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /* Datum Name Was */
     /* 17.01.2015 Terrasi angelegt und Dokumentation */
     /*----------------------------------------------------------*/
-    public void setAuftragspositionsID_jTextField(String id) {
-        this.auftragspositionsID_jTextField.setText(id);
+    public void setAuftragspositionsID_jTextField(Auftragsposition position) {
+        this.auftragspositionsID_jTextField.setText(String.valueOf(position.getAuftrag().getAuftragskopfID()));
     }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 17.01.2015 Terrasi angelegt und Dokumentation */
     /*----------------------------------------------------------*/
-    public void setEinzelwert_jTextField(String einzelwert) {
-        this.einzelwert_jTextField.setText(einzelwert);
+    public void setEinzelwert_jTextField(Auftragsposition position) {
+        this.einzelwert_jTextField.setText(String.valueOf(position.getEinzelwert()));
     }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 17.01.2015 Terrasi angelegt und Dokumentation */
     /*----------------------------------------------------------*/
-    public void setErfassungsdatum_jTextField(String erfassungsDatum) {
-        this.erfassungsdatum_jTextField.setText(erfassungsDatum);
+    public void setErfassungsdatum_jTextField(Auftragsposition position) {
+        this.erfassungsdatum_jTextField.setText(gibDatumAlsString(position.getErfassungsdatum()));
     }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 17.01.2015 Terrasi angelegt und Dokumentation */
     /*----------------------------------------------------------*/
-    public void setMaterialnummer_jTextField(String materialnummer) {
-        this.materialnummer_jTextField.setText(materialnummer);
+    public void setMaterialnummer_jTextField(Auftragsposition position) {
+        this.materialnummer_jTextField.setText(String.valueOf(position.getArtikel().getArtikelID()));
     }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 17.01.2015 Terrasi angelegt und Dokumentation */
     /*----------------------------------------------------------*/
-    public void setMenge_jTextField(String menge) {
-        this.menge_jTextField.setText(menge);
+    public void setMenge_jTextField(Auftragsposition position) {
+        this.menge_jTextField.setText(String.valueOf(position.getMenge()));
     }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 17.01.2015 Terrasi angelegt und Dokumentation */
     /*----------------------------------------------------------*/
-    public void setPositionsnummer_jTextField(String position) {
-        this.positionsnummer_jTextField.setText(position);
+    public void setPositionsnummer_jTextField(Auftragsposition position) {
+        this.positionsnummer_jTextField.setText(String.valueOf(position.getPositionsnummer()));
     }
     
+    private String gibDatumAlsString(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int tag = cal.get(Calendar.DAY_OF_MONTH);
+        int mon = cal.get(Calendar.MONTH);
+        mon = mon + 1;
+        int jahr = cal.get(Calendar.YEAR);
+        String tagAlsString;
+        String monatAlsString;
+        if (tag < 10) {
+            tagAlsString = "0" + tag;
+        } else {
+            tagAlsString = "" + tag;
+        }
+
+        if (mon < 10) {
+            monatAlsString = "0" + mon;
+        } else {
+            monatAlsString = "" + mon;
+        }
+
+        String ausgabeDatum = tagAlsString + "." + monatAlsString + "." + jahr;
+        return ausgabeDatum;
+    }
     
 
 
