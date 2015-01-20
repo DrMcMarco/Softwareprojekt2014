@@ -20,19 +20,13 @@ import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-/*
- * Klassenhistorie: 
- * 27.11.2014 Sen, angelegt 
- * 28.11.2014 Sen, textfelder, Comboboxe, Buttons angelegt 
- * 01.12.2014 Sen, grundlegende Funktionen implementiert 
- */
 /**
  * GUI Klasse für Artikel verwalten. Diese Klasse beinhaltet alle Methoden, die
  * benötigt werden, um einen Arikel anzulegen, einen angelegten Artikel zu
  * ändern sowie einen angelegten Artikel anzeigen zu lassen. Je nach dem von
  * welchem Button aus diese Klasse aufgerufen wird, passt sie sich entsprechend
  * an und ändert sich zum Beispiel in die Sicht Artikel ändern. Falls der Button
- * Artikel anlegen betätigt wird, ändert sich die Klasse in Artikel anlegen.
+ * Artikel anlegen betätigt wird, ändert sich die Sicht in Artikel anlegen.
  *
  * @author Tahir
  *
@@ -826,15 +820,15 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                     long artikelnr = nf.parse(jTF_Artikelnummer.getText()).longValue();
 //                  Artikel aus Datenbank ist Variable artikelVorher  
                     Artikel artikelVorher = this.dao.getItem(artikelnr);
-//                  vergleich Artikel erzeugen
+//                  vergleich Artikel erzeugen mit den Eingabedaten
                     Artikel artikelNachher = new Artikel(artikelVorher.getKategorie(),
                             artikelname, artikelbeschreibung,
                             einzelwert, bestellwert, mwst, bestandsmengeFREI,
                             bestandsmengeRESERVIERT, bestandsmengeZULAUF, bestandsmengeVERKAUFT);
 //                  ArtikelID des Nachher Artikel setzen
                     artikelNachher.setArtikelID(artikelnr);
-//                    Falls die Kategorienamen und auch die Artikel selbst gleich sind ist keine keine Veränderung
                     if (artikelVorher.getKategorie().getKategoriename().equals(kategorie) && artikelVorher.equals(artikelNachher)) {
+//                    Falls die Kategorienamen und auch die Artikel selbst gleich sind ist keine Veränderung
                         JOptionPane.showMessageDialog(null, "Es wurden keine Änderungen gemacht!", "Keine Änderungen", JOptionPane.INFORMATION_MESSAGE);
                     } else {
 //                     etwas ist nicht gleich
@@ -853,13 +847,13 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                     }
 
                 }
-
+//          Fehler abfangen
             } catch (ApplicationException | ParseException | NullPointerException e) {
                 System.out.println("Fehler in Sicht Artikel anlegen Methode Speichern " + e.getMessage());
             }
         } else {
 ////          fehlerhafteComponenten ist nicht leer (es sind fehlerhafte Componenten vorhanden)
-////          eine Meldung wird ausgegeben  
+////          wird methode fuer das Markieren ausgefuehrt
 //            JOptionPane.showMessageDialog(null, TEXT_PFLICHTFELDER, TITEL_PFLICHTFELDER, JOptionPane.ERROR_MESSAGE);
 ////          an die erste fehlerhafte Componenten wird der Focus gesetzt  
 //            fehlerhafteComponenten.get(0).requestFocusInWindow();
@@ -1012,7 +1006,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
      */
     /*
      * Historie:
-     * 27.11.2014   Sen     angelegt
+     * 27.11.2014   Terrasi     angelegt
      */
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
         c = null;   //Initialisierung der Componentspeichervariable
@@ -1355,10 +1349,10 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
     }
 
     /**
-     * setzeMethode, die aus der Suche aufgerufen wird. Es wird die Sicht GP
-     * Anzeigen aufgerufen und der gesuchte GP angezeigt
+     * setzeMethode, die aus der Suche aufgerufen wird. Es wird die Sicht Atikel
+     * Anzeigen aufgerufen und der gesuchte Artikel angezeigt
      *
-     * @param artikel
+     * @param artikel artikel aus der Suche
      */
     /*
      * Historie:

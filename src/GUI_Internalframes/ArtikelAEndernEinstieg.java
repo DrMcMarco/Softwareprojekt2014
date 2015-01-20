@@ -42,6 +42,11 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
      * Anzeigen von Preisen
      */
     private NumberFormat nf;
+    /**
+     * Variablen fuer die Fehlermeldungen
+     */
+    private final String KEINE_ARTIKELNR_EINGEGEBEN = "Bitte geben Sie eine Artikelnummer ein!";
+    private final String KEINE_ARTIKEL_IN_DATENBANK = "Kein passender Artikel in Datenbank!";
 
     /**
      * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die
@@ -223,15 +228,14 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
             zuruecksetzen();
 //            entsprechende Fehlermeldungen werden in der Statuszeile angezeigt
         } catch (ParseException ex) {
-            this.hauptFenster.setStatusMeldung("Bitte geben Sie eine Artikelnummer ein!");
+            this.hauptFenster.setStatusMeldung(KEINE_ARTIKELNR_EINGEGEBEN);
         } catch (ApplicationException ex) {
-            this.hauptFenster.setStatusMeldung("Kein passender Artikel in Datenbank!");
+            this.hauptFenster.setStatusMeldung(KEINE_ARTIKEL_IN_DATENBANK);
             zuruecksetzen();
         } catch (NullPointerException e) {
             System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_jB_EnterActionPerformed
-
     /**
      * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird. Es wird von
      * der Guifactory die letzte aufgerufene Component abgefragt wodurch man die
@@ -279,13 +283,13 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jTF_Artikel_IDKeyPressed
     /**
-     * Aktion die beim klicken auf Enter durchgefuert wird
+     * Aktion die beim klicken auf Button Suche durchgefuert wird
      *
      * @param evt automatishc generiert
      */
     /*
      * Historie:
-     * 16.01.2015   Sen     angelegt
+     * 16.01.2015   Terrasi     angelegt
      */
     private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
         this.hauptFenster.rufeSuche(this);
@@ -302,8 +306,11 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
     public void setzeGP_IDAusSuche(Artikel artikel) {
         jTF_Artikel_ID.setText("" + artikel.getArtikelID());
     }
-      
-    /* methode, die die Eingaben zuruecksetzt
+
+    /**
+     * methode, die die Eingaben zuruecksetzt
+     */
+    /*
      * Historie:
      * 18.01.2015   Sen     angelegt
      */
@@ -322,5 +329,4 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTF_Artikel_ID;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
-
 }
