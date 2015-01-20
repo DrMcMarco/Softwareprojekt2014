@@ -1066,6 +1066,10 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     public AuftragspositionAendern gibPositionAendernEinstieg() {
         return this.auftragsspositionaender;
     }
+    @Override
+    public ZahlungskonditionAnlegen gibZkAnlegen() {
+        return this.zahlungskonditionanlegen;
+    }
     /**
      * @param args the command line arguments
      */
