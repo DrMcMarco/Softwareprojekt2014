@@ -1615,7 +1615,7 @@ public class DataAccessObject {
             throw new ApplicationException("Fehler",
                     "Geben Sie eine Kategorie an!");
         query = em.createQuery("SELECT ST FROM Status ST "
-                + "WHERE ST.Status LIKE :name").setParameter("name", name);
+                + "WHERE ST.Status LIKE :name").setParameter("name", name.toLowerCase());
         try {
             status = (Status) query.getSingleResult();
         } catch (Exception e) {
