@@ -5,6 +5,8 @@
  */
 package GUI_Internalframes;
 
+import DTO.Auftragskopf;
+import DTO.Auftragsposition;
 import Documents.*;
 import Interfaces.*;
 import JFrames.GUIFactory;
@@ -447,6 +449,17 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
         list.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
     }
 
+    public void setAuftragskopfID_jTextField(Auftragskopf auftragskopf) {
+        this.AuftragskopfID_jTextField.
+                setText(String.valueOf(auftragskopf.getAuftragskopfID()));
+    }
+
+    public void setAuftragspositionID_jTextField(Auftragsposition position) {
+        this.AuftragspositionID_jTextField.
+                setText(String.valueOf(position.getPositionsnummer()));
+    }
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AuftragskopfID_jLabel;

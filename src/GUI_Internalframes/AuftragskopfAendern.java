@@ -144,7 +144,6 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         jToolBar1.add(jB_Loeschen);
 
         jB_Suchen.setText("Suchen");
-        jB_Suchen.setEnabled(false);
         jToolBar1.add(jB_Suchen);
 
         auftragskopfID_jLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -269,15 +268,8 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
 
                         this.auftragskopfAnlegen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
 
-                        this.auftragskopfAnlegen.setzeEingabe(
-                                String.valueOf(aKopf.getGeschaeftspartner().getGeschaeftspartnerID()),
-                                String.valueOf(aKopf.getAuftragskopfID()),
-                                String.valueOf(aKopf.getWert()),
-                                aKopf.getAuftragstext(), aKopf.getClass().getName(),
-                                gibDatumAlsString(aKopf.getErfassungsdatum()),
-                                gibDatumAlsString(aKopf.getLieferdatum()),
-                                gibDatumAlsString(aKopf.getAbschlussdatum()),
-                                aKopf.getStatus().getStatus());
+                        this.auftragskopfAnlegen.
+                                setzeEingabe(GUIFactory.getDAO().getOrderHead(Long.parseLong(auftragskopfID_jTextField.getText())));
 
                         zuruecksetzen();//Methode die bestimmte Eingabefelder leert
                         this.setVisible(false);
@@ -287,15 +279,8 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
                 } else {
                     this.auftragskopfAnlegen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
 
-                    this.auftragskopfAnlegen.setzeEingabe(
-                            String.valueOf(aKopf.getGeschaeftspartner().getGeschaeftspartnerID()),
-                            String.valueOf(aKopf.getAuftragskopfID()),
-                            String.valueOf(aKopf.getWert()),
-                            aKopf.getAuftragstext(), aKopf.getClass().getName(),
-                            gibDatumAlsString(aKopf.getErfassungsdatum()),
-                            gibDatumAlsString(aKopf.getLieferdatum()),
-                            gibDatumAlsString(aKopf.getAbschlussdatum()),
-                            aKopf.getStatus().getStatus());
+                    this.auftragskopfAnlegen.
+                            setzeEingabe(GUIFactory.getDAO().getOrderHead(Long.parseLong(auftragskopfID_jTextField.getText())));
 
                     zuruecksetzen();//Methode die bestimmte Eingabefelder leert
                     this.setVisible(false);
@@ -469,7 +454,12 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         return datum;
     }
 
+    public void setAuftragskopfID_jTextField(Auftragskopf auftragskopf) {
+        this.auftragskopfID_jTextField.setText(String.valueOf(auftragskopf.getAuftragskopfID()));
+    }
 
+
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel auftragskopfID_jLabel;
     private javax.swing.JTextField auftragskopfID_jTextField;

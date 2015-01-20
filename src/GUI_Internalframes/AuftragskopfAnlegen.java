@@ -2,6 +2,7 @@ package GUI_Internalframes;
 
 import DAO.ApplicationException;
 import DAO.DataAccessObject;
+import DTO.Auftragskopf;
 import DTO.Auftragsposition;
 import DTO.Zahlungskondition;
 import javax.swing.JOptionPane;
@@ -97,7 +98,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     /*
      Variable für die Zählung von Auftragspositionen.
      */
-    private Integer positionsZaehler = 1;
+//    private Integer positionsZaehler = 1;
 
     /*
      Syntaxvariablen
@@ -137,6 +138,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             + "\n Bitte geben Sie eine gültige Positionsnummer ein. (z.B. 1 oder 999999999)";
     final String fehlermeldungGeschaeftspartnerID_text = "Keine Gültige Geschäftspartner-ID. \n"
             + " Bitte geben sie eine gültige Geschäftspartner-ID ein.";
+    final String fehlermeldungKeinePositionGewaehlt = " Bitte eine Position wählen.";
 
     //Ausgaben bei Systemmeldungen.
     final String ERFOLGREICHEANMELDUNG = "Ihr Auftrags wurde erfolgreich angelegt.";
@@ -144,6 +146,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     final String LOESCHENMELDUNG = "Sind Sie sicher, dass sie den Auftrag löschen möchten ?";
     final String LOESCHEN_TITEL = "Löschen eines Auftrags";
 
+    final String aenderungVonDaten_Text = "Es wurden Daten geändert. Wollen sie wirklich"
+            + "die Daten überspeichern?";
+    final String aenderungVonDaten_Titel = "Änderung von Daten";
     /*
      Speichervariablen
      */
@@ -936,7 +941,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 einzelwert_jTextField.setText(String.valueOf(einzelwert));
             }
 
-        } catch (ApplicationException |NumberFormatException e) {
+        } catch (ApplicationException | NumberFormatException e) {
             //Fehlermeldung das ein gültiger wert eingegeben werden soll.
             this.hauptFenster.setStatusMeldung(e.getMessage());
         }
@@ -1017,15 +1022,53 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                     typ = auftragsart_jComboBox.getSelectedItem().toString();
                     auftragsText = auftragstext_jTextArea.getText();
                     geschaeftspartnerID = Long.parseLong(geschaeftspartner_jTextField.getText());
-                    //Auftragskopf und Position anlegen
+                    if (this.getTitle().equals("Auftragskopf anlegen")) {
 
-                    //Überprüfung ob Gp vorhanden ist(Focuslost
-                    GUIFactory.getDAO().erstelleAuftragskopf(typ, artikel,
-                            auftragsText, geschaeftspartnerID,
-                            Integer.parseInt(zahlungskonditionen_jComboBox.getSelectedItem().toString()),
-                            "erfasst", abschlussdatum, lieferdatum);
-                    this.hauptFenster.setStatusMeldung(ERFOLGREICHEANMELDUNG);
-                    zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                        //Auftragskopf und Position anlegen
+                        //Überprüfung ob Gp vorhanden ist(Focuslost
+                        GUIFactory.getDAO().erstelleAuftragskopf(typ, artikel,
+                                auftragsText, geschaeftspartnerID,
+                                Integer.parseInt(zahlungskonditionen_jComboBox.getSelectedItem().toString()),
+                                "erfasst", abschlussdatum, lieferdatum);
+                        this.hauptFenster.setStatusMeldung(ERFOLGREICHEANMELDUNG);
+                        zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                    } else if (this.getTitle().equals("Auftragskopf ändern")) {
+
+                        Auftragskopf kopf = GUIFactory.getDAO().
+                                getOrderHead(Long.parseLong(auftragskopfID_jTextField.getText()));
+
+                        String dbGeschaeftspartnerID
+                                = String.valueOf(kopf.getGeschaeftspartner().getGeschaeftspartnerID());
+                        String dbAuftragsart = kopf.getTyp();
+                        String dbZahlungskondition = kopf.;
+                        String dbLieferdatum = gibDatumAlsString(kopf.getLieferdatum());
+                        String dbAbschlussdatum = gibDatumAlsString(kopf.getAbschlussdatum());
+
+                        ArrayList<Auftragsposition> dbAuftragspositionen = new ArrayList<>();
+                        dbAuftragspositionen = kopf.getPositionsliste();
+
+                        if (!(dbGeschaeftspartnerID.equals(geschaeftspartner_jTextField.getText())
+                                || dbAuftragsart.equals(auftragsart_jComboBox.getSelectedItem().toString())
+                                || dbZahlungskondition.equals(zahlungskonditionen_jComboBox.getSelectedItem().toString())
+                                || dbLieferdatum.equals(lieferdatum_jFormattedTextField.getText())
+                                || dbAbschlussdatum.equals(abschlussdatum_jFormattedTextField.getText()))) {
+
+                            int antwort = JOptionPane.showConfirmDialog(rootPane, aenderungVonDaten_Text,
+                                    aenderungVonDaten_Titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                            //Falls bejaht wird der Auftragskopf verändert gespeichert.
+                            if (antwort == JOptionPane.YES_OPTION) {
+
+                                GUIFactory.getDAO().
+                                        aendereAuftrag(Long.parseLong(auftragskopfID_jTextField.getText()),
+                                                geschaeftspartnerID,
+                                                Integer.parseInt(zahlungskonditionen_jComboBox.getSelectedItem().toString()),
+                                                artikel, auftragsText, status, abschlussdatum, lieferdatum);
+
+                            } else {
+
+                            }
+                        }
+                    }
 
                 } else {
                     if (auftragsposition_jTable.getModel().getRowCount() == 0) {//Wenn nicht mindestens eine Auftragsposition zum Auftragskopf angelegt worden ist
@@ -1201,6 +1244,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     private void NeuePosition_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NeuePosition_jButtonActionPerformed
 
         Integer artikelMenge = 0;
+
         //Aufruf der Schnittstellenmethode um auf Vollständigkeit der Eingaben zu prüfen.
         ueberpruefen();
         HashMap<Long, Integer> map = new HashMap<>();
@@ -1215,10 +1259,12 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                         artikel.put(Long.parseLong(materialnummer_jTextField.getText()), artikelMenge);
 
                         artikelMenge = 0;
-                        
+
                         for (int i = 0; i < auftragspositionen.size(); i++) {
+
                             if (auftragspositionen.get(i).getArtikel().getArtikelID()
                                     == Long.parseLong(materialnummer_jTextField.getText())) {
+
                                 auftragspositionen.get(i).setMenge(auftragspositionen.get(i).getMenge()
                                         + Integer.parseInt(menge_jTextField.getText()));
 
@@ -1237,6 +1283,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                                 abschlussdatum);
 
                         auftragspositionen.add(position);
+
                     }
 
                     dtm.setRowCount(0);
@@ -1245,30 +1292,27 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 
                         summenWertFuerPos = auftragspositionen.get(i).getEinzelwert()
                                 * auftragspositionen.get(i).getMenge();
-                        System.out.println(auftragspositionen.get(i).getEinzelwert());
+
                         Object[] neuesObj = new Object[]{i + 1,
                             auftragspositionen.get(i).getArtikel().getArtikelID(),
                             auftragspositionen.get(i).getMenge(), summenWertFuerPos,
                             gibDatumAlsString(abschlussdatum)};
-                        System.out.println(i);
-                        
+
+                        gesamtAuftragswert += summenWertFuerPos;
+
                         dtm.addRow(neuesObj);
-                        
-                        summenWertFuerPos = 0.00;
-                        positionsZaehler++;
+
                     }
-                    
 
                     auftragsposition_jTable.setModel(dtm);
-                    
-//                    auftragspositionen.clear();
 
-                    gesamtAuftragswert += summenWertFuerPos;
                     auftragswert_jTextField.setText(String.valueOf(gesamtAuftragswert));
-//                    positionsZaehler++;
+                    gesamtAuftragswert = 0.00;
+                    summenWertFuerPos = 0.00;
+
                 } else {
-                    int k = 2;
-                    if (k == 2) {//Wenn nicht mindestens eine Auftragsposition zum Auftragskopf angelegt worden ist
+
+                    if (auftragsposition_jTable.getRowCount() == 0) {//Wenn nicht mindestens eine Auftragsposition zum Auftragskopf angelegt worden ist
                         // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben getätigt worden sind
                         fehlEingabenMarkierung(fehlendeEingabenAuftragsposition,
                                 FEHLERMELDUNG_UNVOLLSTAENDIG_TITEL,
@@ -1427,18 +1471,42 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     /* 17.01.2015 Terrasi, angelegt und dokumentiert*/
     /*----------------------------------------------------------*/
     /**
-     * Methode um eine Auftragsposition zu aus der Auftragspositionstabelle zu
+     * Methode um eine Auftragsposition aus der Auftragspositionstabelle zu
      * löschen.
      *
      * @param evt
      */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Object o = auftragsposition_jTable.getSelectedRow();
 
-//        System.out.println(o.toString());
-        dtm.removeRow(auftragsposition_jTable.getSelectedRow());
-        auftragsposition_jTable.setModel(dtm);
-        positionsZaehler--;
+        try {
+            artikel.remove(auftragspositionen.get(auftragsposition_jTable.getSelectedRow()).getArtikel().getArtikelID());
+            auftragspositionen.remove(auftragsposition_jTable.getSelectedRow());
+
+            dtm.setRowCount(0);
+
+            for (int i = 0; i < auftragspositionen.size(); i++) {
+
+                summenWertFuerPos = auftragspositionen.get(i).getEinzelwert()
+                        * auftragspositionen.get(i).getMenge();
+
+                Object[] neuesObj = new Object[]{i + 1,
+                    auftragspositionen.get(i).getArtikel().getArtikelID(),
+                    auftragspositionen.get(i).getMenge(), summenWertFuerPos,
+                    gibDatumAlsString(abschlussdatum)};
+
+                dtm.addRow(neuesObj);
+
+                gesamtAuftragswert += summenWertFuerPos;
+
+            }
+
+            auftragswert_jTextField.setText(String.valueOf(gesamtAuftragswert));
+            gesamtAuftragswert = 0.00;
+            auftragsposition_jTable.setModel(dtm);
+
+        } catch (ArrayIndexOutOfBoundsException e) {
+            this.hauptFenster.setStatusMeldung(fehlermeldungKeinePositionGewaehlt);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /*----------------------------------------------------------*/
@@ -1453,7 +1521,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     public void zuruecksetzen() {
 
         //Variablen für den Auftragswert werden alle auf 0 gesetzt.
-        positionsZaehler = 0;
         gesamtAuftragswert = 0.00;
         summenWertFuerPos = 0.00;
         einzelwert = 0.00;
@@ -1462,6 +1529,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         geschaeftspartner_jTextField.setText("");
         auftragswert_jTextField.setText("");
         positionsnummer_jTextField.setText("");
+
+        auftragsart_jComboBox.setSelectedIndex(0);
+        zahlungskonditionen_jComboBox.setSelectedIndex(0);
+
 //        positionsnummer_jTextField.setText(String.valueOf(positionsZaehler));
         materialnummer_jTextField.setText("");
         menge_jTextField.setText("");
@@ -1471,6 +1542,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 //        erfassungsdatum_jFormattedTextField.setText(format.format(heute));
 //        erfassungsdatum_auftragsposition_jFormattedTextField.setText(format.format(heute));
         artikel.clear();
+        auftragspositionen.clear();
 
         dtm.setRowCount(0);
 
@@ -1585,7 +1657,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      */
     public void setStatusAender() {
         this.setTitle("Auftragskopf ändern");
-        zuruecksetzen();
+//        zuruecksetzen();
         this.geschaeftspartner_jTextField.setEnabled(true);
         this.auftragskopfID_jTextField.setEnabled(false);
         this.auftragswert_jTextField.setEnabled(false);
@@ -1595,7 +1667,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         this.erfassungsdatum_jFormattedTextField.setEnabled(false);
         this.lieferdatum_jFormattedTextField.setEnabled(true);
         this.abschlussdatum_jFormattedTextField.setEnabled(true);
-        this.erfasst_jRadioButton.setEnabled(false);
+        this.erfasst_jRadioButton.setEnabled(true);
         this.freigegeben_jRadioButton.setEnabled(true);
         this.abgeschlossen_jRadioButton.setEnabled(true);
         this.positionsnummer_jTextField.setEnabled(true);
@@ -1621,7 +1693,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      */
     public void setStatusAnzeigen() {
         this.setTitle("Auftragsposition anzeigen");
-        zuruecksetzen();
+//        zuruecksetzen();
         this.geschaeftspartner_jTextField.setEnabled(false);
         this.auftragskopfID_jTextField.setEnabled(false);
         this.auftragswert_jTextField.setEnabled(false);
@@ -1814,31 +1886,74 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     /* Datum Name Was */
     /* 14.01.2015 Terrasi angelegt und dokumentiert*/
     /*----------------------------------------------------------*/
-    public void setzeEingabe(String geschaeftsPID, String auftragsKopfID,
-            String auftragsWert, String auftragsText, String auftragsArt,
-            String erfassungsDatum, String lieferDatum, String abschlussDatum,
-            String status) {
-        this.geschaeftspartner_jTextField.setText(geschaeftsPID);
-        this.auftragskopfID_jTextField.setText(auftragsKopfID);
-        this.auftragswert_jTextField.setText(auftragsWert);
+    public void setzeEingabe(Auftragskopf auftragskopf) {
+//    public void setzeEingabe(String geschaeftsPID, String auftragsKopfID,
+//            String auftragsWert, String auftragsText, String auftragsArt,
+//            String erfassungsDatum, String lieferDatum, String abschlussDatum,
+//            String status) {
+        ArrayList<Auftragsposition> liste = auftragskopf.getPositionsliste();
+        
+        this.geschaeftspartner_jTextField.setText(String.valueOf(auftragskopf.getGeschaeftspartner().getGeschaeftspartnerID()));
+        this.auftragskopfID_jTextField.setText(String.valueOf(auftragskopf.getAuftragskopfID()));
+        this.auftragswert_jTextField.setText(String.valueOf(auftragskopf.getWert()));
 
 //        this.auftragsart_jComboBox.setSelectedItem(auftragsArt);
-        if (auftragsart_jComboBox.getItemAt(0).toString().equals(auftragsArt)) {
+        if (auftragsart_jComboBox.getItemAt(0).toString().equals(auftragskopf.getTyp())) {
             auftragsart_jComboBox.setSelectedIndex(0);
         }
-        if (auftragsart_jComboBox.getItemAt(1).toString().equals(auftragsArt)) {
+        if (auftragsart_jComboBox.getItemAt(1).toString().equals(auftragskopf.getTyp())) {
             auftragsart_jComboBox.setSelectedIndex(1);
         }
-        if (auftragsart_jComboBox.getItemAt(2).toString().equals(auftragsArt)) {
+        if (auftragsart_jComboBox.getItemAt(2).toString().equals(auftragskopf.getTyp())) {
             auftragsart_jComboBox.setSelectedIndex(2);
         }
-        if (auftragsart_jComboBox.getItemAt(3).toString().equals(auftragsArt)) {
+        if (auftragsart_jComboBox.getItemAt(3).toString().equals(auftragskopf.getTyp())) {
             auftragsart_jComboBox.setSelectedIndex(3);
         }
-        this.auftragstext_jTextArea.setText(auftragsText);
-        this.erfassungsdatum_jFormattedTextField.setText(erfassungsDatum);
-        this.lieferdatum_jFormattedTextField.setText(lieferDatum);
-        this.abschlussdatum_jFormattedTextField.setText(abschlussDatum);
+        this.auftragstext_jTextArea.setText(auftragskopf.getAuftragstext());
+        this.erfassungsdatum_jFormattedTextField.
+                setText(String.valueOf(gibDatumAlsString(auftragskopf.getErfassungsdatum())));
+        this.lieferdatum_jFormattedTextField.
+                setText(String.valueOf(gibDatumAlsString(auftragskopf.getLieferdatum())));
+        this.abschlussdatum_jFormattedTextField.
+                setText(String.valueOf(gibDatumAlsString(auftragskopf.getAbschlussdatum())));
+
+        //Hasmap bekommt positionen
+        artikel.clear();
+
+//        for (int i = 0; i < liste.size(); i++) {
+//
+//            artikel.put(liste.get(i).getArtikel().getArtikelID(),
+//                    liste.get(i).getMenge());
+//
+//        }
+
+        for (int i = 0; i < liste.size(); i++) {
+
+            artikel.put(liste.get(i).getArtikel().getArtikelID(),
+                    liste.get(i).getMenge());
+            
+            
+            summenWertFuerPos = liste.get(i).getEinzelwert()
+                    * liste.get(i).getMenge();
+
+            Object[] neuesObj = new Object[]{i + 1,
+                liste.get(i).getArtikel().getArtikelID(),
+                liste.get(i).getMenge(), summenWertFuerPos,
+                gibDatumAlsString(abschlussdatum)};
+
+            gesamtAuftragswert += summenWertFuerPos;
+
+            dtm.addRow(neuesObj);
+
+        }
+
+        auftragsposition_jTable.setModel(dtm);
+
+        auftragswert_jTextField.setText(String.valueOf(gesamtAuftragswert));
+        liste.clear();
+        gesamtAuftragswert = 0.00;
+        summenWertFuerPos = 0.00;
     }
 
     private String gibDatumAlsString(Date date) {
