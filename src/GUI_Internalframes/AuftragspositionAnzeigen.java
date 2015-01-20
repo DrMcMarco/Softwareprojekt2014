@@ -147,6 +147,11 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
 
         jB_Speichern.setText("Speichern");
         jB_Speichern.setEnabled(false);
+        jB_Speichern.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_SpeichernActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_Speichern);
 
         jB_Anzeigen.setText("Anzeige/Ändern");
@@ -501,6 +506,10 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
             this.setStatusAender();
         }
     }//GEN-LAST:event_jB_AnzeigenActionPerformed
+
+    private void jB_SpeichernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SpeichernActionPerformed
+        
+    }//GEN-LAST:event_jB_SpeichernActionPerformed
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */

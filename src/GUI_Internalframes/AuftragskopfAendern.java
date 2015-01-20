@@ -264,12 +264,12 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
                 // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
                 if (this.getTitle().equals("Auftragskopf ändern")) {
 
-                    if (GUIFactory.getDAO().getOrderHead(Long.parseLong(auftragskopfID_jTextField.getText())) != null) {
+                    if (aKopf != null) {
 
                         this.auftragskopfAnlegen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
 
                         this.auftragskopfAnlegen.
-                                setzeEingabe(GUIFactory.getDAO().getOrderHead(Long.parseLong(auftragskopfID_jTextField.getText())));
+                                setzeEingabe(aKopf);
 
                         zuruecksetzen();//Methode die bestimmte Eingabefelder leert
                         this.setVisible(false);
@@ -280,7 +280,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
                     this.auftragskopfAnlegen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
 
                     this.auftragskopfAnlegen.
-                            setzeEingabe(GUIFactory.getDAO().getOrderHead(Long.parseLong(auftragskopfID_jTextField.getText())));
+                            setzeEingabe(aKopf);
 
                     zuruecksetzen();//Methode die bestimmte Eingabefelder leert
                     this.setVisible(false);
