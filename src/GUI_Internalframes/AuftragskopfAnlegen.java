@@ -1040,14 +1040,12 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         ueberpruefen();
         try {
             if (fehlendeEingaben.isEmpty()) {
-                System.out.println("1");
                 if (auftragspositionen.isEmpty() == false) {
                     typ = auftragsart_jComboBox.getSelectedItem().toString();
                     auftragsText = auftragstext_jTextArea.getText();
                     geschaeftspartnerID = Long.parseLong(geschaeftspartner_jTextField.getText());
                     if (this.getTitle().equals("Auftragskopf anlegen")) {
 
-                        System.out.println("2");
                         //Auftragskopf und Position anlegen
                         //Überprüfung ob Gp vorhanden ist(Focuslost
                         GUIFactory.getDAO().erstelleAuftragskopf(typ, artikel,
@@ -1058,7 +1056,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                         zuruecksetzen();//Methode die bestimmte Eingabefelder leert
                     } else if (this.getTitle().equals("Auftragskopf ändern")) {
 
-                        System.out.println("3 ändern");
                         kopf = GUIFactory.getDAO().
                                 getOrderHead(Long.parseLong(auftragskopfID_jTextField.getText()));
 
@@ -1076,7 +1073,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                         dbStatus = kopf.getStatus().getStatus();
                         dbLieferdatum = gibDatumAlsString(kopf.getLieferdatum());
                         dbAbschlussdatum = gibDatumAlsString(kopf.getAbschlussdatum());
-//                        System.out.println(dbAbschlussdatum);
                         ArrayList<Auftragsposition> dbAuftragspositionen = new ArrayList<>();
                         dbAuftragspositionen = kopf.getPositionsliste();
 
@@ -1141,7 +1137,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                                     jB_ZurueckActionPerformed(evt);
                                     this.hauptFenster.setStatusMeldung(ERFOLGREICHGEAENDERT_TEXT);
                                 } else {
-                                    System.out.println("keine verfügabrkeit");
                                 }
                             }
 
