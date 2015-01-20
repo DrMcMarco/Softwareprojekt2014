@@ -90,6 +90,9 @@ public abstract class Auftragskopf implements Serializable {
     @OneToMany(mappedBy = "Auftrag", cascade = CascadeType.ALL)
     private ArrayList<Auftragsposition> Positionsliste;
     
+    @OneToOne
+    private Zahlungskondition Zahlungskondition;
+    
     /**
      * Aufträge werden nicht real gelöscht, sondern mit einem Löschkennzeichen
      * versehen
@@ -127,6 +130,21 @@ public abstract class Auftragskopf implements Serializable {
         this.LKZ = false;
     }
 
+    public Auftragskopf(String Auftragstext, double Wert,
+            Geschaeftspartner Geschaeftspartner, Status Status, 
+            Date Abschlussdatum, Date Erfassungsdatum, Date Lieferdatum, 
+            Zahlungskondition Zahlungskondition) {
+        this.Auftragstext = Auftragstext;
+        this.Wert = Wert;
+        this.Geschaeftspartner = Geschaeftspartner;
+        this.Abschlussdatum = Abschlussdatum;
+        this.Erfassungsdatum = Erfassungsdatum;
+        this.Lieferdatum = Lieferdatum;
+        this.Positionsliste = new ArrayList<>();
+        this.Status = Status;
+        this.LKZ = false;
+        this.Zahlungskondition = Zahlungskondition;
+    }
     /**
      * Generiert.
      * @return ID des Auftrags
@@ -278,6 +296,22 @@ public abstract class Auftragskopf implements Serializable {
      */
     public void setLKZ(boolean LKZ) {
         this.LKZ = LKZ;
+    }
+
+    /**
+     * Gicht die Zahlungskondition des Auftrags zurück
+     * @return ein Zahlungskondtions-Objekt
+     */
+    public Zahlungskondition getZahlungskondition() {
+        return Zahlungskondition;
+    }
+
+    /**
+     * Setzt die Zahlungskondition für den Auftrag
+     * @param Zahlungskondition ein Zahlungskonditions-Objekt
+     */
+    public void setZahlungskondition(Zahlungskondition Zahlungskondition) {
+        this.Zahlungskondition = Zahlungskondition;
     }
 
     /*----------------------------------------------------------*/

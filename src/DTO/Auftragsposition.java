@@ -140,6 +140,6 @@ public class Auftragsposition implements java.io.Serializable {
         return true;
     }
     
-    
+ 
     
 }

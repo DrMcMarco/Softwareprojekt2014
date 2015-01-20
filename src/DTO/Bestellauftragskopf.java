@@ -17,9 +17,6 @@ import javax.persistence.*;
 @DiscriminatorValue("Bestellauftrag")
 public class Bestellauftragskopf extends Auftragskopf {
     
-    @OneToOne
-    private Zahlungskondition Zahlungskondition;
-    
     public Bestellauftragskopf() {
         
     }
@@ -28,17 +25,10 @@ public class Bestellauftragskopf extends Auftragskopf {
             Geschaeftspartner Geschaeftspartner, Status Status, 
             Zahlungskondition Zahlungskondition, Date Abschlussdatum, 
             Date Erfassungsdatum, Date Lieferdatum) {
+//        super(Auftragstext, Wert, Geschaeftspartner, Status, Abschlussdatum, 
+//                Erfassungsdatum, Lieferdatum);
         super(Auftragstext, Wert, Geschaeftspartner, Status, Abschlussdatum, 
-                Erfassungsdatum, Lieferdatum);
-        this.Zahlungskondition = Zahlungskondition;
-    }
-
-    public Zahlungskondition getZahlungskondition() {
-        return Zahlungskondition;
-    }
-
-    public void setZahlungskondition(Zahlungskondition Zahlungskondition) {
-        this.Zahlungskondition = Zahlungskondition;
+                Erfassungsdatum, Lieferdatum, Zahlungskondition);
     }
   
 //Könnte später noch gebraucht werden

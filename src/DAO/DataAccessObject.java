@@ -9,7 +9,6 @@ package DAO;
 import DTO.Anschrift;
 import DTO.Artikel;
 import DTO.Artikelkategorie;
-import DTO.Auftragsart;
 import DTO.Auftragskopf;
 import DTO.Auftragsposition;
 import DTO.Barauftragskopf;
@@ -984,6 +983,89 @@ public class DataAccessObject {
         return ergebnis;
     }
     
+        
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 17.01.15   loe     angelegt                              */
+    /* 18.01.15   loe     überarbeitet                          */
+    /*----------------------------------------------------------*/
+    /**
+     * Methode zum Ändern der Positionen.
+     * Diese Methode sollte nur in der Methode "aendereAuftrag" aufgerufen werden!
+     * @param Auftrag Auftragskopf-Objekt
+     * @param artikel HashMap: Key = Artikel-ID, Value = Menge
+     * @throws ApplicationException wenn zu den übergebenen IDs keine passenden
+     *                              Objekte gefunden werden können
+     */
+    private void aenderePositionen(Auftragskopf Auftrag, HashMap<Long, Integer> artikel) 
+            throws ApplicationException {
+        
+        //Positionsliste aus dem Auftrag holen und zwischenspeichern
+        ArrayList<Auftragsposition> positionsliste = Auftrag.getPositionsliste();
+        
+        //Artikel-IDs aus der HashMap holen
+        Set<Long> artikelSet = artikel.keySet();
+        
+        //Für jede Artikel-ID im Set...
+        for (long ID : artikelSet) {
+            
+            //...wird der entsprechende Artikel in der Datenbank gesucht
+            Artikel artikelObj = em.find(Artikel.class, ID);
+            
+            //Wenn der Artikel nicht gefunden werden kann
+            if (artikelObj == null) {
+                throw new ApplicationException("Fehler", 
+                        "Der Artikel mit der ID " + ID + " konnte nicht gefunden"
+                                + " werden.");
+            }
+            
+            /*
+                ...wird, zusammen mit der Auftrags-ID, versucht eine 
+                Auftragsposition zu finden.
+                Wird keine gefunden, gibt die Methode "null" zurück
+            */
+            Auftragsposition ap = this.gibAuftragspositionNachArtikel
+                                            (Auftrag.getAuftragskopfID(), ID);
+            
+            //Wurde eine Auftragsposition gefunden...
+            if (ap != null) {
+                
+                //...wird geprüft, ob die Position vorher bereits existiert hat
+                //aber gelöscht wurde
+                if (ap.isLKZ()) {
+                    //WEnn ja, wird vor dem Ändern das LKZ entfernt
+                    ap.setLKZ(false);
+                }
+                
+                //Suche die Auftragsposition in der Positionsliste
+                int index = Auftrag.getPositionsliste().indexOf(ap);
+                //Setze den Artikel in der Position
+                Auftrag.getPositionsliste().get(index).setArtikel(artikelObj);
+                //Setze die Menge in der Position
+                Auftrag.getPositionsliste().get(index).setMenge(artikel.get(ID));
+                //Lösche die Position aus der zwischengespeicherten Positionsliste
+                positionsliste.remove(ap);
+            
+            //Wenn in der Datenbank keine Position zu den IDs gefunden wurde...
+            } else {
+                
+                //...wird eine neue Position erzeugt und der Positionsliste
+                //hinzugefügt
+                Auftrag.addPosition(artikelObj, artikel.get(ID));               
+            }
+        }
+        
+        //Alle Position die am Ende der Schleife noch in der zwischengespeicherten
+        //Positionsliste vorkommen, hat der Benutzer in der GUI gelöscht
+        for (Auftragsposition ap : positionsliste) {
+            
+            //Für diese Positionen wird das LKZ gesetzt
+            this.loeschePosition(Auftrag.getAuftragskopfID(), ap.getPositionsnummer());
+            
+        }
+        
+    }
+    
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
     /* 12.01.15   loe     angelegt                              */
@@ -1065,7 +1147,7 @@ public class DataAccessObject {
              *   ...prüfe:
              *       - Möchte der Kunde seine Lieferanschrift = Rechnungsanschrift
              *         setzen (Variable modus) UND
-             *       - Hat sich die Anschrift überhaupt verändertn
+             *       - Hat sich die Anschrift überhaupt verändert
              */
             if (modus && (!rStrasse.equals(rechnungsanschrift.getStrasse()) || 
                           !rHausnummer.equals(rechnungsanschrift.getHausnummer()) ||
@@ -1083,7 +1165,7 @@ public class DataAccessObject {
              *   ...prüfe:
              *       - Möchte der Kunde unterschiedliche Anschriften haben 
              *         (Variable modus) UND
-             *       - Hat sich die Adresse überhaupt verändertn
+             *       - Hat sich die Adresse überhaupt verändert
              */
             if (!modus && (!lStrasse.equals(rechnungsanschrift.getStrasse()) || 
                            !lHausnummer.equals(rechnungsanschrift.getHausnummer()) ||
@@ -1862,6 +1944,21 @@ public class DataAccessObject {
                     "Diese Artikel ist bereits mit einem Löschkennzeichen versehen");
         }
         
+        Query query = em.createQuery("select ap from Auftragskopf ak, "
+                + "in(ak.Positionsliste) ap where ap.Artikel.Id = :artikelnummer"
+                + " and (ak.Status.Status LIKE 'erfasst' or "
+                + "ak.Status.Status LIKE 'freigegeben') "
+                + "and (ak.LKZ = 0 or ap.LKZ = 0)")
+                .setParameter("artikelnummer", Artikelnummer);
+        
+        List<Auftragsposition> ergebnis = (List<Auftragsposition>) query.getResultList();
+        
+        if (!ergebnis.isEmpty()) {
+            throw new ApplicationException("Fehler", 
+                    "Der Artikel wird noch Aufträgen verwendet und kann"
+                            + " daher nicht gelöscht werden.");
+        }
+        
         //Setzen des Löschkennzeichens für den Artikel
         artikel.setLKZ(true);
         
@@ -1903,6 +2000,18 @@ public class DataAccessObject {
         if (gp.isLKZ()) {
             throw new ApplicationException("Fehler", 
                     "Der Geschäftspartner ist bereits mit einem Löschkennzeichen versehen.");
+        }
+        
+        Query query = em.createQuery("select ak from Auftragskopf ak "
+                + "where ak.Geschaeftspartner.GeschaeftspartnerID = :gpid "
+                + "and ak.LKZ = false").setParameter("gpid", GeschaeftspartnerID);
+        
+        List<Auftragskopf> ergebnis = (List<Auftragskopf>) query.getResultList();
+        
+        if (!ergebnis.isEmpty()) {
+            throw new ApplicationException("Fehler", 
+                    "Der Geschäftspartner wird noch in Aufträgen verwendet "
+                            + "und kann daher nicht gelöscht werden.");
         }
         
         //Anschriften des Geschäftspartners holen
@@ -1951,6 +2060,14 @@ public class DataAccessObject {
                     "Der Auftrag ist bereits mit einem Löschlennzeichen versehen.");
         }
         
+        if (ak.getStatus().getStatus().equals("freigegeben")) {
+            if (ak instanceof Bestellauftragskopf) {
+                this.setzeArtikelBestand(ak.getPositionsliste(), "RueckgaengigBestellung");
+            } else {
+                this.setzeArtikelBestand(ak.getPositionsliste(), "RueckgaengigVerkauf");
+            }
+        }
+        
         //Transaktion starten
         em.getTransaction().begin();
         
@@ -1996,6 +2113,18 @@ public class DataAccessObject {
         if (zk.isLKZ()) {
             throw new ApplicationException("Fehler", 
                     "Diese Zahlungskondition ist bereits mit einem Löschkenneichen versehen.");
+        }
+        
+        Query query = em.createQuery("select ak from Auftragskopf ak "
+                + "where ak.Zahlungskondition.ZahlungskonditionID = :zk "
+                + "and ak.LKZ = false").setParameter("zk", ZahlungskonditionsID);
+        
+        List<Auftragskopf> ergebnis = (List<Auftragskopf>) query.getResultList();
+        
+        if (!ergebnis.isEmpty()) {
+            throw new ApplicationException("Fehler", 
+                    "Die Zahlungskondition wird noch in Aufträgen verwendet "
+                            + "und kann daher nicht gelöscht werden.");
         }
         
         //Löschkennzeichen setzen
@@ -2153,89 +2282,7 @@ public class DataAccessObject {
             throw new ApplicationException("Fehler", ex.getMessage());
         }
     }
-    
-    /*----------------------------------------------------------*/
-    /* Datum      Name    Was                                   */
-    /* 17.01.15   loe     angelegt                              */
-    /* 18.01.15   loe     überarbeitet                          */
-    /*----------------------------------------------------------*/
-    /**
-     * Methode zum Ändern der Positionen.
-     * Diese Methode sollte nur in der Methode "aendereAuftrag" aufgerufen werden!
-     * @param Auftrag Auftragskopf-Objekt
-     * @param artikel HashMap: Key = Artikel-ID, Value = Menge
-     * @throws ApplicationException wenn zu den übergebenen IDs keine passenden
-     *                              Objekte gefunden werden können
-     */
-    private void aenderePositionen(Auftragskopf Auftrag, HashMap<Long, Integer> artikel) 
-            throws ApplicationException {
-        
-        //Positionsliste aus dem Auftrag holen und zwischenspeichern
-        ArrayList<Auftragsposition> positionsliste = Auftrag.getPositionsliste();
-        
-        //Artikel-IDs aus der HashMap holen
-        Set<Long> artikelSet = artikel.keySet();
-        
-        //Für jede Artikel-ID im Set...
-        for (long ID : artikelSet) {
-            
-            //...wird der entsprechende Artikel in der Datenbank gesucht
-            Artikel artikelObj = em.find(Artikel.class, ID);
-            
-            //Wenn der Artikel nicht gefunden werden kann
-            if (artikelObj == null) {
-                throw new ApplicationException("Fehler", 
-                        "Der Artikel mit der ID " + ID + " konnte nicht gefundern werden.");
-            }
-            
-            /*
-                ...wird, zusammen mit der Auftrags-ID, versucht eine 
-                Auftragsposition zu finden.
-                Wird keine gefunden, gibt die Methode "null" zurück
-            */
-            Auftragsposition ap = this.gibAuftragspositionNachArtikel
-                                            (Auftrag.getAuftragskopfID(), ID);
-            
-            //Wurde eine Auftragsposition gefunden...
-            if (ap != null) {
-                
-                //...wird geprüft, ob die Position vorher bereits existiert hat
-                //aber gelöscht wurde
-                if (ap.isLKZ()) {
-                    //WEnn ja, wird vor dem Ändern das LKZ entfernt
-                    ap.setLKZ(false);
-                }
-                
-                //Suche die Auftragsposition in der Positionsliste
-                int index = Auftrag.getPositionsliste().indexOf(ap);
-                //Setze den Artikel in der Position
-                Auftrag.getPositionsliste().get(index).setArtikel(artikelObj);
-                //Setze die Menge in der Position
-                Auftrag.getPositionsliste().get(index).setMenge(artikel.get(ID));
-                //Lösche die Position aus der zwischengespeicherten Positionsliste
-                positionsliste.remove(ap);
-            
-            //Wenn in der Datenbank keine Position zu den IDs gefunden wurde...
-            } else {
-                
-                //...wird eine neue Position erzeugt und der Positionsliste
-                //hinzugefügt
-                Auftrag.addPosition(artikelObj, artikel.get(ID));
-                
-            }
-        }
-        
-        //Alle Position die am Ende der Schleife noch in der zwischengespeicherten
-        //Positionsliste vorkommen, hat der Benutzer in der GUI gelöscht
-        for (Auftragsposition ap : positionsliste) {
-            
-            //Für diese Positionen wird das LKZ gesetzt
-            this.loeschePosition(Auftrag.getAuftragskopfID(), ap.getPositionsnummer());
-            
-        }
-        
-    }
-    
+
     //Tbd
     public void close() throws ApplicationException {
         em.close();
