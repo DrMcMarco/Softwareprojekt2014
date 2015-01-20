@@ -12,6 +12,7 @@ import GUI_Internalframes.AuftragskopfAnlegen;
 import GUI_Internalframes.AuftragspositionAendern;
 import GUI_Internalframes.GeschaeftspartnerAEndernEinstieg;
 import GUI_Internalframes.GeschaeftspartnerAnlegen;
+import GUI_Internalframes.ZahlungskonditionAnlegen;
 import GUI_Internalframes.ZahlungskonditionenAEndernEinstieg;
 import java.awt.Component;
 import javax.swing.JInternalFrame;
@@ -114,4 +115,6 @@ public interface InterfaceMainView {
     public AuftragskopfAendern gibAkAendernEinstieg();
     
     public AuftragspositionAendern gibPositionAendernEinstieg();
+    
+    public ZahlungskonditionAnlegen gibZkAnlegen();
 }

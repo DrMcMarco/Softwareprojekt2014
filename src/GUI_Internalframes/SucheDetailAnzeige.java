@@ -91,8 +91,10 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         this.ergebnisDaten = daten;
         if (this.hauptFenster.gibLetzteAnzeige() == null) {
             this.Auswaehlen_jButton.setEnabled(false);
+            this.Anzeige_jButton.setEnabled(true);
         } else {
             this.Auswaehlen_jButton.setEnabled(true);
+            this.Anzeige_jButton.setEnabled(false);
         }
     }
     
@@ -654,37 +656,42 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
      * @param evt event
      */
     private void Anzeige_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Anzeige_jButtonActionPerformed
-        Start framestart = null;
-        StartAdmin framestartadmin = null;
-        Artikel artikel = null;
-        
+        ArrayList<Geschaeftspartner> gpListe = null;
+        ArrayList<Zahlungskondition> zkListe = null;
         ArrayList<Artikel> artikelListe = null;
-        if (this.hauptFenster instanceof Start) {
-            framestart = (Start) this.hauptFenster;
-            if (this.comp == null) {
-                switch (this.tabelle) {
-                    case "Auftragskopf" :
-                        framestart.auftragskopfanlegen.setStatusAnzeigen();
-                        framestart.setFrame(framestart.auftragskopfanlegen);
-                        break;
-                    case "Artikel" :
-                        artikelListe = new ArrayList<Artikel>((Collection<? extends Artikel>) this.ergebnisDaten);
-                        artikel = artikelListe.get(this.Anzeige_jTable1.getSelectedRow());
-                        framestart.artikelanlegen.setzeFormularInArtikelAnzeigen();
-                        framestart.artikelanlegen.gibjTF_Artikelnummer().setText(String.valueOf(artikel.getArtikelID()));
-                        framestart.artikelanlegen.gibjTF_Artikelname().setText(artikel.getArtikeltext());
-                        framestart.artikelanlegen.gibjTA_Artikelbeschreibung().setText(artikel.getBestelltext());
-                        framestart.artikelanlegen.gibjTF_BestandsmengeFREI().setText(String.valueOf(artikel.getFrei()));
-                        framestart.artikelanlegen.gibjTF_BestandsmengeRESERVIERT().setText(String.valueOf(artikel.getReserviert()));
-                        framestart.artikelanlegen.gibjCB_Artikelkategorie().setSelectedItem(artikel.getKategorie().getKategoriename());
-                        
-                        framestart.setFrame(framestart.artikelanlegen);
-                        break;
-                }
-            }
-        } else {
-            framestartadmin = (StartAdmin) this.hauptFenster;
+        
+        
+        switch (this.tabelle) {
+            case "Auftragskopf" :
+                break;
+            case "Artikel" :
+                artikelListe = new ArrayList<Artikel>((Collection<? 
+                                extends Artikel>) this.ergebnisDaten);
+                this.hauptFenster.gibArtikelAnlegenFenster()
+                        .zeigeArtikelAusSucheAn(artikelListe.get(
+                                this.Anzeige_jTable1.getSelectedRow()));
+                this.hauptFenster.gibArtikelAnlegenFenster().setVisible(true);
+                break;
+            case "Geschäftspartner" :
+                gpListe = new ArrayList<Geschaeftspartner>((Collection<? 
+                                extends Geschaeftspartner>) this.ergebnisDaten);
+                this.hauptFenster.gibGeschaeftspartneranlegenFenster()
+                        .zeigeGPausSucheAN(gpListe.get(
+                                this.Anzeige_jTable1.getSelectedRow()));
+                this.hauptFenster.gibGeschaeftspartneranlegenFenster()
+                        .setVisible(true);
+                break;
+            case "Zahlungskondition" :
+                zkListe = new ArrayList<Zahlungskondition>((Collection<? 
+                                extends Zahlungskondition>) this.ergebnisDaten);
+                this.hauptFenster.gibZkAnlegen().zeigeZKausSucheAn(
+                        zkListe.get(this.Anzeige_jTable1.getSelectedRow()));
+                this.hauptFenster.gibZkAnlegen().setVisible(true);
+                break;
+//            case "" :
         }
+        
+        
         
         
             

@@ -941,7 +941,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     public AuftragspositionAendern gibPositionAendernEinstieg() {
         return this.auftragsspositionaender;
     }
-    
+    @Override
+    public ZahlungskonditionAnlegen gibZkAnlegen() {
+        return this.zahlungskonditionanlegen;
+    }
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
