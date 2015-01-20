@@ -5,6 +5,7 @@
  */
 package GUI_Internalframes;
 
+import DAO.ApplicationException;
 import DTO.Auftragskopf;
 import DTO.Auftragsposition;
 import Documents.*;
@@ -12,21 +13,20 @@ import Interfaces.*;
 import JFrames.GUIFactory;
 import java.awt.Color;
 import java.awt.Component;
+import java.text.ParseException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-
 
 /**
  *
  * @author Luca Terrasi
  *
- * 10.12.2014 Terrasi, Dokumentation und Logik
- * 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
- * 06.01.2015 Terrasi, Anwendungslogik für das anzeigen der Auftragspositions-
- * maske.
- * 08.01.2015 Terrasi, Überarbeitung der Anwendungslogik 
- * und das hinzufügen von weiteren Funktion.
+ * 10.12.2014 Terrasi, Dokumentation und Logik 16.12.2014 Terrasi,
+ * Funktionsimplementierung im "Zurück"-Button 06.01.2015 Terrasi,
+ * Anwendungslogik für das anzeigen der Auftragspositions- maske. 08.01.2015
+ * Terrasi, Überarbeitung der Anwendungslogik und das hinzufügen von weiteren
+ * Funktion.
  */
 public class AuftragspositionAendern extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
@@ -34,12 +34,12 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
      Speichervariablen
      */
     ArrayList<Component> fehlendeEingaben;// ArrayList für Eingabefelder des Auftragkopfes.
-    
+
     Component c;
     GUIFactory factory;
     AuftragspositionAnzeigen auftragspositionAnzeigen;
-    InterfaceMainView hauptFenster;  
-    
+    InterfaceMainView hauptFenster;
+
 
     /*
      Syntax
@@ -65,23 +65,22 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
     String fehlermeldungVollstaendigkeitAuftragskopf = " Es wurde keine Auftragskopf-Id eingegeben.\n"
             + "Bitte geben sie eine Auftragskopf-Id ein.";
 
-    
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi, Dokumentation und Logik. */
     /* 06.01.2015 Terrasi, hinzufügen eines Interfaceobjektes
-        und eines AuftragspositionAnzeigenobjektes.*/
+     und eines AuftragspositionAnzeigenobjektes.*/
     /*----------------------------------------------------------*/
     /**
-     * Konstruktor, 
-     * Erzeugung eines Auftragspositionsobjektes.
+     * Konstruktor, Erzeugung eines Auftragspositionsobjektes.
+     *
      * @param factory
      * @param positionAnzeigenView
-     * @param mainView 
+     * @param mainView
      */
-    public AuftragspositionAendern(GUIFactory factory, 
+    public AuftragspositionAendern(GUIFactory factory,
             AuftragspositionAnzeigen positionAnzeigenView,
-            InterfaceMainView mainView ) {
+            InterfaceMainView mainView) {
         initComponents();
 
         this.factory = factory;
@@ -92,7 +91,7 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
         fehlendeEingaben = new ArrayList<>();
 
         //Zuweisung der Documents
-        AuftragskopfID_jTextField.setDocument(new UniversalDocument("0123456789", false));
+        auftragskopfID_jTextField.setDocument(new UniversalDocument("0123456789", false));
         AuftragspositionID_jTextField.setDocument(new UniversalDocument("0123456789", false));
     }
 
@@ -113,7 +112,7 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
         jB_Suchen = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         AuftragskopfID_jLabel = new javax.swing.JLabel();
-        AuftragskopfID_jTextField = new javax.swing.JTextField();
+        auftragskopfID_jTextField = new javax.swing.JTextField();
         Enter_jButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         AuftragspositionID_jTextField = new javax.swing.JTextField();
@@ -158,21 +157,21 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
         jToolBar1.add(jB_Suchen);
 
         AuftragskopfID_jLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        AuftragskopfID_jLabel.setLabelFor(AuftragskopfID_jTextField);
+        AuftragskopfID_jLabel.setLabelFor(auftragskopfID_jTextField);
         AuftragskopfID_jLabel.setText("Auftragskopf-ID :");
         AuftragskopfID_jLabel.setToolTipText("");
 
-        AuftragskopfID_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+        auftragskopfID_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                AuftragskopfID_jTextFieldFocusGained(evt);
+                auftragskopfID_jTextFieldFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                AuftragskopfID_jTextFieldFocusLost(evt);
+                auftragskopfID_jTextFieldFocusLost(evt);
             }
         });
-        AuftragskopfID_jTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+        auftragskopfID_jTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                AuftragskopfID_jTextFieldKeyPressed(evt);
+                auftragskopfID_jTextFieldKeyPressed(evt);
             }
         });
 
@@ -215,7 +214,7 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(AuftragspositionID_jTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                    .addComponent(AuftragskopfID_jTextField))
+                    .addComponent(auftragskopfID_jTextField))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Enter_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(135, 135, 135))
@@ -229,7 +228,7 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
                 .addGap(73, 73, 73)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(AuftragskopfID_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(AuftragskopfID_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(auftragskopfID_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -248,11 +247,11 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
      *
      * @param evt
      */
-    private void AuftragskopfID_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_AuftragskopfID_jTextFieldFocusGained
-        AuftragskopfID_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
-        AuftragskopfID_jTextField.setText("");//Übergabe eines leeren Strings an das Eingabefeld
-        AuftragskopfID_jTextField.selectAll();//Selektion des Eingabefeldes
-    }//GEN-LAST:event_AuftragskopfID_jTextFieldFocusGained
+    private void auftragskopfID_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_auftragskopfID_jTextFieldFocusGained
+        auftragskopfID_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
+        auftragskopfID_jTextField.setText("");//Übergabe eines leeren Strings an das Eingabefeld
+        auftragskopfID_jTextField.selectAll();//Selektion des Eingabefeldes
+    }//GEN-LAST:event_auftragskopfID_jTextFieldFocusGained
 
     /**
      * Beim wählen des Eingabefeldes, wird alles selektiert.
@@ -272,11 +271,11 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
      *
      * @param evt
      */
-    private void AuftragskopfID_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_AuftragskopfID_jTextFieldFocusLost
+    private void auftragskopfID_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_auftragskopfID_jTextFieldFocusLost
         // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
-        ueberpruefungVonFocusLost(AuftragskopfID_jTextField, auftragskopfID_syntax,
+        ueberpruefungVonFocusLost(auftragskopfID_jTextField, auftragskopfID_syntax,
                 fehlermeldung_titel, fehlermeldungAuftragskopfIDtext);
-    }//GEN-LAST:event_AuftragskopfID_jTextFieldFocusLost
+    }//GEN-LAST:event_auftragskopfID_jTextFieldFocusLost
 
     /**
      * Beim Focuslost des Eingabefeldes für die Auftragspositions-ID, wird auf
@@ -296,27 +295,43 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
     // 08.01.2015
     private void Enter_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Enter_jButtonActionPerformed
         ueberpruefen();
-        if (fehlendeEingaben.isEmpty()) {
-            // Überprüft anhand des Framestitels, ob es das nächste Fenster
-            // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
-            if(this.getTitle().equals("Auftragsposition ändern")){
-                this.auftragspositionAnzeigen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
-                zuruecksetzen();//Methode die bestimmte Eingabefelder leert
-                this.setVisible(false);
-                this.hauptFenster.setFrame(this.auftragspositionAnzeigen);// Hauptfenster macht übergebene Maske sichtbar.
-            }else{
-                this.auftragspositionAnzeigen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
-                zuruecksetzen();//Methode die bestimmte Eingabefelder leert
-                this.setVisible(false);
-                this.hauptFenster.setFrame(this.auftragspositionAnzeigen);// Hauptfenster macht übergebene Maske sichtbar.
+        try {
+            if (fehlendeEingaben.isEmpty()) {
+                Auftragsposition position = GUIFactory.getDAO().
+                        gibAuftragsposition(Long.parseLong(auftragskopfID_jTextField.getText()),
+                                Long.parseLong(AuftragspositionID_jTextField.getText()));
+                if (position != null) {
+
+                // Überprüft anhand des Framestitels, ob es das nächste Fenster
+                    // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
+                    if (this.getTitle().equals("Auftragsposition ändern")) {
+                        this.auftragspositionAnzeigen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
+                        zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                        this.auftragspositionAnzeigen.setzeEingaben(position);
+                        
+                        this.setVisible(false);
+                        this.hauptFenster.setFrame(this.auftragspositionAnzeigen);// Hauptfenster macht übergebene Maske sichtbar.
+                    } else {
+                        this.auftragspositionAnzeigen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
+                        zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                        this.auftragspositionAnzeigen.setzeEingaben(position);
+                        this.setVisible(false);
+                        this.hauptFenster.setFrame(this.auftragspositionAnzeigen);// Hauptfenster macht übergebene Maske sichtbar.
+                    }
+                }
+
+            } else {//Wenn Eingaben fehlen.
+                // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
+                // getätigt worden sind
+                fehlEingabenMarkierung(fehlendeEingaben, fehlermeldung_titel,
+                        fehlermeldungAuftragskopfIDtext, warningfarbe);//Meldung wird ausgegeben und          
             }
-            
-        } else {//Wenn Eingaben fehlen.
-            // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
-            // getätigt worden sind
-            fehlEingabenMarkierung(fehlendeEingaben, fehlermeldung_titel,
-                    fehlermeldungAuftragskopfIDtext, warningfarbe);//Meldung wird ausgegeben und          
+        } catch (ApplicationException e) {
+            this.hauptFenster.setStatusMeldung(e.getMessage());
+        } catch (NullPointerException e) {
+            this.hauptFenster.setStatusMeldung("Fehlende Eingaben!!!");
         }
+
     }//GEN-LAST:event_Enter_jButtonActionPerformed
 
     /**
@@ -348,11 +363,11 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
     /* Datum Name Was */
     /* 08.01.2015 Terrasi, angelegt, Dokumentation und Logik. */
     /*----------------------------------------------------------*/
-    private void AuftragskopfID_jTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_AuftragskopfID_jTextFieldKeyPressed
+    private void auftragskopfID_jTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_auftragskopfID_jTextFieldKeyPressed
         if (evt.getKeyCode() == evt.VK_ENTER) {
             Enter_jButtonActionPerformed(null);
         }
-    }//GEN-LAST:event_AuftragskopfID_jTextFieldKeyPressed
+    }//GEN-LAST:event_auftragskopfID_jTextFieldKeyPressed
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
@@ -365,7 +380,7 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
     @Override
     public void zuruecksetzen() {
         //Eingabefelder erhalten einen leeren String
-        AuftragskopfID_jTextField.setText("");
+        auftragskopfID_jTextField.setText("");
         AuftragspositionID_jTextField.setText("");
     }
 
@@ -383,8 +398,8 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
         // erhalten haben. Diese Eingabefelder werden in passende Speichervariablen festgehalten
 
         //Eingabefelder für Auftragsposition werden in Variable "fehlendeEingaben" festgehalten.
-        if (AuftragskopfID_jTextField.getText().equals("")) {
-            fehlendeEingaben.add(AuftragskopfID_jTextField);
+        if (auftragskopfID_jTextField.getText().equals("")) {
+            fehlendeEingaben.add(auftragskopfID_jTextField);
         } else if (AuftragspositionID_jTextField.getText().equals("")) {
             fehlendeEingaben.add(AuftragspositionID_jTextField);
         }
@@ -450,7 +465,7 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
     }
 
     public void setAuftragskopfID_jTextField(Auftragskopf auftragskopf) {
-        this.AuftragskopfID_jTextField.
+        this.auftragskopfID_jTextField.
                 setText(String.valueOf(auftragskopf.getAuftragskopfID()));
     }
 
@@ -459,13 +474,12 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
                 setText(String.valueOf(position.getPositionsnummer()));
     }
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AuftragskopfID_jLabel;
-    private javax.swing.JTextField AuftragskopfID_jTextField;
     private javax.swing.JTextField AuftragspositionID_jTextField;
     private javax.swing.JButton Enter_jButton;
+    private javax.swing.JTextField auftragskopfID_jTextField;
     private javax.swing.JButton jB_Anzeigen;
     private javax.swing.JButton jB_Loeschen;
     private javax.swing.JButton jB_Speichern;

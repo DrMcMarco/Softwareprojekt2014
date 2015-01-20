@@ -1044,6 +1044,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                     typ = auftragsart_jComboBox.getSelectedItem().toString();
                     auftragsText = auftragstext_jTextArea.getText();
                     geschaeftspartnerID = Long.parseLong(geschaeftspartner_jTextField.getText());
+                   
                     if (this.getTitle().equals("Auftragskopf anlegen")) {
 
                         //Auftragskopf und Position anlegen
