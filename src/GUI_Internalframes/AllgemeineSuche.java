@@ -127,7 +127,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         Button_jToolBar.setRollover(true);
         Button_jToolBar.setEnabled(false);
 
-        Zurück_jButton.setText("Zurück");
+        Zurück_jButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/home.PNG"))); // NOI18N
         Zurück_jButton.setFocusable(false);
         Zurück_jButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         Zurück_jButton.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);

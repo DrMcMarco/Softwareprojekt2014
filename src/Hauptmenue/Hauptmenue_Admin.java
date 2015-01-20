@@ -230,7 +230,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
     }//GEN-LAST:event_hauptmenueAdmin_TreeMouseClicked
 
     private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
-        internal.setFrame(this.internal.suche);
+        internal.rufeSuche(null);
     }//GEN-LAST:event_jB_SuchenActionPerformed
 
     /*----------------------------------------------------------*/

@@ -91,8 +91,10 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         this.ergebnisDaten = daten;
         if (this.hauptFenster.gibLetzteAnzeige() == null) {
             this.Auswaehlen_jButton.setEnabled(false);
+            this.Anzeige_jButton.setEnabled(true);
         } else {
             this.Auswaehlen_jButton.setEnabled(true);
+            this.Anzeige_jButton.setEnabled(false);
         }
     }
     
@@ -147,21 +149,22 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                 dtm.addColumn("Kundennummer");
                 dtm.addColumn("Kundenname");
                 dtm.addColumn("Status");
-                dtm.addColumn("Zahlungskondition");
+                //dtm.addColumn("Zahlungskondition");
                 //Iteriere über alle gefundenen Datensätze und zeige sie 
                 //In der Anzeige Tabelle an.
                 for (Object o : ergebnisDaten) {
                     //Caste nach Auftragskopf
                     Auftragskopf ak = (Auftragskopf) o;
+                    
                     //Füge dem Model einen neuen Datensatz als Zeile hinzu
                     dtm.addRow(new Object[] {ak.getAuftragskopfID(), 
                         ak.getAbschlussdatum(), ak.getAuftragstext(), 
                         ak.getErfassungsdatum(), ak.getLieferdatum(), 
-                        ak.getWert(), "Art", 
+                        ak.getWert(), ak.getTyp(), 
                         ak.getGeschaeftspartner().getGeschaeftspartnerID(), 
                         ak.getGeschaeftspartner().getRechnungsadresse()
                                 .getName(), 
-                        ak.getStatus().getStatus(), "ZK"});
+                        ak.getStatus().getStatus()});
                     
                 }
                 //Setze das Model
@@ -630,6 +633,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
             ak = listeAuftrag.get(this.Anzeige_jTable1.getSelectedRow());
             //Iteriere über alle Positionen 
             for (Auftragsposition position : ak.getPositionsliste()) {
+                
                 //Füge dem Tabellen-Modell einen Datensatz als Zeile hinzu
                 dtm.addRow(new Object[] {position.getArtikel().getArtikelID(),
                     position.getArtikel().getArtikeltext(), 
@@ -654,38 +658,41 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
      * @param evt event
      */
     private void Anzeige_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Anzeige_jButtonActionPerformed
-        Start framestart = null;
-        StartAdmin framestartadmin = null;
-        Artikel artikel = null;
-        
+        ArrayList<Geschaeftspartner> gpListe = null;
+        ArrayList<Zahlungskondition> zkListe = null;
         ArrayList<Artikel> artikelListe = null;
-        if (this.hauptFenster instanceof Start) {
-            framestart = (Start) this.hauptFenster;
-            if (this.comp == null) {
-                switch (this.tabelle) {
-                    case "Auftragskopf" :
-                        framestart.auftragskopfanlegen.setStatusAnzeigen();
-                        framestart.setFrame(framestart.auftragskopfanlegen);
-                        break;
-                    case "Artikel" :
-                        artikelListe = new ArrayList<Artikel>((Collection<? extends Artikel>) this.ergebnisDaten);
-                        artikel = artikelListe.get(this.Anzeige_jTable1.getSelectedRow());
-                        framestart.artikelanlegen.setzeFormularInArtikelAnzeigen();
-                        framestart.artikelanlegen.gibjTF_Artikelnummer().setText(String.valueOf(artikel.getArtikelID()));
-                        framestart.artikelanlegen.gibjTF_Artikelname().setText(artikel.getArtikeltext());
-                        framestart.artikelanlegen.gibjTA_Artikelbeschreibung().setText(artikel.getBestelltext());
-                        framestart.artikelanlegen.gibjTF_BestandsmengeFREI().setText(String.valueOf(artikel.getFrei()));
-                        framestart.artikelanlegen.gibjTF_BestandsmengeRESERVIERT().setText(String.valueOf(artikel.getReserviert()));
-                        framestart.artikelanlegen.gibjCB_Artikelkategorie().setSelectedItem(artikel.getKategorie().getKategoriename());
-                        
-                        framestart.setFrame(framestart.artikelanlegen);
-                        break;
-                }
-            }
-        } else {
-            framestartadmin = (StartAdmin) this.hauptFenster;
-        }
         
+        //Prüfe, um welche Tabelle es sich handelt.
+        //Hier nach wird bestimmt, welche Maske aufgerufen wird.
+        switch (this.tabelle) {
+            case "Auftragskopf" :
+                break;
+            case "Artikel" :
+                artikelListe = new ArrayList<Artikel>((Collection<? 
+                                extends Artikel>) this.ergebnisDaten);
+                this.hauptFenster.gibArtikelAnlegenFenster()
+                        .zeigeArtikelAusSucheAn(artikelListe.get(
+                                this.Anzeige_jTable1.getSelectedRow()));
+                this.hauptFenster.gibArtikelAnlegenFenster().setVisible(true);
+                break;
+            case "Geschäftspartner" :
+                gpListe = new ArrayList<Geschaeftspartner>((Collection<? 
+                                extends Geschaeftspartner>) this.ergebnisDaten);
+                this.hauptFenster.gibGeschaeftspartneranlegenFenster()
+                        .zeigeGPausSucheAN(gpListe.get(
+                                this.Anzeige_jTable1.getSelectedRow()));
+                this.hauptFenster.gibGeschaeftspartneranlegenFenster()
+                        .setVisible(true);
+                break;
+            case "Zahlungskondition" :
+                zkListe = new ArrayList<Zahlungskondition>((Collection<? 
+                                extends Zahlungskondition>) this.ergebnisDaten);
+                this.hauptFenster.gibZkAnlegen().zeigeZKausSucheAn(
+                        zkListe.get(this.Anzeige_jTable1.getSelectedRow()));
+                this.hauptFenster.gibZkAnlegen().setVisible(true);
+                break;
+//            case "" :
+        }
         
             
             
@@ -855,7 +862,11 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
             }
         //Prüfe, ob die Suche von X anlegen oder ändern gerufen wurde
         } else if (this.hauptFenster.gibLetzteAnzeige().getTitle().equals(
-                "Artikel ändern Einstieg")) {
+                "Artikel ändern Einstieg") 
+                || this.hauptFenster.gibLetzteAnzeige().getTitle()
+                        .equals("Artikel anzeigen") 
+                || this.hauptFenster.gibLetzteAnzeige().getTitle()
+                        .equals("Artikel anzeigen Einstieg")) {
             //Prüfe, ob sich die Suche auf Anschrift bezieht
             if (this.tabelle.equals("Artikel")) {
                 //Prüfe, ob ein Datensatz selektiert wurde.
@@ -889,7 +900,11 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                             "Fehler", JOptionPane.WARNING_MESSAGE);
             }
         } else if (this.hauptFenster.gibLetzteAnzeige().getTitle().equals(
-                "Geschäftspartner ändern Einstieg")) {
+                "Geschäftspartner ändern Einstieg") 
+                || this.hauptFenster.gibLetzteAnzeige().getTitle()
+                        .equals("Geschäftspartner anzeigen") 
+                || this.hauptFenster.gibLetzteAnzeige().getTitle()
+                        .equals("Geschäftspartner anzeigen Einstieg")) {
             //Prüfe, ob sich die Suche auf Anschrift bezieht
             if (this.tabelle.equals("Geschäftspartner")) {
                 //Prüfe, ob ein Datensatz selektiert wurde.
@@ -923,14 +938,19 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                             "Fehler", JOptionPane.WARNING_MESSAGE);
             }
         } else if (this.hauptFenster.gibLetzteAnzeige().getTitle().equals(
-                "Zahlungskondition ändern Einstieg")) {
+                "Zahlungskondition ändern Einstieg") 
+                        || this.hauptFenster.gibLetzteAnzeige().getTitle()
+                                .equals("Zahlungskonditionen anzeigen") 
+                || this.hauptFenster.gibLetzteAnzeige().getTitle()
+                                .equals("Zahlungskondition "
+                                        + "anzeigen Einstieg")) {
             //Prüfe, ob sich die Suche auf Anschrift bezieht
             if (this.tabelle.equals("Zahlungskondition")) {
                 //Prüfe, ob ein Datensatz selektiert wurde.
                 if (this.Anzeige_jTable1.getSelectedRow() != -1) {
                     //Caste die Ergebnisliste aus der Suche nach Anschrift.
-                     zkListe = new ArrayList<>(
-                        (Collection<? 
+                    zkListe = new ArrayList<>(
+                         (Collection<? 
                                 extends Zahlungskondition>) this.ergebnisDaten);
                     
                     //Setze in der View entsprechend das Feld mit den 
