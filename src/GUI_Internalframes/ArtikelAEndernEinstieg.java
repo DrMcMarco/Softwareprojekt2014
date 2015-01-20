@@ -1,61 +1,61 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GUI_Internalframes;
 
 import DAO.ApplicationException;
 import DTO.Artikel;
 import Documents.UniversalDocument;
 import Interfaces.InterfaceMainView;
-import Interfaces.InterfaceViewsFunctionality;
 import JFrames.*;
-import java.awt.Color;
 import java.awt.Component;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
-import javax.swing.JTextField;
 
 /**
+ * Klasse fuer die Maske Artikel aendern/anzeigen Einstieg je nachdem von
+ * welchem Button diese Klasse aufgerufen wird aendert sie sich in den Zustand
+ * Artikel aendern Einstieg oder Artikel anzeigen Einstieg
  *
- * @author Tahir * Klassenhistorie: 30.11.2014 Sen, angelegt 01.12.2014 Sen,
- * textfeld,Button angelegt 07.12.2014 Sen, Componenten mit leben befuellt
- * 10.12.2014 Sen, grundlegenden Ueberarbeitung der Maske, Fehler korigiert
- * 15.12.2014 Sen, taskleiste implementiert und funktionen erweitert 19.12.2014
- * Terrasi, Funktionsimplementierung im "Zurück"-Button der Schnittstelle für
- * InternalFrames 25.12.2014 Sen, UniversalDocument() implementiert, denn es
- * sollen nur Zahlen eingegeben werden können 26.12.2014 Sen, ArtikelAnlegen in
- * AritkelAnzeigen Funktion angefangen 01.01.2015 Sen, Methode zum Ändern von
- * ArtikelAnlegen in ArtikelAnzeigen implementiert 02.01.2015 Sen, Löschen von
- * Artikel Funktion implementiert 07.01.2015 Sen, Löschen von Artikel Funktion
- * Fehler korriegiert 08.01.2015 Terrasi, Implementierung der Anzeigen/Ändern
- * Funktion, hinzufügen 12.01.2015 Sen, Artikel aus Datenbank laden und diese
- * anzegien lassen angelegt, bzw Felder mit den Daten der Artikel befuellt
- * 14.01.2015 Sen, ArtikelAendern speichern Funktion angefangen 15.01.2015 Sen,
- * ArtikelAendern speichern Funktion anbgeschlossen 16.12.2014 Terrasi,
- * Funktionsimplementierung im "Zurück"-Button
+ * @author Tahir
  */
 public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
 
+    /**
+     * Variable, die für die Navigation benoetigt wird, in ihr wird gespeichert,
+     * welche View zuletzt geöffnet war.
+     */
     private Component c;
+    /**
+     * Varibale für die GUI Factory
+     */
     private GUIFactory factory;
-
+    /**
+     * Variable für das Start Fenster. Es kann sein, dass sich ein Admin
+     * anmeldet, dann waere unser StartFenster die StartAdmin. Falls sich ein
+     * User anmeldet, ist unser StartFenster Start.
+     */
     private InterfaceMainView hauptFenster;
-
-    private ArtikelAnlegen a;
+    /**
+     * Referenzvaribale der Sicht Artikel anlegen
+     */
+    private ArtikelAnlegen artikelAnlegen;
+    /**
+     * Number Formatter wird benoetigt fuer das Parsen der Eingaben, sowie das
+     * Anzeigen von Preisen
+     */
     private NumberFormat nf;
 
     /**
-     * Creates new form Fenster
+     * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die
+     * Documents.
+     *
+     * @param factory beinhaltet das factory Obejekt
+     * @param artikelAnlegen Referenzvariable der Artikel anlegen Klasse
+     * @param mainView beinhaltet das Objekt des StartFenster
      */
-    public ArtikelAEndernEinstieg(GUIFactory factory, ArtikelAnlegen a, InterfaceMainView mainView) {
+    public ArtikelAEndernEinstieg(GUIFactory factory, ArtikelAnlegen artikelAnlegen, InterfaceMainView mainView) {
         initComponents();
         this.factory = factory;
-        this.a = a;
+        this.artikelAnlegen = artikelAnlegen;
         this.hauptFenster = mainView;
-
         nf = NumberFormat.getInstance();
         nf.setMinimumFractionDigits(2);
         nf.setMaximumFractionDigits(2);
@@ -189,35 +189,43 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Methode, die aufgerufen wird, wenn man auf weiter klickt.
+     *
+     * @param evt automatisch generiert
+     */
+    /*
+     * Historie:
+     * 11.12.2014   Sen     angelegt
+     * 14.12.2014   Sen     ueberarbeitet
+     */
     private void jB_EnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_EnterActionPerformed
         String artikelnummer = jTF_Artikel_ID.getText();
-        long artikelnr = 0;
+        long artikelnr;
         try {
+//              Artikel mit der eingegebenen Artikelnummer wird versucht aus der Datenbank zu laden
+//              Alle Felder der Sicht Artikel anlegen werden befuellt
             artikelnr = nf.parse(artikelnummer).longValue();
             Artikel artikel = GUIFactory.getDAO().getItem(artikelnr);
-            a.gibjTF_Artikelnummer().setText("" + artikel.getArtikelID());
-            a.gibjTF_Artikelname().setText(artikel.getArtikeltext());
-            a.gibjTA_Artikelbeschreibung().setText(artikel.getBestelltext());
-            a.gibjCB_Artikelkategorie().setSelectedItem(artikel.getKategorie().getKategoriename());
-            a.gibjTF_Einzelwert().setText("" + nf.format(artikel.getVerkaufswert()));
-            a.gibjTF_Bestellwert().setText("" + nf.format(artikel.getEinkaufswert()));
-            a.gibjCB_MwST().setSelectedItem("" + artikel.getMwST());
-            a.gibjTF_BestandsmengeFREI().setText("" + artikel.getFrei());
-            a.gibjTF_BestandsmengeRESERVIERT().setText("" + artikel.getReserviert());
-            a.gibjTF_BestandsmengeZULAUF().setText("" + artikel.getZulauf());
-            a.gibjTF_BestandsmengeVERKAUFT().setText("" + artikel.getVerkauft());
-            a.setVisible(true);
+            artikelAnlegen.gibjTF_Artikelnummer().setText("" + artikel.getArtikelID());
+            artikelAnlegen.gibjTF_Artikelname().setText(artikel.getArtikeltext());
+            artikelAnlegen.gibjTA_Artikelbeschreibung().setText(artikel.getBestelltext());
+            artikelAnlegen.gibjCB_Artikelkategorie().setSelectedItem(artikel.getKategorie().getKategoriename());
+            artikelAnlegen.gibjTF_Einzelwert().setText("" + nf.format(artikel.getVerkaufswert()));
+            artikelAnlegen.gibjTF_Bestellwert().setText("" + nf.format(artikel.getEinkaufswert()));
+            artikelAnlegen.gibjCB_MwST().setSelectedItem("" + artikel.getMwST());
+            artikelAnlegen.gibjTF_BestandsmengeFREI().setText("" + artikel.getFrei());
+            artikelAnlegen.gibjTF_BestandsmengeRESERVIERT().setText("" + artikel.getReserviert());
+            artikelAnlegen.gibjTF_BestandsmengeZULAUF().setText("" + artikel.getZulauf());
+            artikelAnlegen.gibjTF_BestandsmengeVERKAUFT().setText("" + artikel.getVerkauft());
+            artikelAnlegen.setVisible(true);
             this.setVisible(false);
-//            jTF_Artikel_ID.setText("");
             zuruecksetzen();
-
+//            entsprechende Fehlermeldungen werden in der Statuszeile angezeigt
         } catch (ParseException ex) {
-//            System.out.println("Fehler beim Parsen in der Klasse ArtikelAEndernEinstieg!");
             this.hauptFenster.setStatusMeldung("Bitte geben Sie eine Artikelnummer ein!");
         } catch (ApplicationException ex) {
             this.hauptFenster.setStatusMeldung("Kein passender Artikel in Datenbank!");
-//            jTF_Artikel_ID.setText("");
             zuruecksetzen();
         } catch (NullPointerException e) {
             System.out.println(e.getMessage());
@@ -229,7 +237,11 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
      * der Guifactory die letzte aufgerufene Component abgefragt wodurch man die
      * jetzige Component verlässt und zur übergebnen Component zurück kehrt.
      *
-     * @param evt
+     * @param evt automatishc generiert
+     */
+    /*
+     * Historie:
+     * 01.12.2014   Sen     angelegt
      */
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
         c = null;   //Initialisierung der Componentspeichervariable
@@ -238,27 +250,65 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
         this.setVisible(false);// Internalframe wird nicht mehr dargestellt
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
-
+    /**
+     * Aktion die beim betätigen schliesen des Fenster ausgefuert wird
+     *
+     * @param evt automatishc generiert
+     */
+    /*
+     * Historie:
+     * 01.12.2014   Sen     angelegt
+     */
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         jB_ZurueckActionPerformed(null);
     }//GEN-LAST:event_formInternalFrameClosing
-
+    /**
+     * Aktion die beim klicken auf Enter durchgefuert wird
+     *
+     * @param evt automatishc generiert
+     */
+    /*
+     * Historie:
+     * 02.01.2015   Sen     angelegt
+     */
     private void jTF_Artikel_IDKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTF_Artikel_IDKeyPressed
+//        Falls enter geklickt wird, wird die Methode beim klick auf den 
+//        Button Enter ausgefuehrt
         if (evt.getKeyCode() == evt.VK_ENTER) {
             jB_EnterActionPerformed(null);
         }
     }//GEN-LAST:event_jTF_Artikel_IDKeyPressed
-
+    /**
+     * Aktion die beim klicken auf Enter durchgefuert wird
+     *
+     * @param evt automatishc generiert
+     */
+    /*
+     * Historie:
+     * 16.01.2015   Sen     angelegt
+     */
     private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
         this.hauptFenster.rufeSuche(this);
     }//GEN-LAST:event_jB_SuchenActionPerformed
     /**
-     * setterMethode für Simon
+     * setterMethode für die Suche
      *
-     * @param artikel Datum Name Was 18.01.2015 SEN angelegt
+     * @param artikel Artikel Obkjekt, aus dem die artikelnummer gelesen wird
+     */
+    /*
+     * Historie:
+     * 18.01.2015   Sen     angelegt
      */
     public void setzeGP_IDAusSuche(Artikel artikel) {
         jTF_Artikel_ID.setText("" + artikel.getArtikelID());
+    }
+      
+    /* methode, die die Eingaben zuruecksetzt
+     * Historie:
+     * 18.01.2015   Sen     angelegt
+     */
+    public void zuruecksetzen() {
+        jTF_Artikel_ID.setText("");
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_Anzeigen;
@@ -273,7 +323,4 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 
-    public void zuruecksetzen() {
-        jTF_Artikel_ID.setText("");
-    }
 }
