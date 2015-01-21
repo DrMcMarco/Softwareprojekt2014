@@ -263,9 +263,10 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
                 // Überprüft anhand des Framestitels, ob es das nächste Fenster
                 // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
                 if (this.getTitle().equals("Auftragskopf ändern")) {
-
+                    System.out.println("aaaaaaaaaaaaaaaaaa");
+                    System.out.println(aKopf.getAuftragskopfID());
                     if (aKopf != null) {
-
+                        System.out.println("bbbbbbbbbb");
                         this.auftragskopfAnlegen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
 
                         this.auftragskopfAnlegen.
