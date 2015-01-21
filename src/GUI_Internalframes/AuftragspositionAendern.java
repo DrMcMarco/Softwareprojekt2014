@@ -154,6 +154,11 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
         jToolBar1.add(jB_Loeschen);
 
         jB_Suchen.setText("Suchen");
+        jB_Suchen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_SuchenActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_Suchen);
 
         AuftragskopfID_jLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -368,6 +373,10 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
             Enter_jButtonActionPerformed(null);
         }
     }//GEN-LAST:event_auftragskopfID_jTextFieldKeyPressed
+
+    private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
+        this.hauptFenster.rufeSuche(this);
+    }//GEN-LAST:event_jB_SuchenActionPerformed
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */

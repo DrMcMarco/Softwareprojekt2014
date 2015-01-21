@@ -1980,6 +1980,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 //            String auftragsWert, String auftragsText, String auftragsArt,
 //            String erfassungsDatum, String lieferDatum, String abschlussDatum,
 //            String status) {ssss
+        this.setStatusAnzeigen();
         auftragspositionen = auftragskopf.getPositionsliste();
 
         this.geschaeftspartner_jTextField.setText(String.valueOf(auftragskopf.getGeschaeftspartner().getGeschaeftspartnerID()));

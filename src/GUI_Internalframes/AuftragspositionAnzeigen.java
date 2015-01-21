@@ -758,6 +758,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /* 17.01.2015 Terrasi angelegt und Dokumentation */
     /*----------------------------------------------------------*/
     public void setzeEingaben(Auftragsposition position) {
+        this.setStatusAnzeigen();
         this.auftragskofID_jTextField.setText(String.valueOf(position.getAuftrag().getAuftragskopfID()));
         this.einzelwert_jTextField.setText(String.valueOf(position.getEinzelwert()));
         this.erfassungsdatum_jTextField.setText(gibDatumAlsString(position.getErfassungsdatum()));

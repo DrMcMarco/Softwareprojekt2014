@@ -10,6 +10,7 @@ import GUI_Internalframes.ArtikelAnlegen;
 import GUI_Internalframes.AuftragskopfAendern;
 import GUI_Internalframes.AuftragskopfAnlegen;
 import GUI_Internalframes.AuftragspositionAendern;
+import GUI_Internalframes.AuftragspositionAnzeigen;
 import GUI_Internalframes.GeschaeftspartnerAEndernEinstieg;
 import GUI_Internalframes.GeschaeftspartnerAnlegen;
 import GUI_Internalframes.ZahlungskonditionAnlegen;
@@ -117,4 +118,6 @@ public interface InterfaceMainView {
     public AuftragspositionAendern gibPositionAendernEinstieg();
     
     public ZahlungskonditionAnlegen gibZkAnlegen();
+    
+    public AuftragspositionAnzeigen gibApAnzeigen();
 }

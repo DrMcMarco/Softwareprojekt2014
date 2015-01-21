@@ -203,11 +203,11 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                 dtm.addColumn("Arttext");
                 dtm.addColumn("Bestelltext");
                 dtm.addColumn("Wert");
-                dtm.addColumn("Frei");
+                dtm.addColumn("Verkaufswert");
                 dtm.addColumn("Kategorie");
                 dtm.addColumn("Mwst");
+                dtm.addColumn("Frei");
                 dtm.addColumn("Reserviert");
-                dtm.addColumn("Verkaufswert");
                 dtm.addColumn("Verkauft");
                 dtm.addColumn("Zulauf");
                 //Iteriere über alle gefundenen Datensätze und zeige sie 
@@ -219,10 +219,10 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                     //Artikel Objekt
                     Object[] ausgabe = {artikel.getArtikelID(), 
                         artikel.getArtikeltext(), artikel.getBestelltext(), 
-                        artikel.getEinkaufswert() , artikel.getFrei() ,
+                        artikel.getEinkaufswert(), artikel.getVerkaufswert(),
                         artikel.getKategorie().getKategoriename(), 
-                        artikel.getMwST(), artikel.getReserviert(), 
-                        artikel.getVerkaufswert(), artikel.getVerkaufswert(), 
+                        artikel.getMwST(), artikel.getFrei(), 
+                        artikel.getReserviert(),  
                         artikel.getVerkauft(), artikel.getZulauf() };
                     //Füge dem Model einen neuen Datensatz als Zeile hinzu
                     dtm.addRow(ausgabe);
@@ -437,7 +437,6 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        Positionanzeige_jTable2.setEnabled(false);
         jScrollPane2.setViewportView(Positionanzeige_jTable2);
 
         javax.swing.GroupLayout position_jPanel1Layout = new javax.swing.GroupLayout(position_jPanel1);
@@ -661,42 +660,71 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         ArrayList<Geschaeftspartner> gpListe = null;
         ArrayList<Zahlungskondition> zkListe = null;
         ArrayList<Artikel> artikelListe = null;
-        
+        ArrayList<Auftragskopf> akListe = null;
+        ArrayList<Auftragsposition> positionen = null;
         //Prüfe, um welche Tabelle es sich handelt.
         //Hier nach wird bestimmt, welche Maske aufgerufen wird.
         switch (this.tabelle) {
             case "Auftragskopf" :
+                //Lade die gefundenen Datensätze typisiert
+                akListe = new ArrayList<>((Collection<? 
+                                extends Auftragskopf>) this.ergebnisDaten);
+                //Setze die Daten in die Eingabefelder der Maske
+                this.hauptFenster.gibAuftragskopfanlegenFenster()
+                        .setzeEingabe(akListe.get(
+                                this.Anzeige_jTable1.getSelectedRow()));
+                //Mach das Fenster sichtbar
+                this.hauptFenster.gibAuftragskopfanlegenFenster()
+                        .setVisible(true);
                 break;
             case "Artikel" :
-                artikelListe = new ArrayList<Artikel>((Collection<? 
+                //Lade die gefundenen Datensätze typisiert
+                artikelListe = new ArrayList<>((Collection<? 
                                 extends Artikel>) this.ergebnisDaten);
+                //Setze die Daten in die Eingabefelder der Maske
                 this.hauptFenster.gibArtikelAnlegenFenster()
                         .zeigeArtikelAusSucheAn(artikelListe.get(
                                 this.Anzeige_jTable1.getSelectedRow()));
+                //Mach das Fenster sichtbar
                 this.hauptFenster.gibArtikelAnlegenFenster().setVisible(true);
                 break;
             case "Geschäftspartner" :
-                gpListe = new ArrayList<Geschaeftspartner>((Collection<? 
+                //Lade die gefundenen Datensätze typisiert
+                gpListe = new ArrayList<>((Collection<? 
                                 extends Geschaeftspartner>) this.ergebnisDaten);
+                //Setze die Daten in die Eingabefelder der Maske
                 this.hauptFenster.gibGeschaeftspartneranlegenFenster()
                         .zeigeGPausSucheAN(gpListe.get(
                                 this.Anzeige_jTable1.getSelectedRow()));
+                //Mach das Fenster sichtbar
                 this.hauptFenster.gibGeschaeftspartneranlegenFenster()
                         .setVisible(true);
                 break;
             case "Zahlungskondition" :
-                zkListe = new ArrayList<Zahlungskondition>((Collection<? 
+                //Lade die gefundenen Datensätze typisiert
+                zkListe = new ArrayList<>((Collection<? 
                                 extends Zahlungskondition>) this.ergebnisDaten);
+                //Setze die Daten in die Eingabefelder der Maske
                 this.hauptFenster.gibZkAnlegen().zeigeZKausSucheAn(
                         zkListe.get(this.Anzeige_jTable1.getSelectedRow()));
+                //Mach das Fenster sichtbar
                 this.hauptFenster.gibZkAnlegen().setVisible(true);
                 break;
-//            case "" :
+            case "Auftragsposition" :
+                //Lade die gefundenen Datensätze typisiert
+                positionen = new ArrayList<>((Collection<? 
+                                extends Auftragsposition>) this.ergebnisDaten);
+                //Setze die Daten in die Eingabefelder der Maske
+                this.hauptFenster.gibApAnzeigen().setzeEingaben(
+                        positionen.get(this.Anzeige_jTable1.getSelectedRow()));
+                //Mach das Fenster sichtbar
+                this.hauptFenster.gibApAnzeigen().setVisible(true);
+                break;
         }
-        
-            
-            
-        
+        //Setze ggf. die Positions-Table auf nicht sichtbar
+        this.position_jPanel1.setVisible(false);
+        this.Positionanzeige_jTable2.setVisible(false);
+        //Schliesse das Suchfenster
         this.setVisible(false);
         
     }//GEN-LAST:event_Anzeige_jButtonActionPerformed
@@ -718,6 +746,8 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         ArrayList<Artikel> artikelListe = null;
         ArrayList<Anschrift> anschriftListe = null;
         ArrayList<Zahlungskondition> zkListe = null;
+        ArrayList<Auftragsposition> positionen = null;
+        ArrayList<Auftragskopf> akListe = null;
         //Prüfe, aus welcher View die Suche aufgerufen worden ist.
         //Dies ist entscheiden, da in jeder View nur IN speziellen Tabellen
         //und nach speziellen Attributen gesucht werden kann
@@ -958,6 +988,51 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                     this.hauptFenster.gibZkAendernEinstieg()
                             .setzeGP_IDAusSuche(zkListe.get(
                                     this.Anzeige_jTable1.getSelectedRow()));
+                    //Schließe die Suche
+                    this.setVisible(false);
+                    //Setze ggf. die Positions-Table auf nicht sichtbar
+                    this.position_jPanel1.setVisible(false);
+                    this.Positionanzeige_jTable2.setVisible(false);
+                //Wenn kein Datensatz ausgewählt wurde, wird der Benutzer
+                //Daraufhin aufmerksam gemacht
+                } else {
+                    JOptionPane.showMessageDialog(null, FEHLER_AUSWAHL, 
+                            "Fehler", JOptionPane.WARNING_MESSAGE);
+                }
+            //Wenn eine Tabelle ausgewählt wurde die nicht hierauf 
+            //Referenziert, dann gib eine Meldung aus und der Benutzer
+            //Muss seine Eingabe wiederholen
+            } else {
+                JOptionPane.showMessageDialog(null, FEHLER_TABELLE, 
+                            "Fehler", JOptionPane.WARNING_MESSAGE);
+            }
+        } else if (this.hauptFenster.gibLetzteAnzeige().getTitle().equals(
+                "Auftragsposition ändern") 
+                        || this.hauptFenster.gibLetzteAnzeige().getTitle()
+                                .equals("Auftragsposition anzeigen")) {
+            //Prüfe, ob sich die Suche auf Anschrift bezieht
+            if (this.tabelle.equals("Auftragskopf")) {
+                //Prüfe, ob ein Datensatz selektiert wurde.
+                if (this.Anzeige_jTable1.getSelectedRow() != -1 
+                        && this.Positionanzeige_jTable2.getSelectedRow() 
+                        != -1) {
+                    //Caste die Ergebnisliste aus der Suche nach Anschrift.
+                    akListe = new ArrayList<>(
+                         (Collection<? 
+                                extends Auftragskopf>) this.ergebnisDaten);
+                    
+                    //Setze in der View entsprechend das Feld mit den 
+                    //Informationen
+                    this.hauptFenster.gibPositionAendernEinstieg()
+                            .setAuftragskopfID_jTextField(akListe.get(
+                                    this.Anzeige_jTable1.getSelectedRow()));
+                    
+                    this.hauptFenster.gibPositionAendernEinstieg()
+                            .setAuftragspositionID_jTextField(akListe.get(
+                                    this.Anzeige_jTable1.getSelectedRow())
+                                    .getPositionsliste().get(
+                                            this.Positionanzeige_jTable2
+                                                    .getSelectedRow()));
                     //Schließe die Suche
                     this.setVisible(false);
                     //Setze ggf. die Positions-Table auf nicht sichtbar
