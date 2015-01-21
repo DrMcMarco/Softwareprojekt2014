@@ -530,7 +530,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             }
         });
 
-        materialnummer_jTextField.setText("12345678");
         materialnummer_jTextField.setToolTipText("");
         materialnummer_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -1145,6 +1144,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                             
                         JOptionPane.showMessageDialog(null, keineAenderung_Text,
                                 keineAenderungen_Titel, JOptionPane.OK_OPTION);
+                        
                         }
                        
                     }
@@ -1372,8 +1372,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 
                     for (int i = 0; i < auftragspositionen.size(); i++) {
 
-                        summenWertFuerPos = auftragspositionen.get(i).getEinzelwert();
-//                                * auftragspositionen.get(i).getMenge();
+                        summenWertFuerPos = auftragspositionen.get(i).getEinzelwert()
+                                * auftragspositionen.get(i).getMenge();
 
                         Object[] neuesObj = new Object[]{i + 1,
                             auftragspositionen.get(i).getArtikel().getArtikelID(),

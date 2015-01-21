@@ -80,6 +80,9 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     final String aenderungVonDaten_Text = "Es wurden Daten geändert. Wollen sie wirklich"
             + "die Daten überspeichern?";
     final String aenderungVonDaten_Titel = "Änderung von Daten";
+    final String ERFOLGREICHGEAENDERT_TEXT = "Die Position  wurde erfolgreich geändert.";
+    final String keineAenderung_Text = "Es sind keine Änderungen vorgenommen worden.";
+    final String keineAenderungen_Titel = "Auftragsposition existiert bereits.";
 
     /**
      * Creates new form AuftragspositionAnlegen
@@ -531,21 +534,28 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
                     && dbMenge.equals(menge_jTextField.getText())
                     && dbErfassungsdatum.equals(erfassungsdatum_jTextField.getText())
                     && dbEinzelwert.equals(einzelwert_jTextField.getText()))) {
-//                int antwort = JOptionPane.showConfirmDialog(rootPane, aenderungVonDaten_Text,
-//                        aenderungVonDaten_Titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                int antwort = JOptionPane.showConfirmDialog(rootPane, aenderungVonDaten_Text,
+                        aenderungVonDaten_Titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 //Falls bejaht wird der Auftragskopf verändert gespeichert.
-//                if (antwort == JOptionPane.YES_OPTION) {
-//
-////                    GUIFactory.getDAO().
-//                    zuruecksetzen();
-//                    jB_ZurueckActionPerformed(evt);
-//                    this.hauptFenster.setStatusMeldung(ERFOLGREICHGEAENDERT_TEXT);
+                if (antwort == JOptionPane.YES_OPTION) {
+
+                    GUIFactory.getDAO().aenderePosition(Long.parseLong(auftragskofID_jTextField.getText()),
+                            Long.parseLong(positionsnummer_jTextField.getText()),
+                            Integer.parseInt(menge_jTextField.getText()));
+
+                    zuruecksetzen();
+                    jB_ZurueckActionPerformed(evt);
+                    this.hauptFenster.setStatusMeldung(ERFOLGREICHGEAENDERT_TEXT);
                 }
 
-//            }
+            } else {
+                JOptionPane.showMessageDialog(null, keineAenderung_Text,
+                        keineAenderungen_Titel, JOptionPane.OK_OPTION);
+            }
         } catch (ApplicationException e) {
             this.hauptFenster.setStatusMeldung(e.getMessage());
         }
+
     }//GEN-LAST:event_jB_SpeichernActionPerformed
 
     /*----------------------------------------------------------*/
@@ -672,7 +682,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      */
     public void setStatusAender() {
         this.setTitle("Auftragsposition ändern");
-        zuruecksetzen();
+//        zuruecksetzen();
         this.auftragskofID_jTextField.setEnabled(false);
         this.positionsnummer_jTextField.setEnabled(false);
         this.materialnummer_jTextField.setEnabled(true);
@@ -692,7 +702,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /*----------------------------------------------------------*/
     public void setStatusAnzeigen() {
         this.setTitle("Auftragsposition anzeigen");
-        zuruecksetzen();
+//        zuruecksetzen();
         this.auftragskofID_jTextField.setEnabled(false);
         this.positionsnummer_jTextField.setEnabled(false);
         this.materialnummer_jTextField.setEnabled(false);
