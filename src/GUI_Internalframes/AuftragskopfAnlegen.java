@@ -2003,7 +2003,16 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             auftragsart_jComboBox.setSelectedIndex(3);
         }
         this.auftragstext_jTextArea.setText(auftragskopf.getAuftragstext());
-
+        
+                if(auftragskopf.getStatus().getStatus().equals("erfasst")){
+                    
+                    erfasst_jRadioButton.setSelected(true);
+                } else if(auftragskopf.getStatus().getStatus().equals("freigegeben")){
+                    freigegeben_jRadioButton.setSelected(true);
+                }else{
+                   abgeschlossen_jRadioButton.setSelected(true);
+                }
+                
         this.erfassungsdatum_jFormattedTextField.
                 setText(String.valueOf(gibDatumAlsString(auftragskopf.getErfassungsdatum())));
         this.lieferdatum_jFormattedTextField.
