@@ -46,7 +46,7 @@ public class Auftragsposition implements java.io.Serializable {
         this.Auftrag = Auftrag;
         this.Artikel = Artikel;
         this.Menge = Menge;
-        this.Einzelwert = Einzelwert;
+        this.Einzelwert = Einzelwert * Menge;
         this.Erfassungsdatum = Erfassungsdatum;
         this.LKZ = false;
     }
