@@ -1113,7 +1113,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                             jetzigeZahlungskonditionen = "null";
                         }
                         
-                        
+                      
                         
                         if (!(dbGeschaeftspartnerID.equals(geschaeftspartner_jTextField.getText())
                                 && dbAuftragsart.equals(auftragsart_jComboBox.getSelectedItem().toString())
@@ -1121,7 +1121,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                                 && dbStatus.equals(jetzigerStatus)
                                 && dbLieferdatum.equals(lieferdatum_jFormattedTextField.getText())
                                 && dbAbschlussdatum.equals(abschlussdatum_jFormattedTextField.getText())
-                                && positionenSindGleich != true)) {
+                                && positionenSindGleich == true)) {
                             if (kopf.pruefeVerfuegbarkeit(buttonGroup1.getSelection().toString()) == true) {
                                 
                                 int antwort = JOptionPane.showConfirmDialog(rootPane, aenderungVonDaten_Text,
@@ -1362,7 +1362,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                                 Integer.parseInt(menge_jTextField.getText()),
                                 Double.parseDouble(einzelwert_jTextField.getText()),
                                 abschlussdatum);
-
+                        
+                        position.setMenge(Integer.parseInt(menge_jTextField.getText()));
                         auftragspositionen.add(position);
 
                     }
@@ -1371,8 +1372,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 
                     for (int i = 0; i < auftragspositionen.size(); i++) {
 
-                        summenWertFuerPos = auftragspositionen.get(i).getEinzelwert()
-                                * auftragspositionen.get(i).getMenge();
+                        summenWertFuerPos = auftragspositionen.get(i).getEinzelwert();
+//                                * auftragspositionen.get(i).getMenge();
 
                         Object[] neuesObj = new Object[]{i + 1,
                             auftragspositionen.get(i).getArtikel().getArtikelID(),
@@ -1781,7 +1782,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      * wird. Dadurch sind keine Eingaben möglich.
      */
     public void setStatusAnzeigen() {
-        this.setTitle("Auftragsposition anzeigen");
+        this.setTitle("Auftragskopf anzeigen");
 //        zuruecksetzen();
         this.geschaeftspartner_jTextField.setEnabled(false);
         this.auftragskopfID_jTextField.setEnabled(false);
@@ -1980,7 +1981,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 //            String auftragsWert, String auftragsText, String auftragsArt,
 //            String erfassungsDatum, String lieferDatum, String abschlussDatum,
 //            String status) {ssss
-        this.setStatusAnzeigen();
+//        this.setStatusAnzeigen();
         auftragspositionen = auftragskopf.getPositionsliste();
 
         this.geschaeftspartner_jTextField.setText(String.valueOf(auftragskopf.getGeschaeftspartner().getGeschaeftspartnerID()));
