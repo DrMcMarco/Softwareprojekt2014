@@ -1301,7 +1301,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //        } else if (!jTF_Telefon.getText().equals("")) {
 //            jTF_Telefon.setBackground(JTF_FARBE_STANDARD);
 //        }
-        String meldung = "Die eingegebene Telefonnummer ist nicht richtig! \n Bitte geben Sie eine richtige Telefonnummer ein. (z.B. 1234123)";
+        String meldung = "Die eingegebene Telefonnummer ist nicht richtig! \n Bitte geben Sie eine richtige Telefonnummer ein. (z.B. 017712312312)";
         String titel = "Fehlerhafte Eingabe";
         ueberpruefungVonFocusLost(jTF_Telefon, PRUEFUNG_TELEFON, titel, meldung);
 
@@ -1333,7 +1333,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //        } else if (!textfield.getText().equals("")) {
 //            textfield.setBackground(JTF_FARBE_STANDARD);
 //        }
-        String meldung = "Die eingegebene Faxnummer ist nicht richtig! \n Bitte geben Sie eine richtige Faxnummer ein. (z.B. 1234123)";
+        String meldung = "Die eingegebene Faxnummer ist nicht richtig! \n Bitte geben Sie eine richtige Faxnummer ein. (z.B. 017712312312)";
         String titel = "Fehlerhafte Eingabe";
         ueberpruefungVonFocusLost(jTF_Fax, PRUEFUNG_TELEFON, titel, meldung);
 
@@ -1364,7 +1364,12 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                 cal.setTime(heutigesDatum);
                 cal.add(Calendar.YEAR, -18);
                 Date tagVor18jahren = cal.getTime();
+                cal.add(Calendar.YEAR, -82);
+                Date tagVor100jahren = cal.getTime();
 //              Pruefung, ob eingabe in der Zukunft
+//                
+//                    System.out.println(heutigesDatum);
+//                    System.out.println(tagVor100jahren);
                 if (eingabeGeburtsdatum.after(heutigesDatum)) {
 //                    Falls ja Fehlermedung
                     meldung = "Das eingegebene Geburtsdatum ist in der Zukunft! \nBitte geben Sie ein gültiges Geburtsdatm Datum ein. (z.B. 01.01.1980)";
@@ -1376,6 +1381,13 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                 } else if (eingabeGeburtsdatum.after(tagVor18jahren)) {
 //                    Falls nicht, Fehlermeldung
                     meldung = "Der eingebene Geschäftspartner ist nicht volljährig!";
+                    titel = "Fehlerhafte Eingabe";
+                    JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+                    jFTF_Geburtsdatum.requestFocusInWindow();
+                    jFTF_Geburtsdatum.setValue(null);
+                } else if (eingabeGeburtsdatum.before(tagVor100jahren)) {
+//                    Falls nicht, Fehlermeldung
+                    meldung = "Der eingebene Geschäftspartner ist über 100 Jahre alt!";
                     titel = "Fehlerhafte Eingabe";
                     JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
                     jFTF_Geburtsdatum.requestFocusInWindow();

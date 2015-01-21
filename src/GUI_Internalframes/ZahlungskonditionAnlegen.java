@@ -185,9 +185,18 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      * 05.12.2014   Sen     angelegt
      */
     @Override
-    @Deprecated
     public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
-
+//            Prüfung, ob die Eingabe mit der Synstax passen
+        if (!textfield.getText().matches(syntax)) {
+//            Eingabe nicht korrekt, also wird eine Fehlermeldung ausgegeben            
+            JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
+//            Focus wird auf das Feld für die Eingabe des Einzelwertes gesetzt und der Eingabefeld wird auf leer gesetzt.
+            textfield.requestFocusInWindow();
+            textfield.setText("");
+        } else if (!textfield.getText().equals("")) {
+//            Eingabe ist ok, nun Pruefung ob etwas im Feld steht, falls ja wird Hitnergrund auf normal gestzt
+            textfield.setBackground(JTF_FARBE_STANDARD);
+        }
     }
 
     /**
@@ -204,7 +213,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      */
     /*
      * Historie:
-     * 30.11.2014   Sen     angelegt
+     * 05.12.2014   Sen     angelegt
      */
     @Override
     public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
