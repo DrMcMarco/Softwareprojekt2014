@@ -914,18 +914,42 @@ public class DataAccessObject {
         //Je nach dem aktuellen Status des Auftrags
         switch (ak.getStatus().getStatus().toLowerCase()) {
             case "abgeschlossen":
+                
+                //Wenn der Auftrag bereits abgschlossen ist, dürfen keine
+                //Änderungen mehr vorgenommen werden
                 ergebnis = "Dieser Auftrag ist abgeschlossen und kann daher nicht "
                         + "mehr geändert werden.";
+                
                 break;
             case "freigegeben":
                 //TODO: Weitere Attribute? + Fehlerbehandelung
-                em.getTransaction().begin();
-                ak.setAuftragstext(Auftragstext);
-                this.setzeAuftragsstatus(ak, this.getStatusByName(Status));
-                em.persist(ak);
-                em.getTransaction().commit();
-                ergebnis = "Dieser Auftrag ist bereits freigegeben, "
-                        + "daher kann nur der Status geändert werden.";
+                try {
+                    //Transaktion starten
+                    em.getTransaction().begin();
+                    
+                    //Wenn der Auftrag bereits freigegeben ist, soll nur der 
+                    //Auftragstext sowie der Status ändernbar sein
+                    ak.setAuftragstext(Auftragstext);
+                    this.setzeAuftragsstatus(ak, this.getStatusByName(Status));
+                    
+                    //Auftragskopf persistieren
+                    em.persist(ak);
+                    
+                    //Transaktion beenden
+                    em.getTransaction().commit();
+                    
+                    ergebnis = "Dieser Auftrag ist bereits freigegeben, "
+                            + "daher kann nur der Status geändert werden.";
+                    
+                } catch (PersistenceException pe) {
+                    
+                    //Sollte eine Fehler auftreten, wird ein Rollback der 
+                    //Transaktion ausgelöst
+                    em.getTransaction().rollback();                   
+                    throw new ApplicationException("Fehler", 
+                            pe.getMessage());
+                    
+                }
                 break;
             default:
                 
@@ -969,13 +993,12 @@ public class DataAccessObject {
                     
                     ergebnis = "Änderungen erfolgreich durchgeführt.";
                 
-                } catch (Exception e) {
+                } catch (PersistenceException e) {
                     
                     //Sollte eine Fehler auftreten, wird ein Rollback der 
                     //Transaktion ausgelöst
-                    em.getTransaction().rollback();
-                    
-                    throw new ApplicationException("Fehler", 
+                    em.getTransaction().rollback();                   
+                    throw new ApplicationException(FEHLER_TITEL, 
                             e.getMessage());
                     
                 }
@@ -1027,13 +1050,13 @@ public class DataAccessObject {
             em.getTransaction().commit();
             
         //Wenn beim Speichern der Daten ein Fehler auftritt    
-        } catch (PersistenceException e) {
+        } catch (PersistenceException pe) {
             
+            //Transaktion zurücksetzen und Fehlermeldung ausgeben
+            em.getTransaction().rollback();
             throw new ApplicationException(FEHLER_TITEL, 
                     "Beim Ändern der Position ist ein Fehler aufgetreten.");
-            
         }
-        
     }
     
         
