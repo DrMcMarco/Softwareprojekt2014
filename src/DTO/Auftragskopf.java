@@ -299,7 +299,7 @@ public abstract class Auftragskopf implements Serializable {
     }
 
     /**
-     * Gicht die Zahlungskondition des Auftrags zurück
+     * Gibt die Zahlungskondition des Auftrags zurück
      * @return ein Zahlungskondtions-Objekt
      */
     public Zahlungskondition getZahlungskondition() {
@@ -349,7 +349,7 @@ public abstract class Auftragskopf implements Serializable {
      * Berechnet den Auftragswert neu.
      * Sollte nur von der "aendereAuftrag"-Methode in der DAO verwendet werden!
      */
-    public void berrechneAuftragswert() {   
+    public void berechneAuftragswert() {   
         double Auftragswert = 0;
         //Iteration über die Positionsliste
         for (Auftragsposition ap : this.Positionsliste) {

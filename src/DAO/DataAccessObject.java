@@ -945,7 +945,7 @@ public class DataAccessObject {
                     
                     //Nachdem die Positionen aktualisiert wurden, wird der 
                     //Auftragswert neu berechnet
-                    ak.berrechneAuftragswert();
+                    ak.berechneAuftragswert();
                     
                     /*
                         Wenn alle vorherigen Schritte fehlerfrei durchlaufen 
@@ -983,6 +983,57 @@ public class DataAccessObject {
                 break;
         }
         return ergebnis;
+    }
+    
+    /**
+     * Methode zum Ändern einer einzelnen Auftragsposition
+     * @param AuftragsID ID des Auftrags (eindeutig)
+     * @param Positionsnummer Nummer der Position innerhalb des Auftrags
+     * @param Menge die neue Menge
+     * @throws ApplicationException wenn die Auftragsposition nicht gefunden
+     *                              werden konnte oder beim Speichern ein
+     *                              Fehler aufgetreten ist
+     */
+    public void aenderePosition(long AuftragsID, long Positionsnummer, int Menge) 
+            throws ApplicationException {
+    
+        //Holen der Auftragsposition anhand der AuftragsID und der Positionsnummer
+        Auftragsposition ap = this.gibAuftragsposition(AuftragsID, Positionsnummer);
+        
+        //Wenn der Auftrag sich nicht im Status 'erfasst' befindet, darf sich
+        //die Position nicht verändern
+        if (!ap.getAuftrag().getStatus().getStatus().equals("erfasst")) {
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Diese Auftragsposition kann nicht bearbeitet werden, "
+                            + "da der Auftrag schon freigegeben oder "
+                            + "abgschlossen ist");
+        }
+        
+        try {    
+            
+            //Transaktions starten
+            em.getTransaction().begin();
+            
+            //Neue Menge setzen
+            ap.setMenge(Menge);
+            
+            //Auftragswert neu berechnen
+            ap.getAuftrag().berechneAuftragswert();
+
+            //Auftrag samt Positionen persistieren
+            em.persist(ap.getAuftrag());
+            
+            //Transaktion beenden
+            em.getTransaction().commit();
+            
+        //Wenn beim Speichern der Daten ein Fehler auftritt    
+        } catch (PersistenceException e) {
+            
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Beim Ändern der Position ist ein Fehler aufgetreten.");
+            
+        }
+        
     }
     
         
@@ -1768,17 +1819,39 @@ public class DataAccessObject {
      */
     public Auftragsposition gibAuftragsposition(long AuftragskopfID, 
             long Positionsnummer) throws ApplicationException {
+           
+        Auftragskopf ak = em.find(Auftragskopf.class, AuftragskopfID);
         
-        Auftragsposition ap = (Auftragsposition) this.em.createQuery
+        //Prüfen ob beide vorhanden sind
+        if (ak == null) {
+            throw new ApplicationException("Fehler", 
+                    "Der Auftrag konnte nicht gefunden werden.");
+        }
+        
+        Auftragsposition ap = null;
+        
+        //Query für das Selektieren einer Auftragsposition anhand der AuftragsID
+        //sowie des Artikels
+        Query query = this.em.createQuery
                  ("SELECT ST "
                 + "FROM Auftragsposition ST "
-                + "WHERE ST.Auftrag = " + AuftragskopfID + " AND "
-                      + "ST.Positionsnummer = " + Positionsnummer).getSingleResult();
+                + "WHERE ST.Auftrag = :auftrag AND ST.Positionsnummer = :position");
+        query.setParameter("auftrag", ak);
+        query.setParameter("position", Positionsnummer);
         
-        if (ap == null || ap.isLKZ()) {
-            throw new ApplicationException("Fehler", 
-                    "Die Auftragsposition konnte nicht gefunden werden");
+        //Ergebnisliste
+        //Es sollte zwar nur ein Eintrag gefunden werden "getSingleResult()"
+        //wirft allerdings sofort eine Exception falls kein Eintrag gefunden wird
+        List<Auftragsposition> ergebnis = query.getResultList();
+        
+        //Wenn die Ergebnisliste nicht leer ist...
+        if (ergebnis.isEmpty()) {
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Es wurde keine passende Auftragsposition gefunden.");
         }
+        
+        //...holen den ersten Eintrag (einziges Ergebnis)
+        ap = ergebnis.get(0);
         
         return ap;
     }
