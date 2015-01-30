@@ -123,8 +123,9 @@ public class DataAccessObject {
     
     
     /*----------------------------------------------------------*/
-    /* Datum Name Was                                           */
-    /* 11.11.14 sch angelegt                                    */
+    /* Datum      Name    Was                                   */
+    /* 11.11.14   sch     angelegt                              */
+    /* 30.01.15   loe     Fehlerbehandlung                      */
     /*----------------------------------------------------------*/
     /**
      * Methode zur Erzeugung eines Artikels.
@@ -161,18 +162,54 @@ public class DataAccessObject {
             throw new ApplicationException(FEHLER_TITEL,
                     "Die Werte waren ungültig!");
         }
-        //Transaktion starten
-        em.getTransaction().begin();
-        //Objekt persistieren
-        em.persist(item);
-        //Transaktion abschliessen
-        em.getTransaction().commit();
+        
+        try {
+            
+            //Transaktion starten
+            em.getTransaction().begin();
+            //Objekt persistieren
+            em.persist(item);
+            //Transaktion abschliessen
+            em.getTransaction().commit();
+            
+        } catch (RollbackException re) {
+            
+            //Der Commit ist fehlgeschlagen
+            //Dadurch wird implizit ein Rollback ausgeführt
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Commit ist fehlgeschlagen. Transkation wurde "
+                            + "rückgängig gemacht.");
+            
+        } catch (PersistenceException pe){
+            
+            //Es ist ein Fehler beim Persistieren der Daten aufgetreten
+            //Hier muss ein Rollback manuell durchgeführt werdeb
+            em.getTransaction().rollback();
+            
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Fehler beim Persistieren der Daten. Transkation wurde "
+                            + "rückgängig gemacht.");
+            
+        } catch (Throwable th) {
+            
+            //Ein unerwarteter Fehler ist aufgetreten
+            //Wenn eine Transaktion aktiv ist, muss diese rückgängig gemacht
+            //werden
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Ein unerwarteter Fehler ist ausfgetreten.");
+            
+        }
         
     }
     
     /*----------------------------------------------------------*/
-    /* Datum Name Was                                           */
-    /* 11.11.14 sch angelegt                                    */
+    /* Datum      Name    Was                                   */
+    /* 11.11.14   sch     angelegt                              */
+    /* 30.01.15   loe     Fehlerbehandlung                      */
     /*----------------------------------------------------------*/
     /**
      * Methode zur Erzeugung von Artikelkategorien
@@ -193,18 +230,54 @@ public class DataAccessObject {
             throw new ApplicationException(FEHLER_TITEL,
                     "Die Werte waren ungültig!");
         }
-        //Transaktion starten
-        em.getTransaction().begin();
-        //Objekt persistieren
-        em.persist(cat);
-        //Transaktion abschliessen
-        em.getTransaction().commit();
+        
+        try {
+            
+            //Transaktion starten
+            em.getTransaction().begin();
+            //Objekt persistieren
+            em.persist(cat);
+            //Transaktion abschliessen
+            em.getTransaction().commit();
+            
+        } catch (RollbackException re) {
+            
+            //Der Commit ist fehlgeschlagen
+            //Dadurch wird implizit ein Rollback ausgeführt
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Commit ist fehlgeschlagen. Transkation wurde "
+                            + "rückgängig gemacht.");
+            
+        } catch (PersistenceException pe){
+            
+            //Es ist ein Fehler beim Persistieren der Daten aufgetreten
+            //Hier muss ein Rollback manuell durchgeführt werdeb
+            em.getTransaction().rollback();
+            
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Fehler beim Persistieren der Daten. Transkation wurde "
+                            + "rückgängig gemacht.");
+            
+        } catch (Throwable th) {
+            
+            //Ein unerwarteter Fehler ist aufgetreten
+            //Wenn eine Transaktion aktiv ist, muss diese rückgängig gemacht
+            //werden
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Ein unerwarteter Fehler ist ausfgetreten.");
+            
+        }
     }
     
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
     /* 12.12.14   loe     angelegt                              */
     /* 22.12.14   loe     überarbeitet                          */
+    /* 30.01.15   loe     Fehlerbehandlung                      */
     /*----------------------------------------------------------*/
     /**
      * Methode zur Erzeugung eines Auftragskopfes und seinen Positionen
@@ -329,19 +402,43 @@ public class DataAccessObject {
             //Transaktion beenden
             em.getTransaction().commit();
             
-        } catch (Exception e) {
+        } catch (RollbackException re) {
             
-            //Falls ein Fehler auftritt, mache die Transaktion rückgängig
-            //(Auftragskopf + Positionen) und gebe eine Fehlermeldung aus
-
-            throw new ApplicationException("Fehler", 
-                    e.getMessage());
+            //Der Commit ist fehlgeschlagen
+            //Dadurch wird implizit ein Rollback ausgeführt
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Commit ist fehlgeschlagen. Transkation wurde "
+                            + "rückgängig gemacht.");
+            
+        } catch (PersistenceException pe){
+            
+            //Es ist ein Fehler beim Persistieren der Daten aufgetreten
+            //Hier muss ein Rollback manuell durchgeführt werdeb
+            em.getTransaction().rollback();
+            
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Fehler beim Persistieren der Daten. Transkation wurde "
+                            + "rückgängig gemacht.");
+            
+        } catch (Throwable th) {
+            
+            //Ein unerwarteter Fehler ist aufgetreten
+            //Wenn eine Transaktion aktiv ist, muss diese rückgängig gemacht
+            //werden
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Ein unerwarteter Fehler ist ausfgetreten.");
+            
         }
     }
     
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
     /* 10.12.14   loe     angelegt                              */
+    /* 30.01.15   loe     Fehlerbehandlung                      */
     /*----------------------------------------------------------*/
     /**
      * Methode zur Erzeugung eines Status
@@ -362,12 +459,46 @@ public class DataAccessObject {
                     "Bei der Erzeugung des Status ist ein Fehler aufgetreten");
         }
         
-        //Transaktion starten
-        em.getTransaction().begin();
-        //Objekt persistieren
-        em.persist(state);
-        //Transaktion abschließen
-        em.getTransaction().commit();
+        try {
+            
+            //Transaktion starten
+            em.getTransaction().begin();
+            //Objekt persistieren
+            em.persist(state);
+            //Transaktion abschliessen
+            em.getTransaction().commit();
+            
+        } catch (RollbackException re) {
+            
+            //Der Commit ist fehlgeschlagen
+            //Dadurch wird implizit ein Rollback ausgeführt
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Commit ist fehlgeschlagen. Transkation wurde "
+                            + "rückgängig gemacht.");
+            
+        } catch (PersistenceException pe){
+            
+            //Es ist ein Fehler beim Persistieren der Daten aufgetreten
+            //Hier muss ein Rollback manuell durchgeführt werdeb
+            em.getTransaction().rollback();
+            
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Fehler beim Persistieren der Daten. Transkation wurde "
+                            + "rückgängig gemacht.");
+            
+        } catch (Throwable th) {
+            
+            //Ein unerwarteter Fehler ist aufgetreten
+            //Wenn eine Transaktion aktiv ist, muss diese rückgängig gemacht
+            //werden
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Ein unerwarteter Fehler ist ausfgetreten.");
+            
+        }
     }
     
     /*----------------------------------------------------------*/
@@ -436,8 +567,9 @@ public class DataAccessObject {
     }
     
     /*----------------------------------------------------------*/
-    /* Datum Name Was                                           */
-    /* 11.11.14 sch angelegt                                    */
+    /* Datum      Name    Was                                   */
+    /* 11.11.14   sch      angelegt                             */
+    /* 30.01.15   loe     Fehlerbehandlung                      */
     /*----------------------------------------------------------*/
     /**
      * 
@@ -468,17 +600,52 @@ public class DataAccessObject {
                     "Beim Anlegen der Zahlungskondition ist ein Fehler aufgetreten!");
         }
         
-        //Transaktion starten
-        em.getTransaction().begin();
-        //Objekt persistieren
-        em.persist(conditions);
-        //Transaktion schließen
-        em.getTransaction().commit();
+        try {
+            
+            //Transaktion starten
+            em.getTransaction().begin();
+            //Objekt persistieren
+            em.persist(conditions);
+            //Transaktion abschliessen
+            em.getTransaction().commit();
+            
+        } catch (RollbackException re) {
+            
+            //Der Commit ist fehlgeschlagen
+            //Dadurch wird implizit ein Rollback ausgeführt
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Commit ist fehlgeschlagen. Transkation wurde "
+                            + "rückgängig gemacht.");
+            
+        } catch (PersistenceException pe){
+            
+            //Es ist ein Fehler beim Persistieren der Daten aufgetreten
+            //Hier muss ein Rollback manuell durchgeführt werdeb
+            em.getTransaction().rollback();
+            
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Fehler beim Persistieren der Daten. Transkation wurde "
+                            + "rückgängig gemacht.");
+            
+        } catch (Throwable th) {
+            
+            //Ein unerwarteter Fehler ist aufgetreten
+            //Wenn eine Transaktion aktiv ist, muss diese rückgängig gemacht
+            //werden
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Ein unerwarteter Fehler ist ausfgetreten.");
+            
+        }
     }
     
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
     /* 10.12.14   loe     angelegt                              */
+    /* 30.01.15   loe     Fehlerbehandlung                      */
     /*----------------------------------------------------------*/
     /**
      * Methode zur Erzeugung von Geschäftspartnern
@@ -539,17 +706,43 @@ public class DataAccessObject {
             //Transaktion schließen
             em.getTransaction().commit();
             
-        } catch (Exception e) {
+        } catch (RollbackException re) {
             
-            //Transaktion wird im Fehlerfall rückgängig gemacht
-            throw new ApplicationException("Fehler", 
-                    "Beim Speichern der Daten ist ein Fehler aufgetreten");
+            //Der Commit ist fehlgeschlagen
+            //Dadurch wird implizit ein Rollback ausgeführt
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Commit ist fehlgeschlagen. Transkation wurde "
+                            + "rückgängig gemacht.");
+            
+        } catch (PersistenceException pe){
+            
+            //Es ist ein Fehler beim Persistieren der Daten aufgetreten
+            //Hier muss ein Rollback manuell durchgeführt werdeb
+            em.getTransaction().rollback();
+            
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Fehler beim Persistieren der Daten. Transkation wurde "
+                            + "rückgängig gemacht.");
+            
+        } catch (Throwable th) {
+            
+            //Ein unerwarteter Fehler ist aufgetreten
+            //Wenn eine Transaktion aktiv ist, muss diese rückgängig gemacht
+            //werden
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Ein unerwarteter Fehler ist ausfgetreten.");
+            
         }
     }
     
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
     /* 12.01.15   loe     angelegt                              */
+    /* 30.01.15   loe     Fehlerbehandlung                      */
     /*----------------------------------------------------------*/
     /**
      * Methode zum Erstellen eines Benutzer
@@ -588,12 +781,46 @@ public class DataAccessObject {
             benutzer.setPasswort(this.getHash(Passwort));
             benutzer.setIstAdmin(istAdmin);
 
-            //Transaktion starten
-            em.getTransaction().begin();
-            //Benutzer persistieren
-            em.persist(benutzer);
-            //Transaktion beenden
-            em.getTransaction().commit();
+            try {
+            
+                //Transaktion starten
+                em.getTransaction().begin();
+                //Objekt persistieren
+                em.persist(benutzer);
+                //Transaktion abschliessen
+                em.getTransaction().commit();
+
+            } catch (RollbackException re) {
+
+                //Der Commit ist fehlgeschlagen
+                //Dadurch wird implizit ein Rollback ausgeführt
+                throw new ApplicationException(FEHLER_TITEL, 
+                        "Commit ist fehlgeschlagen. Transkation wurde "
+                                + "rückgängig gemacht.");
+
+            } catch (PersistenceException pe){
+
+                //Es ist ein Fehler beim Persistieren der Daten aufgetreten
+                //Hier muss ein Rollback manuell durchgeführt werdeb
+                em.getTransaction().rollback();
+
+                throw new ApplicationException(FEHLER_TITEL, 
+                        "Fehler beim Persistieren der Daten. Transkation wurde "
+                                + "rückgängig gemacht.");
+
+            } catch (Throwable th) {
+
+                //Ein unerwarteter Fehler ist aufgetreten
+                //Wenn eine Transaktion aktiv ist, muss diese rückgängig gemacht
+                //werden
+                if (em != null && em.getTransaction().isActive()) {
+                    em.getTransaction().rollback();
+                }
+
+                throw new ApplicationException(FEHLER_TITEL, 
+                        "Ein unerwarteter Fehler ist ausfgetreten.");
+
+            }
             
         }   
     }
@@ -787,6 +1014,7 @@ public class DataAccessObject {
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
     /* 07.01.15   loe     angelegt                              */
+    /* 30.01.15   loe     Fehlerbehandlung                      */
     /*----------------------------------------------------------*/
     /**.
      * Methode zum Ändern von Artikeldaten
@@ -833,14 +1061,36 @@ public class DataAccessObject {
             //Transaktion beenden
             em.getTransaction().commit();
         
-        } catch(Exception e) {
-            
-            //Wenn beim Ändern bzw. Persistieren der Daten ein Fehler auftritt
-            //wird eine Fehlermeldung ausgegeben
-            throw new ApplicationException("Fehler", 
-                    "Beim Verarbeiten der Daten ist ein Fehler aufgetreten. "
-                            + "Die Daten wurden nicht geändert.");
-            
+        } catch (RollbackException re) {
+
+                //Der Commit ist fehlgeschlagen
+                //Dadurch wird implizit ein Rollback ausgeführt
+                throw new ApplicationException(FEHLER_TITEL, 
+                        "Commit ist fehlgeschlagen. Transkation wurde "
+                                + "rückgängig gemacht.");
+
+        } catch (PersistenceException pe){
+
+            //Es ist ein Fehler beim Persistieren der Daten aufgetreten
+            //Hier muss ein Rollback manuell durchgeführt werdeb
+            em.getTransaction().rollback();
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Fehler beim Persistieren der Daten. Transkation wurde "
+                            + "rückgängig gemacht.");
+
+        } catch (Throwable th) {
+
+            //Ein unerwarteter Fehler ist aufgetreten
+            //Wenn eine Transaktion aktiv ist, muss diese rückgängig gemacht
+            //werden
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Ein unerwarteter Fehler ist ausfgetreten.");
+
         }
     }
    
@@ -852,6 +1102,7 @@ public class DataAccessObject {
     /* 17.01.15   loe     grundlegend überarbeitet              */
     /* 18.01.15   loe     Verbesserungen/letzte Änderungen/     */
     /*                    Kommentare                            */
+    /* 30.01.15   loe     Fehlerbehandlung                      */
     /*----------------------------------------------------------*/
     /**
      * Methode zum Ändern von Aufträgen und Auftragspositionen.
@@ -941,14 +1192,36 @@ public class DataAccessObject {
                     ergebnis = "Dieser Auftrag ist bereits freigegeben, "
                             + "daher kann nur der Status geändert werden.";
                     
-                } catch (PersistenceException pe) {
-                    
-                    //Sollte eine Fehler auftreten, wird ein Rollback der 
-                    //Transaktion ausgelöst
-                    em.getTransaction().rollback();                   
-                    throw new ApplicationException("Fehler", 
-                            pe.getMessage());
-                    
+                } catch (RollbackException re) {
+
+                //Der Commit ist fehlgeschlagen
+                //Dadurch wird implizit ein Rollback ausgeführt
+                throw new ApplicationException(FEHLER_TITEL, 
+                        "Commit ist fehlgeschlagen. Transkation wurde "
+                                + "rückgängig gemacht.");
+
+                } catch (PersistenceException pe){
+
+                    //Es ist ein Fehler beim Persistieren der Daten aufgetreten
+                    //Hier muss ein Rollback manuell durchgeführt werdeb
+                    em.getTransaction().rollback();
+
+                    throw new ApplicationException(FEHLER_TITEL, 
+                            "Fehler beim Persistieren der Daten. Transkation wurde "
+                                    + "rückgängig gemacht.");
+
+                } catch (Throwable th) {
+
+                    //Ein unerwarteter Fehler ist aufgetreten
+                    //Wenn eine Transaktion aktiv ist, muss diese rückgängig gemacht
+                    //werden
+                    if (em != null && em.getTransaction().isActive()) {
+                        em.getTransaction().rollback();
+                    }
+
+                    throw new ApplicationException(FEHLER_TITEL, 
+                            "Ein unerwarteter Fehler ist ausfgetreten.");
+
                 }
                 break;
             default:
@@ -993,14 +1266,36 @@ public class DataAccessObject {
                     
                     ergebnis = "Änderungen erfolgreich durchgeführt.";
                 
-                } catch (PersistenceException e) {
-                    
-                    //Sollte eine Fehler auftreten, wird ein Rollback der 
-                    //Transaktion ausgelöst
-                    em.getTransaction().rollback();                   
+                } catch (RollbackException re) {
+
+                //Der Commit ist fehlgeschlagen
+                //Dadurch wird implizit ein Rollback ausgeführt
+                throw new ApplicationException(FEHLER_TITEL, 
+                        "Commit ist fehlgeschlagen. Transkation wurde "
+                                + "rückgängig gemacht.");
+
+                } catch (PersistenceException pe){
+
+                    //Es ist ein Fehler beim Persistieren der Daten aufgetreten
+                    //Hier muss ein Rollback manuell durchgeführt werdeb
+                    em.getTransaction().rollback();
+
                     throw new ApplicationException(FEHLER_TITEL, 
-                            e.getMessage());
-                    
+                            "Fehler beim Persistieren der Daten. Transkation wurde "
+                                    + "rückgängig gemacht.");
+
+                } catch (Throwable th) {
+
+                    //Ein unerwarteter Fehler ist aufgetreten
+                    //Wenn eine Transaktion aktiv ist, muss diese rückgängig gemacht
+                    //werden
+                    if (em != null && em.getTransaction().isActive()) {
+                        em.getTransaction().rollback();
+                    }
+
+                    throw new ApplicationException(FEHLER_TITEL, 
+                            "Ein unerwarteter Fehler ist ausfgetreten.");
+
                 }
                 
                 break;
@@ -1008,6 +1303,11 @@ public class DataAccessObject {
         return ergebnis;
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 07.01.15   loe     angelegt                              */
+    /* 30.01.15   loe     Fehlerbehandlung                      */
+    /*----------------------------------------------------------*/
     /**
      * Methode zum Ändern einer einzelnen Auftragsposition
      * @param AuftragsID ID des Auftrags (eindeutig)
@@ -1050,12 +1350,36 @@ public class DataAccessObject {
             em.getTransaction().commit();
             
         //Wenn beim Speichern der Daten ein Fehler auftritt    
-        } catch (PersistenceException pe) {
-            
-            //Transaktion zurücksetzen und Fehlermeldung ausgeben
+        } catch (RollbackException re) {
+
+                //Der Commit ist fehlgeschlagen
+                //Dadurch wird implizit ein Rollback ausgeführt
+                throw new ApplicationException(FEHLER_TITEL, 
+                        "Commit ist fehlgeschlagen. Transkation wurde "
+                                + "rückgängig gemacht.");
+
+        } catch (PersistenceException pe){
+
+            //Es ist ein Fehler beim Persistieren der Daten aufgetreten
+            //Hier muss ein Rollback manuell durchgeführt werdeb
             em.getTransaction().rollback();
+
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Beim Ändern der Position ist ein Fehler aufgetreten.");
+                    "Fehler beim Persistieren der Daten. Transkation wurde "
+                            + "rückgängig gemacht.");
+
+        } catch (Throwable th) {
+
+            //Ein unerwarteter Fehler ist aufgetreten
+            //Wenn eine Transaktion aktiv ist, muss diese rückgängig gemacht
+            //werden
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Ein unerwarteter Fehler ist ausfgetreten.");
+
         }
     }
     
@@ -1147,6 +1471,7 @@ public class DataAccessObject {
     /* 12.01.15   loe     angelegt                              */
     /* 13.01.15   loe     überarbeitet                          */
     /* 14.01.15   loe     überarbeitet                          */
+    /* 30.01.15   loe     Fehlerbehandlung                      */
     /*----------------------------------------------------------*/
     /**
      * Ändert sowohl die Attribute des Geschäftspartners als auch der Adresse
@@ -1306,6 +1631,7 @@ public class DataAccessObject {
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
     /* 16.01.15   loe     angelegt                              */
+    /* 30.01.15   loe     Fehlerbehandlung                      */
     /*----------------------------------------------------------*/
     /**
      * Ändert die eine Zahlungskondition
@@ -1350,17 +1676,52 @@ public class DataAccessObject {
         zk.setMahnzeit2(Mahnzeit2);
         zk.setMahnzeit3(Mahnzeit3);
         
-        //Transaktions starten
-        em.getTransaction().begin();
-        //Zahlungskondition persistieren
-        em.persist(zk);
-        //Transaktion beenden
-        em.getTransaction().commit();
+        try {
+
+            //Transaktion starten
+            em.getTransaction().begin();
+            //Objekt persistieren
+            em.persist(zk);
+            //Transaktion abschliessen
+            em.getTransaction().commit();
+
+        } catch (RollbackException re) {
+
+            //Der Commit ist fehlgeschlagen
+            //Dadurch wird implizit ein Rollback ausgeführt
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Commit ist fehlgeschlagen. Transkation wurde "
+                            + "rückgängig gemacht.");
+
+        } catch (PersistenceException pe){
+
+            //Es ist ein Fehler beim Persistieren der Daten aufgetreten
+            //Hier muss ein Rollback manuell durchgeführt werdeb
+            em.getTransaction().rollback();
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Fehler beim Persistieren der Daten. Transkation wurde "
+                            + "rückgängig gemacht.");
+
+        } catch (Throwable th) {
+
+            //Ein unerwarteter Fehler ist aufgetreten
+            //Wenn eine Transaktion aktiv ist, muss diese rückgängig gemacht
+            //werden
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Ein unerwarteter Fehler ist ausfgetreten.");
+
+        }
     }
     
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
     /* 12.01.15   loe     angelegt                              */
+    /* 30.01.15   loe     Fehlerbehandlung                      */
     /*----------------------------------------------------------*/
     /**
      * Methode zum Ändern eines Benutzers
@@ -1381,6 +1742,47 @@ public class DataAccessObject {
         
         benutzer.setPasswort(this.getHash(Passwort));
         benutzer.setIstAdmin(istAdmin);
+        
+        try {
+
+            //Transaktion starten
+            em.getTransaction().begin();
+            //Objekt persistieren
+            em.persist(benutzer);
+            //Transaktion abschliessen
+            em.getTransaction().commit();
+
+        } catch (RollbackException re) {
+
+            //Der Commit ist fehlgeschlagen
+            //Dadurch wird implizit ein Rollback ausgeführt
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Commit ist fehlgeschlagen. Transkation wurde "
+                            + "rückgängig gemacht.");
+
+        } catch (PersistenceException pe){
+
+            //Es ist ein Fehler beim Persistieren der Daten aufgetreten
+            //Hier muss ein Rollback manuell durchgeführt werdeb
+            em.getTransaction().rollback();
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Fehler beim Persistieren der Daten. Transkation wurde "
+                            + "rückgängig gemacht.");
+
+        } catch (Throwable th) {
+
+            //Ein unerwarteter Fehler ist aufgetreten
+            //Wenn eine Transaktion aktiv ist, muss diese rückgängig gemacht
+            //werden
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Ein unerwarteter Fehler ist ausfgetreten.");
+
+        }
     }
     
 //</editor-fold>
@@ -2019,6 +2421,7 @@ public class DataAccessObject {
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
     /* 06.01.15   loe     angelegt                              */
+    /* 30.01.15   loe     Fehlerbehandlung                      */
     /*----------------------------------------------------------*/
     /**
      * Methode zum Setzen eines Löschkennzeichens für Artikel
@@ -2060,17 +2463,52 @@ public class DataAccessObject {
         //Setzen des Löschkennzeichens für den Artikel
         artikel.setLKZ(true);
         
-        //Transaktion starten
-        em.getTransaction().begin();
-        //Artikel persistieren
-        em.persist(artikel);
-        //Transaktion beenden
-        em.getTransaction().commit();
+        try {
+
+            //Transaktion starten
+            em.getTransaction().begin();
+            //Objekt persistieren
+            em.persist(artikel);
+            //Transaktion abschliessen
+            em.getTransaction().commit();
+
+        } catch (RollbackException re) {
+
+            //Der Commit ist fehlgeschlagen
+            //Dadurch wird implizit ein Rollback ausgeführt
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Commit ist fehlgeschlagen. Transkation wurde "
+                            + "rückgängig gemacht.");
+
+        } catch (PersistenceException pe){
+
+            //Es ist ein Fehler beim Persistieren der Daten aufgetreten
+            //Hier muss ein Rollback manuell durchgeführt werdeb
+            em.getTransaction().rollback();
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Fehler beim Persistieren der Daten. Transkation wurde "
+                            + "rückgängig gemacht.");
+
+        } catch (Throwable th) {
+
+            //Ein unerwarteter Fehler ist aufgetreten
+            //Wenn eine Transaktion aktiv ist, muss diese rückgängig gemacht
+            //werden
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Ein unerwarteter Fehler ist ausfgetreten.");
+
+        }
     }
     
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
     /* 06.01.15   loe     angelegt                              */
+    /* 30.01.15   loe     Fehlerbehandlung                      */
     /*----------------------------------------------------------*/
     /**
      * Methode zum Setzen eines Löschkennzeichens für Geschäftspartner und dazugehörige Anschriften
@@ -2121,19 +2559,55 @@ public class DataAccessObject {
         rechnung.setLKZ(true);
         gp.setLKZ(true);
         
-        //Transaktion starten
-        em.getTransaction().begin();
-        //Anschriften und Geschäftspartner persistieren
-        em.persist(em.merge(liefer));
-        em.persist(em.merge(rechnung));
-        em.persist(gp);
-        //Transaktion beenden
-        em.getTransaction().commit();
+        try {
+            
+            //Transaktion starten
+            em.getTransaction().begin();
+            //Anschriften und Geschäftspartner persistieren
+            em.persist(em.merge(liefer));
+            em.persist(em.merge(rechnung));
+            em.persist(gp);
+            //Transaktion beenden
+            em.getTransaction().commit();
+            
+        } catch (RollbackException re) {
+
+            //Der Commit ist fehlgeschlagen
+            //Dadurch wird implizit ein Rollback ausgeführt
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Commit ist fehlgeschlagen. Transkation wurde "
+                            + "rückgängig gemacht.");
+
+        } catch (PersistenceException pe){
+
+            //Es ist ein Fehler beim Persistieren der Daten aufgetreten
+            //Hier muss ein Rollback manuell durchgeführt werdeb
+            em.getTransaction().rollback();
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Fehler beim Persistieren der Daten. Transkation wurde "
+                            + "rückgängig gemacht.");
+
+        } catch (Throwable th) {
+
+            //Ein unerwarteter Fehler ist aufgetreten
+            //Wenn eine Transaktion aktiv ist, muss diese rückgängig gemacht
+            //werden
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Ein unerwarteter Fehler ist ausfgetreten.");
+
+        }
+        
     }
     
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
     /* 06.01.15   loe     angelegt                              */
+    /* 30.01.15   loe     Fehlerbehandlung                      */
     /*----------------------------------------------------------*/
     /**
      * Methode zum Setzen eines Löschkennzeichens für Aufträge und dazugehörige Positionen.
@@ -2166,28 +2640,63 @@ public class DataAccessObject {
             }
         }
         
-        //Transaktion starten
-        em.getTransaction().begin();
-        
-        //Jede Position des Auftrags wird mit einem LKZ versehen und persistiert
-        for (Auftragsposition ap : ak.getPositionsliste()) {
-            ap.setLKZ(true);
-            em.persist(ap);
+        try {
+            
+            //Transaktion starten
+            em.getTransaction().begin();
+
+            //Jede Position des Auftrags wird mit einem LKZ versehen und persistiert
+            for (Auftragsposition ap : ak.getPositionsliste()) {
+                ap.setLKZ(true);
+                em.persist(ap);
+            }
+
+            //Setzen des LKZs für den Auftrag
+            ak.setLKZ(true);
+
+            //Auftrag persistieren
+            em.persist(ak);
+
+            //Transaktion beenden
+            em.getTransaction().commit();
+            
+        } catch (RollbackException re) {
+
+            //Der Commit ist fehlgeschlagen
+            //Dadurch wird implizit ein Rollback ausgeführt
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Commit ist fehlgeschlagen. Transkation wurde "
+                            + "rückgängig gemacht.");
+
+        } catch (PersistenceException pe){
+
+            //Es ist ein Fehler beim Persistieren der Daten aufgetreten
+            //Hier muss ein Rollback manuell durchgeführt werdeb
+            em.getTransaction().rollback();
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Fehler beim Persistieren der Daten. Transkation wurde "
+                            + "rückgängig gemacht.");
+
+        } catch (Throwable th) {
+
+            //Ein unerwarteter Fehler ist aufgetreten
+            //Wenn eine Transaktion aktiv ist, muss diese rückgängig gemacht
+            //werden
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Ein unerwarteter Fehler ist ausfgetreten.");
+
         }
-        
-        //Setzen des LKZs für den Auftrag
-        ak.setLKZ(true);
-        
-        //Auftrag persistieren
-        em.persist(ak);
-        
-        //Transaktion beenden
-        em.getTransaction().commit();
     }
     
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
     /* 06.01.15   loe     angelegt                              */
+    /* 30.01.15   loe     Fehlerbehandlung                      */
     /*----------------------------------------------------------*/
     /**
      * Methode zum Setzen eines Löschkennzeichens für eine Zahlungskondition
@@ -2228,17 +2737,52 @@ public class DataAccessObject {
         //Löschkennzeichen setzen
         zk.setLKZ(true);
         
-        //Transaktions starten
-        em.getTransaction().begin();
-        //Zahlungskondition persistieren
-        em.persist(zk);
-        //Transaktion beenden
-        em.getTransaction().commit();
+        try {
+        
+            //Transaktions starten
+            em.getTransaction().begin();
+            //Zahlungskondition persistieren
+            em.persist(zk);
+            //Transaktion beenden
+            em.getTransaction().commit();
+
+        } catch (RollbackException re) {
+
+            //Der Commit ist fehlgeschlagen
+            //Dadurch wird implizit ein Rollback ausgeführt
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Commit ist fehlgeschlagen. Transkation wurde "
+                            + "rückgängig gemacht.");
+
+        } catch (PersistenceException pe){
+
+            //Es ist ein Fehler beim Persistieren der Daten aufgetreten
+            //Hier muss ein Rollback manuell durchgeführt werdeb
+            em.getTransaction().rollback();
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Fehler beim Persistieren der Daten. Transkation wurde "
+                            + "rückgängig gemacht.");
+
+        } catch (Throwable th) {
+
+            //Ein unerwarteter Fehler ist aufgetreten
+            //Wenn eine Transaktion aktiv ist, muss diese rückgängig gemacht
+            //werden
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Ein unerwarteter Fehler ist ausfgetreten.");
+
+        }
     }
     
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
     /* 13.01.15   loe     angelegt                              */
+    /* 30.01.15   loe     Fehlerbehandlung                      */
     /*----------------------------------------------------------*/
     /**
      * Methode zum Löschen eines Benutzer (richtig löschen, kein LKZ!)
@@ -2257,12 +2801,46 @@ public class DataAccessObject {
                     "Der Benutzer konnte nicht gefunden werden.");
         }
         
-        //Transaktion starten
-        em.getTransaction().begin();
-        //Benutzer löschen
-        em.remove(benutzer);
-        //Transaktion beenden
-        em.getTransaction().commit();
+        try {
+        
+            //Transaktion starten
+            em.getTransaction().begin();
+            //Benutzer löschen
+            em.remove(benutzer);
+            //Transaktion beenden
+            em.getTransaction().commit();
+        
+        } catch (RollbackException re) {
+
+            //Der Commit ist fehlgeschlagen
+            //Dadurch wird implizit ein Rollback ausgeführt
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Commit ist fehlgeschlagen. Transkation wurde "
+                            + "rückgängig gemacht.");
+
+        } catch (PersistenceException pe){
+
+            //Es ist ein Fehler beim Persistieren der Daten aufgetreten
+            //Hier muss ein Rollback manuell durchgeführt werdeb
+            em.getTransaction().rollback();
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Fehler beim Persistieren der Daten. Transkation wurde "
+                            + "rückgängig gemacht.");
+
+        } catch (Throwable th) {
+
+            //Ein unerwarteter Fehler ist aufgetreten
+            //Wenn eine Transaktion aktiv ist, muss diese rückgängig gemacht
+            //werden
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Ein unerwarteter Fehler ist ausfgetreten.");
+
+        }
     }
     
     /*----------------------------------------------------------*/
