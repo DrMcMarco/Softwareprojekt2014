@@ -934,15 +934,15 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     private void materialnummer_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_materialnummer_jTextFieldFocusLost
         // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
         try {
-            GUIFactory.getDAO().getItem((Long.parseLong(materialnummer_jTextField.getText())));
+            GUIFactory.getDAO().gibArtikel((Long.parseLong(materialnummer_jTextField.getText())));
             if (auftragsart_jComboBox.getSelectedItem().toString().equals("Bestellauftrag")) {
 
-                einzelwert = (GUIFactory.getDAO().getItem(
+                einzelwert = (GUIFactory.getDAO().gibArtikel(
                         (Long.parseLong(materialnummer_jTextField.getText()))).getEinkaufswert());
                 einzelwert_jTextField.setText(String.valueOf(einzelwert));
 
             } else {
-                einzelwert = (GUIFactory.getDAO().getItem(
+                einzelwert = (GUIFactory.getDAO().gibArtikel(
                         (Long.parseLong(materialnummer_jTextField.getText()))).getVerkaufswert());
                 einzelwert_jTextField.setText(String.valueOf(einzelwert));
             }
@@ -1056,8 +1056,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                         zuruecksetzen();//Methode die bestimmte Eingabefelder leert
                     } else if (this.getTitle().equals("Auftragskopf ändern")) {
 
-                        kopf = GUIFactory.getDAO().
-                                getOrderHead(Long.parseLong(auftragskopfID_jTextField.getText()));
+                        kopf = GUIFactory.getDAO().gibAuftragskopf(Long.parseLong(auftragskopfID_jTextField.getText()));
 
                         dbGeschaeftspartnerID
                                 = String.valueOf(kopf.getGeschaeftspartner().getGeschaeftspartnerID());
@@ -1358,7 +1357,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                                 Integer.parseInt(menge_jTextField.getText()));
 
                         position = new Auftragsposition(null,
-                                GUIFactory.getDAO().getItem(Long.parseLong(materialnummer_jTextField.getText())),
+                                GUIFactory.getDAO().gibArtikel(Long.parseLong(materialnummer_jTextField.getText())),
                                 Integer.parseInt(menge_jTextField.getText()),
                                 Double.parseDouble(einzelwert_jTextField.getText()),
                                 abschlussdatum);

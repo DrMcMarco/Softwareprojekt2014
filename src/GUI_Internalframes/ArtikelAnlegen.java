@@ -805,7 +805,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
 //                Ueberpruefung in welche Sicht wir sind
                 if (this.getTitle().equals(ARTIKEL_ANLEGEN)) {
 //                Sicht Artikel anlegen--> neuer Artikel wird in datenbank geschrieben
-                    this.dao.createItem(kategorie, artikelname, artikelbeschreibung,
+                    this.dao.erstelleArtikel(kategorie, artikelname, artikelbeschreibung,
                             einzelwert, bestellwert, mwst, bestandsmengeFREI,
                             bestandsmengeRESERVIERT, bestandsmengeZULAUF,
                             bestandsmengeVERKAUFT);
@@ -819,7 +819,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
 //                  der Datenbank geladen.
                     long artikelnr = nf.parse(jTF_Artikelnummer.getText()).longValue();
 //                  Artikel aus Datenbank ist Variable artikelVorher  
-                    Artikel artikelVorher = this.dao.getItem(artikelnr);
+                    Artikel artikelVorher = this.dao.gibArtikel(artikelnr);
 //                  vergleich Artikel erzeugen mit den Eingabedaten
                     Artikel artikelNachher = new Artikel(artikelVorher.getKategorie(),
                             artikelname, artikelbeschreibung,

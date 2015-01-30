@@ -211,7 +211,7 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
 //              Artikel mit der eingegebenen Artikelnummer wird versucht aus der Datenbank zu laden
 //              Alle Felder der Sicht Artikel anlegen werden befuellt
             artikelnr = nf.parse(artikelnummer).longValue();
-            Artikel artikel = GUIFactory.getDAO().getItem(artikelnr);
+            Artikel artikel = GUIFactory.getDAO().gibArtikel(artikelnr);
             artikelAnlegen.gibjTF_Artikelnummer().setText("" + artikel.getArtikelID());
             artikelAnlegen.gibjTF_Artikelname().setText(artikel.getArtikeltext());
             artikelAnlegen.gibjTA_Artikelbeschreibung().setText(artikel.getBestelltext());

@@ -241,7 +241,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt und dokumentiert*/
-    /* 14.01.2015 Terrasi, implementierung der DAOMethode "getOrderHead"
+    /* 14.01.2015 Terrasi, implementierung der DAOMethode "gibAuftragskopf"
     und Logiküberarbeitung.
     */
     /*----------------------------------------------------------*/
@@ -259,7 +259,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         ueberpruefen();
         if (fehleingabefelder.isEmpty()) {//Bei ausgefüllten Eingabenfeldern
             try {
-                Auftragskopf aKopf = GUIFactory.getDAO().getOrderHead(Long.parseLong(auftragskopfID_jTextField.getText()));
+                Auftragskopf aKopf = GUIFactory.getDAO().gibAuftragskopf(Long.parseLong(auftragskopfID_jTextField.getText()));
                 // Überprüft anhand des Framestitels, ob es das nächste Fenster
                 // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
                 if (this.getTitle().equals("Auftragskopf ändern")) {

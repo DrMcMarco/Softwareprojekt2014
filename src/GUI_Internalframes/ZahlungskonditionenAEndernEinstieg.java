@@ -212,7 +212,7 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
             //             ZK mit der eingegebenen ZK nummer wird versucht aus der Datenbank zu laden
 //              Alle Felder der Sicht ZK anlegen werden befuellt
             zknr = nf.parse(eingabe).longValue();
-            Zahlungskondition za = GUIFactory.getDAO().getPaymentConditionsById(zknr);
+            Zahlungskondition za = GUIFactory.getDAO().gibZahlungskonditionNachId(zknr);
             zk.gibjTF_ZahlungskonditionID().setText("" + za.getZahlungskonditionID());
             zk.gibjCB_Auftragsart().setSelectedItem(za.getAuftragsart());
             zk.gibjSP_LieferzeitSOFORT().setValue(za.getLieferzeitSofort());

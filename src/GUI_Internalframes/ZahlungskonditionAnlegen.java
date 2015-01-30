@@ -850,7 +850,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
 //                  dass der benutzer das Aendern der Mahn Skontozeiten nicht vergessen hat
                     if (lieferzeitSOFORT != 1 || sperrzeitWunsch != 1 || skontozeit1 != 1 || skontozeit2 != 1 || mahnzeit1 != 1 || mahnzeit2 != 1 || mahnzeit3 != 1) {
 //                veraendern--> neue ZK wird in datenbank geschrieben                        
-                        this.dao.createPaymentConditions(auftragsart, lieferzeitSOFORT,
+                        this.dao.erstelleZahlungskondition(auftragsart, lieferzeitSOFORT,
                                 sperrzeitWunsch, skontozeit1, skontozeit2, skonto1,
                                 skonto2, mahnzeit1, mahnzeit2, mahnzeit3);
                         zuruecksetzen();
@@ -862,7 +862,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                         int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                         if (antwort == JOptionPane.YES_OPTION) {
 //                            Antowort ja, also speichern
-                            this.dao.createPaymentConditions(auftragsart, lieferzeitSOFORT,
+                            this.dao.erstelleZahlungskondition(auftragsart, lieferzeitSOFORT,
                                     sperrzeitWunsch, skontozeit1, skontozeit2, skonto1,
                                     skonto2, mahnzeit1, mahnzeit2, mahnzeit3);
                             zuruecksetzen();
@@ -874,7 +874,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                 } else {
 //                    Sicht ZK aendern: zunaechst ZK aus der Datenbank geladen.
 //                  Artikel aus Datenbank ist Variable ZKVorher  
-                    Zahlungskondition ZKVorher = this.dao.getPaymentConditionsById(zknr);
+                    Zahlungskondition ZKVorher = this.dao.gibZahlungskonditionNachId(zknr);
 //                    Vergleich ZK erzeugen mit den Eingabedaten
                     Zahlungskondition ZKNachher = new Zahlungskondition(auftragsart, lieferzeitSOFORT,
                             sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2, mahnzeit1,

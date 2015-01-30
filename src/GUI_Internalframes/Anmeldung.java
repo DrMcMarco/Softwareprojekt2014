@@ -192,7 +192,7 @@ public class Anmeldung extends javax.swing.JInternalFrame {
             // DAO-Methode prüft ob Benutzername und Passwort mit hinterlegten
             // Daten in der DB übereinstimmen.Falls ja erhält das Benutzer-Objekt
             // Daten von der DB.
-            benutzer = GUIFactory.getDAO().doLogin(benutzername_jTextField.getText()
+            benutzer = GUIFactory.getDAO().login(benutzername_jTextField.getText()
                     , new String(passwort_jPasswordField.getPassword()));
             
             if (benutzer == null) {

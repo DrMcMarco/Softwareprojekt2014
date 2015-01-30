@@ -1145,7 +1145,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                     if (this.getTitle().equals(GP_ANLEGEN)) {
 //                      Sicht GP anlegen--> neuer GP wird in datenbank geschrieben
 //                      zunaechst muss aber die rechnungsanschrift erstellt werden 
-                        rechnungsanschrift = this.dao.createAdress("Rechnungsadresse", name, vorname,
+                        rechnungsanschrift = this.dao.erstelleAnschrift("Rechnungsadresse", name, vorname,
                                 titel, strasseAnschrift, hausnummerAnschrift, plzAnschrift,
                                 ortAnschrift, "Deutschland", telefon, fax, eMail, eingabeGeburtsdatum);
 //                      Pruefung, ob checkbox wie anschrift gesetzt
@@ -1154,12 +1154,12 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                             lieferanschrift = rechnungsanschrift;
                         } else {
 //                          nicht gesetzt neue Lieferanschrift erzeugen  
-                            lieferanschrift = this.dao.createAdress("Lieferadresse", name, vorname,
+                            lieferanschrift = this.dao.erstelleAnschrift("Lieferadresse", name, vorname,
                                     titel, strasseLieferanschrift, hausnummerLieferanschrift, plzLieferanschrift,
                                     ortLieferanschrift, "Deutschland", telefon, fax, eMail, eingabeGeburtsdatum);
                         }
 //                        Nun einen neuene GP mit beiden Anschriften erzeugen
-                        this.dao.createBusinessPartner(typ, lieferanschrift, rechnungsanschrift, kreditlimit);
+                        this.dao.erstelleGeschaeftspartner(typ, lieferanschrift, rechnungsanschrift, kreditlimit);
                         zuruecksetzen();
                     } else {
 //                  Sicht GP aendern ist geoffnet, also wird zunaechst der GP aus der Datenbank geladen.

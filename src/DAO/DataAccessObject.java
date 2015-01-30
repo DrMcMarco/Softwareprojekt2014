@@ -119,7 +119,7 @@ public class DataAccessObject {
     }
     
     
-//<editor-fold defaultstate="collapsed" desc="create-Methoden">
+//<editor-fold defaultstate="collapsed" desc="erstelle-Methoden">
     
     
     /*----------------------------------------------------------*/
@@ -142,12 +142,12 @@ public class DataAccessObject {
      * @param Verkauft
      * @throws DAO.ApplicationException Die Exception wird durchgereicht
      */
-    public void createItem(String kategorie, String artikeltext, 
+    public void erstelleArtikel(String kategorie, String artikeltext, 
         String bestelltext, double verkaufswert, double einkaufswert,
         int MwST, int Frei, int Reserviert, int Zulauf, int Verkauft)
         throws ApplicationException {
         //Suche die Artikelkategorie anhand des Kategorienamen
-        Artikelkategorie cat = this.getCategory(kategorie);
+        Artikelkategorie cat = this.gibKategorie(kategorie);
         
         if (cat == null) {
             throw new ApplicationException(FEHLER_TITEL,
@@ -216,10 +216,9 @@ public class DataAccessObject {
      * @param Kategoriename Name der Kategorie
      * @param Beschreibung Kategoriebeschreibung
      * @param Kommentar Kommentar zur Kategorie
-     * @param LKZ Löschkennzeichen
      * @throws DAO.ApplicationException Die Exception wird durchgereicht
      */
-    public void createCategory(String Kategoriename,
+    public void erstelleKategorie(String Kategoriename,
             String Beschreibung, String Kommentar)
             throws ApplicationException {
         //Objekt erzeugen
@@ -326,7 +325,7 @@ public class DataAccessObject {
         }
         
         //Suche den Status anhand des Namnes in der Datenbank
-        Status state = this.getStatusByName(Status);
+        Status state = this.gibStatusPerName(Status);
         
         //Prüfen ob ein Status mit diesem Namen existiert
         if (state == null) {
@@ -445,16 +444,16 @@ public class DataAccessObject {
      * @param Status Name des Status
      * @throws ApplicationException
      */
-    public void createStatus(String Status)
+    public void erstelleStatus(String Status)
             throws ApplicationException {
         
         //Neues Status-Objekt anlegen
-        Status state = new Status();
+        Status status = new Status();
         //Attribute setzen
-        state.setStatus(Status);
+        status.setStatus(Status);
         
         //Wenn bei der Erzeugung des Objektes ein Fehler auftritt
-        if (state == null) {
+        if (status == null) {
             throw new ApplicationException("Fehler",
                     "Bei der Erzeugung des Status ist ein Fehler aufgetreten");
         }
@@ -464,7 +463,7 @@ public class DataAccessObject {
             //Transaktion starten
             em.getTransaction().begin();
             //Objekt persistieren
-            em.persist(state);
+            em.persist(status);
             //Transaktion abschliessen
             em.getTransaction().commit();
             
@@ -524,7 +523,7 @@ public class DataAccessObject {
      * @return anschrift Erzeugtes Objekt vom Typ Anschrift
      * @throws ApplicationException 
      */
-    public Anschrift createAdress(String Typ, String Name, String Vorname,
+    public Anschrift erstelleAnschrift(String Typ, String Name, String Vorname,
             String Titel, String Strasse, String Hausnummer, String PLZ,
             String Ort, String Staat, String Telefon, String Fax,
             String Email, Date Geburtsdatum) throws ApplicationException {
@@ -538,13 +537,13 @@ public class DataAccessObject {
         
         //Anhand des übergebenen Typs wird ein entsprechendes Objekt erzeugt
         switch (Typ) {
-            case "Lieferadresse":
+            case "Lieferanschrift":
                 //Erzeugung des persistenten Anschrift-Objektes
                 anschrift = new Lieferanschrift(Name, Vorname, Titel,
                         Strasse, Hausnummer, PLZ, Ort, Staat, Telefon, Fax, Email,
                         Geburtsdatum, Erfassungsdatum);
                 break;
-            case "Rechnungsadresse":
+            case "Rechnungsanschrift":
                 //Erzeugung des persistenten Anschrift-Objektes
                 anschrift = new Rechnungsanschrift(Name, Vorname, Titel,
                         Strasse, Hausnummer, PLZ, Ort, Staat, Telefon, Fax, Email,
@@ -554,7 +553,7 @@ public class DataAccessObject {
                 break;
             default:
                 throw new ApplicationException("Fehler",
-                        "Der angegebene Adresstyp existiert nicht");
+                        "Der angegebene Anschriftstyp existiert nicht");
         }
         
         //Wenn bei der Erzeugung ein Fehler auftritt
@@ -585,7 +584,7 @@ public class DataAccessObject {
      * @param Mahnzeit3
      * @throws ApplicationException 
      */
-    public void createPaymentConditions(String Auftragsart, 
+    public void erstelleZahlungskondition(String Auftragsart, 
             int LieferzeitSofort, int SperrzeitWunsch, int Skontozeit1,
             int Skontozeit2, double Skonto1, double Skonto2, 
             int Mahnzeit1, int Mahnzeit2, int Mahnzeit3) 
@@ -656,7 +655,7 @@ public class DataAccessObject {
      * @param Kreditlimit
      * @throws ApplicationException 
      */
-    public void createBusinessPartner(String Typ, Anschrift Lieferadresse, 
+    public void erstelleGeschaeftspartner(String Typ, Anschrift Lieferadresse, 
             Anschrift Rechnungsadresse, double Kreditlimit) 
             throws ApplicationException {
         
@@ -778,7 +777,7 @@ public class DataAccessObject {
             //Übergebene Werte setzen
             //Das Passwort wird vorher in einen MD5-Hashwert umgewandelt
             benutzer.setBenutzername(Benutzername);
-            benutzer.setPasswort(this.getHash(Passwort));
+            benutzer.setPasswort(this.erstelleHash(Passwort));
             benutzer.setIstAdmin(istAdmin);
 
             try {
@@ -827,7 +826,7 @@ public class DataAccessObject {
     
 //</editor-fold>
   
-//<editor-fold defaultstate="collapsed" desc="update-Methoden">
+//<editor-fold defaultstate="collapsed" desc="aendere-Methoden">
 
     /*----------------------------------------------------------*/
     /* Datum Name Was                                           */
@@ -1046,7 +1045,7 @@ public class DataAccessObject {
         
         try {
             //Artikeldaten lokal aktualisieren
-            artikel.setKategorie(this.getCategory(Kategorie));
+            artikel.setKategorie(this.gibKategorie(Kategorie));
             artikel.setArtikeltext(Artikeltext);
             artikel.setBestelltext(Bestelltext);
             artikel.setVerkaufswert(Verkaufswert);
@@ -1181,7 +1180,7 @@ public class DataAccessObject {
                     //Wenn der Auftrag bereits freigegeben ist, soll nur der 
                     //Auftragstext sowie der Status ändernbar sein
                     ak.setAuftragstext(Auftragstext);
-                    this.setzeAuftragsstatus(ak, this.getStatusByName(Status));
+                    this.setzeAuftragsstatus(ak, this.gibStatusPerName(Status));
                     
                     //Auftragskopf persistieren
                     em.persist(ak);
@@ -1255,7 +1254,7 @@ public class DataAccessObject {
                         prüfung und die Bestandsführung durchgeführt
                     */
                     if (!Status.toLowerCase().equals("erfasst")) {
-                        this.setzeAuftragsstatus(ak, this.getStatusByName(Status));
+                        this.setzeAuftragsstatus(ak, this.gibStatusPerName(Status));
                     }
                     
                     //Auftragskopf persistieren
@@ -1581,7 +1580,7 @@ public class DataAccessObject {
                 
                 //Da vorher beide Anschriften gleich waren, muss jetzt eine neue
                 //Lieferanschrift erstellt werden
-                lieferanschrift = this.createAdress("Lieferadresse", Name, 
+                lieferanschrift = this.erstelleAnschrift("Lieferadresse", Name, 
                         Vorname, Titel, lStrasse, lHausnummer, lPLZ, lOrt,
                         Staat, Telefon, Fax, Email, Geburtsdatum);
                 
@@ -1740,7 +1739,7 @@ public class DataAccessObject {
                     "Der Benutzer konnte nicht gefunden werden.");
         }
         
-        benutzer.setPasswort(this.getHash(Passwort));
+        benutzer.setPasswort(this.erstelleHash(Passwort));
         benutzer.setIstAdmin(istAdmin);
         
         try {
@@ -1787,7 +1786,7 @@ public class DataAccessObject {
     
 //</editor-fold>
     
-//<editor-fold defaultstate="collapsed" desc="get-Methoden">
+//<editor-fold defaultstate="collapsed" desc="gib-Methoden">
     
     /*----------------------------------------------------------*/
     /* Datum Name Was                                           */
@@ -1910,7 +1909,7 @@ public class DataAccessObject {
      * @return
      * @throws ApplicationException 
      */
-    public Zahlungskondition getPaymentConditionsById(long id) 
+    public Zahlungskondition gibZahlungskonditionNachId(long id) 
             throws ApplicationException {
         //Konditionen aus der DB laden
         Zahlungskondition conditions = em.find(Zahlungskondition.class, id);
@@ -1958,10 +1957,10 @@ public class DataAccessObject {
      * @return
      * @throws ApplicationException
      */
-    public Artikelkategorie getCategory(String name)
+    public Artikelkategorie gibKategorie(String name)
         throws ApplicationException {
         String sqlQuery = null;
-        Artikelkategorie cat = null;
+        Artikelkategorie kategorie = null;
         if (name == null)
             throw new ApplicationException(FEHLER_TITEL,
                     "Geben Sie eine Kategorie an!");
@@ -1969,17 +1968,17 @@ public class DataAccessObject {
                 "SELECT ST FROM Artikelkategorie ST WHERE ST.Kategoriename = '" +
                 name + "'";
         try {
-            cat = (Artikelkategorie) em.createQuery(sqlQuery).getSingleResult();
+            kategorie = (Artikelkategorie) em.createQuery(sqlQuery).getSingleResult();
         } catch (Exception e) {
             throw new ApplicationException(FEHLER_TITEL, e.getMessage());
         }
         
         
-        if (cat == null || cat.isLKZ())
+        if (kategorie == null || kategorie.isLKZ())
             throw new ApplicationException(FEHLER_TITEL,
                     "Es wurde keine Kategorie gefunden!");
         
-        return cat;
+        return kategorie;
     }
     
     /*----------------------------------------------------------*/
@@ -1992,7 +1991,7 @@ public class DataAccessObject {
      * @return Das persistente Objekt dieses Artikels
      * @throws ApplicationException wenn der Artikel nicht gefunden wird
      */
-    public Artikel getItem(long Artikelnummer)
+    public Artikel gibArtikel(long Artikelnummer)
             throws ApplicationException {
         
         //Suche den Artikel mit der angegebenen ID aus der Datenbank
@@ -2017,7 +2016,7 @@ public class DataAccessObject {
      * @return die persistente Abbildung des Kunden
      * @throws ApplicationException wenn der Kunde nicht gefunden werden kann
      */
-    public Kunde getCustomer(long Kundennummer) throws ApplicationException {
+    public Kunde gibKunde(long Kundennummer) throws ApplicationException {
         
         Kunde kunde = em.find(Kunde.class, Kundennummer);
         
@@ -2085,7 +2084,7 @@ public class DataAccessObject {
      * @return die persistente Abbildung des Status
      * @throws ApplicationException 
      */
-    public Status getStatusByName(String name) throws ApplicationException {
+    public Status gibStatusPerName(String name) throws ApplicationException {
         
         Query query = null;
         Status status = null;
@@ -2118,7 +2117,7 @@ public class DataAccessObject {
      * @return Der persistente Auftrag
      * @throws ApplicationException falls der Auftrag nicht gefunden werden kann
      */
-    public Auftragskopf getOrderHead(long Auftragsnummer) throws ApplicationException {
+    public Auftragskopf gibAuftragskopf(long Auftragsnummer) throws ApplicationException {
         
         //Persistente Abbildung des Auftrags holen
         Auftragskopf auftragskopf = em.find(Auftragskopf.class, Auftragsnummer);
@@ -2416,7 +2415,7 @@ public class DataAccessObject {
     
 //</editor-fold>
     
-//<editor-fold defaultstate="collapsed" desc="remove-Methoden">
+//<editor-fold defaultstate="collapsed" desc="loesche-Methoden">
 
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
@@ -2903,7 +2902,7 @@ public class DataAccessObject {
      * @return gibt an ob der Login erfolgreich war oder nicht
      * @throws DAO.ApplicationException Die Exception wird durchgereicht
      */
-    public Benutzer doLogin(String username, String password) 
+    public Benutzer login(String username, String password) 
             throws ApplicationException {
         
         boolean loginSuccessful = false;
@@ -2919,7 +2918,7 @@ public class DataAccessObject {
         
         //Eingegebenes Passwort(als MD5 Hash) stimmt nicht dem Passwort in der 
         //Datenbank (ebenfalls MD5 Hash) überein
-        if(benutzer.getPasswort().equals(getHash(password))) {
+        if(benutzer.getPasswort().equals(erstelleHash(password))) {
             return benutzer;
         } else {
             return null;
@@ -2935,7 +2934,7 @@ public class DataAccessObject {
      * @param password Eingegebenes Passwort
      * @return MD5 Hash des Passwortes
      */
-    private String getHash(String password) throws ApplicationException {
+    private String erstelleHash(String password) throws ApplicationException {
       
         String digest = null;
         try {
