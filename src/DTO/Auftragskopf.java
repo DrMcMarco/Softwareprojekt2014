@@ -365,17 +365,6 @@ public abstract class Auftragskopf implements Serializable {
 
     /**
      * Generiert.
-     * @return 
-     */
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 37 * hash + (int) (this.AuftragskopfID ^ (this.AuftragskopfID >>> 32));
-        return hash;
-    }
-
-    /**
-     * Generiert.
      * @param obj
      * @return 
      */

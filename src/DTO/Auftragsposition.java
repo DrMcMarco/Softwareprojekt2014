@@ -115,14 +115,6 @@ public class Auftragsposition implements java.io.Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 97 * hash + Objects.hashCode(this.Auftrag);
-        hash = 97 * hash + (int) (this.Positionsnummer ^ (this.Positionsnummer >>> 32));
-        return hash;
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
