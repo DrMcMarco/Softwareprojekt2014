@@ -644,6 +644,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         hauptmenueuser.setVisible(false);
         
         artikelaendern.setTitle(ARTIKEL_AENDERN_EINSTIEG);
+        artikelaendern.zuruecksetzen();
         artikelanlegen.setzeFormularInArtikelAEndern();
         setCenterJIF(artikelaendern);
         setComponent(artikelaendern);
@@ -670,6 +671,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         hauptmenueuser.setVisible(false);
         
         artikelaendern.setTitle(ARTIKEL_ANZEIGEN_EINSTIEG);
+        artikelaendern.zuruecksetzen();
         artikelanlegen.setzeFormularInArtikelAnzeigen();
         setCenterJIF(artikelaendern);
         setComponent(artikelaendern);
@@ -721,6 +723,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         hauptmenueuser.setVisible(false);
         
         geschaeftspartneraendern.setTitle(GP_AENDERN_EINSTIEG);
+        geschaeftspartneraendern.zuruecksetzen();
         geschaeftspartneranlegen.setzeFormularInGPAEndern();
         setCenterJIF(geschaeftspartneraendern);
         setComponent(geschaeftspartneraendern);
@@ -748,6 +751,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         hauptmenueuser.setVisible(false);
         
         geschaeftspartneraendern.setTitle(GP_ANZEIGEN_EINSTIEG);
+        geschaeftspartneraendern.zuruecksetzen();
         geschaeftspartneranlegen.setzeFormularInGPAnzeigen();
         setCenterJIF(geschaeftspartneraendern);
         setComponent(geschaeftspartneraendern);
@@ -802,6 +806,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         hauptmenueuser.setVisible(false);
         
         zahlungskonditionaendern.setTitle(ZK_AENDERN_EINSTIEG);
+        zahlungskonditionaendern.zuruecksetzen();
         zahlungskonditionanlegen.setzeFormularInZKAEndern();
         setCenterJIF(zahlungskonditionaendern);
         setComponent(zahlungskonditionaendern);
@@ -827,6 +832,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         hauptmenueuser.setVisible(false);
         
         zahlungskonditionaendern.setTitle(ZK_AZEIGEN_EINSTIEG);
+        zahlungskonditionaendern.zuruecksetzen();
         zahlungskonditionanlegen.setzeFormularInZKAnzeigen();
         setCenterJIF(zahlungskonditionaendern);
         setComponent(zahlungskonditionaendern);
