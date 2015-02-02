@@ -2314,9 +2314,13 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      */
     public void setzeAnschrift(Anschrift anschriftDaten) {
         this.jTF_StrasseRechnungsanschrift.setText(anschriftDaten.getStrasse());
+        this.jTF_StrasseRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
         this.jTF_HausnummerRechnungsanschrift.setText(anschriftDaten.getHausnummer());
+        this.jTF_HausnummerRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
         this.jTF_PLZRechnungsanschrift.setText(anschriftDaten.getPLZ());
+        this.jTF_PLZRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
         this.jTF_OrtRechnungsanschrift.setText(anschriftDaten.getOrt());
+        this.jTF_OrtRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
     }
 
     /**

@@ -315,6 +315,9 @@
     <Component class="javax.swing.JTextField" name="jTF_Artikelnummer">
       <Properties>
         <Property name="text" type="java.lang.String" value="1"/>
+        <Property name="disabledTextColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="0" green="0" red="0" type="rgb"/>
+        </Property>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
@@ -405,6 +408,11 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTF_Artikelname">
+      <Properties>
+        <Property name="disabledTextColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="0" green="0" red="0" type="rgb"/>
+        </Property>
+      </Properties>
       <Events>
         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTF_ArtikelnameFocusLost"/>
       </Events>
