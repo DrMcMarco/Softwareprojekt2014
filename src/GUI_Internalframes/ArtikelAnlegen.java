@@ -89,7 +89,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
      * Varibalen fuer die Meldungen
      */
     private final String TITEL_PFLICHTFELDER = "Felder nicht ausgefüllt";
-    private final String TEXT_PFLICHTFELDER = "Einige Felder wurden nicht ausgefüllt!Bitte füllen Sie diese aus!";
+    private final String TEXT_PFLICHTFELDER = "Einige Felder wurden nicht ausgefüllt! Bitte füllen Sie diese aus!";
     private final String TEXT_EINZELWERT = "Der eingegebene Preisr ist nicht richtig! \nBitte geben Sie eine richtige Preis ein. (z.B. 99,99 oder 999.999,99)";
     private final String TITEL_FEHLERHAFTE_EINGABE = "Fehlerhafte Eingabe";
     private String STATUSZEILE;
@@ -321,20 +321,12 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
      */
     private void beendenEingabeNachfrage() {
 //        varibablen fuer Titel und Text der erzeugten Meldung
-        String meldung;
-        String titel;
+        String meldung = "Möchten Sie die Eingaben verwerfen? Klicken Sie auf JA, wenn Sie die Eingaben verwerfen möchten.";
+        String titel = "Achtung Eingaben gehen verloren!";
 //        Falls Titel des Fensters Artikel anlegen oder Artikel aendern ist wird eine Nachfrage gemacht  
-        if (this.getTitle().equals(ARTIKEL_ANLEGEN) || this.getTitle().equals(ARTIKEL_AENDERN)) {
+        if (this.getTitle().equals(ARTIKEL_ANLEGEN)) {
 //            zunaechst wird ueberprueft, ob alle Eingaben getaetigt wurden
             ueberpruefen();
-//            Meldung, titel wird fuer Sicht Artikel anlegen erzeugt 
-            meldung = "Möchten Sie die Eingaben verwerfen? Klicken Sie auf JA, wenn Sie die Eingaben verwerfen möchten.";
-            titel = "Achtung Eingaben gehen verloren!";
-//            Falls Sicht Artikel aendern ist, wird die Meldung und Titel angepasst
-            if (this.getTitle().equals(ARTIKEL_AENDERN)) {
-                meldung = "Möchten Sie die Sicht Artikel ändern verlassen?";
-                titel = "Artikel ändern verlassen";
-            }
 //            Falls anzahl fehlerhafter Componenten kleiner ist als max Anzahl von fehlerhaften Componenten
 //            heist dass, dass Eingaben getaetigt wurden
             if (fehlerhafteComponenten.size() < maxAnzahlFehlerhafterComponenten) {
@@ -343,21 +335,18 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                 if (antwort == JOptionPane.YES_OPTION) {
                     zuruecksetzen();
                     this.setVisible(false);
-                    jB_ZurueckActionPerformed(null);
+//                    jB_ZurueckActionPerformed(null);
+                    zurueckInsHauptmenue();
                 } else {
                     fehlerhafteComponenten.clear();
                 }
             } else {
 //            keine Eingaben getaetigt, direkt Fenster schließen 
-                this.setVisible(false);
-                jB_ZurueckActionPerformed(null);
                 zuruecksetzen();
+                this.setVisible(false);
+//                jB_ZurueckActionPerformed(null);
+                zurueckInsHauptmenue();
             }
-        } else {
-//            Wir sind in Sicht Artikel anzeigen, keine Nachfrage, direkt schließen 
-            zuruecksetzen();
-            this.setVisible(false);
-            jB_ZurueckActionPerformed(null);
         }
     }
 
@@ -840,7 +829,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                                     bestellwert, mwst, bestandsmengeFREI);
                             zuruecksetzen(); // Formular zuruecksetzen
                             this.setVisible(false); // diese Sicht ausblenden 
-                            jB_ZurueckActionPerformed(null); // Button Zurueck Action ausführen
+//                            jB_ZurueckActionPerformed(null); // Button Zurueck Action ausführen
+                            zurueckInsHauptmenue();
                         } else {
                             fehlerhafteComponenten.clear(); // Nein button wird geklickt, keine Aktion nur fehlerhafte Komponenten müssen geleert werden
                         }
@@ -1007,14 +997,118 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
     /*
      * Historie:
      * 27.11.2014   Terrasi     angelegt
+     * 20.01.2015   Sen         ueberarbeitet
+     * 03.02.2015   Sen         grundlegend ueberarbeitet
      */
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
+//        c = null;   //Initialisierung der Componentspeichervariable
+//        //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
+//        c = this.factory.zurueckButton();
+//        this.setVisible(false);// Internalframe wird nicht mehr dargestellt
+//        c.setVisible(true);// Übergebene Component wird sichtbar gemacht
+        if (this.getTitle().equals(ARTIKEL_ANLEGEN)) {
+            beendenEingabeNachfrage();
+        } else if (this.getTitle().equals(ARTIKEL_AENDERN)) {
+//      zunaechst werdne die Eingaben ueberprueft.    
+            ueberpruefen();
+//      falls fehlerhafteComponenten leer ist (es sind keine fehlerhaften Componenten verfuegbar), 
+//      werden die Eingaben in die entsprechenden Variablen gespeichert
+            if (fehlerhafteComponenten.isEmpty()) {
+                String artikelname;
+                String artikelbeschreibung;
+                String kategorie;
+                double einzelwert;
+                double bestellwert;
+                int mwst;
+                int bestandsmengeFREI;
+                int bestandsmengeRESERVIERT = 0;
+                int bestandsmengeZULAUF = 0;
+                int bestandsmengeVERKAUFT = 0;
+                artikelname = jTF_Artikelname.getText();
+                artikelbeschreibung = jTA_Artikelbeschreibung.getText();
+                kategorie = (String) jCB_Kategorie.getSelectedItem();
+
+                try {
+//                einzel- und bestelltwert sowie die mwst und die bestandsmenge
+//                muessen geparst werden, da die dao Methode int und double Typen moechte
+                    einzelwert = nf.parse(jTF_Einzelwert.getText()).doubleValue();
+                    bestellwert = nf.parse(jTF_Bestellwert.getText()).doubleValue();
+
+                    mwst = nf.parse((String) jCB_MwST.getSelectedItem()).intValue();
+                    bestandsmengeFREI = nf.parse(jTF_Bestandsmenge_FREI.getText()).intValue();
+//                Ueberpruefung in welche Sicht wir sind
+                    if (this.getTitle().equals(ARTIKEL_AENDERN)) {
+//                  Sicht Artikel aendern ist geoffnet, also wird zunaechst der Artikel aus
+//                  der Datenbank geladen.
+                        long artikelnr = nf.parse(jTF_Artikelnummer.getText()).longValue();
+//                  Artikel aus Datenbank ist Variable artikelVorher  
+                        Artikel artikelVorher = this.dao.gibArtikel(artikelnr);
+//                  vergleich Artikel erzeugen mit den Eingabedaten
+                        Artikel artikelNachher = new Artikel(artikelVorher.getKategorie(),
+                                artikelname, artikelbeschreibung,
+                                einzelwert, bestellwert, mwst, bestandsmengeFREI,
+                                bestandsmengeRESERVIERT, bestandsmengeZULAUF, bestandsmengeVERKAUFT);
+//                  ArtikelID des Nachher Artikel setzen
+                        artikelNachher.setArtikelID(artikelnr);
+                        if (artikelVorher.getKategorie().getKategoriename().equals(kategorie) && artikelVorher.equals(artikelNachher)) {
+//                            zuruecksetzen(); // Formular zuruecksetzen
+                            this.setVisible(false); // diese Sicht ausblenden 
+                            zurueckInsHauptmenue();
+                        } else {
+//                     etwas ist nicht gleich
+//                     Abfrage, ob Änderungen gespeichert werden sollen
+                            int antwort = JOptionPane.showConfirmDialog(null, "Möchten Sie die Änderungen speichern?", ARTIKEL_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                            if (antwort == JOptionPane.YES_OPTION) {
+//                     falls ja, wird der Artikel geaendert
+                                this.dao.aendereArtikel(artikelnr, kategorie, artikelname, artikelbeschreibung, einzelwert,
+                                        bestellwert, mwst, bestandsmengeFREI);
+//                                zuruecksetzen(); // Formular zuruecksetzen
+                                this.setVisible(false); // diese Sicht ausblenden 
+                                zurueckInsHauptmenue();
+                            } else {
+//                                zuruecksetzen(); // Formular zuruecksetzen
+                                this.setVisible(false); // diese Sicht ausblenden 
+                                zurueckInsHauptmenue();
+                            }
+                        }
+                    }
+//          Fehler abfangen
+                } catch (ApplicationException | ParseException | NullPointerException e) {
+                    System.out.println("Fehler in Sicht Artikel anlegen Methode zurueckInsHauptmenue() " + e.getMessage());
+                }
+            } else {
+//                     etwas ist nicht gleich
+//                     Abfrage, ob Änderungen gespeichert werden sollen
+                int antwort = JOptionPane.showConfirmDialog(null, "Möchten Sie die Änderungen speichern?", ARTIKEL_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (antwort == JOptionPane.YES_OPTION) {
+                    fehlEingabenMarkierung(fehlerhafteComponenten, TITEL_PFLICHTFELDER, TEXT_PFLICHTFELDER, FARBE_FEHLERHAFT);
+                } else {
+//                    zuruecksetzen(); // Formular zuruecksetzen
+                    this.setVisible(false); // diese Sicht ausblenden 
+                    zurueckInsHauptmenue();
+                }
+            }
+        } else {
+            this.setVisible(false); // diese Sicht ausblenden 
+            zurueckInsHauptmenue();
+        }
+    }//GEN-LAST:event_jB_ZurueckActionPerformed
+    /**
+     * Methode, die das zurueckspringen in das Hauptmenue ermoeglicht.
+     */
+    /*
+     * Historie:
+     * 03.02.2015   Sen     angelegt
+     */
+    private void zurueckInsHauptmenue() {
         c = null;   //Initialisierung der Componentspeichervariable
         //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
         c = this.factory.zurueckButton();
         this.setVisible(false);// Internalframe wird nicht mehr dargestellt
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
-    }//GEN-LAST:event_jB_ZurueckActionPerformed
+//        this.setzeFormularZurueck();
+    }
+
     /**
      *
      * @param evt Event, der ausgeloest wird
@@ -1048,7 +1142,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                 int antwort = JOptionPane.showConfirmDialog(null, text, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (antwort == JOptionPane.YES_OPTION) {
                     this.dao.loescheArtikel(artikelnr);
-                    jB_ZurueckActionPerformed(evt);
+//                    jB_ZurueckActionPerformed(evt);
+                    zurueckInsHauptmenue();
                 }
             } catch (ParseException | ApplicationException ex) {
                 System.out.println(ex.getMessage());
@@ -1078,9 +1173,11 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
      */
     private void jB_AnzeigenAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AnzeigenAEndernActionPerformed
 //      ist Sicht Artikel aendern geoffnet, muss wir die Sicht in Artikel anzeigen aendern
-        if (this.getTitle().equals(ARTIKEL_AENDERN)) {
-            setzFormularInArtikelAnzeigenFuerButton();
-        } else if (this.getTitle().equals(ARTIKEL_ANZEIGEN)) {
+//        if (this.getTitle().equals(ARTIKEL_AENDERN)) {
+//            setzFormularInArtikelAnzeigenFuerButton();
+//        } else 
+
+        if (this.getTitle().equals(ARTIKEL_ANZEIGEN)) {
 //      ist Sicht Artikel anzeigen geoffnet, muss wir die Sicht in Artikel aendern aendern
             setzFormularInArtikelAEndernFuerButton();
         }
@@ -1279,7 +1376,6 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
      */
     private void setzFormularInArtikelAEndernFuerButton() {
         this.setTitle(ARTIKEL_AENDERN);
-//        leseInhaltVomFormular();
         jTF_Artikelname.setEnabled(true);
         jTA_Artikelbeschreibung.setEnabled(true);
         jCB_Kategorie.setEnabled(true);
@@ -1289,7 +1385,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         jTF_Bestandsmenge_FREI.setEnabled(false);
 
         jB_Speichern.setEnabled(true);
-        jB_AnzeigenAEndern.setEnabled(true);
+        jB_AnzeigenAEndern.setEnabled(false);
         jB_AnzeigenAEndern.setText("Anzeigen");
         jB_Loeschen.setEnabled(true);
     }

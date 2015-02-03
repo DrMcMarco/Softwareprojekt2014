@@ -431,10 +431,11 @@
     <Component class="javax.swing.JComboBox" name="jCB_Anrede">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="3">
+          <StringArray count="4">
             <StringItem index="0" value="Bitte ausw&#xe4;hlen"/>
-            <StringItem index="1" value="Herr "/>
-            <StringItem index="2" value="Frau"/>
+            <StringItem index="1" value="Firma"/>
+            <StringItem index="2" value="Herr "/>
+            <StringItem index="3" value="Frau"/>
           </StringArray>
         </Property>
       </Properties>

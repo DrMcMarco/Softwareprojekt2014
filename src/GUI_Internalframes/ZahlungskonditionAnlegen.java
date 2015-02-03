@@ -242,40 +242,30 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         String meldung;
         String titel;
 //        Falls Titel des Fensters Artikel anlegen oder Artikel aendern ist wird eine Nachfrage gemacht  
-        if (this.getTitle().equals(ZK_ANLEGEN) || this.getTitle().equals(ZK_AENDERN)) {
+        if (this.getTitle().equals(ZK_ANLEGEN)) {
             meldung = "Möchten Sie die Eingaben verwerfen? Klicken Sie"
                     + " auf JA, wenn Sie die Eingaben verwerfen möchten.";
             titel = "Achtung Eingaben gehen verloren!";
 //            zunaechst wird ueberprueft, ob alle Eingaben getaetigt wurden
             ueberpruefen();
-//            Meldung, titel wird fuer Sicht Artikel anlegen erzeugt  
-            if (this.getTitle().equals(ZK_AENDERN)) {
-//            Falls Sicht Artikel aendern ist, wird die Meldung und Titel angepasst                
-                meldung = "Möchten Sie die Sicht Artikel ändern verlassen?";
-                titel = "Artikel ändern verlassen";
-            }
 //            Falls anzahl fehlerhafter Componenten kleiner ist als max Anzahl von fehlerhaften Componenten
 //            heist dass, dass Eingaben getaetigt wurden            
             if (fehlerhafteComponenten.size() < anzahlFehlerhafterComponenten) {
                 int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (antwort == JOptionPane.YES_OPTION) {
                     this.setVisible(false);
-                    zuruecksetzen();
-                    jB_ZurueckActionPerformed(null);
+//                    zuruecksetzen();
+//                    jB_ZurueckActionPerformed(null);
+                    zurueckInsHauptmenue();
                 } else {
                     fehlerhafteComponenten.clear();
                 }
 //            keine Eingaben getaetigt, direkt Fenster schließen                 
             } else {
                 this.setVisible(false);
-                zuruecksetzen();
-            }
-//            Wir sind in Sicht Artikel anzeigen, keine Nachfrage, direkt schließen            
-        } else {
-            this.setVisible(false);
-            zuruecksetzen();
-            jB_ZurueckActionPerformed(null);
-
+                zurueckInsHauptmenue();
+//                zuruecksetzen();
+            }         
         }
     }
 
@@ -909,7 +899,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                                     mahnzeit1, mahnzeit2, mahnzeit3);
                             zuruecksetzen(); // Formular zuruecksetzen
                             this.setVisible(false); // diese Sicht ausblenden 
-                            jB_ZurueckActionPerformed(null); // Button Zurueck Action ausführen
+//                            jB_ZurueckActionPerformed(null); // Button Zurueck Action ausführen
+                            zurueckInsHauptmenue();
                         } else {
 //                          Nein button wird geklickt, keine Aktion nur fehlerhafte Komponenten müssen geleert werden
                             fehlerhafteComponenten.clear();
@@ -949,12 +940,110 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      * 14.12.2014   Sen     angelegt
      */
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
+//        c = null;   //Initialisierung der Componentspeichervariable
+//        //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
+//        c = this.factory.zurueckButton();
+//        this.setVisible(false);// Internalframe wird nicht mehr dargestellt
+//        c.setVisible(true);// Übergebene Component wird sichtbar gemacht
+        if (this.getTitle().equals(ZK_ANLEGEN)) {
+            beendenEingabeNachfrage();
+        } else if (this.getTitle().equals(ZK_AENDERN)) {
+//      zunaechst werdne die Eingaben ueberprueft.    
+            ueberpruefen();
+//      falls fehlerhafteComponenten leer ist (es sind keine fehlerhaften Componenten verfuegbar), 
+//      werden die Eingaben in die entsprechenden Variablen gespeichert
+            if (fehlerhafteComponenten.isEmpty()) {
+                String auftragsart = (String) jCB_Auftragsart.getSelectedItem();
+                int lieferzeitSOFORT;
+                int sperrzeitWunsch;
+                int skontozeit1;
+                int skontozeit2;
+                double skonto1;
+                double skonto2;
+                int mahnzeit1;
+                int mahnzeit2;
+                int mahnzeit3;
+                long zknr;
+
+                try {
+//                einzel- und bestelltwert sowie die mwst und die bestandsmenge
+//                muessen geparst werden, da die dao Methode int und double Typen moechte
+//                Skonto und Mahnzeiten aus jSpinner mussen geholt werdne
+                    zknr = nf.parse(jTF_ZahlungskonditionID.getText()).longValue();
+                    lieferzeitSOFORT = ((Number) jSP_LieferzeitSOFORT.getValue()).intValue();
+                    sperrzeitWunsch = ((Number) jSP_SperrzeitWUNSCH.getValue()).intValue();
+                    skonto1 = nf.parse((String) jCB_Skonto1.getSelectedItem()).doubleValue();
+                    skonto2 = nf.parse((String) jCB_Skonto2.getSelectedItem()).doubleValue();
+                    skontozeit1 = ((Number) jSP_Skontozeit1.getValue()).intValue();
+                    skontozeit2 = ((Number) jSP_Skontozeit2.getValue()).intValue();
+                    mahnzeit1 = ((Number) jSP_Mahnzeit1.getValue()).intValue();
+                    mahnzeit2 = ((Number) jSP_Mahnzeit2.getValue()).intValue();
+                    mahnzeit3 = ((Number) jSP_Mahnzeit3.getValue()).intValue();
+
+//                  ZK aus Datenbank ist Variable ZKVorher  
+                    Zahlungskondition ZKVorher = this.dao.gibZahlungskonditionNachId(zknr);
+//                    Vergleich ZK erzeugen mit den Eingabedaten
+                    Zahlungskondition ZKNachher = new Zahlungskondition(auftragsart, lieferzeitSOFORT,
+                            sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2, mahnzeit1,
+                            mahnzeit2, mahnzeit3);
+//                    Pruefung ob ZkVorher gleich ist wie ZK nachher
+                    if (ZKVorher.equals(ZKNachher)) {
+                        this.setVisible(false); // diese Sicht ausblenden 
+                        zurueckInsHauptmenue();
+                    } else {
+//                        Veraenderung: Abfrage, ob Änderungen gespeichert werden sollen
+                        int antwort = JOptionPane.showConfirmDialog(null, "Möchten Sie die Änderungen speichern?", ZK_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        if (antwort == JOptionPane.YES_OPTION) {
+//                     falls ja, wird die ZK geaendert
+                            this.dao.aendereZahlungskondition(zknr, auftragsart, lieferzeitSOFORT,
+                                    sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2,
+                                    mahnzeit1, mahnzeit2, mahnzeit3);
+                            zuruecksetzen(); // Formular zuruecksetzen
+                            this.setVisible(false); // diese Sicht ausblenden 
+                            zurueckInsHauptmenue();
+                        } else {
+                            this.setVisible(false); // diese Sicht ausblenden 
+                            zurueckInsHauptmenue();
+                        }
+                    }
+//          Fehler abfangen    
+                } catch (ParseException | ApplicationException | NullPointerException ex) {
+                    System.out.println(ex.getMessage());
+                }
+//          das Formular wird zurueckgesetzt  
+            } else {
+//                     etwas ist nicht gleich
+//                     Abfrage, ob Änderungen gespeichert werden sollen
+                int antwort = JOptionPane.showConfirmDialog(null, "Möchten Sie die Änderungen speichern?", ZK_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (antwort == JOptionPane.YES_OPTION) {
+                    fehlEingabenMarkierung(fehlerhafteComponenten, TITEL_PFLICHTFELDER, TEXT_PFLICHTFELDER, FARBE_FEHLERHAFT);
+                } else {
+//                    zuruecksetzen(); // Formular zuruecksetzen
+                    this.setVisible(false); // diese Sicht ausblenden 
+                    zurueckInsHauptmenue();
+                }
+            }
+        } else {
+            this.setVisible(false); // diese Sicht ausblenden 
+            zurueckInsHauptmenue();
+        }
+    }//GEN-LAST:event_jB_ZurueckActionPerformed
+    /**
+     * Methode, die das zurueckspringen in das Hauptmenue ermoeglicht.
+     */
+    /*
+     * Historie:
+     * 03.02.2015   Sen     angelegt
+     */
+    private void zurueckInsHauptmenue() {
         c = null;   //Initialisierung der Componentspeichervariable
         //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
         c = this.factory.zurueckButton();
         this.setVisible(false);// Internalframe wird nicht mehr dargestellt
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
-    }//GEN-LAST:event_jB_ZurueckActionPerformed
+//        this.setzeFormularZurueck();
+    }
+
     /**
      * Methode fuer den Aufruf der Suche Maske
      *
@@ -994,7 +1083,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
             int antwort = JOptionPane.showConfirmDialog(null, "Soll die Zahlungskondition wirklich gelöscht werden?", "Zahlungskondition löschen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (antwort == JOptionPane.YES_OPTION) {
                 this.dao.loescheZahlungskondition(zknr);
-                jB_ZurueckActionPerformed(evt);
+//                jB_ZurueckActionPerformed(evt);
+                zurueckInsHauptmenue();
             }
         } catch (ParseException | ApplicationException | NullPointerException ex) {
             System.out.println(ex.getMessage());
@@ -1010,9 +1100,10 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      * 17.01.2015   Sen     angelegt
      */
     private void jB_AnzeigenAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AnzeigenAEndernActionPerformed
-        if (this.getTitle().equals(ZK_AENDERN)) {
-            setzFormularInZKAnzeigenFuerButton();
-        } else if (this.getTitle().equals(ZK_ANZEIGEN)) {
+//        if (this.getTitle().equals(ZK_AENDERN)) {
+//            setzFormularInZKAnzeigenFuerButton();
+//        } else 
+        if (this.getTitle().equals(ZK_ANZEIGEN)) {
             setzFormularInZKAEndernFuerButton();
         }
     }//GEN-LAST:event_jB_AnzeigenAEndernActionPerformed
@@ -1225,7 +1316,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         jSP_Mahnzeit3.setEnabled(true);
 
         jB_Speichern.setEnabled(true);
-        jB_AnzeigenAEndern.setEnabled(true);
+        jB_AnzeigenAEndern.setEnabled(false);
         jB_AnzeigenAEndern.setText("Anzeigen");
         jB_Loeschen.setEnabled(true);
     }
