@@ -2445,7 +2445,7 @@ public class DataAccessObject {
         }
         
         Query query = em.createQuery("select ap from Auftragskopf ak, "
-                + "in(ak.Positionsliste) ap where ap.Artikel.Id = :artikelnummer"
+                + "in(ak.Positionsliste) ap where ap.Artikel.ArtikelId = :artikelnummer"
                 + " and (ak.Status.Status LIKE 'erfasst' or "
                 + "ak.Status.Status LIKE 'freigegeben') and "
                 + "(ak.LKZ = false or ap.LKZ = false)")
