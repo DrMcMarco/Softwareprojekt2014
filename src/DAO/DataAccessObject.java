@@ -1580,7 +1580,7 @@ public class DataAccessObject {
                 
                 //Da vorher beide Anschriften gleich waren, muss jetzt eine neue
                 //Lieferanschrift erstellt werden
-                lieferanschrift = this.erstelleAnschrift("Lieferadresse", Name, 
+                lieferanschrift = this.erstelleAnschrift("Lieferanschrift", Name, 
                         Vorname, Titel, lStrasse, lHausnummer, lPLZ, lOrt,
                         Staat, Telefon, Fax, Email, Geburtsdatum);
                 
@@ -2447,15 +2447,15 @@ public class DataAccessObject {
         Query query = em.createQuery("select ap from Auftragskopf ak, "
                 + "in(ak.Positionsliste) ap where ap.Artikel.Id = :artikelnummer"
                 + " and (ak.Status.Status LIKE 'erfasst' or "
-                + "ak.Status.Status LIKE 'freigegeben') "
-                + "and (ak.LKZ = 0 or ap.LKZ = 0)")
+                + "ak.Status.Status LIKE 'freigegeben') and "
+                + "(ak.LKZ = false or ap.LKZ = false)")
                 .setParameter("artikelnummer", Artikelnummer);
         
         List<Auftragsposition> ergebnis = (List<Auftragsposition>) query.getResultList();
         
         if (!ergebnis.isEmpty()) {
             throw new ApplicationException("Fehler", 
-                    "Der Artikel wird noch Aufträgen verwendet und kann"
+                    "Der Artikel wird noch in Aufträgen verwendet und kann"
                             + " daher nicht gelöscht werden.");
         }
         
