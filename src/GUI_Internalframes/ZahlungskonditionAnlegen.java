@@ -73,7 +73,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      * Varibalen fuer die Meldungen
      */
     private final String TITEL_PFLICHTFELDER = "Felder nicht ausgefüllt";
-    private final String TEXT_PFLICHTFELDER = "Einige Felder wurden nicht ausgefüllt! Bitte füllen Sie diese aus!";
+    private final String MELDUNG_PFLICHTFELDER = "Einige Felder wurden nicht ausgefüllt! Bitte füllen Sie diese aus!";
+    private final String MELDUNG_AENDERUNGEN_SPEICHERN = "Möchten Sie die Änderungen speichern?";
     /**
      * Number Formatter wird benoetigt fuer das Parsen der Eingaben, sowie das
      * Anzeigen von Preisen
@@ -239,13 +240,11 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      */
     private void beendenEingabeNachfrage() {
 //        varibablen fuer Titel und Text der erzeugten Meldung
-        String meldung;
-        String titel;
+        String meldung = "Möchten Sie die Eingaben verwerfen? Klicken Sie"
+                + " auf JA, wenn Sie die Eingaben verwerfen möchten.";
+        String titel = "Achtung Eingaben gehen verloren!";
 //        Falls Titel des Fensters Artikel anlegen oder Artikel aendern ist wird eine Nachfrage gemacht  
         if (this.getTitle().equals(ZK_ANLEGEN)) {
-            meldung = "Möchten Sie die Eingaben verwerfen? Klicken Sie"
-                    + " auf JA, wenn Sie die Eingaben verwerfen möchten.";
-            titel = "Achtung Eingaben gehen verloren!";
 //            zunaechst wird ueberprueft, ob alle Eingaben getaetigt wurden
             ueberpruefen();
 //            Falls anzahl fehlerhafter Componenten kleiner ist als max Anzahl von fehlerhaften Componenten
@@ -265,7 +264,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                 this.setVisible(false);
                 zurueckInsHauptmenue();
 //                zuruecksetzen();
-            }         
+            }
         }
     }
 
@@ -818,6 +817,10 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      * 10.01.2015   Sen     Funtkion fuer Sicht Artikel aendern implementiert
      */
     private void jB_SpeichernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SpeichernActionPerformed
+//      Variablen fuer die Meldung und den Titel
+        String meldung = "Liefer- und Sperrzeit sowie Skonto- und Mahnzeiten sind alle standardmäßig auf 1 Tag gesetzt. Möchten Sie nun speichern?"
+                + "\nKlicken Sie auf Nein, wenn Sie die Eingaben bearbeiten möchten.";
+        String titel = "Zahlungskondititon speichern";
 //      zunaechst werdne die Eingaben ueberprueft.    
         ueberpruefen();
 //      falls fehlerhafteComponenten leer ist (es sind keine fehlerhaften Componenten verfuegbar), 
@@ -862,9 +865,6 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                         zuruecksetzen();
                     } else {
 //                        Kein Skonto und Mahnzeit geaendert, nachfrage ob so gespeichert werden soll
-                        String meldung = "Liefer- und Sperrzeit sowie Skonto- und Mahnzeiten sind alle standardmäßig auf 1 Tag gesetzt. Möchten Sie nun speichern?"
-                                + "\nKlicken Sie auf Nein, wenn Sie die Eingaben bearbeiten möchten.";
-                        String titel = "Zahlungskondititon speichern";
                         int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                         if (antwort == JOptionPane.YES_OPTION) {
 //                            Antowort ja, also speichern
@@ -891,7 +891,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                         JOptionPane.showMessageDialog(null, "Es wurden keine Änderungen gemacht!", "Keine Änderungen", JOptionPane.INFORMATION_MESSAGE);
                     } else {
 //                        Veraenderung: Abfrage, ob Änderungen gespeichert werden sollen
-                        int antwort = JOptionPane.showConfirmDialog(null, "Möchten Sie die Änderungen speichern?", ZK_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        int antwort = JOptionPane.showConfirmDialog(null, MELDUNG_AENDERUNGEN_SPEICHERN, ZK_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                         if (antwort == JOptionPane.YES_OPTION) {
 //                     falls ja, wird der Artikel geaendert
                             this.dao.aendereZahlungskondition(zknr, auftragsart, lieferzeitSOFORT,
@@ -924,7 +924,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
 //            }
 ////          ArrayList fue fehlerhafte Componenten wird geleert
 //            fehlerhafteComponenten.clear();
-            fehlEingabenMarkierung(fehlerhafteComponenten, TITEL_PFLICHTFELDER, TEXT_PFLICHTFELDER, FARBE_FEHLERHAFT);
+            fehlEingabenMarkierung(fehlerhafteComponenten, TITEL_PFLICHTFELDER, MELDUNG_PFLICHTFELDER, FARBE_FEHLERHAFT);
         }
     }//GEN-LAST:event_jB_SpeichernActionPerformed
 
@@ -992,7 +992,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                         zurueckInsHauptmenue();
                     } else {
 //                        Veraenderung: Abfrage, ob Änderungen gespeichert werden sollen
-                        int antwort = JOptionPane.showConfirmDialog(null, "Möchten Sie die Änderungen speichern?", ZK_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        int antwort = JOptionPane.showConfirmDialog(null, MELDUNG_AENDERUNGEN_SPEICHERN, ZK_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                         if (antwort == JOptionPane.YES_OPTION) {
 //                     falls ja, wird die ZK geaendert
                             this.dao.aendereZahlungskondition(zknr, auftragsart, lieferzeitSOFORT,
@@ -1014,9 +1014,9 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
             } else {
 //                     etwas ist nicht gleich
 //                     Abfrage, ob Änderungen gespeichert werden sollen
-                int antwort = JOptionPane.showConfirmDialog(null, "Möchten Sie die Änderungen speichern?", ZK_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                int antwort = JOptionPane.showConfirmDialog(null, MELDUNG_AENDERUNGEN_SPEICHERN, ZK_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (antwort == JOptionPane.YES_OPTION) {
-                    fehlEingabenMarkierung(fehlerhafteComponenten, TITEL_PFLICHTFELDER, TEXT_PFLICHTFELDER, FARBE_FEHLERHAFT);
+                    fehlEingabenMarkierung(fehlerhafteComponenten, TITEL_PFLICHTFELDER, MELDUNG_PFLICHTFELDER, FARBE_FEHLERHAFT);
                 } else {
 //                    zuruecksetzen(); // Formular zuruecksetzen
                     this.setVisible(false); // diese Sicht ausblenden 
@@ -1078,9 +1078,12 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      * 30.12.2014   Sen     angelegt
      */
     private void jB_LoeschenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_LoeschenActionPerformed
+//      Variablen fuer die Meldung und Titel  
+        String meldung = "Soll die Zahlungskondition wirklich gelöscht werden?";
+        String titel = "Zahlungskondition löschen";
         try {
             long zknr = nf.parse(jTF_ZahlungskonditionID.getText()).longValue();
-            int antwort = JOptionPane.showConfirmDialog(null, "Soll die Zahlungskondition wirklich gelöscht werden?", "Zahlungskondition löschen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (antwort == JOptionPane.YES_OPTION) {
                 this.dao.loescheZahlungskondition(zknr);
 //                jB_ZurueckActionPerformed(evt);
