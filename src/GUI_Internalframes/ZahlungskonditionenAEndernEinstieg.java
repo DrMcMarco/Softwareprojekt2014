@@ -88,9 +88,7 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
         jB_Enter = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setResizable(true);
         setTitle("Zahlungskonditionen ändern Einstieg");
-        setEnabled(false);
         setPreferredSize(new java.awt.Dimension(580, 300));
         setRequestFocusEnabled(false);
         setVisible(true);

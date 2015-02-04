@@ -75,6 +75,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
     private final String TITEL_PFLICHTFELDER = "Felder nicht ausgefüllt";
     private final String MELDUNG_PFLICHTFELDER = "Einige Felder wurden nicht ausgefüllt! Bitte füllen Sie diese aus!";
     private final String MELDUNG_AENDERUNGEN_SPEICHERN = "Möchten Sie die Änderungen speichern?";
+    private String STATUSZEILE;
     /**
      * Number Formatter wird benoetigt fuer das Parsen der Eingaben, sowie das
      * Anzeigen von Preisen
@@ -862,6 +863,9 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                         this.dao.erstelleZahlungskondition(auftragsart, lieferzeitSOFORT,
                                 sperrzeitWunsch, skontozeit1, skontozeit2, skonto1,
                                 skonto2, mahnzeit1, mahnzeit2, mahnzeit3);
+//                      Meldung fuer die Statuszeile wird angepassz
+                        STATUSZEILE = "Zahlungskondition mit der Nummer " + zknr + " wurde erfolgreich angelegt. ";
+                        this.hauptFenster.setStatusMeldung(STATUSZEILE);
                         zuruecksetzen();
                     } else {
 //                        Kein Skonto und Mahnzeit geaendert, nachfrage ob so gespeichert werden soll
@@ -897,6 +901,9 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                             this.dao.aendereZahlungskondition(zknr, auftragsart, lieferzeitSOFORT,
                                     sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2,
                                     mahnzeit1, mahnzeit2, mahnzeit3);
+//                          Meldung fuer die Statuszeile wird angepassz
+                            STATUSZEILE = "Zahlungskondition mit der Nummer " + zknr + " wurde erfolgreich geändert. ";
+                            this.hauptFenster.setStatusMeldung(STATUSZEILE);
                             zuruecksetzen(); // Formular zuruecksetzen
                             this.setVisible(false); // diese Sicht ausblenden 
 //                            jB_ZurueckActionPerformed(null); // Button Zurueck Action ausführen
@@ -998,6 +1005,10 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                             this.dao.aendereZahlungskondition(zknr, auftragsart, lieferzeitSOFORT,
                                     sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2,
                                     mahnzeit1, mahnzeit2, mahnzeit3);
+//                          Meldung fuer die Statuszeile wird angepassz
+                            STATUSZEILE = "Zahlungskondition mit der Nummer " + zknr + " wurde erfolgreich geändert. ";
+                            this.hauptFenster.setStatusMeldung(STATUSZEILE);
+                            
                             zuruecksetzen(); // Formular zuruecksetzen
                             this.setVisible(false); // diese Sicht ausblenden 
                             zurueckInsHauptmenue();
@@ -1085,6 +1096,9 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
             long zknr = nf.parse(jTF_ZahlungskonditionID.getText()).longValue();
             int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (antwort == JOptionPane.YES_OPTION) {
+//              Meldung fuer die Statuszeile wird angepasst
+                STATUSZEILE = "Zahlungskondition mit der Nummer " + zknr + " wurde erfolgreich gelöscht. ";
+                this.hauptFenster.setStatusMeldung(STATUSZEILE);
                 this.dao.loescheZahlungskondition(zknr);
 //                jB_ZurueckActionPerformed(evt);
                 zurueckInsHauptmenue();

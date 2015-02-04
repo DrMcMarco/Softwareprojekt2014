@@ -148,6 +148,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * sind
      */
     private boolean formularOK = true;
+    private String STATUSZEILE;
 
     /**
      * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die
@@ -1090,6 +1091,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
             String ortLieferanschrift;
             Anschrift rechnungsanschrift;
             Anschrift lieferanschrift;
+            long gpnr;
 //      falls fehlerhafteComponenten leer ist (es sind keine fehlerhaften Componenten verfuegbar), 
 //      koennen wir sicher sein, dass alle Felder ausgefuellt sind, nun
 //      werden die Eingaben in die entsprechenden Variablen gespeichert
@@ -1114,9 +1116,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                 hausnummerLieferanschrift = jTF_HausnummerLieferanschrift.getText();
                 plzLieferanschrift = jTF_PLZLieferanschrift.getText();
                 ortLieferanschrift = jTF_OrtLieferanschrift.getText();
-
                 try {
                     kreditlimit = nf.parse(jTF_Kreditlimit.getText()).doubleValue();
+                    gpnr = nf.parse(jTF_GeschaeftspartnerID.getText()).longValue();
 //                Pruefung, ob typ des GP ausgewaehlt ist
                     if (jCHB_Kunde.isSelected() || jCHB_Lieferant.isSelected()) {
 //                Ueberpruefung in welche Sicht wir sind
@@ -1138,16 +1140,17 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                             }
 //                        Nun einen neuene GP mit beiden Anschriften erzeugen
                             this.dao.erstelleGeschaeftspartner(typ, lieferanschrift, rechnungsanschrift, kreditlimit);
+//                          Meldung fuer die Statuszeile wird angepasst
+                            STATUSZEILE = "Geschäftspartner mit der Nummer " + gpnr + " wurde erfolgreich angelegt. ";
+                            this.hauptFenster.setStatusMeldung(STATUSZEILE);
                             zuruecksetzen();
                         } else {
 //                  Sicht GP aendern ist geoffnet, also wird zunaechst der GP aus der Datenbank geladen.
-                            long gpnr;
 //                        Vergleichsanschriften werden erzeugt
                             Anschrift rechnungsanschriftNachher;
                             Anschrift lieferanschriftNachher;
 //                        das eingebene geburtsdatum wird nochmals geholt
                             eingabeGeburtsdatum = FORMAT.parse(jFTF_Geburtsdatum.getText());
-                            gpnr = nf.parse(jTF_GeschaeftspartnerID.getText()).longValue();
 //                      GP aus Datenbank ist Variable gpVorher  
                             Geschaeftspartner gpVorher = this.dao.gibGeschaeftspartner(gpnr);
 //                       vergleich GP erzeugen mit den Eingabedaten, doch zunaechst muessen die Anschriften erzeugt werden
@@ -1187,6 +1190,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                                             kreditlimit, name, vorname, titel, strasseAnschrift, hausnummerAnschrift,
                                             plzAnschrift, ortAnschrift, strasseLieferanschrift, hausnummerLieferanschrift,
                                             plzLieferanschrift, ortLieferanschrift, DEUTSCHLAND, telefon, fax, eMail, eingabeGeburtsdatum);
+//                                  Meldung fuer die Statuszeile wird angepasst
+                                    STATUSZEILE = "Geschäftspartner mit der Nummer " + gpnr + " wurde erfolgreich geändert. ";
+                                    this.hauptFenster.setStatusMeldung(STATUSZEILE);
                                     zuruecksetzen(); // Formular zuruecksetzen
                                     this.setVisible(false); // diese Sicht ausblenden 
 //                                Änderung am 03.02.2015
@@ -1880,6 +1886,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                                             kreditlimit, name, vorname, titel, strasseAnschrift, hausnummerAnschrift,
                                             plzAnschrift, ortAnschrift, strasseLieferanschrift, hausnummerLieferanschrift,
                                             plzLieferanschrift, ortLieferanschrift, DEUTSCHLAND, telefon, fax, eMail, eingabeGeburtsdatum);
+//                                  Meldung fuer die Statuszeile wird angepasst
+                                    STATUSZEILE = "Geschäftspartner mit der Nummer " + gpnr + " wurde erfolgreich geändert. ";
+                                    this.hauptFenster.setStatusMeldung(STATUSZEILE);
                                     this.setVisible(false); // diese Sicht ausblenden 
                                     zurueckInsHauptmenue();
                                 } else {
@@ -1965,6 +1974,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                 long gpnr = nf.parse(jTF_GeschaeftspartnerID.getText()).longValue();
                 int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (antwort == JOptionPane.YES_OPTION) {
+//              Meldung fuer die Statuszeile wird angepasst
+                    STATUSZEILE = "Geschäftspartner mit der Nummer " + gpnr + " wurde erfolgreich gelöscht. ";
+                    this.hauptFenster.setStatusMeldung(STATUSZEILE);
                     this.dao.loescheGeschaeftspartner(gpnr);
 //                jB_ZurueckActionPerformed(evt);
                     zurueckInsHauptmenue();

@@ -272,6 +272,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
             try {
 //            Eingabe wird in ein double geparst    
                 double einzelwert = nf.parse(textfield.getText()).doubleValue();
+//                hinzugefuegt am 04.02 um 15:30 test
+                formularOK = true;
 //            der format wird angepasst und ausgegeben, Hintergrund des Feldes wird auf normalgestzt    
                 textfield.setText(nf.format(einzelwert));
                 textfield.setBackground(JTF_FARBE_STANDARD);
@@ -279,6 +281,9 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
 //            Fehler beim Parsen
                 System.out.println("Fehler in der Methode jTF_EinzelwertFocusLost() " + ex.getMessage());
             }
+//            hinzugefuegt am 04.02 um 15:30 test!
+        } else {
+            formularOK = true;
         }
     }
 
@@ -778,6 +783,9 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
 //      falls fehlerhafteComponenten leer ist (es sind keine fehlerhaften Componenten verfuegbar), 
 //      werden die Eingaben in die entsprechenden Variablen gespeichert
             if (fehlerhafteComponenten.isEmpty()) {
+//                  Sicht Artikel aendern ist geoffnet, also wird zunaechst der Artikel aus
+//                  der Datenbank geladen.
+                long artikelnr;
                 String artikelname;
                 String artikelbeschreibung;
                 String kategorie;
@@ -797,6 +805,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
 //                muessen geparst werden, da die dao Methode int und double Typen moechte
                     einzelwert = nf.parse(jTF_Einzelwert.getText()).doubleValue();
                     bestellwert = nf.parse(jTF_Bestellwert.getText()).doubleValue();
+                    artikelnr = nf.parse(jTF_Artikelnummer.getText()).longValue();
 
                     mwst = nf.parse((String) jCB_MwST.getSelectedItem()).intValue();
                     bestandsmengeFREI = nf.parse(jTF_Bestandsmenge_FREI.getText()).intValue();
@@ -807,15 +816,12 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                                 einzelwert, bestellwert, mwst, bestandsmengeFREI,
                                 bestandsmengeRESERVIERT, bestandsmengeZULAUF,
                                 bestandsmengeVERKAUFT);
-//              Meldung fuer die Statuszeile wird angepassz
-                        STATUSZEILE = "Artikel " + artikelname + " wurde erfolgreich angelegt. ";
+//              Meldung fuer die Statuszeile wird angepasst
+                        STATUSZEILE = "Artikel mit der Artikelnummer " + artikelnr + " wurde erfolgreich angelegt. ";
                         this.hauptFenster.setStatusMeldung(STATUSZEILE);
 //              das Formular wird zurueckgesetzt  
                         zuruecksetzen();
                     } else {
-//                  Sicht Artikel aendern ist geoffnet, also wird zunaechst der Artikel aus
-//                  der Datenbank geladen.
-                        long artikelnr = nf.parse(jTF_Artikelnummer.getText()).longValue();
 //                  Artikel aus Datenbank ist Variable artikelVorher  
                         Artikel artikelVorher = this.dao.gibArtikel(artikelnr);
 //                  vergleich Artikel erzeugen mit den Eingabedaten
@@ -833,7 +839,10 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
 //                     Abfrage, ob Änderungen gespeichert werden sollen
                             int antwort = JOptionPane.showConfirmDialog(null, MELDUNG_AENDERUNGEN_SPEICHERN, ARTIKEL_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                             if (antwort == JOptionPane.YES_OPTION) {
-//                     falls ja, wird der Artikel geaendert
+//                              falls ja, wird der Artikel geaendert
+//                              Meldung fuer die Statuszeile wird angepasst
+                                STATUSZEILE = "Artikel mit der Artikelnummer " + artikelnr + " wurde erfolgreich geändert. ";
+                                this.hauptFenster.setStatusMeldung(STATUSZEILE);
                                 this.dao.aendereArtikel(artikelnr, kategorie, artikelname, artikelbeschreibung, einzelwert,
                                         bestellwert, mwst, bestandsmengeFREI);
                                 zuruecksetzen(); // Formular zuruecksetzen
@@ -1081,7 +1090,10 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
 //                     Abfrage, ob Änderungen gespeichert werden sollen
                                 int antwort = JOptionPane.showConfirmDialog(null, MELDUNG_AENDERUNGEN_SPEICHERN, ARTIKEL_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                                 if (antwort == JOptionPane.YES_OPTION) {
-//                     falls ja, wird der Artikel geaendert
+//                                  Meldung fuer die Statuszeile wird angepasst
+                                    STATUSZEILE = "Artikel mit der Artikelnummer " + artikelnr + " wurde erfolgreich geändert. ";
+                                    this.hauptFenster.setStatusMeldung(STATUSZEILE);
+//                                  falls ja, wird der Artikel geaendert
                                     this.dao.aendereArtikel(artikelnr, kategorie, artikelname, artikelbeschreibung, einzelwert,
                                             bestellwert, mwst, bestandsmengeFREI);
 //                                zuruecksetzen(); // Formular zuruecksetzen
@@ -1170,6 +1182,9 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                     long artikelnr = nf.parse(jTF_Artikelnummer.getText()).longValue();
                     int antwort = JOptionPane.showConfirmDialog(null, text, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (antwort == JOptionPane.YES_OPTION) {
+//                      Meldung fuer die Statuszeile wird angepasst
+                        STATUSZEILE = "Artikel mit der Artikelnummer" + artikelnr + " wurde erfolgreich gelöscht. ";
+                        this.hauptFenster.setStatusMeldung(STATUSZEILE);
                         this.dao.loescheArtikel(artikelnr);
 //                    jB_ZurueckActionPerformed(evt);
                         zurueckInsHauptmenue();
