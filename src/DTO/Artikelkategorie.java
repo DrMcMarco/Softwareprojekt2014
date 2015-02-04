@@ -18,7 +18,7 @@ public class Artikelkategorie implements java.io.Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long Id;
+    private long KategorieId;
     
     private String Kategoriename;
     
@@ -41,11 +41,11 @@ public class Artikelkategorie implements java.io.Serializable {
     }
 
     public long getKategorieID() {
-        return Id;
+        return KategorieId;
     }
 
     public void setKategorieID(long KategorieID) {
-        this.Id = KategorieID;
+        this.KategorieId = KategorieID;
     }
 
     public String getKategoriename() {
@@ -91,7 +91,7 @@ public class Artikelkategorie implements java.io.Serializable {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 11 * hash + (int) (this.Id ^ (this.Id >>> 32));
+        hash = 11 * hash + (int) (this.KategorieId ^ (this.KategorieId >>> 32));
         return hash;
     }
 
@@ -104,7 +104,7 @@ public class Artikelkategorie implements java.io.Serializable {
             return false;
         }
         final Artikelkategorie other = (Artikelkategorie) obj;
-        if (this.Id != other.Id) {
+        if (this.KategorieId != other.KategorieId) {
             return false;
         }
         return true;
