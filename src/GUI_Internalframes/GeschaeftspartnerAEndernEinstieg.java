@@ -91,7 +91,6 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
         jB_Enter = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setResizable(true);
         setTitle("Geschäftspartner ändern Einstieg");
         setPreferredSize(new java.awt.Dimension(580, 300));
         setRequestFocusEnabled(false);

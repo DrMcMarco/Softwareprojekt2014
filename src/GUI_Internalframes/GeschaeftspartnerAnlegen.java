@@ -148,6 +148,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * sind
      */
     private boolean formularOK = true;
+    /**
+     * Variable, um die Statusmeldungen ausgeben zu koennen
+     */
     private String STATUSZEILE;
 
     /**
@@ -366,8 +369,11 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
             textfield.requestFocusInWindow();
             textfield.setText("");
         } else if (!textfield.getText().equals("")) {
+            formularOK = true;
 //            Eingabe ist ok, nun Pruefung ob etwas im Feld steht, falls ja wird Hitnergrund auf normal gestzt
             textfield.setBackground(JTF_FARBE_STANDARD);
+        } else {
+            formularOK= true;
         }
     }
 
@@ -502,7 +508,6 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         jTF_PLZLieferanschrift = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setResizable(true);
         setTitle("Geschäftspartner anlegen");
         setPreferredSize(new java.awt.Dimension(680, 620));
         setRequestFocusEnabled(false);
@@ -1389,6 +1394,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                     jFTF_Geburtsdatum.requestFocusInWindow();
                     jFTF_Geburtsdatum.setValue(null);
                 } else {
+                    formularOK = true;
 //                    Eingabe OK, Hintergrund wird in normal gesetzt
                     jFTF_Geburtsdatum.setBackground(JTF_FARBE_STANDARD);
                 }
@@ -1457,6 +1463,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
             jTF_Kreditlimit.setText("");
         } else if (!jTF_Kreditlimit.getText().equals("")) {
             try {
+                formularOK = true;
                 double eingabeKreditlimit = nf.parse(jTF_Kreditlimit.getText()).doubleValue();
                 jTF_Kreditlimit.setText(nf.format(eingabeKreditlimit));
                 jTF_Kreditlimit.setBackground(JTF_FARBE_STANDARD);
@@ -1464,6 +1471,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                 System.out.println("Fehler in der Methode jTF_eMailFocusLost()");
                 System.out.println(ex.getMessage());
             }
+        } else {
+            formularOK = true;
         }
     }//GEN-LAST:event_jTF_KreditlimitFocusLost
     /**
