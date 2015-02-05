@@ -96,6 +96,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
             this.Auswaehlen_jButton.setEnabled(true);
             this.Anzeige_jButton.setEnabled(false);
         }
+        
     }
     
     /**

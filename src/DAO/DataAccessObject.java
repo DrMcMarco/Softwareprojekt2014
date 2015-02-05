@@ -111,7 +111,7 @@ public class DataAccessObject {
 
         } catch (Exception e) {
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Die Daten konnten nicht gefunden werden!");
+                    "Die Eingabe war nicht korrekt!");
         }
         
 
