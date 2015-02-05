@@ -433,9 +433,9 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
      * @param tabellen Tabellen
      */
     public void setzeModelCombobox(String[] tabellen) {
-        Auswahl_jComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+        this.Auswahl_jComboBox.setModel(new javax.swing.DefaultComboBoxModel(
                 tabellen));
-        
+        this.Auswahl_jComboBox.setSelectedIndex(0);
     }
     
     /*----------------------------------------------------------*/
