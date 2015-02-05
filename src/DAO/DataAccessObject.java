@@ -1033,6 +1033,21 @@ public class DataAccessObject {
             double Einkaufswert, int MwST, int Frei) 
             throws ApplicationException {
         
+        Query query = em.createQuery("select ap from Auftragskopf ak, "
+                + "in(ak.Positionsliste) ap where ap.Artikel.ArtikelId = :artikelnummer"
+                + " and (ak.Status.Status LIKE 'erfasst' or "
+                + "ak.Status.Status LIKE 'freigegeben') and "
+                + "(ak.LKZ = false or ap.LKZ = false)")
+                .setParameter("artikelnummer", Artikelnummer);
+        
+        List<Auftragsposition> ergebnis = (List<Auftragsposition>) query.getResultList();
+        
+        if (!ergebnis.isEmpty()) {
+            throw new ApplicationException("Fehler", 
+                    "Der Artikel wird noch in aktiven Aufträgen verwendet und "
+                            + "kann daher nicht geändert werden.");
+        }
+        
         //Hole den Artikel anhand der ID aus der Datenbank
         Artikel artikel = em.find(Artikel.class, Artikelnummer);
         
@@ -1502,6 +1517,18 @@ public class DataAccessObject {
             String Staat, String Telefon, String Fax, String Email, 
             Date Geburtsdatum) throws ApplicationException {
         
+        Query query = em.createQuery("select ak from Auftragskopf ak "
+                + "where ak.Geschaeftspartner.GeschaeftspartnerID = :gpid "
+                + "and ak.LKZ = false").setParameter("gpid", GeschaeftspartnerID);
+        
+        List<Auftragskopf> ergebnis = (List<Auftragskopf>) query.getResultList();
+        
+        if (!ergebnis.isEmpty()) {
+            throw new ApplicationException("Fehler", 
+                    "Der Geschäftspartner wird noch in aktiven Aufträgen "
+                            + "verwendet und kann daher nicht gelöscht werden.");
+        }
+        
         //Variablen für die Anschriften
         Anschrift rechnungsanschrift = null;
         Anschrift lieferanschrift = null;
@@ -1652,6 +1679,18 @@ public class DataAccessObject {
             int Skontozeit1, int Skontozeit2, double Skonto1, double Skonto2, 
             int Mahnzeit1, int Mahnzeit2, int Mahnzeit3) 
             throws ApplicationException {
+        
+        Query query = em.createQuery("select ak from Auftragskopf ak "
+                + "where ak.Zahlungskondition.ZahlungskonditionID = :zk "
+                + "and ak.LKZ = false").setParameter("zk", ZahlungskonditionsID);
+        
+        List<Auftragskopf> ergebnis = (List<Auftragskopf>) query.getResultList();
+        
+        if (!ergebnis.isEmpty()) {
+            throw new ApplicationException("Fehler", 
+                    "Die Zahlungskondition wird noch in aktiven Aufträgen"
+                            + "verwendet und kann daher nicht gelöscht werden.");
+        }
         
         //Zahlungskondition anhand der ID aus der Datenbank holen
         Zahlungskondition zk = em.find(Zahlungskondition.class, 
