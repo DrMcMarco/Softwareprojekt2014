@@ -8,6 +8,7 @@ import java.awt.Component;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import Interfaces.*;
+import javax.swing.JTextField;
 
 /**
  * Klasse fuer die Maske Zahlingskondition (ZK) aendern/anzeigen Einstieg. Je
@@ -316,6 +317,9 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
      */
     public void zuruecksetzen() {
         jTF_Zahlungskondition_ID.setText("");
+    }
+    public JTextField gibjTF_Zahlungskondition_ID() {
+        return jTF_Zahlungskondition_ID;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_Anzeigen;

@@ -68,9 +68,9 @@
                           <Component id="jFTF_Geburtsdatum" alignment="1" max="32767" attributes="0"/>
                           <Component id="jTF_EMail" alignment="1" max="32767" attributes="0"/>
                           <Component id="jTF_OrtRechnungsanschrift" pref="136" max="32767" attributes="0"/>
-                          <Component id="jTF_HausnummerRechnungsanschrift" alignment="0" min="-2" pref="31" max="-2" attributes="0"/>
                           <Component id="jTF_StrasseRechnungsanschrift" alignment="0" pref="136" max="32767" attributes="0"/>
                           <Component id="jTF_PLZRechnungsanschrift" max="32767" attributes="0"/>
+                          <Component id="jTF_HausnummerRechnungsanschrift" alignment="0" min="-2" pref="45" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -100,7 +100,6 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jCHB_Lieferant" min="-2" max="-2" attributes="0"/>
                           <Component id="jCHB_WieAnschrift" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTF_HausnummerLieferanschrift" min="-2" pref="31" max="-2" attributes="0"/>
                           <Component id="jTF_StrasseLieferanschrift" alignment="0" min="-2" pref="136" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
@@ -116,6 +115,7 @@
                               <Component id="jTF_PLZLieferanschrift" alignment="0" max="32767" attributes="0"/>
                               <Component id="jTF_OrtLieferanschrift" alignment="0" pref="136" max="32767" attributes="0"/>
                           </Group>
+                          <Component id="jTF_HausnummerLieferanschrift" alignment="0" min="-2" pref="45" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -224,7 +224,7 @@
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="134" max="32767" attributes="0"/>
+              <EmptySpace pref="94" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

@@ -94,8 +94,10 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * Varibalen fuer die Meldungen
      */
     private final String MELDUNG_PFLICHTFELDER_TITEL = "Felder nicht ausgefüllt";
-    private final String MELDUNG_PFLICHTFELDER_TEXT = "Einige Felder wurden nicht ausgefüllt! Bitte füllen Sie diese aus!";
+    private final String MELDUNG_PFLICHTFELDER_TEXT = "Einige Felder wurden nicht ausgefüllt!\nBitte füllen Sie diese aus.";
     private final String MELDUNG_AENDERUNGEN_SPEICHERN = "Möchten Sie die Änderungen speichern?";
+    private final String FEHLERHAFTE_EINGABE = "Fehlerhafte Eingabe";
+    private final String UNVOLLSTAENDIGE_EINGABE = "Unvollständige Eingabe";
     private final String RECHNUNGSANSCHRIFT = "Rechnungsanschrift";
     private final String LIEFERANSCHRIFT = "Lieferanschrift";
     private final String DEUTSCHLAND = "Deutschland";
@@ -373,7 +375,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //            Eingabe ist ok, nun Pruefung ob etwas im Feld steht, falls ja wird Hitnergrund auf normal gestzt
             textfield.setBackground(JTF_FARBE_STANDARD);
         } else {
-            formularOK= true;
+            formularOK = true;
         }
     }
 
@@ -851,9 +853,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                             .addComponent(jFTF_Geburtsdatum, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jTF_EMail, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jTF_OrtRechnungsanschrift, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                            .addComponent(jTF_HausnummerRechnungsanschrift, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTF_StrasseRechnungsanschrift, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                            .addComponent(jTF_PLZRechnungsanschrift))
+                            .addComponent(jTF_PLZRechnungsanschrift)
+                            .addComponent(jTF_HausnummerRechnungsanschrift, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(38, 38, 38)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -877,7 +879,6 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jCHB_Lieferant)
                             .addComponent(jCHB_WieAnschrift)
-                            .addComponent(jTF_HausnummerLieferanschrift, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTF_StrasseLieferanschrift, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -889,7 +890,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jTF_PLZLieferanschrift, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTF_OrtLieferanschrift, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)))))
+                                .addComponent(jTF_OrtLieferanschrift, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE))
+                            .addComponent(jTF_HausnummerLieferanschrift, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -975,7 +977,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTF_OrtLieferanschrift, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel20))))
-                .addContainerGap(134, Short.MAX_VALUE))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -991,7 +993,6 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      */
     private void jCHB_WieAnschriftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCHB_WieAnschriftActionPerformed
         String meldung = "Bitte geben Sie zunächst die komplette Anschrift ein.";
-        String titel = "Unvollständige Eingabe";
 //        Pruefung, ob Checkbox wie anschrift geklickt wurde
         if (jCHB_WieAnschrift.isSelected()) {
 //             fals ja, wird geprueft, ob alle Felder der rechnungsanschrift belegt sind 
@@ -1011,7 +1012,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //                nicht alle Felder sind belegt
 //                Prufueung, welche nicht belegt ist und zuvor eine Meldung
 //                Focus wird auf das nicht belegte Feld gesetzt
-                JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, meldung, UNVOLLSTAENDIGE_EINGABE, JOptionPane.ERROR_MESSAGE);
                 jCHB_WieAnschrift.setSelected(false);
                 if (jTF_StrasseRechnungsanschrift.getText().equals("")) {
                     jTF_StrasseRechnungsanschrift.requestFocusInWindow();
@@ -1213,7 +1214,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                         }
                     } else {
 //                    Checkbox Kunde und Lieferant nicht ausgewaehlt-> Meldung das der Typ des GP ausgeaehlt sein muss
-                        JOptionPane.showMessageDialog(null, "Bitte wählen Sie den Typ des Geschäftspartners.", "Unvollständige Eingabe", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Bitte wählen Sie den Typ des Geschäftspartners.", UNVOLLSTAENDIGE_EINGABE, JOptionPane.ERROR_MESSAGE);
                         jCHB_Kunde.requestFocusInWindow();
                     }
 //          Abfangen der Fehler
@@ -1296,9 +1297,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //        } else if (!jTF_Telefon.getText().equals("")) {
 //            jTF_Telefon.setBackground(JTF_FARBE_STANDARD);
 //        }
-        String meldung = "Die eingegebene Telefonnummer ist nicht richtig! \n Bitte geben Sie eine richtige Telefonnummer ein. (z.B. 017712312312)";
-        String titel = "Fehlerhafte Eingabe";
-        ueberpruefungVonFocusLost(jTF_Telefon, PRUEFUNG_TELEFON, titel, meldung);
+        String meldung = "Die eingegebene Telefonnummer ist nicht richtig! \n Bitte geben Sie eine richtige Telefonnummer ein. (z.B. 01771234567)";
+        ueberpruefungVonFocusLost(jTF_Telefon, PRUEFUNG_TELEFON, FEHLERHAFTE_EINGABE, meldung);
 
     }//GEN-LAST:event_jTF_TelefonFocusLost
     /**
@@ -1328,9 +1328,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //        } else if (!textfield.getText().equals("")) {
 //            textfield.setBackground(JTF_FARBE_STANDARD);
 //        }
-        String meldung = "Die eingegebene Faxnummer ist nicht richtig! \n Bitte geben Sie eine richtige Faxnummer ein. (z.B. 017712312312)";
-        String titel = "Fehlerhafte Eingabe";
-        ueberpruefungVonFocusLost(jTF_Fax, PRUEFUNG_TELEFON, titel, meldung);
+        String meldung = "Die eingegebene Faxnummer ist nicht richtig! \n Bitte geben Sie eine richtige Faxnummer ein. (z.B. 0234123123)";
+        ueberpruefungVonFocusLost(jTF_Fax, PRUEFUNG_TELEFON, FEHLERHAFTE_EINGABE, meldung);
 
     }//GEN-LAST:event_jTF_FaxFocusLost
     /**
@@ -1369,9 +1368,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //                  Datum ist in zukunft, formularOK wird auf false gesetzt  
                     formularOK = false;
 //                    Falls ja Fehlermedung
-                    meldung = "Das eingegebene Geburtsdatum ist in der Zukunft! \nBitte geben Sie ein gültiges Geburtsdatm Datum ein. (z.B. 01.01.1980)";
-                    titel = "Fehlerhafte Eingabe";
-                    JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+                    meldung = "Das eingegebene Geburtsdatum ist in der Zukunft!\nBitte geben Sie ein gültiges Geburtsdatum ein. (z.B. 01.01.1980)";
+                    JOptionPane.showMessageDialog(null, meldung, FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
                     jFTF_Geburtsdatum.requestFocusInWindow();
                     jFTF_Geburtsdatum.setValue(null);
 //                    Pruefung ob GP volljaehrig
@@ -1379,18 +1377,16 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //                  GP ist unter 18, formularOK wird auf false gesetzt 
                     formularOK = false;
 //                    Falls nicht, Fehlermeldung
-                    meldung = "Der eingebene Geschäftspartner ist nicht volljährig!";
-                    titel = "Fehlerhafte Eingabe";
-                    JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+                    meldung = "Der eingebene Geschäftspartner ist nicht volljährig!\nEs können nur nolljährige Geschäftspartner angelegt werden.";
+                    JOptionPane.showMessageDialog(null, meldung, FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
                     jFTF_Geburtsdatum.requestFocusInWindow();
                     jFTF_Geburtsdatum.setValue(null);
                 } else if (eingabeGeburtsdatum.before(tagVor100jahren)) {
 //                  GP ist ueber 100 Jahre alt, formularOK wird auf false gesetzt 
                     formularOK = false;
 //                    Falls nicht, Fehlermeldung
-                    meldung = "Der eingebene Geschäftspartner ist über 100 Jahre alt!";
-                    titel = "Fehlerhafte Eingabe";
-                    JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+                    meldung = "Der eingebene Geschäftspartner ist über 100 Jahre alt!\n Geschäftspartner, die über 100 Jahre alt sind können nicht angelegt werden.";
+                    JOptionPane.showMessageDialog(null, meldung, FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
                     jFTF_Geburtsdatum.requestFocusInWindow();
                     jFTF_Geburtsdatum.setValue(null);
                 } else {
@@ -1402,9 +1398,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //              Datum ist in ungueltig, formularOK wird auf false gesetzt 
                 formularOK = false;
 //                Parse Exception, da EingabeDatum nicht gueltig --> Fehlermeldung
-                meldung = "Das eingegebene Datum ist nicht gülitig! \nBitte geben Sie ein gültiges Geburtsdatum ein. (z.B. 01.01.1980)";
-                titel = "Fehlerhafte Eingabe";
-                JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+                meldung = "Das eingegebene Geburtsdatum ist nicht gülitig!\nBitte geben Sie ein gültiges Geburtsdatum ein. (z.B. 01.01.1980)";
+                JOptionPane.showMessageDialog(null, meldung, FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
                 jFTF_Geburtsdatum.requestFocusInWindow();
                 jFTF_Geburtsdatum.setValue(null);
             }
@@ -1436,10 +1431,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //        } else if (!textfield.getText().equals("")) {
 //            textfield.setBackground(JTF_FARBE_STANDARD);
 //        }
-        String meldung = "Die einegebene eMail ist nicht richtig! \nBitte geben Sie eine richtige eMail Adresse ein. (z.B. abc@abc.de)";
-        String titel = "Fehlerhafte Eingabe";
-
-        ueberpruefungVonFocusLost(jTF_EMail, PRUEFUNG_EMAIL, titel, meldung);
+        String meldung = "Die einegebene eMail ist nicht gültig!\nBitte geben Sie eine gültige eMail Adresse ein. (z.B. max.mustermann@w-hs.de)";
+        ueberpruefungVonFocusLost(jTF_EMail, PRUEFUNG_EMAIL, FEHLERHAFTE_EINGABE, meldung);
 
 
     }//GEN-LAST:event_jTF_EMailFocusLost
@@ -1456,9 +1449,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         if (!jTF_Kreditlimit.getText().matches(PRUEFUNG_PREIS)) {
 //          Kreditlimit ist nicht ok, formularOK wird auf false gesetzt 
             formularOK = false;
-            String meldung = "Der eingegebene Preis ist nicht richtig! \n Bitte geben Sie einen richtigen Preis ein. (z.B. 9,99 oder 12.123,99)";
-            String titel = "Fehlerhafte Eingabe";
-            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
+            String meldung = "Der eingegebene Preis ist nicht richtig!\nBitte geben Sie einen richtigen Preis ein. (z.B. 9,99 oder 99.999,99)";
+            JOptionPane.showMessageDialog(null, meldung, FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
             jTF_Kreditlimit.requestFocusInWindow();
             jTF_Kreditlimit.setText("");
         } else if (!jTF_Kreditlimit.getText().equals("")) {
@@ -1527,9 +1519,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //        } else if (!textfield.getText().equals("")) {
 //            textfield.setBackground(JTF_FARBE_STANDARD);
 //        }
-        String meldung = "Die eingegebene Hausnummer ist nicht richtig! \n Bitte geben Sie eine richtige Hausnummer ein. (z.B. 10A oder 10)";
-        String titel = "Fehlerhafte Eingabe";
-        ueberpruefungVonFocusLost(jTF_HausnummerRechnungsanschrift, PRUEFUNG_HAUSNUMMER, titel, meldung);
+        String meldung = "Die eingegebene Hausnummer ist nicht richtig!\nSie können eine maximal dreistellige Hausnummer gefolgt von einem optionalen Buchstaben eingeben. (z.B. 10 oder 100A)";
+        ueberpruefungVonFocusLost(jTF_HausnummerRechnungsanschrift, PRUEFUNG_HAUSNUMMER, FEHLERHAFTE_EINGABE, meldung);
 
 
     }//GEN-LAST:event_jTF_HausnummerRechnungsanschriftFocusLost
@@ -1552,9 +1543,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //            jTF_HausnummerLieferanschrift.setBackground(JTF_FARBE_STANDARD);
 //        }
 
-        String meldung = "Die eingegebene Hausnummer ist nicht richtig! \n Bitte geben Sie eine richtige Hausnummer ein. (z.B. 10A oder 10)";
-        String titel = "Fehlerhafte Eingabe";
-        ueberpruefungVonFocusLost(jTF_HausnummerLieferanschrift, PRUEFUNG_HAUSNUMMER, titel, meldung);
+        String meldung = "Die eingegebene Hausnummer ist nicht richtig!\nSie können eine maximal dreistellige Hausnummer gefolgt von einem optionalen Buchstaben eingeben. (z.B. 10 oder 100A)";
+        ueberpruefungVonFocusLost(jTF_HausnummerLieferanschrift, PRUEFUNG_HAUSNUMMER, FEHLERHAFTE_EINGABE, meldung);
     }//GEN-LAST:event_jTF_HausnummerLieferanschriftFocusLost
     /**
      * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
@@ -1574,9 +1564,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //        } else if (!jTF_PLZRechnungsanschrift.getText().equals("")) {
 //            jTF_PLZRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
 //        }
-        String meldung = "Die eingegebene Postleitzahl ist nicht richtig! \n Bitte geben Sie eine richtige Postleitzahl ein. (z.B. 45968)";
-        String titel = "Fehlerhafte Eingabe";
-        ueberpruefungVonFocusLost(jTF_PLZRechnungsanschrift, PRUEFUNG_PLZ, titel, meldung);
+        String meldung = "Die eingegebene Postleitzahl ist nicht richtig!\nBitte geben Sie eine fünfstellige Postleitzahl ein. (z.B. 45968)";
+        ueberpruefungVonFocusLost(jTF_PLZRechnungsanschrift, PRUEFUNG_PLZ, FEHLERHAFTE_EINGABE, meldung);
     }//GEN-LAST:event_jTF_PLZRechnungsanschriftFocusLost
     /**
      * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
@@ -1597,9 +1586,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //            jTF_PLZLieferanschrift.setBackground(JTF_FARBE_STANDARD);
 //        }
 
-        String meldung = "Die eingegebene Postleitzahl ist nicht richtig! \n Bitte geben Sie eine richtige Postleitzahl ein. (z.B. 45968)";
-        String titel = "Fehlerhafte Eingabe";
-        ueberpruefungVonFocusLost(jTF_PLZLieferanschrift, PRUEFUNG_PLZ, titel, meldung);
+        String meldung = "Die eingegebene Postleitzahl ist nicht richtig!\nBitte geben Sie eine fünfstellige Postleitzahl ein. (z.B. 45968)";
+        ueberpruefungVonFocusLost(jTF_PLZLieferanschrift, PRUEFUNG_PLZ, FEHLERHAFTE_EINGABE, meldung);
     }//GEN-LAST:event_jTF_PLZLieferanschriftFocusLost
     /**
      * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
@@ -1911,7 +1899,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                             int antwort = JOptionPane.showConfirmDialog(null, MELDUNG_AENDERUNGEN_SPEICHERN, GP_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                             if (antwort == JOptionPane.YES_OPTION) {
 //                    Checkbox Kunde und Lieferant nicht ausgewaehlt-> Meldung das der Typ des GP ausgeaehlt sein muss
-                                JOptionPane.showMessageDialog(null, "Bitte wählen Sie den Typ des Geschäftspartners.", "Unvollständige Eingabe", JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "Bitte wählen Sie den Typ des Geschäftspartners.", UNVOLLSTAENDIGE_EINGABE, JOptionPane.ERROR_MESSAGE);
                                 jCHB_Kunde.requestFocusInWindow();
                             } else {
 //                    zuruecksetzen(); // Formular zuruecksetzen
