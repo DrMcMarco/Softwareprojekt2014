@@ -1033,6 +1033,9 @@ public class DataAccessObject {
             double Einkaufswert, int MwST, int Frei) 
             throws ApplicationException {
         
+        //Selektiere alle Auftragspositionen die den entsprechenden Artikel
+        //enthalten, deren Aufträge im Status erstellt bzw. freigegeben ist und
+        //die nicht schon "gelöscht" sind
         Query query = em.createQuery("select ap from Auftragskopf ak, "
                 + "in(ak.Positionsliste) ap where ap.Artikel.ArtikelId = :artikelnummer"
                 + " and (ak.Status.Status LIKE 'erfasst' or "
@@ -1042,12 +1045,15 @@ public class DataAccessObject {
         
         List<Auftragsposition> ergebnis = (List<Auftragsposition>) query.getResultList();
         
+        //Erhält man Einträge dürfen diese Artikel nicht geändert werden, weil
+        //sie noch in aktiven Aufträgen vorhanden sind
         if (!ergebnis.isEmpty()) {
             throw new ApplicationException("Fehler", 
                     "Der Artikel wird noch in aktiven Aufträgen verwendet und "
                             + "kann daher nicht geändert werden.");
         }
         
+        //Ansonsten...
         //Hole den Artikel anhand der ID aus der Datenbank
         Artikel artikel = em.find(Artikel.class, Artikelnummer);
         
@@ -1517,18 +1523,23 @@ public class DataAccessObject {
             String Staat, String Telefon, String Fax, String Email, 
             Date Geburtsdatum) throws ApplicationException {
         
+        //Selektiere alle Aufträge die den Geschäftspartner enthalten und noch
+        //noch nicht gelöscht sind
         Query query = em.createQuery("select ak from Auftragskopf ak "
                 + "where ak.Geschaeftspartner.GeschaeftspartnerID = :gpid "
                 + "and ak.LKZ = false").setParameter("gpid", GeschaeftspartnerID);
         
         List<Auftragskopf> ergebnis = (List<Auftragskopf>) query.getResultList();
         
+        //Erhält man Einträge dürfen diese Geschäftspartner nicht geändert 
+        //werden
         if (!ergebnis.isEmpty()) {
             throw new ApplicationException("Fehler", 
                     "Der Geschäftspartner wird noch in aktiven Aufträgen "
                             + "verwendet und kann daher nicht gelöscht werden.");
         }
         
+        //Ansonsten...
         //Variablen für die Anschriften
         Anschrift rechnungsanschrift = null;
         Anschrift lieferanschrift = null;
@@ -1680,18 +1691,23 @@ public class DataAccessObject {
             int Mahnzeit1, int Mahnzeit2, int Mahnzeit3) 
             throws ApplicationException {
         
+        //Selektiere alle Aufträge die diese Zahlungskondition enthalten und
+        //noch nicht gelöscht sind
         Query query = em.createQuery("select ak from Auftragskopf ak "
                 + "where ak.Zahlungskondition.ZahlungskonditionID = :zk "
                 + "and ak.LKZ = false").setParameter("zk", ZahlungskonditionsID);
         
         List<Auftragskopf> ergebnis = (List<Auftragskopf>) query.getResultList();
         
+        //Erhält man Einträge dürfen diese Zahlungskonditionen nicht gelöscht
+        //werden
         if (!ergebnis.isEmpty()) {
             throw new ApplicationException("Fehler", 
                     "Die Zahlungskondition wird noch in aktiven Aufträgen"
                             + "verwendet und kann daher nicht gelöscht werden.");
         }
         
+        //Ansonsten...
         //Zahlungskondition anhand der ID aus der Datenbank holen
         Zahlungskondition zk = em.find(Zahlungskondition.class, 
                 ZahlungskonditionsID);
@@ -2483,6 +2499,9 @@ public class DataAccessObject {
                     "Diese Artikel ist bereits mit einem Löschkennzeichen versehen");
         }
         
+        //Selektiere alle Auftragspositionen die den entsprechenden Artikel
+        //enthalten, deren Aufträge im Status erstellt bzw. freigegeben ist und
+        //die nicht schon "gelöscht" sind
         Query query = em.createQuery("select ap from Auftragskopf ak, "
                 + "in(ak.Positionsliste) ap where ap.Artikel.ArtikelId = :artikelnummer"
                 + " and (ak.Status.Status LIKE 'erfasst' or "
@@ -2492,6 +2511,8 @@ public class DataAccessObject {
         
         List<Auftragsposition> ergebnis = (List<Auftragsposition>) query.getResultList();
         
+        //Erhält man Einträge dürfen diese Artikel nicht geändert werden, weil
+        //sie noch in aktiven Aufträgen vorhanden sind
         if (!ergebnis.isEmpty()) {
             throw new ApplicationException("Fehler", 
                     "Der Artikel wird noch in Aufträgen verwendet und kann"
@@ -2576,18 +2597,23 @@ public class DataAccessObject {
                     "Der Geschäftspartner ist bereits mit einem Löschkennzeichen versehen.");
         }
         
+        //Selektiere alle Aufträge die den Geschäftspartner enthalten und noch
+        //noch nicht gelöscht sind
         Query query = em.createQuery("select ak from Auftragskopf ak "
                 + "where ak.Geschaeftspartner.GeschaeftspartnerID = :gpid "
                 + "and ak.LKZ = false").setParameter("gpid", GeschaeftspartnerID);
         
         List<Auftragskopf> ergebnis = (List<Auftragskopf>) query.getResultList();
         
+        //Erhält man Einträge dürfen diese Geschäftspartner nicht geändert 
+        //werden
         if (!ergebnis.isEmpty()) {
             throw new ApplicationException("Fehler", 
                     "Der Geschäftspartner wird noch in Aufträgen verwendet "
                             + "und kann daher nicht gelöscht werden.");
         }
         
+        //Ansonsten..
         //Anschriften des Geschäftspartners holen
         liefer = gp.getLieferadresse();
         rechnung = gp.getRechnungsadresse();
@@ -2760,18 +2786,23 @@ public class DataAccessObject {
                     "Diese Zahlungskondition ist bereits mit einem Löschkenneichen versehen.");
         }
         
+        //Selektiere alle Aufträge die diese Zahlungskondition enthalten und
+        //noch nicht gelöscht sind
         Query query = em.createQuery("select ak from Auftragskopf ak "
                 + "where ak.Zahlungskondition.ZahlungskonditionID = :zk "
                 + "and ak.LKZ = false").setParameter("zk", ZahlungskonditionsID);
         
         List<Auftragskopf> ergebnis = (List<Auftragskopf>) query.getResultList();
         
+        //Erhält man Einträge dürfen diese Zahlungskonditionen nicht gelöscht
+        //werden
         if (!ergebnis.isEmpty()) {
             throw new ApplicationException("Fehler", 
                     "Die Zahlungskondition wird noch in Aufträgen verwendet "
                             + "und kann daher nicht gelöscht werden.");
         }
         
+        //Ansonsten...
         //Löschkennzeichen setzen
         zk.setLKZ(true);
         
