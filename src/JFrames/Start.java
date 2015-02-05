@@ -897,6 +897,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     
     @Override
     public void rufeSuche(JInternalFrame comp) {
+        this.suche.setzeModelCombobox(this.gibTabellenFuerSuche(comp));
         this.suche.setVisible(true);
         this.letzteAnzeige = comp;
     }
@@ -956,6 +957,89 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     public AuftragspositionAnzeigen gibApAnzeigen() {
         return this.auftragsspositionanzeigen;
     }
+    
+    /**
+     * Gibt die Tabellennamen je nach Fenster zurück.
+     * @param comp Fenster
+     * @return Tabellen
+     */
+    public String[] gibTabellenFuerSuche(JInternalFrame comp) {
+        String[] tabellen = null;
+        //Suche wurde vom Hauptmenü aus gestartet
+        if (comp == null) {
+            tabellen = new String[] {"Auftragskopf", "Auftragsposition", 
+                "Artikel", "Artikelkategorie", "Geschäftspartner", 
+                "Zahlungskondition", "Anschrift", "Status" };
+        } else {
+            //Prüfe, um welches Fenster es sich handelt und setze die Tabellen
+            switch (comp.getTitle()) {
+                case "Artikel anlegen" :
+                    tabellen = new String[] {"Artikelkategorie" };
+                    break;
+                case "Artikel ändern" :
+                    tabellen = new String[] {"Artikelkategorie" };
+                    break;
+                case "Auftragskopf anlegen" :
+                    tabellen = new String[] {"Geschäftspartner", "Artikel" };
+                    break;
+                case "Auftragskopf ändern" :
+                    tabellen = new String[] {"Geschäftspartner", "Artikel" };
+                    break;
+                case "Geschäftspartner anlegen" :
+                    tabellen = new String[] {"Anschrift" };
+                    break;
+                case "Geschäftspartner ändern" :
+                    tabellen = new String[] {"Anschrift" };
+                    break;
+                case "Artikel ändern Einstieg" :
+                    tabellen = new String[] {"Artikel" };
+                    break;
+                case "Artikel anzeigen" :
+                    tabellen = new String[] {"Artikel" };
+                    break;
+                case "Artikel anzeigen Einstieg" :
+                    tabellen = new String[] {"Artikel" };
+                    break;
+                case "Geschäftspartner ändern Einstieg" :
+                    tabellen = new String[] {"Geschäftspartner" };
+                    break;
+                case "Geschäftspartner anzeigen" :
+                    tabellen = new String[] {"Geschäftspartner" };
+                    break;
+                case "Geschäftspartner anzeigen Einstieg" :
+                    tabellen = new String[] {"Geschäftspartner" };
+                    break;
+                case "Zahlungskondition ändern Einstieg" :
+                    tabellen = new String[] {"Zahlungskondition" };
+                    break;
+                case "Zahlungskonditionen anzeigen" :
+                    tabellen = new String[] {"Zahlungskondition" };
+                    break; 
+                case "Zahlungskondition anzeigen Einstieg" :
+                    tabellen = new String[] {"Zahlungskondition" };
+                    break; 
+                case "Auftragsposition ändern" :
+                    tabellen = new String[] {"Auftragskopf" };
+                    break; 
+                case "Auftragsposition anzeigen" :
+                    tabellen = new String[] {"Auftragskopf" };
+                    break; 
+                case "Auftragskopf anzeigen Einstieg" :
+                    tabellen = new String[] {"Auftragskopf" };
+                    break; 
+                case "Auftragskopf ändern Einstieg" :
+                    tabellen = new String[] {"Auftragskopf" };
+                    break; 
+                case "Auftragskopf anzeigen" :
+                    tabellen = new String[] {"Auftragskopf" };
+                    break; 
+                default :
+                    break;
+            }
+        }
+        return tabellen;
+    }
+    
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt und Logik implementiert*/

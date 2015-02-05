@@ -109,7 +109,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         weiter_jButton = new javax.swing.JButton();
 
         setResizable(true);
-        setTitle("Auftragskopf ändern");
+        setTitle("Auftragskopf ändern Einstieg");
         setPreferredSize(new java.awt.Dimension(600, 400));
         setRequestFocusEnabled(false);
         try {
@@ -144,6 +144,11 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         jToolBar1.add(jB_Loeschen);
 
         jB_Suchen.setText("Suchen");
+        jB_Suchen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_SuchenActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_Suchen);
 
         auftragskopfID_jLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -326,6 +331,10 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
             weiter_jButtonActionPerformed(null);
         }
     }//GEN-LAST:event_auftragskopfID_jTextFieldKeyPressed
+
+    private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
+        this.hauptFenster.rufeSuche(this);
+    }//GEN-LAST:event_jB_SuchenActionPerformed
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
