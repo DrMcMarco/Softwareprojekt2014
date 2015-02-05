@@ -1,0 +1,3 @@
+connect 'jdbc:derby://localhost:1527/SWPDB;create=true';
+disconnect;
+exit;
