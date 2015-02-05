@@ -84,6 +84,13 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         this.aufsteigend_jRadioButton.setSelected(true);
         this.absteigend_jRadioButton.setSelected(false);
         this.sortierung = AUFSTEIGEND;
+        
+        Auswahl_jComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+                new String[] { "Auftragskopf", "Auftragsposition", 
+                    "Artikel", "Artikelkategorie", "Geschäftspartner", 
+                    "Zahlungskondition", "Anschrift", "Status" }));
+        
+        
 //        this.hauptFenster.setFrame();
         // Variable erhält Wert aus der Combobox mit den Suchkategorien.
         suchKategorie = Auswahl_jComboBox.getSelectedItem().toString();
@@ -163,7 +170,6 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         Auswahl_jLabel.setLabelFor(Auswahl_jComboBox);
         Auswahl_jLabel.setText("Sucheingabe:");
 
-        Auswahl_jComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Auftragskopf", "Auftragsposition", "Artikel", "Artikelkategorie", "Geschäftspartner", "Zahlungskondition", "Anschrift", "Status" }));
         Auswahl_jComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Auswahl_jComboBoxActionPerformed(evt);
@@ -288,7 +294,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
     private void Auswahl_jComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Auswahl_jComboBoxActionPerformed
         // Variable erhält Wert aus der Combobox mit den Suchkategorien.
         suchKategorie = Auswahl_jComboBox.getSelectedItem().toString();
-
+        
         // Aufruf der gibLegendeAusDB-Methode und übergebn Rückgabewert an TextArea.
         legende_jTextArea.setText(gibLegendeAusDB(suchKategorie));
         
@@ -407,7 +413,8 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
                     + parameter + "\n"
                     + "Vergleichsoperatoren: =>  <=  <>  =  <  >  \n\n"
                     + "Wildcards: ? * für die Textsuche. \n\n"
-                    + "Sortiert wird nach dem ersten Literal oben im Suchfeld.\n\n"
+                    + "Sortiert wird nach dem ersten Literal "
+                    + "oben im Suchfeld.\n\n"
                     + "Alle Suchabfragen sind durch  ;  zu trennen.";
         
         } catch(ApplicationException | NullPointerException e) {
@@ -418,6 +425,17 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         }
         
         return ausgabelegende;//Rückgabe eines Strings.
+    }
+    
+    /**
+     * Setzt die Auswahl der Tabellen, je nachdem von wo aus die Suche 
+     * aufgerufen wird.
+     * @param tabellen Tabellen
+     */
+    public void setzeModelCombobox(String[] tabellen) {
+        this.Auswahl_jComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+                tabellen));
+        this.Auswahl_jComboBox.setSelectedIndex(0);
     }
     
     /*----------------------------------------------------------*/

@@ -384,6 +384,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         jToolBar1.add(jB_Loeschen);
 
         jB_Suchen.setText("Suchen");
+        jB_Suchen.setEnabled(false);
         jB_Suchen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_SuchenActionPerformed(evt);
