@@ -267,7 +267,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
-                    this.internal.auftragskopfaendern.setTitle("Auftragskopf ändern");
+                    this.internal.auftragskopfaendern.setTitle("Auftragskopf ändern Einstieg");
                     setComponentVisible(this.internal.auftragskopfaendern);
                 }
                 // Vergleich des Pfades mit String um "Auftragskopf Anzeigen" aufzurufen.
@@ -275,7 +275,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
-                    this.internal.auftragskopfaendern.setTitle("Auftragskopf anzeigen");
+                    this.internal.auftragskopfaendern.setTitle("Auftragskopf anzeigen Einstieg");
                     setComponentVisible(this.internal.auftragskopfaendern);
 
                 }
