@@ -755,7 +755,9 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         //Prüfe, ob die Suche von Artikel anlegen oder ändern gerufen wurde.
         if (this.hauptFenster.gibLetzteAnzeige().getTitle().equals("Artikel "
                 + "anlegen") || this.hauptFenster.gibLetzteAnzeige().getTitle()
-                        .equals("Artikel ändern")) {
+                        .equals("Artikel ändern")
+                || this.hauptFenster.gibLetzteAnzeige().getTitle()
+                        .equals("Artikel anzeigen")) {
             //Prüfe, ob sich die Suche auf Artikelkategorie bezieht
             if (this.tabelle.equals("Artikelkategorie")) {
                 //Prüfe, ob ein Datensatz selektiert wurde.
@@ -771,6 +773,32 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                                     kategorieListe.get(this.Anzeige_jTable1
                                             .getSelectedRow())
                                             .getKategoriename());
+                    //Schließe die Suche
+                    this.setVisible(false);
+                    //Setze ggf. die Positions-Table auf nicht sichtbar
+                    this.position_jPanel1.setVisible(false);
+                    this.Positionanzeige_jTable2.setVisible(false);
+                //Wenn kein Datensatz ausgewählt wurde, wird der Benutzer
+                //Daraufhin aufmerksam gemacht
+                } else {
+                    JOptionPane.showMessageDialog(null, FEHLER_AUSWAHL, 
+                            "Fehler", JOptionPane.WARNING_MESSAGE);
+                }
+            //Wenn eine Tabelle ausgewählt wurde die nicht hierauf 
+            //Referenziert, dann gib eine Meldung aus und der Benutzer
+            //Muss seine Eingabe wiederholen
+            } if (this.tabelle.equals("Artikel")) {
+                //Prüfe, ob ein Datensatz selektiert wurde.
+                if (this.Anzeige_jTable1.getSelectedRow() != -1) {
+                    //Caste die Ergebnisliste aus der Suche nach Artikelkat.
+                    artikelListe = new ArrayList<>(
+                            (Collection<? extends Artikel>) 
+                                    this.ergebnisDaten);
+                    //Setze in der View entsprechend das Feld mit den 
+                    //Informationen
+                    this.hauptFenster.gibArtikelAnlegenFenster()
+                            .zeigeArtikelAusSucheAn(artikelListe.get(
+                                this.Anzeige_jTable1.getSelectedRow()));
                     //Schließe die Suche
                     this.setVisible(false);
                     //Setze ggf. die Positions-Table auf nicht sichtbar
@@ -893,9 +921,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
             }
         //Prüfe, ob die Suche von X anlegen oder ändern gerufen wurde
         } else if (this.hauptFenster.gibLetzteAnzeige().getTitle().equals(
-                "Artikel ändern Einstieg") 
-                || this.hauptFenster.gibLetzteAnzeige().getTitle()
-                        .equals("Artikel anzeigen") 
+                "Artikel ändern Einstieg")
                 || this.hauptFenster.gibLetzteAnzeige().getTitle()
                         .equals("Artikel anzeigen Einstieg")) {
             //Prüfe, ob sich die Suche auf Anschrift bezieht
