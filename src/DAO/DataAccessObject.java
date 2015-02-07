@@ -1033,27 +1033,6 @@ public class DataAccessObject {
             double Einkaufswert, int MwST, int Frei) 
             throws ApplicationException {
         
-        //Selektiere alle Auftragspositionen die den entsprechenden Artikel
-        //enthalten, deren Aufträge im Status erstellt bzw. freigegeben ist und
-        //die nicht schon "gelöscht" sind
-        Query query = em.createQuery("select ap from Auftragskopf ak, "
-                + "in(ak.Positionsliste) ap where ap.Artikel.ArtikelId = :artikelnummer"
-                + " and (ak.Status.Status LIKE 'erfasst' or "
-                + "ak.Status.Status LIKE 'freigegeben') and "
-                + "(ak.LKZ = false or ap.LKZ = false)")
-                .setParameter("artikelnummer", Artikelnummer);
-        
-        List<Auftragsposition> ergebnis = (List<Auftragsposition>) query.getResultList();
-        
-        //Erhält man Einträge dürfen diese Artikel nicht geändert werden, weil
-        //sie noch in aktiven Aufträgen vorhanden sind
-        if (!ergebnis.isEmpty()) {
-            throw new ApplicationException("Fehler", 
-                    "Der Artikel wird noch in aktiven Aufträgen verwendet und "
-                            + "kann daher nicht geändert werden.");
-        }
-        
-        //Ansonsten...
         //Hole den Artikel anhand der ID aus der Datenbank
         Artikel artikel = em.find(Artikel.class, Artikelnummer);
         
@@ -1064,7 +1043,32 @@ public class DataAccessObject {
                     "Der Artikel konnte nicht gefunden werden");
         }
         
-        try {
+        //Selektiere alle Auftragspositionen die den entsprechenden Artikel
+        //enthalten
+        Query query = em.createQuery("select ap from Auftragskopf ak, "
+                + "in(ak.Positionsliste) ap where ap.Artikel.ArtikelId = :artikelnummer")
+                .setParameter("artikelnummer", Artikelnummer);
+        
+        List<Auftragsposition> ergebnis = (List<Auftragsposition>) query.getResultList();
+        
+        //Erhält man Einträge, werden diese archiviert und es werden neue 
+        //Einträge mit den neuen Werten angelegt. Auf diese Weise können
+        //schon bestehende Aufträge immer noch auf diese Daten referenzieren
+        //und es entstehen keine Inkonsistenzen
+        if (!ergebnis.isEmpty()) {
+            
+            //"Lösche" den Artikel
+            artikel.setLKZ(true);
+            
+            //Erstelle einen neuen Artikel mit den neuen Werten
+            //Die Artikelbestände werden dabei getrennt betrachtet, sprich der
+            //neue Artikel bekommt nicht die Bestände des alten Artikels
+            this.erstelleArtikel(Kategorie, Artikeltext, Bestelltext, 
+                    Verkaufswert, Einkaufswert, MwST, 0, 0, 0, 0);
+        
+        //Wenn der Artikel noch nicht in einer Position vorkommt
+        } else {
+        
             //Artikeldaten lokal aktualisieren
             artikel.setKategorie(this.gibKategorie(Kategorie));
             artikel.setArtikeltext(Artikeltext);
@@ -1073,6 +1077,10 @@ public class DataAccessObject {
             artikel.setEinkaufswert(Einkaufswert);
             artikel.setMwST(MwST);
             artikel.setFrei(Frei);
+            
+        }
+
+        try {
 
             //Transaktion starten
             em.getTransaction().begin();
@@ -1080,7 +1088,7 @@ public class DataAccessObject {
             em.persist(artikel);
             //Transaktion beenden
             em.getTransaction().commit();
-        
+
         } catch (RollbackException re) {
 
                 //Der Commit ist fehlgeschlagen
@@ -1523,23 +1531,6 @@ public class DataAccessObject {
             String Staat, String Telefon, String Fax, String Email, 
             Date Geburtsdatum) throws ApplicationException {
         
-        //Selektiere alle Aufträge die den Geschäftspartner enthalten und noch
-        //noch nicht gelöscht sind
-        Query query = em.createQuery("select ak from Auftragskopf ak "
-                + "where ak.Geschaeftspartner.GeschaeftspartnerID = :gpid "
-                + "and ak.LKZ = false").setParameter("gpid", GeschaeftspartnerID);
-        
-        List<Auftragskopf> ergebnis = (List<Auftragskopf>) query.getResultList();
-        
-        //Erhält man Einträge dürfen diese Geschäftspartner nicht geändert 
-        //werden
-        if (!ergebnis.isEmpty()) {
-            throw new ApplicationException("Fehler", 
-                    "Der Geschäftspartner wird noch in aktiven Aufträgen "
-                            + "verwendet und kann daher nicht gelöscht werden.");
-        }
-        
-        //Ansonsten...
         //Variablen für die Anschriften
         Anschrift rechnungsanschrift = null;
         Anschrift lieferanschrift = null;
@@ -1553,116 +1544,198 @@ public class DataAccessObject {
                     "Der Geschäftspartner konnte nicht gefunden werden");
         }
         
-        //Anschriften aus dem Geschäftspartner-Objekt holen
-        rechnungsanschrift = gp.getRechnungsadresse();
-        lieferanschrift = gp.getLieferadresse();
+        //Selektiere alle Aufträge die den Geschäftspartner enthalten und noch
+        //noch nicht gelöscht sind
+        Query query = em.createQuery("select ak from Auftragskopf ak "
+                + "where ak.Geschaeftspartner.GeschaeftspartnerID = :gpid")
+                .setParameter("gpid", GeschaeftspartnerID);
         
-        //Grundlegende Attribute ändern
-        gp.setKreditlimit(Kreditlimit);
+        List<Auftragskopf> ergebnis = (List<Auftragskopf>) query.getResultList();
         
-        rechnungsanschrift.setName(Name);
-        rechnungsanschrift.setVorname(Vorname);
-        rechnungsanschrift.setTitel(Titel);
-        rechnungsanschrift.setStaat(Staat);
-        rechnungsanschrift.setTelefon(Telefon);
-        rechnungsanschrift.setFAX(Fax);
-        rechnungsanschrift.setEmail(Email);
-        rechnungsanschrift.setGeburtsdatum(Geburtsdatum);
-        
-        lieferanschrift.setName(Name);
-        lieferanschrift.setVorname(Vorname);
-        lieferanschrift.setTitel(Titel);
-        lieferanschrift.setStaat(Staat);
-        lieferanschrift.setTelefon(Telefon);
-        lieferanschrift.setFAX(Fax);
-        lieferanschrift.setEmail(Email);
-        lieferanschrift.setGeburtsdatum(Geburtsdatum); 
-        
-        //Wenn die beiden Adressen gleich sind...
-        if (gp.getRechnungsadresse().equals(gp.getLieferadresse())) {
-
-            /*
-             *   ...prüfe:
-             *       - Möchte der Kunde seine Lieferanschrift = Rechnungsanschrift
-             *         setzen (Variable modus) UND
-             *       - Hat sich die Anschrift überhaupt verändert
-             */
-            if (modus && (!rStrasse.equals(rechnungsanschrift.getStrasse()) || 
-                          !rHausnummer.equals(rechnungsanschrift.getHausnummer()) ||
-                          !rPLZ.equals(rechnungsanschrift.getPLZ()) || 
-                          !rOrt.equals(rechnungsanschrift.getOrt()))) {
+        //Erhält man Einträge, werden diese archiviert und es werden neue 
+        //Einträge mit den neuen Werten angelegt. Auf diese Weise können
+        //schon bestehende Aufträge immer noch auf diese Daten referenzieren
+        //und es entstehen keine Inkonsistenzen
+        if (!ergebnis.isEmpty()) {
+            
+            //Alte Einträge "löschen"
+            gp.setLKZ(true);
+            gp.getLieferadresse().setLKZ(true);
+            gp.getRechnungsadresse().setLKZ(true);
+            
+            //Neue Rechnungsanschrift anlegen
+            rechnungsanschrift = this.erstelleAnschrift("Rechnungsanschrift",
+                    Name, Vorname, Titel, rStrasse, rHausnummer, rPLZ, rOrt, 
+                    Staat, Telefon, Fax, Email, Geburtsdatum);
+            
+            //Wenn Rechnungsanschrift und Lieferanschrift gleich seien sollen
+            if (modus) {         
                 
-                //Wenn ja, ändere die Adresse
-                rechnungsanschrift.setStrasse(rStrasse);
-                rechnungsanschrift.setHausnummer(rHausnummer);
-                rechnungsanschrift.setPLZ(rPLZ);
-                rechnungsanschrift.setOrt(rOrt);  
+                //Setze Lieferanschrift gleich Rechnungsanschrift
+                lieferanschrift = rechnungsanschrift;
+            
+            //wenn nicht
+            } else {
+                
+                //Erstelle neue Lieferanschrift
+                lieferanschrift = this.erstelleAnschrift("Lieferanschrift", 
+                        Name, Vorname, Titel, lStrasse, lHausnummer, lPLZ, 
+                        lOrt, Staat, Telefon, Fax, Email, Geburtsdatum);
+                
             }
             
-            /*
-             *   ...prüfe:
-             *       - Möchte der Kunde unterschiedliche Anschriften haben 
-             *         (Variable modus) UND
-             *       - Hat sich die Adresse überhaupt verändert
-             */
-            if (!modus && (!lStrasse.equals(rechnungsanschrift.getStrasse()) || 
-                           !lHausnummer.equals(rechnungsanschrift.getHausnummer()) ||
-                           !lPLZ.equals(rechnungsanschrift.getPLZ()) || 
-                           !lOrt.equals(rechnungsanschrift.getOrt()))) {
-                
-                //Wenn ja, ändere die Rechnungsanschrift
-                rechnungsanschrift.setStrasse(rStrasse);
-                rechnungsanschrift.setHausnummer(rHausnummer);
-                rechnungsanschrift.setPLZ(rPLZ);
-                rechnungsanschrift.setOrt(rOrt);
-                
-                //Da vorher beide Anschriften gleich waren, muss jetzt eine neue
-                //Lieferanschrift erstellt werden
-                lieferanschrift = this.erstelleAnschrift("Lieferanschrift", Name, 
-                        Vorname, Titel, lStrasse, lHausnummer, lPLZ, lOrt,
-                        Staat, Telefon, Fax, Email, Geburtsdatum);
-                
-            }
+            //Erstelle einen neunen Geschäftspartner mit den neuen Anschriften
+            this.erstelleGeschaeftspartner(gp.getTyp(), lieferanschrift, 
+                    rechnungsanschrift, Kreditlimit); 
         
-        //Wenn die Anschriften unterschiedlich sind...
+        //Wenn der Geschäftspartner noch nicht in einem Auftrag verwendet wird
         } else {
-            
-                //...wird grundsätzlich die Rechnungsanschrift überschrieben.
-                //Falls keine Änderungen gemacht worden sind, werden die gleichen
-                //Werte in die Datenbank geschrieben
-                rechnungsanschrift.setStrasse(rStrasse);
-                rechnungsanschrift.setHausnummer(rHausnummer);
-                rechnungsanschrift.setPLZ(rPLZ);
-                rechnungsanschrift.setOrt(rOrt);
-                
-                //Prüfe, ob der Kunde seine Lieferanschrift = Rechnungsanschrift
-                //setzen will
-                if (modus) {
-                    
-                    //Wenn ja, tue genau das
-                    lieferanschrift = rechnungsanschrift;
-                    
-                } else {
-                
-                    //Ansonsten, ändere ebenfalls die Lieferanschrift
-                    lieferanschrift.setStrasse(lStrasse);
-                    lieferanschrift.setHausnummer(lHausnummer);
-                    lieferanschrift.setPLZ(lPLZ);
-                    lieferanschrift.setOrt(lOrt);    
+
+            //Anschriften aus dem Geschäftspartner-Objekt holen
+            rechnungsanschrift = gp.getRechnungsadresse();
+            lieferanschrift = gp.getLieferadresse();
+
+            //Grundlegende Attribute ändern
+            gp.setKreditlimit(Kreditlimit);
+
+            rechnungsanschrift.setName(Name);
+            rechnungsanschrift.setVorname(Vorname);
+            rechnungsanschrift.setTitel(Titel);
+            rechnungsanschrift.setStaat(Staat);
+            rechnungsanschrift.setTelefon(Telefon);
+            rechnungsanschrift.setFAX(Fax);
+            rechnungsanschrift.setEmail(Email);
+            rechnungsanschrift.setGeburtsdatum(Geburtsdatum);
+
+            lieferanschrift.setName(Name);
+            lieferanschrift.setVorname(Vorname);
+            lieferanschrift.setTitel(Titel);
+            lieferanschrift.setStaat(Staat);
+            lieferanschrift.setTelefon(Telefon);
+            lieferanschrift.setFAX(Fax);
+            lieferanschrift.setEmail(Email);
+            lieferanschrift.setGeburtsdatum(Geburtsdatum); 
+
+            //Wenn die beiden Adressen gleich sind...
+            if (gp.getRechnungsadresse().equals(gp.getLieferadresse())) {
+
+                /*
+                 *   ...prüfe:
+                 *       - Möchte der Kunde seine Lieferanschrift = Rechnungsanschrift
+                 *         setzen (Variable modus) UND
+                 *       - Hat sich die Anschrift überhaupt verändert
+                 */
+                if (modus && (!rStrasse.equals(rechnungsanschrift.getStrasse()) || 
+                              !rHausnummer.equals(rechnungsanschrift.getHausnummer()) ||
+                              !rPLZ.equals(rechnungsanschrift.getPLZ()) || 
+                              !rOrt.equals(rechnungsanschrift.getOrt()))) {
+
+                    //Wenn ja, ändere die Adresse
+                    rechnungsanschrift.setStrasse(rStrasse);
+                    rechnungsanschrift.setHausnummer(rHausnummer);
+                    rechnungsanschrift.setPLZ(rPLZ);
+                    rechnungsanschrift.setOrt(rOrt);  
                 }
+
+                /*
+                 *   ...prüfe:
+                 *       - Möchte der Kunde unterschiedliche Anschriften haben 
+                 *         (Variable modus) UND
+                 *       - Hat sich die Adresse überhaupt verändert
+                 */
+                if (!modus && (!lStrasse.equals(rechnungsanschrift.getStrasse()) || 
+                               !lHausnummer.equals(rechnungsanschrift.getHausnummer()) ||
+                               !lPLZ.equals(rechnungsanschrift.getPLZ()) || 
+                               !lOrt.equals(rechnungsanschrift.getOrt()))) {
+
+                    //Wenn ja, ändere die Rechnungsanschrift
+                    rechnungsanschrift.setStrasse(rStrasse);
+                    rechnungsanschrift.setHausnummer(rHausnummer);
+                    rechnungsanschrift.setPLZ(rPLZ);
+                    rechnungsanschrift.setOrt(rOrt);
+
+                    //Da vorher beide Anschriften gleich waren, muss jetzt eine neue
+                    //Lieferanschrift erstellt werden
+                    lieferanschrift = this.erstelleAnschrift("Lieferanschrift", Name, 
+                            Vorname, Titel, lStrasse, lHausnummer, lPLZ, lOrt,
+                            Staat, Telefon, Fax, Email, Geburtsdatum);
+
+                }
+
+            //Wenn die Anschriften unterschiedlich sind...
+            } else {
+
+                    //...wird grundsätzlich die Rechnungsanschrift überschrieben.
+                    //Falls keine Änderungen gemacht worden sind, werden die gleichen
+                    //Werte in die Datenbank geschrieben
+                    rechnungsanschrift.setStrasse(rStrasse);
+                    rechnungsanschrift.setHausnummer(rHausnummer);
+                    rechnungsanschrift.setPLZ(rPLZ);
+                    rechnungsanschrift.setOrt(rOrt);
+
+                    //Prüfe, ob der Kunde seine Lieferanschrift = Rechnungsanschrift
+                    //setzen will
+                    if (modus) {
+
+                        //Wenn ja, tue genau das
+                        lieferanschrift = rechnungsanschrift;
+
+                    } else {
+
+                        //Ansonsten, ändere ebenfalls die Lieferanschrift
+                        lieferanschrift.setStrasse(lStrasse);
+                        lieferanschrift.setHausnummer(lHausnummer);
+                        lieferanschrift.setPLZ(lPLZ);
+                        lieferanschrift.setOrt(lOrt);    
+                    }
+            }
+
+            //Die bearbeiten Anschrift werden dem Geschäftspartner zugewiesen
+            gp.setLieferadresse(lieferanschrift);
+            gp.setRechnungsadresse(rechnungsanschrift);
         }
         
-        //Die bearbeiten Anschrift werden dem Geschäftspartner zugewiesen
-        gp.setLieferadresse(lieferanschrift);
-        gp.setRechnungsadresse(rechnungsanschrift);
-        
-        //Transaktions starten
-        em.getTransaction().begin();
-        //Geschäftspartner persistieren
-        //Die Anschriften werden über Kaskaden automatisch persistiert
-        em.merge(gp);
-        //Transaktion beenden
-        em.getTransaction().commit();
+        try {
+            
+            //Transaktions starten
+            em.getTransaction().begin();
+            //Geschäftspartner persistieren
+            //Die Anschriften werden über Kaskaden automatisch persistiert
+            em.merge(gp);
+            //Transaktion beenden
+            em.getTransaction().commit();
+            
+        } catch (RollbackException re) {
+
+            //Der Commit ist fehlgeschlagen
+            //Dadurch wird implizit ein Rollback ausgeführt
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Commit ist fehlgeschlagen. Transkation wurde "
+                            + "rückgängig gemacht.");
+
+        } catch (PersistenceException pe){
+
+            //Es ist ein Fehler beim Persistieren der Daten aufgetreten
+            //Hier muss ein Rollback manuell durchgeführt werdeb
+            em.getTransaction().rollback();
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Fehler beim Persistieren der Daten. Transkation wurde "
+                            + "rückgängig gemacht.");
+
+        } catch (Throwable th) {
+
+            //Ein unerwarteter Fehler ist aufgetreten
+            //Wenn eine Transaktion aktiv ist, muss diese rückgängig gemacht
+            //werden
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Ein unerwarteter Fehler ist ausfgetreten.");
+
+        }
     }
     
     /*----------------------------------------------------------*/
@@ -1691,23 +1764,6 @@ public class DataAccessObject {
             int Mahnzeit1, int Mahnzeit2, int Mahnzeit3) 
             throws ApplicationException {
         
-        //Selektiere alle Aufträge die diese Zahlungskondition enthalten und
-        //noch nicht gelöscht sind
-        Query query = em.createQuery("select ak from Auftragskopf ak "
-                + "where ak.Zahlungskondition.ZahlungskonditionID = :zk "
-                + "and ak.LKZ = false").setParameter("zk", ZahlungskonditionsID);
-        
-        List<Auftragskopf> ergebnis = (List<Auftragskopf>) query.getResultList();
-        
-        //Erhält man Einträge dürfen diese Zahlungskonditionen nicht gelöscht
-        //werden
-        if (!ergebnis.isEmpty()) {
-            throw new ApplicationException("Fehler", 
-                    "Die Zahlungskondition wird noch in aktiven Aufträgen"
-                            + "verwendet und kann daher nicht gelöscht werden.");
-        }
-        
-        //Ansonsten...
         //Zahlungskondition anhand der ID aus der Datenbank holen
         Zahlungskondition zk = em.find(Zahlungskondition.class, 
                 ZahlungskonditionsID);
@@ -1718,17 +1774,44 @@ public class DataAccessObject {
                     "Die Zahlungskondition konnte nicht aktualisiert werden.");
         }
         
-        //Ändern der Attribute
-        zk.setAuftragsart(Auftragsart);
-        zk.setLieferzeitSofort(LieferzeitSofort);
-        zk.setSperrzeitWunsch(SperrzeitWunsch);
-        zk.setSkontozeit1(Skontozeit1);
-        zk.setSkontozeit2(Skontozeit2);
-        zk.setSkonto1(Skonto1);
-        zk.setSkonto2(Skonto2);
-        zk.setMahnzeit1(Mahnzeit1);
-        zk.setMahnzeit2(Mahnzeit2);
-        zk.setMahnzeit3(Mahnzeit3);
+        //Selektiere alle Aufträge die diese Zahlungskondition enthalten und
+        //noch nicht gelöscht sind
+        Query query = em.createQuery("select ak from Auftragskopf ak "
+                + "where ak.Zahlungskondition.ZahlungskonditionID = :zk")
+                .setParameter("zk", ZahlungskonditionsID);
+        
+        List<Auftragskopf> ergebnis = (List<Auftragskopf>) query.getResultList();
+        
+        //Erhält man Einträge, werden diese archiviert und es werden neue 
+        //Einträge mit den neuen Werten angelegt. Auf diese Weise können
+        //schon bestehende Aufträge immer noch auf diese Daten referenzieren
+        //und es entstehen keine Inkonsistenzen
+        if (!ergebnis.isEmpty()) {
+            
+            //"Lösche" die Zahlungskondition
+            zk.setLKZ(true);
+            
+            //Erstelle eine neue Zahlungskondition mit den neuen Werten
+            this.erstelleZahlungskondition(Auftragsart, LieferzeitSofort, 
+                    SperrzeitWunsch, Skontozeit1, Skontozeit2, Skonto1, 
+                    Skonto2, Mahnzeit1, Mahnzeit2, Mahnzeit3);
+        
+        //Wenn die Zahlungskondition noch nicht in einem Auftrag vorkommt
+        } else {
+        
+            //Ändern der Attribute
+            zk.setAuftragsart(Auftragsart);
+            zk.setLieferzeitSofort(LieferzeitSofort);
+            zk.setSperrzeitWunsch(SperrzeitWunsch);
+            zk.setSkontozeit1(Skontozeit1);
+            zk.setSkontozeit2(Skontozeit2);
+            zk.setSkonto1(Skonto1);
+            zk.setSkonto2(Skonto2);
+            zk.setMahnzeit1(Mahnzeit1);
+            zk.setMahnzeit2(Mahnzeit2);
+            zk.setMahnzeit3(Mahnzeit3);
+        
+        }
         
         try {
 
@@ -2503,10 +2586,7 @@ public class DataAccessObject {
         //enthalten, deren Aufträge im Status erstellt bzw. freigegeben ist und
         //die nicht schon "gelöscht" sind
         Query query = em.createQuery("select ap from Auftragskopf ak, "
-                + "in(ak.Positionsliste) ap where ap.Artikel.ArtikelId = :artikelnummer"
-                + " and (ak.Status.Status LIKE 'erfasst' or "
-                + "ak.Status.Status LIKE 'freigegeben') and "
-                + "(ak.LKZ = false or ap.LKZ = false)")
+                + "in(ak.Positionsliste) ap where ap.Artikel.ArtikelId = :artikelnummer")
                 .setParameter("artikelnummer", Artikelnummer);
         
         List<Auftragsposition> ergebnis = (List<Auftragsposition>) query.getResultList();
@@ -2600,8 +2680,8 @@ public class DataAccessObject {
         //Selektiere alle Aufträge die den Geschäftspartner enthalten und noch
         //noch nicht gelöscht sind
         Query query = em.createQuery("select ak from Auftragskopf ak "
-                + "where ak.Geschaeftspartner.GeschaeftspartnerID = :gpid "
-                + "and ak.LKZ = false").setParameter("gpid", GeschaeftspartnerID);
+                + "where ak.Geschaeftspartner.GeschaeftspartnerID = :gpid")
+                .setParameter("gpid", GeschaeftspartnerID);
         
         List<Auftragskopf> ergebnis = (List<Auftragskopf>) query.getResultList();
         
@@ -2789,8 +2869,8 @@ public class DataAccessObject {
         //Selektiere alle Aufträge die diese Zahlungskondition enthalten und
         //noch nicht gelöscht sind
         Query query = em.createQuery("select ak from Auftragskopf ak "
-                + "where ak.Zahlungskondition.ZahlungskonditionID = :zk "
-                + "and ak.LKZ = false").setParameter("zk", ZahlungskonditionsID);
+                + "where ak.Zahlungskondition.ZahlungskonditionID = :zk")
+                .setParameter("zk", ZahlungskonditionsID);
         
         List<Auftragskopf> ergebnis = (List<Auftragskopf>) query.getResultList();
         
