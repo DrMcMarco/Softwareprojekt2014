@@ -1082,7 +1082,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         statusMeldung_jTextField.setText(status);//Meldung wird angezeigt.
         
         // Erzeugung eines Timers, der nach 5 Sekunden die Meldung löscht.
-        new Timer(5000, new ActionListener(){
+        new Timer(10000, new ActionListener(){
             public void actionPerformed(ActionEvent ae){
                 
                 // Übergabe eines leeren Strings.
