@@ -47,7 +47,7 @@ public class Anmeldung extends javax.swing.JInternalFrame {
             factory = new GUIFactory();// Erzeugung eines Guifactoryobjektes.
             // Erzeugung eines DAO-Objektes.
         } catch (PersistenceException e) {// Fehlerbehandlung falls bei der 
-            // Erzeugung entwas nicht funktioniert hat.
+            // Erzeugung etwas nicht funktioniert hat.
             
             //Ausgabe einer Fehlermeldung
             JOptionPane.showMessageDialog(null, e.getMessage(), 
