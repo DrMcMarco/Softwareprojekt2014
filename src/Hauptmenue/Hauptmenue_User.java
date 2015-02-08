@@ -256,7 +256,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
-                    this.internal.auftragskopfaendern.setTitle("Auftragskopf ändern Einstieg");
+                    this.internal.auftragskopfaendern.setTitle("Auftragskopf ändern");
                     setComponentVisible(this.internal.auftragskopfaendern);
                     this.internal.auftragskopfanlegen.setStatusAender();
                 }

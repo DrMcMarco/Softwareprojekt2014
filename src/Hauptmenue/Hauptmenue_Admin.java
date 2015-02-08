@@ -310,7 +310,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
-                    this.internal.artikelaendern.setTitle("Artikel ändern Einstieg");
+                    this.internal.artikelaendern.setTitle("Artikel ändern");
                     setComponentVisible(this.internal.artikelaendern);
                 }
                 // Vergleich des Pfades mit String um "Artikel Anzeigen" aufzurufen.
