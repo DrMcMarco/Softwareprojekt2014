@@ -1611,6 +1611,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 GUIFactory.getDAO().loescheAuftrag(Long.parseLong(auftragskopfID_jTextField.getText()));
                 this.hauptFenster.setStatusMeldung(ERFOLGREICHESLOESCHEN);// Meldung wird an Statuszeile übergeben.
                 zuruecksetzen();// Felder werden zurückgesetzt.
+                jB_ZurueckActionPerformed(evt);
+                                    
             }
         } catch (ApplicationException | NullPointerException e) { // Abfanagen von Fehlern.
             this.hauptFenster.setStatusMeldung(e.getMessage()); // Ausgabe der Fehlermeldung.
@@ -1862,6 +1864,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         jB_Anzeigen.setEnabled(false);
         jB_Speichern.setEnabled(true);
         jB_Loeschen.setEnabled(true);
+        NeuePosition_jButton.setEnabled(true);
+        positionLoeschen_jButton.setEnabled(true);
         this.hauptFenster.setComponent(this);
     }
 
@@ -1876,7 +1880,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      */
     public void setStatusAnzeigen() {
         this.setTitle("Auftragskopf anzeigen");
-//        zuruecksetzen();
         this.geschaeftspartner_jTextField.setEnabled(false);
         this.auftragskopfID_jTextField.setEnabled(false);
         this.auftragswert_jTextField.setEnabled(false);
@@ -1898,6 +1901,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         jB_Anzeigen.setEnabled(true);
         jB_Speichern.setEnabled(false);
         jB_Loeschen.setEnabled(false);
+        NeuePosition_jButton.setEnabled(false);
+        positionLoeschen_jButton.setEnabled(false);
         this.hauptFenster.setComponent(this);
     }
 
