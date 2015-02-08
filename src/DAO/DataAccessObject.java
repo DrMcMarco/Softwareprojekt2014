@@ -305,13 +305,14 @@ public class DataAccessObject {
         double Auftragswert = 0;
         
         //Hole den Geschäftspartner anhand der ID aus der Datenbank
-        Geschaeftspartner businessPartner = em.find(Geschaeftspartner.class, 
+        Geschaeftspartner gp = em.find(Geschaeftspartner.class, 
                 GeschaeftspartnerID);
         
         //Prüfe ob der Geschäftspartner mit dieser ID existiert
-        if(businessPartner == null) {
+        if(gp == null) {
             throw new ApplicationException("Fehler", 
-                    "Der angegebene Kunde konnte nicht gefunden werden.");
+                    "Der angegebene Geschäftspartner konnte nicht "
+                            + "gefunden werden.");
         }
         
         //Hole Zahlungskondition anhand der ID aus der Datenbank
@@ -343,22 +344,22 @@ public class DataAccessObject {
         //Anhand des übergebenen Typs wird ein entsprechendes Objekt erzeugt
         switch (Typ) {
             case "Barauftrag":
-                ak = new Barauftragskopf(Auftragstext, Auftragswert, businessPartner,
+                ak = new Barauftragskopf(Auftragstext, Auftragswert, gp,
                         state, Abschlussdatum, Erfassungsdatum, Lieferdatum);
                 break;
             case "Sofortauftrag":
                 ak = new Sofortauftragskopf(Auftragstext, Auftragswert,
-                        businessPartner, state, paymentCondition,
+                        gp, state, paymentCondition,
                         Abschlussdatum, Erfassungsdatum, Lieferdatum);
                 break;
             case "Terminauftrag":
                 ak = new Terminauftragskopf(Auftragstext, Auftragswert,
-                        businessPartner, state, paymentCondition,
+                        gp, state, paymentCondition,
                         Abschlussdatum, Erfassungsdatum, Lieferdatum);
                 break;
             case "Bestellauftrag":
                 ak = new Bestellauftragskopf(Auftragstext, Auftragswert,
-                        businessPartner, state, paymentCondition,
+                        gp, state, paymentCondition,
                         Abschlussdatum, Erfassungsdatum, Lieferdatum);
                 //Wenn keine gültige Auftragsart übergeben wurde
                 break;
@@ -589,6 +590,15 @@ public class DataAccessObject {
             int Skontozeit2, double Skonto1, double Skonto2, 
             int Mahnzeit1, int Mahnzeit2, int Mahnzeit3) 
             throws ApplicationException {
+        
+        if (!Auftragsart.equals("Sofortauftrag") || 
+            !Auftragsart.equals("Terminauftrag") || 
+            !Auftragsart.equals("Bestellauftrag")) {
+            
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Die angegebene Auftragsart ist ungültig!");
+            
+        }
         
         Zahlungskondition conditions = new Zahlungskondition(Auftragsart, 
                 LieferzeitSofort, SperrzeitWunsch, Skontozeit1, Skontozeit2, 
@@ -1076,7 +1086,6 @@ public class DataAccessObject {
             artikel.setVerkaufswert(Verkaufswert);
             artikel.setEinkaufswert(Einkaufswert);
             artikel.setMwST(MwST);
-            artikel.setFrei(Frei);
             
         }
 
