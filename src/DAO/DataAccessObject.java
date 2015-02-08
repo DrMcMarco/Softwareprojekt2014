@@ -320,7 +320,7 @@ public class DataAccessObject {
                 ZahlungskonditionID);
         
         //Prüfe ob die Zahlungskondition mit dieser ID existiert
-        if(paymentCondition == null) {
+        if(!Typ.equals("Barauftrag") && paymentCondition == null) {
             throw new ApplicationException("Fehler", 
                     "Zahlungskondition konnte nicht gefunden werden.");
         }
@@ -591,8 +591,8 @@ public class DataAccessObject {
             int Mahnzeit1, int Mahnzeit2, int Mahnzeit3) 
             throws ApplicationException {
         
-        if (!Auftragsart.equals("Sofortauftrag") || 
-            !Auftragsart.equals("Terminauftrag") || 
+        if (!Auftragsart.equals("Sofortauftrag") &&
+            !Auftragsart.equals("Terminauftrag") && 
             !Auftragsart.equals("Bestellauftrag")) {
             
             throw new ApplicationException(FEHLER_TITEL, 
