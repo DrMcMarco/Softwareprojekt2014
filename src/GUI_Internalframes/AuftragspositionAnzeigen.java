@@ -692,6 +692,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         jB_Anzeigen.setText("Anzeigen");
         jB_Speichern.setEnabled(true);
         jB_Loeschen.setEnabled(true);
+        jB_Anzeigen.setEnabled(false);
         this.hauptFenster.setComponent(this);
     }
 
