@@ -333,7 +333,13 @@ public abstract class Auftragskopf implements Serializable {
         ap.setAuftrag(this);
         ap.setArtikel(artikel);
         ap.setMenge(Menge);
-        ap.setEinzelwert(artikel.getVerkaufswert() * Menge);
+        
+        if (this instanceof Bestellauftragskopf) {
+            ap.setEinzelwert(artikel.getEinkaufswert() * Menge);
+        } else {
+            ap.setEinzelwert(artikel.getVerkaufswert() * Menge);
+        }
+
         ap.setErfassungsdatum(this.Erfassungsdatum);
         //Wert der Position zum Gesamtwert hinzufügen
         this.Wert = this.Wert + ap.getEinzelwert();
@@ -381,6 +387,23 @@ public abstract class Auftragskopf implements Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 31 * hash + (int) (this.AuftragskopfID ^ (this.AuftragskopfID >>> 32));
+        hash = 31 * hash + Objects.hashCode(this.Auftragstext);
+        hash = 31 * hash + (int) (Double.doubleToLongBits(this.Wert) ^ (Double.doubleToLongBits(this.Wert) >>> 32));
+        hash = 31 * hash + Objects.hashCode(this.Geschaeftspartner);
+        hash = 31 * hash + Objects.hashCode(this.Status);
+        hash = 31 * hash + Objects.hashCode(this.Abschlussdatum);
+        hash = 31 * hash + Objects.hashCode(this.Erfassungsdatum);
+        hash = 31 * hash + Objects.hashCode(this.Lieferdatum);
+        hash = 31 * hash + Objects.hashCode(this.Positionsliste);
+        hash = 31 * hash + Objects.hashCode(this.Zahlungskondition);
+        hash = 31 * hash + (this.LKZ ? 1 : 0);
+        return hash;
     }
     
     /*----------------------------------------------------------*/
