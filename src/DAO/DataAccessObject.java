@@ -1194,7 +1194,7 @@ public class DataAccessObject {
         }
         
         //Wenn die Zahlungskondition nicht gefunden werden konnte
-        if (zk == null) {
+        if (!ak.getTyp().equals("Barauftrag") && zk == null) {
             throw new ApplicationException("Fehler",
                     "Die Zahlungskondition konnte nicht gefunden werden.");
         }
