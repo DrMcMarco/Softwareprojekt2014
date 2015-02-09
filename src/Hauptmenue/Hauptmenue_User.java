@@ -301,7 +301,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
-                    this.internal.artikelaendern.setTitle("Artikel ändern Einstieg");
+                    this.internal.artikelaendern.setTitle("Artikel ändern ");
                     setComponentVisible(this.internal.artikelaendern);
                     this.internal.artikelanlegen.setzeFormularInArtikelAEndern();
                 }
@@ -328,7 +328,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufendenen Maske ein Titel übergeben.
-                    this.internal.geschaeftspartneraendern.setTitle("Geschäftspartner ändern Einstieg");
+                    this.internal.geschaeftspartneraendern.setTitle("Geschäftspartner ändern ");
                     setComponentVisible(this.internal.geschaeftspartneraendern);
                     this.internal.geschaeftspartneranlegen.setzeFormularInGPAEndern();
                 }
@@ -355,7 +355,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufendenen Maske ein Titel übergeben.
-                    this.internal.zahlungskonditionaendern.setTitle("Zahlungskondition ändern Einstieg");
+                    this.internal.zahlungskonditionaendern.setTitle("Zahlungskondition ändern");
                     setComponentVisible(this.internal.zahlungskonditionaendern);
                     this.internal.zahlungskonditionanlegen.setzeFormularInZKAEndern();
                 }
@@ -395,9 +395,9 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
         this.internal.setComponent(frame);// Aufruf der Internalframe-Methode "setComponent".
         // Aufruf der "setComponent"-Methode der Guifactory.
         this.factory.setComponent(this.internal.hauptmenueuser);
-        System.out.println("01");
+//        System.out.println("01");
         this.setVisible(false);// Setzt sich selbst auf visible false um nicht
-        System.out.println("02");
+//        System.out.println("02");
         // mehr sichtbar zu sein.
     }
 
