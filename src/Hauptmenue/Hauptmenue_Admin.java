@@ -259,8 +259,12 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.auftragskopfanlegen.setTitle("Auftragskopf anlegen");
-                    this.internal.auftragskopfanlegen.setEnabled(true);
+                    
+                    this.internal.suche.setVisible(false);
+                    this.internal.detailSuche.setVisible(false);
+                    
                     setComponentVisible(this.internal.auftragskopfanlegen);
+                    this.internal.auftragskopfanlegen.setStatusAnlegen();
                 }
                 // Vergleich des Pfades mit String um "Auftragskopf Ändern" aufzurufen.
                 if (node.equals("[Navigation, Auftrag verwalten, Auftragskopf, Ändern]")) {
@@ -268,7 +272,12 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.auftragskopfaendern.setTitle("Auftragskopf ändern Einstieg");
+                    
+                    this.internal.suche.setVisible(false);
+                    this.internal.detailSuche.setVisible(false);
+                    
                     setComponentVisible(this.internal.auftragskopfaendern);
+                    this.internal.auftragskopfanlegen.setStatusAender();
                 }
                 // Vergleich des Pfades mit String um "Auftragskopf Anzeigen" aufzurufen.
                 if (node.equals("[Navigation, Auftrag verwalten, Auftragskopf, Anzeigen]")) {
@@ -276,15 +285,23 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.auftragskopfaendern.setTitle("Auftragskopf anzeigen");
+                    
+                    this.internal.suche.setVisible(false);
+                    this.internal.detailSuche.setVisible(false);
+                    
                     setComponentVisible(this.internal.auftragskopfaendern);
-
+                    this.internal.auftragskopfanlegen.setStatusAnzeigen();
                 }
                 // Vergleich des Pfades mit String um "Auftragsposition Ändern" aufzurufen.
                 if (node.equals("[Navigation, Auftrag verwalten, Auftragsposition, Ändern]")) {
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
-                    this.internal.auftragsspositionaender.setTitle("Auftragsposition ändern");
+                    this.internal.auftragsspositionaender.setTitle("Auftragsposition ändern Einstieg");
+                    
+                    this.internal.suche.setVisible(false);
+                    this.internal.detailSuche.setVisible(false);
+                    
                     this.internal.auftragsspositionanzeigen.setStatusAender();
                     setComponentVisible(this.internal.auftragsspositionaender);
                 }
@@ -294,6 +311,10 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.auftragsspositionaender.setTitle("Auftragsposition anzeigen");
+                    
+                    this.internal.suche.setVisible(false);
+                    this.internal.detailSuche.setVisible(false);
+                    
                     this.internal.auftragsspositionanzeigen.setStatusAnzeigen();
                     setComponentVisible(this.internal.auftragsspositionaender);
                 }
@@ -303,15 +324,25 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.artikelanlegen.setTitle("Artikel anlegen");
+                    
+                    this.internal.suche.setVisible(false);
+                    this.internal.detailSuche.setVisible(false);
+                    
                     setComponentVisible(this.internal.artikelanlegen);
+                    this.internal.artikelanlegen.setzeFormularInArtikelAnlegen();
                 }
                 // Vergleich des Pfades mit String um "Artikel Ändern" aufzurufen.
                 if (node.equals("[Navigation, Artikel verwalten, Ändern]")) {
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
-                    this.internal.artikelaendern.setTitle("Artikel ändern");
+                    this.internal.artikelaendern.setTitle("Artikel ändern Einstieg");
+                    
+                    this.internal.suche.setVisible(false);
+                    this.internal.detailSuche.setVisible(false);
+                    
                     setComponentVisible(this.internal.artikelaendern);
+                    this.internal.artikelanlegen.setzeFormularInArtikelAEndern();
                 }
                 // Vergleich des Pfades mit String um "Artikel Anzeigen" aufzurufen.
                 if (node.equals("[Navigation, Artikel verwalten, Anzeigen]")) {
@@ -319,56 +350,90 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.artikelaendern.setTitle("Artikel anzeigen");
+                    
+                    this.internal.suche.setVisible(false);
+                    this.internal.detailSuche.setVisible(false);
+                    
                     setComponentVisible(this.internal.artikelaendern);
-
+                    this.internal.artikelanlegen.setzeFormularInArtikelAnzeigen();
                 }
+                // Vergleich des Pfades mit String um "Geschäftspartner Anlegen" aufzurufen.
                 if (node.equals("[Navigation, Geschäftspartner verwalten, Anlegen]")) {
                     // Aufruf der setComponentVisible-Methode um die 
-                    // entsprechende Maske sichtbar zu machen. Es wird der 
+                    // entsprechende Maske sichtbar zu machen.Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
-                    this.internal.geschaeftspartneraendern.setTitle("Geschäftspartner anlegen");
-                    setComponentVisible(this.internal.geschaeftspartneraendern);
+                    this.internal.geschaeftspartneranlegen.setTitle("Geschäftspartner anlegen");
+                    
+                    this.internal.suche.setVisible(false);
+                    this.internal.detailSuche.setVisible(false);
+                    
+                    setComponentVisible(this.internal.geschaeftspartneranlegen);
+                    this.internal.geschaeftspartneranlegen.setzeFormularInGPAnlegen();
                 }
                 // Vergleich des Pfades mit String um "Geschäftspartner Ändern" aufzurufen.
                 if (node.equals("[Navigation, Geschäftspartner verwalten, Ändern]")) {
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
-                    // aufzurufednen Maske ein Titel übergeben.
+                    // aufzurufendenen Maske ein Titel übergeben.
                     this.internal.geschaeftspartneraendern.setTitle("Geschäftspartner ändern Einstieg");
+                    
+                    this.internal.suche.setVisible(false);
+                    this.internal.detailSuche.setVisible(false);
+                    
                     setComponentVisible(this.internal.geschaeftspartneraendern);
+                    this.internal.geschaeftspartneranlegen.setzeFormularInGPAEndern();
                 }
                 // Vergleich des Pfades mit String um "Geschäftspartner Anzeigen" aufzurufen.
                 if (node.equals("[Navigation, Geschäftspartner verwalten, Anzeigen]")) {
                     // Aufruf der setComponentVisible-Methode um die 
-                    // entsprechende Maske sichtbar zu machen.  Es wird der 
-                    // aufzurufednen Maske ein Titel übergeben.
+                    // entsprechende Maske sichtbar zu machen. Es wird der 
+                    // aufzurufendenen Maske ein Titel übergeben.
                     this.internal.geschaeftspartneraendern.setTitle("Geschäftspartner anzeigen");
+                    
+                    this.internal.suche.setVisible(false);
+                    this.internal.detailSuche.setVisible(false);
+                    
                     setComponentVisible(this.internal.geschaeftspartneraendern);
-
+                    this.internal.geschaeftspartneranlegen.setzeFormularInGPAnzeigen();
                 }
                 // Vergleich des Pfades mit String um "Zahlungskonditionen Anlegen" aufzurufen.
                 if (node.equals("[Navigation, Zahlungskonditionen verwalten, Anlegen]")) {
-                    // Aufruf der setComponentVisible-Methode  Es wird der 
-                    // aufzurufednen Maske ein Titel übergeben.
+                    // Aufruf der setComponentVisible-Methode um die 
+                    // entsprechende Maske sichtbar zu machen. Es wird der 
+                    // aufzurufendenen Maske ein Titel übergeben.
                     this.internal.zahlungskonditionaendern.setTitle("Zahlungskonditionen anlegen");
+                    
+                    this.internal.suche.setVisible(false);
+                    this.internal.detailSuche.setVisible(false);
+                    
                     setComponentVisible(this.internal.zahlungskonditionanlegen);
+                    this.internal.zahlungskonditionanlegen.setzeFormularInZKAnlegen();
                 }
                 // Vergleich des Pfades mit String um "Zahlungskonditionen Ändern" aufzurufen.
                 if (node.equals("[Navigation, Zahlungskonditionen verwalten, Ändern]")) {
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
-                    // aufzurufednen Maske ein Titel übergeben.
+                    // aufzurufendenen Maske ein Titel übergeben.
                     this.internal.zahlungskonditionaendern.setTitle("Zahlungskondition ändern Einstieg");
+                    
+                    this.internal.suche.setVisible(false);
+                    this.internal.detailSuche.setVisible(false);
+                    
                     setComponentVisible(this.internal.zahlungskonditionaendern);
+                    this.internal.zahlungskonditionanlegen.setzeFormularInZKAEndern();
                 }
                 // Vergleich des Pfades mit String um "Zahlungskonditionen Anzeigen" aufzurufen.
                 if (node.equals("[Navigation, Zahlungskonditionen verwalten, Anzeigen]")) {
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
-                    // aufzurufednen Maske ein Titel übergeben.
+                    // aufzurufendenen Maske ein Titel übergeben.
                     this.internal.zahlungskonditionaendern.setTitle("Zahlungskonditionen anzeigen");
+                    
+                    this.internal.suche.setVisible(false);
+                    this.internal.detailSuche.setVisible(false);
+                    
                     setComponentVisible(this.internal.zahlungskonditionaendern);
-
+                    this.internal.zahlungskonditionanlegen.setzeFormularInZKAnzeigen();
                 }
                 // Vergleich des Pfades mit String um "User Anlegen" aufzurufen.
                 if (node.equals("[Navigation, Benutzer verwalten, Anlegen]")) {
@@ -376,6 +441,10 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.useranlegen.setTitle("Benutzer anlegen");
+                    
+                    this.internal.suche.setVisible(false);
+                    this.internal.detailSuche.setVisible(false);
+                    
                     setComponentVisible(this.internal.useranlegen);
                 }
                 // Vergleich des Pfades mit String um "User Ändern" aufzurufen.
@@ -384,6 +453,10 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.useraendern.setTitle("Benutzer ändern");
+                    
+                    this.internal.suche.setVisible(false);
+                    this.internal.detailSuche.setVisible(false);
+                    
                     setComponentVisible(this.internal.useraendern);
                 }
                 // Vergleich des Pfades mit String um "User Anzeigen" aufzurufen.
@@ -392,6 +465,10 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.useraendern.setTitle("Benutzer anzeigen");
+                    
+                    this.internal.suche.setVisible(false);
+                    this.internal.detailSuche.setVisible(false);
+                    
                     setComponentVisible(this.internal.useraendern);
 
                 }
