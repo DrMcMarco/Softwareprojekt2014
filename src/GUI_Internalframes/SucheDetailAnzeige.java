@@ -820,7 +820,9 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         //Prüfe, ob die Suche von Auftragskopf anlegen oder ändern gerufen wurde
         } else if (this.hauptFenster.gibLetzteAnzeige().getTitle().equals(
                 "Auftragskopf anlegen") || this.hauptFenster.gibLetzteAnzeige()
-                        .getTitle().equals("Auftragskopf ändern")) {
+                        .getTitle().equals("Auftragskopf ändern")
+                || this.hauptFenster.gibLetzteAnzeige().getTitle()
+                        .equals("Auftragskopf anzeigen")) {
             //Prüfe, ob sich die Suche auf GP bezieht
             if (this.tabelle.equals("Geschäftspartner")) {
                 //Prüfe, ob ein Datensatz selektiert wurde.
@@ -870,6 +872,28 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                     this.Positionanzeige_jTable2.setVisible(false);
                 //Wenn kein Datensatz ausgewählt wurde, wird der Benutzer
                 //Daraufhin aufmerksam gemacht
+                } 
+                //Prüfe, ob sich die Suche auf Auftragskopf bezieht
+            } else if (this.tabelle.equals("Auftragskopf")) {
+                //Prüfe, ob ein Datensatz selektiert wurde.
+                if (this.Anzeige_jTable1.getSelectedRow() != -1) {
+                    //Caste die Ergebnisliste aus der Suche nach Anschrift.
+                    akListe = new ArrayList<>(
+                        (Collection<? 
+                                extends Auftragskopf>) this.ergebnisDaten);
+                    
+                    //Setze in der View entsprechend das Feld mit den 
+                    //Informationen
+                    this.hauptFenster.gibAuftragskopfanlegenFenster()
+                            .setzeEingabe(akListe.get(
+                                    this.Anzeige_jTable1.getSelectedRow()));
+                    //Schließe die Suche
+                    this.setVisible(false);
+                    //Setze ggf. die Positions-Table auf nicht sichtbar
+                    this.position_jPanel1.setVisible(false);
+                    this.Positionanzeige_jTable2.setVisible(false);
+                //Wenn kein Datensatz ausgewählt wurde, wird der Benutzer
+                //Daraufhin aufmerksam gemacht
                 } else {
                     JOptionPane.showMessageDialog(null, FEHLER_AUSWAHL, 
                             "Fehler", JOptionPane.WARNING_MESSAGE);
@@ -886,7 +910,9 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         } else if (this.hauptFenster.gibLetzteAnzeige().getTitle().equals(
                 "Geschäftspartner anlegen") || this.hauptFenster
                         .gibLetzteAnzeige().getTitle().equals("Geschäftspartner"
-                                + " ändern")) {
+                                + " ändern")
+                || this.hauptFenster.gibLetzteAnzeige().getTitle()
+                        .equals("Geschäftspartner anzeigen")) {
             //Prüfe, ob sich die Suche auf Anschrift bezieht
             if (this.tabelle.equals("Anschrift")) {
                 //Prüfe, ob ein Datensatz selektiert wurde.
@@ -900,6 +926,31 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                     //Informationen
                     this.hauptFenster.gibGeschaeftspartneranlegenFenster()
                             .setzeAnschrift(anschriftListe.get(
+                                    this.Anzeige_jTable1.getSelectedRow()));
+                    //Schließe die Suche
+                    this.setVisible(false);
+                    //Setze ggf. die Positions-Table auf nicht sichtbar
+                    this.position_jPanel1.setVisible(false);
+                    this.Positionanzeige_jTable2.setVisible(false);
+                //Wenn kein Datensatz ausgewählt wurde, wird der Benutzer
+                //Daraufhin aufmerksam gemacht
+                } else {
+                    JOptionPane.showMessageDialog(null, FEHLER_AUSWAHL, 
+                            "Fehler", JOptionPane.WARNING_MESSAGE);
+                }
+            //Gp aus der Anzeige heraus suchen
+            } else if (this.tabelle.equals("Geschäftspartner")) {
+                //Prüfe, ob ein Datensatz selektiert wurde.
+                if (this.Anzeige_jTable1.getSelectedRow() != -1) {
+                    //Caste die Ergebnisliste aus der Suche nach Anschrift.
+                    gpListe = new ArrayList<>(
+                        (Collection<? 
+                                extends Geschaeftspartner>) this.ergebnisDaten);
+                    
+                    //Setze in der View entsprechend das Feld mit den 
+                    //Informationen
+                    this.hauptFenster.gibGeschaeftspartneranlegenFenster()
+                            .zeigeGPausSucheAN(gpListe.get(
                                     this.Anzeige_jTable1.getSelectedRow()));
                     //Schließe die Suche
                     this.setVisible(false);
@@ -959,9 +1010,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         } else if (this.hauptFenster.gibLetzteAnzeige().getTitle().equals(
                 "Auftragskopf ändern Einstieg") 
                 || this.hauptFenster.gibLetzteAnzeige().getTitle()
-                        .equals("Auftragskopf anzeigen Einstieg") 
-                || this.hauptFenster.gibLetzteAnzeige().getTitle()
-                        .equals("Auftragskopf anzeigen")) {
+                        .equals("Auftragskopf anzeigen Einstieg")) {
             //Prüfe, ob sich die Suche auf Auftragskopf bezieht
             if (this.tabelle.equals("Auftragskopf")) {
                 //Prüfe, ob ein Datensatz selektiert wurde.
@@ -996,8 +1045,6 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
             }
         } else if (this.hauptFenster.gibLetzteAnzeige().getTitle().equals(
                 "Geschäftspartner ändern Einstieg") 
-                || this.hauptFenster.gibLetzteAnzeige().getTitle()
-                        .equals("Geschäftspartner anzeigen") 
                 || this.hauptFenster.gibLetzteAnzeige().getTitle()
                         .equals("Geschäftspartner anzeigen Einstieg")) {
             //Prüfe, ob sich die Suche auf Anschrift bezieht
