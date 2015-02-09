@@ -282,6 +282,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
 
                     }
                 } else {
+                    this.auftragskopfAnlegen.zuruecksetzen();
                     this.auftragskopfAnlegen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
 
                     this.auftragskopfAnlegen.
@@ -289,8 +290,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
 
                     zuruecksetzen();//Methode die bestimmte Eingabefelder leert
                     this.setVisible(false);
-                    this.auftragskopfAnlegen.zuruecksetzen();
-                    this.auftragskopfAnlegen.setStatusAnzeigen();
+//                    this.auftragskopfAnlegen.setStatusAnzeigen();
                     this.hauptFenster.setFrame(this.auftragskopfAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
                 }
             } catch (ApplicationException | NumberFormatException | NullPointerException e) {
