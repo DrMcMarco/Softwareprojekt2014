@@ -63,7 +63,7 @@ public interface InterfaceMainView {
      * Methode mit der man eine gespeicherte Component zurückerhält.
      * @return, eine gespeicherte Component.
      */
-    public Component getComponent();
+    public JInternalFrame getComponent();
     
     
     /*----------------------------------------------------------*/

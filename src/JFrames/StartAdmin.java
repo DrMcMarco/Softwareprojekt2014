@@ -58,7 +58,6 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     
     public ArtikelAnlegen artikelanlegen;
     public ArtikelAEndernEinstieg artikelaendern;
-
     public GeschaeftspartnerAnlegen geschaeftspartneranlegen;
     public GeschaeftspartnerAEndernEinstieg geschaeftspartneraendern;
 
@@ -73,7 +72,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     //Hilfsvariablen
     Dimension desktopSize;//Speichervariable für die Größe der DesktopPane.
     Dimension jInternalFrameSize;//Speichervariable für die Größe des InternalFrames.
-    Component c;// Speichervariable für Components.
+    JInternalFrame c;// Speichervariable für Components.
     private JInternalFrame letzteAnzeige;
     //Stringvariablen für die einzelnen Meldungen die ausgegeben werden können.
     private final String Beenden_Meldung = "Wollen sie wirklich das Programm beenden und sich abmelden?";
@@ -1067,7 +1066,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
      * Methode mit der man die aktuell übergebene Component erhält.
      */
     @Override
-    public Component getComponent() {
+    public JInternalFrame getComponent() {
         return c;
     }
 
