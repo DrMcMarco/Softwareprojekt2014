@@ -269,12 +269,14 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
                 // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
                 if (this.getTitle().equals("Auftragskopf ändern Einstieg")) {
                     if (aKopf != null) {
+                        this.auftragskopfAnlegen.zuruecksetzen();
                         this.auftragskopfAnlegen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
 
                         this.auftragskopfAnlegen.
                                 setzeEingabe(aKopf);
 
                         zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                        
                         this.setVisible(false);
                         this.hauptFenster.setFrame(this.auftragskopfAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
 
@@ -287,6 +289,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
 
                     zuruecksetzen();//Methode die bestimmte Eingabefelder leert
                     this.setVisible(false);
+                    this.auftragskopfAnlegen.zuruecksetzen();
                     this.auftragskopfAnlegen.setStatusAnzeigen();
                     this.hauptFenster.setFrame(this.auftragskopfAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
                 }
