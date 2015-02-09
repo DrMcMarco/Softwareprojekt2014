@@ -309,7 +309,7 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
 
                 // Überprüft anhand des Framestitels, ob es das nächste Fenster
                     // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
-                    if (this.getTitle().equals("Auftragsposition ändern")) {
+                    if (this.getTitle().equals("Auftragsposition ändern Einstieg")) {
                         this.auftragspositionAnzeigen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
                         zuruecksetzen();//Methode die bestimmte Eingabefelder leert
                         this.auftragspositionAnzeigen.setzeEingaben(position);

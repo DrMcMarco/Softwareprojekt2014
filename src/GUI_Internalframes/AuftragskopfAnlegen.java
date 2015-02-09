@@ -1559,6 +1559,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
         letzteComponent = this.factory.zurueckButton();
         this.setVisible(false);// Internalframe wird nicht mehr dargestellt
+        System.out.println("iiiiiiiiiiiiiiiii");
         letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 

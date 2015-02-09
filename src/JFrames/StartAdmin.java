@@ -79,18 +79,34 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     private final String Beenden_Meldung = "Wollen sie wirklich das Programm beenden und sich abmelden?";
     private final String Beenden_Meldung_Typ = "Programm beenden";
 
-    private final String ARTIKEL_ANLEGEN = "Artikel anlegen";
-    private final String ARTIKEL_AENDERN = "Artikel ändern";
-    private final String ARTIKEL_ANZEIGEN = "Artikel anzeigen";
-
-    private final String ZK_ANLEGEN = "Zahlungskondition anlegen";
-    private final String ZK_AENDERN = "Zahlungskondition ändern";
-    private final String ZK_AZEIGEN = "Zahlungskondition anzeigen";
-
-    private final String GP_ANLEGEN = "Geschäftspartner anlegen";
-    private final String GP_AENDERN = "Geschäftspartner ändern";
-    private final String GP_ANZEIGEN = "Geschäftspartner anzeigen";
+//    private final String ARTIKEL_ANLEGEN = "Artikel anlegen";
+//    private final String ARTIKEL_AENDERN = "Artikel ändern";
+//    private final String ARTIKEL_ANZEIGEN = "Artikel anzeigen";
+//
+//    private final String ZK_ANLEGEN = "Zahlungskondition anlegen";
+//    private final String ZK_AENDERN = "Zahlungskondition ändern";
+//    private final String ZK_AZEIGEN = "Zahlungskondition anzeigen";
+//
+//    private final String GP_ANLEGEN = "Geschäftspartner anlegen";
+//    private final String GP_AENDERN = "Geschäftspartner ändern";
+//    private final String GP_ANZEIGEN = "Geschäftspartner anzeigen";
+    private final String AUFTRAGSKOPF_AENDERN_EINSTIEG ="Auftragskopf ändern Einstieg";
+    private final String AUFTRAGSKOPF_ANZEIGEN_EINSTIEG ="Auftragskopf anzeigen Einstieg";
     
+    private final String AUFTRAGSPOSITION_AENDERN_EINSTIEG ="Auftragsposition ändern Einstieg";
+    private final String AUFTRAGSPOSITION_ANZEIGEN_EINSTIEG ="Auftragsposition anzeigen Einstieg";
+     
+    private final String ARTIKEL_AENDERN_EINSTIEG = "Artikel ändern Einstieg";
+    private final String ARTIKEL_ANZEIGEN_EINSTIEG = "Artikel anzeigen Einstieg";
+
+    private final String ZK_AENDERN_EINSTIEG = "Zahlungskondition ändern Einstieg";
+    private final String ZK_AZEIGEN_EINSTIEG = "Zahlungskondition anzeigen Einstieg";
+
+    private final String GP_AENDERN_EINSTIEG = "Geschäftspartner ändern Einstieg";
+    private final String GP_ANZEIGEN_EINSTIEG = "Geschäftspartner anzeigen Einstieg";
+    
+    private final String BENUTZER_AENDERN_EINSTIEG = "Benutzer ändern Einstieg";
+    private final String BENUTZER_ANZEIGEN_EINSTIEG = "Benutzer anzeigen Einstieg";
     
     
     
@@ -516,9 +532,13 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueadmin);
+        
         hauptmenueadmin.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
         
         auftragskopfanlegen.setStatusAnlegen();
+        
         setCenterJIF(auftragskopfanlegen);
         setComponent(auftragskopfanlegen);
     }//GEN-LAST:event_jMI_AuftragskopfAnlegenActionPerformed
@@ -542,7 +562,11 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         factory.setComponent(hauptmenueadmin);
         hauptmenueadmin.setVisible(false);
         
-        auftragskopfaendern.setTitle("Auftragskopf ändern");
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
+        
+        auftragskopfaendern.zuruecksetzen();
+        auftragskopfaendern.setTitle(AUFTRAGSKOPF_AENDERN_EINSTIEG);
         setCenterJIF(auftragskopfaendern);
         setComponent(auftragskopfaendern);
     }//GEN-LAST:event_jMI_AuftragkopfAEndernActionPerformed
@@ -585,9 +609,13 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueadmin);
-        hauptmenueadmin.setVisible(false);
         
-        auftragsspositionaender.setTitle("Auftragsposition ändern");
+        hauptmenueadmin.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
+        
+        auftragsspositionaender.zuruecksetzen();
+        auftragsspositionaender.setTitle(AUFTRAGSPOSITION_AENDERN_EINSTIEG);
         setCenterJIF(auftragsspositionaender);
         setComponent(auftragsspositionaender);
     }//GEN-LAST:event_jMI_AuftragsposAEndernActionPerformed
@@ -609,9 +637,13 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueadmin);
-        hauptmenueadmin.setVisible(false);
         
-        auftragsspositionaender.setTitle("Auftragsposition anzeigen");
+        hauptmenueadmin.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
+        
+        auftragsspositionaender.zuruecksetzen();
+        auftragsspositionaender.setTitle(AUFTRAGSPOSITION_ANZEIGEN_EINSTIEG);
         setCenterJIF(auftragsspositionaender);
         setComponent(auftragsspositionaender);
     }//GEN-LAST:event_jMI_AuftragsposAnzeigenActionPerformed
@@ -632,7 +664,10 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueadmin);
+        
         hauptmenueadmin.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
         
         artikelanlegen.setzeFormularInArtikelAnlegen();
         setCenterJIF(artikelanlegen);
@@ -651,13 +686,17 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
      * @param evt
      */
     private void jMI_ArtikelAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ArtikelAEndernActionPerformed
-        if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
+       if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueadmin);
-        hauptmenueadmin.setVisible(false);
         
-        artikelaendern.setTitle(ARTIKEL_AENDERN);
+        hauptmenueadmin.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
+        
+        artikelaendern.setTitle(ARTIKEL_AENDERN_EINSTIEG);
+        artikelaendern.zuruecksetzen();
         artikelanlegen.setzeFormularInArtikelAEndern();
         setCenterJIF(artikelaendern);
         setComponent(artikelaendern);
@@ -680,9 +719,13 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueadmin);
-        hauptmenueadmin.setVisible(false);
         
-        artikelaendern.setTitle(ARTIKEL_ANZEIGEN);
+        hauptmenueadmin.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
+        
+        artikelaendern.setTitle(ARTIKEL_ANZEIGEN_EINSTIEG);
+        artikelaendern.zuruecksetzen();
         artikelanlegen.setzeFormularInArtikelAnzeigen();
         setCenterJIF(artikelaendern);
         setComponent(artikelaendern);
@@ -705,9 +748,13 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueadmin);
-        hauptmenueadmin.setVisible(false);
         
-        auftragskopfaendern.setTitle("Auftragskopf anzeigen");
+        hauptmenueadmin.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
+        
+        auftragskopfaendern.zuruecksetzen();
+        auftragskopfaendern.setTitle(AUFTRAGSKOPF_ANZEIGEN_EINSTIEG);
         setCenterJIF(auftragskopfaendern);
         setComponent(auftragskopfaendern);
     }//GEN-LAST:event_jMI_AuftragskopfAnzeigenActionPerformed
@@ -728,9 +775,11 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueadmin);
-        hauptmenueadmin.setVisible(false);
         
-        geschaeftspartneranlegen.setTitle(GP_ANLEGEN);
+        hauptmenueadmin.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
+        
         geschaeftspartneranlegen.setzeFormularInGPAnlegen();
         setCenterJIF(geschaeftspartneranlegen);
         setComponent(geschaeftspartneranlegen);
@@ -752,9 +801,13 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueadmin);
-        hauptmenueadmin.setVisible(false);
         
-        geschaeftspartneraendern.setTitle(GP_AENDERN);
+        hauptmenueadmin.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
+        
+        geschaeftspartneraendern.setTitle(GP_AENDERN_EINSTIEG);
+        geschaeftspartneraendern.zuruecksetzen();
         geschaeftspartneranlegen.setzeFormularInGPAEndern();
         setCenterJIF(geschaeftspartneraendern);
         setComponent(geschaeftspartneraendern);
@@ -777,9 +830,13 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueadmin);
-        hauptmenueadmin.setVisible(false);
         
-        geschaeftspartneraendern.setTitle(GP_ANZEIGEN);
+        hauptmenueadmin.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
+        
+        geschaeftspartneraendern.setTitle(GP_ANZEIGEN_EINSTIEG);
+        geschaeftspartneraendern.zuruecksetzen();
         geschaeftspartneranlegen.setzeFormularInGPAnzeigen();
         setCenterJIF(geschaeftspartneraendern);
         setComponent(geschaeftspartneraendern);
@@ -802,9 +859,11 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueadmin);
-        hauptmenueadmin.setVisible(false);
         
-        zahlungskonditionanlegen.setTitle(ZK_ANLEGEN);
+        hauptmenueadmin.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
+        
         zahlungskonditionanlegen.setzeFormularInZKAnlegen();
         setCenterJIF(zahlungskonditionanlegen);
         setComponent(zahlungskonditionanlegen);
@@ -827,9 +886,13 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueadmin);
-        hauptmenueadmin.setVisible(false);
         
-        zahlungskonditionaendern.setTitle(ZK_AENDERN);
+        hauptmenueadmin.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
+        
+        zahlungskonditionaendern.setTitle(ZK_AENDERN_EINSTIEG);
+        zahlungskonditionaendern.zuruecksetzen();
         zahlungskonditionanlegen.setzeFormularInZKAEndern();
         setCenterJIF(zahlungskonditionaendern);
         setComponent(zahlungskonditionaendern);
@@ -850,9 +913,13 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueadmin);
-        hauptmenueadmin.setVisible(false);
         
-        zahlungskonditionaendern.setTitle(ZK_AZEIGEN);
+        hauptmenueadmin.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
+        
+        zahlungskonditionaendern.setTitle(ZK_AZEIGEN_EINSTIEG);
+        zahlungskonditionaendern.zuruecksetzen();
         zahlungskonditionanlegen.setzeFormularInZKAnzeigen();
         setCenterJIF(zahlungskonditionaendern);
         setComponent(zahlungskonditionaendern);
@@ -876,7 +943,11 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueadmin);
+        
         hauptmenueadmin.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
+        
         useranlegen.setStatusAnlegen();
         setCenterJIF(useranlegen);
         setComponent(useranlegen);
@@ -899,8 +970,13 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueadmin);
+        
         hauptmenueadmin.setVisible(false);
-        useraendern.setTitle("Benutzer ändern");
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
+        
+        useraendern.zuruecksetzen();
+        useraendern.setTitle(BENUTZER_AENDERN_EINSTIEG);
         setCenterJIF(useraendern);
         setComponent(useraendern);
     }//GEN-LAST:event_jMI_BenutzerÄndernActionPerformed
@@ -922,8 +998,13 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueadmin);
+        
         hauptmenueadmin.setVisible(false);
-        useraendern.setTitle("Benutzer anzeigen");
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
+        
+        useraendern.zuruecksetzen();
+        useraendern.setTitle(BENUTZER_ANZEIGEN_EINSTIEG);
         setCenterJIF(useraendern);
         setComponent(useraendern);
     }//GEN-LAST:event_jMI_BenutzerAnzeigenActionPerformed
@@ -941,7 +1022,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
      * @param jif ,übergebenes InternalFrame
      */
     @Override
-    public void setCenterJIF(Component jif) {
+    public void setCenterJIF(JInternalFrame jif) {
         desktopSize = desktopPane.getSize();
         jInternalFrameSize = jif.getSize();
         int width = (desktopSize.width - jInternalFrameSize.width) / 2;
@@ -974,7 +1055,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
      * @param component
      */
     @Override
-    public void setComponent(Component component) {
+    public void setComponent(JInternalFrame component) {
         c = component;
     }
 

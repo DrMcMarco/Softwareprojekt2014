@@ -68,12 +68,18 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     //Hilfsvariablen
     Dimension desktopSize;//Speichervariable für die Größe der DesktopPane.
     Dimension jInternalFrameSize;//Speichervariable für die Größe des InternalFrames.
-    Component c;// Speichervariable für Components.
+    JInternalFrame c;// Speichervariable für Components.
     private JInternalFrame letzteAnzeige;
     //Stringvariablen für die einzelnen Meldungen die ausgegeben werden können.
-    private final String Beenden_Meldung = "Wollen sie wirklich das Programm beenden und sich abmelden?";
-    private final String Beenden_Meldung_Typ = "Programm beenden";
+    private final String BEENDEN_MELDUNG = "Wollen sie wirklich das Programm beenden und sich abmelden?";
+    private final String BEENDEN_MELDUNG_TYP = "Programm beenden";
 
+    private final String AUFTRAGSKOPF_AENDERN_EINSTIEG ="Auftragskopf ändern Einstieg";
+    private final String AUFTRAGSKOPF_ANZEIGEN_EINSTIEG ="Auftragskopf anzeigen Einstieg";
+    
+    private final String AUFTRAGSPOSITION_AENDERN_EINSTIEG ="Auftragsposition ändern Einstieg";
+    private final String AUFTRAGSPOSITION_ANZEIGEN_EINSTIEG ="Auftragsposition anzeigen Einstieg";
+     
     private final String ARTIKEL_AENDERN_EINSTIEG = "Artikel ändern Einstieg";
     private final String ARTIKEL_ANZEIGEN_EINSTIEG = "Artikel anzeigen Einstieg";
 
@@ -424,8 +430,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
      */
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // Erzeugen eine Meldung mit Abfrage
-        int antwort = JOptionPane.showConfirmDialog(rootPane, Beenden_Meldung,
-                Beenden_Meldung_Typ, JOptionPane.YES_NO_OPTION,
+        int antwort = JOptionPane.showConfirmDialog(rootPane, BEENDEN_MELDUNG,
+                BEENDEN_MELDUNG_TYP, JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
         if (antwort == JOptionPane.YES_OPTION) {
             System.exit(0);
@@ -446,8 +452,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
      */
     private void jMI_LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_LogoutActionPerformed
         // Erzeugen eine Meldung mit Abfrage
-        int antwort = JOptionPane.showConfirmDialog(rootPane, Beenden_Meldung,
-                Beenden_Meldung_Typ, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        int antwort = JOptionPane.showConfirmDialog(rootPane, BEENDEN_MELDUNG,
+                BEENDEN_MELDUNG_TYP, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (antwort == JOptionPane.YES_OPTION) {
             this.logInFester.setVisible(true);
             this.setVisible(false);
@@ -485,14 +491,20 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
      * @param evt
      */
     private void jMI_AuftragskopfAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragskopfAnlegenActionPerformed
-        System.out.println(getComponent() != null);
         if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        System.out.println(getComponent() != null);
+        
+            System.out.println(getComponent().getTitle());
         }
         factory.setComponent(hauptmenueuser);
+        
         hauptmenueuser.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
         
         auftragskopfanlegen.setStatusAnlegen();
+        
         setCenterJIF(auftragskopfanlegen);
         setComponent(auftragskopfanlegen);
     }//GEN-LAST:event_jMI_AuftragskopfAnlegenActionPerformed
@@ -518,7 +530,11 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
         
-        auftragskopfaendern.setTitle("Auftragskopf ändern");
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
+        
+        auftragskopfaendern.zuruecksetzen();
+        auftragskopfaendern.setTitle(AUFTRAGSKOPF_AENDERN_EINSTIEG);
         setCenterJIF(auftragskopfaendern);
         setComponent(auftragskopfaendern);
     }//GEN-LAST:event_jMI_AuftragkopfAEndernActionPerformed
@@ -540,9 +556,13 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
-        hauptmenueuser.setVisible(false);
         
-        auftragskopfaendern.setTitle("Auftragskopf anzeigen");
+        hauptmenueuser.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
+        
+        auftragskopfaendern.zuruecksetzen();
+        auftragskopfaendern.setTitle(AUFTRAGSKOPF_ANZEIGEN_EINSTIEG);
         setCenterJIF(auftragskopfaendern);
         setComponent(auftragskopfaendern);
     }//GEN-LAST:event_jMI_AuftragskopfAnzeigenActionPerformed
@@ -565,9 +585,13 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
-        hauptmenueuser.setVisible(false);
         
-        auftragsspositionaender.setTitle("Auftragsposition ändern");
+        hauptmenueuser.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
+        
+        auftragsspositionaender.zuruecksetzen();
+        auftragsspositionaender.setTitle(AUFTRAGSPOSITION_AENDERN_EINSTIEG);
         setCenterJIF(auftragsspositionaender);
         setComponent(auftragsspositionaender);
     }//GEN-LAST:event_jMI_AuftragsposAEndernActionPerformed
@@ -590,9 +614,13 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
-        hauptmenueuser.setVisible(false);
         
-        auftragsspositionaender.setTitle("Auftragsposition anzeigen");
+        hauptmenueuser.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
+        
+        auftragsspositionaender.zuruecksetzen();
+        auftragsspositionaender.setTitle(AUFTRAGSPOSITION_ANZEIGEN_EINSTIEG);
         setCenterJIF(auftragsspositionaender);
         setComponent(auftragsspositionaender);
     }//GEN-LAST:event_jMI_AuftragsposAnzeigenActionPerformed
@@ -616,7 +644,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
+        
         hauptmenueuser.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
         
         artikelanlegen.setzeFormularInArtikelAnlegen();
         setCenterJIF(artikelanlegen);
@@ -641,7 +672,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
+        
         hauptmenueuser.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
         
         artikelaendern.setTitle(ARTIKEL_AENDERN_EINSTIEG);
         artikelaendern.zuruecksetzen();
@@ -668,7 +702,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
+        
         hauptmenueuser.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
         
         artikelaendern.setTitle(ARTIKEL_ANZEIGEN_EINSTIEG);
         artikelaendern.zuruecksetzen();
@@ -695,7 +732,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
+        
         hauptmenueuser.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
         
         geschaeftspartneranlegen.setzeFormularInGPAnlegen();
         setCenterJIF(geschaeftspartneranlegen);
@@ -720,7 +760,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
+        
         hauptmenueuser.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
         
         geschaeftspartneraendern.setTitle(GP_AENDERN_EINSTIEG);
         geschaeftspartneraendern.zuruecksetzen();
@@ -748,7 +791,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
+        
         hauptmenueuser.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
         
         geschaeftspartneraendern.setTitle(GP_ANZEIGEN_EINSTIEG);
         geschaeftspartneraendern.zuruecksetzen();
@@ -776,7 +822,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
+        
         hauptmenueuser.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
         
         zahlungskonditionanlegen.setzeFormularInZKAnlegen();
         setCenterJIF(zahlungskonditionanlegen);
@@ -803,7 +852,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
+        
         hauptmenueuser.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
         
         zahlungskonditionaendern.setTitle(ZK_AENDERN_EINSTIEG);
         zahlungskonditionaendern.zuruecksetzen();
@@ -829,7 +881,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
+        
         hauptmenueuser.setVisible(false);
+        this.suche.setVisible(false);
+        this.detailSuche.setVisible(false);
         
         zahlungskonditionaendern.setTitle(ZK_AZEIGEN_EINSTIEG);
         zahlungskonditionaendern.zuruecksetzen();
@@ -851,8 +906,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
      */
     private void jM_LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jM_LogoutActionPerformed
         // Erzeugen eine Meldung mit Abfrage
-        int antwort = JOptionPane.showConfirmDialog(rootPane, Beenden_Meldung,
-                Beenden_Meldung_Typ, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        int antwort = JOptionPane.showConfirmDialog(rootPane, BEENDEN_MELDUNG,
+                BEENDEN_MELDUNG_TYP, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (antwort == JOptionPane.YES_OPTION) {
             this.logInFester.setVisible(true);
             this.setVisible(false);
@@ -872,7 +927,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
      * @param jif ,übergebenes InternalFrame
      */
     @Override
-    public void setCenterJIF(Component jif) {
+    public void setCenterJIF(JInternalFrame jif) {
         desktopSize = desktopPane.getSize();
         jInternalFrameSize = jif.getSize();
         int width = (desktopSize.width - jInternalFrameSize.width) / 2;
@@ -1050,7 +1105,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
      * @param component
      */
     @Override
-    public void setComponent(Component component) {
+    public void setComponent(JInternalFrame component) {
         c = component;
     }
 
@@ -1063,7 +1118,13 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
      * @return 
      */
     @Override
-    public Component getComponent() {
+    public JInternalFrame getComponent() {
+        try{
+        System.out.println(c.getName().toString());
+            
+        }catch(NullPointerException e){
+            
+        }
         return c;
     }
 

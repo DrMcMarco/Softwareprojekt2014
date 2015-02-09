@@ -195,7 +195,7 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
 
                 if (benutzer != null) {
 
-                    if (this.getTitle().equals("Benutzer ändern")) {
+                    if (this.getTitle().equals("Benutzer ändern Einstieg")) {
                         this.userAnlegen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
                         this.userAnlegen.setBenutzername(benutzer.getBenutzername());// Benutzername aus der DB wird im Eingabefeld angezeigt.
                         if(benutzer.isIstAdmin()){
