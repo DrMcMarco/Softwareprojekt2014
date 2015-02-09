@@ -1194,7 +1194,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                                 && dbAbschlussdatum.equals(abschlussdatum_jFormattedTextField.getText())
                                 && positionenSindGleich == true)) {
 //                                (kopf.equals(jetzigerKopf))) {
-                            if (kopf.pruefeVerfuegbarkeit(buttonGroup1.getSelection().toString()) == true) {
+//                            if (kopf.pruefeVerfuegbarkeit(buttonGroup1.getSelection().toString()) == true) {
 
                                 System.out.println("positiv");
 
@@ -1215,7 +1215,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                                     this.hauptFenster.setStatusMeldung(ERFOLGREICHGEAENDERT_TEXT);
                                 } else {
                                 }
-                            }
+//                            }
 
                         } else {
 
