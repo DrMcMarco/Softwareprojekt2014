@@ -82,7 +82,7 @@ public class DataAccessObject {
         //Datendeklaration
         String sqlAbfrage = null;
         List<?> sqlErgebnisListe = null;
-        String maxAnzReihen = " FETCH NEXT 20 ROWS ONLY";
+        String maxAnzReihen = " FETCH NEXT 200 ROWS ONLY";
         //Erstelle den Parser und übergebe die Suchattribute.
         Parser parser = new Parser(this.gibAlleSuchAttribute());
         //Parse den Suchausdruck und hole das SQL-Statement

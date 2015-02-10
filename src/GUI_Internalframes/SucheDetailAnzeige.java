@@ -19,6 +19,7 @@ import JFrames.GUIFactory;
 import JFrames.Start;
 import JFrames.StartAdmin;
 import java.awt.Component;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -159,8 +160,11 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                     
                     //Füge dem Model einen neuen Datensatz als Zeile hinzu
                     dtm.addRow(new Object[] {ak.getAuftragskopfID(), 
-                        ak.getAbschlussdatum(), ak.getAuftragstext(), 
-                        ak.getErfassungsdatum(), ak.getLieferdatum(), 
+                        ak.getAbschlussdatum().toString(), ak.getAuftragstext(), 
+                        new SimpleDateFormat("dd.MM.yyyy").format(
+                                ak.getErfassungsdatum()), new SimpleDateFormat(
+                                        "dd.MM.yyyy").format(
+                                                ak.getLieferdatum()), 
                         ak.getWert(), ak.getTyp(), 
                         ak.getGeschaeftspartner().getGeschaeftspartnerID(), 
                         ak.getGeschaeftspartner().getRechnungsadresse()
@@ -193,7 +197,8 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                                 position.getPositionsnummer(), 
                                 position.getEinzelwert(), 
                                 position.getMenge(),
-                                position.getErfassungsdatum()});
+                                new SimpleDateFormat("dd.MM.yyyy").format(
+                                        position.getErfassungsdatum())});
                 }
                 //Setze das Model
                 this.Anzeige_jTable1.setModel(dtm);
@@ -333,7 +338,9 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                     //Füge dem Model einen neuen Datensatz als Zeile hinzu
                     Object[] ausgabe = {anschrift.getAnschriftID(), 
                         anschrift.getTitel(), anschrift.getName(),
-                        anschrift.getVorname(), anschrift.getGeburtsdatum(),
+                        anschrift.getVorname(), new SimpleDateFormat(
+                                "dd.MM.yyyy").format(
+                                        anschrift.getGeburtsdatum()),
                         anschrift.getStrasse(), anschrift.getPLZ(),
                         anschrift.getOrt(), anschrift.getEmail(),
                         anschrift.getFAX(), anschrift.getTelefon()};
@@ -465,7 +472,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         jLabel2.setText("Eingabe:");
 
         status_jTextField1.setEditable(false);
-        status_jTextField1.setText("Es werden maximal 20 Treffer angezeigt!");
+        status_jTextField1.setText("Es werden maximal 200 Treffer angezeigt!");
         status_jTextField1.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -586,7 +593,8 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
             Object[] ausgabeRechnung = {gp.getRechnungsadresse().getTitel(), 
                 gp.getRechnungsadresse().getName(), 
                 gp.getRechnungsadresse().getVorname(), 
-                gp.getRechnungsadresse().getGeburtsdatum(),
+                new SimpleDateFormat("dd.MM.yyyy").format(
+                        gp.getRechnungsadresse().getGeburtsdatum()),
                 gp.getRechnungsadresse().getStrasse(), 
                 gp.getRechnungsadresse().getPLZ(),
                 gp.getRechnungsadresse().getOrt(), 
@@ -600,7 +608,8 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
             Object[] ausgabeLiefer = {gp.getLieferadresse().getTitel(), 
                 gp.getLieferadresse().getName(),
                 gp.getLieferadresse().getVorname(), 
-                gp.getLieferadresse().getGeburtsdatum(),
+                new SimpleDateFormat("dd.MM.yyyy").format(
+                        gp.getLieferadresse().getGeburtsdatum()),
                 gp.getLieferadresse().getStrasse(), 
                 gp.getLieferadresse().getPLZ(),
                 gp.getLieferadresse().getOrt(), 
@@ -640,7 +649,8 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                     position.getAuftrag().getAuftragskopfID(),
                     position.getPositionsnummer(), 
                     position.getEinzelwert(), position.getMenge(),
-                    position.getErfassungsdatum()});
+                    new SimpleDateFormat("dd.MM.yyyy").format(
+                            position.getErfassungsdatum())});
             }
             //Übergebe das Model an die Table
             this.Positionanzeige_jTable2.setModel(dtm);

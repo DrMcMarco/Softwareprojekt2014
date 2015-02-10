@@ -212,7 +212,7 @@
     <Component class="javax.swing.JTextField" name="status_jTextField1">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
-        <Property name="text" type="java.lang.String" value="Es werden maximal 20 Treffer angezeigt!"/>
+        <Property name="text" type="java.lang.String" value="Es werden maximal 200 Treffer angezeigt!"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
