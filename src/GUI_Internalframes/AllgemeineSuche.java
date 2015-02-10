@@ -358,8 +358,13 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
     }//GEN-LAST:event_sucheStarten_jButtonActionPerformed
 
     private void aufsteigend_jRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aufsteigend_jRadioButtonActionPerformed
+        if (this.aufsteigend_jRadioButton.isSelected()) {
+            this.aufsteigend_jRadioButton.setSelected(true);
+        }
         this.absteigend_jRadioButton.setSelected(false);
         this.sortierung = AUFSTEIGEND;
+        
+        
     }//GEN-LAST:event_aufsteigend_jRadioButtonActionPerformed
 
     private void absteigend_jRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_absteigend_jRadioButtonActionPerformed
