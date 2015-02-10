@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -56,7 +57,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
     /**
      * Ergebnis Daten aus der Suche.
      */
-    private Collection<?> ergebnisDaten;
+    private Collection ergebnisDaten;
     
     /**
      * Die getätigte Sucheingabe.
@@ -104,9 +105,25 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
      * Setzt die getätigte Sucheingabe.
      * Sie wird noch einmal oberhalb der View angezeigt.
      * @param eingabe die Sucheingabe
+     * @param sort Gibt die Sortierung an.
      */
-    public void setzeSucheingabe(String eingabe) {
+    public void setzeSucheingabe(String eingabe, String sort) {
         this.Suchengabe_jTextArea1.setText(eingabe);
+        List<?> liste = new ArrayList();
+        List absteigendeListe = new ArrayList();
+        //Prüfe, ob eine Sucheingabe getätigt wurde und ob die Sortierung 
+        //absteigend erfolgen soll
+        if ("".equals(eingabe) && "absteigend".equals(sort)) {
+            //übernehme die Daten
+            liste.addAll(this.ergebnisDaten);
+            //Durchlaufe die Liste von hinten
+            for (int i = liste.size() - 1; i >= 0; i--) {
+                //Füge das letzte Element an die Erste stelle der 2. Liste...
+                absteigendeListe.add(liste.get(i));
+            }
+            //Setze das ergebnis erneut aber in umgekehrter Reihenfolge...
+            this.ergebnisDaten = absteigendeListe;
+        } 
     }
     
     /**
@@ -797,7 +814,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
             //Wenn eine Tabelle ausgewählt wurde die nicht hierauf 
             //Referenziert, dann gib eine Meldung aus und der Benutzer
             //Muss seine Eingabe wiederholen
-            } if (this.tabelle.equals("Artikel")) {
+            } else if (this.tabelle.equals("Artikel")) {
                 //Prüfe, ob ein Datensatz selektiert wurde.
                 if (this.Anzeige_jTable1.getSelectedRow() != -1) {
                     //Caste die Ergebnisliste aus der Suche nach Artikelkat.
