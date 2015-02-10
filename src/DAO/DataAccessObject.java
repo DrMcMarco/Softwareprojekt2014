@@ -2429,6 +2429,47 @@ public class DataAccessObject {
     
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
+    /* 10.02.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
+    /**
+     * Gibt die Auftragspositionen eines Auftrags als Hashmap zurück
+     * (Key: Artikel-ID, Value: Menge)
+     * @param AuftragskopfId ID des Auftrags
+     * @return eine Hashmap mit den Positionen des Auftrags
+     * @throws ApplicationException wenn der Auftrag nicht gefunden werden kann
+     */
+    public HashMap<Long, Integer> gibAuftragspositionen(long AuftragskopfId) 
+            throws ApplicationException {
+        
+        //ArrayList für die Positionen das Auftrages
+        ArrayList<Auftragsposition> positionenList;
+        
+        //Hashma die die Artikel-ID sowie die jeweilige Menge enthält
+        HashMap<Long, Integer> positionenMap = new HashMap<>();
+        
+        //Suche nach dem Auftragskopf anhand der ID in der Datenbank 
+        Auftragskopf ak = em.find(Auftragskopf.class, AuftragskopfId);
+        
+        //Wenn der Auftrag nicht gefunden werden kann
+        if (ak == null) {
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Der Auftrag konnte nicht gefunden werden.");
+        }
+        
+        //Hole die Positionen des Auftrags
+        positionenList = ak.getPositionsliste();
+        
+        //Speichere die Artikel-ID sowie die dazugehörige Menge jeder Position 
+        //in einer Hashmap
+        for (Auftragsposition ap : positionenList) {
+            positionenMap.put(ap.getArtikel().getArtikelID(), ap.getMenge());
+        }
+        
+        return positionenMap;
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
     /* 16.01.15   loe     angelegt                              */
     /* 17.01.15   loe     überarbeitet                          */
     /* 18.01.15   loe     überarbeitet                          */
