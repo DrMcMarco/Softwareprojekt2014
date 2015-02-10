@@ -904,23 +904,21 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 zahlungskonditionen_jComboBox.setEnabled(false);
             }
 
+            gesamtAuftragswert = 0.00;
             if (auftragsart_jComboBox.getSelectedItem().toString().equals(BESTELLAUFTRAG)) {
 
-                gesamtAuftragswert = 0.00;
-
                 if (auftragspositionen.size() > 0) {
-                    
+
                     dtm.setRowCount(0);
-                    
+
                     for (int i = 0; i < auftragspositionen.size(); i++) {
                         summenWertFuerPos = 0.0;
-                        
+
                         artikel = auftragspositionen.get(i).getArtikel().getArtikelID();
                         neuerWert = (GUIFactory.getDAO().gibArtikel(artikel)).getEinkaufswert();
                         auftragspositionen.get(i).setEinzelwert(neuerWert);
-                        
-                        System.out.println(auftragspositionen.get(i).getEinzelwert());
-                        
+
+
                         summenWertFuerPos = auftragspositionen.get(i).getEinzelwert()
                                 * auftragspositionen.get(i).getMenge();
 
@@ -934,20 +932,51 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                         gesamtAuftragswert += summenWertFuerPos;
 
                     }
-                    materialnummer_jTextField.setText("");
-                    menge_jTextField.setText("");
-                    einzelwert_jTextField.setText("");
 
-                    auftragswert_jTextField.setText(String.valueOf(gesamtAuftragswert));
-                    gesamtAuftragswert = 0.00;
-                    auftragsposition_jTable.setModel(dtm);
+                }
+
+            } else {
+
+                if (auftragspositionen.size() > 0) {
+
+                    dtm.setRowCount(0);
+
+                    for (int i = 0; i < auftragspositionen.size(); i++) {
+                        summenWertFuerPos = 0.0;
+
+                        artikel = auftragspositionen.get(i).getArtikel().getArtikelID();
+                        neuerWert = (GUIFactory.getDAO().gibArtikel(artikel)).getVerkaufswert();
+                        auftragspositionen.get(i).setEinzelwert(neuerWert);
+
+//                        System.out.println(auftragspositionen.get(i).getEinzelwert());
+
+                        summenWertFuerPos = auftragspositionen.get(i).getEinzelwert()
+                                * auftragspositionen.get(i).getMenge();
+
+                        Object[] neuesObj = new Object[]{i + 1,
+                            auftragspositionen.get(i).getArtikel().getArtikelID(),
+                            auftragspositionen.get(i).getMenge(), summenWertFuerPos,
+                            gibDatumAlsString(abschlussdatum)};
+
+                        dtm.addRow(neuesObj);
+
+                        gesamtAuftragswert += summenWertFuerPos;
+                    }
+
                 }
             }
+            materialnummer_jTextField.setText("");
+            menge_jTextField.setText("");
+            einzelwert_jTextField.setText("");
+
+            auftragswert_jTextField.setText(String.valueOf(gesamtAuftragswert));
+            gesamtAuftragswert = 0.00;
+            auftragsposition_jTable.setModel(dtm);
         } catch (ApplicationException e) {
             System.out.println(" Keine Preise vorhanden!!");
+
         }
     }//GEN-LAST:event_auftragsart_jComboBoxActionPerformed
-
     /**
      * Beim Focuslost des Eingabefeldes für den Auftragswert, wird auf die
      * Richtigkeit der Eingabe geprüft und gibt gegebenen falls eine
@@ -1212,7 +1241,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                                     zahlungskonditionen_jComboBox.
                                     getSelectedItem().toString());
                         } else {
-                            jetzigeZahlungskonditionen = null;
+                            jetzigeZahlungskonditionen = Long.parseLong("0");
                         }
 //                        jetzigerKopf
 //                                = //                                GUIFactory.getDAO().erstelleAuftragskopf(
@@ -1461,6 +1490,11 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 
         // Speichervariable für die Artikelmenge
         Integer artikelMenge = 0;
+        
+        final String BESTELLAUFTRAG = "Bestellauftrag";
+
+        Long neuartikel;
+        Double neuerWert;
 
         //Aufruf der Schnittstellenmethode um auf Vollständigkeit der Eingaben zu prüfen.
         ueberpruefen();
@@ -1471,7 +1505,15 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 
                 if (artikel.containsKey(Long.parseLong(
                         materialnummer_jTextField.getText()))) {
-
+                    
+//                    if(auftragsart_jComboBox.getSelectedItem().toString().equals(BESTELLAUFTRAG)){
+//                        
+//                    }
+                        
+                        
+                        
+                        
+                        
                     artikelMenge = artikel.get(Long.parseLong(
                             materialnummer_jTextField.getText()))
                             + Integer.parseInt(menge_jTextField.getText());
@@ -1504,10 +1546,13 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                             Integer.parseInt(menge_jTextField.getText()),
                             Double.parseDouble(einzelwert_jTextField.getText()),
                             abschlussdatum);
+                    
                     // Zuweisung der Menge an das Objekt der Auftragsposition
-                    position.setMenge(Integer.parseInt(menge_jTextField.getText()));
+//                    position.setMenge(Integer.parseInt(menge_jTextField.getText()));
+                    
                     //Auftragsposition wird der Liste an Auftragspositionen zugewiesen.
                     auftragspositionen.add(position);
+                    
 
                 }
                 // Positionstabelle löscht alle Zeilen
@@ -1515,9 +1560,12 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 // Schleife mit der alle Auftragspositionen ausgelesen werden
                 for (int i = 0; i < auftragspositionen.size(); i++) {
 
+                    
                     // Summe jeder einzelnen Position wird berechnet und in Speichervairable gespeichert.
                     summenWertFuerPos = auftragspositionen.get(i).getEinzelwert();
-
+                    
+//                    System.out.println(summenWertFuerPos);
+                    
                     //Erzeugung eines Objects mit den Daten der Position
                     Object[] neuesObj = new Object[]{i + 1,
                         auftragspositionen.get(i).getArtikel().getArtikelID(),
@@ -1545,57 +1593,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 summenWertFuerPos = 0.00;
 
             }
-//            else {
-//
-//                if (auftragsposition_jTable.getRowCount() == 0) {//Wenn nicht mindestens eine Auftragsposition zum Auftragskopf angelegt worden ist
-//                    // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben getätigt worden sind
-//                    fehlEingabenMarkierung(fehlendeEingabenAuftragsposition,
-//                            FEHLERMELDUNG_UNVOLLSTAENDIG_TITEL,
-//                            fehlermeldung_unvollstaendig_keineauftragsposZumAKopf_text,
-//                            warningfarbe);
-//                } else {//Eine Auftragsposition ist bereits angelegt.
-//                    if (fehlendeEingabenAuftragsposition.size() != 5) {// Es wurden nicht vollständig Eingaben
-//                        //für die Auftragsposition getätigt und in mindestens einem Eingabefeld ist eine Eingabe
-//                        // getätigt worden.
-//
-//                        int antwort = JOptionPane.showConfirmDialog(rootPane, fehlermeldung_unvollstaendig,
-//                                FEHLERMELDUNG_UNVOLLSTAENDIG_TITEL, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-//                        //Falls bejaht wird und man eine weitere Auftragsposition anlegen möchte
-//                        if (antwort == JOptionPane.YES_OPTION) {
-//                            fehlendeEingabenAuftragsposition.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
-//                            // Alle leeren Eingabefelder werden farblich markiert.
-//                            for (int i = 0; i <= fehlendeEingabenAuftragsposition.size() - 1; i++) {
-//                                fehlendeEingabenAuftragsposition.get(i).setBackground(warningfarbe);
-//                            }
-//                            fehlendeEingabenAuftragsposition.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
-//                        } else {
-//                            //Keine Reaktion
-//                        }
-//                        // Alle leeren Eingabefelder werden farblich markiert.
-//                        fehlendeEingabenAuftragsposition.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
-//                        for (int i = 0; i <= fehlendeEingabenAuftragsposition.size() - 1; i++) {
-//                            fehlendeEingabenAuftragsposition.get(i).setBackground(warningfarbe);
-//                        }
-//                        fehlendeEingabenAuftragsposition.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
-//                    } else {
-//
-//                    }
-////                        // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
-////                        // getätigt worden sind
-////                        fehlEingabenMarkierung(fehlendeEingabenAuftragsposition,
-////                                FEHLERMELDUNG_UNVOLLSTAENDIG_TITEL,
-////                                fehlermeldung_unvollstaendig_auftragsposition_text,
-////                                warningfarbe);
-//                }
-//            }
-
-//            } else {
-//                // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
-//                // getätigt worden sind
-//                fehlEingabenMarkierung(fehlendeEingaben,
-//                        FEHLERMELDUNG_UNVOLLSTAENDIG_TITEL,
-//                        fehlermeldung_unvollstaendig_auftragskopf_text, warningfarbe);
-//            }
         } catch (ApplicationException e) {
             this.hauptFenster.setStatusMeldung(e.getMessage());
         } catch (NumberFormatException e) {
@@ -1787,7 +1784,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         auftragspositionen.clear();
 
         dtm.setRowCount(0);
-
+        
         auftragsposition_jTable.setModel(dtm);
     }
 
@@ -1903,7 +1900,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         this.geschaeftspartner_jTextField.setEnabled(true);
         this.auftragskopfID_jTextField.setEnabled(false);
         this.auftragswert_jTextField.setEnabled(false);
-        this.auftragsart_jComboBox.setEnabled(true);
+        this.auftragsart_jComboBox.setEnabled(false);
 
         if (this.auftragsart_jComboBox.getSelectedIndex() == 0) {
             this.zahlungskonditionen_jComboBox.addItem("Bitte wählen");
@@ -2140,6 +2137,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     /* 14.01.2015 Terrasi angelegt und dokumentiert*/
     /*----------------------------------------------------------*/
     public void setzeEingabe(Auftragskopf auftragskopf) {
+        
         auftragspositionen = auftragskopf.getPositionsliste();
 
         this.geschaeftspartner_jTextField.setText(String.valueOf(auftragskopf.getGeschaeftspartner().getGeschaeftspartnerID()));
@@ -2181,12 +2179,14 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         //Hasmap bekommt positionen
         artikel.clear();
 
+        dtm.setRowCount(0);
+        System.out.println(auftragspositionen.size());
         for (int i = 0; i < auftragspositionen.size(); i++) {
-
+            
             artikel.put(auftragspositionen.get(i).getArtikel().getArtikelID(),
                     auftragspositionen.get(i).getMenge());
 
-            summenWertFuerPos = auftragspositionen.get(i).getEinzelwert();
+            summenWertFuerPos = auftragspositionen.get(i).getEinzelwert() * auftragspositionen.get(i).getMenge();
 
             Object[] neuesObj = new Object[]{i + 1,
                 auftragspositionen.get(i).getArtikel().getArtikelID(),
@@ -2196,9 +2196,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             gesamtAuftragswert += summenWertFuerPos;
 
             dtm.addRow(neuesObj);
+            
 
         }
-
+        System.out.println(dtm.getRowCount());
         auftragsposition_jTable.setModel(dtm);
 
         auftragswert_jTextField.setText(String.valueOf(gesamtAuftragswert));
