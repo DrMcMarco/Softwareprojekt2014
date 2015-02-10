@@ -46,8 +46,8 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
     /**
      * Variablen fuer die Fehlermeldungen
      */
-    private final String KEINE_ZKNR_EINGEGEBEN = "Bitte geben Sie eine ZahlungskonditionsID ein!";
-    private final String KEINE_ZK_IN_DATENBANK = "Keine passender Zahlungskondition in Datenbank!";
+    private final String KEINE_ZKNR_EINGEGEBEN = "Bitte geben Sie eine Zahlungskonditions-ID ein!";
+    private final String KEINE_ZK_IN_DATENBANK = "Keine passender Zahlungskondition in der Datenbank!";
 
     /**
      * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die
@@ -126,6 +126,11 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
 
         jB_Speichern.setText("Speichern");
         jB_Speichern.setEnabled(false);
+        jB_Speichern.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_SpeichernActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jB_Speichern);
 
         jB_Anzeigen.setText("Anzeige/Ändern");
@@ -294,6 +299,10 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
     private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
         this.hauptFenster.rufeSuche(this);
     }//GEN-LAST:event_jB_SuchenActionPerformed
+
+    private void jB_SpeichernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SpeichernActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jB_SpeichernActionPerformed
 
      /**
      * setterMethode für die Suche

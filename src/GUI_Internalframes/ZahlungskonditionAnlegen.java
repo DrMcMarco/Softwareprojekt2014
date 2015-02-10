@@ -15,6 +15,8 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import Interfaces.InterfaceMainView;
 import Interfaces.InterfaceViewsFunctionality;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * GUI Klasse für Zahlungskontion (ZK) verwalten. Diese Klasse beinhaltet alle
@@ -221,7 +223,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
     public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
 //          fehlerhafteComponenten ist nicht leer (es sind fehlerhafte Componenten vorhanden)
 //          eine Meldung wird ausgegeben  
-        JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.WARNING_MESSAGE);
 //          an die erste fehlerhafte Componenten wird der Focus gesetzt  
         list.get(0).requestFocusInWindow();
 //          ueber die fehlerhaften Komponenten wird iteriert und bei allen fehlerhaften Componenten wird der Hintergrund in der fehlerhaften Farbe gefaerbt 
@@ -865,7 +867,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                                 sperrzeitWunsch, skontozeit1, skontozeit2, skonto1,
                                 skonto2, mahnzeit1, mahnzeit2, mahnzeit3);
 //                      Meldung fuer die Statuszeile wird angepassz
-                        STATUSZEILE = "Zahlungskondition mit der Nummer " + zknr + " wurde erfolgreich angelegt. ";
+                        STATUSZEILE = "Zahlungskondition mit der Zahlungskonditon-ID " + zknr + " wurde erfolgreich angelegt. ";
                         this.hauptFenster.setStatusMeldung(STATUSZEILE);
                         zuruecksetzen();
                     } else {
@@ -903,7 +905,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                                     sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2,
                                     mahnzeit1, mahnzeit2, mahnzeit3);
 //                          Meldung fuer die Statuszeile wird angepassz
-                            STATUSZEILE = "Zahlungskondition mit der Nummer " + zknr + " wurde erfolgreich geändert. ";
+                            STATUSZEILE = "Zahlungskondition mit der Zahlungskonditon-ID " + zknr + " wurde erfolgreich geändert. ";
                             this.hauptFenster.setStatusMeldung(STATUSZEILE);
                             zuruecksetzen(); // Formular zuruecksetzen
                             this.setVisible(false); // diese Sicht ausblenden 
@@ -1007,9 +1009,9 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                                     sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2,
                                     mahnzeit1, mahnzeit2, mahnzeit3);
 //                          Meldung fuer die Statuszeile wird angepassz
-                            STATUSZEILE = "Zahlungskondition mit der Nummer " + zknr + " wurde erfolgreich geändert. ";
+                            STATUSZEILE = "Zahlungskondition mit der Zahlungskonditon-ID " + zknr + " wurde erfolgreich geändert. ";
                             this.hauptFenster.setStatusMeldung(STATUSZEILE);
-                            
+
                             zuruecksetzen(); // Formular zuruecksetzen
                             this.setVisible(false); // diese Sicht ausblenden 
                             zurueckInsHauptmenue();
@@ -1098,7 +1100,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
             int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (antwort == JOptionPane.YES_OPTION) {
 //              Meldung fuer die Statuszeile wird angepasst
-                STATUSZEILE = "Zahlungskondition mit der Nummer " + zknr + " wurde erfolgreich gelöscht. ";
+                STATUSZEILE = "Zahlungskondition mit der Zahlungskonditon-ID " + zknr + " wurde erfolgreich gelöscht. ";
                 this.hauptFenster.setStatusMeldung(STATUSZEILE);
                 this.dao.loescheZahlungskondition(zknr);
 //                jB_ZurueckActionPerformed(evt);
