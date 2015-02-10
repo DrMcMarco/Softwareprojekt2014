@@ -399,7 +399,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
     public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
 //          fehlerhafteComponenten ist nicht leer (es sind fehlerhafte Componenten vorhanden)
 //          eine Meldung wird ausgegeben  
-        JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.WARNING_MESSAGE);
 //          an die erste fehlerhafte Componenten wird der Focus gesetzt  
         list.get(0).requestFocusInWindow();
 //          ueber die fehlerhaften Komponenten wird iteriert und bei allen fehlerhaften Componenten wird der Hintergrund in der fehlerhaften Farbe gefaerbt 
@@ -784,7 +784,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
             }
         });
 
-        jCHB_WieAnschrift.setText("wie Anschrift");
+        jCHB_WieAnschrift.setText("wie Rechnungsanschrift");
+        jCHB_WieAnschrift.setToolTipText("");
         jCHB_WieAnschrift.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCHB_WieAnschriftActionPerformed(evt);
@@ -1147,7 +1148,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //                        Nun einen neuene GP mit beiden Anschriften erzeugen
                             this.dao.erstelleGeschaeftspartner(typ, lieferanschrift, rechnungsanschrift, kreditlimit);
 //                          Meldung fuer die Statuszeile wird angepasst
-                            STATUSZEILE = "Geschäftspartner mit der Nummer " + gpnr + " wurde erfolgreich angelegt. ";
+                            STATUSZEILE = "Geschäftspartner mit der Geschäftspartner-ID " + gpnr + " wurde erfolgreich angelegt. ";
                             this.hauptFenster.setStatusMeldung(STATUSZEILE);
                             zuruecksetzen();
                         } else {
@@ -1197,7 +1198,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                                             plzAnschrift, ortAnschrift, strasseLieferanschrift, hausnummerLieferanschrift,
                                             plzLieferanschrift, ortLieferanschrift, DEUTSCHLAND, telefon, fax, eMail, eingabeGeburtsdatum);
 //                                  Meldung fuer die Statuszeile wird angepasst
-                                    STATUSZEILE = "Geschäftspartner mit der Nummer " + gpnr + " wurde erfolgreich geändert. ";
+                                    STATUSZEILE = "Geschäftspartner mit der Geschäftspartner-ID " + gpnr + " wurde erfolgreich geändert. ";
                                     this.hauptFenster.setStatusMeldung(STATUSZEILE);
                                     zuruecksetzen(); // Formular zuruecksetzen
                                     this.setVisible(false); // diese Sicht ausblenden 
@@ -1884,7 +1885,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                                             plzAnschrift, ortAnschrift, strasseLieferanschrift, hausnummerLieferanschrift,
                                             plzLieferanschrift, ortLieferanschrift, DEUTSCHLAND, telefon, fax, eMail, eingabeGeburtsdatum);
 //                                  Meldung fuer die Statuszeile wird angepasst
-                                    STATUSZEILE = "Geschäftspartner mit der Nummer " + gpnr + " wurde erfolgreich geändert. ";
+                                    STATUSZEILE = "Geschäftspartner mit der Geschäftspartner-ID " + gpnr + " wurde erfolgreich geändert. ";
                                     this.hauptFenster.setStatusMeldung(STATUSZEILE);
                                     this.setVisible(false); // diese Sicht ausblenden 
                                     zurueckInsHauptmenue();
@@ -1972,7 +1973,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                 int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (antwort == JOptionPane.YES_OPTION) {
 //              Meldung fuer die Statuszeile wird angepasst
-                    STATUSZEILE = "Geschäftspartner mit der Nummer " + gpnr + " wurde erfolgreich gelöscht. ";
+                    STATUSZEILE = "Geschäftspartner mit der Geschäftspartner-ID " + gpnr + " wurde erfolgreich gelöscht. ";
                     this.hauptFenster.setStatusMeldung(STATUSZEILE);
                     this.dao.loescheGeschaeftspartner(gpnr);
 //                jB_ZurueckActionPerformed(evt);

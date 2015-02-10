@@ -313,7 +313,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
     public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
 //          fehlerhafteComponenten ist nicht leer (es sind fehlerhafte Componenten vorhanden)
 //          eine Meldung wird ausgegeben  
-        JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.WARNING_MESSAGE);
 //          an die erste fehlerhafte Componenten wird der Focus gesetzt  
         list.get(0).requestFocusInWindow();
 //          ueber die fehlerhaften Komponenten wird iteriert und bei allen fehlerhaften 
@@ -539,7 +539,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         });
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel8.setText("Artikelnummer:");
+        jLabel8.setText("Artikel-ID:");
 
         jTF_Artikelname.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         jTF_Artikelname.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -646,20 +646,21 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                                 .addComponent(jCB_Kategorie, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel8)
-                                        .addGap(46, 46, 46)
-                                        .addComponent(jTF_Artikelnummer, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel13)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel2)
                                         .addGap(18, 18, 18)
                                         .addComponent(jSP_Artikelbeschreibung, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jTF_Artikelname, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(226, 226, 226))))
+                                            .addComponent(jLabel8)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jTF_Artikelnummer, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jTF_Artikelname, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(226, 226, 226)))))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel15)
@@ -701,9 +702,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel13)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(jTF_Artikelnummer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -718,7 +717,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(jTF_Bestandsmenge_FREI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10))
+                            .addComponent(jLabel10)
+                            .addComponent(jTF_Artikelnummer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel16)
@@ -760,7 +760,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel22)
                             .addComponent(jCB_MwST, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -823,7 +823,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                                 bestandsmengeRESERVIERT, bestandsmengeZULAUF,
                                 bestandsmengeVERKAUFT);
 //              Meldung fuer die Statuszeile wird angepasst
-                        STATUSZEILE = "Artikel mit der Artikelnummer " + artikelnr + " wurde erfolgreich angelegt. ";
+                        STATUSZEILE = "Artikel mit der Artikel-ID " + artikelnr + " wurde erfolgreich angelegt. ";
                         this.hauptFenster.setStatusMeldung(STATUSZEILE);
 //              das Formular wird zurueckgesetzt  
                         zuruecksetzen();
@@ -847,7 +847,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                             if (antwort == JOptionPane.YES_OPTION) {
 //                              falls ja, wird der Artikel geaendert
 //                              Meldung fuer die Statuszeile wird angepasst
-                                STATUSZEILE = "Artikel mit der Artikelnummer " + artikelnr + " wurde erfolgreich geändert. ";
+                                STATUSZEILE = "Artikel mit der Artikel-ID " + artikelnr + " wurde erfolgreich geändert. ";
                                 this.hauptFenster.setStatusMeldung(STATUSZEILE);
                                 this.dao.aendereArtikel(artikelnr, kategorie, artikelname, artikelbeschreibung, einzelwert,
                                         bestellwert, mwst, artikelVorher.getFrei());
@@ -1097,7 +1097,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                                 int antwort = JOptionPane.showConfirmDialog(null, MELDUNG_AENDERUNGEN_SPEICHERN, ARTIKEL_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                                 if (antwort == JOptionPane.YES_OPTION) {
 //                                  Meldung fuer die Statuszeile wird angepasst
-                                    STATUSZEILE = "Artikel mit der Artikelnummer " + artikelnr + " wurde erfolgreich geändert. ";
+                                    STATUSZEILE = "Artikel mit der Artikel-ID " + artikelnr + " wurde erfolgreich geändert. ";
                                     this.hauptFenster.setStatusMeldung(STATUSZEILE);
 //                                  falls ja, wird der Artikel geaendert
                                     this.dao.aendereArtikel(artikelnr, kategorie, artikelname, artikelbeschreibung, einzelwert,
@@ -1189,7 +1189,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                     int antwort = JOptionPane.showConfirmDialog(null, text, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (antwort == JOptionPane.YES_OPTION) {
 //                      Meldung fuer die Statuszeile wird angepasst
-                        STATUSZEILE = "Artikel mit der Artikelnummer" + artikelnr + " wurde erfolgreich gelöscht. ";
+                        STATUSZEILE = "Artikel mit der Artikel-ID" + artikelnr + " wurde erfolgreich gelöscht. ";
                         this.hauptFenster.setStatusMeldung(STATUSZEILE);
                         this.dao.loescheArtikel(artikelnr);
 //                    jB_ZurueckActionPerformed(evt);
