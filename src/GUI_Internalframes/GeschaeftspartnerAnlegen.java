@@ -185,12 +185,12 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         jTF_Fax.setDocument(new UniversalDocument("0123456789/-+", false));
         jTF_EMail.setDocument(new UniversalDocument("0123456789@-_.", true));
         jTF_Kreditlimit.setDocument(new UniversalDocument("0123456789.,", false));
-        jTF_StrasseRechnungsanschrift.setDocument(new UniversalDocument("-.´", true));
-        jTF_StrasseLieferanschrift.setDocument(new UniversalDocument("-.´", true));
-        jTF_HausnummerRechnungsanschrift.setDocument(new UniversalDocument("0123456789", true));
-        jTF_HausnummerLieferanschrift.setDocument(new UniversalDocument("0123456789", true));
-        jTF_PLZRechnungsanschrift.setDocument(new UniversalDocument("0123456789", false));
-        jTF_PLZLieferanschrift.setDocument(new UniversalDocument("0123456789", false));
+        jTF_StrasseRechnungsanschrift.setDocument(new UniversalDocument("-.´ ", true));
+        jTF_StrasseLieferanschrift.setDocument(new UniversalDocument("-.´ ", true));
+        jTF_HausnummerRechnungsanschrift.setDocument(new UniversalDocument("0123456789", true, 4));
+        jTF_HausnummerLieferanschrift.setDocument(new UniversalDocument("0123456789", true, 4));
+        jTF_PLZRechnungsanschrift.setDocument(new UniversalDocument("0123456789", false, 5));
+        jTF_PLZLieferanschrift.setDocument(new UniversalDocument("0123456789", false, 5));
         jTF_OrtRechnungsanschrift.setDocument(new UniversalDocument("-", true));
         jTF_OrtLieferanschrift.setDocument(new UniversalDocument("-", true));
 //      Aktuelles Datum wird geholt
@@ -1298,7 +1298,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //        } else if (!jTF_Telefon.getText().equals("")) {
 //            jTF_Telefon.setBackground(JTF_FARBE_STANDARD);
 //        }
-        String meldung = "Die eingegebene Telefonnummer ist nicht richtig! \n Bitte geben Sie eine richtige Telefonnummer ein. (z.B. 01771234567)";
+        String meldung = "Die eingegebene Telefonnummer ist nicht richtig!\nBitte geben Sie eine richtige Telefonnummer ein. (z.B. 01771234567)";
         ueberpruefungVonFocusLost(jTF_Telefon, PRUEFUNG_TELEFON, FEHLERHAFTE_EINGABE, meldung);
 
     }//GEN-LAST:event_jTF_TelefonFocusLost
@@ -1329,7 +1329,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //        } else if (!textfield.getText().equals("")) {
 //            textfield.setBackground(JTF_FARBE_STANDARD);
 //        }
-        String meldung = "Die eingegebene Faxnummer ist nicht richtig! \n Bitte geben Sie eine richtige Faxnummer ein. (z.B. 0234123123)";
+        String meldung = "Die eingegebene Faxnummer ist nicht richtig!\nBitte geben Sie eine richtige Faxnummer ein. (z.B. 0234123123)";
         ueberpruefungVonFocusLost(jTF_Fax, PRUEFUNG_TELEFON, FEHLERHAFTE_EINGABE, meldung);
 
     }//GEN-LAST:event_jTF_FaxFocusLost
@@ -1378,7 +1378,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //                  GP ist unter 18, formularOK wird auf false gesetzt 
                     formularOK = false;
 //                    Falls nicht, Fehlermeldung
-                    meldung = "Der eingebene Geschäftspartner ist nicht volljährig!\nEs können nur nolljährige Geschäftspartner angelegt werden.";
+                    meldung = "Der eingegebene Geschäftspartner ist nicht volljährig!\nEs können nur volljährige Geschäftspartner angelegt werden.";
                     JOptionPane.showMessageDialog(null, meldung, FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
                     jFTF_Geburtsdatum.requestFocusInWindow();
                     jFTF_Geburtsdatum.setValue(null);
@@ -1386,7 +1386,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //                  GP ist ueber 100 Jahre alt, formularOK wird auf false gesetzt 
                     formularOK = false;
 //                    Falls nicht, Fehlermeldung
-                    meldung = "Der eingebene Geschäftspartner ist über 100 Jahre alt!\n Geschäftspartner, die über 100 Jahre alt sind können nicht angelegt werden.";
+                    meldung = "Der eingegebene Geschäftspartner ist über 100 Jahre alt!\nGeschäftspartner, die über 100 Jahre alt sind können nicht angelegt werden.";
                     JOptionPane.showMessageDialog(null, meldung, FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
                     jFTF_Geburtsdatum.requestFocusInWindow();
                     jFTF_Geburtsdatum.setValue(null);
@@ -1399,7 +1399,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //              Datum ist in ungueltig, formularOK wird auf false gesetzt 
                 formularOK = false;
 //                Parse Exception, da EingabeDatum nicht gueltig --> Fehlermeldung
-                meldung = "Das eingegebene Geburtsdatum ist nicht gülitig!\nBitte geben Sie ein gültiges Geburtsdatum ein. (z.B. 01.01.1980)";
+                meldung = "Das eingegebene Geburtsdatum ist nicht gültig!\nBitte geben Sie ein gültiges Geburtsdatum ein. (z.B. 01.01.1980)";
                 JOptionPane.showMessageDialog(null, meldung, FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
                 jFTF_Geburtsdatum.requestFocusInWindow();
                 jFTF_Geburtsdatum.setValue(null);
@@ -1432,7 +1432,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //        } else if (!textfield.getText().equals("")) {
 //            textfield.setBackground(JTF_FARBE_STANDARD);
 //        }
-        String meldung = "Die einegebene eMail ist nicht gültig!\nBitte geben Sie eine gültige eMail Adresse ein. (z.B. max.mustermann@w-hs.de)";
+        String meldung = "Die eingegebene e-Mail Adresse ist nicht gültig!\nBitte geben Sie eine gültige e-Mail Adresse ein. (z.B. max.mustermann@w-hs.de)";
         ueberpruefungVonFocusLost(jTF_EMail, PRUEFUNG_EMAIL, FEHLERHAFTE_EINGABE, meldung);
 
 
@@ -1450,7 +1450,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         if (!jTF_Kreditlimit.getText().matches(PRUEFUNG_PREIS)) {
 //          Kreditlimit ist nicht ok, formularOK wird auf false gesetzt 
             formularOK = false;
-            String meldung = "Der eingegebene Preis ist nicht richtig!\nBitte geben Sie einen richtigen Preis ein. (z.B. 9,99 oder 99.999,99)";
+            String meldung = "Der eingegebene Wert ist nicht richtig!\nBitte geben Sie einen richtigen Wert ein. (z.B. 9,99 oder 99.999,99)";
             JOptionPane.showMessageDialog(null, meldung, FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
             jTF_Kreditlimit.requestFocusInWindow();
             jTF_Kreditlimit.setText("");
@@ -1520,7 +1520,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //        } else if (!textfield.getText().equals("")) {
 //            textfield.setBackground(JTF_FARBE_STANDARD);
 //        }
-        String meldung = "Die eingegebene Hausnummer ist nicht richtig!\nSie können eine maximal dreistellige Hausnummer gefolgt von einem optionalen Buchstaben eingeben. (z.B. 10 oder 100A)";
+        String meldung = "Die eingegebene Hausnummer ist nicht richtig!\nSie können eine maximal dreistellige Hausnummer gefolgt von\neinem optionalen Buchstaben eingeben. (z.B. 10 oder 100A)";
         ueberpruefungVonFocusLost(jTF_HausnummerRechnungsanschrift, PRUEFUNG_HAUSNUMMER, FEHLERHAFTE_EINGABE, meldung);
 
 
@@ -1544,7 +1544,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //            jTF_HausnummerLieferanschrift.setBackground(JTF_FARBE_STANDARD);
 //        }
 
-        String meldung = "Die eingegebene Hausnummer ist nicht richtig!\nSie können eine maximal dreistellige Hausnummer gefolgt von einem optionalen Buchstaben eingeben. (z.B. 10 oder 100A)";
+        String meldung = "Die eingegebene Hausnummer ist nicht richtig!\nSie können eine maximal dreistellige Hausnummer gefolgt von\neinem optionalen Buchstaben eingeben. (z.B. 10 oder 100A)";
         ueberpruefungVonFocusLost(jTF_HausnummerLieferanschrift, PRUEFUNG_HAUSNUMMER, FEHLERHAFTE_EINGABE, meldung);
     }//GEN-LAST:event_jTF_HausnummerLieferanschriftFocusLost
     /**
