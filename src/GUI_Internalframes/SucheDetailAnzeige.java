@@ -1159,9 +1159,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                             "Fehler", JOptionPane.WARNING_MESSAGE);
             }
         } else if (this.hauptFenster.gibLetzteAnzeige().getTitle().equals(
-                "Zahlungskondition ändern Einstieg") 
-                        || this.hauptFenster.gibLetzteAnzeige().getTitle()
-                                .equals("Zahlungskonditionen anzeigen") 
+                "Zahlungskondition ändern Einstieg")
                 || this.hauptFenster.gibLetzteAnzeige().getTitle()
                                 .equals("Zahlungskondition "
                                         + "anzeigen Einstieg")) {
@@ -1224,6 +1222,40 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                                     .getPositionsliste().get(
                                             this.Positionanzeige_jTable2
                                                     .getSelectedRow()));
+                    //Schließe die Suche
+                    this.setVisible(false);
+                    //Setze ggf. die Positions-Table auf nicht sichtbar
+                    this.position_jPanel1.setVisible(false);
+                    this.Positionanzeige_jTable2.setVisible(false);
+                //Wenn kein Datensatz ausgewählt wurde, wird der Benutzer
+                //Daraufhin aufmerksam gemacht
+                } else {
+                    JOptionPane.showMessageDialog(null, FEHLER_AUSWAHL, 
+                            "Fehler", JOptionPane.WARNING_MESSAGE);
+                }
+            //Wenn eine Tabelle ausgewählt wurde die nicht hierauf 
+            //Referenziert, dann gib eine Meldung aus und der Benutzer
+            //Muss seine Eingabe wiederholen
+            } else {
+                JOptionPane.showMessageDialog(null, FEHLER_TABELLE, 
+                            "Fehler", JOptionPane.WARNING_MESSAGE);
+            }
+        } else if (this.hauptFenster.gibLetzteAnzeige().getTitle()
+                                .equals("Zahlungskondition anzeigen")) {
+            //Prüfe, ob sich die Suche auf Anschrift bezieht
+            if (this.tabelle.equals("Zahlungskondition")) {
+                //Prüfe, ob ein Datensatz selektiert wurde.
+                if (this.Anzeige_jTable1.getSelectedRow() != -1) {
+                    //Caste die Ergebnisliste aus der Suche nach Anschrift.
+                    zkListe = new ArrayList<>(
+                         (Collection<? 
+                                extends Zahlungskondition>) this.ergebnisDaten);
+                    
+                    //Setze in der View entsprechend das Feld mit den 
+                    //Informationen
+                    this.hauptFenster.gibZkAnlegen()
+                            .zeigeZKausSucheAn(zkListe.get(
+                                    this.Anzeige_jTable1.getSelectedRow()));
                     //Schließe die Suche
                     this.setVisible(false);
                     //Setze ggf. die Positions-Table auf nicht sichtbar
