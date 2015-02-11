@@ -284,7 +284,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
-                    this.internal.auftragskopfaendern.setTitle("Auftragskopf anzeigen");
+                    this.internal.auftragskopfaendern.setTitle("Auftragskopf anzeigen Einstieg");
                     
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
@@ -310,7 +310,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
-                    this.internal.auftragsspositionaender.setTitle("Auftragsposition anzeigen");
+                    this.internal.auftragsspositionaender.setTitle("Auftragsposition anzeigen Einstieg");
                     
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
@@ -349,7 +349,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
-                    this.internal.artikelaendern.setTitle("Artikel anzeigen");
+                    this.internal.artikelaendern.setTitle("Artikel anzeigen Einstieg");
                     
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
@@ -388,7 +388,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufendenen Maske ein Titel übergeben.
-                    this.internal.geschaeftspartneraendern.setTitle("Geschäftspartner anzeigen");
+                    this.internal.geschaeftspartneraendern.setTitle("Geschäftspartner anzeigen Einstieg");
                     
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
@@ -427,7 +427,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufendenen Maske ein Titel übergeben.
-                    this.internal.zahlungskonditionaendern.setTitle("Zahlungskonditionen anzeigen");
+                    this.internal.zahlungskonditionaendern.setTitle("Zahlungskonditionen anzeigen Einstieg");
                     
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
@@ -452,7 +452,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
-                    this.internal.useraendern.setTitle("Benutzer ändern");
+                    this.internal.useraendern.setTitle("Benutzer ändern Einstieg");
                     
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
@@ -464,7 +464,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
-                    this.internal.useraendern.setTitle("Benutzer anzeigen");
+                    this.internal.useraendern.setTitle("Benutzer anzeigen Einstieg");
                     
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);

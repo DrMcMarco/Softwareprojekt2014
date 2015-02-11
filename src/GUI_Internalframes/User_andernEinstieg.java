@@ -75,7 +75,7 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
         Weiter_jButton = new javax.swing.JButton();
 
         setResizable(true);
-        setTitle("User ändern");
+        setTitle("User ändern Einstieg");
         setPreferredSize(new java.awt.Dimension(600, 400));
         setRequestFocusEnabled(false);
         try {
