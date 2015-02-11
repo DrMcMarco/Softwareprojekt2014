@@ -1053,6 +1053,12 @@ public class DataAccessObject {
                     "Der Artikel konnte nicht gefunden werden");
         }
         
+        if (Einkaufswert <= 0 || Verkaufswert <= 0) {
+            throw new ApplicationException(FEHLER_TITEL,
+                    "Der Einkaufswert bzw. Verkaufswert kann nicht null "
+                            + "oder negativ sein.");
+        }
+        
         //Selektiere alle Auftragspositionen die den entsprechenden Artikel
         //enthalten
         Query query = em.createQuery("select ap from Auftragskopf ak, "
@@ -3055,13 +3061,18 @@ public class DataAccessObject {
      * @throws ApplicationException wenn der Auftrag oder die Position nicht
      *                              gefunden werden kann
      */
-    public void loeschePosition(long AuftragsID, long Positionnummer) 
+    private void loeschePosition(long AuftragsID, long Positionnummer) 
             throws ApplicationException {
         
         //Suche den Auftragskopf anhand der ID in der Datenbank
         Auftragskopf ak = em.find(Auftragskopf.class, AuftragsID);
         
-        Auftragsposition ap = null;
+        if (ak == null) {
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Der Auftrag konnte nicht gefunden werden.");
+        }
+        
+        Auftragsposition ap;
         
         //SQL-Query für das Selektieren einer Auftragsposition anhand
         //des Auftrags und der Positionnummer
@@ -3086,6 +3097,58 @@ public class DataAccessObject {
         
         //Auftragsposition persisieren
         em.persist(ap);
+    }
+    
+    /**
+     * Methode zum Löschen von Auftragspositionen
+     * Führt die Methode loeschePosition innerhalb einer Transaktion aus, da diese
+     * selber keine Transaktion enthält
+     * @param AuftragsID ID eines Auftrags
+     * @param Positionsnummer Nummer des Position innerhalb des Auftrags
+     * @throws ApplicationException wenn Fehler bei der Transaktion auftreten
+     */
+    public void loeschePositionTransaktion(long AuftragsID, long Positionsnummer) 
+            throws ApplicationException {
+        
+        try {
+        
+            em.getTransaction();
+            
+            this.loeschePosition(AuftragsID, Positionsnummer);
+            
+            em.getTransaction().commit();
+            
+        } catch (RollbackException re) {
+
+            //Der Commit ist fehlgeschlagen
+            //Dadurch wird implizit ein Rollback ausgeführt
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Commit ist fehlgeschlagen. Transkation wurde "
+                            + "rückgängig gemacht.");
+
+        } catch (PersistenceException pe){
+
+            //Es ist ein Fehler beim Persistieren der Daten aufgetreten
+            //Hier muss ein Rollback manuell durchgeführt werdeb
+            em.getTransaction().rollback();
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Fehler beim Persistieren der Daten. Transkation wurde "
+                            + "rückgängig gemacht.");
+
+        } catch (Throwable th) {
+
+            //Ein unerwarteter Fehler ist aufgetreten
+            //Wenn eine Transaktion aktiv ist, muss diese rückgängig gemacht
+            //werden
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Ein unerwarteter Fehler ist ausfgetreten.");
+
+        }
     }
 
     
