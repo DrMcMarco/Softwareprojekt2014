@@ -46,8 +46,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
     String fehlermeldung_titel = "Fehlerhafte Eingabe";
     String fehlermeldungAuftragskopfIDtext = "\"Die eingegebene Auftragskopf-ID ist nicht gültig! "
             + "\\n Bitte geben Sie eine gültige Auftragskopf-ID ein. (z.B. 1 oder 999999999)\"";
-    String fehlermeldungUnvollstaendig = "Es wurden nicht alle Eingaben getätigt.\n"
-            + "Bitte geben Sie die benötigte Eingabe in dem markierten Eingabefeld ein.";
+    String fehlermeldungUnvollstaendig = "Es wurden nicht alle Eingaben getätigt.";
 
     /*
      Speichervariablen
@@ -263,8 +262,8 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
 
         Auftragskopf aKopf;
 //Aufruf der Schnittstellenmethode um auf Vollständigkeit der Eingaben zu prüfen.
-        ueberpruefen();
-        if (fehleingabefelder.isEmpty()) {//Bei ausgefüllten Eingabenfeldern
+//        ueberpruefen();
+//        if (fehleingabefelder.isEmpty()) {//Bei ausgefüllten Eingabenfeldern
             try {
                 aKopf = GUIFactory.getDAO().gibAuftragskopf(Long.parseLong(auftragskopfID_jTextField.getText()));
                 // Überprüft anhand des Framestitels, ob es das nächste Fenster
@@ -295,17 +294,19 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
 //                    this.auftragskopfAnlegen.setStatusAnzeigen();
                     this.hauptFenster.setFrame(this.auftragskopfAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
                 }
-            } catch (ApplicationException | NumberFormatException | NullPointerException e) {
+            } catch (ApplicationException | NullPointerException e) {
                 this.hauptFenster.setStatusMeldung(e.getMessage());
+            } catch(NumberFormatException e){
+                this.hauptFenster.setStatusMeldung(fehlermeldungUnvollstaendig);
             }
 
-        } else {//Wenn Eingaben fehlen.
-            // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
-            // getätigt worden sind
-            fehlEingabenMarkierung(fehleingabefelder, fehlermeldung_titel,
-                    fehlermeldungUnvollstaendig, warningfarbe);//Meldung wird ausgegeben und
-
-        }
+//        } else {//Wenn Eingaben fehlen.
+//            // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
+//            // getätigt worden sind
+//            fehlEingabenMarkierung(fehleingabefelder, fehlermeldung_titel,
+//                    fehlermeldungUnvollstaendig, warningfarbe);//Meldung wird ausgegeben und
+//
+//        }
     }//GEN-LAST:event_weiter_jButtonActionPerformed
 
     /*----------------------------------------------------------*/

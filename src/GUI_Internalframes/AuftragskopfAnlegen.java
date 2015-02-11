@@ -1402,13 +1402,16 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         int index = -1;
         Long id;
 
+       
+        double einzelwert = 0.0;
+
         //Aufruf der Schnittstellenmethode um auf Vollständigkeit der Eingaben zu prüfen.
         ueberpruefen();
         HashMap<Long, Integer> map = new HashMap<>();
         try {
 
             if (fehlendeEingabenAuftragsposition.isEmpty()) {
-
+                //Wenn ein Artikel bereits in einer Position angelegte worden ist.
                 if (artikel.containsKey(Long.parseLong(
                         materialnummer_jTextField.getText()))) {
 
@@ -1423,8 +1426,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 
                     artikelMenge = 0;
                     index = -1;
+                    
                     for (int i = 0; i < auftragspositionen.size(); i++) {
-
                         if (auftragspositionen.get(i).getArtikel().getArtikelID()
                                 == Long.parseLong(materialnummer_jTextField.getText())) {
 
@@ -1433,7 +1436,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                         }
                     }
                 } else {
-
                     // Hashmap für Artikel erhält einen Artikel und dessen Menge
                     artikel.put(Long.parseLong(materialnummer_jTextField.getText()),
                             Integer.parseInt(menge_jTextField.getText()));
@@ -1444,12 +1446,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                             Integer.parseInt(menge_jTextField.getText()),
                             Double.parseDouble(einzelwert_jTextField.getText()),
                             abschlussdatum);
-
-                    // Zuweisung der Menge an das Objekt der Auftragsposition
-//                    position.setMenge(Integer.parseInt(menge_jTextField.getText()));
                     //Auftragsposition wird der Liste an Auftragspositionen zugewiesen.
                     auftragspositionen.add(position);
-
                 }
                 // Positionstabelle löscht alle Zeilen
                 dtm.setRowCount(0);
@@ -1457,9 +1455,11 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 // Schleife mit der alle Auftragspositionen ausgelesen werden
                 for (int i = 0; i < auftragspositionen.size(); i++) {
 
+                    // Für den gleichen Artikel
                     if (i == index) {
+                        
                         // Summe jeder einzelnen Position wird berechnet und in Speichervairable gespeichert.
-                        summenWertFuerPos = auftragspositionen.get(i).getEinzelwert()
+                        summenWertFuerPos = Double.parseDouble(einzelwert_jTextField.getText()) 
                                 * artikel.get(Long.parseLong(materialnummer_jTextField.getText()));
 
                         Object[] neuesObj = new Object[]{i + 1,
@@ -1473,14 +1473,15 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                         // Defaultmodell erhält das Objectobjekt und fügt eine
                         // neue Zeile hinzu.
                         dtm.addRow(neuesObj);
-                    } else {
-
+                    } else {// neuen Artikel anlegen
+                        
                         // Summe jeder einzelnen Position wird berechnet und in Speichervairable gespeichert.
                         id = auftragspositionen.get(i).getArtikel().getArtikelID();
 
                         summenWertFuerPos = auftragspositionen.get(i).getEinzelwert()
                                 * artikel.get(id);
 
+                        
                         //Erzeugung eines Objects mit den Daten der Position
                         Object[] neuesObj = new Object[]{i + 1,
                             auftragspositionen.get(i).getArtikel().getArtikelID(),
@@ -1514,6 +1515,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         } catch (NumberFormatException e) {
             this.hauptFenster.setStatusMeldung("Bitte eine Materialnummer eingeben.");
         }
+        fehlendeEingabenAuftragsposition.clear();
     }//GEN-LAST:event_NeuePosition_jButtonActionPerformed
 
     /*----------------------------------------------------------*/
@@ -1530,69 +1532,23 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      */
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
 
-       
+        if (this.getTitle().equals("Auftragskopf anlegen")) {
+            if (!(geschaeftspartner_jTextField.getText().equals("")
+                    && auftragsart_jComboBox.getSelectedIndex() == 0
+                    && auftragstext_jTextArea.getText().equals("")
+                    && lieferdatum_jFormattedTextField.getText().
+                    equals(erfassungsdatum_auftragsposition_jFormattedTextField.getText())
+                    && abschlussdatum_jFormattedTextField.getText().equals(
+                            lieferdatum_jFormattedTextField.getText())
+                    && materialnummer_jTextField.getText().equals("")
+                    && menge_jTextField.getText().equals("")
+                    && auftragsposition_jTable.getRowCount() == 0)) {
 
-            if (this.getTitle().equals("Auftragskopf anlegen")) {
-                if (!(geschaeftspartner_jTextField.getText().equals("")
-                        && auftragsart_jComboBox.getSelectedIndex() == 0
-                        && auftragstext_jTextArea.getText().equals("")
-                        && lieferdatum_jFormattedTextField.getText().
-                        equals(erfassungsdatum_auftragsposition_jFormattedTextField.getText())
-                        && abschlussdatum_jFormattedTextField.getText().equals(
-                                lieferdatum_jFormattedTextField.getText())
-                        && materialnummer_jTextField.getText().equals("")
-                        && menge_jTextField.getText().equals("")
-                        && auftragsposition_jTable.getRowCount() == 0)) {
+                int antwort = JOptionPane.showConfirmDialog(rootPane, DATENVERWERFEN_TEXT,
+                        DATENVERWERFEN_TITEL, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
-                    int antwort = JOptionPane.showConfirmDialog(rootPane, DATENVERWERFEN_TEXT,
-                            DATENVERWERFEN_TITEL, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-
-                    //Falls bejaht wird, werden die Daten verworfen..
-                    if (antwort == JOptionPane.YES_OPTION) {
-
-                        zuruecksetzen();// Eingabefelder werden zurückgesetzt.
-                        letzteComponent = null;   //Initialisierung der Componentspeichervariable
-                        //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-                        letzteComponent = this.factory.zurueckButton();
-                        this.setVisible(false);// Internalframe wird nicht mehr dargestellt
-                        letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
-                    }
-
-                }
-                zuruecksetzen();// Eingabefelder werden zurückgesetzt.
-                letzteComponent = null;   //Initialisierung der Componentspeichervariable
-                //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-                letzteComponent = this.factory.zurueckButton();
-                this.setVisible(false);// Internalframe wird nicht mehr dargestellt
-                letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
-            } else {
-
-                if (!(geschaeftspartner_jTextField.getText().equals(dbGeschaeftspartnerID)
-                        && auftragsart_jComboBox.getSelectedItem().toString().equals(dbAuftragsart)
-                        && auftragstext_jTextArea.getText().equals(dbAuftragstext)
-                        && lieferdatum_jFormattedTextField.getText().
-                        equals(dbLieferdatum)
-                        && abschlussdatum_jFormattedTextField.getText().equals(
-                                dbAbschlussdatum)
-                        && materialnummer_jTextField.getText().equals("")
-                        && menge_jTextField.getText().equals("")
-                        && dbAuftragspositionen.size() == artikel.size())
-                        && gespeichert == false) {
-
-                    int antwort = JOptionPane.showConfirmDialog(rootPane, DATENVERWERFEN_TEXT,
-                            DATENVERWERFEN_TITEL, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-
-                    //Falls bejaht wird, werden die Daten verworfen..
-                    if (antwort == JOptionPane.YES_OPTION) {
-
-                        zuruecksetzen();// Eingabefelder werden zurückgesetzt.
-                        letzteComponent = null;   //Initialisierung der Componentspeichervariable
-                        //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-                        letzteComponent = this.factory.zurueckButton();
-                        this.setVisible(false);// Internalframe wird nicht mehr dargestellt
-                        letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
-                    }
-                } else {
+                //Falls bejaht wird, werden die Daten verworfen..
+                if (antwort == JOptionPane.YES_OPTION) {
 
                     zuruecksetzen();// Eingabefelder werden zurückgesetzt.
                     letzteComponent = null;   //Initialisierung der Componentspeichervariable
@@ -1603,7 +1559,51 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 }
 
             }
-        
+//            zuruecksetzen();// Eingabefelder werden zurückgesetzt.
+//            letzteComponent = null;   //Initialisierung der Componentspeichervariable
+//            //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
+//            letzteComponent = this.factory.zurueckButton();
+//            this.setVisible(false);// Internalframe wird nicht mehr dargestellt
+//            letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
+        } else {
+
+            if (!(geschaeftspartner_jTextField.getText().equals(dbGeschaeftspartnerID)
+                    && auftragsart_jComboBox.getSelectedItem().toString().equals(dbAuftragsart)
+                    && auftragstext_jTextArea.getText().equals(dbAuftragstext)
+                    && lieferdatum_jFormattedTextField.getText().
+                    equals(dbLieferdatum)
+                    && abschlussdatum_jFormattedTextField.getText().equals(
+                            dbAbschlussdatum)
+                    && materialnummer_jTextField.getText().equals("")
+                    && menge_jTextField.getText().equals("")
+                    && dbAuftragspositionen.size() == artikel.size())
+                    && gespeichert == false) {
+
+                int antwort = JOptionPane.showConfirmDialog(rootPane, DATENVERWERFEN_TEXT,
+                        DATENVERWERFEN_TITEL, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+                //Falls bejaht wird, werden die Daten verworfen..
+                if (antwort == JOptionPane.YES_OPTION) {
+
+                    zuruecksetzen();// Eingabefelder werden zurückgesetzt.
+                    letzteComponent = null;   //Initialisierung der Componentspeichervariable
+                    //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
+                    letzteComponent = this.factory.zurueckButton();
+                    this.setVisible(false);// Internalframe wird nicht mehr dargestellt
+                    letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
+                }
+            } else {
+
+                zuruecksetzen();// Eingabefelder werden zurückgesetzt.
+                letzteComponent = null;   //Initialisierung der Componentspeichervariable
+                //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
+                letzteComponent = this.factory.zurueckButton();
+                this.setVisible(false);// Internalframe wird nicht mehr dargestellt
+                letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
+            }
+
+        }
+
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
     /*----------------------------------------------------------*/
@@ -2202,7 +2202,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 artikel.put(auftragspositionen.get(i).getArtikel().getArtikelID(),
                         auftragspositionen.get(i).getMenge());
 
-                summenWertFuerPos = auftragspositionen.get(i).getEinzelwert() * auftragspositionen.get(i).getMenge();
+                summenWertFuerPos = auftragspositionen.get(i).getEinzelwert();
 
                 Object[] neuesObj = new Object[]{i + 1,
                     auftragspositionen.get(i).getArtikel().getArtikelID(),

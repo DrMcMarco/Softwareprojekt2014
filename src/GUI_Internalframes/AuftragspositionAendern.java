@@ -57,13 +57,13 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
      Augabetexte für Meldungen
      */
     String fehlermeldung_titel = "Fehlerhafte Eingabe";
-    String fehlermeldungAuftragskopfIDtext = "\"Die eingegebene Auftragskopf-ID ist nicht gültig! "
-            + "\\n Bitte geben Sie eine gültige Auftragskopf-ID ein. (z.B. 1 oder 999999999)\"";
-    String fehlermeldungAuftragspositionIDtext = "\"Die eingegebene Auftragspositions-ID ist nicht gültig! "
-            + "\\n Bitte geben Sie eine gültige AuftragspositionID_jTextField ein. (z.B. 1 oder 999999999)\"";
+    String fehlermeldungAuftragskopfIDtext = "\"Bitte geben sie alle notwendigen"
+            + "Eingaben ein!";
+//    String fehlermeldungAuftragspositionIDtext = "\"Die eingegebene Auftragspositions-ID ist nicht gültig! "
+//            + "\\n Bitte geben Sie eine gültige AuftragspositionID_jTextField ein. (z.B. 1 oder 999999999)\"";
     String fehlermeldung_unvollständig = "Fehlerhafte Eingabe";
-    String fehlermeldungVollstaendigkeitAuftragskopf = " Es wurde keine Auftragskopf-Id eingegeben.\n"
-            + "Bitte geben sie eine Auftragskopf-Id ein.";
+//    String fehlermeldungVollstaendigkeitAuftragskopf = " Es wurde keine Auftragskopf-Id eingegeben.\n"
+//            + "Bitte geben sie eine Auftragskopf-Id ein.";
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
@@ -278,8 +278,8 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
      */
     private void auftragskopfID_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_auftragskopfID_jTextFieldFocusLost
         // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
-        ueberpruefungVonFocusLost(auftragskopfID_jTextField, auftragskopfID_syntax,
-                fehlermeldung_titel, fehlermeldungAuftragskopfIDtext);
+//        ueberpruefungVonFocusLost(auftragskopfID_jTextField, auftragskopfID_syntax,
+//                fehlermeldung_titel, fehlermeldungAuftragskopfIDtext);
     }//GEN-LAST:event_auftragskopfID_jTextFieldFocusLost
 
     /**
@@ -291,8 +291,8 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
      */
     private void AuftragspositionID_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_AuftragspositionID_jTextFieldFocusLost
         // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
-        ueberpruefungVonFocusLost(AuftragspositionID_jTextField, auftragspositionsID_syntax,
-                fehlermeldung_titel, fehlermeldungAuftragspositionIDtext);
+//        ueberpruefungVonFocusLost(AuftragspositionID_jTextField, auftragspositionsID_syntax,
+//                fehlermeldung_titel, fehlermeldungAuftragspositionIDtext);
     }//GEN-LAST:event_AuftragspositionID_jTextFieldFocusLost
 
     // Falls alle Eingaben getätigt wurden sind, wird nach der gesuchten Auftragsposition
@@ -301,36 +301,38 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
     private void Enter_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Enter_jButtonActionPerformed
         ueberpruefen();
         try {
-            if (fehlendeEingaben.isEmpty()) {
-                Auftragsposition position = GUIFactory.getDAO().
-                        gibAuftragsposition(Long.parseLong(auftragskopfID_jTextField.getText()),
-                                Long.parseLong(AuftragspositionID_jTextField.getText()));
-                if (position != null) {
+//            if (fehlendeEingaben.isEmpty()) {
+            Auftragsposition position = GUIFactory.getDAO().
+                    gibAuftragsposition(Long.parseLong(auftragskopfID_jTextField.getText()),
+                            Long.parseLong(AuftragspositionID_jTextField.getText()));
+            if (position != null) {
 
                 // Überprüft anhand des Framestitels, ob es das nächste Fenster
-                    // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
-                    if (this.getTitle().equals("Auftragsposition ändern Einstieg")) {
-                        this.auftragspositionAnzeigen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
-                        zuruecksetzen();//Methode die bestimmte Eingabefelder leert
-                        this.auftragspositionAnzeigen.setzeEingaben(position);
-                        
-                        this.setVisible(false);
-                        this.hauptFenster.setFrame(this.auftragspositionAnzeigen);// Hauptfenster macht übergebene Maske sichtbar.
-                    } else {
-                        this.auftragspositionAnzeigen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
-                        zuruecksetzen();//Methode die bestimmte Eingabefelder leert
-                        this.auftragspositionAnzeigen.setzeEingaben(position);
-                        this.setVisible(false);
-                        this.hauptFenster.setFrame(this.auftragspositionAnzeigen);// Hauptfenster macht übergebene Maske sichtbar.
-                    }
-                }
+                // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
+                if (this.getTitle().equals("Auftragsposition ändern Einstieg")) {
+                    this.auftragspositionAnzeigen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
+                    zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                    this.auftragspositionAnzeigen.setzeEingaben(position);
 
-            } else {//Wenn Eingaben fehlen.
-                // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
-                // getätigt worden sind
-                fehlEingabenMarkierung(fehlendeEingaben, fehlermeldung_titel,
-                        fehlermeldungAuftragskopfIDtext, warningfarbe);//Meldung wird ausgegeben und          
+                    this.setVisible(false);
+                    this.hauptFenster.setFrame(this.auftragspositionAnzeigen);// Hauptfenster macht übergebene Maske sichtbar.
+                } else {
+                    this.auftragspositionAnzeigen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
+                    zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                    this.auftragspositionAnzeigen.setzeEingaben(position);
+                    this.setVisible(false);
+                    this.hauptFenster.setFrame(this.auftragspositionAnzeigen);// Hauptfenster macht übergebene Maske sichtbar.
+                }
             }
+
+//            } else {//Wenn Eingaben fehlen.
+//                // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
+//                // getätigt worden sind
+//                fehlEingabenMarkierung(fehlendeEingaben, fehlermeldung_titel,
+//                        fehlermeldungAuftragskopfIDtext, warningfarbe);//Meldung wird ausgegeben und          
+//            }
+        } catch (NumberFormatException e) {
+            this.hauptFenster.setStatusMeldung(fehlermeldungAuftragskopfIDtext);
         } catch (ApplicationException e) {
             this.hauptFenster.setStatusMeldung(e.getMessage());
         } catch (NullPointerException e) {

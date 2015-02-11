@@ -33,6 +33,7 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
     User_anlegen userAnlegen;
     InterfaceMainView hauptFenster;
 
+    final String FEHLENDEEINGABEN = "Bitte geben Sie alle Eingaben ein.";
     /*
      Speichervariablen
      */
@@ -188,7 +189,7 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
         
         // Überprüft anhand des Framestitels, ob es das nächste Fenster
         // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
-        if (fehleingabefelder.isEmpty()) {
+//        if (fehleingabefelder.isEmpty()) {
             try {
                 //Initialisierung eines Benutzers.
                 benutzer = GUIFactory.getDAO().gibBenutzer(BenutzerID_jTextField.getText());
@@ -221,8 +222,9 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
                 }
             } catch (ApplicationException e) {
                 this.hauptFenster.setStatusMeldung(e.getMessage());
+            } catch (NumberFormatException e){
+                this.hauptFenster.setStatusMeldung(FEHLENDEEINGABEN);
             }
-        }
     }//GEN-LAST:event_Weiter_jButtonActionPerformed
 
     /*----------------------------------------------------------*/
