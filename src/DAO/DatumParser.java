@@ -48,7 +48,7 @@ public class DatumParser {
     /**
      * Deutsches Datumsformat Regex-Muster.
      */
-    private static final String DEUTSCH_RGX = "\\d{2}{§}\\d{2}{§}\\d{4}.*";
+    private static final String DEUTSCH_RGX = "\\d{2}{§}\\d{2}{§}\\d{4}";
 
     /*----------------------------------------------------------*/
     /* Datum Name Was                                           */
@@ -71,8 +71,8 @@ public class DatumParser {
         //Datumformat ist ungültig.
         if (datumFormat == null) {
             throw new IllegalArgumentException("Geben Sie ein Datum in einem "
-                    + "gültigen Format an! Deutsch: tt MM yyyy "
-                    + "Englisch: yyyy MM dd");
+                    + "gültigen Format an! Format: tt MM yyyy "
+                    + "Oder: yyyy MM dd");
         }
         
         for (String trenner : DATUM_TRENNZEICHEN) {
