@@ -605,8 +605,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
 
     private void jB_LoeschenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_LoeschenActionPerformed
         try {
-
-            GUIFactory.getDAO().loeschePosition(Long.parseLong(dbAuftragspositionsID),
+            GUIFactory.getDAO().loeschePositionTransaktion(Long.parseLong(dbAuftragspositionsID),
                     Long.parseLong(dbPositionsnummer));
             this.hauptFenster.setStatusMeldung(ERFOLGREICHGELOESCHT_TEXT);
             jB_ZurueckActionPerformed(evt);
@@ -720,7 +719,11 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         //Meldung die darauf hinweist das nicht alle Eingaben getätigt worden sind.
         JOptionPane.showMessageDialog(null, fehlermeldung,
                 fehlermelgungtitel, JOptionPane.WARNING_MESSAGE);
-        list.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
+        if (!list.isEmpty()) {
+
+            list.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
+
+        }
         // Alle leeren Eingabefelder werden farblich markiert.
         for (int i = 0; i <= list.size() - 1; i++) {
             list.get(i).setBackground(farbe);
