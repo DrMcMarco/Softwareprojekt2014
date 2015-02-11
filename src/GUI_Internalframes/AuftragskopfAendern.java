@@ -14,21 +14,22 @@ import java.util.Calendar;
 import java.util.Date;
 
 
- /* 10.12.2014 Dokumentation und Logik */
- /* 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button */
- /* 08.01.2015 Terrasi, Überarbeitung der Anwendungslogik und das hinzufügen von
-    weiteren Funktion. */
- /* 14.01.2015 Terrasi, Implementierung der DAO-Methode für das finden 
-    eines Auftrags.
+/* 10.12.2014 Dokumentation und Logik */
+/* 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button */
+/* 08.01.2015 Terrasi, Überarbeitung der Anwendungslogik und das hinzufügen von
+ weiteren Funktion. */
+/* 14.01.2015 Terrasi, Implementierung der DAO-Methode für das finden 
+ eines Auftrags.
  */
 /**
- * 
+ *
  * @author Luca Terrasi
  */
 public class AuftragskopfAendern extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
     /*
      Hilfsvariable
      */
+
     Component c;
     GUIFactory factory;
     InterfaceMainView hauptFenster;
@@ -64,8 +65,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
     /* 10.12.2014 Terrasi angelegt und dokumentiert*/
     /*----------------------------------------------------------*/
     /**
-     * Kostruktor,
-     * Erzeugung eines AuftragskopfAendernobjektes.
+     * Kostruktor, Erzeugung eines AuftragskopfAendernobjektes.
      *
      * @param factory
      * @param auftragsKopf
@@ -247,8 +247,8 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt und dokumentiert*/
     /* 14.01.2015 Terrasi, implementierung der DAOMethode "gibAuftragskopf"
-    und Logiküberarbeitung.
-    */
+     und Logiküberarbeitung.
+     */
     /*----------------------------------------------------------*/
     /**
      * Auszuführende Aktion beim betätigen des "Weiter"-Buttons. Es wird geprüft
@@ -260,11 +260,13 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
      * @param evt
      */
     private void weiter_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_weiter_jButtonActionPerformed
-        //Aufruf der Schnittstellenmethode um auf Vollständigkeit der Eingaben zu prüfen.
+
+        Auftragskopf aKopf;
+//Aufruf der Schnittstellenmethode um auf Vollständigkeit der Eingaben zu prüfen.
         ueberpruefen();
         if (fehleingabefelder.isEmpty()) {//Bei ausgefüllten Eingabenfeldern
             try {
-                Auftragskopf aKopf = GUIFactory.getDAO().gibAuftragskopf(Long.parseLong(auftragskopfID_jTextField.getText()));
+                aKopf = GUIFactory.getDAO().gibAuftragskopf(Long.parseLong(auftragskopfID_jTextField.getText()));
                 // Überprüft anhand des Framestitels, ob es das nächste Fenster
                 // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
                 if (this.getTitle().equals("Auftragskopf ändern Einstieg")) {
@@ -276,7 +278,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
                                 setzeEingabe(aKopf);
 
                         zuruecksetzen();//Methode die bestimmte Eingabefelder leert
-                        
+
                         this.setVisible(false);
                         this.hauptFenster.setFrame(this.auftragskopfAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
 
@@ -469,7 +471,6 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
     }
 
 
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel auftragskopfID_jLabel;
     private javax.swing.JTextField auftragskopfID_jTextField;
