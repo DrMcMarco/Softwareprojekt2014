@@ -90,7 +90,8 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
                     "Artikel", "Artikelkategorie", "Geschäftspartner", 
                     "Zahlungskondition", "Anschrift", "Status" }));
         
-        
+        this.buttonGroup1.add(this.aufsteigend_jRadioButton);
+        this.buttonGroup1.add(this.absteigend_jRadioButton);
 //        this.hauptFenster.setFrame();
         // Variable erhält Wert aus der Combobox mit den Suchkategorien.
         suchKategorie = Auswahl_jComboBox.getSelectedItem().toString();
@@ -110,6 +111,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         Button_jToolBar = new javax.swing.JToolBar();
         Zurück_jButton = new javax.swing.JButton();
         Anzeige_jButton = new javax.swing.JButton();
@@ -324,7 +326,8 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
                 suchErgebnis = GUIFactory.getDAO().suchAbfrage(suchEingabe, 
                         suchKategorie, this.sortierung);
                 framestart.detailSuche.setzeDaten(suchErgebnis);
-                framestart.detailSuche.setzeSucheingabe(suchEingabe);
+                framestart.detailSuche.setzeSucheingabe(suchEingabe, 
+                        this.sortierung);
                 framestart.detailSuche.setzeTabelle(suchKategorie);
                 framestart.detailSuche.setzeFenster(framestart.getComponent());
                 framestart.setFrame(framestart.detailSuche);
@@ -343,7 +346,8 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
                 suchErgebnis = GUIFactory.getDAO().suchAbfrage(suchEingabe, 
                         suchKategorie, this.sortierung);
                 framestartadmin.detailSuche.setzeDaten(suchErgebnis);
-                framestartadmin.detailSuche.setzeSucheingabe(suchEingabe);
+                framestartadmin.detailSuche.setzeSucheingabe(suchEingabe, 
+                        this.sortierung);
                 framestartadmin.detailSuche.setzeTabelle(suchKategorie);
                 framestartadmin.setFrame(framestartadmin.detailSuche);
                 this.setVisible(false);
@@ -358,12 +362,17 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
     }//GEN-LAST:event_sucheStarten_jButtonActionPerformed
 
     private void aufsteigend_jRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aufsteigend_jRadioButtonActionPerformed
-        this.absteigend_jRadioButton.setSelected(false);
+//        if (this.aufsteigend_jRadioButton.isSelected()) {
+//            this.aufsteigend_jRadioButton.setSelected(true);
+//        }
+//        this.absteigend_jRadioButton.setSelected(false);
         this.sortierung = AUFSTEIGEND;
+        
+        
     }//GEN-LAST:event_aufsteigend_jRadioButtonActionPerformed
 
     private void absteigend_jRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_absteigend_jRadioButtonActionPerformed
-        this.aufsteigend_jRadioButton.setSelected(false);
+        //this.aufsteigend_jRadioButton.setSelected(false);
         this.sortierung = ABSTEIGEND;
     }//GEN-LAST:event_absteigend_jRadioButtonActionPerformed
 
@@ -514,6 +523,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
     private javax.swing.JButton Zurück_jButton;
     private javax.swing.JRadioButton absteigend_jRadioButton;
     private javax.swing.JRadioButton aufsteigend_jRadioButton;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

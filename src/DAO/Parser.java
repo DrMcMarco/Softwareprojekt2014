@@ -464,17 +464,27 @@ public class Parser {
                 tabelle);
 
         //Prüfe,ob es sich um ein String oder Datum handelt.
-        if ("String".equals(datentyp) 
-                || "Date".equals(datentyp)) {
-            //Hole ein gültiges Datumsformat in Abhängigkeit des Musters
-            //Für SQL-Statement. 
-            dbWert = DatumParser.gibgueltigesDatumFormat(dbWert);
-            //Hier müssen für das SQL-Statement hochkommas
-            //hinzugefügt werden.
-            dbWert = "'" + dbWert + "'";
-        } else if ("Double".equals(datentyp)) {
-            //Bei Double werden alle , durch . ersetzt.
-            dbWert = dbWert.replaceAll(",", ".");
+        //Prüfe,ob es sich um ein String oder Datum handelt.
+        switch (datentyp) {
+            case "String":
+                //Hier müssen für das SQL-Statement hochkommas
+                //hinzugefügt werden.
+                dbWert = "'" + dbWert + "'";
+                break;
+            case "Date":
+                //Hole ein gültiges Datumsformat in Abhängigkeit des Musters
+                //Für SQL-Statement.
+                dbWert = DatumParser.gibgueltigesDatumFormat(dbWert);
+                //Hier müssen für das SQL-Statement hochkommas
+                //hinzugefügt werden.
+                dbWert = "'" + dbWert + "'";
+                break;
+            case "Double":
+                //Bei Double werden alle , durch . ersetzt.
+                dbWert = dbWert.replaceAll(",", ".");
+                break;
+            default:
+                break;
         }
         //Prüfe ob es sich um GeschäftspartnerAttr handelt
         if ("Geschäftspartner".equals(dbAttribut)
@@ -653,9 +663,9 @@ public class Parser {
             //Es wird dynamisch der Datentyp ermittelt.
             String typ = objektTyp.getClass().getSimpleName();
             //Prüfe ob der eingegebene Wert dem Datentyp-Format entspricht.
-            //Wichtig ist, dass int und long ok sind!
-            if (!typ.equals(datentyp) && (!typ.equals("Integer") 
-                    || !datentyp.equals("Long"))) {
+            //Wichtig ist, dass int und long ok sind! Ebenso String!
+            if (!typ.equals(datentyp) && (!"Integer".equals(typ) 
+                    || !"Long".equals(datentyp)) && !"String".equals(datentyp)) {
                 //Generiere Fehlermeldung
                 switch (datentyp) {
                     //Es wurde eine natürliche Zahl erwartet

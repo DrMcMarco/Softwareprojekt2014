@@ -92,7 +92,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     @Override
     public void zuruecksetzen() {
         //Eingabefelder erhalten einen leeren String
-//        benutzername_jTextField.setText("");
+        benutzername_jTextField.setText("");
         passwort_jTextField.setText("");
         admin_jCheckBox.setSelected(false);
     }
@@ -430,6 +430,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
                         
                     // Aufruf der erstelleBenutzer-Methode mit der ein Benutzer erzeugt wird.
                     GUIFactory.getDAO().erstelleBenutzer(benutzerame, passwort, istAdmin);
+                        jB_ZurueckActionPerformed(evt);
                     this.hauptFenster.setStatusMeldung(erfolgreicheAnmeldung);// Ausgabe einer Medung.
                     }else if(this.getTitle().equals("Benutzer ändern")){// Überprüft ob man sich in der Benutzer ändern Maske befindet.
                         GUIFactory.getDAO().aendereBenutzer(benutzerame, passwort, istAdmin);// Methodenaufruf zum ändern von Benutzerdaten.

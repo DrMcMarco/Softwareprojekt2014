@@ -6,6 +6,7 @@
 
 package GUI_Internalframes;
 
+import DAO.ApplicationException;
 import DTO.Anschrift;
 import DTO.Artikel;
 import DTO.Artikelkategorie;
@@ -19,9 +20,11 @@ import JFrames.GUIFactory;
 import JFrames.Start;
 import JFrames.StartAdmin;
 import java.awt.Component;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -46,6 +49,11 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
      */
     private static final String FEHLER_TABELLE = "Die Informationen aus dieser "
             + "Tabelle werden in diesem Fenster nicht referenziert!";
+    /**
+     * Fehler-Meldung zur Anzeige der Tabelle.
+     */
+    private static final String FEHLER_ANZEIGE = "Es gibt keine Bearbeitung "
+            + "/ Anzeige Möglichkeit für ";
     
     /**
      * Zur View Kontrolle.
@@ -55,7 +63,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
     /**
      * Ergebnis Daten aus der Suche.
      */
-    private Collection<?> ergebnisDaten;
+    private Collection ergebnisDaten;
     
     /**
      * Die getätigte Sucheingabe.
@@ -103,9 +111,25 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
      * Setzt die getätigte Sucheingabe.
      * Sie wird noch einmal oberhalb der View angezeigt.
      * @param eingabe die Sucheingabe
+     * @param sort Gibt die Sortierung an.
      */
-    public void setzeSucheingabe(String eingabe) {
+    public void setzeSucheingabe(String eingabe, String sort) {
         this.Suchengabe_jTextArea1.setText(eingabe);
+        List<?> liste = new ArrayList();
+        List absteigendeListe = new ArrayList();
+        //Prüfe, ob eine Sucheingabe getätigt wurde und ob die Sortierung 
+        //absteigend erfolgen soll
+        if ("".equals(eingabe) && "absteigend".equals(sort)) {
+            //übernehme die Daten
+            liste.addAll(this.ergebnisDaten);
+            //Durchlaufe die Liste von hinten
+            for (int i = liste.size() - 1; i >= 0; i--) {
+                //Füge das letzte Element an die Erste stelle der 2. Liste...
+                absteigendeListe.add(liste.get(i));
+            }
+            //Setze das ergebnis erneut aber in umgekehrter Reihenfolge...
+            this.ergebnisDaten = absteigendeListe;
+        } 
     }
     
     /**
@@ -159,8 +183,12 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                     
                     //Füge dem Model einen neuen Datensatz als Zeile hinzu
                     dtm.addRow(new Object[] {ak.getAuftragskopfID(), 
-                        ak.getAbschlussdatum(), ak.getAuftragstext(), 
-                        ak.getErfassungsdatum(), ak.getLieferdatum(), 
+                        new SimpleDateFormat("dd.MM.yyyy").format(
+                                ak.getAbschlussdatum()), ak.getAuftragstext(),
+                        new SimpleDateFormat("dd.MM.yyyy").format(
+                                ak.getErfassungsdatum()), new SimpleDateFormat(
+                                        "dd.MM.yyyy").format(
+                                                ak.getLieferdatum()), 
                         ak.getWert(), ak.getTyp(), 
                         ak.getGeschaeftspartner().getGeschaeftspartnerID(), 
                         ak.getGeschaeftspartner().getRechnungsadresse()
@@ -193,7 +221,8 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                                 position.getPositionsnummer(), 
                                 position.getEinzelwert(), 
                                 position.getMenge(),
-                                position.getErfassungsdatum()});
+                                new SimpleDateFormat("dd.MM.yyyy").format(
+                                        position.getErfassungsdatum())});
                 }
                 //Setze das Model
                 this.Anzeige_jTable1.setModel(dtm);
@@ -333,7 +362,9 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                     //Füge dem Model einen neuen Datensatz als Zeile hinzu
                     Object[] ausgabe = {anschrift.getAnschriftID(), 
                         anschrift.getTitel(), anschrift.getName(),
-                        anschrift.getVorname(), anschrift.getGeburtsdatum(),
+                        anschrift.getVorname(), new SimpleDateFormat(
+                                "dd.MM.yyyy").format(
+                                        anschrift.getGeburtsdatum()),
                         anschrift.getStrasse(), anschrift.getPLZ(),
                         anschrift.getOrt(), anschrift.getEmail(),
                         anschrift.getFAX(), anschrift.getTelefon()};
@@ -369,6 +400,8 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         Suchengabe_jTextArea1 = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         status_jTextField1 = new javax.swing.JTextField();
+
+        setTitle("Ergebnis");
 
         Anzeige_jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -465,7 +498,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         jLabel2.setText("Eingabe:");
 
         status_jTextField1.setEditable(false);
-        status_jTextField1.setText("Es werden maximal 20 Treffer angezeigt!");
+        status_jTextField1.setText("Es werden maximal 200 Treffer angezeigt!");
         status_jTextField1.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -586,7 +619,8 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
             Object[] ausgabeRechnung = {gp.getRechnungsadresse().getTitel(), 
                 gp.getRechnungsadresse().getName(), 
                 gp.getRechnungsadresse().getVorname(), 
-                gp.getRechnungsadresse().getGeburtsdatum(),
+                new SimpleDateFormat("dd.MM.yyyy").format(
+                        gp.getRechnungsadresse().getGeburtsdatum()),
                 gp.getRechnungsadresse().getStrasse(), 
                 gp.getRechnungsadresse().getPLZ(),
                 gp.getRechnungsadresse().getOrt(), 
@@ -600,7 +634,8 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
             Object[] ausgabeLiefer = {gp.getLieferadresse().getTitel(), 
                 gp.getLieferadresse().getName(),
                 gp.getLieferadresse().getVorname(), 
-                gp.getLieferadresse().getGeburtsdatum(),
+                new SimpleDateFormat("dd.MM.yyyy").format(
+                        gp.getLieferadresse().getGeburtsdatum()),
                 gp.getLieferadresse().getStrasse(), 
                 gp.getLieferadresse().getPLZ(),
                 gp.getLieferadresse().getOrt(), 
@@ -640,7 +675,8 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                     position.getAuftrag().getAuftragskopfID(),
                     position.getPositionsnummer(), 
                     position.getEinzelwert(), position.getMenge(),
-                    position.getErfassungsdatum()});
+                    new SimpleDateFormat("dd.MM.yyyy").format(
+                            position.getErfassungsdatum())});
             }
             //Übergebe das Model an die Table
             this.Positionanzeige_jTable2.setModel(dtm);
@@ -663,6 +699,15 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         ArrayList<Artikel> artikelListe = null;
         ArrayList<Auftragskopf> akListe = null;
         ArrayList<Auftragsposition> positionen = null;
+        
+        //Prüfe, ob ein Datensatz selektiert wurde.
+        if (this.Anzeige_jTable1.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, FEHLER_AUSWAHL, 
+                            "Fehler", JOptionPane.WARNING_MESSAGE);
+            //Fehlerbehandlung daher wird hier abgebrochen...
+            return;
+        }
+        
         //Prüfe, um welche Tabelle es sich handelt.
         //Hier nach wird bestimmt, welche Maske aufgerufen wird.
         switch (this.tabelle) {
@@ -677,6 +722,11 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                 //Mach das Fenster sichtbar
                 this.hauptFenster.gibAuftragskopfanlegenFenster()
                         .setVisible(true);
+                //Setze ggf. die Positions-Table auf nicht sichtbar
+                this.position_jPanel1.setVisible(false);
+                this.Positionanzeige_jTable2.setVisible(false);
+                //Schliesse das Suchfenster
+                this.setVisible(false);
                 break;
             case "Artikel" :
                 //Lade die gefundenen Datensätze typisiert
@@ -688,6 +738,11 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                                 this.Anzeige_jTable1.getSelectedRow()));
                 //Mach das Fenster sichtbar
                 this.hauptFenster.gibArtikelAnlegenFenster().setVisible(true);
+                //Setze ggf. die Positions-Table auf nicht sichtbar
+                this.position_jPanel1.setVisible(false);
+                this.Positionanzeige_jTable2.setVisible(false);
+                //Schliesse das Suchfenster
+                this.setVisible(false);
                 break;
             case "Geschäftspartner" :
                 //Lade die gefundenen Datensätze typisiert
@@ -700,6 +755,11 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                 //Mach das Fenster sichtbar
                 this.hauptFenster.gibGeschaeftspartneranlegenFenster()
                         .setVisible(true);
+                //Setze ggf. die Positions-Table auf nicht sichtbar
+                this.position_jPanel1.setVisible(false);
+                this.Positionanzeige_jTable2.setVisible(false);
+                //Schliesse das Suchfenster
+                this.setVisible(false);
                 break;
             case "Zahlungskondition" :
                 //Lade die gefundenen Datensätze typisiert
@@ -710,6 +770,11 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                         zkListe.get(this.Anzeige_jTable1.getSelectedRow()));
                 //Mach das Fenster sichtbar
                 this.hauptFenster.gibZkAnlegen().setVisible(true);
+                //Setze ggf. die Positions-Table auf nicht sichtbar
+                this.position_jPanel1.setVisible(false);
+                this.Positionanzeige_jTable2.setVisible(false);
+                //Schliesse das Suchfenster
+                this.setVisible(false);
                 break;
             case "Auftragsposition" :
                 //Lade die gefundenen Datensätze typisiert
@@ -720,14 +785,28 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                         positionen.get(this.Anzeige_jTable1.getSelectedRow()));
                 //Mach das Fenster sichtbar
                 this.hauptFenster.gibApAnzeigen().setVisible(true);
+                //Setze ggf. die Positions-Table auf nicht sichtbar
+                this.position_jPanel1.setVisible(false);
+                this.Positionanzeige_jTable2.setVisible(false);
+                //Schliesse das Suchfenster
+                this.setVisible(false);
+                break;
+            case "Artikelkategorie" : 
+                JOptionPane.showMessageDialog(null, FEHLER_ANZEIGE 
+                        + "Artikelkategorie.", "Fehler", 
+                        JOptionPane.WARNING_MESSAGE);
+                break;
+            case "Status" : 
+                JOptionPane.showMessageDialog(null, FEHLER_ANZEIGE + "Status.", 
+                        "Fehler", JOptionPane.WARNING_MESSAGE);
+                break;
+            case "Anschrift" : 
+                JOptionPane.showMessageDialog(null, FEHLER_ANZEIGE 
+                        + "Anschrift. Die Bearbeitung erfolgt über "
+                        + "Geschäftspartner.", "Fehler", 
+                        JOptionPane.WARNING_MESSAGE);
                 break;
         }
-        //Setze ggf. die Positions-Table auf nicht sichtbar
-        this.position_jPanel1.setVisible(false);
-        this.Positionanzeige_jTable2.setVisible(false);
-        //Schliesse das Suchfenster
-        this.setVisible(false);
-        
     }//GEN-LAST:event_Anzeige_jButtonActionPerformed
     
     /*----------------------------------------------------------*/
@@ -787,7 +866,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
             //Wenn eine Tabelle ausgewählt wurde die nicht hierauf 
             //Referenziert, dann gib eine Meldung aus und der Benutzer
             //Muss seine Eingabe wiederholen
-            } if (this.tabelle.equals("Artikel")) {
+            } else if (this.tabelle.equals("Artikel")) {
                 //Prüfe, ob ein Datensatz selektiert wurde.
                 if (this.Anzeige_jTable1.getSelectedRow() != -1) {
                     //Caste die Ergebnisliste aus der Suche nach Artikelkat.
@@ -1080,9 +1159,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                             "Fehler", JOptionPane.WARNING_MESSAGE);
             }
         } else if (this.hauptFenster.gibLetzteAnzeige().getTitle().equals(
-                "Zahlungskondition ändern Einstieg") 
-                        || this.hauptFenster.gibLetzteAnzeige().getTitle()
-                                .equals("Zahlungskonditionen anzeigen") 
+                "Zahlungskondition ändern Einstieg")
                 || this.hauptFenster.gibLetzteAnzeige().getTitle()
                                 .equals("Zahlungskondition "
                                         + "anzeigen Einstieg")) {
@@ -1145,6 +1222,40 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                                     .getPositionsliste().get(
                                             this.Positionanzeige_jTable2
                                                     .getSelectedRow()));
+                    //Schließe die Suche
+                    this.setVisible(false);
+                    //Setze ggf. die Positions-Table auf nicht sichtbar
+                    this.position_jPanel1.setVisible(false);
+                    this.Positionanzeige_jTable2.setVisible(false);
+                //Wenn kein Datensatz ausgewählt wurde, wird der Benutzer
+                //Daraufhin aufmerksam gemacht
+                } else {
+                    JOptionPane.showMessageDialog(null, FEHLER_AUSWAHL, 
+                            "Fehler", JOptionPane.WARNING_MESSAGE);
+                }
+            //Wenn eine Tabelle ausgewählt wurde die nicht hierauf 
+            //Referenziert, dann gib eine Meldung aus und der Benutzer
+            //Muss seine Eingabe wiederholen
+            } else {
+                JOptionPane.showMessageDialog(null, FEHLER_TABELLE, 
+                            "Fehler", JOptionPane.WARNING_MESSAGE);
+            }
+        } else if (this.hauptFenster.gibLetzteAnzeige().getTitle()
+                                .equals("Zahlungskondition anzeigen")) {
+            //Prüfe, ob sich die Suche auf Anschrift bezieht
+            if (this.tabelle.equals("Zahlungskondition")) {
+                //Prüfe, ob ein Datensatz selektiert wurde.
+                if (this.Anzeige_jTable1.getSelectedRow() != -1) {
+                    //Caste die Ergebnisliste aus der Suche nach Anschrift.
+                    zkListe = new ArrayList<>(
+                         (Collection<? 
+                                extends Zahlungskondition>) this.ergebnisDaten);
+                    
+                    //Setze in der View entsprechend das Feld mit den 
+                    //Informationen
+                    this.hauptFenster.gibZkAnlegen()
+                            .zeigeZKausSucheAn(zkListe.get(
+                                    this.Anzeige_jTable1.getSelectedRow()));
                     //Schließe die Suche
                     this.setVisible(false);
                     //Setze ggf. die Positions-Table auf nicht sichtbar
