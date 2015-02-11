@@ -177,7 +177,8 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                     
                     //Füge dem Model einen neuen Datensatz als Zeile hinzu
                     dtm.addRow(new Object[] {ak.getAuftragskopfID(), 
-                        ak.getAbschlussdatum().toString(), ak.getAuftragstext(), 
+                        new SimpleDateFormat("dd.MM.yyyy").format(
+                                ak.getAbschlussdatum()), ak.getAuftragstext(),
                         new SimpleDateFormat("dd.MM.yyyy").format(
                                 ak.getErfassungsdatum()), new SimpleDateFormat(
                                         "dd.MM.yyyy").format(
