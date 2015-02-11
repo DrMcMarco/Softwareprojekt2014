@@ -1786,7 +1786,7 @@ public class DataAccessObject {
         //Wenn die Zahlungskondition nicht gefunden werden kann
         if (zk == null) {
             throw new ApplicationException("Fehler", 
-                    "Die Zahlungskondition konnte nicht aktualisiert werden.");
+                    "Die Zahlungskondition konnte nicht gefunden werden.");
         }
         
         //Selektiere alle Aufträge die diese Zahlungskondition enthalten und
@@ -3072,6 +3072,12 @@ public class DataAccessObject {
                     "Der Auftrag konnte nicht gefunden werden.");
         }
         
+        if (ak.getPositionsliste().size() == 1) {
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Der Auftrag muss mindestens eine Auftragsposition "
+                            + "enthalten.");
+        }
+        
         Auftragsposition ap;
         
         //SQL-Query für das Selektieren einer Auftragsposition anhand
@@ -3095,12 +3101,13 @@ public class DataAccessObject {
         //Setze das Löschkennzeichen
         ap.setLKZ(true);
         
-        //Auftragsposition persisieren
-        em.persist(ap);
+        ak.berechneAuftragswert();
+        
+        em.persist(ak);
     }
     
     /**
-     * Methode zum Löschen von Auftragspositionen
+     * Setzt das Löschkennzeichen für eine Auftragsposition.
      * Führt die Methode loeschePosition innerhalb einer Transaktion aus, da diese
      * selber keine Transaktion enthält
      * @param AuftragsID ID eines Auftrags
@@ -3112,7 +3119,7 @@ public class DataAccessObject {
         
         try {
         
-            em.getTransaction();
+            em.getTransaction().begin();
             
             this.loeschePosition(AuftragsID, Positionsnummer);
             
@@ -3146,7 +3153,7 @@ public class DataAccessObject {
             }
 
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
 
         }
     }
