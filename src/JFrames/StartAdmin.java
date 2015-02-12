@@ -1210,7 +1210,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
                 case "Zahlungskondition ändern Einstieg" :
                     tabellen = new String[] {"Zahlungskondition" };
                     break;
-                case "Zahlungskonditionen anzeigen" :
+                case "Zahlungskondition anzeigen" :
                     tabellen = new String[] {"Zahlungskondition" };
                     break; 
                 case "Zahlungskondition anzeigen Einstieg" :
