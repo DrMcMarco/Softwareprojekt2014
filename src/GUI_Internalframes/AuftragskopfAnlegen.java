@@ -1558,13 +1558,15 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                     letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
                 }
 
+            }else{
+                
+            zuruecksetzen();// Eingabefelder werden zurückgesetzt.
+            letzteComponent = null;   //Initialisierung der Componentspeichervariable
+            //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
+            letzteComponent = this.factory.zurueckButton();
+            this.setVisible(false);// Internalframe wird nicht mehr dargestellt
+            letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
             }
-//            zuruecksetzen();// Eingabefelder werden zurückgesetzt.
-//            letzteComponent = null;   //Initialisierung der Componentspeichervariable
-//            //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-//            letzteComponent = this.factory.zurueckButton();
-//            this.setVisible(false);// Internalframe wird nicht mehr dargestellt
-//            letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
         } else {
 
             if (!(geschaeftspartner_jTextField.getText().equals(dbGeschaeftspartnerID)
