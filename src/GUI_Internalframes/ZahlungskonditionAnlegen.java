@@ -1295,6 +1295,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         jB_AnzeigenAEndern.setEnabled(false);
         jB_AnzeigenAEndern.setText("Anzeigen/Ändern");
         jB_Loeschen.setEnabled(false);
+        jB_Suchen.setEnabled(false);
 
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
     }
@@ -1339,6 +1340,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         jB_AnzeigenAEndern.setEnabled(false);
         jB_AnzeigenAEndern.setText("Anzeigen");
         jB_Loeschen.setEnabled(true);
+        jB_Suchen.setEnabled(false);
     }
 
     /*----------------------------------------------------------*/
@@ -1376,6 +1378,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         jB_AnzeigenAEndern.setEnabled(true);
         jB_AnzeigenAEndern.setText("Ändern");
         jB_Loeschen.setEnabled(false);
+        jB_Suchen.setEnabled(true);
     }
 
     /**
