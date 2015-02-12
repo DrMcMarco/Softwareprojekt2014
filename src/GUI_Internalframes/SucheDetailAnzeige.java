@@ -1196,9 +1196,9 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                             "Fehler", JOptionPane.WARNING_MESSAGE);
             }
         } else if (this.hauptFenster.gibLetzteAnzeige().getTitle().equals(
-                "Auftragsposition ändern") 
+                "Auftragsposition ändern Einstieg") 
                         || this.hauptFenster.gibLetzteAnzeige().getTitle()
-                                .equals("Auftragsposition anzeigen")) {
+                                .equals("Auftragsposition anzeigen Einstieg")) {
             //Prüfe, ob sich die Suche auf Anschrift bezieht
             if (this.tabelle.equals("Auftragskopf")) {
                 //Prüfe, ob ein Datensatz selektiert wurde.
