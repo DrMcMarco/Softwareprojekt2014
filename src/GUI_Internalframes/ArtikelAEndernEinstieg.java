@@ -45,7 +45,7 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
     /**
      * Variablen fuer die Fehlermeldungen
      */
-    private final String KEINE_ARTIKELNR_EINGEGEBEN = "Bitte geben Sie eine Artikelnummer ein!";
+    private final String KEINE_ARTIKELNR_EINGEGEBEN = "Bitte geben Sie eine Artikel-ID ein!";
     private final String KEINE_ARTIKEL_IN_DATENBANK = "Kein passender Artikel in Datenbank!";
 
     /**
@@ -145,7 +145,7 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
         jToolBar1.add(jB_Suchen);
 
         jL_Artikel_ID.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jL_Artikel_ID.setText("Artikelnummer:");
+        jL_Artikel_ID.setText("Artikel-ID:");
 
         jTF_Artikel_ID.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -167,9 +167,9 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jSeparator1)
             .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(jL_Artikel_ID, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(93, 93, 93)
+                .addComponent(jL_Artikel_ID)
+                .addGap(18, 18, 18)
                 .addComponent(jTF_Artikel_ID, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jB_Enter)
@@ -186,7 +186,7 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
                     .addComponent(jL_Artikel_ID, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTF_Artikel_ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jB_Enter))
-                .addContainerGap(111, Short.MAX_VALUE))
+                .addContainerGap(135, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");

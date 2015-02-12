@@ -15,8 +15,6 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import Interfaces.InterfaceMainView;
 import Interfaces.InterfaceViewsFunctionality;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * GUI Klasse für Zahlungskontion (ZK) verwalten. Diese Klasse beinhaltet alle
@@ -77,7 +75,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
     private final String TITEL_PFLICHTFELDER = "Felder nicht ausgefüllt";
     private final String MELDUNG_PFLICHTFELDER = "Einige Felder wurden nicht ausgefüllt! Bitte füllen Sie diese aus!";
     private final String MELDUNG_AENDERUNGEN_SPEICHERN = "Möchten Sie die Änderungen speichern?";
-    private String STATUSZEILE;
+    private String statuszeile;
     /**
      * Number Formatter wird benoetigt fuer das Parsen der Eingaben, sowie das
      * Anzeigen von Preisen
@@ -822,8 +820,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      */
     private void jB_SpeichernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SpeichernActionPerformed
 //      Variablen fuer die Meldung und den Titel
-        String meldung = "Liefer- und Sperrzeit sowie Skonto- und Mahnzeiten sind alle standardmäßig auf 1 Tag gesetzt. Möchten Sie nun speichern?"
-                + "\nKlicken Sie auf Nein, wenn Sie die Eingaben bearbeiten möchten.";
+        String meldung = "Liefer- und Sperrzeit sowie Skonto- und Mahnzeiten sind alle standardmäßig auf 1 Tag gesetzt.\nMöchten Sie nun speichern?"
+                + " Klicken Sie auf Nein, wenn Sie die Eingaben bearbeiten möchten.";
         String titel = "Zahlungskondititon speichern";
 //      zunaechst werdne die Eingaben ueberprueft.    
         ueberpruefen();
@@ -867,8 +865,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                                 sperrzeitWunsch, skontozeit1, skontozeit2, skonto1,
                                 skonto2, mahnzeit1, mahnzeit2, mahnzeit3);
 //                      Meldung fuer die Statuszeile wird angepassz
-                        STATUSZEILE = "Zahlungskondition mit der Zahlungskonditon-ID " + zknr + " wurde erfolgreich angelegt. ";
-                        this.hauptFenster.setStatusMeldung(STATUSZEILE);
+                        statuszeile = "Zahlungskondition mit der Zahlungskonditon-ID " + zknr + " wurde erfolgreich angelegt. ";
+                        this.hauptFenster.setStatusMeldung(statuszeile);
                         zuruecksetzen();
                     } else {
 //                        Kein Skonto und Mahnzeit geaendert, nachfrage ob so gespeichert werden soll
@@ -905,8 +903,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                                     sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2,
                                     mahnzeit1, mahnzeit2, mahnzeit3);
 //                          Meldung fuer die Statuszeile wird angepassz
-                            STATUSZEILE = "Zahlungskondition mit der Zahlungskonditon-ID " + zknr + " wurde erfolgreich geändert. ";
-                            this.hauptFenster.setStatusMeldung(STATUSZEILE);
+                            statuszeile = "Zahlungskondition mit der Zahlungskonditon-ID " + zknr + " wurde erfolgreich geändert. ";
+                            this.hauptFenster.setStatusMeldung(statuszeile);
                             zuruecksetzen(); // Formular zuruecksetzen
                             this.setVisible(false); // diese Sicht ausblenden 
 //                            jB_ZurueckActionPerformed(null); // Button Zurueck Action ausführen
@@ -1009,8 +1007,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                                     sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2,
                                     mahnzeit1, mahnzeit2, mahnzeit3);
 //                          Meldung fuer die Statuszeile wird angepassz
-                            STATUSZEILE = "Zahlungskondition mit der Zahlungskonditon-ID " + zknr + " wurde erfolgreich geändert. ";
-                            this.hauptFenster.setStatusMeldung(STATUSZEILE);
+                            statuszeile = "Zahlungskondition mit der Zahlungskonditon-ID " + zknr + " wurde erfolgreich geändert. ";
+                            this.hauptFenster.setStatusMeldung(statuszeile);
 
                             zuruecksetzen(); // Formular zuruecksetzen
                             this.setVisible(false); // diese Sicht ausblenden 
@@ -1100,8 +1098,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
             int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (antwort == JOptionPane.YES_OPTION) {
 //              Meldung fuer die Statuszeile wird angepasst
-                STATUSZEILE = "Zahlungskondition mit der Zahlungskonditon-ID " + zknr + " wurde erfolgreich gelöscht. ";
-                this.hauptFenster.setStatusMeldung(STATUSZEILE);
+                statuszeile = "Zahlungskondition mit der Zahlungskonditon-ID " + zknr + " wurde erfolgreich gelöscht. ";
+                this.hauptFenster.setStatusMeldung(statuszeile);
                 this.dao.loescheZahlungskondition(zknr);
 //                jB_ZurueckActionPerformed(evt);
                 zurueckInsHauptmenue();

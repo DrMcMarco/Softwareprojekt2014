@@ -46,7 +46,7 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
     /**
      * Variablen fuer die Fehlermeldungen
      */
-    private final String KEINE_ZKNR_EINGEGEBEN = "Bitte geben Sie eine Zahlungskonditions-ID ein!";
+    private final String KEINE_ZKNR_EINGEGEBEN = "Bitte geben Sie eine Zahlungskondition-ID ein!";
     private final String KEINE_ZK_IN_DATENBANK = "Keine passender Zahlungskondition in der Datenbank!";
 
     /**
@@ -208,7 +208,7 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
         String eingabe = jTF_Zahlungskondition_ID.getText();
         long zknr;
         try {
-            //             ZK mit der eingegebenen ZK nummer wird versucht aus der Datenbank zu laden
+//             ZK mit der eingegebenen ZK nummer wird versucht aus der Datenbank zu laden
 //              Alle Felder der Sicht ZK anlegen werden befuellt
             zknr = nf.parse(eingabe).longValue();
             Zahlungskondition za = GUIFactory.getDAO().gibZahlungskonditionNachId(zknr);

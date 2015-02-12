@@ -90,13 +90,13 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
      */
     private final String TITEL_PFLICHTFELDER_AUSFUELLEN = "Felder nicht ausgefüllt";
     private final String MELDUNG_PFLICHTFELDER_AUSFUELLEN = "Einige Felder wurden nicht ausgefüllt! Bitte füllen Sie diese aus!";
-    private final String MELDUNG_EINZELWERT_FALSCH = "Der eingegebene Preis ist nicht richtig! \nBitte geben Sie einen richtigen Preis ein. (z.B. 9,99 oder 99.999,99)";
+    private final String MELDUNG_EINZELWERT_FALSCH = "Der eingegebene Preis ist nicht richtig!\nBitte geben Sie einen richtigen Preis ein. (z.B. 9,99 oder 99.999,99)";
     private final String TITEL_FEHLERHAFTE_EINGABE = "Fehlerhafte Eingabe";
     private final String MELDUNG_AENDERUNGEN_SPEICHERN = "Möchten Sie die Änderungen speichern?";
     /**
      * Variable, um die Statusmeldungen ausgeben zu koennen
      */
-    private String STATUSZEILE;
+    private String statuszeile;
     /**
      * Varibale, die die maximale Anzahl von fehlerhaften Componenten beinhaltet
      */
@@ -727,9 +727,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel15)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(jTF_Artikelnummer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel10)
@@ -737,7 +735,10 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                                 .addGap(50, 50, 50)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel20)
-                                    .addComponent(jTF_Bestandsmenge_ZULAUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(jTF_Bestandsmenge_ZULAUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel4)
+                                .addComponent(jTF_Artikelnummer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel14)
                 .addGap(18, 18, 18)
@@ -818,8 +819,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                                 bestandsmengeRESERVIERT, bestandsmengeZULAUF,
                                 bestandsmengeVERKAUFT);
 //              Meldung fuer die Statuszeile wird angepasst
-                        STATUSZEILE = "Artikel mit der Artikel-ID " + artikelnr + " wurde erfolgreich angelegt. ";
-                        this.hauptFenster.setStatusMeldung(STATUSZEILE);
+                        statuszeile = "Artikel mit der Artikel-ID " + artikelnr + " wurde erfolgreich angelegt. ";
+                        this.hauptFenster.setStatusMeldung(statuszeile);
 //              das Formular wird zurueckgesetzt  
                         zuruecksetzen();
                     } else {
@@ -842,8 +843,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                             if (antwort == JOptionPane.YES_OPTION) {
 //                              falls ja, wird der Artikel geaendert
 //                              Meldung fuer die Statuszeile wird angepasst
-                                STATUSZEILE = "Artikel mit der Artikel-ID " + artikelnr + " wurde erfolgreich geändert. ";
-                                this.hauptFenster.setStatusMeldung(STATUSZEILE);
+                                statuszeile = "Artikel mit der Artikel-ID " + artikelnr + " wurde erfolgreich geändert. ";
+                                this.hauptFenster.setStatusMeldung(statuszeile);
                                 this.dao.aendereArtikel(artikelnr, kategorie, artikelname, artikelbeschreibung, einzelwert,
                                         bestellwert, mwst, artikelVorher.getFrei());
                                 zuruecksetzen(); // Formular zuruecksetzen
@@ -1092,8 +1093,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                                 int antwort = JOptionPane.showConfirmDialog(null, MELDUNG_AENDERUNGEN_SPEICHERN, ARTIKEL_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                                 if (antwort == JOptionPane.YES_OPTION) {
 //                                  Meldung fuer die Statuszeile wird angepasst
-                                    STATUSZEILE = "Artikel mit der Artikel-ID " + artikelnr + " wurde erfolgreich geändert. ";
-                                    this.hauptFenster.setStatusMeldung(STATUSZEILE);
+                                    statuszeile = "Artikel mit der Artikel-ID " + artikelnr + " wurde erfolgreich geändert. ";
+                                    this.hauptFenster.setStatusMeldung(statuszeile);
 //                                  falls ja, wird der Artikel geaendert
                                     this.dao.aendereArtikel(artikelnr, kategorie, artikelname, artikelbeschreibung, einzelwert,
                                             bestellwert, mwst, artikelVorher.getFrei());
@@ -1184,8 +1185,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                     int antwort = JOptionPane.showConfirmDialog(null, text, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (antwort == JOptionPane.YES_OPTION) {
 //                      Meldung fuer die Statuszeile wird angepasst
-                        STATUSZEILE = "Artikel mit der Artikel-ID" + artikelnr + " wurde erfolgreich gelöscht. ";
-                        this.hauptFenster.setStatusMeldung(STATUSZEILE);
+                        statuszeile = "Artikel mit der Artikel-ID" + artikelnr + " wurde erfolgreich gelöscht. ";
+                        this.hauptFenster.setStatusMeldung(statuszeile);
                         this.dao.loescheArtikel(artikelnr);
 //                    jB_ZurueckActionPerformed(evt);
                         zurueckInsHauptmenue();
