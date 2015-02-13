@@ -303,10 +303,10 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
             list.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
 
         }
-        // Alle leeren Eingabefelder werden farblich markiert.
-        for (int i = 0; i <= list.size() - 1; i++) {
-            list.get(i).setBackground(farbe);
-        }
+//        // Alle leeren Eingabefelder werden farblich markiert.
+//        for (int i = 0; i <= list.size() - 1; i++) {
+//            list.get(i).setBackground(farbe);
+//        }
 
         list.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
     }

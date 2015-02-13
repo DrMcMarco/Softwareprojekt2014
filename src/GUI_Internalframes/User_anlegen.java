@@ -329,11 +329,17 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
             public void focusGained(java.awt.event.FocusEvent evt) {
                 benutzername_jTextFieldFocusGained(evt);
             }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                benutzername_jTextFieldFocusLost(evt);
+            }
         });
 
         passwort_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 passwort_jTextFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                passwort_jTextFieldFocusLost(evt);
             }
         });
 
@@ -399,7 +405,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
      */
     private void benutzername_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_benutzername_jTextFieldFocusGained
 
-        benutzername_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
+       
         benutzername_jTextField.selectAll();// Eingabefeld wrd selektiert.
     }//GEN-LAST:event_benutzername_jTextFieldFocusGained
 
@@ -414,7 +420,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
      */
     private void passwort_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwort_jTextFieldFocusGained
         this.hauptFenster.setStatusMeldung("");//Statusmeldung verschwindet.
-        passwort_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
+       
         passwort_jTextField.setText("");//Übergabe eines leeren Strings an das Eingabefeld
     }//GEN-LAST:event_passwort_jTextFieldFocusGained
 
@@ -602,6 +608,14 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
             this.hauptFenster.setStatusMeldung(e.getMessage());//Ausgabe einer Meldung.
         }
     }//GEN-LAST:event_jB_LoeschenActionPerformed
+
+    private void benutzername_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_benutzername_jTextFieldFocusLost
+        benutzername_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
+    }//GEN-LAST:event_benutzername_jTextFieldFocusLost
+
+    private void passwort_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwort_jTextFieldFocusLost
+         passwort_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
+    }//GEN-LAST:event_passwort_jTextFieldFocusLost
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */

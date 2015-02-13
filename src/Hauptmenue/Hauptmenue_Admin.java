@@ -427,7 +427,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufendenen Maske ein Titel übergeben.
-                    this.internal.zahlungskonditionaendern.setTitle("Zahlungskonditionen anzeigen Einstieg");
+                    this.internal.zahlungskonditionaendern.setTitle("Zahlungskondition anzeigen Einstieg");
                     
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);

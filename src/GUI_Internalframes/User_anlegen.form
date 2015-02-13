@@ -161,11 +161,13 @@
     <Component class="javax.swing.JTextField" name="benutzername_jTextField">
       <Events>
         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="benutzername_jTextFieldFocusGained"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="benutzername_jTextFieldFocusLost"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="passwort_jTextField">
       <Events>
         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="passwort_jTextFieldFocusGained"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="passwort_jTextFieldFocusLost"/>
       </Events>
     </Component>
     <Component class="javax.swing.JCheckBox" name="admin_jCheckBox">

@@ -281,6 +281,9 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
             public void focusGained(java.awt.event.FocusEvent evt) {
                 erfassungsdatum_jTextFieldFocusGained(evt);
             }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                erfassungsdatum_jTextFieldFocusLost(evt);
+            }
         });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -398,7 +401,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      */
     private void menge_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_menge_jTextFieldFocusGained
         mengenAngabe = "";
-        menge_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
+        
         menge_jTextField.selectAll();//Selektion des Eingabefeldes
         mengenAngabe = menge_jTextField.getText();
     }//GEN-LAST:event_menge_jTextFieldFocusGained
@@ -419,7 +422,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      * @param evt
      */
     private void erfassungsdatum_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_erfassungsdatum_jTextFieldFocusGained
-        erfassungsdatum_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
+       
         erfassungsdatum_jTextField.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_erfassungsdatum_jTextFieldFocusGained
 
@@ -492,6 +495,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         neuWert = Double.parseDouble(menge_jTextField.getText())
                 * einzelwert;
         einzelwert_jTextField.setText(String.valueOf(neuWert));
+        menge_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
     }//GEN-LAST:event_menge_jTextFieldFocusLost
 
     /**
@@ -613,6 +617,10 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
             this.hauptFenster.setStatusMeldung(e.getMessage());
         }
     }//GEN-LAST:event_jB_LoeschenActionPerformed
+
+    private void erfassungsdatum_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_erfassungsdatum_jTextFieldFocusLost
+         erfassungsdatum_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
+    }//GEN-LAST:event_erfassungsdatum_jTextFieldFocusLost
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
