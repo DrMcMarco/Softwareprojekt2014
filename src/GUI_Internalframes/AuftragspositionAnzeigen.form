@@ -236,30 +236,18 @@
         <Property name="text" type="java.lang.String" value="1"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
-      <Events>
-        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="auftragskofID_jTextFieldFocusGained"/>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="auftragskofID_jTextFieldFocusLost"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="positionsnummer_jTextField">
       <Properties>
         <Property name="text" type="java.lang.String" value="1"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
-      <Events>
-        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="positionsnummer_jTextFieldFocusGained"/>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="positionsnummer_jTextFieldFocusLost"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="materialnummer_jTextField">
       <Properties>
         <Property name="text" type="java.lang.String" value="1"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
-      <Events>
-        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="materialnummer_jTextFieldFocusGained"/>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="materialnummer_jTextFieldFocusLost"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="menge_jTextField">
       <Properties>
@@ -276,19 +264,11 @@
         <Property name="text" type="java.lang.String" value="100,00"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
-      <Events>
-        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="einzelwert_jTextFieldFocusGained"/>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="einzelwert_jTextFieldFocusLost"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="erfassungsdatum_jTextField">
       <Properties>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
-      <Events>
-        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="erfassungsdatum_jTextFieldFocusGained"/>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="erfassungsdatum_jTextFieldFocusLost"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>

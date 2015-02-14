@@ -17,6 +17,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import JFrames.*;
+import java.text.ParseException;
 import java.util.Calendar;
 
 /**
@@ -76,23 +77,18 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /*
      Augabetexte für Meldungen
      */
-    String fehlermeldung_titel = "Fehlerhafte Eingabe";
-    String fehlermeldunAuftragspositionsIDtext = "\"Die eingegebene Auftragspositions-ID ist nicht gültig! "
-            + "\\n Bitte geben Sie eine gültige Auftragspositions-ID ein. (z.B. 1 oder 999999999)\"";
-    String fehlermeldungPositionsnummertext = "\"Die eingegebene Positionsnummer ist nicht gültig! "
-            + "\\n Bitte geben Sie eine gültige Positionsnummer ein. (z.B. 1 oder 999999999)\"";
-    String fehlermeldungMaterialnummertext = "\"Die eingegebene Materialnummer ist nicht gültig! "
-            + "\\n Bitte geben Sie eine gültige Materialnummer ein. (z.B. 1 oder 999999999)\"";
-    String fehlermeldungMengetext = "\"Die eingegebene Menge ist nicht gültig! "
+    final String FEHLERMELDUNG_TITEL = "Fehlerhafte Eingabe";;
+    final String FEHLERMELDUNG_UNGUELTIGESDATUM =
+            "Üngültigesdatum. Bitte geben Sie eine gültiges Datum ein. (z.B 01.01.2016)";
+
+    String FEHLERMELDUNGMENGE_TEXT = "\"Die eingegebene Menge ist nicht gültig! "
             + "\\n Bitte geben Sie eine Menge ein. (z.B. 0 bis 999999999)\"";
-    String fehlermeldungEinzelwerttext = "\"Der eingegebene Einzelwert ist nicht gültig! "
-            + "\\n Bitte geben Sie einen gültigen Einzelwert ein. (z.B. 0,00 bis 9999999,99)\"";
-    final String aenderungVonDaten_Text = "Es wurden Daten geändert. Wollen sie wirklich"
+    final String AENDERUNGVONDATEN_TEXT = "Es wurden Daten geändert. Wollen sie wirklich"
             + "die Daten überspeichern?";
-    final String aenderungVonDaten_Titel = "Änderung von Daten";
+    final String AENDERUNGVONDATEN__TITEL = "Änderung von Daten";
     final String ERFOLGREICHGEAENDERT_TEXT = "Die Position  wurde erfolgreich geändert.";
-    final String keineAenderung_Text = "Es sind keine Änderungen vorgenommen worden.";
-    final String keineAenderungen_Titel = "Auftragsposition existiert bereits.";
+    final String KEINEAENDERUNG_TEXT = "Es sind keine Änderungen vorgenommen worden.";
+    final String KEINEAENDERUNG_TITEL = "Auftragsposition existiert bereits.";
     final String ERFOLGREICHGELOESCHT_TEXT = "Auftragsposition wurde erfolgreich "
             + "gelöscht";
     final String ERFOLGREICHGELOESCHT_TITEL = "Auftragsposition löschen";
@@ -223,36 +219,12 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
 
         auftragskofID_jTextField.setText("1");
         auftragskofID_jTextField.setEnabled(false);
-        auftragskofID_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                auftragskofID_jTextFieldFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                auftragskofID_jTextFieldFocusLost(evt);
-            }
-        });
 
         positionsnummer_jTextField.setText("1");
         positionsnummer_jTextField.setEnabled(false);
-        positionsnummer_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                positionsnummer_jTextFieldFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                positionsnummer_jTextFieldFocusLost(evt);
-            }
-        });
 
         materialnummer_jTextField.setText("1");
         materialnummer_jTextField.setEnabled(false);
-        materialnummer_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                materialnummer_jTextFieldFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                materialnummer_jTextFieldFocusLost(evt);
-            }
-        });
 
         menge_jTextField.setText("10");
         menge_jTextField.setEnabled(false);
@@ -267,24 +239,8 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
 
         einzelwert_jTextField.setText("100,00");
         einzelwert_jTextField.setEnabled(false);
-        einzelwert_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                einzelwert_jTextFieldFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                einzelwert_jTextFieldFocusLost(evt);
-            }
-        });
 
         erfassungsdatum_jTextField.setEnabled(false);
-        erfassungsdatum_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                erfassungsdatum_jTextFieldFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                erfassungsdatum_jTextFieldFocusLost(evt);
-            }
-        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Auftragspositionsdaten :");
@@ -368,111 +324,12 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      *
      * @param evt
      */
-    private void auftragskofID_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_auftragskofID_jTextFieldFocusGained
-        auftragskofID_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
-        auftragskofID_jTextField.setText("");//Eingabefeld erhält einen leeren String
-        auftragskofID_jTextField.selectAll();//Selektion des Eingabefeldes
-    }//GEN-LAST:event_auftragskofID_jTextFieldFocusGained
-
-    /**
-     * Beim wählen des Eingabefeldes, wird alles leer gesetzt und selektiert.
-     *
-     * @param evt
-     */
-    private void positionsnummer_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_positionsnummer_jTextFieldFocusGained
-        positionsnummer_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
-        positionsnummer_jTextField.selectAll();//Selektion des Eingabefeldes
-    }//GEN-LAST:event_positionsnummer_jTextFieldFocusGained
-
-    /**
-     * Beim wählen des Eingabefeldes, wird alles leer gesetzt und selektiert.
-     *
-     * @param evt
-     */
-    private void materialnummer_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_materialnummer_jTextFieldFocusGained
-        materialnummer_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
-        materialnummer_jTextField.selectAll();//Selektion des Eingabefeldes
-    }//GEN-LAST:event_materialnummer_jTextFieldFocusGained
-
-    /**
-     * Beim wählen des Eingabefeldes, wird alles leer gesetzt und selektiert.
-     *
-     * @param evt
-     */
     private void menge_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_menge_jTextFieldFocusGained
         mengenAngabe = "";
-        
+
         menge_jTextField.selectAll();//Selektion des Eingabefeldes
         mengenAngabe = menge_jTextField.getText();
     }//GEN-LAST:event_menge_jTextFieldFocusGained
-
-    /**
-     * Beim wählen des Eingabefeldes, wird alles leer gesetzt und selektiert.
-     *
-     * @param evt
-     */
-    private void einzelwert_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_einzelwert_jTextFieldFocusGained
-        einzelwert_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
-        einzelwert_jTextField.selectAll();//Selektion des Eingabefeldes
-    }//GEN-LAST:event_einzelwert_jTextFieldFocusGained
-
-    /**
-     * Beim wählen des Eingabefeldes, wird alles selektiert.
-     *
-     * @param evt
-     */
-    private void erfassungsdatum_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_erfassungsdatum_jTextFieldFocusGained
-       
-        erfassungsdatum_jTextField.selectAll();//Selektion des Eingabefeldes
-    }//GEN-LAST:event_erfassungsdatum_jTextFieldFocusGained
-
-    /**
-     * Beim Focuslost des Eingabefeldes für die Auftragspostions-ID, wird auf
-     * die Richtigkeit der Eingabe geprüft und gibt gegebenen falls eine
-     * Fehlermeldung aus. Dabei springt man zurück in das Eingabefeld.
-     *
-     * @param evt
-     */
-    private void auftragskofID_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_auftragskofID_jTextFieldFocusLost
-        if (evt.isTemporary()) {
-            return;
-        }
-        // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
-        ueberpruefungVonFocusLost(auftragskofID_jTextField, auftragspositionsID_syntax,
-                fehlermeldung_titel, fehlermeldunAuftragspositionsIDtext);
-    }//GEN-LAST:event_auftragskofID_jTextFieldFocusLost
-
-    /**
-     * Beim Focuslost des Eingabefeldes für die Positionsnummer, wird auf die
-     * Richtigkeit der Eingabe geprüft und gibt gegebenen falls eine
-     * Fehlermeldung aus. Dabei springt man zurück in das Eingabefeld.
-     *
-     * @param evt
-     */
-    private void positionsnummer_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_positionsnummer_jTextFieldFocusLost
-        if (evt.isTemporary()) {
-            return;
-        }
-        // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
-        ueberpruefungVonFocusLost(positionsnummer_jTextField, positionsnummer_syntax,
-                fehlermeldung_titel, fehlermeldungPositionsnummertext);
-    }//GEN-LAST:event_positionsnummer_jTextFieldFocusLost
-
-    /**
-     * Beim Focuslost des Eingabefeldes für die Materialnummer, wird auf die
-     * Richtigkeit der Eingabe geprüft und gibt gegebenen falls eine
-     * Fehlermeldung aus. Dabei springt man zurück in das Eingabefeld.
-     *
-     * @param evt
-     */
-    private void materialnummer_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_materialnummer_jTextFieldFocusLost
-        if (evt.isTemporary()) {
-            return;
-        }
-        // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
-        ueberpruefungVonFocusLost(materialnummer_jTextField, material_syntax,
-                fehlermeldung_titel, fehlermeldungMaterialnummertext);
-    }//GEN-LAST:event_materialnummer_jTextFieldFocusLost
 
     /**
      * Beim Focuslost des Eingabefeldes für die Menge, wird auf die Richtigkeit
@@ -484,35 +341,24 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     private void menge_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_menge_jTextFieldFocusLost
         Double neuWert;
         double einzelwert = 0.0;
+
         if (evt.isTemporary()) {
             return;
         }
         // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
         ueberpruefungVonFocusLost(menge_jTextField, menge_syntax,
-                fehlermeldung_titel, fehlermeldungMengetext);
-        einzelwert = Double.parseDouble(einzelwert_jTextField.getText())
-                / Double.parseDouble(mengenAngabe);
-        neuWert = Double.parseDouble(menge_jTextField.getText())
-                * einzelwert;
-        einzelwert_jTextField.setText(String.valueOf(neuWert));
-        menge_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
-    }//GEN-LAST:event_menge_jTextFieldFocusLost
+                FEHLERMELDUNG_TITEL, FEHLERMELDUNGMENGE_TEXT);
+        if (!(menge_jTextField.getText().equals(""))) {
 
-    /**
-     * Beim Focuslost des Eingabefeldes für den Einzelwert, wird auf die
-     * Richtigkeit der Eingabe geprüft und gibt gegebenen falls eine
-     * Fehlermeldung aus. Dabei springt man zurück in das Eingabefeld.
-     *
-     * @param evt
-     */
-    private void einzelwert_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_einzelwert_jTextFieldFocusLost
-        if (evt.isTemporary()) {
-            return;
+            einzelwert = Double.parseDouble(einzelwert_jTextField.getText())
+                    / Double.parseDouble(mengenAngabe);
+            neuWert = Double.parseDouble(menge_jTextField.getText())
+                    * einzelwert;
+            einzelwert_jTextField.setText(String.valueOf(neuWert));
+            menge_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
         }
-        // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
-        ueberpruefungVonFocusLost(einzelwert_jTextField, einzelwert_syntax,
-                fehlermeldung_titel, fehlermeldungEinzelwerttext);
-    }//GEN-LAST:event_einzelwert_jTextFieldFocusLost
+
+    }//GEN-LAST:event_menge_jTextFieldFocusLost
 
     /**
      * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird. Es wird von
@@ -578,8 +424,8 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
                     && dbMenge.equals(menge_jTextField.getText())
                     && dbErfassungsdatum.equals(erfassungsdatum_jTextField.getText())
                     && dbEinzelwert.equals(einzelwert_jTextField.getText()))) {
-                int antwort = JOptionPane.showConfirmDialog(rootPane, aenderungVonDaten_Text,
-                        aenderungVonDaten_Titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                int antwort = JOptionPane.showConfirmDialog(rootPane, AENDERUNGVONDATEN_TEXT,
+                        AENDERUNGVONDATEN__TITEL, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
 //Falls bejaht wird der Auftragskopf verändert gespeichert.
                 if (antwort == JOptionPane.YES_OPTION) {
@@ -598,8 +444,8 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
                 }
 
             } else {
-                JOptionPane.showMessageDialog(null, keineAenderung_Text,
-                        keineAenderungen_Titel, JOptionPane.OK_OPTION);
+                JOptionPane.showMessageDialog(null, KEINEAENDERUNG_TEXT,
+                        KEINEAENDERUNG_TITEL, JOptionPane.OK_OPTION);
             }
         } catch (ApplicationException e) {
             this.hauptFenster.setStatusMeldung(e.getMessage());
@@ -618,10 +464,6 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         }
     }//GEN-LAST:event_jB_LoeschenActionPerformed
 
-    private void erfassungsdatum_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_erfassungsdatum_jTextFieldFocusLost
-         erfassungsdatum_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
-    }//GEN-LAST:event_erfassungsdatum_jTextFieldFocusLost
-
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi, angelegt */
@@ -638,6 +480,9 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         materialnummer_jTextField.setText("");
         menge_jTextField.setText("");
         einzelwert_jTextField.setText("");
+
+        menge_jTextField.setBackground(hintergrundfarbe);
+        erfassungsdatum_jTextField.setBackground(hintergrundfarbe);
         //Eingabefeld für das Erfassungsdatum erhält das heutige Datum
         erfassungsdatum_jTextField.setText(format.format(heute));
         gespeichert = false;
@@ -757,7 +602,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         this.materialnummer_jTextField.setEnabled(false);
         this.menge_jTextField.setEnabled(true);
         this.einzelwert_jTextField.setEnabled(false);
-        this.erfassungsdatum_jTextField.setEnabled(true);
+        this.erfassungsdatum_jTextField.setEnabled(false);
         jB_Anzeigen.setText("Anzeigen");
         jB_Anzeigen.setEnabled(false);
         jB_Speichern.setEnabled(true);

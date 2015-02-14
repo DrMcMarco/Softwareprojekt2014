@@ -104,6 +104,8 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
 //        benutzername_jTextField.setText("");
         passwort_jTextField.setText("");
         admin_jCheckBox.setSelected(false);
+        benutzername_jTextField.setBackground(hintergrundfarbe);
+        passwort_jTextField.setBackground(hintergrundfarbe);
     }
 
     /*----------------------------------------------------------*/
@@ -484,7 +486,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
             fehlEingabenMarkierung(fehlendeEingaben, fehlermeldung_titel,
                     fehlermeldung_text, warningfarbe);
         } catch (ApplicationException e) {
-            System.out.println(e.getMessage());
+            this.hauptFenster.setStatusMeldung(e.getMessage());
         }
     }//GEN-LAST:event_jB_SpeichernActionPerformed
 
