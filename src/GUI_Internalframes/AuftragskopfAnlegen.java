@@ -20,6 +20,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.NoSuchElementException;
 import java.util.Vector;
 import javax.swing.ButtonModel;
@@ -93,7 +94,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     Auftragsposition position; // Objekt Erzeugung für die Positionstabelle.
 
     private String typ;
-    private HashMap<Long, Integer> artikel;
+//    private HashMap<Long, Integer> artikel;
+    private LinkedHashMap<Long, Integer> artikel;
     private String auftragsText;
     private Long geschaeftspartnerID;
     private Integer zahhlungskonditionID;
@@ -207,8 +209,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 
         this.factory = factory;
         this.hauptFenster = mainView;
-        artikel = new HashMap<>();
-
+//        artikel = new HashMap<>();
+        artikel = new LinkedHashMap<>();
         try {
 
             // Variable, die ein Datum in ein vorgegebenes Format umwandelt.
@@ -821,6 +823,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     private void materialnummer_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_materialnummer_jTextFieldFocusGained
 
         materialnummer_jTextField.selectAll();//Selektion des Eingabefeldes
+        positionsnummer_jTextField.setText(String.valueOf(artikel.size() + 1));
     }//GEN-LAST:event_materialnummer_jTextFieldFocusGained
 
     /**
@@ -954,10 +957,12 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      * @param evt
      */
     private void materialnummer_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_materialnummer_jTextFieldFocusLost
-        // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
+        long artikelnummer;
+        int positionsnummer = 0;
+// Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
         try {
-
-            GUIFactory.getDAO().gibArtikel((Long.valueOf(materialnummer_jTextField.getText())));
+            artikelnummer = Long.valueOf(materialnummer_jTextField.getText());
+            GUIFactory.getDAO().gibArtikel(artikelnummer);
             if (auftragsart_jComboBox.getSelectedItem().toString().equals("Bestellauftrag")) {
 
                 einzelwert = (GUIFactory.getDAO().gibArtikel(
@@ -970,8 +975,17 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 einzelwert_jTextField.setText(String.valueOf(einzelwert));
             }
 
-            ueberpruefungVonFocusLost(materialnummer_jTextField, MATERIALNUMMER_SYNTAX,
-                    FEHLERMELDUNG_TITEL, fehlermeldungMaterial_text);
+            if (artikel.containsKey(artikelnummer)) {
+                Iterator<Long> it = artikel.keySet().iterator();
+                int i = 0;
+                while( it.hasNext()){
+                    i++;
+                    if(it.next() == artikelnummer){
+                        positionsnummer = i;
+                    }
+                }
+                positionsnummer_jTextField.setText(String.valueOf(positionsnummer));
+            }
         } catch (ApplicationException e) {
             //Ausgabe einer Fehlermeldung
             JOptionPane.showMessageDialog(null, e.getMessage(), FEHLERMELDUNG_TITEL, JOptionPane.ERROR_MESSAGE);
@@ -980,7 +994,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             geschaeftspartner_jTextField.selectAll();
 
         } catch (NumberFormatException e) {
-
+            ueberpruefungVonFocusLost(materialnummer_jTextField, MATERIALNUMMER_SYNTAX,
+                    FEHLERMELDUNG_TITEL, fehlermeldungMaterial_text);
         }
     }//GEN-LAST:event_materialnummer_jTextFieldFocusLost
 
@@ -1019,7 +1034,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                         String.valueOf(it.next().getZahlungskonditionID()));
 
             }
-//            }
         } catch (NullPointerException | NoSuchElementException | ApplicationException ex) {//Abfangen von fehlern
             this.hauptFenster.setStatusMeldung(ex.getMessage());// Fehlermeldung wird in Statuszeile ausgegeben.
         }
@@ -1787,9 +1801,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             textfield.requestFocusInWindow();
             textfield.selectAll();
         } else if (!textfield.getText().equals("")) {
-                formularOK = true;
+            formularOK = true;
 
-                textfield.setBackground(hintergrundfarbe);
+            textfield.setBackground(hintergrundfarbe);
 
         } else {
             formularOK = true;
@@ -1958,7 +1972,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     /* Datum Name Was */
     /* 14.01.2015 Terrasi angelegt und dokumentiert*/
     /*----------------------------------------------------------*/
-    public void setArtikel(HashMap<Long, Integer> artikel) {
+//    public void setArtikel(HashMap<Long, Integer> artikel) {
+    public void setArtikel(LinkedHashMap<Long, Integer> artikel) {
         this.artikel = artikel;
     }
 
