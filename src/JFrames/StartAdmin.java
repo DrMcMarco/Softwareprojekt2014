@@ -120,7 +120,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
             factory = new GUIFactory();// Erzeugung eines Guifactoryobjektes.
             dao = new DataAccessObject();// Erzeugung eines DAO-Objektes.
         } catch (PersistenceException e) {// Fehlerbehandlung falls bei der 
-            // Erzeugung entwas nicht funktioniert hat.
+            // Wenn bei Erzeugung entwas nicht funktioniert hat.
             System.out.println(e.getMessage());// Fehlerausgabe.
         }
 
@@ -491,6 +491,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         int antwort = JOptionPane.showConfirmDialog(rootPane, Beenden_Meldung,
                 Beenden_Meldung_Typ, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (antwort == JOptionPane.YES_OPTION) {
+            this.logInFester.getAnmeldeFenster().zurueckSetzen();
             this.logInFester.setVisible(true);
             this.setVisible(false);
 //            System.exit(0);

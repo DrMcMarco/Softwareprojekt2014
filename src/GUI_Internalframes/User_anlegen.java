@@ -101,6 +101,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     @Override
     public void zuruecksetzen() {
         //Eingabefelder erhalten einen leeren String
+        benutzername_jTextField.setText("");
         passwort_jTextField.setText("");
         admin_jCheckBox.setSelected(false);
         benutzername_jTextField.setBackground(hintergrundfarbe);
@@ -124,7 +125,8 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         //Eingabefelder für Auftragskopf werden in Variable "fehlendeEingaben" festgehalten.
         if (benutzername_jTextField.getText().equals("")) {
             fehlendeEingaben.add(benutzername_jTextField);
-        } else if (passwort_jTextField.getText().equals("")) {
+        }
+        if (passwort_jTextField.getText().equals("")) {
             fehlendeEingaben.add(passwort_jTextField);
         }
     }
@@ -200,6 +202,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         jB_Anzeigen.setEnabled(true);
         jB_Speichern.setEnabled(false);
         jB_Loeschen.setEnabled(false);
+        jB_Suchen.setEnabled(false);
         this.hauptFenster.setComponent(this);
     }
     /*----------------------------------------------------------*/
@@ -222,6 +225,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         jB_Anzeigen.setEnabled(true);
         jB_Speichern.setEnabled(true);
         jB_Loeschen.setEnabled(true);
+        jB_Suchen.setEnabled(false);
         this.hauptFenster.setComponent(this);
     }
 
@@ -235,11 +239,12 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         this.benutzername_jTextField.setText("");
         this.benutzername_jTextField.setEnabled(true);
         this.passwort_jTextField.setEnabled(true);
-        this.admin_jCheckBox.setEnabled(false);
+        this.admin_jCheckBox.setEnabled(true);
         jB_Anzeigen.setText("Anzeigen");
         jB_Anzeigen.setEnabled(false);
         jB_Speichern.setEnabled(true);
-        jB_Loeschen.setEnabled(true);
+        jB_Loeschen.setEnabled(false);
+        jB_Suchen.setEnabled(false);
         this.hauptFenster.setComponent(this);
     }
 
@@ -406,7 +411,6 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
      */
     private void benutzername_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_benutzername_jTextFieldFocusGained
 
-       
         benutzername_jTextField.selectAll();// Eingabefeld wrd selektiert.
     }//GEN-LAST:event_benutzername_jTextFieldFocusGained
 
@@ -420,9 +424,8 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
      * @param evt
      */
     private void passwort_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwort_jTextFieldFocusGained
-        this.hauptFenster.setStatusMeldung("");//Statusmeldung verschwindet.
-       
-        passwort_jTextField.setText("");//Übergabe eines leeren Strings an das Eingabefeld
+
+        passwort_jTextField.selectAll();
     }//GEN-LAST:event_passwort_jTextFieldFocusGained
 
     /*----------------------------------------------------------*/
@@ -449,7 +452,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
                 if (this.getTitle().equals("Benutzer anlegen")) {//Überprüft aus in welcher Maske man sich befindet
                     // Aufruf der erstelleBenutzer-Methode mit der ein Benutzer erzeugt wird.
                     GUIFactory.getDAO().erstelleBenutzer(benutzerame, passwort, istAdmin);
-                    jB_ZurueckActionPerformed(evt);
+                    zuruecksetzen();
                     this.hauptFenster.setStatusMeldung(ERFOLGREICHEANMELDUNG);// Ausgabe einer Medung.
                 } else if (this.getTitle().equals("Benutzer ändern")) {// Überprüft ob man sich in der Benutzer ändern Maske befindet.
 
@@ -478,12 +481,14 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
                                 KEINEAENDERUNGEN_Titel, JOptionPane.OK_OPTION);
                     }
 
-                    zuruecksetzen();//Methode die bestimmte Eingabefelder leert
-                    benutzername_jTextField.setText("");
+//                    zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+//                    benutzername_jTextField.setText("");
                 }
+            } else {
+
+                fehlEingabenMarkierung(fehlendeEingaben, FEHLERMELDUNG_TITEL,
+                        FEHLERMELDUNG_TEXT, warningfarbe);
             }
-            fehlEingabenMarkierung(fehlendeEingaben, FEHLERMELDUNG_TITEL,
-                    FEHLERMELDUNG_TEXT, warningfarbe);
         } catch (ApplicationException e) {
             this.hauptFenster.setStatusMeldung(e.getMessage());
         }
@@ -615,7 +620,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     }//GEN-LAST:event_benutzername_jTextFieldFocusLost
 
     private void passwort_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwort_jTextFieldFocusLost
-         passwort_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
+        passwort_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
     }//GEN-LAST:event_passwort_jTextFieldFocusLost
 
     /*----------------------------------------------------------*/

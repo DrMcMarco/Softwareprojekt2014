@@ -74,7 +74,6 @@ public class Anmeldung extends javax.swing.JInternalFrame {
         passwort_vergessen_label = new java.awt.Label();
         Anmelde_button = new java.awt.Button();
 
-        setClosable(true);
         setTitle("Anmeldung");
         setVisible(true);
 
@@ -166,7 +165,7 @@ public class Anmeldung extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
         );
 
         pack();
@@ -258,6 +257,10 @@ public class Anmeldung extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_passwort_jPasswordFieldKeyPressed
 
+    public void zurueckSetzen(){
+        benutzername_jTextField.setText("");
+        passwort_jPasswordField.setText("");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Button Anmelde_button;

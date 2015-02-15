@@ -367,11 +367,6 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
 
         jM_Logout.setText("Logout");
         jM_Logout.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
-        jM_Logout.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jM_LogoutActionPerformed(evt);
-            }
-        });
 
         jMI_Logout.setText("Abmelden");
         jMI_Logout.addActionListener(new java.awt.event.ActionListener() {
@@ -455,9 +450,9 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         int antwort = JOptionPane.showConfirmDialog(rootPane, BEENDEN_MELDUNG,
                 BEENDEN_MELDUNG_TYP, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (antwort == JOptionPane.YES_OPTION) {
+            this.logInFester.getAnmeldeFenster().zurueckSetzen();
             this.logInFester.setVisible(true);
             this.setVisible(false);
-//            System.exit(0);
         }
     }//GEN-LAST:event_jMI_LogoutActionPerformed
 
@@ -892,28 +887,6 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         setCenterJIF(zahlungskonditionaendern);
         setComponent(zahlungskonditionaendern);
     }//GEN-LAST:event_jMI_ZKAnzeigenActionPerformed
-
-    /*----------------------------------------------------------*/
-    /* Datum Name Was */
-    /* 10.12.2014 Terrasi angelegt */
-    /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
-    /*----------------------------------------------------------*/
-    /**
-     * Methode in der definiert wird was beim betätigen des Logouts in der
-     * Navigation passiert
-     *
-     * @param evt
-     */
-    private void jM_LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jM_LogoutActionPerformed
-        // Erzeugen eine Meldung mit Abfrage
-        int antwort = JOptionPane.showConfirmDialog(rootPane, BEENDEN_MELDUNG,
-                BEENDEN_MELDUNG_TYP, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (antwort == JOptionPane.YES_OPTION) {
-            this.logInFester.setVisible(true);
-            this.setVisible(false);
-//            System.exit(0);
-        }
-    }//GEN-LAST:event_jM_LogoutActionPerformed
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */

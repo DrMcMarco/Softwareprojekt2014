@@ -978,9 +978,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             if (artikel.containsKey(artikelnummer)) {
                 Iterator<Long> it = artikel.keySet().iterator();
                 int i = 0;
-                while( it.hasNext()){
+                while (it.hasNext()) {
                     i++;
-                    if(it.next() == artikelnummer){
+                    if (it.next() == artikelnummer) {
                         positionsnummer = i;
                     }
                 }
@@ -1486,6 +1486,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      */
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
 
+        String jetzigerStatus = "";
         if (formularOK) {
 
             if (this.getTitle().equals("Auftragskopf anlegen")) {
@@ -1525,6 +1526,15 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 }
             } else {
 
+                // Ermitteln welcher Auftragsstatus gewählt worden ist
+                ButtonModel bm = buttonGroup1.getSelection();
+                if (bm.getActionCommand().equals("Erfasst")) {
+                    jetzigerStatus = "erfasst";
+                } else if (bm.getActionCommand().equals("Freigegeben")) {
+                    jetzigerStatus = "freigegeben";
+                } else {
+                    jetzigerStatus = "abgeschlossen";
+                }
                 if (!(geschaeftspartner_jTextField.getText().equals(dbGeschaeftspartnerID)
                         && auftragsart_jComboBox.getSelectedItem().toString().equals(dbAuftragsart)
                         && auftragstext_jTextArea.getText().equals(dbAuftragstext)
@@ -1532,6 +1542,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                         equals(dbLieferdatum)
                         && abschlussdatum_jFormattedTextField.getText().equals(
                                 dbAbschlussdatum)
+                        && jetzigerStatus.equals(dbStatus)
                         && materialnummer_jTextField.getText().equals("")
                         && menge_jTextField.getText().equals("")
                         && dbAuftragspositionen.size() == artikel.size())
@@ -1962,7 +1973,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         jB_Anzeigen.setText("Anzeigen");
         jB_Anzeigen.setEnabled(false);
         jB_Speichern.setEnabled(true);
-        jB_Loeschen.setEnabled(true);
+        jB_Loeschen.setEnabled(false);
         NeuePosition_jButton.setEnabled(true);
         positionLoeschen_jButton.setEnabled(true);
         this.hauptFenster.setComponent(this);

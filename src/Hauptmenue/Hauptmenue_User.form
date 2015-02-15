@@ -99,12 +99,6 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jB_Abbrechen">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Abbrechen"/>
-            <Property name="enabled" type="boolean" value="false"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JButton" name="jB_Speichern">
           <Properties>
             <Property name="text" type="java.lang.String" value="Speichern"/>

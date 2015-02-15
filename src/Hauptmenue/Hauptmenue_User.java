@@ -66,7 +66,6 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
         jSeparator2 = new javax.swing.JSeparator();
         jToolBar1 = new javax.swing.JToolBar();
         jB_Zurueck = new javax.swing.JButton();
-        jB_Abbrechen = new javax.swing.JButton();
         jB_Speichern = new javax.swing.JButton();
         jB_Anzeigen = new javax.swing.JButton();
         jB_Loeschen = new javax.swing.JButton();
@@ -137,10 +136,6 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
         jB_Zurueck.setText("Zurück");
         jB_Zurueck.setEnabled(false);
         jToolBar1.add(jB_Zurueck);
-
-        jB_Abbrechen.setText("Abbrechen");
-        jB_Abbrechen.setEnabled(false);
-        jToolBar1.add(jB_Abbrechen);
 
         jB_Speichern.setText("Speichern");
         jB_Speichern.setEnabled(false);
@@ -460,7 +455,6 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
     private javax.swing.JScrollPane Hauptmenu_jScrollPane;
     private javax.swing.JLabel Logo_jLabel;
     private javax.swing.JTree hauptmenueAdmin_Tree;
-    private javax.swing.JButton jB_Abbrechen;
     private javax.swing.JButton jB_Anzeigen;
     private javax.swing.JButton jB_Loeschen;
     private javax.swing.JButton jB_Speichern;

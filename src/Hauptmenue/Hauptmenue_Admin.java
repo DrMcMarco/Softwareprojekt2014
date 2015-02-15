@@ -70,7 +70,6 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
 
         jToolBar1 = new javax.swing.JToolBar();
         jB_Zurueck = new javax.swing.JButton();
-        jB_Abbrechen = new javax.swing.JButton();
         jB_Speichern = new javax.swing.JButton();
         jB_Anzeigen = new javax.swing.JButton();
         jB_Loeschen = new javax.swing.JButton();
@@ -90,9 +89,6 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
         jB_Zurueck.setText("Zurück");
         jB_Zurueck.setEnabled(false);
         jToolBar1.add(jB_Zurueck);
-
-        jB_Abbrechen.setText("Abbrechen");
-        jToolBar1.add(jB_Abbrechen);
 
         jB_Speichern.setText("Speichern");
         jB_Speichern.setEnabled(false);
@@ -126,8 +122,6 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
         treeNode3.add(treeNode4);
         treeNode2.add(treeNode3);
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Auftragsposition");
-        treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Anlegen");
-        treeNode3.add(treeNode4);
         treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Ändern");
         treeNode3.add(treeNode4);
         treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Anzeigen");
@@ -505,7 +499,6 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
     private javax.swing.JScrollPane Hauptmenu_jScrollPane;
     private javax.swing.JLabel Logo_jLabel;
     private javax.swing.JTree hauptmenueAdmin_Tree;
-    private javax.swing.JButton jB_Abbrechen;
     private javax.swing.JButton jB_Anzeigen;
     private javax.swing.JButton jB_Loeschen;
     private javax.swing.JButton jB_Speichern;

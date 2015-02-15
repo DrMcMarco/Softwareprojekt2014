@@ -221,7 +221,7 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
 
                 }
             } catch (ApplicationException e) {
-                this.hauptFenster.setStatusMeldung(e.getMessage());
+                JOptionPane.showMessageDialog(null, e.getMessage(), FEHLENDEEINGABEN, JOptionPane.ERROR_MESSAGE);
             } catch (NumberFormatException e){
                 this.hauptFenster.setStatusMeldung(FEHLENDEEINGABEN);
             }
