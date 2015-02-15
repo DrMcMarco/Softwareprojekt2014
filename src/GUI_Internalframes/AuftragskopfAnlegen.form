@@ -514,10 +514,6 @@
         <Property name="toolTipText" type="java.lang.String" value=""/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
-      <Events>
-        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="auftragswert_jTextFieldFocusGained"/>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="auftragswert_jTextFieldFocusLost"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JRadioButton" name="erfasst_jRadioButton">
       <Properties>
@@ -696,10 +692,6 @@
         <Property name="toolTipText" type="java.lang.String" value=""/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
-      <Events>
-        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="positionsnummer_jTextFieldFocusGained"/>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="positionsnummer_jTextFieldFocusLost"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="materialnummer_jTextField">
       <Properties>
@@ -721,10 +713,6 @@
         <Property name="toolTipText" type="java.lang.String" value=""/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
-      <Events>
-        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="einzelwert_jTextFieldFocusGained"/>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="einzelwert_jTextFieldFocusLost"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="erfassungsdatum_auftragsposition_jFormattedTextField">
       <Properties>

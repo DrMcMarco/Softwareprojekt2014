@@ -40,15 +40,15 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     /*
      Ausgabetexte für Meldungen
      */
-    final String fehlermeldung_titel = "Fehlerhafte Eingabe";
-    final String fehlermeldung_text = "Es sind nicht alle Eingaben getätigt worden.\n"
+    final String FEHLERMELDUNG_TITEL = "Fehlerhafte Eingabe";
+    final String FEHLERMELDUNG_TEXT = "Es sind nicht alle Eingaben getätigt worden.\n"
             + "Bitte geben Sie alle Eingaben ein um fortzufahren.";
-    final String erfolgreicheAnmeldung = "Der Benutzer wurde erfolgreich angelegt.";
-    final String erfolgreichAendernDerBenutzerdaten = "Die Benutzerdaten wurden erfolgreich geändert.";
-    final String erfogreichBenutzerGeloescht = "Der Benutzer wurde erfolgreich gelöscht";
-    final String aenderungVonDaten_Text = "Es wurden Daten geändert. Wollen sie wirklich"
+    final String ERFOLGREICHEANMELDUNG = "Der Benutzer wurde erfolgreich angelegt.";
+    final String ERFOLGREICHAENDERNDERBENUTZERDATEN = "Die Benutzerdaten wurden erfolgreich geändert.";
+    final String ERFOLGREICHBENUTZERGELOESCHT = "Der Benutzer wurde erfolgreich gelöscht";
+    final String AENDERUNGVONDATEN_TEXT = "Es wurden Daten geändert. Wollen sie wirklich"
             + "die Daten überspeichern?";
-    final String aenderungVonDaten_Titel = "Änderung von Daten";
+    final String AENDERUNGVONDATEN_TITEL = "Änderung von Daten";
     final String KEINEAENDERUNGEN_Titel = "Benutzer bereits angelegt";
     final String KEINEAENDERUNGEN_TEXT = "Der Benutzerdaten existieren bereits.";
     final String DATENVERWERFEN_TITEL = "Daten verwerfen";
@@ -101,7 +101,6 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     @Override
     public void zuruecksetzen() {
         //Eingabefelder erhalten einen leeren String
-//        benutzername_jTextField.setText("");
         passwort_jTextField.setText("");
         admin_jCheckBox.setSelected(false);
         benutzername_jTextField.setBackground(hintergrundfarbe);
@@ -451,14 +450,14 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
                     // Aufruf der erstelleBenutzer-Methode mit der ein Benutzer erzeugt wird.
                     GUIFactory.getDAO().erstelleBenutzer(benutzerame, passwort, istAdmin);
                     jB_ZurueckActionPerformed(evt);
-                    this.hauptFenster.setStatusMeldung(erfolgreicheAnmeldung);// Ausgabe einer Medung.
+                    this.hauptFenster.setStatusMeldung(ERFOLGREICHEANMELDUNG);// Ausgabe einer Medung.
                 } else if (this.getTitle().equals("Benutzer ändern")) {// Überprüft ob man sich in der Benutzer ändern Maske befindet.
 
                     if (!(passwort_jTextField.getText().equals(
                             GUIFactory.getDAO().gibBenutzer(benutzername_jTextField.getText()).getPasswort()))) {
 
-                        int antwort = JOptionPane.showConfirmDialog(rootPane, aenderungVonDaten_Text,
-                                aenderungVonDaten_Titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        int antwort = JOptionPane.showConfirmDialog(rootPane, AENDERUNGVONDATEN_TEXT,
+                                AENDERUNGVONDATEN_TITEL, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                         //Falls bejaht wird der Auftragskopf verändert gespeichert.
                         if (antwort == JOptionPane.YES_OPTION) {
 
@@ -469,7 +468,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
 
                             gespeichert = true;
                             jB_ZurueckActionPerformed(evt);
-                            this.hauptFenster.setStatusMeldung(erfolgreichAendernDerBenutzerdaten);// Ausgabe einer Medung.
+                            this.hauptFenster.setStatusMeldung(ERFOLGREICHAENDERNDERBENUTZERDATEN);// Ausgabe einer Medung.
                         } else {
                             gespeichert = false;
                         }
@@ -483,8 +482,8 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
                     benutzername_jTextField.setText("");
                 }
             }
-            fehlEingabenMarkierung(fehlendeEingaben, fehlermeldung_titel,
-                    fehlermeldung_text, warningfarbe);
+            fehlEingabenMarkierung(fehlendeEingaben, FEHLERMELDUNG_TITEL,
+                    FEHLERMELDUNG_TEXT, warningfarbe);
         } catch (ApplicationException e) {
             this.hauptFenster.setStatusMeldung(e.getMessage());
         }
@@ -604,7 +603,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         benutzerame = benutzername_jTextField.getText();// Erhält den Benutzername aus dem Eingabefeld.
         try {//TryBlock
             GUIFactory.getDAO().loescheBenutzer(benutzerame);// Methodenaufruf zum lschen des Benutzers aus der DB.
-            this.hauptFenster.setStatusMeldung(erfogreichBenutzerGeloescht);//Ausgabe einer Meldung.
+            this.hauptFenster.setStatusMeldung(ERFOLGREICHBENUTZERGELOESCHT);//Ausgabe einer Meldung.
             this.benutzername_jTextField.setText("");// Eingabefeld ist leer nachdem man den User gelöscht hat.
         } catch (ApplicationException e) {// Fehlerbehandlung.
             this.hauptFenster.setStatusMeldung(e.getMessage());//Ausgabe einer Meldung.

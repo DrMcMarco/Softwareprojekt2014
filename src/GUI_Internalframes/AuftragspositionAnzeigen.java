@@ -58,6 +58,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     String dbErfassungsdatum;
 
     boolean gespeichert = false;
+    private boolean formularOK = true;
 
     /*
      Variablen für Farben
@@ -68,18 +69,18 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /*
      Syntax
      */
-    private static final String auftragspositionsID_syntax = "|\\d{1,9}?";
-    private static final String positionsnummer_syntax = "|\\d{1,9}?";
-    private static final String material_syntax = "|\\d{1,9}?";
+
+//    private static final String material_syntax = "|\\d{1,9}?";
     private static final String menge_syntax = "|\\d{1,9}?";
-    private static final String einzelwert_syntax = "|(\\d*.?\\d{1,2})|(\\d{0,3}(\\.\\d{3})*,?\\d{1,2})";
+//    private static final String einzelwert_syntax = "|(\\d*.?\\d{1,2})|(\\d{0,3}(\\.\\d{3})*,?\\d{1,2})";
 
     /*
      Augabetexte für Meldungen
      */
-    final String FEHLERMELDUNG_TITEL = "Fehlerhafte Eingabe";;
-    final String FEHLERMELDUNG_UNGUELTIGESDATUM =
-            "Üngültigesdatum. Bitte geben Sie eine gültiges Datum ein. (z.B 01.01.2016)";
+    final String FEHLERMELDUNG_TITEL = "Fehlerhafte Eingabe";
+    ;
+    final String FEHLERMELDUNG_UNGUELTIGESDATUM
+            = "Üngültigesdatum. Bitte geben Sie eine gültiges Datum ein. (z.B 01.01.2016)";
 
     String FEHLERMELDUNGMENGE_TEXT = "\"Die eingegebene Menge ist nicht gültig! "
             + "\\n Bitte geben Sie eine Menge ein. (z.B. 0 bis 999999999)\"";
@@ -368,32 +369,35 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      * @param evt
      */
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
+        if (formularOK) {
+            if (!(dbMenge.equals(menge_jTextField.getText())
+                    && dbErfassungsdatum.equals(erfassungsdatum_jTextField.getText()))
+                    && gespeichert == false) {
 
-        if (!(dbMenge.equals(menge_jTextField.getText())
-                && dbErfassungsdatum.equals(erfassungsdatum_jTextField.getText()))
-                && gespeichert == false) {
+                int antwort = JOptionPane.showConfirmDialog(rootPane, DATENVERWERFEN_TEXT,
+                        DATENVERWERFEN_TITEL, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
-            int antwort = JOptionPane.showConfirmDialog(rootPane, DATENVERWERFEN_TEXT,
-                    DATENVERWERFEN_TITEL, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                //Falls bejaht wird, werden die Daten verworfen..
+                if (antwort == JOptionPane.YES_OPTION) {
 
-            //Falls bejaht wird, werden die Daten verworfen..
-            if (antwort == JOptionPane.YES_OPTION) {
-
-                zuruecksetzen();// Eingabefelder werden zurückgesetzt.
-                letzteComponent = null;   //Initialisierung der Componentspeichervariable
+                    zuruecksetzen();// Eingabefelder werden zurückgesetzt.
+                    letzteComponent = null;   //Initialisierung der Componentspeichervariable
+                    //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
+                    letzteComponent = this.factory.zurueckButton();
+                    this.setVisible(false);// Internalframe wird nicht mehr dargestellt
+                    letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
+                }
+            } else {
+                zuruecksetzen();
+                c = null;   //Initialisierung der Componentspeichervariable
                 //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-                letzteComponent = this.factory.zurueckButton();
+                c = this.factory.zurueckButton();
                 this.setVisible(false);// Internalframe wird nicht mehr dargestellt
-                letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
+                c.setVisible(true);// Übergebene Component wird sichtbar gemacht
             }
-        } else {
-            zuruecksetzen();
-            c = null;   //Initialisierung der Componentspeichervariable
-            //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-            c = this.factory.zurueckButton();
-            this.setVisible(false);// Internalframe wird nicht mehr dargestellt
-            c.setVisible(true);// Übergebene Component wird sichtbar gemacht
         }
+//      Variable wird wieder auf true gesetzt, da nochmals eine Pruefung stattfindet 
+        formularOK = true;
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
     /*----------------------------------------------------------*/
@@ -415,53 +419,60 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     }//GEN-LAST:event_jB_AnzeigenActionPerformed
 
     private void jB_SpeichernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SpeichernActionPerformed
+        if (formularOK) {
 
-        try {
-
-            if (!(dbAuftragspositionsID.equals(auftragskofID_jTextField.getText())
-                    && dbPositionsnummer.equals(positionsnummer_jTextField.getText())
-                    && dbMaterialnummer.equals(materialnummer_jTextField.getText())
-                    && dbMenge.equals(menge_jTextField.getText())
-                    && dbErfassungsdatum.equals(erfassungsdatum_jTextField.getText())
-                    && dbEinzelwert.equals(einzelwert_jTextField.getText()))) {
-                int antwort = JOptionPane.showConfirmDialog(rootPane, AENDERUNGVONDATEN_TEXT,
-                        AENDERUNGVONDATEN__TITEL, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            try {
+                if (!(dbAuftragspositionsID.equals(auftragskofID_jTextField.getText())
+                        && dbPositionsnummer.equals(positionsnummer_jTextField.getText())
+                        && dbMaterialnummer.equals(materialnummer_jTextField.getText())
+                        && dbMenge.equals(menge_jTextField.getText())
+                        && dbErfassungsdatum.equals(erfassungsdatum_jTextField.getText())
+                        && dbEinzelwert.equals(einzelwert_jTextField.getText()))) {
+                    int antwort = JOptionPane.showConfirmDialog(rootPane, AENDERUNGVONDATEN_TEXT,
+                            AENDERUNGVONDATEN__TITEL, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
 //Falls bejaht wird der Auftragskopf verändert gespeichert.
-                if (antwort == JOptionPane.YES_OPTION) {
+                    if (antwort == JOptionPane.YES_OPTION) {
 
-                    GUIFactory.getDAO().aenderePosition(Long.parseLong(auftragskofID_jTextField.getText()),
-                            Long.parseLong(positionsnummer_jTextField.getText()),
-                            Integer.parseInt(menge_jTextField.getText()));
+                        GUIFactory.getDAO().aenderePosition(Long.parseLong(auftragskofID_jTextField.getText()),
+                                Long.parseLong(positionsnummer_jTextField.getText()),
+                                Integer.parseInt(menge_jTextField.getText()));
 
-                    zuruecksetzen();
+                        zuruecksetzen();
 
-                    gespeichert = true;
-                    jB_ZurueckActionPerformed(evt);
-                    this.hauptFenster.setStatusMeldung(ERFOLGREICHGEAENDERT_TEXT);
+                        gespeichert = true;
+                        jB_ZurueckActionPerformed(evt);
+                        this.hauptFenster.setStatusMeldung(ERFOLGREICHGEAENDERT_TEXT);
+                    } else {
+                        gespeichert = false;
+                    }
+
                 } else {
-                    gespeichert = false;
+                    JOptionPane.showMessageDialog(null, KEINEAENDERUNG_TEXT,
+                            KEINEAENDERUNG_TITEL, JOptionPane.OK_OPTION);
                 }
 
-            } else {
-                JOptionPane.showMessageDialog(null, KEINEAENDERUNG_TEXT,
-                        KEINEAENDERUNG_TITEL, JOptionPane.OK_OPTION);
+            } catch (ApplicationException e) {
+                this.hauptFenster.setStatusMeldung(e.getMessage());
             }
-        } catch (ApplicationException e) {
-            this.hauptFenster.setStatusMeldung(e.getMessage());
         }
-
+        //Variable wird wieder auf true gesetzt, da nochmals eine Pruefung stattfindet 
+        formularOK = true;
     }//GEN-LAST:event_jB_SpeichernActionPerformed
 
     private void jB_LoeschenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_LoeschenActionPerformed
-        try {
-            GUIFactory.getDAO().loeschePositionTransaktion(Long.parseLong(dbAuftragspositionsID),
-                    Long.parseLong(dbPositionsnummer));
-            this.hauptFenster.setStatusMeldung(ERFOLGREICHGELOESCHT_TEXT);
-            jB_ZurueckActionPerformed(evt);
-        } catch (ApplicationException e) {
-            this.hauptFenster.setStatusMeldung(e.getMessage());
+        if (formularOK) {
+            try {
+                GUIFactory.getDAO().loeschePositionTransaktion(Long.parseLong(dbAuftragspositionsID),
+                        Long.parseLong(dbPositionsnummer));
+                this.hauptFenster.setStatusMeldung(ERFOLGREICHGELOESCHT_TEXT);
+                jB_ZurueckActionPerformed(evt);
+            } catch (ApplicationException e) {
+                this.hauptFenster.setStatusMeldung(e.getMessage());
+            }
         }
+        //Variable wird wieder auf true gesetzt, da nochmals eine Pruefung stattfindet 
+        formularOK = true;
     }//GEN-LAST:event_jB_LoeschenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -486,6 +497,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         //Eingabefeld für das Erfassungsdatum erhält das heutige Datum
         erfassungsdatum_jTextField.setText(format.format(heute));
         gespeichert = false;
+        formularOK = true;
     }
 
     /*----------------------------------------------------------*/
@@ -541,12 +553,23 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     @Override
     public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
         if (!textfield.getText().matches(syntax)) {
+            formularOK = false;
             //Ausgabe einer Fehlermeldung
             JOptionPane.showMessageDialog(null, fehlermeldung,
                     fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
             //Mit dem Focus in das übergebene Eingabefeld springen
             textfield.requestFocusInWindow();
             textfield.selectAll();
+        } else if (!textfield.getText().equals("")) {
+//            Eingabe ist ok
+
+//                hinzugefuegt am 04.02 um 15:30 test
+            formularOK = true;
+            textfield.setBackground(hintergrundfarbe);
+
+//            hinzugefuegt am 04.02 um 15:30 test!
+        } else {
+            formularOK = true;
         }
     }
 
