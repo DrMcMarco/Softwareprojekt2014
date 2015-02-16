@@ -852,8 +852,9 @@ public class DataAccessObject {
      */
     private void setzeArtikelBestand(Collection<Auftragsposition> positionen, 
             String bestandsart) throws ApplicationException {
-        
+        Collection<Artikel> artikelHistorie = null;
         try {
+            
             //Iteriere über alle Positionen
             for (Auftragsposition position : positionen) {
                 //Prüfe, ob es sich um einen Zulauf an Artikeln handelt
@@ -861,6 +862,20 @@ public class DataAccessObject {
                     //Erhöhe die Menge des Benstandszulauf
                     position.getArtikel().setZulauf(position.getArtikel()
                             .getZulauf() + position.getMenge());
+                    //Prüfe, ob es historien von diesem Artikel gibt
+                    //Die ebenfalls angepasst werden müssen
+                    artikelHistorie = this.gibAlleArtikel(
+                            position.getArtikel().getArtikelID());
+                    //Prüfe ob einträge vorhanden sind
+                    if (artikelHistorie != null) {
+                        //Iteriere über die Historie
+                        for (Artikel artikel : artikelHistorie) {
+                            //Setze den Bestand
+                            artikel.setZulauf(artikel.getZulauf() 
+                                    + position.getMenge());
+                            em.persist(artikel);
+                        }
+                    }
                 } else if ("Reserviert".equals(bestandsart)) {
                     //Verringer die Anzahl von Bestandfrei
                     position.getArtikel().setFrei(
@@ -870,6 +885,22 @@ public class DataAccessObject {
                     position.getArtikel().setReserviert(
                             position.getArtikel().getReserviert() 
                                     + position.getMenge());
+                    //Prüfe, ob es historien von diesem Artikel gibt
+                    //Die ebenfalls angepasst werden müssen
+                    artikelHistorie = this.gibAlleArtikel(
+                            position.getArtikel().getArtikelID());
+                    //Prüfe ob einträge vorhanden sind
+                    if (artikelHistorie != null) {
+                        //Iteriere über die Historie
+                        for (Artikel artikel : artikelHistorie) {
+                            //Setze den Bestand
+                            artikel.setFrei(artikel.getFrei() 
+                                    - position.getMenge());
+                            artikel.setReserviert(artikel.getReserviert() 
+                                    + position.getMenge());
+                            em.persist(artikel);
+                        }
+                    }
                 } else if ("Frei".equals(bestandsart)) {
                     //Verringer die Anzahl von Bestandzulauf
                     position.getArtikel().setZulauf(
@@ -879,6 +910,22 @@ public class DataAccessObject {
                     position.getArtikel().setFrei(
                             position.getArtikel().getFrei() 
                                     + position.getMenge());
+                    //Prüfe, ob es historien von diesem Artikel gibt
+                    //Die ebenfalls angepasst werden müssen
+                    artikelHistorie = this.gibAlleArtikel(
+                            position.getArtikel().getArtikelID());
+                    //Prüfe ob einträge vorhanden sind
+                    if (artikelHistorie != null) {
+                        //Iteriere über die Historie
+                        for (Artikel artikel : artikelHistorie) {
+                            //Setze den Bestand
+                            artikel.setZulauf(artikel.getZulauf() 
+                                    - position.getMenge());
+                            artikel.setFrei(artikel.getFrei() 
+                                    + position.getMenge());
+                            em.persist(artikel);
+                        }
+                    }
                 } else if ("Verkauft".equals(bestandsart)) {
                     //Verringer den Bestandreserviert
                     position.getArtikel().setReserviert(
@@ -888,11 +935,42 @@ public class DataAccessObject {
                     position.getArtikel().setVerkauft(
                             position.getArtikel().getVerkauft() 
                                     + position.getMenge());
+                    //Prüfe, ob es historien von diesem Artikel gibt
+                    //Die ebenfalls angepasst werden müssen
+                    artikelHistorie = this.gibAlleArtikel(
+                            position.getArtikel().getArtikelID());
+                    //Prüfe ob einträge vorhanden sind
+                    if (artikelHistorie != null) {
+                        //Iteriere über die Historie
+                        for (Artikel artikel : artikelHistorie) {
+                            //Setze den Bestand
+                            artikel.setReserviert(artikel.getReserviert() 
+                                    - position.getMenge());
+                            artikel.setVerkauft(artikel.getVerkauft() 
+                                    + position.getMenge());
+                            em.persist(artikel);
+                        }
+                    }
                 } else if ("RueckgaengigBestellung".equals(bestandsart)) {
                     //Verringer die Anzahl von Bestandzulauf
                     position.getArtikel().setZulauf(
                             position.getArtikel().getZulauf() 
                                     - position.getMenge());
+                    //Prüfe, ob es historien von diesem Artikel gibt
+                    //Die ebenfalls angepasst werden müssen
+                    artikelHistorie = this.gibAlleArtikel(
+                            position.getArtikel().getArtikelID());
+                    //Prüfe ob einträge vorhanden sind
+                    if (artikelHistorie != null) {
+                        //Iteriere über die Historie
+                        for (Artikel artikel : artikelHistorie) {
+                            //Setze den Bestand
+                            artikel.setZulauf(artikel.getZulauf() 
+                                    - position.getMenge());
+                            
+                            em.persist(artikel);
+                        }
+                    }
                 } else if ("RueckgaengigVerkauf".equals(bestandsart)) {
                     //Verringer die Anzahl von Bestandreserviert
                     position.getArtikel().setReserviert(
@@ -902,6 +980,22 @@ public class DataAccessObject {
                     position.getArtikel().setFrei(
                             position.getArtikel().getFrei() 
                                     + position.getMenge());
+                    //Prüfe, ob es historien von diesem Artikel gibt
+                    //Die ebenfalls angepasst werden müssen
+                    artikelHistorie = this.gibAlleArtikel(
+                            position.getArtikel().getArtikelID());
+                    //Prüfe ob einträge vorhanden sind
+                    if (artikelHistorie != null) {
+                        //Iteriere über die Historie
+                        for (Artikel artikel : artikelHistorie) {
+                            //Setze den Bestand
+                            artikel.setReserviert(artikel.getReserviert() 
+                                    - position.getMenge());
+                            artikel.setFrei(artikel.getFrei() 
+                                    + position.getMenge());
+                            em.persist(artikel);
+                        }
+                    }
                 }
                     
                 //Artikel persistieren
