@@ -89,6 +89,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         this.hauptFenster = mainView;
         this.Positionanzeige_jTable2.setVisible(false);
         this.position_jPanel1.setVisible(false);
+        
     }
     
     /**
@@ -157,7 +158,12 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
      * Initialisiert die erste Tabelle.
      */
     private void initTabelle() {
-        DefaultTableModel dtm = new DefaultTableModel();
+        DefaultTableModel dtm = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         //In Abhängigkeit der gesuchten Tabelle, wird die jTable erzeugt und 
         //gesetzt.
         switch (tabelle) {
@@ -585,7 +591,12 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
      * @param evt event.
      */
     private void Anzeige_jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Anzeige_jTable1MouseClicked
-        DefaultTableModel dtm = new DefaultTableModel();
+        DefaultTableModel dtm = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         ArrayList<Geschaeftspartner> listePartner = null;
         ArrayList<Auftragskopf> listeAuftrag = null;
         Geschaeftspartner gp = null;

@@ -166,35 +166,42 @@ public class DatumParser {
      * @param jahr Das Jahr des Datums.
      */
     private static void checkDatum(int tag, int monat, int jahr) {
-
+        //Es gibt keine -oo ... 0 Tage
         if (tag <= 0) {
             throw new IllegalArgumentException("Tag darf nicht "
                     + "kleiner als 1 sein.");
         }
+        //Es gibt keine -oo .. 0 Monate
         if (monat <= 0) {
             throw new IllegalArgumentException("Monat darf nicht "
                     + "kleiner als 1 sein.");
         }
+        //Unter 1000 sind keine Jahre zugelassen
         if (jahr < 1000) {
             throw new IllegalArgumentException("Jahreszahlen unter 1000 "
                     + "sind nicht zugelassen.");
         }
+        //Monate über 12 existieren nicht
         if (monat > 12) {
             throw new IllegalArgumentException("Monat darf nicht grösser "
                     + "als 12 sein.");
         }
+        //Tage über 31 existieren nicht
         if (tag > 31) {
             throw new IllegalArgumentException("Tag darf nicht "
                     + "grösser als 31 sein.");
         }
+        //Alles unter 29 Tagen ist sowieso erlaubt
         if (tag < 29) {
             return;
         }
+        //Prüfung auf Schaltjahr
         if (tag == 29) {
             //Wenn nicht Februar
             if (monat != 2) {
                 return;
             }
+            //Prüfe ob jahr ein schaltjahr ist
             if (jahr % 4 == 0 & (jahr % 100 != 0 | jahr % 1000 == 0)) {
                 return;
             } else {
@@ -202,7 +209,7 @@ public class DatumParser {
                         + " ist kein reales Datum.");
             }
         }
-        
+        //Prüfe auf 30.2
         if (tag == 30) {
             //Wenn nicht Februar
             if (monat != 2) {
@@ -212,7 +219,7 @@ public class DatumParser {
                         + "kein reales Datum.");
             }
         }
-        
+        //Prüfe ob das Datum korrekt hinsichtlich der 31 tage ist.
         if (monat == 2 | monat == 4 | monat == 6 | monat == 9 | monat == 11) {
             throw new IllegalArgumentException("31." + monat 
                     + ". ist kein reales Datum.");
