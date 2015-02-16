@@ -2146,51 +2146,6 @@ public class DataAccessObject {
     
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
-    /* 18.12.14   loe     angelegt                              */
-    /*----------------------------------------------------------*/
-    /**
-     * Gibt einen Kunden anhand der ID zurück
-     * @param Kundennummer ID des Kunden
-     * @return die persistente Abbildung des Kunden
-     * @throws ApplicationException wenn der Kunde nicht gefunden werden kann
-     */
-    public Kunde gibKunde(long Kundennummer) throws ApplicationException {
-        
-        Kunde kunde = em.find(Kunde.class, Kundennummer);
-        
-        if (kunde == null || kunde.isLKZ()) {
-            throw new ApplicationException("Fehler", 
-                    "Der Kunde konnte nicht gefunden werden");
-        }
-        
-        return kunde;
-    }
-    
-    /*----------------------------------------------------------*/
-    /* Datum      Name    Was                                   */
-    /* 18.12.14   loe     angelegt                              */
-    /*----------------------------------------------------------*/
-    /**
-     * Gibt einen Lieferanten anhand der ID zurück
-     * @param Lieferantennummer ID des Lieferanten
-     * @return die persistente Abbildung eines Lieferanten
-     * @throws ApplicationException wenn der Lieferant nicht gefunden werden kann
-     */
-    public Lieferant gibLieferant(long Lieferantennummer)
-            throws ApplicationException {
-        
-        Lieferant lieferant = em.find(Lieferant.class, Lieferantennummer);
-        
-        if (lieferant == null || lieferant.isLKZ()) {
-            throw new ApplicationException("Fehler", 
-                    "Der Lieferant konnte nicht gefunden werden");
-        }
-        
-        return lieferant;
-    }
-    
-    /*----------------------------------------------------------*/
-    /* Datum      Name    Was                                   */
     /* 06.01.15   loe     angelegt                              */
     /*----------------------------------------------------------*/
     /**
@@ -2500,30 +2455,30 @@ public class DataAccessObject {
         return benutzer;
     }
     
-    /*----------------------------------------------------------*/
-    /* Datum      Name    Was                                   */
-    /* 13.01.15   loe     angelegt                              */
-    /*----------------------------------------------------------*/
-    /**
-     * Gibt die Namen der Spalten für eine Entity (Tabelle) als HashSet zurück
-     * @param entity Entityklasse zu der die Metadaten geholt werden sollen (Übergabe: entity.class)
-     * @return HashSet das die Namen der Spalten enthält
-     */
-    public HashSet<String> gibMetadaten(Class entity) {
-        
-        //Über die Metadaten werden die Attribute (Spaltennamen) der angegebenen Entity ermittelt
-        Set<Attribute> attribute = em.getMetamodel().entity(entity).getAttributes();
-        
-        //HashSet das nur die Namen der Attribute enthält
-        HashSet<String> namen = new HashSet<>();
-        
-        //Für jedes Attribute im Set wird der Name gelesen und in das HashSet geschrieben
-        for(Attribute a : attribute) {
-            namen.add(a.getName());
-        }
-        
-        return namen;
-    }
+//    /*----------------------------------------------------------*/
+//    /* Datum      Name    Was                                   */
+//    /* 13.01.15   loe     angelegt                              */
+//    /*----------------------------------------------------------*/
+//    /**
+//     * Gibt die Namen der Spalten für eine Entity (Tabelle) als HashSet zurück
+//     * @param entity Entityklasse zu der die Metadaten geholt werden sollen (Übergabe: entity.class)
+//     * @return HashSet das die Namen der Spalten enthält
+//     */
+//    public HashSet<String> gibMetadaten(Class entity) {
+//        
+//        //Über die Metadaten werden die Attribute (Spaltennamen) der angegebenen Entity ermittelt
+//        Set<Attribute> attribute = em.getMetamodel().entity(entity).getAttributes();
+//        
+//        //HashSet das nur die Namen der Attribute enthält
+//        HashSet<String> namen = new HashSet<>();
+//        
+//        //Für jedes Attribute im Set wird der Name gelesen und in das HashSet geschrieben
+//        for(Attribute a : attribute) {
+//            namen.add(a.getName());
+//        }
+//        
+//        return namen;
+//    }
     
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
@@ -2541,7 +2496,7 @@ public class DataAccessObject {
         
         List<Zahlungskondition> ergebnis = em.createQuery("SELECT ST FROM "
                         + "Zahlungskondition ST WHERE ST.Auftragsart LIKE '" 
-                        + Auftragsart + "'").getResultList();
+                        + Auftragsart + "' AND ST.LKZ = true").getResultList();
         
         if (ergebnis.isEmpty()) {
             throw new ApplicationException("Fehler", 
