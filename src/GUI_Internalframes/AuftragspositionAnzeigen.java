@@ -618,7 +618,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      * dargestellt wird, sondern als Fenster in dem man Daten ändern kann.
      */
     public void setStatusAender() {
-        this.setTitle("Auftragsposition ändern Einstieg");
+        this.setTitle("Auftragsposition ändern");
 //        zuruecksetzen();
         this.auftragskofID_jTextField.setEnabled(false);
         this.positionsnummer_jTextField.setEnabled(false);
@@ -640,7 +640,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /* 08.01.2015 Terrasi Anwendungslogik überarbeitet*/
     /*----------------------------------------------------------*/
     public void setStatusAnzeigen() {
-        this.setTitle("Auftragsposition anzeigen Einstieg");
+        this.setTitle("Auftragsposition anzeigen");
 //        zuruecksetzen();
         this.auftragskofID_jTextField.setEnabled(false);
         this.positionsnummer_jTextField.setEnabled(false);

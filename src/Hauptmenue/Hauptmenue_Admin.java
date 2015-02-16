@@ -225,6 +225,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
 
     private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
         internal.rufeSuche(null);
+         this.factory.setComponent(this);
     }//GEN-LAST:event_jB_SuchenActionPerformed
 
     /*----------------------------------------------------------*/
