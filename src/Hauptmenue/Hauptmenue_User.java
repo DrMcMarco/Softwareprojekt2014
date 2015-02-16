@@ -255,6 +255,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.auftragskopfaendern.setTitle("Auftragskopf ändern Einstieg");
+                    this.internal.auftragskopfaendern.zuruecksetzen();
                     
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
@@ -268,6 +269,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.auftragskopfaendern.setTitle("Auftragskopf anzeigen Einstieg");
+                    this.internal.auftragskopfaendern.zuruecksetzen();
                     
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
@@ -281,6 +283,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.auftragsspositionaender.setTitle("Auftragsposition ändern Einstieg");
+                    this.internal.auftragsspositionaender.zuruecksetzen();
                     
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
@@ -294,6 +297,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.auftragsspositionaender.setTitle("Auftragsposition anzeigen Einstieg");
+                    this.internal.auftragsspositionaender.zuruecksetzen();
                     
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
@@ -320,7 +324,8 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.artikelaendern.setTitle("Artikel ändern Einstieg");
-                    
+                    this.internal.artikelaendern.zuruecksetzen();
+                                        
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
                     
@@ -333,6 +338,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.artikelaendern.setTitle("Artikel anzeigen Einstieg");
+                    this.internal.artikelaendern.zuruecksetzen();
                     
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
@@ -359,6 +365,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufendenen Maske ein Titel übergeben.
                     this.internal.geschaeftspartneraendern.setTitle("Geschäftspartner ändern Einstieg");
+                    this.internal.geschaeftspartneraendern.zuruecksetzen();
                     
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
@@ -372,6 +379,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufendenen Maske ein Titel übergeben.
                     this.internal.geschaeftspartneraendern.setTitle("Geschäftspartner anzeigen Einstieg");
+                    this.internal.geschaeftspartneraendern.zuruecksetzen();
                     
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
@@ -398,6 +406,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufendenen Maske ein Titel übergeben.
                     this.internal.zahlungskonditionaendern.setTitle("Zahlungskondition ändern Einstieg");
+                    this.internal.zahlungskonditionaendern.zuruecksetzen();
                     
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
@@ -411,6 +420,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufendenen Maske ein Titel übergeben.
                     this.internal.zahlungskonditionaendern.setTitle("Zahlungskondition anzeigen Einstieg");
+                    this.internal.zahlungskonditionaendern.zuruecksetzen();
                     
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
