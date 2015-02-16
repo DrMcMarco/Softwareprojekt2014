@@ -2159,6 +2159,14 @@ public class DataAccessObject {
         return item;
     }
     
+    public Collection<Artikel> gibAlleArtikel(long Artikelnummer) {
+        
+        Query abfrage = em.createQuery("SELECT ST FROM Artikel ST "
+                + "WHERE ST.ArtikelId = :id").setParameter("id", Artikelnummer);
+        
+        return abfrage.getResultList();
+    }
+    
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
     /* 06.01.15   loe     angelegt                              */
