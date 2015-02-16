@@ -38,7 +38,7 @@ public interface InterfaceMainView {
      * darstellt wird..
      * @param jif , Component die im plaziert und dargestellt werden soll.
      */
-    public void setCenterJIF(Component jif);
+    public void setCenterJIF(JInternalFrame jif);
     
     
     /*----------------------------------------------------------*/
@@ -52,7 +52,7 @@ public interface InterfaceMainView {
      * um sie gegebenenfalls im laufe der Durchführung wiederverwenden
      * zu können.
      */
-    public void setComponent(Component component);
+    public void setComponent(JInternalFrame component);
     
     
     /*----------------------------------------------------------*/
@@ -63,7 +63,7 @@ public interface InterfaceMainView {
      * Methode mit der man eine gespeicherte Component zurückerhält.
      * @return, eine gespeicherte Component.
      */
-    public Component getComponent();
+    public JInternalFrame getComponent();
     
     
     /*----------------------------------------------------------*/

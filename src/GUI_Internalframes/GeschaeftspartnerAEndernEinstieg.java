@@ -48,7 +48,7 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
     /**
      * Variablen fuer die Fehlermeldungen
      */
-    private final String KEINE_GPNR_EINGEGEBEN = "Bitte geben Sie eine GeschäftspartnerID ein.";
+    private final String KEINE_GPNR_EINGEGEBEN = "Bitte geben Sie eine Geschäftspartner-ID ein.";
     private final String KEINE_GP_IN_DATENBANK = "Kein passender Geschäftspartner in Datenbank!";
 
     /**

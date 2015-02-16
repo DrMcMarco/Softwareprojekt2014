@@ -26,6 +26,12 @@ public class UniversalDocument extends PlainDocument {
         this.erlaubteZeichen = e;
         this.buchstaben = b;
     }
+    
+    public UniversalDocument(String e, boolean b, int l) {
+        this.erlaubteZeichen = e;
+        this.buchstaben = b;
+        this.maxLen = l;
+    }
 
     @Override
     public void insertString(int offs, String s, AttributeSet a)

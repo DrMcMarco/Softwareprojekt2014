@@ -82,7 +82,7 @@ public class DataAccessObject {
         //Datendeklaration
         String sqlAbfrage = null;
         List<?> sqlErgebnisListe = null;
-        String maxAnzReihen = " FETCH NEXT 20 ROWS ONLY";
+        String maxAnzReihen = " FETCH NEXT 200 ROWS ONLY";
         //Erstelle den Parser und übergebe die Suchattribute.
         Parser parser = new Parser(this.gibAlleSuchAttribute());
         //Parse den Suchausdruck und hole das SQL-Statement
@@ -305,13 +305,14 @@ public class DataAccessObject {
         double Auftragswert = 0;
         
         //Hole den Geschäftspartner anhand der ID aus der Datenbank
-        Geschaeftspartner businessPartner = em.find(Geschaeftspartner.class, 
+        Geschaeftspartner gp = em.find(Geschaeftspartner.class, 
                 GeschaeftspartnerID);
         
         //Prüfe ob der Geschäftspartner mit dieser ID existiert
-        if(businessPartner == null) {
+        if(gp == null) {
             throw new ApplicationException("Fehler", 
-                    "Der angegebene Kunde konnte nicht gefunden werden.");
+                    "Der angegebene Geschäftspartner konnte nicht "
+                            + "gefunden werden.");
         }
         
         //Hole Zahlungskondition anhand der ID aus der Datenbank
@@ -319,7 +320,7 @@ public class DataAccessObject {
                 ZahlungskonditionID);
         
         //Prüfe ob die Zahlungskondition mit dieser ID existiert
-        if(paymentCondition == null) {
+        if(!Typ.equals("Barauftrag") && paymentCondition == null) {
             throw new ApplicationException("Fehler", 
                     "Zahlungskondition konnte nicht gefunden werden.");
         }
@@ -343,22 +344,22 @@ public class DataAccessObject {
         //Anhand des übergebenen Typs wird ein entsprechendes Objekt erzeugt
         switch (Typ) {
             case "Barauftrag":
-                ak = new Barauftragskopf(Auftragstext, Auftragswert, businessPartner,
+                ak = new Barauftragskopf(Auftragstext, Auftragswert, gp,
                         state, Abschlussdatum, Erfassungsdatum, Lieferdatum);
                 break;
             case "Sofortauftrag":
                 ak = new Sofortauftragskopf(Auftragstext, Auftragswert,
-                        businessPartner, state, paymentCondition,
+                        gp, state, paymentCondition,
                         Abschlussdatum, Erfassungsdatum, Lieferdatum);
                 break;
             case "Terminauftrag":
                 ak = new Terminauftragskopf(Auftragstext, Auftragswert,
-                        businessPartner, state, paymentCondition,
+                        gp, state, paymentCondition,
                         Abschlussdatum, Erfassungsdatum, Lieferdatum);
                 break;
             case "Bestellauftrag":
                 ak = new Bestellauftragskopf(Auftragstext, Auftragswert,
-                        businessPartner, state, paymentCondition,
+                        gp, state, paymentCondition,
                         Abschlussdatum, Erfassungsdatum, Lieferdatum);
                 //Wenn keine gültige Auftragsart übergeben wurde
                 break;
@@ -589,6 +590,15 @@ public class DataAccessObject {
             int Skontozeit2, double Skonto1, double Skonto2, 
             int Mahnzeit1, int Mahnzeit2, int Mahnzeit3) 
             throws ApplicationException {
+        
+        if (!Auftragsart.equals("Sofortauftrag") &&
+            !Auftragsart.equals("Terminauftrag") && 
+            !Auftragsart.equals("Bestellauftrag")) {
+            
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Die angegebene Auftragsart ist ungültig!");
+            
+        }
         
         Zahlungskondition conditions = new Zahlungskondition(Auftragsart, 
                 LieferzeitSofort, SperrzeitWunsch, Skontozeit1, Skontozeit2, 
@@ -1043,6 +1053,12 @@ public class DataAccessObject {
                     "Der Artikel konnte nicht gefunden werden");
         }
         
+        if (Einkaufswert <= 0 || Verkaufswert <= 0) {
+            throw new ApplicationException(FEHLER_TITEL,
+                    "Der Einkaufswert bzw. Verkaufswert kann nicht null "
+                            + "oder negativ sein.");
+        }
+        
         //Selektiere alle Auftragspositionen die den entsprechenden Artikel
         //enthalten
         Query query = em.createQuery("select ap from Auftragskopf ak, "
@@ -1076,7 +1092,6 @@ public class DataAccessObject {
             artikel.setVerkaufswert(Verkaufswert);
             artikel.setEinkaufswert(Einkaufswert);
             artikel.setMwST(MwST);
-            artikel.setFrei(Frei);
             
         }
 
@@ -1185,7 +1200,7 @@ public class DataAccessObject {
         }
         
         //Wenn die Zahlungskondition nicht gefunden werden konnte
-        if (zk == null) {
+        if (!ak.getTyp().equals("Barauftrag") && zk == null) {
             throw new ApplicationException("Fehler",
                     "Die Zahlungskondition konnte nicht gefunden werden.");
         }
@@ -1771,7 +1786,7 @@ public class DataAccessObject {
         //Wenn die Zahlungskondition nicht gefunden werden kann
         if (zk == null) {
             throw new ApplicationException("Fehler", 
-                    "Die Zahlungskondition konnte nicht aktualisiert werden.");
+                    "Die Zahlungskondition konnte nicht gefunden werden.");
         }
         
         //Selektiere alle Aufträge die diese Zahlungskondition enthalten und
@@ -2375,6 +2390,47 @@ public class DataAccessObject {
     
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
+    /* 10.02.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
+    /**
+     * Gibt die Auftragspositionen eines Auftrags als Hashmap zurück
+     * (Key: Artikel-ID, Value: Menge)
+     * @param AuftragskopfId ID des Auftrags
+     * @return eine Hashmap mit den Positionen des Auftrags
+     * @throws ApplicationException wenn der Auftrag nicht gefunden werden kann
+     */
+    public HashMap<Long, Integer> gibAuftragspositionen(long AuftragskopfId) 
+            throws ApplicationException {
+        
+        //ArrayList für die Positionen das Auftrages
+        ArrayList<Auftragsposition> positionenList;
+        
+        //Hashma die die Artikel-ID sowie die jeweilige Menge enthält
+        HashMap<Long, Integer> positionenMap = new HashMap<>();
+        
+        //Suche nach dem Auftragskopf anhand der ID in der Datenbank 
+        Auftragskopf ak = em.find(Auftragskopf.class, AuftragskopfId);
+        
+        //Wenn der Auftrag nicht gefunden werden kann
+        if (ak == null) {
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Der Auftrag konnte nicht gefunden werden.");
+        }
+        
+        //Hole die Positionen des Auftrags
+        positionenList = ak.getPositionsliste();
+        
+        //Speichere die Artikel-ID sowie die dazugehörige Menge jeder Position 
+        //in einer Hashmap
+        for (Auftragsposition ap : positionenList) {
+            positionenMap.put(ap.getArtikel().getArtikelID(), ap.getMenge());
+        }
+        
+        return positionenMap;
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
     /* 16.01.15   loe     angelegt                              */
     /* 17.01.15   loe     überarbeitet                          */
     /* 18.01.15   loe     überarbeitet                          */
@@ -2960,13 +3016,24 @@ public class DataAccessObject {
      * @throws ApplicationException wenn der Auftrag oder die Position nicht
      *                              gefunden werden kann
      */
-    public void loeschePosition(long AuftragsID, long Positionnummer) 
+    private void loeschePosition(long AuftragsID, long Positionnummer) 
             throws ApplicationException {
         
         //Suche den Auftragskopf anhand der ID in der Datenbank
         Auftragskopf ak = em.find(Auftragskopf.class, AuftragsID);
         
-        Auftragsposition ap = null;
+        if (ak == null) {
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Der Auftrag konnte nicht gefunden werden.");
+        }
+        
+        if (ak.getPositionsliste().size() == 1) {
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Der Auftrag muss mindestens eine Auftragsposition "
+                            + "enthalten.");
+        }
+        
+        Auftragsposition ap;
         
         //SQL-Query für das Selektieren einer Auftragsposition anhand
         //des Auftrags und der Positionnummer
@@ -2989,8 +3056,61 @@ public class DataAccessObject {
         //Setze das Löschkennzeichen
         ap.setLKZ(true);
         
-        //Auftragsposition persisieren
-        em.persist(ap);
+        ak.berechneAuftragswert();
+        
+        em.persist(ak);
+    }
+    
+    /**
+     * Setzt das Löschkennzeichen für eine Auftragsposition.
+     * Führt die Methode loeschePosition innerhalb einer Transaktion aus, da diese
+     * selber keine Transaktion enthält
+     * @param AuftragsID ID eines Auftrags
+     * @param Positionsnummer Nummer des Position innerhalb des Auftrags
+     * @throws ApplicationException wenn Fehler bei der Transaktion auftreten
+     */
+    public void loeschePositionTransaktion(long AuftragsID, long Positionsnummer) 
+            throws ApplicationException {
+        
+        try {
+        
+            em.getTransaction().begin();
+            
+            this.loeschePosition(AuftragsID, Positionsnummer);
+            
+            em.getTransaction().commit();
+            
+        } catch (RollbackException re) {
+
+            //Der Commit ist fehlgeschlagen
+            //Dadurch wird implizit ein Rollback ausgeführt
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Commit ist fehlgeschlagen. Transkation wurde "
+                            + "rückgängig gemacht.");
+
+        } catch (PersistenceException pe){
+
+            //Es ist ein Fehler beim Persistieren der Daten aufgetreten
+            //Hier muss ein Rollback manuell durchgeführt werdeb
+            em.getTransaction().rollback();
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Fehler beim Persistieren der Daten. Transkation wurde "
+                            + "rückgängig gemacht.");
+
+        } catch (Throwable th) {
+
+            //Ein unerwarteter Fehler ist aufgetreten
+            //Wenn eine Transaktion aktiv ist, muss diese rückgängig gemacht
+            //werden
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    th.getMessage());
+
+        }
     }
 
     

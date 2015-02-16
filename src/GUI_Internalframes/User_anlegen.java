@@ -13,21 +13,21 @@ import javax.swing.JTextField;
  *
  * @author Luca Terrasi
  *
-/* 10.12.2014 Dokumentation und Logik */
+ * /* 10.12.2014 Dokumentation und Logik
+ */
 /* 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button  un der 
-   Schnittstellenmethoden*/
+ Schnittstellenmethoden*/
 /* 08.01.2015 Terrasi, anlegen von SetStatus Methoden*/
 /* 13.01.2015 Terrasi, Implementierung der DAO-Methoden */
 /* 17.01.2015 Terrasi, ertsellen von Setter-Methode um einen Benutzernamen 
-    an das Eingabefeld übergeben zu können. */
- 
+ an das Eingabefeld übergeben zu können. */
 public class User_anlegen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
     /*
      Speichervariablen
      */
     ArrayList<Component> fehlendeEingaben;// ArrayList für Eingabefelder.
-    Component c;
+    Component letzteComponent;
     GUIFactory factory;
     InterfaceMainView hauptFenster;
 
@@ -40,21 +40,30 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     /*
      Ausgabetexte für Meldungen
      */
-    final String fehlermeldung_titel = "Fehlerhafte Eingabe";
-    final String fehlermeldung_text = "Es sind nicht alle Eingaben getätigt worden.\n"
+    final String FEHLERMELDUNG_TITEL = "Fehlerhafte Eingabe";
+    final String FEHLERMELDUNG_TEXT = "Es sind nicht alle Eingaben getätigt worden.\n"
             + "Bitte geben Sie alle Eingaben ein um fortzufahren.";
-    final String erfolgreicheAnmeldung = "Der Benutzer wurde erfolgreich angelegt.";
-    final String erfolgreichAendernDerBenutzerdaten = "Die Benutzerdaten wurden erfolgreich geändert.";
-    final String erfogreichBenutzerGeloescht = "Der Benutzer wurde erfolgreich gelöscht";
+    final String ERFOLGREICHEANMELDUNG = "Der Benutzer wurde erfolgreich angelegt.";
+    final String ERFOLGREICHAENDERNDERBENUTZERDATEN = "Die Benutzerdaten wurden erfolgreich geändert.";
+    final String ERFOLGREICHBENUTZERGELOESCHT = "Der Benutzer wurde erfolgreich gelöscht";
+    final String AENDERUNGVONDATEN_TEXT = "Es wurden Daten geändert. Wollen sie wirklich"
+            + "die Daten überspeichern?";
+    final String AENDERUNGVONDATEN_TITEL = "Änderung von Daten";
+    final String KEINEAENDERUNGEN_Titel = "Benutzer bereits angelegt";
+    final String KEINEAENDERUNGEN_TEXT = "Der Benutzerdaten existieren bereits.";
+    final String DATENVERWERFEN_TITEL = "Daten verwerfen";
+    final String DATENVERWERFEN_TEXT = "Es wurden Daten eingegeben. Wollen Sie"
+            + "diese Verwerfen ?";
     /*
      Spiechervariablen für die Eingabefelder
      */
     private String benutzerame;
     private String passwort;
-    
+
+    boolean gespeichert = false;
     /*
-    Variable für die vergabe der Adminrechte.
-    */
+     Variable für die vergabe der Adminrechte.
+     */
     private boolean istAdmin;
 
     /**
@@ -74,7 +83,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         //Initialisierung
         this.benutzerame = "";
         this.passwort = "";
-        
+
         istAdmin = false;// Übergabe eines boolenwertes
 
         //Initialisierung der Speichervariblen
@@ -92,9 +101,11 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     @Override
     public void zuruecksetzen() {
         //Eingabefelder erhalten einen leeren String
-//        benutzername_jTextField.setText("");
+        benutzername_jTextField.setText("");
         passwort_jTextField.setText("");
         admin_jCheckBox.setSelected(false);
+        benutzername_jTextField.setBackground(hintergrundfarbe);
+        passwort_jTextField.setBackground(hintergrundfarbe);
     }
 
     /*----------------------------------------------------------*/
@@ -114,7 +125,8 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         //Eingabefelder für Auftragskopf werden in Variable "fehlendeEingaben" festgehalten.
         if (benutzername_jTextField.getText().equals("")) {
             fehlendeEingaben.add(benutzername_jTextField);
-        } else if (passwort_jTextField.getText().equals("")) {
+        }
+        if (passwort_jTextField.getText().equals("")) {
             fehlendeEingaben.add(passwort_jTextField);
         }
     }
@@ -162,7 +174,11 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         //Meldung die darauf hinweist das nicht alle Eingaben getätigt worden sind.
         JOptionPane.showMessageDialog(null, fehlermeldung,
                 fehlermelgungtitel, JOptionPane.WARNING_MESSAGE);
-        list.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
+        if (!list.isEmpty()) {
+
+            list.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
+
+        }
         // Alle leeren Eingabefelder werden farblich markiert.
         for (int i = 0; i <= list.size() - 1; i++) {
             list.get(i).setBackground(farbe);
@@ -178,6 +194,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     public void setStatusAnzeigen() {
         this.setTitle("Benutzer anzeigen");
         zuruecksetzen();
+        this.benutzername_jTextField.setText("");
         this.benutzername_jTextField.setEnabled(false);
         this.passwort_jTextField.setEnabled(false);
         this.admin_jCheckBox.setEnabled(true);
@@ -185,6 +202,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         jB_Anzeigen.setEnabled(true);
         jB_Speichern.setEnabled(false);
         jB_Loeschen.setEnabled(false);
+        jB_Suchen.setEnabled(false);
         this.hauptFenster.setComponent(this);
     }
     /*----------------------------------------------------------*/
@@ -199,6 +217,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     public void setStatusAender() {
         this.setTitle("Benutzer ändern");
         zuruecksetzen();
+        this.benutzername_jTextField.setText("");
         this.benutzername_jTextField.setEnabled(false);
         this.passwort_jTextField.setEnabled(true);
         this.admin_jCheckBox.setEnabled(true);
@@ -206,6 +225,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         jB_Anzeigen.setEnabled(true);
         jB_Speichern.setEnabled(true);
         jB_Loeschen.setEnabled(true);
+        jB_Suchen.setEnabled(false);
         this.hauptFenster.setComponent(this);
     }
 
@@ -216,13 +236,15 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     public void setStatusAnlegen() {
         this.setTitle("Benutzer anlegen");
         zuruecksetzen();
+        this.benutzername_jTextField.setText("");
         this.benutzername_jTextField.setEnabled(true);
         this.passwort_jTextField.setEnabled(true);
-        this.admin_jCheckBox.setEnabled(false);
+        this.admin_jCheckBox.setEnabled(true);
         jB_Anzeigen.setText("Anzeigen");
         jB_Anzeigen.setEnabled(false);
         jB_Speichern.setEnabled(true);
-        jB_Loeschen.setEnabled(true);
+        jB_Loeschen.setEnabled(false);
+        jB_Suchen.setEnabled(false);
         this.hauptFenster.setComponent(this);
     }
 
@@ -248,9 +270,6 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         passwort_jTextField = new javax.swing.JTextField();
         admin_jCheckBox = new javax.swing.JCheckBox();
 
-        setClosable(true);
-        setIconifiable(true);
-        setMaximizable(true);
         setResizable(true);
         setTitle("User anlegen");
         setPreferredSize(new java.awt.Dimension(600, 250));
@@ -316,11 +335,17 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
             public void focusGained(java.awt.event.FocusEvent evt) {
                 benutzername_jTextFieldFocusGained(evt);
             }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                benutzername_jTextFieldFocusLost(evt);
+            }
         });
 
         passwort_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 passwort_jTextFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                passwort_jTextFieldFocusLost(evt);
             }
         });
 
@@ -385,8 +410,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
      * @param evt
      */
     private void benutzername_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_benutzername_jTextFieldFocusGained
-        
-        benutzername_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
+
         benutzername_jTextField.selectAll();// Eingabefeld wrd selektiert.
     }//GEN-LAST:event_benutzername_jTextFieldFocusGained
 
@@ -400,9 +424,8 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
      * @param evt
      */
     private void passwort_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwort_jTextFieldFocusGained
-       this.hauptFenster.setStatusMeldung("");//Statusmeldung verschwindet.
-        passwort_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
-        passwort_jTextField.setText("");//Übergabe eines leeren Strings an das Eingabefeld
+
+        passwort_jTextField.selectAll();
     }//GEN-LAST:event_passwort_jTextFieldFocusGained
 
     /*----------------------------------------------------------*/
@@ -426,23 +449,48 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
                 //Übergabe der Eingaben an die Speichervariablen.
                 benutzerame = benutzername_jTextField.getText();
                 passwort = passwort_jTextField.getText();
-                    if(this.getTitle().equals("Benutzer anlegen")){//Überprüft aus in welcher Maske man sich befindet
-                        
+                if (this.getTitle().equals("Benutzer anlegen")) {//Überprüft aus in welcher Maske man sich befindet
                     // Aufruf der erstelleBenutzer-Methode mit der ein Benutzer erzeugt wird.
                     GUIFactory.getDAO().erstelleBenutzer(benutzerame, passwort, istAdmin);
-                    this.hauptFenster.setStatusMeldung(erfolgreicheAnmeldung);// Ausgabe einer Medung.
-                    }else if(this.getTitle().equals("Benutzer ändern")){// Überprüft ob man sich in der Benutzer ändern Maske befindet.
-                        GUIFactory.getDAO().aendereBenutzer(benutzerame, passwort, istAdmin);// Methodenaufruf zum ändern von Benutzerdaten.
-                        this.hauptFenster.setStatusMeldung(erfolgreichAendernDerBenutzerdaten);// Ausgabe einer Medung.
+                    zuruecksetzen();
+                    this.hauptFenster.setStatusMeldung(ERFOLGREICHEANMELDUNG);// Ausgabe einer Medung.
+                } else if (this.getTitle().equals("Benutzer ändern")) {// Überprüft ob man sich in der Benutzer ändern Maske befindet.
+
+                    if (!(passwort_jTextField.getText().equals(
+                            GUIFactory.getDAO().gibBenutzer(benutzername_jTextField.getText()).getPasswort()))) {
+
+                        int antwort = JOptionPane.showConfirmDialog(rootPane, AENDERUNGVONDATEN_TEXT,
+                                AENDERUNGVONDATEN_TITEL, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        //Falls bejaht wird der Auftragskopf verändert gespeichert.
+                        if (antwort == JOptionPane.YES_OPTION) {
+
+                            GUIFactory.getDAO().aendereBenutzer(benutzerame, passwort, istAdmin);// Methodenaufruf zum ändern von Benutzerdaten.
+
+                            zuruecksetzen();
+                            benutzername_jTextField.setText("");
+
+                            gespeichert = true;
+                            jB_ZurueckActionPerformed(evt);
+                            this.hauptFenster.setStatusMeldung(ERFOLGREICHAENDERNDERBENUTZERDATEN);// Ausgabe einer Medung.
+                        } else {
+                            gespeichert = false;
+                        }
+                    } else {
+
+                        JOptionPane.showMessageDialog(null, KEINEAENDERUNGEN_TEXT,
+                                KEINEAENDERUNGEN_Titel, JOptionPane.OK_OPTION);
                     }
-                    
-                zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+
+//                    zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+//                    benutzername_jTextField.setText("");
+                }
             } else {
-                fehlEingabenMarkierung(fehlendeEingaben, fehlermeldung_titel,
-                        fehlermeldung_text, warningfarbe);
+
+                fehlEingabenMarkierung(fehlendeEingaben, FEHLERMELDUNG_TITEL,
+                        FEHLERMELDUNG_TEXT, warningfarbe);
             }
         } catch (ApplicationException e) {
-            System.out.println(e.getMessage());
+            this.hauptFenster.setStatusMeldung(e.getMessage());
         }
     }//GEN-LAST:event_jB_SpeichernActionPerformed
 
@@ -458,11 +506,62 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
      * @param evt
      */
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
-        c = null;   //Initialisierung der Componentspeichervariable
-        //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-        c = this.factory.zurueckButton();
-        this.setVisible(false);// Internalframe wird nicht mehr dargestellt
-        c.setVisible(true);// Übergebene Component wird sichtbar gemacht
+        if (this.getTitle().equals("Benutzer anlegen")) {
+
+            if (!(benutzername_jTextField.getText().equals("")
+                    && passwort_jTextField.getText().equals(""))) {
+                int antwort = JOptionPane.showConfirmDialog(rootPane, DATENVERWERFEN_TEXT,
+                        DATENVERWERFEN_TITEL, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+                //Falls bejaht wird, werden die Daten verworfen..
+                if (antwort == JOptionPane.YES_OPTION) {
+
+                    zuruecksetzen();// Eingabefelder werden zurückgesetzt.
+                    benutzername_jTextField.setText("");
+                    letzteComponent = null;   //Initialisierung der Componentspeichervariable
+                    //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
+                    letzteComponent = this.factory.zurueckButton();
+                    this.setVisible(false);// Internalframe wird nicht mehr dargestellt
+                    letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
+                }
+            } else {
+
+                zuruecksetzen();// Eingabefelder werden zurückgesetzt.
+                benutzername_jTextField.setText("");
+                letzteComponent = null;   //Initialisierung der Componentspeichervariable
+                //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
+                letzteComponent = this.factory.zurueckButton();
+                this.setVisible(false);// Internalframe wird nicht mehr dargestellt
+                letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
+            }
+        } else {
+            if (!(passwort_jTextField.getText().equals("")
+                    && gespeichert == true)) {
+                int antwort = JOptionPane.showConfirmDialog(rootPane, DATENVERWERFEN_TEXT,
+                        DATENVERWERFEN_TITEL, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+                //Falls bejaht wird, werden die Daten verworfen..
+                if (antwort == JOptionPane.YES_OPTION) {
+
+                    zuruecksetzen();// Eingabefelder werden zurückgesetzt.
+                    benutzername_jTextField.setText("");
+                    letzteComponent = null;   //Initialisierung der Componentspeichervariable
+                    //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
+                    letzteComponent = this.factory.zurueckButton();
+                    this.setVisible(false);// Internalframe wird nicht mehr dargestellt
+                    letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
+                }
+
+            } else {
+                zuruecksetzen();// Eingabefelder werden zurückgesetzt.
+                benutzername_jTextField.setText("");
+                letzteComponent = null;   //Initialisierung der Componentspeichervariable
+                //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
+                letzteComponent = this.factory.zurueckButton();
+                this.setVisible(false);// Internalframe wird nicht mehr dargestellt
+                letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
+            }
+        }
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
     /*----------------------------------------------------------*/
@@ -484,13 +583,14 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     /**
      * Methode in der geprüft wird ob der User ein Admin werden soll oder nur
      * ein normaler User sein soll.
+     *
      * @param evt
-     */ 
+     */
     private void admin_jCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_admin_jCheckBoxActionPerformed
         //Wenn selektiert wird, erhält der anzulegende User den Status eines Admins.
-        if(admin_jCheckBox.isSelected()){
+        if (admin_jCheckBox.isSelected()) {
             istAdmin = true;// Übergabe eines Boelenwertes.
-        }else{// Falls User kein Admin werden soll.
+        } else {// Falls User kein Admin werden soll.
             istAdmin = false;
         }
     }//GEN-LAST:event_admin_jCheckBoxActionPerformed
@@ -501,40 +601,54 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     /*----------------------------------------------------------*/
     /**
      * Methode mit der ein Benutzer aus der Datenbank gelscht wird.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jB_LoeschenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_LoeschenActionPerformed
         benutzerame = benutzername_jTextField.getText();// Erhält den Benutzername aus dem Eingabefeld.
-        try{//TryBlock
-                GUIFactory.getDAO().loescheBenutzer(benutzerame);// Methodenaufruf zum lschen des Benutzers aus der DB.
-                this.hauptFenster.setStatusMeldung(erfogreichBenutzerGeloescht);//Ausgabe einer Meldung.
-                this.benutzername_jTextField.setText("");// Eingabefeld ist leer nachdem man den User gelöscht hat.
-        }catch(ApplicationException e){// Fehlerbehandlung.
+        try {//TryBlock
+            GUIFactory.getDAO().loescheBenutzer(benutzerame);// Methodenaufruf zum lschen des Benutzers aus der DB.
+            this.hauptFenster.setStatusMeldung(ERFOLGREICHBENUTZERGELOESCHT);//Ausgabe einer Meldung.
+            this.benutzername_jTextField.setText("");// Eingabefeld ist leer nachdem man den User gelöscht hat.
+        } catch (ApplicationException e) {// Fehlerbehandlung.
             this.hauptFenster.setStatusMeldung(e.getMessage());//Ausgabe einer Meldung.
         }
     }//GEN-LAST:event_jB_LoeschenActionPerformed
+
+    private void benutzername_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_benutzername_jTextFieldFocusLost
+        benutzername_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
+    }//GEN-LAST:event_benutzername_jTextFieldFocusLost
+
+    private void passwort_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwort_jTextFieldFocusLost
+        passwort_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
+    }//GEN-LAST:event_passwort_jTextFieldFocusLost
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 13.01.2015 Terrasi angelegt und dokumentiert*/
     /*----------------------------------------------------------*/
     /**
-     * Methode mit der man dem eingabefeldes des Benutzernamens eine String übergibt.
-     * @param benutzername, String der übergebn wird und angezeigt wird. 
+     * Methode mit der man dem eingabefeldes des Benutzernamens eine String
+     * übergibt.
+     *
+     * @param benutzername, String der übergebn wird und angezeigt wird.
      */
-    public void setBenutzername(String benutzername){
+    public void setBenutzername(String benutzername) {
         benutzername_jTextField.setText(benutzername);
     }
-    
+
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 13.01.2015 Terrasi angelegt und dokumentiert*/
     /*----------------------------------------------------------*/
     /**
-     * Methode mit der man einen String dem Eingabefeldes des Passworts übergibt.
-     * @param passwort, String das das Passwort repräsentiert wird übergeben und dargestellt. 
+     * Methode mit der man einen String dem Eingabefeldes des Passworts
+     * übergibt.
+     *
+     * @param passwort, String das das Passwort repräsentiert wird übergeben und
+     * dargestellt.
      */
-    public void setPasswort(String passwort){
+    public void setPasswort(String passwort) {
         passwort_jTextField.setText(passwort);
     }
 
@@ -545,23 +659,27 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     /**
      * Methode mit der man die Checkbox, um den Zustand des User festzulegen,
      * auf enable false oder true setzen kann.
-     * @param bearbeitung, bolleanwert mit der man entscheidet ob die Checkbox bearbeitet werden kann. 
+     *
+     * @param bearbeitung, bolleanwert mit der man entscheidet ob die Checkbox
+     * bearbeitet werden kann.
      */
-    public void setZustand(boolean bearbeitung){
+    public void setZustand(boolean bearbeitung) {
         admin_jCheckBox.setEnabled(bearbeitung);
     }
-    
+
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 13.01.2015 Terrasi angelegt und dokumentiert*/
     /*----------------------------------------------------------*/
     /**
      * Methode um die Checkbox zu selektieren.
-     * @param selektieren, Variable mit der man die Checkboy selektiert oder nicht. 
+     *
+     * @param selektieren, Variable mit der man die Checkboy selektiert oder
+     * nicht.
      */
-    public void setCheckBoxSelected(boolean selektieren){
+    public void setCheckBoxSelected(boolean selektieren) {
         this.admin_jCheckBox.setSelected(selektieren);// Checkbox wird selektiert oder nicht.
-        
+
     }
 
     /*----------------------------------------------------------*/
@@ -571,9 +689,8 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     public void setBenutzername_jTextField(String benutzername) {
         this.benutzername_jTextField.setText(benutzername);
     }
-    
-    
-    
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox admin_jCheckBox;
     private javax.swing.JLabel benutzername_jLabel;

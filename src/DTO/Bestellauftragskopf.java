@@ -30,17 +30,4 @@ public class Bestellauftragskopf extends Auftragskopf {
         super(Auftragstext, Wert, Geschaeftspartner, Status, Abschlussdatum, 
                 Erfassungsdatum, Lieferdatum, Zahlungskondition);
     }
-  
-//Könnte später noch gebraucht werden
-    @Override
-    public void addPosition(Artikel artikel, int Menge) {
-        Auftragsposition ap = new Auftragsposition();
-        ap.setAuftrag(this);
-        ap.setArtikel(artikel);
-        ap.setMenge(Menge);
-        ap.setEinzelwert(artikel.getEinkaufswert());
-        ap.setErfassungsdatum(super.getErfassungsdatum());
-        super.setWert(super.getWert() + ap.getEinzelwert());
-        super.getPositionsliste().add(ap);
-    }
 }

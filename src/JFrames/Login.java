@@ -5,10 +5,10 @@
  */
 package JFrames;
 
-import GUI_Internalframes.*;
 import GUI_Internalframes.Anmeldung;
 import java.awt.Component;
 import java.awt.Dimension;
+import javax.swing.JInternalFrame;
 
 /**
  *
@@ -22,7 +22,7 @@ public class Login extends javax.swing.JFrame {
      Referenzvariablen
      */
 
-    Anmeldung an;//Variable für die Anmeldungsmaske
+    Anmeldung anmeldung;//Variable für die Anmeldungsmaske
 
     //Hilfsvariablen
     Dimension desktopSize;//Speichervariable für die Größe der DesktopPane.
@@ -34,13 +34,13 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         //Initialisierung
-        an = new Anmeldung(this);
+        anmeldung = new Anmeldung(this);
 
         //Maske wird im Zentrum der Frame dargestellt
-        setCenterJIF(an);
+        setCenterJIF(anmeldung);
         
         //Maske wird desktopdpane hinzugefügt
-        desktopPane.add(an);
+        desktopPane.add(anmeldung);
     }
 
     /**
@@ -99,6 +99,10 @@ public class Login extends javax.swing.JFrame {
         int height = (desktopSize.height - jInternalFrameSize.height) / 2;
         jif.setLocation(width, height);
         jif.setVisible(true);
+    }
+    
+    public Anmeldung getAnmeldeFenster(){
+        return this.anmeldung;
     }
 
     /**

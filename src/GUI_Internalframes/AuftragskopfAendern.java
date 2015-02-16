@@ -14,21 +14,22 @@ import java.util.Calendar;
 import java.util.Date;
 
 
- /* 10.12.2014 Dokumentation und Logik */
- /* 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button */
- /* 08.01.2015 Terrasi, Überarbeitung der Anwendungslogik und das hinzufügen von
-    weiteren Funktion. */
- /* 14.01.2015 Terrasi, Implementierung der DAO-Methode für das finden 
-    eines Auftrags.
+/* 10.12.2014 Dokumentation und Logik */
+/* 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button */
+/* 08.01.2015 Terrasi, Überarbeitung der Anwendungslogik und das hinzufügen von
+ weiteren Funktion. */
+/* 14.01.2015 Terrasi, Implementierung der DAO-Methode für das finden 
+ eines Auftrags.
  */
 /**
- * 
+ *
  * @author Luca Terrasi
  */
 public class AuftragskopfAendern extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
     /*
      Hilfsvariable
      */
+
     Component c;
     GUIFactory factory;
     InterfaceMainView hauptFenster;
@@ -45,8 +46,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
     String fehlermeldung_titel = "Fehlerhafte Eingabe";
     String fehlermeldungAuftragskopfIDtext = "\"Die eingegebene Auftragskopf-ID ist nicht gültig! "
             + "\\n Bitte geben Sie eine gültige Auftragskopf-ID ein. (z.B. 1 oder 999999999)\"";
-    String fehlermeldungUnvollstaendig = "Es wurden nicht alle Eingaben getätigt.\n"
-            + "Bitte geben Sie die benötigte Eingabe in dem markierten Eingabefeld ein.";
+    String fehlermeldungUnvollstaendig = "Es wurden nicht alle Eingaben getätigt.";
 
     /*
      Speichervariablen
@@ -64,8 +64,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
     /* 10.12.2014 Terrasi angelegt und dokumentiert*/
     /*----------------------------------------------------------*/
     /**
-     * Kostruktor,
-     * Erzeugung eines AuftragskopfAendernobjektes.
+     * Kostruktor, Erzeugung eines AuftragskopfAendernobjektes.
      *
      * @param factory
      * @param auftragsKopf
@@ -247,8 +246,8 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt und dokumentiert*/
     /* 14.01.2015 Terrasi, implementierung der DAOMethode "gibAuftragskopf"
-    und Logiküberarbeitung.
-    */
+     und Logiküberarbeitung.
+     */
     /*----------------------------------------------------------*/
     /**
      * Auszuführende Aktion beim betätigen des "Weiter"-Buttons. Es wird geprüft
@@ -260,26 +259,31 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
      * @param evt
      */
     private void weiter_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_weiter_jButtonActionPerformed
-        //Aufruf der Schnittstellenmethode um auf Vollständigkeit der Eingaben zu prüfen.
-        ueberpruefen();
-        if (fehleingabefelder.isEmpty()) {//Bei ausgefüllten Eingabenfeldern
+
+        Auftragskopf aKopf;
+//Aufruf der Schnittstellenmethode um auf Vollständigkeit der Eingaben zu prüfen.
+//        ueberpruefen();
+//        if (fehleingabefelder.isEmpty()) {//Bei ausgefüllten Eingabenfeldern
             try {
-                Auftragskopf aKopf = GUIFactory.getDAO().gibAuftragskopf(Long.parseLong(auftragskopfID_jTextField.getText()));
+                aKopf = GUIFactory.getDAO().gibAuftragskopf(Long.parseLong(auftragskopfID_jTextField.getText()));
                 // Überprüft anhand des Framestitels, ob es das nächste Fenster
                 // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
-                if (this.getTitle().equals("Auftragskopf ändern")) {
+                if (this.getTitle().equals("Auftragskopf ändern Einstieg")) {
                     if (aKopf != null) {
+                        this.auftragskopfAnlegen.zuruecksetzen();
                         this.auftragskopfAnlegen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
 
                         this.auftragskopfAnlegen.
                                 setzeEingabe(aKopf);
 
                         zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+
                         this.setVisible(false);
                         this.hauptFenster.setFrame(this.auftragskopfAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
 
                     }
                 } else {
+                    this.auftragskopfAnlegen.zuruecksetzen();
                     this.auftragskopfAnlegen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
 
                     this.auftragskopfAnlegen.
@@ -287,20 +291,22 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
 
                     zuruecksetzen();//Methode die bestimmte Eingabefelder leert
                     this.setVisible(false);
-                    this.auftragskopfAnlegen.setStatusAnzeigen();
+//                    this.auftragskopfAnlegen.setStatusAnzeigen();
                     this.hauptFenster.setFrame(this.auftragskopfAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
                 }
-            } catch (ApplicationException | NumberFormatException | NullPointerException e) {
+            } catch (ApplicationException | NullPointerException e) {
                 this.hauptFenster.setStatusMeldung(e.getMessage());
+            } catch(NumberFormatException e){
+                this.hauptFenster.setStatusMeldung(fehlermeldungUnvollstaendig);
             }
 
-        } else {//Wenn Eingaben fehlen.
-            // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
-            // getätigt worden sind
-            fehlEingabenMarkierung(fehleingabefelder, fehlermeldung_titel,
-                    fehlermeldungUnvollstaendig, warningfarbe);//Meldung wird ausgegeben und
-
-        }
+//        } else {//Wenn Eingaben fehlen.
+//            // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
+//            // getätigt worden sind
+//            fehlEingabenMarkierung(fehleingabefelder, fehlermeldung_titel,
+//                    fehlermeldungUnvollstaendig, warningfarbe);//Meldung wird ausgegeben und
+//
+//        }
     }//GEN-LAST:event_weiter_jButtonActionPerformed
 
     /*----------------------------------------------------------*/
@@ -422,11 +428,16 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         //Meldung die darauf hinweist das nicht alle Eingaben getätigt worden sind.
         JOptionPane.showMessageDialog(null, fehlermeldung,
                 fehlermelgungtitel, JOptionPane.WARNING_MESSAGE);
-        list.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
-        // Alle leeren Eingabefelder werden farblich markiert.
-        for (int i = 0; i <= list.size() - 1; i++) {
-            list.get(i).setBackground(farbe);
+        if (!list.isEmpty()) {
+
+            list.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
+
         }
+//        // Alle leeren Eingabefelder werden farblich markiert.
+//        for (int i = 0; i <= list.size() - 1; i++) {
+//            list.get(i).setBackground(farbe);
+//        }
+
         list.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
     }
 
@@ -466,7 +477,6 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
     }
 
 
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel auftragskopfID_jLabel;
     private javax.swing.JTextField auftragskopfID_jTextField;
