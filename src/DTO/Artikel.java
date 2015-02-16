@@ -35,6 +35,7 @@ public class Artikel implements Serializable {
     private int Zulauf;
     private int Verkauft;
     private boolean LKZ;
+    private int Version;
 
     public Artikel() {
     }
@@ -53,6 +54,7 @@ public class Artikel implements Serializable {
         this.Zulauf = Zulauf;
         this.Verkauft = Verkauft;
         this.LKZ = false;
+        this.Version = 1;
     }
 
     public long getArtikelID() {
@@ -151,21 +153,30 @@ public class Artikel implements Serializable {
         this.LKZ = LKZ;
     }
 
+    public int getVersion() {
+        return Version;
+    }
+
+    public void setVersion(int Version) {
+        this.Version = Version;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 53 * hash + (int) (this.ArtikelId ^ (this.ArtikelId >>> 32));
-        hash = 53 * hash + Objects.hashCode(this.Kategorie);
-        hash = 53 * hash + Objects.hashCode(this.Artikeltext);
-        hash = 53 * hash + Objects.hashCode(this.Bestelltext);
-        hash = 53 * hash + (int) (Double.doubleToLongBits(this.Verkaufswert) ^ (Double.doubleToLongBits(this.Verkaufswert) >>> 32));
-        hash = 53 * hash + (int) (Double.doubleToLongBits(this.Einkaufswert) ^ (Double.doubleToLongBits(this.Einkaufswert) >>> 32));
-        hash = 53 * hash + this.MwST;
-        hash = 53 * hash + this.Frei;
-        hash = 53 * hash + this.Reserviert;
-        hash = 53 * hash + this.Zulauf;
-        hash = 53 * hash + this.Verkauft;
-        hash = 53 * hash + (this.LKZ ? 1 : 0);
+        int hash = 5;
+        hash = 79 * hash + (int) (this.ArtikelId ^ (this.ArtikelId >>> 32));
+        hash = 79 * hash + Objects.hashCode(this.Kategorie);
+        hash = 79 * hash + Objects.hashCode(this.Artikeltext);
+        hash = 79 * hash + Objects.hashCode(this.Bestelltext);
+        hash = 79 * hash + (int) (Double.doubleToLongBits(this.Verkaufswert) ^ (Double.doubleToLongBits(this.Verkaufswert) >>> 32));
+        hash = 79 * hash + (int) (Double.doubleToLongBits(this.Einkaufswert) ^ (Double.doubleToLongBits(this.Einkaufswert) >>> 32));
+        hash = 79 * hash + this.MwST;
+        hash = 79 * hash + this.Frei;
+        hash = 79 * hash + this.Reserviert;
+        hash = 79 * hash + this.Zulauf;
+        hash = 79 * hash + this.Verkauft;
+        hash = 79 * hash + (this.LKZ ? 1 : 0);
+        hash = 79 * hash + this.Version;
         return hash;
     }
 
@@ -178,6 +189,9 @@ public class Artikel implements Serializable {
             return false;
         }
         final Artikel other = (Artikel) obj;
+        if (this.ArtikelId != other.ArtikelId) {
+            return false;
+        }
         if (!Objects.equals(this.Kategorie, other.Kategorie)) {
             return false;
         }
@@ -211,8 +225,13 @@ public class Artikel implements Serializable {
         if (this.LKZ != other.LKZ) {
             return false;
         }
+        if (this.Version != other.Version) {
+            return false;
+        }
         return true;
     }
+
+    
 
     @Override
     public String toString() {

@@ -75,9 +75,8 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
         BenutzerID_jTextField = new javax.swing.JTextField();
         Weiter_jButton = new javax.swing.JButton();
 
-        setResizable(true);
         setTitle("User ändern Einstieg");
-        setPreferredSize(new java.awt.Dimension(600, 400));
+        setPreferredSize(new java.awt.Dimension(580, 300));
         setRequestFocusEnabled(false);
         try {
             setSelected(true);
@@ -121,6 +120,11 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
         BenutzerID_jLabel.setText("Benutzer-ID :");
         BenutzerID_jLabel.setToolTipText("");
 
+        BenutzerID_jTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BenutzerID_jTextFieldActionPerformed(evt);
+            }
+        });
         BenutzerID_jTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 BenutzerID_jTextFieldKeyPressed(evt);
@@ -142,10 +146,10 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
             .addComponent(jSeparator1)
             .addGroup(layout.createSequentialGroup()
                 .addGap(48, 48, 48)
-                .addComponent(BenutzerID_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(BenutzerID_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BenutzerID_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(Weiter_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -155,12 +159,12 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(117, 117, 117)
+                .addGap(63, 63, 63)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BenutzerID_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BenutzerID_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Weiter_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(190, Short.MAX_VALUE))
+                .addContainerGap(244, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -236,6 +240,10 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
             Weiter_jButtonActionPerformed(null);
         }
     }//GEN-LAST:event_BenutzerID_jTextFieldKeyPressed
+
+    private void BenutzerID_jTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BenutzerID_jTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BenutzerID_jTextFieldActionPerformed
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */

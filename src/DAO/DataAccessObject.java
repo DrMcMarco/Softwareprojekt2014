@@ -852,8 +852,9 @@ public class DataAccessObject {
      */
     private void setzeArtikelBestand(Collection<Auftragsposition> positionen, 
             String bestandsart) throws ApplicationException {
-        
+        Collection<Artikel> artikelHistorie = null;
         try {
+            
             //Iteriere über alle Positionen
             for (Auftragsposition position : positionen) {
                 //Prüfe, ob es sich um einen Zulauf an Artikeln handelt
@@ -861,6 +862,20 @@ public class DataAccessObject {
                     //Erhöhe die Menge des Benstandszulauf
                     position.getArtikel().setZulauf(position.getArtikel()
                             .getZulauf() + position.getMenge());
+                    //Prüfe, ob es historien von diesem Artikel gibt
+                    //Die ebenfalls angepasst werden müssen
+                    artikelHistorie = this.gibAlleArtikel(
+                            position.getArtikel().getArtikelID());
+                    //Prüfe ob einträge vorhanden sind
+                    if (artikelHistorie != null) {
+                        //Iteriere über die Historie
+                        for (Artikel artikel : artikelHistorie) {
+                            //Setze den Bestand
+                            artikel.setZulauf(artikel.getZulauf() 
+                                    + position.getMenge());
+                            em.persist(artikel);
+                        }
+                    }
                 } else if ("Reserviert".equals(bestandsart)) {
                     //Verringer die Anzahl von Bestandfrei
                     position.getArtikel().setFrei(
@@ -870,6 +885,22 @@ public class DataAccessObject {
                     position.getArtikel().setReserviert(
                             position.getArtikel().getReserviert() 
                                     + position.getMenge());
+                    //Prüfe, ob es historien von diesem Artikel gibt
+                    //Die ebenfalls angepasst werden müssen
+                    artikelHistorie = this.gibAlleArtikel(
+                            position.getArtikel().getArtikelID());
+                    //Prüfe ob einträge vorhanden sind
+                    if (artikelHistorie != null) {
+                        //Iteriere über die Historie
+                        for (Artikel artikel : artikelHistorie) {
+                            //Setze den Bestand
+                            artikel.setFrei(artikel.getFrei() 
+                                    - position.getMenge());
+                            artikel.setReserviert(artikel.getReserviert() 
+                                    + position.getMenge());
+                            em.persist(artikel);
+                        }
+                    }
                 } else if ("Frei".equals(bestandsart)) {
                     //Verringer die Anzahl von Bestandzulauf
                     position.getArtikel().setZulauf(
@@ -879,6 +910,22 @@ public class DataAccessObject {
                     position.getArtikel().setFrei(
                             position.getArtikel().getFrei() 
                                     + position.getMenge());
+                    //Prüfe, ob es historien von diesem Artikel gibt
+                    //Die ebenfalls angepasst werden müssen
+                    artikelHistorie = this.gibAlleArtikel(
+                            position.getArtikel().getArtikelID());
+                    //Prüfe ob einträge vorhanden sind
+                    if (artikelHistorie != null) {
+                        //Iteriere über die Historie
+                        for (Artikel artikel : artikelHistorie) {
+                            //Setze den Bestand
+                            artikel.setZulauf(artikel.getZulauf() 
+                                    - position.getMenge());
+                            artikel.setFrei(artikel.getFrei() 
+                                    + position.getMenge());
+                            em.persist(artikel);
+                        }
+                    }
                 } else if ("Verkauft".equals(bestandsart)) {
                     //Verringer den Bestandreserviert
                     position.getArtikel().setReserviert(
@@ -888,11 +935,42 @@ public class DataAccessObject {
                     position.getArtikel().setVerkauft(
                             position.getArtikel().getVerkauft() 
                                     + position.getMenge());
+                    //Prüfe, ob es historien von diesem Artikel gibt
+                    //Die ebenfalls angepasst werden müssen
+                    artikelHistorie = this.gibAlleArtikel(
+                            position.getArtikel().getArtikelID());
+                    //Prüfe ob einträge vorhanden sind
+                    if (artikelHistorie != null) {
+                        //Iteriere über die Historie
+                        for (Artikel artikel : artikelHistorie) {
+                            //Setze den Bestand
+                            artikel.setReserviert(artikel.getReserviert() 
+                                    - position.getMenge());
+                            artikel.setVerkauft(artikel.getVerkauft() 
+                                    + position.getMenge());
+                            em.persist(artikel);
+                        }
+                    }
                 } else if ("RueckgaengigBestellung".equals(bestandsart)) {
                     //Verringer die Anzahl von Bestandzulauf
                     position.getArtikel().setZulauf(
                             position.getArtikel().getZulauf() 
                                     - position.getMenge());
+                    //Prüfe, ob es historien von diesem Artikel gibt
+                    //Die ebenfalls angepasst werden müssen
+                    artikelHistorie = this.gibAlleArtikel(
+                            position.getArtikel().getArtikelID());
+                    //Prüfe ob einträge vorhanden sind
+                    if (artikelHistorie != null) {
+                        //Iteriere über die Historie
+                        for (Artikel artikel : artikelHistorie) {
+                            //Setze den Bestand
+                            artikel.setZulauf(artikel.getZulauf() 
+                                    - position.getMenge());
+                            
+                            em.persist(artikel);
+                        }
+                    }
                 } else if ("RueckgaengigVerkauf".equals(bestandsart)) {
                     //Verringer die Anzahl von Bestandreserviert
                     position.getArtikel().setReserviert(
@@ -902,6 +980,22 @@ public class DataAccessObject {
                     position.getArtikel().setFrei(
                             position.getArtikel().getFrei() 
                                     + position.getMenge());
+                    //Prüfe, ob es historien von diesem Artikel gibt
+                    //Die ebenfalls angepasst werden müssen
+                    artikelHistorie = this.gibAlleArtikel(
+                            position.getArtikel().getArtikelID());
+                    //Prüfe ob einträge vorhanden sind
+                    if (artikelHistorie != null) {
+                        //Iteriere über die Historie
+                        for (Artikel artikel : artikelHistorie) {
+                            //Setze den Bestand
+                            artikel.setReserviert(artikel.getReserviert() 
+                                    - position.getMenge());
+                            artikel.setFrei(artikel.getFrei() 
+                                    + position.getMenge());
+                            em.persist(artikel);
+                        }
+                    }
                 }
                     
                 //Artikel persistieren
@@ -2159,49 +2253,12 @@ public class DataAccessObject {
         return item;
     }
     
-    /*----------------------------------------------------------*/
-    /* Datum      Name    Was                                   */
-    /* 18.12.14   loe     angelegt                              */
-    /*----------------------------------------------------------*/
-    /**
-     * Gibt einen Kunden anhand der ID zurück
-     * @param Kundennummer ID des Kunden
-     * @return die persistente Abbildung des Kunden
-     * @throws ApplicationException wenn der Kunde nicht gefunden werden kann
-     */
-    public Kunde gibKunde(long Kundennummer) throws ApplicationException {
+    public Collection<Artikel> gibAlleArtikel(long Artikelnummer) {
         
-        Kunde kunde = em.find(Kunde.class, Kundennummer);
+        Query abfrage = em.createQuery("SELECT ST FROM Artikel ST "
+                + "WHERE ST.ArtikelId = :id").setParameter("id", Artikelnummer);
         
-        if (kunde == null || kunde.isLKZ()) {
-            throw new ApplicationException("Fehler", 
-                    "Der Kunde konnte nicht gefunden werden");
-        }
-        
-        return kunde;
-    }
-    
-    /*----------------------------------------------------------*/
-    /* Datum      Name    Was                                   */
-    /* 18.12.14   loe     angelegt                              */
-    /*----------------------------------------------------------*/
-    /**
-     * Gibt einen Lieferanten anhand der ID zurück
-     * @param Lieferantennummer ID des Lieferanten
-     * @return die persistente Abbildung eines Lieferanten
-     * @throws ApplicationException wenn der Lieferant nicht gefunden werden kann
-     */
-    public Lieferant gibLieferant(long Lieferantennummer)
-            throws ApplicationException {
-        
-        Lieferant lieferant = em.find(Lieferant.class, Lieferantennummer);
-        
-        if (lieferant == null || lieferant.isLKZ()) {
-            throw new ApplicationException("Fehler", 
-                    "Der Lieferant konnte nicht gefunden werden");
-        }
-        
-        return lieferant;
+        return abfrage.getResultList();
     }
     
     /*----------------------------------------------------------*/
@@ -2556,30 +2613,30 @@ public class DataAccessObject {
         return benutzer;
     }
     
-    /*----------------------------------------------------------*/
-    /* Datum      Name    Was                                   */
-    /* 13.01.15   loe     angelegt                              */
-    /*----------------------------------------------------------*/
-    /**
-     * Gibt die Namen der Spalten für eine Entity (Tabelle) als HashSet zurück
-     * @param entity Entityklasse zu der die Metadaten geholt werden sollen (Übergabe: entity.class)
-     * @return HashSet das die Namen der Spalten enthält
-     */
-    public HashSet<String> gibMetadaten(Class entity) {
-        
-        //Über die Metadaten werden die Attribute (Spaltennamen) der angegebenen Entity ermittelt
-        Set<Attribute> attribute = em.getMetamodel().entity(entity).getAttributes();
-        
-        //HashSet das nur die Namen der Attribute enthält
-        HashSet<String> namen = new HashSet<>();
-        
-        //Für jedes Attribute im Set wird der Name gelesen und in das HashSet geschrieben
-        for(Attribute a : attribute) {
-            namen.add(a.getName());
-        }
-        
-        return namen;
-    }
+//    /*----------------------------------------------------------*/
+//    /* Datum      Name    Was                                   */
+//    /* 13.01.15   loe     angelegt                              */
+//    /*----------------------------------------------------------*/
+//    /**
+//     * Gibt die Namen der Spalten für eine Entity (Tabelle) als HashSet zurück
+//     * @param entity Entityklasse zu der die Metadaten geholt werden sollen (Übergabe: entity.class)
+//     * @return HashSet das die Namen der Spalten enthält
+//     */
+//    public HashSet<String> gibMetadaten(Class entity) {
+//        
+//        //Über die Metadaten werden die Attribute (Spaltennamen) der angegebenen Entity ermittelt
+//        Set<Attribute> attribute = em.getMetamodel().entity(entity).getAttributes();
+//        
+//        //HashSet das nur die Namen der Attribute enthält
+//        HashSet<String> namen = new HashSet<>();
+//        
+//        //Für jedes Attribute im Set wird der Name gelesen und in das HashSet geschrieben
+//        for(Attribute a : attribute) {
+//            namen.add(a.getName());
+//        }
+//        
+//        return namen;
+//    }
     
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
@@ -2597,7 +2654,7 @@ public class DataAccessObject {
         
         List<Zahlungskondition> ergebnis = em.createQuery("SELECT ST FROM "
                         + "Zahlungskondition ST WHERE ST.Auftragsart LIKE '" 
-                        + Auftragsart + "'").getResultList();
+                        + Auftragsart + "' AND ST.LKZ = true").getResultList();
         
         if (ergebnis.isEmpty()) {
             throw new ApplicationException("Fehler", 
