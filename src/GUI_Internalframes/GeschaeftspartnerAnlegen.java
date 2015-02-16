@@ -1220,8 +1220,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                         jCHB_Kunde.requestFocusInWindow();
                     }
 //          Abfangen der Fehler
-                } catch (ApplicationException | ParseException | NullPointerException e) {
+                } catch (ApplicationException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
+                } catch (ParseException | NullPointerException e) {
                     System.out.println(e.getMessage());
                 }
             } else {
@@ -1385,6 +1386,17 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                     jFTF_Geburtsdatum.requestFocusInWindow();
                     jFTF_Geburtsdatum.setValue(null);
                 } else if (eingabeGeburtsdatum.before(tagVor100jahren)) {
+//                  Pruefung, ob das eingegebene Geburtsdatum ein vier stelliges Jahr enthaelt,
+//                  denn falls der Benutzer 01.01.1### eingibt, interpretiert der
+//                  Formatter das so, als ob das Jahr 0.01.1 eingegeben wurde.
+//                  Da dies aber nicht gueltig sein soll, kommt diese Ueberpruefung
+//                  Das Date Objekt wird in ein String umgewandelt  
+                    String s = gibDatumAusDatenbank(eingabeGeburtsdatum);
+//                  Ueberpruefung, ob das Jahr vier stellig ist  
+                    if ((s.substring(6, s.length())).length() != 4) {
+//                      Es ist vier Stellig, es wird eine Parse Exception geworfen  
+                        throw new ParseException("Fehler", ERROR);
+                    }
 //                  GP ist ueber 100 Jahre alt, formularOK wird auf false gesetzt 
                     formularOK = false;
 //                    Falls nicht, Fehlermeldung
@@ -1911,7 +1923,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                             }
                         }
 //          Abfangen der Fehler
-                    } catch (ApplicationException | ParseException | NullPointerException e) {
+                    } catch (ApplicationException e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
+                    } catch (ParseException | NullPointerException e) {
                         System.out.println(e.getMessage());
                     }
                 } else {
@@ -1981,9 +1995,10 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //                jB_ZurueckActionPerformed(evt);
                     zurueckInsHauptmenue();
                 }
-            } catch (ParseException | ApplicationException | NullPointerException ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
-                System.out.println(ex.getMessage());
+            } catch (ApplicationException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
+            } catch (ParseException | NullPointerException e) {
+                System.out.println(e.getMessage());
             }
         }
 //      Variable wird wieder auf true gesetzt, da nochmals eine Pruefung stattfindet 
