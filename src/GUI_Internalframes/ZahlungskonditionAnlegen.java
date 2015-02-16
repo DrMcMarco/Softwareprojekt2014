@@ -75,6 +75,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
     private final String TITEL_PFLICHTFELDER = "Felder nicht ausgefüllt";
     private final String MELDUNG_PFLICHTFELDER = "Einige Felder wurden nicht ausgefüllt! Bitte füllen Sie diese aus!";
     private final String MELDUNG_AENDERUNGEN_SPEICHERN = "Möchten Sie die Änderungen speichern?";
+    private final String FEHLER = "Fehler";
     private String statuszeile;
     /**
      * Number Formatter wird benoetigt fuer das Parsen der Eingaben, sowie das
@@ -917,6 +918,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                 }
 //          Fehler abfangen    
             } catch (ParseException | ApplicationException | NullPointerException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
                 System.out.println(ex.getMessage());
             }
 //          das Formular wird zurueckgesetzt  
@@ -1105,6 +1107,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                 zurueckInsHauptmenue();
             }
         } catch (ParseException | ApplicationException | NullPointerException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
             System.out.println(ex.getMessage());
         }
     }//GEN-LAST:event_jB_LoeschenActionPerformed
