@@ -229,7 +229,11 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
             g.gibjTF_Vorname().setText(ra.getVorname());
             g.gibjTF_Telefon().setText(ra.getTelefon());
             g.gibjTF_Fax().setText(ra.getFAX());
-            g.gibjFTF_Geburtsdatum().setText(gibDatumAusDatenbank(la.getGeburtsdatum()));
+            if (la.getGeburtsdatum() != null) {
+                g.gibjFTF_Geburtsdatum().setText(gibDatumAusDatenbank(la.getGeburtsdatum()));
+            } else {
+                g.gibjFTF_Geburtsdatum().setText("##.##.####");
+            }
             g.gibjFTF_Erfassungsdatum().setText(gibDatumAusDatenbank(la.getErfassungsdatum()));
             g.gibjTF_EMail().setText(ra.getEmail());
             g.gibjTF_Kreditlimit().setText("" + nf.format(gp.getKreditlimit()));

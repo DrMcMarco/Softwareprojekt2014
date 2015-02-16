@@ -13,6 +13,7 @@ import DTO.Artikel;
 import DTO.Artikelkategorie;
 import Interfaces.InterfaceMainView;
 import Interfaces.InterfaceViewsFunctionality;
+import java.awt.Dimension;
 import java.util.Collection;
 import java.util.Iterator;
 import javax.swing.DefaultComboBoxModel;
@@ -94,6 +95,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
     private final String MELDUNG_EINZELWERT_FALSCH = "Der eingegebene Preis ist nicht richtig!\nBitte geben Sie einen richtigen Preis ein. (z.B. 9,99 oder 99.999,99)";
     private final String TITEL_FEHLERHAFTE_EINGABE = "Fehlerhafte Eingabe";
     private final String MELDUNG_AENDERUNGEN_SPEICHERN = "Möchten Sie die Änderungen speichern?";
+    private final String FEHLER = "Fehler";
     /**
      * Variable, um die Statusmeldungen ausgeben zu koennen
      */
@@ -860,6 +862,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                     }
 //          Fehler abfangen
                 } catch (ApplicationException | ParseException | NullPointerException e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
                     System.out.println("Fehler in Sicht Artikel anlegen Methode Speichern " + e.getMessage());
                 }
             } else {
@@ -1193,6 +1196,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                         zurueckInsHauptmenue();
                     }
                 } catch (ParseException | ApplicationException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
                     System.out.println(ex.getMessage());
                 }
             }

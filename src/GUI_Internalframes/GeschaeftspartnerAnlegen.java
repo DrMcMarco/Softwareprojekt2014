@@ -96,6 +96,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
     private final String MELDUNG_PFLICHTFELDER_TITEL = "Felder nicht ausgefüllt";
     private final String MELDUNG_PFLICHTFELDER_TEXT = "Einige Felder wurden nicht ausgefüllt!\nBitte füllen Sie diese aus.";
     private final String MELDUNG_AENDERUNGEN_SPEICHERN = "Möchten Sie die Änderungen speichern?";
+    private final String FEHLER = "Fehler";
     private final String FEHLERHAFTE_EINGABE = "Fehlerhafte Eingabe";
     private final String UNVOLLSTAENDIGE_EINGABE = "Unvollständige Eingabe";
     private final String RECHNUNGSANSCHRIFT = "Rechnungsanschrift";
@@ -1220,6 +1221,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                     }
 //          Abfangen der Fehler
                 } catch (ApplicationException | ParseException | NullPointerException e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
                     System.out.println(e.getMessage());
                 }
             } else {
@@ -1980,6 +1982,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                     zurueckInsHauptmenue();
                 }
             } catch (ParseException | ApplicationException | NullPointerException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
                 System.out.println(ex.getMessage());
             }
         }
