@@ -17,8 +17,7 @@ import javax.swing.tree.TreePath;
  *
  * @author Luca
  *
- * 10.12.2014 Terrasi, Erstellung. 
- * 02.01.2015 Terrasi, JTreenavigation erstellt
+ * 10.12.2014 Terrasi, Erstellung. 02.01.2015 Terrasi, JTreenavigation erstellt
  * und Einbindung der Guifactory und der Methoden des Internalframes
  * "StartAdmin".
  */
@@ -225,7 +224,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
 
     private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
         internal.rufeSuche(null);
-         this.factory.setComponent(this);
+        this.factory.setComponent(this);
     }//GEN-LAST:event_jB_SuchenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -233,7 +232,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
     /* 10.12.2014 Terrasi angelegt und Dokumentation*/
     /* 02.01.2015 Terrasi  Überarbeitung der Funktion und Dokumentation*/
     /* 08.01.2015 Terrasi  implementierung von User,Auftrgaskopf,
-    Auftragspositionen und Zahlungskonditionen Masken in die Baumnavigation*/
+     Auftragspositionen und Zahlungskonditionen Masken in die Baumnavigation*/
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode openJtreeNodes, diese methode bekommt einen String
@@ -254,10 +253,10 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.auftragskopfanlegen.setTitle("Auftragskopf anlegen");
-                    
+
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
-                    
+
                     setComponentVisible(this.internal.auftragskopfanlegen);
                     this.internal.auftragskopfanlegen.setStatusAnlegen();
                 }
@@ -268,10 +267,10 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.auftragskopfaendern.setTitle("Auftragskopf ändern Einstieg");
                     this.internal.auftragskopfaendern.zuruecksetzen();
-                    
+
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
-                    
+
                     setComponentVisible(this.internal.auftragskopfaendern);
                     this.internal.auftragskopfanlegen.setStatusAender();
                 }
@@ -282,10 +281,10 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.auftragskopfaendern.setTitle("Auftragskopf anzeigen Einstieg");
                     this.internal.auftragskopfaendern.zuruecksetzen();
-                    
+
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
-                    
+
                     setComponentVisible(this.internal.auftragskopfaendern);
                     this.internal.auftragskopfanlegen.setStatusAnzeigen();
                 }
@@ -296,10 +295,10 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.auftragsspositionaender.setTitle("Auftragsposition ändern Einstieg");
                     this.internal.auftragsspositionaender.zuruecksetzen();
-                    
+
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
-                    
+
                     this.internal.auftragsspositionanzeigen.setStatusAender();
                     setComponentVisible(this.internal.auftragsspositionaender);
                 }
@@ -310,10 +309,10 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.auftragsspositionaender.setTitle("Auftragsposition anzeigen Einstieg");
                     this.internal.auftragsspositionaender.zuruecksetzen();
-                    
+
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
-                    
+
                     this.internal.auftragsspositionanzeigen.setStatusAnzeigen();
                     setComponentVisible(this.internal.auftragsspositionaender);
                 }
@@ -323,10 +322,10 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.artikelanlegen.setTitle("Artikel anlegen");
-                    
+
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
-                    
+
                     setComponentVisible(this.internal.artikelanlegen);
                     this.internal.artikelanlegen.setzeFormularInArtikelAnlegen();
                 }
@@ -337,10 +336,10 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.artikelaendern.setTitle("Artikel ändern Einstieg");
                     this.internal.artikelaendern.zuruecksetzen();
-                    
+
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
-                    
+
                     setComponentVisible(this.internal.artikelaendern);
                     this.internal.artikelanlegen.setzeFormularInArtikelAEndern();
                 }
@@ -351,10 +350,10 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.artikelaendern.setTitle("Artikel anzeigen Einstieg");
                     this.internal.artikelaendern.zuruecksetzen();
-                    
+
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
-                    
+
                     setComponentVisible(this.internal.artikelaendern);
                     this.internal.artikelanlegen.setzeFormularInArtikelAnzeigen();
                 }
@@ -364,10 +363,10 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // entsprechende Maske sichtbar zu machen.Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.geschaeftspartneranlegen.setTitle("Geschäftspartner anlegen");
-                    
+
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
-                    
+
                     setComponentVisible(this.internal.geschaeftspartneranlegen);
                     this.internal.geschaeftspartneranlegen.setzeFormularInGPAnlegen();
                 }
@@ -378,10 +377,10 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // aufzurufendenen Maske ein Titel übergeben.
                     this.internal.geschaeftspartneraendern.setTitle("Geschäftspartner ändern Einstieg");
                     this.internal.geschaeftspartneraendern.zuruecksetzen();
-                    
+
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
-                    
+
                     setComponentVisible(this.internal.geschaeftspartneraendern);
                     this.internal.geschaeftspartneranlegen.setzeFormularInGPAEndern();
                 }
@@ -392,10 +391,10 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // aufzurufendenen Maske ein Titel übergeben.
                     this.internal.geschaeftspartneraendern.setTitle("Geschäftspartner anzeigen Einstieg");
                     this.internal.geschaeftspartneraendern.zuruecksetzen();
-                    
+
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
-                    
+
                     setComponentVisible(this.internal.geschaeftspartneraendern);
                     this.internal.geschaeftspartneranlegen.setzeFormularInGPAnzeigen();
                 }
@@ -405,10 +404,10 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufendenen Maske ein Titel übergeben.
                     this.internal.zahlungskonditionaendern.setTitle("Zahlungskonditionen anlegen");
-                    
+
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
-                    
+
                     setComponentVisible(this.internal.zahlungskonditionanlegen);
                     this.internal.zahlungskonditionanlegen.setzeFormularInZKAnlegen();
                 }
@@ -419,10 +418,10 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // aufzurufendenen Maske ein Titel übergeben.
                     this.internal.zahlungskonditionaendern.setTitle("Zahlungskondition ändern Einstieg");
                     this.internal.zahlungskonditionaendern.zuruecksetzen();
-                    
+
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
-                    
+
                     setComponentVisible(this.internal.zahlungskonditionaendern);
                     this.internal.zahlungskonditionanlegen.setzeFormularInZKAEndern();
                 }
@@ -433,10 +432,10 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // aufzurufendenen Maske ein Titel übergeben.
                     this.internal.zahlungskonditionaendern.setTitle("Zahlungskondition anzeigen Einstieg");
                     this.internal.zahlungskonditionaendern.zuruecksetzen();
-                    
+
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
-                    
+
                     setComponentVisible(this.internal.zahlungskonditionaendern);
                     this.internal.zahlungskonditionanlegen.setzeFormularInZKAnzeigen();
                 }
@@ -446,10 +445,10 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.useranlegen.setTitle("Benutzer anlegen");
-                    
+
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
-                    
+
                     setComponentVisible(this.internal.useranlegen);
                 }
                 // Vergleich des Pfades mit String um "User Ändern" aufzurufen.
@@ -459,10 +458,10 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.useraendern.setTitle("Benutzer ändern Einstieg");
                     this.internal.useraendern.zuruecksetzen();
-                    
+
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
-                    
+
                     setComponentVisible(this.internal.useraendern);
                 }
                 // Vergleich des Pfades mit String um "User Anzeigen" aufzurufen.
@@ -472,10 +471,10 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     // aufzurufednen Maske ein Titel übergeben.
                     this.internal.useraendern.setTitle("Benutzer anzeigen Einstieg");
                     this.internal.useraendern.zuruecksetzen();
-                    
+
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
-                    
+
                     setComponentVisible(this.internal.useraendern);
 
                 }
