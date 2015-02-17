@@ -205,6 +205,71 @@ public class DataAccessObject {
         }
         
     }
+
+    public Artikel erstelleArtikel(String kategorie, String artikeltext, 
+        String bestelltext, double verkaufswert, double einkaufswert,
+        int MwST, int Frei, int Reserviert, int Zulauf, int Verkauft,
+        Artikel Vorgaenger) throws ApplicationException {
+        
+        //Suche die Artikelkategorie anhand des Kategorienamen
+        Artikelkategorie cat = this.gibKategorie(kategorie);
+        
+        if (cat == null) {
+            throw new ApplicationException(FEHLER_TITEL,
+                    "Der Kategoriename existiert nicht!");
+        }
+        
+        Artikel item = new Artikel(cat, artikeltext, bestelltext,
+                verkaufswert, einkaufswert, MwST, Frei, Reserviert,
+                Zulauf, Verkauft, Vorgaenger);
+        //Prüfen, ob das Objekt erstellt wurde
+        if (item == null) {
+            throw new ApplicationException(FEHLER_TITEL,
+                    "Die Werte waren ungültig!");
+        }
+        
+        try {
+            
+            
+            //Objekt persistieren
+            em.persist(item);
+           
+            
+            return item;
+            
+        } catch (RollbackException re) {
+            
+            //Der Commit ist fehlgeschlagen
+            //Dadurch wird implizit ein Rollback ausgeführt
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Commit ist fehlgeschlagen. Transkation wurde "
+                            + "rückgängig gemacht.");
+            
+        } catch (PersistenceException pe){
+            
+            //Es ist ein Fehler beim Persistieren der Daten aufgetreten
+            //Hier muss ein Rollback manuell durchgeführt werdeb
+            em.getTransaction().rollback();
+            
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Fehler beim Persistieren der Daten. Transkation wurde "
+                            + "rückgängig gemacht.");
+            
+        } catch (Throwable th) {
+            
+            //Ein unerwarteter Fehler ist aufgetreten
+            //Wenn eine Transaktion aktiv ist, muss diese rückgängig gemacht
+            //werden
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Ein unerwarteter Fehler ist ausfgetreten.");
+            
+        }
+        
+    }
     
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
@@ -1167,14 +1232,31 @@ public class DataAccessObject {
         //und es entstehen keine Inkonsistenzen
         if (!ergebnis.isEmpty()) {
             
-            //"Lösche" den Artikel
-            artikel.setLKZ(true);
+            if (Verkaufswert != artikel.getVerkaufswert() ||
+                Einkaufswert != artikel.getEinkaufswert() ||
+                MwST != artikel.getMwST()) {
             
-            //Erstelle einen neuen Artikel mit den neuen Werten
-            //Die Artikelbestände werden dabei getrennt betrachtet, sprich der
-            //neue Artikel bekommt nicht die Bestände des alten Artikels
-            this.erstelleArtikel(Kategorie, Artikeltext, Bestelltext, 
-                    Verkaufswert, Einkaufswert, MwST, 0, 0, 0, 0);
+                //"Lösche" den Artikel
+                artikel.setLKZ(true);
+
+                //Erstelle einen neuen Artikel mit den neuen Werten
+                //Die Artikelbestände des alten Artikels werden auf den neuen 
+                //Artikel übertragen und der alte Artikel wird als Vorgänger 
+                //hinzugefügt
+                Artikel neuerArtikel = this.erstelleArtikel(Kategorie, Artikeltext, 
+                        Bestelltext, Verkaufswert, Einkaufswert, MwST, 
+                        artikel.getFrei(), artikel.getReserviert(), 
+                        artikel.getZulauf(), artikel.getVerkauft(), artikel);
+                
+                artikel.setNachfolger(neuerArtikel);
+                
+            } else {
+                
+                artikel.setArtikeltext(Artikeltext);
+                artikel.setBestelltext(Bestelltext);
+                artikel.setKategorie(this.gibKategorie(Kategorie));
+                
+            }
         
         //Wenn der Artikel noch nicht in einer Position vorkommt
         } else {
@@ -1226,7 +1308,7 @@ public class DataAccessObject {
             }
 
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
 
         }
     }
@@ -2255,10 +2337,26 @@ public class DataAccessObject {
     
     public Collection<Artikel> gibAlleArtikel(long Artikelnummer) {
         
-        Query abfrage = em.createQuery("SELECT ST FROM Artikel ST "
-                + "WHERE ST.ArtikelId = :id").setParameter("id", Artikelnummer);
+        ArrayList<Artikel> ergebnis = new ArrayList<>();
         
-        return abfrage.getResultList();
+        Artikel artikel = em.find(Artikel.class, Artikelnummer);
+        
+        ergebnis.add(artikel);
+        
+        Artikel vorgaenger = artikel.getVorgaenger();
+        Artikel nachfolger = artikel.getNachfolger();
+        
+        while (vorgaenger != null) {
+            ergebnis.add(vorgaenger);
+            vorgaenger = vorgaenger.getVorgaenger();
+        }
+        
+        while (nachfolger != null) {
+            ergebnis.add(nachfolger);
+            nachfolger = nachfolger.getNachfolger();
+        }
+        
+        return ergebnis;
     }
     
     /*----------------------------------------------------------*/
