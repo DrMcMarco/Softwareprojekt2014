@@ -808,18 +808,18 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                 break;
             case "Artikelkategorie" : 
                 JOptionPane.showMessageDialog(null, FEHLER_ANZEIGE 
-                        + "Artikelkategorie.", "Fehler", 
-                        JOptionPane.WARNING_MESSAGE);
+                        + "Artikelkategorie.", "Information", 
+                        JOptionPane.INFORMATION_MESSAGE);
                 break;
             case "Status" : 
                 JOptionPane.showMessageDialog(null, FEHLER_ANZEIGE + "Status.", 
-                        "Fehler", JOptionPane.WARNING_MESSAGE);
+                        "Information", JOptionPane.INFORMATION_MESSAGE);
                 break;
             case "Anschrift" : 
                 JOptionPane.showMessageDialog(null, FEHLER_ANZEIGE 
-                        + "Anschrift. Die Bearbeitung erfolgt über "
-                        + "Geschäftspartner.", "Fehler", 
-                        JOptionPane.WARNING_MESSAGE);
+                        + "Anschrift.\nDie Bearbeitung erfolgt über "
+                        + "Geschäftspartner.", "Information", 
+                        JOptionPane.INFORMATION_MESSAGE);
                 break;
         }
     }//GEN-LAST:event_Anzeige_jButtonActionPerformed
