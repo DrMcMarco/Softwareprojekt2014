@@ -1840,7 +1840,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                         zahlungskonditionen_jComboBox.getSelectedItem().toString()));
                 
                 sperrzeit = zahlungskondition.getSperrzeitWunsch();
-                System.out.println("termin " + sperrzeit);
                 calender.setTime(heute);
                 calender.add(Calendar.DAY_OF_MONTH, sperrzeit);
                 
