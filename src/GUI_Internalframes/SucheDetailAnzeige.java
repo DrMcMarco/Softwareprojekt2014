@@ -420,6 +420,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        Anzeige_jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         Anzeige_jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Anzeige_jTable1MouseClicked(evt);
@@ -477,6 +478,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        Positionanzeige_jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(Positionanzeige_jTable2);
 
         javax.swing.GroupLayout position_jPanel1Layout = new javax.swing.GroupLayout(position_jPanel1);
@@ -806,18 +808,18 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                 break;
             case "Artikelkategorie" : 
                 JOptionPane.showMessageDialog(null, FEHLER_ANZEIGE 
-                        + "Artikelkategorie.", "Fehler", 
-                        JOptionPane.WARNING_MESSAGE);
+                        + "Artikelkategorie.", "Information", 
+                        JOptionPane.INFORMATION_MESSAGE);
                 break;
             case "Status" : 
                 JOptionPane.showMessageDialog(null, FEHLER_ANZEIGE + "Status.", 
-                        "Fehler", JOptionPane.WARNING_MESSAGE);
+                        "Information", JOptionPane.INFORMATION_MESSAGE);
                 break;
             case "Anschrift" : 
                 JOptionPane.showMessageDialog(null, FEHLER_ANZEIGE 
-                        + "Anschrift. Die Bearbeitung erfolgt über "
-                        + "Geschäftspartner.", "Fehler", 
-                        JOptionPane.WARNING_MESSAGE);
+                        + "Anschrift.\nDie Bearbeitung erfolgt über "
+                        + "Geschäftspartner.", "Information", 
+                        JOptionPane.INFORMATION_MESSAGE);
                 break;
         }
     }//GEN-LAST:event_Anzeige_jButtonActionPerformed

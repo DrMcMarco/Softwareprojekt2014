@@ -35,7 +35,14 @@ public class Artikel implements Serializable {
     private int Zulauf;
     private int Verkauft;
     private boolean LKZ;
-    private int Version;
+    
+    @OneToOne
+    @JoinColumn(name = "Vorgänger")
+    private Artikel Vorgaenger;
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "Nachfolger")
+    private Artikel Nachfolger;
 
     public Artikel() {
     }
@@ -54,7 +61,27 @@ public class Artikel implements Serializable {
         this.Zulauf = Zulauf;
         this.Verkauft = Verkauft;
         this.LKZ = false;
-        this.Version = 1;
+        this.Vorgaenger = null;
+        this.Nachfolger = null;
+    }
+    
+    public Artikel(Artikelkategorie Kategorie, String Artikeltext, 
+            String Bestelltext, double Verkaufswert, double Einkaufswert, 
+            int MwST, int Frei, int Reserviert, int Zulauf, int Verkauft, 
+            Artikel Vorgaenger) {
+        this.Kategorie = Kategorie;
+        this.Artikeltext = Artikeltext;
+        this.Bestelltext = Bestelltext;
+        this.Verkaufswert = Verkaufswert;
+        this.Einkaufswert = Einkaufswert;
+        this.MwST = MwST;
+        this.Frei = Frei;
+        this.Reserviert = Reserviert;
+        this.Zulauf = Zulauf;
+        this.Verkauft = Verkauft;
+        this.LKZ = false;
+        this.Vorgaenger = Vorgaenger;
+        this.Nachfolger = null;
     }
 
     public long getArtikelID() {
@@ -153,32 +180,22 @@ public class Artikel implements Serializable {
         this.LKZ = LKZ;
     }
 
-    public int getVersion() {
-        return Version;
+    public Artikel getVorgaenger() {
+        return Vorgaenger;
     }
 
-    public void setVersion(int Version) {
-        this.Version = Version;
+    public void setVorgaenger(Artikel Vorgaenger) {
+        this.Vorgaenger = Vorgaenger;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 79 * hash + (int) (this.ArtikelId ^ (this.ArtikelId >>> 32));
-        hash = 79 * hash + Objects.hashCode(this.Kategorie);
-        hash = 79 * hash + Objects.hashCode(this.Artikeltext);
-        hash = 79 * hash + Objects.hashCode(this.Bestelltext);
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this.Verkaufswert) ^ (Double.doubleToLongBits(this.Verkaufswert) >>> 32));
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this.Einkaufswert) ^ (Double.doubleToLongBits(this.Einkaufswert) >>> 32));
-        hash = 79 * hash + this.MwST;
-        hash = 79 * hash + this.Frei;
-        hash = 79 * hash + this.Reserviert;
-        hash = 79 * hash + this.Zulauf;
-        hash = 79 * hash + this.Verkauft;
-        hash = 79 * hash + (this.LKZ ? 1 : 0);
-        hash = 79 * hash + this.Version;
-        return hash;
+    public Artikel getNachfolger() {
+        return Nachfolger;
     }
+
+    public void setNachfolger(Artikel Nachfolger) {
+        this.Nachfolger = Nachfolger;
+    }
+
 
     @Override
     public boolean equals(Object obj) {
@@ -225,11 +242,16 @@ public class Artikel implements Serializable {
         if (this.LKZ != other.LKZ) {
             return false;
         }
-        if (this.Version != other.Version) {
+        if (!Objects.equals(this.Vorgaenger, other.Vorgaenger)) {
+            return false;
+        }
+        if (!Objects.equals(this.Nachfolger, other.Nachfolger)) {
             return false;
         }
         return true;
     }
+    
+    
 
     
 
