@@ -165,12 +165,11 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         });
         Button_jToolBar.add(sucheStarten_jButton);
 
-        jTextField1.setText("Statuszeile");
         jTextField1.setEnabled(false);
 
         Auswahl_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         Auswahl_jLabel.setLabelFor(Auswahl_jComboBox);
-        Auswahl_jLabel.setText("Sucheingabe:");
+        Auswahl_jLabel.setText("Suchkategorie:");
 
         Auswahl_jComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -180,7 +179,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
 
         Suche_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         Suche_jLabel.setLabelFor(suchfeld_jTextField);
-        Suche_jLabel.setText("Suche :");
+        Suche_jLabel.setText("Sucheingabe:");
 
         aufsteigend_jRadioButton.setText("Auftsteigend");
         aufsteigend_jRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -242,7 +241,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addGap(28, 28, 28)
+                .addGap(36, 36, 36)
                 .addComponent(jScrollPane1)
                 .addContainerGap())
         );

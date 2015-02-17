@@ -420,6 +420,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        Anzeige_jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         Anzeige_jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Anzeige_jTable1MouseClicked(evt);
@@ -477,6 +478,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        Positionanzeige_jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(Positionanzeige_jTable2);
 
         javax.swing.GroupLayout position_jPanel1Layout = new javax.swing.GroupLayout(position_jPanel1);
