@@ -282,10 +282,10 @@ public class GeschaeftspartnerAEndernEinstieg extends javax.swing.JInternalFrame
             this.setVisible(false);
             zuruecksetzen();
 //            entsprechende Fehlermeldungen werden in der Statuszeile angezeigt
-        } catch (ParseException ex) {
+        } catch (ParseException e) {
             System.out.println("Fehler beim Parsen in der Klasse ArtikelAnlegen!");
             this.hauptFenster.setStatusMeldung(KEINE_GPNR_EINGEGEBEN);
-        } catch (ApplicationException ex) {
+        } catch (ApplicationException e) {
             this.hauptFenster.setStatusMeldung(KEINE_GP_IN_DATENBANK);
             zuruecksetzen();
         } catch (NullPointerException e) {

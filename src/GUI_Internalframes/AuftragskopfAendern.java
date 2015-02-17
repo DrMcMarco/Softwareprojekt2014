@@ -284,10 +284,10 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
                     }
                 } else {
                     this.auftragskopfAnlegen.zuruecksetzen();
-                    this.auftragskopfAnlegen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
 
                     this.auftragskopfAnlegen.
                             setzeEingabe(aKopf);
+                    this.auftragskopfAnlegen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
 
                     zuruecksetzen();//Methode die bestimmte Eingabefelder leert
                     this.setVisible(false);

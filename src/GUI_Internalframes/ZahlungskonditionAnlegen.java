@@ -917,9 +917,10 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                     }
                 }
 //          Fehler abfangen    
-            } catch (ParseException | ApplicationException | NullPointerException ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
-                System.out.println(ex.getMessage());
+            } catch (ApplicationException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
+            } catch (ParseException | NullPointerException e) {
+                System.out.println(e.getMessage());
             }
 //          das Formular wird zurueckgesetzt  
         } else {
@@ -1021,8 +1022,10 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                         }
                     }
 //          Fehler abfangen    
-                } catch (ParseException | ApplicationException | NullPointerException ex) {
-                    System.out.println(ex.getMessage());
+                } catch (ApplicationException e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
+                } catch (ParseException | NullPointerException e) {
+                    System.out.println(e.getMessage());
                 }
 //          das Formular wird zurueckgesetzt  
             } else {
@@ -1106,9 +1109,10 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
 //                jB_ZurueckActionPerformed(evt);
                 zurueckInsHauptmenue();
             }
-        } catch (ParseException | ApplicationException | NullPointerException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
-            System.out.println(ex.getMessage());
+        } catch (ApplicationException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
+        }catch (ParseException | NullPointerException e) {
+            System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_jB_LoeschenActionPerformed
     /**

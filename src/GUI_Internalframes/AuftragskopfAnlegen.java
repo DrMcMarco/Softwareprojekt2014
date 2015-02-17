@@ -909,7 +909,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                         neuerWert = (GUIFactory.getDAO().gibArtikel(artikelid)).getVerkaufswert();
 
                         auftragspositionen.get(i).setEinzelwert(neuerWert);
-
+                        
+                        artikel.put(artikelid, auftragspositionen.get(i).getMenge());
+                        
                         summenWertFuerPos = auftragspositionen.get(i).getEinzelwert()
                                 * artikel.get(artikelid);
 
@@ -1568,7 +1570,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                     //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
                     letzteComponent = this.factory.zurueckButton();
                     this.setVisible(false);// Internalframe wird nicht mehr dargestellt
+                    
+                    
                     letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
+                    
                 }
 
             }
@@ -2113,9 +2118,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             this.auftragskopfID_jTextField.setText(String.valueOf(auftragskopf.getAuftragskopfID()));
             this.auftragswert_jTextField.setText(String.valueOf(auftragskopf.getWert()));
 
+                System.out.println(auftragsart_jComboBox.getItemCount());
             if (auftragsart_jComboBox.getItemAt(0).toString().equals(auftragskopf.getTyp())) {
-                zahlungskonditionen_jComboBox.addItem("Bitte wählen");
                 auftragsart_jComboBox.setSelectedIndex(0);
+                zahlungskonditionen_jComboBox.addItem("Bitte wählen");
             }
             if (auftragsart_jComboBox.getItemAt(1).toString().equals(auftragskopf.getTyp())) {
                 auftragsart_jComboBox.setSelectedIndex(1);
@@ -2141,7 +2147,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             } else if (auftragskopf.getStatus().getStatus().equals("freigegeben")) {
                 freigegeben_jRadioButton.setSelected(true);
 
-                erfasst_jRadioButton.setEnabled(false);
+                erfasst_jRadioButton.setEnabled(true);
                 auftragsposition_jTable.setEnabled(true);
                 NeuePosition_jButton.setEnabled(true);
                 positionLoeschen_jButton.setEnabled(true);
@@ -2166,7 +2172,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             artikel.clear();
 
             dtm.setRowCount(0);
-            System.out.println(auftragspositionen.size());
             for (int i = 0; i < auftragspositionen.size(); i++) {
 
                 artikel.put(auftragspositionen.get(i).getArtikel().getArtikelID(),
@@ -2217,9 +2222,104 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             dbAbschlussdatum = gibDatumAlsString(kopf.getAbschlussdatum());
         } catch (ApplicationException e) {
             this.hauptFenster.setStatusMeldung(e.getMessage());
-        }
+        } 
     }
 
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /*----------------------------------------------------------*/
+    public void setzeEingabeFuerSuche(Auftragskopf auftragskopf) {
+        try {
+
+            if (auftragsart_jComboBox.getItemAt(0).toString().equals(auftragskopf.getTyp())) {
+                auftragsart_jComboBox.setSelectedIndex(0);
+                zahlungskonditionen_jComboBox.addItem("Bitte wählen");
+            }
+            if (auftragsart_jComboBox.getItemAt(1).toString().equals(auftragskopf.getTyp())) {
+                auftragsart_jComboBox.setSelectedIndex(1);
+            }
+            if (auftragsart_jComboBox.getItemAt(2).toString().equals(auftragskopf.getTyp())) {
+                auftragsart_jComboBox.setSelectedIndex(2);
+            }
+            if (auftragsart_jComboBox.getItemAt(3).toString().equals(auftragskopf.getTyp())) {
+                auftragsart_jComboBox.setSelectedIndex(3);
+            }
+            this.auftragstext_jTextArea.setText(auftragskopf.getAuftragstext());
+
+            auftragspositionen = auftragskopf.getPositionsliste();
+
+            this.geschaeftspartner_jTextField.setText(String.valueOf(auftragskopf.getGeschaeftspartner().getGeschaeftspartnerID()));
+            
+            this.auftragskopfID_jTextField.setText(String.valueOf(auftragskopf.getAuftragskopfID()));
+            
+            this.auftragswert_jTextField.setText(String.valueOf(auftragskopf.getWert()));
+            
+            this.erfassungsdatum_jFormattedTextField.
+                    setText(String.valueOf(gibDatumAlsString(auftragskopf.getErfassungsdatum())));
+            this.lieferdatum_jFormattedTextField.
+                    setText(String.valueOf(gibDatumAlsString(auftragskopf.getLieferdatum())));
+            this.abschlussdatum_jFormattedTextField.
+                    setText(String.valueOf(gibDatumAlsString(auftragskopf.getAbschlussdatum())));
+
+            //Hasmap bekommt positionen
+            artikel.clear();
+
+            dtm.setRowCount(0);
+            for (int i = 0; i < auftragspositionen.size(); i++) {
+
+                artikel.put(auftragspositionen.get(i).getArtikel().getArtikelID(),
+                        auftragspositionen.get(i).getMenge());
+
+                summenWertFuerPos = auftragspositionen.get(i).getEinzelwert();
+
+                Object[] neuesObj = new Object[]{i + 1,
+                    auftragspositionen.get(i).getArtikel().getArtikelID(),
+                    auftragspositionen.get(i).getMenge(), summenWertFuerPos,
+                    gibDatumAlsString(abschlussdatum)};
+
+                gesamtAuftragswert += summenWertFuerPos;
+
+                dtm.addRow(neuesObj);
+
+            }
+
+            auftragsposition_jTable.setModel(dtm);
+
+            auftragswert_jTextField.setText(String.valueOf(gesamtAuftragswert));
+            gesamtAuftragswert = 0.00;
+            summenWertFuerPos = 0.00;
+
+            // Erzeugung eines Objektes mit den Werten die in der DB
+            // hinterlegt sind
+            kopf = GUIFactory.getDAO().
+                    gibAuftragskopf(Long.parseLong(auftragskopfID_jTextField.getText()));
+
+            dbAuftragspositionen = GUIFactory.getDAO().gibAuftragspositionen(kopf.getAuftragskopfID());
+            dbGeschaeftspartnerID
+                    = String.valueOf(kopf.getGeschaeftspartner().getGeschaeftspartnerID());
+
+            dbAuftragsart = kopf.getTyp();
+
+            dbAuftragstext = kopf.getAuftragstext();
+
+            if (kopf.getZahlungskondition() == null) {
+                dbZahlungskondition = "0";
+            } else {
+
+                dbZahlungskondition
+                        = String.valueOf(kopf.getZahlungskondition().getZahlungskonditionID());
+            }
+
+            dbStatus = kopf.getStatus().getStatus();
+            dbLieferdatum = gibDatumAlsString(kopf.getLieferdatum());
+            dbAbschlussdatum = gibDatumAlsString(kopf.getAbschlussdatum());
+        } catch (ApplicationException e) {
+            this.hauptFenster.setStatusMeldung(e.getMessage());
+        } 
+    }
+    
     private String gibDatumAlsString(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);

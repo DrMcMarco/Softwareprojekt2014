@@ -421,7 +421,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Artikel anlegen");
-        setPreferredSize(new java.awt.Dimension(800, 560));
+        setPreferredSize(new java.awt.Dimension(800, 575));
         setRequestFocusEnabled(false);
         setVisible(true);
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
@@ -861,8 +861,9 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
 
                     }
 //          Fehler abfangen
-                } catch (ApplicationException | ParseException | NullPointerException e) {
+                } catch (ApplicationException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
+                } catch (ParseException | NullPointerException e) {
                     System.out.println("Fehler in Sicht Artikel anlegen Methode Speichern " + e.getMessage());
                 }
             } else {
@@ -1113,7 +1114,9 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                             }
                         }
 //          Fehler abfangen
-                    } catch (ApplicationException | ParseException | NullPointerException e) {
+                    } catch (ApplicationException e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
+                    } catch (ParseException | NullPointerException e) {
                         System.out.println("Fehler in Sicht Artikel anlegen Methode jB_ZurueckAktionPerformed() " + e.getMessage());
                     }
                 } else {
@@ -1195,9 +1198,10 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
 //                    jB_ZurueckActionPerformed(evt);
                         zurueckInsHauptmenue();
                     }
-                } catch (ParseException | ApplicationException ex) {
-                    JOptionPane.showMessageDialog(null, ex.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
-                    System.out.println(ex.getMessage());
+                } catch (ApplicationException e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
+                } catch (ParseException e) {
+                    System.out.println(e.getMessage());
                 }
             }
         }

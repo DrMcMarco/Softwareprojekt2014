@@ -2654,7 +2654,7 @@ public class DataAccessObject {
         
         List<Zahlungskondition> ergebnis = em.createQuery("SELECT ST FROM "
                         + "Zahlungskondition ST WHERE ST.Auftragsart LIKE '" 
-                        + Auftragsart + "' AND ST.LKZ = true").getResultList();
+                        + Auftragsart + "' AND ST.LKZ = false").getResultList();
         
         if (ergebnis.isEmpty()) {
             throw new ApplicationException("Fehler", 

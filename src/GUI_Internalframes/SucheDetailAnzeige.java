@@ -729,9 +729,11 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                 akListe = new ArrayList<>((Collection<? 
                                 extends Auftragskopf>) this.ergebnisDaten);
                 //Setze die Daten in die Eingabefelder der Maske
+                this.hauptFenster.gibAuftragskopfanlegenFenster().setStatusAnzeigen();
                 this.hauptFenster.gibAuftragskopfanlegenFenster()
-                        .setzeEingabe(akListe.get(
-                                this.Anzeige_jTable1.getSelectedRow()));
+                        .setzeEingabeFuerSuche(akListe.get(
+                                this.Anzeige_jTable1.getSelectedRow()));              
+                
                 //Mach das Fenster sichtbar
                 this.hauptFenster.gibAuftragskopfanlegenFenster()
                         .setVisible(true);
