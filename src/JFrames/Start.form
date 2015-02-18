@@ -97,6 +97,9 @@
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="jMI_ArtikelAnlegen">
                   <Properties>
+                    <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                      <KeyStroke key="Shift+Alt+A"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Anlegen"/>
                   </Properties>
                   <Events>
@@ -105,6 +108,9 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMI_ArtikelAEndern">
                   <Properties>
+                    <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                      <KeyStroke key="Shift+Alt+S"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="&#xc4;ndern"/>
                   </Properties>
                   <Events>
@@ -113,6 +119,9 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMI_ArtikelAnzeigen">
                   <Properties>
+                    <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                      <KeyStroke key="Shift+Alt+D"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Anzeigen"/>
                   </Properties>
                   <Events>
@@ -129,6 +138,9 @@
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="jMI_GPAnlegen">
                   <Properties>
+                    <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                      <KeyStroke key="Shift+Alt+G"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Anlegen"/>
                   </Properties>
                   <Events>
@@ -137,6 +149,9 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMI_GPAEndern">
                   <Properties>
+                    <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                      <KeyStroke key="Shift+Alt+H"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="&#xc4;ndern"/>
                   </Properties>
                   <Events>
@@ -145,6 +160,9 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMI_GPAnzeigen">
                   <Properties>
+                    <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                      <KeyStroke key="Shift+Alt+J"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Anzeigen"/>
                   </Properties>
                   <Events>
@@ -162,7 +180,7 @@
                 <MenuItem class="javax.swing.JMenuItem" name="jMI_ZKAnlegen">
                   <Properties>
                     <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                      <KeyStroke key="Ctrl+Z"/>
+                      <KeyStroke key="Shift+Alt+Z"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Anlegen"/>
                   </Properties>
@@ -172,6 +190,9 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMI_ZKAEndern">
                   <Properties>
+                    <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                      <KeyStroke key="Shift+Alt+U"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="&#xc4;ndern"/>
                   </Properties>
                   <Events>
@@ -180,6 +201,9 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMI_ZKAnzeigen">
                   <Properties>
+                    <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                      <KeyStroke key="Shift+Alt+I"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Anzeigen"/>
                   </Properties>
                   <Events>

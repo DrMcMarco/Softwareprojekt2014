@@ -278,6 +278,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         jM_ArtikelVerwalten.setText("Artikel Verwalten");
         jM_ArtikelVerwalten.setActionCommand("JMenu1");
 
+        jMI_ArtikelAnlegen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMI_ArtikelAnlegen.setText("Anlegen");
         jMI_ArtikelAnlegen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -286,6 +287,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         });
         jM_ArtikelVerwalten.add(jMI_ArtikelAnlegen);
 
+        jMI_ArtikelAEndern.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMI_ArtikelAEndern.setText("Ändern");
         jMI_ArtikelAEndern.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -294,6 +296,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         });
         jM_ArtikelVerwalten.add(jMI_ArtikelAEndern);
 
+        jMI_ArtikelAnzeigen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMI_ArtikelAnzeigen.setText("Anzeigen");
         jMI_ArtikelAnzeigen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -307,6 +310,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         jM_GPVerwalten.setText("Geschäftspartner Verwalten");
         jM_GPVerwalten.setActionCommand("JMenu1");
 
+        jMI_GPAnlegen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMI_GPAnlegen.setText("Anlegen");
         jMI_GPAnlegen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -315,6 +319,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         });
         jM_GPVerwalten.add(jMI_GPAnlegen);
 
+        jMI_GPAEndern.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMI_GPAEndern.setText("Ändern");
         jMI_GPAEndern.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -323,6 +328,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         });
         jM_GPVerwalten.add(jMI_GPAEndern);
 
+        jMI_GPAnzeigen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_J, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMI_GPAnzeigen.setText("Anzeigen");
         jMI_GPAnzeigen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -336,7 +342,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         jM_ZKVerwalten.setText("Zahlungskonditionen Verwalten");
         jM_ZKVerwalten.setActionCommand("JMenu1");
 
-        jMI_ZKAnlegen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
+        jMI_ZKAnlegen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMI_ZKAnlegen.setText("Anlegen");
         jMI_ZKAnlegen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -345,6 +351,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         });
         jM_ZKVerwalten.add(jMI_ZKAnlegen);
 
+        jMI_ZKAEndern.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMI_ZKAEndern.setText("Ändern");
         jMI_ZKAEndern.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -353,6 +360,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         });
         jM_ZKVerwalten.add(jMI_ZKAEndern);
 
+        jMI_ZKAnzeigen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMI_ZKAnzeigen.setText("Anzeigen");
         jMI_ZKAnzeigen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
