@@ -88,14 +88,18 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
             + " die Daten überspeichern?";
     final String AENDERUNGVONDATEN__TITEL = "Änderung von Daten";
     final String ERFOLGREICHGEAENDERT_TEXT = "Die Position  wurde erfolgreich geändert.";
+    
     final String KEINEAENDERUNG_TEXT = "Es sind keine Änderungen vorgenommen worden.";
     final String KEINEAENDERUNG_TITEL = "Auftragsposition existiert bereits.";
+    
+    final String ERFOLGREICHGELOESCHT_TITEL = "Auftragsposition löschen";
     final String ERFOLGREICHGELOESCHT_TEXT = "Auftragsposition wurde erfolgreich "
             + "gelöscht";
-    final String ERFOLGREICHGELOESCHT_TITEL = "Auftragsposition löschen";
+    
     final String DATENVERWERFEN_TITEL = "Daten verwerfen";
     final String DATENVERWERFEN_TEXT = "Es wurden Daten eingegeben. Wollen Sie"
-            + "diese Verwerfen ?";
+            + " diese Verwerfen ?";
+    
     final String KEINEEINGABE_TEXT = "Es wurde keine Eingabe getätigt. Bitte geben"
             + "\n Sie die notwendige Eingabe ein.";
 

@@ -1332,7 +1332,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     private void geschaeftspartner_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_geschaeftspartner_jTextFieldFocusLost
         
         try {
-            if (geschaeftspartner_jTextField.getText().isEmpty()) {
+            if (!geschaeftspartner_jTextField.getText().isEmpty()) {
                 
                 GUIFactory.getDAO().gibGeschaeftspartner(
                         Long.valueOf(geschaeftspartner_jTextField.getText()));
