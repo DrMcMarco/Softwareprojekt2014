@@ -8,6 +8,7 @@ import JFrames.*;
 import java.awt.Component;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import javax.swing.JTextField;
 
 /**
  * Klasse fuer die Maske Artikel aendern/anzeigen Einstieg je nachdem von
@@ -314,6 +315,10 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
      */
     public void zuruecksetzen() {
         jTF_Artikel_ID.setText("");
+    }
+    
+    public JTextField gibjTF_Artikel_ID() {
+        return jTF_Artikel_ID;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_Anzeigen;

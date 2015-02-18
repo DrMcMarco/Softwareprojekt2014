@@ -222,7 +222,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
 
         jM_Auftragskopf.setText("Auftragskopf");
 
-        jMI_AuftragskopfAnlegen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMI_AuftragskopfAnlegen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMI_AuftragskopfAnlegen.setText("Anlegen");
         jMI_AuftragskopfAnlegen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -231,7 +231,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         });
         jM_Auftragskopf.add(jMI_AuftragskopfAnlegen);
 
-        jMI_AuftragkopfAEndern.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMI_AuftragkopfAEndern.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMI_AuftragkopfAEndern.setText("Ändern");
         jMI_AuftragkopfAEndern.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -240,7 +240,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         });
         jM_Auftragskopf.add(jMI_AuftragkopfAEndern);
 
-        jMI_AuftragskopfAnzeigen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMI_AuftragskopfAnzeigen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMI_AuftragskopfAnzeigen.setText("Anzeigen");
         jMI_AuftragskopfAnzeigen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -253,7 +253,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
 
         jM_Auftragspos.setText("Auftragsposition");
 
-        jMI_AuftragsposAEndern.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMI_AuftragsposAEndern.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMI_AuftragsposAEndern.setText("Ändern");
         jMI_AuftragsposAEndern.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -262,7 +262,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         });
         jM_Auftragspos.add(jMI_AuftragsposAEndern);
 
-        jMI_AuftragsposAnzeigen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMI_AuftragsposAnzeigen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMI_AuftragsposAnzeigen.setText("Anzeigen");
         jMI_AuftragsposAnzeigen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -686,6 +686,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         artikelanlegen.setzeFormularInArtikelAEndern();
         setCenterJIF(artikelaendern);
         setComponent(artikelaendern);
+        artikelaendern.gibjTF_Artikel_ID().requestFocusInWindow();
     }//GEN-LAST:event_jMI_ArtikelAEndernActionPerformed
 
     /*----------------------------------------------------------*/

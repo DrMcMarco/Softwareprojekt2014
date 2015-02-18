@@ -25,7 +25,7 @@
                     <MenuItem class="javax.swing.JMenuItem" name="jMI_AuftragskopfAnlegen">
                       <Properties>
                         <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                          <KeyStroke key="Ctrl+Alt+A"/>
+                          <KeyStroke key="Shift+Ctrl+A"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="Anlegen"/>
                       </Properties>
@@ -36,7 +36,7 @@
                     <MenuItem class="javax.swing.JMenuItem" name="jMI_AuftragkopfAEndern">
                       <Properties>
                         <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                          <KeyStroke key="Ctrl+Alt+S"/>
+                          <KeyStroke key="Shift+Ctrl+S"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="&#xc4;ndern"/>
                       </Properties>
@@ -47,7 +47,7 @@
                     <MenuItem class="javax.swing.JMenuItem" name="jMI_AuftragskopfAnzeigen">
                       <Properties>
                         <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                          <KeyStroke key="Ctrl+Alt+D"/>
+                          <KeyStroke key="Shift+Ctrl+D"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="Anzeigen"/>
                       </Properties>
@@ -65,7 +65,7 @@
                     <MenuItem class="javax.swing.JMenuItem" name="jMI_AuftragsposAEndern">
                       <Properties>
                         <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                          <KeyStroke key="Ctrl+Alt+W"/>
+                          <KeyStroke key="Shift+Ctrl+P"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="&#xc4;ndern"/>
                       </Properties>
@@ -76,7 +76,7 @@
                     <MenuItem class="javax.swing.JMenuItem" name="jMI_AuftragsposAnzeigen">
                       <Properties>
                         <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                          <KeyStroke key="Ctrl+Alt+E"/>
+                          <KeyStroke key="Shift+Ctrl+O"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="Anzeigen"/>
                       </Properties>
