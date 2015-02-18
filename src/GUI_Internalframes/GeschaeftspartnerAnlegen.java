@@ -538,7 +538,6 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         jToolBar1.setEnabled(false);
 
         jB_Zurueck.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/home.PNG"))); // NOI18N
-        jB_Zurueck.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jB_Zurueck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_ZurueckActionPerformed(evt);
@@ -872,18 +871,15 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jLabel7)))
+                        .addGap(33, 33, 33)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(33, 33, 33)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTF_Name)
-                                    .addComponent(jCB_Anrede, 0, 136, Short.MAX_VALUE)
-                                    .addComponent(jTF_GeschaeftspartnerID)
-                                    .addComponent(jTF_Telefon)
-                                    .addComponent(jFTF_Geburtsdatum, javax.swing.GroupLayout.Alignment.TRAILING)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(33, 33, 33)
-                                .addComponent(jTF_EMail, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jTF_Name)
+                                .addComponent(jCB_Anrede, 0, 136, Short.MAX_VALUE)
+                                .addComponent(jTF_GeschaeftspartnerID)
+                                .addComponent(jTF_Telefon)
+                                .addComponent(jFTF_Geburtsdatum, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(jTF_EMail, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(38, 38, 38)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)

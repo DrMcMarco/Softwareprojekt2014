@@ -93,21 +93,16 @@
                               <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
+                      <EmptySpace min="33" pref="33" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jTF_Name" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jCB_Anrede" alignment="0" pref="136" max="32767" attributes="0"/>
-                                  <Component id="jTF_GeschaeftspartnerID" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jTF_Telefon" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jFTF_Geburtsdatum" alignment="1" max="32767" attributes="0"/>
-                              </Group>
+                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jTF_Name" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jCB_Anrede" alignment="0" pref="136" max="32767" attributes="0"/>
+                              <Component id="jTF_GeschaeftspartnerID" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTF_Telefon" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jFTF_Geburtsdatum" alignment="1" max="32767" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                              <Component id="jTF_EMail" min="-2" pref="136" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jTF_EMail" alignment="0" min="-2" pref="136" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -265,11 +260,6 @@
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/GUI_Internalframes/home.PNG"/>
-            </Property>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                <EmptyBorder/>
-              </Border>
             </Property>
           </Properties>
           <Events>
