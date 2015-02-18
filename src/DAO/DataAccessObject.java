@@ -2597,7 +2597,8 @@ public class DataAccessObject {
         Query query = this.em.createQuery
                  ("SELECT ST "
                 + "FROM Auftragsposition ST "
-                + "WHERE ST.Auftrag = :auftrag AND ST.Positionsnummer = :position");
+                + "WHERE ST.Auftrag = :auftrag AND ST.Positionsnummer = :position "
+                + "AND ST.LKZ = false");
         query.setParameter("auftrag", ak);
         query.setParameter("position", Positionsnummer);
         
