@@ -1910,6 +1910,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                                     this.hauptFenster.setStatusMeldung(STATUSZEILE);
                                     this.setVisible(false); // diese Sicht ausblenden 
                                     zurueckInsHauptmenue();
+                                } else if (antwort == JOptionPane.CLOSED_OPTION) {
+//                                  das x wird geklickt, es soll nichts passieren
                                 } else {
                                     this.setVisible(false); // diese Sicht ausblenden 
                                     zurueckInsHauptmenue();

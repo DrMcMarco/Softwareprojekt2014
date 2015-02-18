@@ -1119,6 +1119,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
 //                                zuruecksetzen(); // Formular zuruecksetzen
                                     this.setVisible(false); // diese Sicht ausblenden 
                                     zurueckInsHauptmenue();
+                                } else if (antwort == JOptionPane.CLOSED_OPTION) {
+//                                  das x wird geklickt, es soll nichts passieren  
                                 } else {
 //                                zuruecksetzen(); // Formular zuruecksetzen
                                     this.setVisible(false); // diese Sicht ausblenden 

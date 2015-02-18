@@ -995,6 +995,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                             zuruecksetzen(); // Formular zuruecksetzen
                             this.setVisible(false); // diese Sicht ausblenden 
                             zurueckInsHauptmenue();
+                        } else if (antwort == JOptionPane.CLOSED_OPTION) {
+//                                  das x wird geklickt, es soll nichts passieren
                         } else {
                             this.setVisible(false); // diese Sicht ausblenden 
                             zurueckInsHauptmenue();
@@ -1090,7 +1092,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
             }
         } catch (ApplicationException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
-        }catch (ParseException | NullPointerException e) {
+        } catch (ParseException | NullPointerException e) {
             System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_jB_LoeschenActionPerformed
