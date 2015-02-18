@@ -41,11 +41,11 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
      */
     private Component c;
     /**
-     * Varibale für die GUI Factory
+     * Varibale für die GUI Factory.
      */
     private GUIFactory factory;
     /**
-     * Variable für die DAO
+     * Variable für die DAO.
      */
     private DataAccessObject dao;
     /**
@@ -55,70 +55,72 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
      */
     private InterfaceMainView hauptFenster;
     /**
-     * Varibale fue die Artikelnummer
+     * Varibale fue die Artikelnummer.
      */
     private int artikelnummer;
     /**
-     * Arraylist, um fehlerhafte Componenten zu speichern
+     * Arraylist, um fehlerhafte Componenten zu speichern.
      */
     private ArrayList<Component> fehlerhafteComponenten;
     /**
-     * Collection, um die aus der Datenbank geladenen Kategorien zu speichern
+     * Collection, um die aus der Datenbank geladenen Kategorien zu speichern.
      */
     private Collection<Artikelkategorie> kategorienAusDatenbank;
     /**
-     * ArrayList, um die Namen der aus der Datenbank geladenen Kategorien zu
+     * ArrayList, um die Namen der aus der Datenbank geladenen Kategorien zu.
      * speichern, diese werden der Combobox uebergeben
      */
     private ArrayList<String> kategorienFuerCombobox;
     /**
-     * Varible, die die Standard Farbe eine Combobox beinhaltet
+     * Varible, die die Standard Farbe eine Combobox beinhaltet.
      */
     private final Color JCB_FARBE_STANDARD = new Color(214, 217, 223);
     /**
-     * Variable, die die Standard Farbe eines Textfieldes beinhaltet
+     * Variable, die die Standard Farbe eines Textfieldes beinhaltet.
      */
     private final Color JTF_FARBE_STANDARD = new Color(255, 255, 255);
     /**
-     * Varibale, die die Farbe fuer fehlerhafte Componenten beinhaltet
+     * Varibale, die die Farbe fuer fehlerhafte Componenten beinhaltet.
      */
     private final Color FARBE_FEHLERHAFT = Color.YELLOW;
     /**
-     * Regulaerer Ausdruck fuer die Pruefung der Eingabe fuer den Preis
+     * Regulaerer Ausdruck fuer die Pruefung der Eingabe fuer den Preis.
      */
     private final String PREUFUNG_PREIS = "|(\\d*,?\\d{1,2})|(\\d{0,3}(\\.\\d{3})*,?\\d{1,2})";
     /**
      * Varibalen fuer die Meldungen
      */
-    private final String TITEL_PFLICHTFELDER_AUSFUELLEN = "Felder nicht ausgefüllt";
-    private final String MELDUNG_PFLICHTFELDER_AUSFUELLEN = "Einige Felder wurden nicht ausgefüllt! Bitte füllen Sie diese aus!";
+    private final String TITEL_PFLICHTFELDER_AUSFUELLEN = "Pflichtfelder nicht "
+            + "ausgefüllt";
+    private final String MELDUNG_PFLICHTFELDER_AUSFUELLEN = "Einige Pflichtfelder wurden nicht ausgefüllt.\nBitte füllen Sie diese aus!";
     private final String MELDUNG_EINZELWERT_FALSCH = "Der eingegebene Preis ist nicht richtig!\nBitte geben Sie einen richtigen Preis ein. (z.B. 9,99 oder 99.999,99)";
     private final String TITEL_FEHLERHAFTE_EINGABE = "Fehlerhafte Eingabe";
     private final String MELDUNG_AENDERUNGEN_SPEICHERN = "Möchten Sie die Änderungen speichern?";
     private final String FEHLER = "Fehler";
     /**
-     * Variable, um die Statusmeldungen ausgeben zu koennen
+     * Variable, um die Statusmeldungen ausgeben zu koennen.
      */
     private String statuszeile;
     /**
-     * Varibale, die die maximale Anzahl von fehlerhaften Componenten beinhaltet
+     * Varibale, die die maximale Anzahl von fehlerhaften Componenten
+     * beinhaltet.
      */
     private final int maxAnzahlFehlerhafterComponenten = 6;
     /**
      * Number Formatter wird benoetigt fuer das Parsen der Eingaben, sowie das
-     * Anzeigen von Preisen
+     * Anzeigen von Preisen.
      */
     private NumberFormat nf;
 
     /**
-     * Variablen für den Titel der jeweilige Maske
+     * Variablen für den Titel der jeweilige Maske.
      */
     private final String ARTIKEL_ANLEGEN = "Artikel anlegen";
     private final String ARTIKEL_AENDERN = "Artikel ändern";
     private final String ARTIKEL_ANZEIGEN = "Artikel anzeigen";
     /**
      * Variable, um zu pruefen, ob alle Eingaben, wenn welche gemacht wurden, ok
-     * sind
+     * sind.
      */
     private boolean formularOK = true;
 
@@ -149,14 +151,15 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         jTF_Bestandsmenge_FREI.setDocument(new UniversalDocument("0123456789", false));
     }
 
-    /**
-     * Diese Methode laedt aus der Datenbank die Kategorien eines Artikels.
-     * Diese werden anschließend der Combobox der Kategorien uebergeben.
-     */
+
     /*
      * Historie:
      * 10.12.2014   Sen     angelegt
      * 15.12.2014   Sen     ueberarbeitet
+     */
+    /**
+     * Diese Methode laedt aus der Datenbank die Kategorien eines Artikels.
+     * Diese werden anschließend der Combobox der Kategorien uebergeben.
      */
     private void ladeKategorienAusDatenbank() {
         try {
@@ -337,8 +340,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
      */
     private void beendenEingabeNachfrage() {
 //        varibablen fuer Titel und Text der erzeugten Meldung
-        String meldung = "Möchten Sie die Eingaben verwerfen? Klicken Sie auf JA, wenn Sie die Eingaben verwerfen möchten.";
-        String titel = "Achtung Eingaben gehen verloren!";
+        String meldung = "Möchten Sie die Eingaben verwerfen?";
+        String titel = "Eingaben verwerfen";
 //        Falls Titel des Fensters Artikel anlegen oder Artikel aendern ist wird eine Nachfrage gemacht  
         if (this.getTitle().equals(ARTIKEL_ANLEGEN)) {
 //            zunaechst wird ueberprueft, ob alle Eingaben getaetigt wurden
@@ -416,12 +419,13 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         jLabel22 = new javax.swing.JLabel();
         jSP_Artikelbeschreibung = new javax.swing.JScrollPane();
         jTA_Artikelbeschreibung = new javax.swing.JTextArea();
+        jLabel12 = new javax.swing.JLabel();
 
         jTextField4.setText("jTextField4");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Artikel anlegen");
-        setPreferredSize(new java.awt.Dimension(800, 575));
+        setPreferredSize(new java.awt.Dimension(800, 590));
         setRequestFocusEnabled(false);
         setVisible(true);
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
@@ -490,18 +494,21 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         jTB_Menueleiste.add(jB_Suchen);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel1.setText("Artikelname:");
+        jLabel1.setText("Artikelname*:");
 
         jTF_Artikelnummer.setText("1");
         jTF_Artikelnummer.setEnabled(false);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel2.setText("Artikelbeschreibung:");
+        jLabel2.setText("Artikelbeschreibung*:");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel3.setText("Einzelwert:");
+        jLabel3.setText("Einzelwert*:");
 
         jTF_Einzelwert.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTF_EinzelwertFocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTF_EinzelwertFocusLost(evt);
             }
@@ -518,19 +525,22 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel5.setText("Kategorie:");
+        jLabel5.setText("Kategorie*:");
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel6.setText("Bestellwert:");
+        jLabel6.setText("Bestellwert*:");
 
         jTF_Bestellwert.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTF_BestellwertFocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTF_BestellwertFocusLost(evt);
             }
         });
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel7.setText("MwST Satz:");
+        jLabel7.setText("MwST Satz*:");
 
         jCB_MwST.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Bitte auswählen", "0", "7", "19" }));
         jCB_MwST.addActionListener(new java.awt.event.ActionListener() {
@@ -543,6 +553,9 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         jLabel8.setText("Artikel-ID:");
 
         jTF_Artikelname.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTF_ArtikelnameFocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTF_ArtikelnameFocusLost(evt);
             }
@@ -607,6 +620,9 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         });
         jSP_Artikelbeschreibung.setViewportView(jTA_Artikelbeschreibung);
 
+        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
+        jLabel12.setText("*Pflichtfelder");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -616,24 +632,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
             .addGroup(layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(57, 57, 57)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jTF_Artikelname, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTF_Artikelnummer, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(jSP_Artikelbeschreibung, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(221, 221, 221)
-                        .addComponent(jTF_Bestandsmenge_ZULAUF, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel20))
+                    .addComponent(jLabel12)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -662,16 +661,22 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                         .addGap(209, 209, 209)
                         .addComponent(jLabel15))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(333, 333, 333)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jLabel18)
-                                .addGap(28, 28, 28)
-                                .addComponent(jTF_Bestandsmenge_VERKAUFT, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel21))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel1))
+                                .addGap(52, 52, 52)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jTF_Artikelname, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTF_Artikelnummer, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)
+                                .addComponent(jSP_Artikelbeschreibung, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(38, 38, 38)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel16)
                                     .addComponent(jLabel4))
@@ -684,8 +689,20 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jTF_Bestandsmenge_FREI, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel10)))))))
-                .addContainerGap(44, Short.MAX_VALUE))
+                                        .addComponent(jLabel10))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel18)
+                                .addGap(28, 28, 28)
+                                .addComponent(jTF_Bestandsmenge_VERKAUFT, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel21))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel17)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTF_Bestandsmenge_ZULAUF, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel20)))))
+                .addGap(43, 43, 43))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -718,40 +735,44 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jSP_Artikelbeschreibung, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jSP_Artikelbeschreibung, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCB_Kategorie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel14)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel11)
+                            .addComponent(jTF_Einzelwert, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jTF_Bestellwert, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(jCB_MwST, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel22)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel17)
-                            .addComponent(jTF_Bestandsmenge_ZULAUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel20))
+                            .addComponent(jLabel20)
+                            .addComponent(jTF_Bestandsmenge_ZULAUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel18)
                             .addComponent(jTF_Bestandsmenge_VERKAUFT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel21))))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCB_Kategorie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel14)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel11)
-                    .addComponent(jTF_Einzelwert, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jTF_Bestellwert, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jCB_MwST, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel22))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel12)
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -1233,6 +1254,45 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         }
     }//GEN-LAST:event_jB_AnzeigenAEndernActionPerformed
     /**
+     * Methode, die dafuer sorgt, dass der vorhandene Text beim Eintritt des
+     * Focuses selektiert wird.
+     *
+     * @param evt Event der ausgeloest wird
+     */
+    /*
+     * Historie:
+     * 16.01.2015   Sen     angelegt
+     */
+    private void jTF_ArtikelnameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_ArtikelnameFocusGained
+        jTF_Artikelname.selectAll();
+    }//GEN-LAST:event_jTF_ArtikelnameFocusGained
+    /**
+     * Methode, die dafuer sorgt, dass der vorhandene Text beim Eintritt des
+     * Focuses selektiert wird.
+     *
+     * @param evt Event der ausgeloest wird
+     */
+    /*
+     * Historie:
+     * 16.01.2015   Sen     angelegt
+     */
+    private void jTF_EinzelwertFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_EinzelwertFocusGained
+        jTF_Einzelwert.selectAll();
+    }//GEN-LAST:event_jTF_EinzelwertFocusGained
+    /**
+     * Methode, die dafuer sorgt, dass der vorhandene Text beim Eintritt des
+     * Focuses selektiert wird.
+     *
+     * @param evt Event der ausgeloest wird
+     */
+    /*
+     * Historie:
+     * 16.01.2015   Sen     angelegt
+     */
+    private void jTF_BestellwertFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_BestellwertFocusGained
+        jTF_Bestellwert.selectAll();
+    }//GEN-LAST:event_jTF_BestellwertFocusGained
+    /**
      * getter Methode fuer die Sicht Artikel aendern Einstieg
      *
      * @return textfield der Artikelnummer
@@ -1310,14 +1370,14 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         return jTF_Bestellwert;
     }
 
-    /**
-     * getter Methode fuer die Sicht Artikel aendern Einstieg
-     *
-     * @return combobox der MwSt
-     */
     /*
      * Historie:
      * 10.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht Artikel aendern Einstieg.
+     *
+     * @return combobox der MwSt
      */
     public JComboBox gibjCB_MwST() {
         return jCB_MwST;
@@ -1375,12 +1435,12 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         return jTF_Bestandsmenge_VERKAUFT;
     }
 
-    /**
-     * Methode, die das Formular in die Sicht Artikel anlegen aendert
-     */
     /*
      * Historie:
      * 10.01.2015   Sen     angelegt
+     */
+    /**
+     * Methode, die das Formular in die Sicht Artikel anlegen aendert.
      */
     public void setzeFormularInArtikelAnlegen() {
         zuruecksetzen();
@@ -1397,8 +1457,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         jB_AnzeigenAEndern.setEnabled(false);
         jB_AnzeigenAEndern.setText("Anzeigen/Ändern");
         jB_Loeschen.setEnabled(false);
-
-        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
+//      Übergibt der Referenz des Hauptfensters das Internaframe
+        this.hauptFenster.setComponent(this);
     }
 
     /**
@@ -1529,6 +1589,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
