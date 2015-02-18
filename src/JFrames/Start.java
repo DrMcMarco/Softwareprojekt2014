@@ -32,6 +32,7 @@ import javax.swing.Timer;
  * Navigationsfünktion 
  * 06.01.2015 Terrasi, Statuszeile implementiert
  * 08.01.2015 Terrasi Anwendungslogik überarbeitet und alle Komponenten
+ * 18.02.2015 Sen Tastenkuerzel hinzugefuegt
  * zusammengefügt.
  */
  
