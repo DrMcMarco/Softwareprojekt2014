@@ -1,6 +1,7 @@
 package GUI_Internalframes;
 
 import DAO.ApplicationException;
+import DTO.Benutzer;
 import java.awt.Component;
 import java.util.ArrayList;
 import Interfaces.*;
@@ -46,14 +47,16 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     final String ERFOLGREICHEANMELDUNG = "Der Benutzer wurde erfolgreich angelegt.";
     final String ERFOLGREICHAENDERNDERBENUTZERDATEN = "Die Benutzerdaten wurden erfolgreich geändert.";
     final String ERFOLGREICHBENUTZERGELOESCHT = "Der Benutzer wurde erfolgreich gelöscht";
-    final String AENDERUNGVONDATEN_TEXT = "Es wurden Daten geändert. Wollen sie wirklich"
+    final String AENDERUNGVONDATEN_TEXT = "Es wurden Daten geändert. Wollen Sie wirklich"
             + "die Daten überspeichern?";
     final String AENDERUNGVONDATEN_TITEL = "Änderung von Daten";
     final String KEINEAENDERUNGEN_Titel = "Benutzer bereits angelegt";
     final String KEINEAENDERUNGEN_TEXT = "Der Benutzerdaten existieren bereits.";
     final String DATENVERWERFEN_TITEL = "Daten verwerfen";
-    final String DATENVERWERFEN_TEXT = "Es wurden Daten eingegeben. Wollen Sie"
+    final String DATENVERWERFEN_TEXT = "Es wurden Daten eingegeben. Wollen Sie "
             + "diese Verwerfen ?";
+    final String BENUTZERLOESCHEN_TITEL = "Benutzer löschen";
+    final String BENUTZERLOESCHEN_TEXT = "Wollen sie den Benutzer wirklich löschen?";
     /*
      Spiechervariablen für die Eingabefelder
      */
@@ -101,11 +104,12 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     @Override
     public void zuruecksetzen() {
         //Eingabefelder erhalten einen leeren String
-        benutzername_jTextField.setText("");
+//        benutzername_jTextField.setText("");
         passwort_jTextField.setText("");
         admin_jCheckBox.setSelected(false);
         benutzername_jTextField.setBackground(hintergrundfarbe);
         passwort_jTextField.setBackground(hintergrundfarbe);
+        gespeichert = false;
     }
 
     /*----------------------------------------------------------*/
@@ -194,7 +198,6 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     public void setStatusAnzeigen() {
         this.setTitle("Benutzer anzeigen");
         zuruecksetzen();
-        this.benutzername_jTextField.setText("");
         this.benutzername_jTextField.setEnabled(false);
         this.passwort_jTextField.setEnabled(false);
         this.admin_jCheckBox.setEnabled(true);
@@ -204,6 +207,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         jB_Loeschen.setEnabled(false);
         jB_Suchen.setEnabled(false);
         this.hauptFenster.setComponent(this);
+        gespeichert = true;
     }
     /*----------------------------------------------------------*/
     /* Datum Name Was */
@@ -215,18 +219,29 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
      * dargestellt wird, sondern als Fenster in dem man Daten ändern kann.
      */
     public void setStatusAender() {
+        Benutzer benutzer;
+        try{
+            
         this.setTitle("Benutzer ändern");
         zuruecksetzen();
-        this.benutzername_jTextField.setText("");
         this.benutzername_jTextField.setEnabled(false);
         this.passwort_jTextField.setEnabled(true);
+        benutzer = GUIFactory.getDAO().gibBenutzer(benutzername_jTextField.getText());
+        if (benutzer.isIstAdmin()) {
+            this.setCheckBoxSelected(true);// Ceckbox wird selektiert.
+        } else {
+            this.setCheckBoxSelected(false);//Checkbox wird nicht selektiert.
+        }
         this.admin_jCheckBox.setEnabled(true);
         jB_Anzeigen.setText("Anzeigen");
-        jB_Anzeigen.setEnabled(true);
+        jB_Anzeigen.setEnabled(false);
         jB_Speichern.setEnabled(true);
         jB_Loeschen.setEnabled(true);
         jB_Suchen.setEnabled(false);
         this.hauptFenster.setComponent(this);
+        }catch(ApplicationException e){
+            this.hauptFenster.setStatusMeldung(e.getMessage());
+        }
     }
 
     /*----------------------------------------------------------*/
@@ -534,9 +549,17 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
                 this.setVisible(false);// Internalframe wird nicht mehr dargestellt
                 letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
             }
+        } else if (this.getTitle().equals("Benutzer anzeigen")) {
+            zuruecksetzen();// Eingabefelder werden zurückgesetzt.
+            benutzername_jTextField.setText("");
+            letzteComponent = null;   //Initialisierung der Componentspeichervariable
+            //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
+            letzteComponent = this.factory.zurueckButton();
+            this.setVisible(false);// Internalframe wird nicht mehr dargestellt
+            letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
         } else {
             if (!(passwort_jTextField.getText().equals("")
-                    && gespeichert == true)) {
+                    && gespeichert == false)) {
                 int antwort = JOptionPane.showConfirmDialog(rootPane, DATENVERWERFEN_TEXT,
                         DATENVERWERFEN_TITEL, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
@@ -573,6 +596,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
             this.setStatusAnzeigen();
         } else {
             this.setStatusAender();
+
         }
     }//GEN-LAST:event_jB_AnzeigenActionPerformed
 
@@ -607,9 +631,15 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     private void jB_LoeschenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_LoeschenActionPerformed
         benutzerame = benutzername_jTextField.getText();// Erhält den Benutzername aus dem Eingabefeld.
         try {//TryBlock
-            GUIFactory.getDAO().loescheBenutzer(benutzerame);// Methodenaufruf zum lschen des Benutzers aus der DB.
-            this.hauptFenster.setStatusMeldung(ERFOLGREICHBENUTZERGELOESCHT);//Ausgabe einer Meldung.
-            this.benutzername_jTextField.setText("");// Eingabefeld ist leer nachdem man den User gelöscht hat.
+            int antwort = JOptionPane.showConfirmDialog(rootPane, BENUTZERLOESCHEN_TEXT,
+                    BENUTZERLOESCHEN_TITEL, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            //Falls bejaht wird der Auftragskopf verändert gespeichert.
+            if (antwort == JOptionPane.YES_OPTION) {
+
+                GUIFactory.getDAO().loescheBenutzer(benutzerame);// Methodenaufruf zum lschen des Benutzers aus der DB.
+                this.hauptFenster.setStatusMeldung(ERFOLGREICHBENUTZERGELOESCHT);//Ausgabe einer Meldung.
+                this.benutzername_jTextField.setText("");// Eingabefeld ist leer nachdem man den User gelöscht hat.
+            }
         } catch (ApplicationException e) {// Fehlerbehandlung.
             this.hauptFenster.setStatusMeldung(e.getMessage());//Ausgabe einer Meldung.
         }

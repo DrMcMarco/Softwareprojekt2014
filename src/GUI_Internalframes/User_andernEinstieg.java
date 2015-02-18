@@ -120,11 +120,6 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
         BenutzerID_jLabel.setText("Benutzer-ID :");
         BenutzerID_jLabel.setToolTipText("");
 
-        BenutzerID_jTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BenutzerID_jTextFieldActionPerformed(evt);
-            }
-        });
         BenutzerID_jTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 BenutzerID_jTextFieldKeyPressed(evt);
@@ -150,8 +145,8 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BenutzerID_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(Weiter_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(Weiter_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(82, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,7 +159,7 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
                     .addComponent(BenutzerID_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BenutzerID_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Weiter_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(244, Short.MAX_VALUE))
+                .addContainerGap(144, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -190,10 +185,6 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
     private void Weiter_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Weiter_jButtonActionPerformed
 
         Benutzer benutzer;// Anlegen eines Bentzers
-        
-        // Überprüft anhand des Framestitels, ob es das nächste Fenster
-        // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
-//        if (fehleingabefelder.isEmpty()) {
             try {
                 //Initialisierung eines Benutzers.
                 benutzer = GUIFactory.getDAO().gibBenutzer(BenutzerID_jTextField.getText());
@@ -215,8 +206,13 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
                     } else {
                         this.userAnlegen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
                         this.userAnlegen.setBenutzername(benutzer.getBenutzername());// Benutzername aus der DB wird im Eingabefeld angezeigt.
-                        this.userAnlegen.setCheckBoxSelected(false);//Checkbox wird nicht selektiert.
+                        if(benutzer.isIstAdmin()){
+                            this.userAnlegen.setCheckBoxSelected(true);// Ceckbox wird selektiert.
+                        }else{
+                            this.userAnlegen.setCheckBoxSelected(false);//Checkbox wird nicht selektiert.
+                        }
                         this.userAnlegen.setZustand(false);// Checkbox wird auf Enable false gesetzt.
+                        this.userAnlegen.setCheckBoxSelected(false);//Checkbox wird nicht selektiert.
                         zuruecksetzen();//Methode die bestimmte Eingabefelder leert
                         this.setVisible(false);
                         this.hauptFenster.setFrame(this.userAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
@@ -240,10 +236,6 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
             Weiter_jButtonActionPerformed(null);
         }
     }//GEN-LAST:event_BenutzerID_jTextFieldKeyPressed
-
-    private void BenutzerID_jTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BenutzerID_jTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BenutzerID_jTextFieldActionPerformed
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
