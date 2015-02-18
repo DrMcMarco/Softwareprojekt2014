@@ -252,7 +252,6 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
      */
     private void auftragskopfID_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_auftragskopfID_jTextFieldFocusGained
         auftragskopfID_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
-        auftragskopfID_jTextField.setText("");//Übergabe eines leeren Strings an das Eingabefeld
         auftragskopfID_jTextField.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_auftragskopfID_jTextFieldFocusGained
 
@@ -263,7 +262,6 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
      */
     private void AuftragspositionID_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_AuftragspositionID_jTextFieldFocusGained
         AuftragspositionID_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
-        AuftragspositionID_jTextField.setText("");//Übergabe eines leeren Strings an das Eingabefeld
         AuftragspositionID_jTextField.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_AuftragspositionID_jTextFieldFocusGained
 

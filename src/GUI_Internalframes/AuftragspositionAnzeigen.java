@@ -79,13 +79,13 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      */
     final String FEHLERMELDUNG_TITEL = "Fehlerhafte Eingabe";
     ;
-    final String FEHLERMELDUNG_UNGUELTIGESDATUM
-            = "Üngültigesdatum. Bitte geben Sie eine gültiges Datum ein. (z.B 01.01.2016)";
+//    final String FEHLERMELDUNG_UNGUELTIGESDATUM
+//            = "Üngültigesdatum. Bitte geben Sie eine gültiges Datum ein. (z.B 01.01.2016)";
 
     String FEHLERMELDUNGMENGE_TEXT = "\"Die eingegebene Menge ist nicht gültig! "
             + "\\n Bitte geben Sie eine Menge ein. (z.B. 0 bis 999999999)\"";
-    final String AENDERUNGVONDATEN_TEXT = "Es wurden Daten geändert. Wollen sie wirklich"
-            + "die Daten überspeichern?";
+    final String AENDERUNGVONDATEN_TEXT = "Es wurden Daten geändert. Wollen Sie wirklich"
+            + " die Daten überspeichern?";
     final String AENDERUNGVONDATEN__TITEL = "Änderung von Daten";
     final String ERFOLGREICHGEAENDERT_TEXT = "Die Position  wurde erfolgreich geändert.";
     final String KEINEAENDERUNG_TEXT = "Es sind keine Änderungen vorgenommen worden.";
@@ -96,6 +96,8 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     final String DATENVERWERFEN_TITEL = "Daten verwerfen";
     final String DATENVERWERFEN_TEXT = "Es wurden Daten eingegeben. Wollen Sie"
             + "diese Verwerfen ?";
+    final String KEINEEINGABE_TEXT = "Es wurde keine Eingabe getätigt. Bitte geben"
+            + "\n Sie die notwendige Eingabe ein.";
 
     /**
      * Creates new form AuftragspositionAnlegen
@@ -454,7 +456,15 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
 
             } catch (ApplicationException e) {
                 this.hauptFenster.setStatusMeldung(e.getMessage());
+            } catch ( NumberFormatException e){
+                JOptionPane.showMessageDialog(null, KEINEEINGABE_TEXT,
+                            FEHLERMELDUNG_TITEL, JOptionPane.ERROR_MESSAGE);
+                
+                menge_jTextField.requestFocusInWindow();
+                
+                    
             }
+                
         }
         //Variable wird wieder auf true gesetzt, da nochmals eine Pruefung stattfindet 
         formularOK = true;
@@ -631,6 +641,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         jB_Speichern.setEnabled(true);
         jB_Loeschen.setEnabled(true);
         jB_Anzeigen.setEnabled(false);
+        jB_Suchen.setEnabled(false);
         this.hauptFenster.setComponent(this);
     }
 
@@ -652,6 +663,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         jB_Anzeigen.setEnabled(true);
         jB_Speichern.setEnabled(false);
         jB_Loeschen.setEnabled(false);
+        jB_Suchen.setEnabled(false);
         this.hauptFenster.setComponent(this);
     }
 
