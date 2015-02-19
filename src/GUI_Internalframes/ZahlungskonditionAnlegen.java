@@ -1083,14 +1083,15 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
             long zknr = nf.parse(jTF_ZahlungskonditionID.getText()).longValue();
             int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (antwort == JOptionPane.YES_OPTION) {
+                this.dao.loescheZahlungskondition(zknr);
 //              Meldung fuer die Statuszeile wird angepasst
                 statuszeile = "Zahlungskondition mit der Zahlungskonditon-ID " + zknr + " wurde erfolgreich gelöscht. ";
                 this.hauptFenster.setStatusMeldung(statuszeile);
-                this.dao.loescheZahlungskondition(zknr);
 //                jB_ZurueckActionPerformed(evt);
                 zurueckInsHauptmenue();
             }
         } catch (ApplicationException e) {
+//          Es ist ein Fehler aufgetretetn, dieser wird ausgegeben  
             JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
         } catch (ParseException | NullPointerException e) {
             System.out.println(e.getMessage());

@@ -1997,14 +1997,15 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                 long gpnr = nf.parse(jTF_GeschaeftspartnerID.getText()).longValue();
                 int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (antwort == JOptionPane.YES_OPTION) {
+                    this.dao.loescheGeschaeftspartner(gpnr);
 //              Meldung fuer die Statuszeile wird angepasst
                     STATUSZEILE = "Geschäftspartner mit der Geschäftspartner-ID " + gpnr + " wurde erfolgreich gelöscht. ";
                     this.hauptFenster.setStatusMeldung(STATUSZEILE);
-                    this.dao.loescheGeschaeftspartner(gpnr);
 //                jB_ZurueckActionPerformed(evt);
                     zurueckInsHauptmenue();
                 }
             } catch (ApplicationException e) {
+//              Ein Fehler ist aufgetreten, dieser wird ausgegeben  
                 JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
             } catch (ParseException | NullPointerException e) {
                 System.out.println(e.getMessage());

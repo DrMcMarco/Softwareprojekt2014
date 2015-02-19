@@ -1206,14 +1206,15 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                     long artikelnr = nf.parse(jTF_Artikelnummer.getText()).longValue();
                     int antwort = JOptionPane.showConfirmDialog(null, text, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (antwort == JOptionPane.YES_OPTION) {
-//                      Meldung fuer die Statuszeile wird angepasst
-                        statuszeile = "Artikel mit der Artikel-ID" + artikelnr + " wurde erfolgreich gelöscht. ";
-                        this.hauptFenster.setStatusMeldung(statuszeile);
                         this.dao.loescheArtikel(artikelnr);
+//                      Meldung fuer die Statuszeile wird angepasst
+                        statuszeile = "Artikel mit der Artikel-ID " + artikelnr + " wurde erfolgreich gelöscht. ";
+                        this.hauptFenster.setStatusMeldung(statuszeile);
 //                    jB_ZurueckActionPerformed(evt);
                         zurueckInsHauptmenue();
                     }
                 } catch (ApplicationException e) {
+//                  Ein Fehler ist aufgereten, dieser wird ausgegeben  
                     JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
                 } catch (ParseException e) {
                     System.out.println(e.getMessage());
