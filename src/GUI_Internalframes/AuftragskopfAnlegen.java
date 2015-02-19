@@ -159,7 +159,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 //            + "\n Bitte geben Sie eine gültige Positionsnummer ein. (z.B. 1 oder 999999999)";
     final String FEHLERMELDUNGGESCHAEFTSPARTNERID_TEXT = "Keine Gültige Geschäftspartner-ID. \n"
             + " Bitte geben sie eine gültige Geschäftspartner-ID ein.";
-    
+
     final String FEHLERMELDUNGKEINEPOSITIONGEWAEHLT = " Bitte eine Position wählen.";
     final String FEHLERMELDUNGKEINEMATERIALNUMMER = "Bitte eine Materialnummer eingeben.";
 
@@ -919,12 +919,18 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                         auftragsart_jComboBox.setSelectedIndex(0);
                         auftragsart_jComboBoxActionPerformed(evt);
                     } else {
+                        lieferdatum = berechnetesLieferdatum;
+                        abschlussdatum = berechnetesLieferdatum;
+
                         lieferdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
                         abschlussdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
                         lieferdatum_jFormattedTextField.setEnabled(false);
                     }
 
                 } else {
+
+                    lieferdatum = berechnetesLieferdatum;
+                    abschlussdatum = berechnetesLieferdatum;
 
                     lieferdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
                     abschlussdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
@@ -951,11 +957,17 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                         lieferdatum_jFormattedTextField.requestFocusInWindow();
                         lieferdatum_jFormattedTextField.selectAll();
                     } else {
+                        lieferdatum = berechnetesLieferdatum;
+                        abschlussdatum = berechnetesLieferdatum;
+
                         lieferdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
                         abschlussdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
                         lieferdatum_jFormattedTextField.setEnabled(true);
                     }
                 } else {
+
+                    lieferdatum = berechnetesLieferdatum;
+                    abschlussdatum = berechnetesLieferdatum;
 
                     lieferdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
                     abschlussdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
@@ -964,6 +976,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 
             } else if (auftragsart_jComboBox.getSelectedItem().toString().
                     equals(BESTELLAUFTRAG)) {
+
+                lieferdatum = heute;
+                abschlussdatum = heute;
 
                 lieferdatum_jFormattedTextField.setEnabled(true);
                 lieferdatum_jFormattedTextField.setText(format.format(heute));
@@ -1768,8 +1783,14 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                     // Aufruf der Löschmethode der DAO.
                     GUIFactory.getDAO().loescheAuftrag(Long.parseLong(auftragskopfID_jTextField.getText()));
                     this.hauptFenster.setStatusMeldung(ERFOLGREICHESLOESCHEN);// Meldung wird an Statuszeile übergeben.
-                    zuruecksetzen();// Felder werden zurückgesetzt.
-                    jB_ZurueckActionPerformed(evt);
+
+                    zuruecksetzen();// Eingabefelder werden zurückgesetzt.
+                    letzteComponent = null;   //Initialisierung der Componentspeichervariable
+                    //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
+                    letzteComponent = this.factory.zurueckButton();
+                    this.setVisible(false);// Internalframe wird nicht mehr dargestellt
+
+                    letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
 
                 }
             } catch (ApplicationException | NullPointerException e) { // Abfanagen von Fehlern.
@@ -1863,6 +1884,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 
                 berechnetesLieferdatum = calender.getTime();
 
+                lieferdatum = berechnetesLieferdatum;
+                abschlussdatum = berechnetesLieferdatum;
+
                 lieferdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
                 abschlussdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
                 lieferdatum_jFormattedTextField.setEnabled(true);
@@ -1877,10 +1901,15 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 
                 berechnetesLieferdatum = calender.getTime();
 
+                lieferdatum = berechnetesLieferdatum;
+                abschlussdatum = berechnetesLieferdatum;
+
                 lieferdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
                 abschlussdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
                 lieferdatum_jFormattedTextField.setEnabled(false);
             } else {
+                lieferdatum = heute;
+                abschlussdatum = heute;
                 lieferdatum_jFormattedTextField.setText(format.format(heute));
                 abschlussdatum_jFormattedTextField.setText(format.format(heute));
                 lieferdatum_jFormattedTextField.setEnabled(true);
@@ -2067,14 +2096,16 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         this.auftragsart_jComboBox.setEnabled(false);
 
         if (this.auftragsart_jComboBox.getSelectedIndex() == 0) {
-            this.zahlungskonditionen_jComboBox.addItem("Bitte wählen");
+            this.lieferdatum_jFormattedTextField.setEnabled(false);
             this.zahlungskonditionen_jComboBox.setEnabled(false);
+        } else if (this.auftragsart_jComboBox.getSelectedIndex() == 1) {
+            this.lieferdatum_jFormattedTextField.setEnabled(false);
+            this.zahlungskonditionen_jComboBox.setEnabled(true);
         } else {
             this.zahlungskonditionen_jComboBox.setEnabled(true);
         }
         this.auftragstext_jTextArea.setEnabled(true);
         this.erfassungsdatum_jFormattedTextField.setEnabled(false);
-        this.lieferdatum_jFormattedTextField.setEnabled(true);
         this.abschlussdatum_jFormattedTextField.setEnabled(true);
         this.erfasst_jRadioButton.setEnabled(true);
         this.freigegeben_jRadioButton.setEnabled(true);
@@ -2305,19 +2336,49 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             this.auftragskopfID_jTextField.setText(String.valueOf(auftragskopf.getAuftragskopfID()));
             this.auftragswert_jTextField.setText(String.valueOf(auftragskopf.getWert()));
 
-            System.out.println(auftragsart_jComboBox.getItemCount());
             if (auftragsart_jComboBox.getItemAt(0).toString().equals(auftragskopf.getTyp())) {
                 auftragsart_jComboBox.setSelectedIndex(0);
-                zahlungskonditionen_jComboBox.addItem("Bitte wählen");
+                lieferdatum_jFormattedTextField.setEnabled(false);
             }
             if (auftragsart_jComboBox.getItemAt(1).toString().equals(auftragskopf.getTyp())) {
                 auftragsart_jComboBox.setSelectedIndex(1);
+
+                for (int i = 0; i < zahlungskonditionen_jComboBox.getItemCount(); i++) {
+                    if (zahlungskonditionen_jComboBox.getItemAt(i).toString().
+                            equals(String.valueOf(auftragskopf.
+                                            getZahlungskondition().getZahlungskonditionID()))) {
+                        zahlungskonditionen_jComboBox.setSelectedIndex(i);
+                    }
+                }
+
+                lieferdatum_jFormattedTextField.setEnabled(false);
             }
             if (auftragsart_jComboBox.getItemAt(2).toString().equals(auftragskopf.getTyp())) {
                 auftragsart_jComboBox.setSelectedIndex(2);
+
+                for (int i = 0; i < zahlungskonditionen_jComboBox.getItemCount(); i++) {
+                    if (zahlungskonditionen_jComboBox.getItemAt(i).toString().
+                            equals(String.valueOf(auftragskopf.
+                                            getZahlungskondition().getZahlungskonditionID()))) {
+                        zahlungskonditionen_jComboBox.setSelectedIndex(i);
+                    }
+                }
+
+                lieferdatum_jFormattedTextField.setEnabled(true);
             }
             if (auftragsart_jComboBox.getItemAt(3).toString().equals(auftragskopf.getTyp())) {
                 auftragsart_jComboBox.setSelectedIndex(3);
+
+                for (int i = 0; i < zahlungskonditionen_jComboBox.getItemCount(); i++) {
+                    if (zahlungskonditionen_jComboBox.getItemAt(i).toString().
+                            equals(String.valueOf(
+                                            auftragskopf.
+                                            getZahlungskondition().getZahlungskonditionID()))) {
+                        zahlungskonditionen_jComboBox.setSelectedIndex(i);
+                    }
+                }
+
+                lieferdatum_jFormattedTextField.setEnabled(true);
             }
             this.auftragstext_jTextArea.setText(auftragskopf.getAuftragstext());
 

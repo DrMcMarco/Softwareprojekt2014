@@ -450,6 +450,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     this.internal.detailSuche.setVisible(false);
 
                     setComponentVisible(this.internal.useranlegen);
+                    this.internal.useranlegen.setStatusAnlegen();
                 }
                 // Vergleich des Pfades mit String um "User Ändern" aufzurufen.
                 if (node.equals("[Navigation, Benutzer verwalten, Ändern]")) {
