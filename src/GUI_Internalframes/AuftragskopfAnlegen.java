@@ -2387,15 +2387,17 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 erfasst_jRadioButton.setSelected(true);
 
                 freigegeben_jRadioButton.setEnabled(true);
-                abgeschlossen_jRadioButton.setEnabled(true);
+                abgeschlossen_jRadioButton.setEnabled(false);
                 auftragsposition_jTable.setEnabled(true);
                 NeuePosition_jButton.setEnabled(true);
                 positionLoeschen_jButton.setEnabled(true);
 
             } else if (auftragskopf.getStatus().getStatus().equals("freigegeben")) {
                 freigegeben_jRadioButton.setSelected(true);
-
-                erfasst_jRadioButton.setEnabled(true);
+                
+                erfasst_jRadioButton.setEnabled(false);
+                abgeschlossen_jRadioButton.setSelected(true);
+                
                 auftragsposition_jTable.setEnabled(true);
                 NeuePosition_jButton.setEnabled(true);
                 positionLoeschen_jButton.setEnabled(true);
@@ -2404,6 +2406,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 
                 erfasst_jRadioButton.setEnabled(false);
                 freigegeben_jRadioButton.setEnabled(false);
+                
                 auftragsposition_jTable.setEnabled(false);
                 NeuePosition_jButton.setEnabled(false);
                 positionLoeschen_jButton.setEnabled(false);
