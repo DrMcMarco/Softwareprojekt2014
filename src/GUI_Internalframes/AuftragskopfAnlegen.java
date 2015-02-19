@@ -2370,7 +2370,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 Object[] neuesObj = new Object[]{i + 1,
                     auftragspositionen.get(i).getArtikel().getArtikelID(),
                     auftragspositionen.get(i).getMenge(), summenWertFuerPos,
-                    gibDatumAlsString(abschlussdatum)};
+                    gibDatumAlsString(heute)};
 
                 gesamtAuftragswert += summenWertFuerPos;
 
