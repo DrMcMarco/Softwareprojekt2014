@@ -1463,6 +1463,10 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         jB_Loeschen.setEnabled(false);
 //      Übergibt der Referenz des Hauptfensters das Internaframe
         this.hauptFenster.setComponent(this);
+        jTF_Bestandsmenge_FREI.setText("0");
+        jTF_Bestandsmenge_RES.setText("0");
+        jTF_Bestandsmenge_VERKAUFT.setText("0");
+        jTF_Bestandsmenge_ZULAUF.setText("0");
     }
 
     /**
