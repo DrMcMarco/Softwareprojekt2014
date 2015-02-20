@@ -3593,6 +3593,11 @@ public class DataAccessObject {
     /* Datum      Name    Was                                   */
     /* 10.12.14   sch     angelegt                              */
     /*----------------------------------------------------------*/
+    /**
+     * Umsatzkurze für die letzten 6 Monate gesamt.
+     * 
+     * @return Linechart
+     */
     public JFreeChart gibChartUmsatzAuftragswert() {
         //Charts und Datasets.
         JFreeChart lineChart;
@@ -3621,7 +3626,8 @@ public class DataAccessObject {
             cal = Calendar.getInstance();
         }
         //Diagramm erstellen.
-        lineChart = ChartFactory.createLineChart("Umsatzkurve",
+        lineChart = ChartFactory.createLineChart("Umsatzkurve "
+                + "(Letzte 6 Monate)",
                     null, "Umsatz in ", dataset, PlotOrientation.VERTICAL,
                     true, true, true);
         return lineChart;
@@ -3631,6 +3637,10 @@ public class DataAccessObject {
     /* Datum      Name    Was                                   */
     /* 10.12.14   sch     angelegt                              */
     /*----------------------------------------------------------*/
+    /**
+     * Gibt ein Balkendiagramm für Umsatz pro Artikel.
+     * @return BarChart
+     */
     public JFreeChart gibChartArtikelAbsatz() {
         //Charts und Datasets.
         JFreeChart barChart;
@@ -3640,11 +3650,12 @@ public class DataAccessObject {
         dataset = new DefaultCategoryDataset();
         
         
-        
+        //Hole Daten aus DB
         artikelMenge = this.gibUmsatzProArtikel();
-        
+        //Iterator
         Iterator<Map.Entry<String, Double>> i = artikelMenge
                 .entrySet().iterator();
+        //Iteriere über alle Einträge
         while (i.hasNext()) {
             Map.Entry entr = i.next();
             String artikel = (String) entr.getKey();
@@ -3654,7 +3665,7 @@ public class DataAccessObject {
         }
         
         //Diagramm erstellen.
-        barChart = ChartFactory.createStackedBarChart("Artikel Umsatz",
+        barChart = ChartFactory.createStackedBarChart("Umsatz pro Artikel",
                     "Artikel", "Umsatz", dataset, 
                     PlotOrientation.VERTICAL, true, true, true);
         return barChart;
@@ -3664,6 +3675,10 @@ public class DataAccessObject {
     /* Datum      Name    Was                                   */
     /* 10.12.14   sch     angelegt                              */
     /*----------------------------------------------------------*/
+    /**
+     * Gibt ein Kuchendiagramm zur Anzeige von Umsatz Pro Artikelkategorie.
+     * @return PieChar
+     */
     public JFreeChart gibChartArtikelkategorieAbsatz() {
         //Charts und Datasets.
         JFreeChart pieChart;
@@ -3671,20 +3686,23 @@ public class DataAccessObject {
         HashMap<String, Double> artikelMenge = null;
         dataset = new DefaultPieDataset();
 
-        
+        //Hole Daten aus DB
         artikelMenge = this.gibUmsatzProKategorie();
-        
+        //Iterator
         Iterator<Map.Entry<String, Double>> i = artikelMenge
                 .entrySet().iterator();
+        //Iteriere über alle Einträge
         while (i.hasNext()) {
             Map.Entry entr = i.next();
+            //Artikelkat name
             String artikelkat = (String) entr.getKey();
+            //Umsatz
             Double umsatz = (Double) entr.getValue();
             dataset.setValue(artikelkat, umsatz);
         }
         
         //Diagramm erstellen.
-        pieChart = ChartFactory.createPieChart("Artikelkategorie-Umsatz", 
+        pieChart = ChartFactory.createPieChart("Umsatz pro Artikelkategorie", 
                 dataset, true, true, true);
         PiePlot plot = (PiePlot) pieChart.getPlot();
         plot.setLabelGenerator(
@@ -3719,7 +3737,8 @@ public class DataAccessObject {
         }
         
         //Diagramm erstellen.
-        barChart = ChartFactory.createStackedBarChart("Artikel Verkaufsmenge",
+        barChart = ChartFactory.createStackedBarChart("Verkaufsmenge "
+                + "pro Artikel",
                     "Artikel", "Menge", dataset, 
                     PlotOrientation.VERTICAL, true, true, true);
         return barChart;

@@ -44,8 +44,8 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
     /*
      Syntax
      */
-    private static final String auftragskopfID_syntax = "\\d{1,9}?";
-    private static final String auftragspositionsID_syntax = "\\d{1,9}?";
+//    private static final String auftragskopfID_syntax = "\\d{1,9}?";
+//    private static final String auftragspositionsID_syntax = "\\d{1,9}?";
 
     /*
      Variablen für Farben
@@ -56,14 +56,11 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
     /*
      Augabetexte für Meldungen
      */
-    String fehlermeldung_titel = "Fehlerhafte Eingabe";
-    String fehlermeldungAuftragskopfIDtext = "\"Bitte geben sie alle notwendigen"
-            + "Eingaben ein!";
-//    String fehlermeldungAuftragspositionIDtext = "\"Die eingegebene Auftragspositions-ID ist nicht gültig! "
-//            + "\\n Bitte geben Sie eine gültige AuftragspositionID_jTextField ein. (z.B. 1 oder 999999999)\"";
-    String fehlermeldung_unvollständig = "Fehlerhafte Eingabe";
-//    String fehlermeldungVollstaendigkeitAuftragskopf = " Es wurde keine Auftragskopf-Id eingegeben.\n"
-//            + "Bitte geben sie eine Auftragskopf-Id ein.";
+    final String FEHLER = "Fehler";
+    final String fehlermeldung_titel = "Fehlerhafte Eingabe";
+    final String fehlermeldungAuftragskopfIDtext = "\"Bitte geben sie alle notwendigen"
+            + " Eingaben ein!";
+
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
@@ -330,7 +327,9 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
         } catch (NumberFormatException e) {
             this.hauptFenster.setStatusMeldung(fehlermeldungAuftragskopfIDtext);
         } catch (ApplicationException e) {
-            this.hauptFenster.setStatusMeldung(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage(),
+                    FEHLER, JOptionPane.ERROR_MESSAGE);
+//            this.hauptFenster.setStatusMeldung(e.getMessage());
         } catch (NullPointerException e) {
             this.hauptFenster.setStatusMeldung("Fehlende Eingaben!!!");
         }
