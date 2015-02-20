@@ -773,7 +773,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                             .addComponent(jLabel21))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel12)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
