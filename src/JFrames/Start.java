@@ -164,7 +164,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         zahlungskonditionaendern.setVisible(false);
         suche.setVisible(false);
         detailSuche.setVisible(false);
-      
+        
     }
 
     /**
