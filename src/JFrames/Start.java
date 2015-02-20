@@ -2,6 +2,7 @@ package JFrames;
 
 import DAO.DataAccessObject;
 import DAO.Parser;
+import DTO.Artikel;
 import GUI_Internalframes.*;
 import Interfaces.InterfaceMainView;
 import Hauptmenue.Hauptmenue_User;
@@ -10,6 +11,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import javax.persistence.PersistenceException;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
@@ -162,7 +164,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         zahlungskonditionaendern.setVisible(false);
         suche.setVisible(false);
         detailSuche.setVisible(false);
-
+      
     }
 
     /**
