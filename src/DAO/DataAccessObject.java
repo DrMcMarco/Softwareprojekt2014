@@ -42,7 +42,10 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import javax.persistence.*;
 import javax.persistence.metamodel.Attribute;
@@ -2908,30 +2911,25 @@ public class DataAccessObject {
      * Wird für die Statistik benutzt.
      * @return eine Collection aller Aufträge der letzten sechs Monate
      */
-    public Collection<Auftragskopf> gibAlleAuftraege() {
+    public double gibUmsatzProMonat(Date datum) {
+        java.sql.Date datumSql = new java.sql.Date(datum.getTime());
+        double umsatz = 0;
         
-        //Calendar-Objekt holen
-        Calendar cal = Calendar.getInstance();
-        
-        //Datum von vor sechs Monaten berechnet
-        cal.add(Calendar.MONTH, -6);
-        
-        //Datum in ein anderes Format (Tag-Monat-Jahr) konvertieren
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        Date vorSechsMonaten = cal.getTime();
-        String string = dateFormat.format(vorSechsMonaten);
-        vorSechsMonaten = DatumParser.gibDatum(string);
         
         //Selektiere alle Aufträge die letzten sechs Monate, die abgeschlossen 
         //und nicht gelöscht sind
         List<Auftragskopf> ergebnis = 
-                this.em.createQuery("select st from Auftragskopf st "
-                        + "where st.Abschlussdatum >= :datum "
-                        + "AND st.LKZ = false "
-                        + "AND st.Status.Status LIKE 'abgeschlossen'")
-                        .setParameter("datum", vorSechsMonaten).getResultList();
+                this.em.createNativeQuery("select * from Auftragskopf st left join Status on st.Status = Status.Statusid "
+                        + "where st.LKZ = 0  AND st.Auftragsart NOT LIKE 'Bestellauftrag' "
+                        + "AND Status.Status LIKE 'abgeschlossen' "
+                        + "AND MONTH(st.abschlussdatum) = MONTH('" + datumSql + "') "
+                        + "AND YEAR(st.abschlussdatum) = YEAR('" + datumSql + "')", Auftragskopf.class)
+                        .getResultList();
         
-        return ergebnis;
+        for (Auftragskopf auftrag : ergebnis) {
+            umsatz = umsatz + auftrag.getWert();
+        }
+        return umsatz;
     }
     
     /**
@@ -2939,22 +2937,23 @@ public class DataAccessObject {
      * Errechnet anhand der abgeschlossenenen Aufträge
      * @return eine Hashmap(Key: Artikel-Objekt, Value: Umsatz für diesen Artikel)
      */
-    public HashMap<Artikel, Double> gibUmsatzProArtikel() {
+    public HashMap<String, Double> gibUmsatzProArtikel() {
         
         //Hashmap zum Speichern der Artikelumsätze
-        HashMap<Artikel, Double> artikelUmsatz = new HashMap<>();
+        HashMap<String, Double> artikelUmsatz = new HashMap<>();
         
         //Selektiere die Artikel und den kumulierten Einzelwert pro Artikeln von
         //allen Verkaufsaufträgen die abgeschlossen und nicht gelöscht sind
         //Zudem werden nur die zehn größten Umsätze ausgewählt
-        Query abfrage = em.createNativeQuery("select ap.ARTIKEL, sum(ap.EINZELWERT) \n" +
-                            "from ROOT.AUFTRAGSPOSITION as ap, root.AUFTRAGSKOPF as ak, root.STATUS as s\n" +
+        Query abfrage = em.createNativeQuery("select a.ARTIKELTEXT, sum(ap.EINZELWERT) \n" +
+                            "from ROOT.ARTIKEL as a, ROOT.AUFTRAGSPOSITION as ap, root.AUFTRAGSKOPF as ak, root.STATUS as s\n" +
                             "where ap.AUFTRAG = ak.AUFTRAGSKOPFID and\n" +
+                            "      ap.Artikel = a.Artikelid and\n" +
                             "      ak.STATUS = s.STATUSID and\n" +
                             "      s.STATUS like 'abgeschlossen' and\n" +
-                            "      ap.LKZ = 0\n" +
+                            "      ap.LKZ = 0 and\n" +
                             "      ak.Auftragsart not like 'Bestellauftrag'\n"+
-                            "group by ap.ARTIKEL, ap.EINZELWERT\n" +
+                            "group by a.ARTIKELTEXT, ap.EINZELWERT\n" +
                             "fetch next 10 rows only");
         
         //Hole Ergebnisse
@@ -2962,7 +2961,7 @@ public class DataAccessObject {
         
         //Speichere Ergebnisse in einer Hashmap
         for (Object[] ergebnis : ergebnisse) {
-            artikelUmsatz.put((Artikel)ergebnis[0], (double)ergebnis[1]);
+            artikelUmsatz.put(ergebnis[0].toString(), (double)ergebnis[1]);
         }
         
         return artikelUmsatz;
@@ -3566,18 +3565,27 @@ public class DataAccessObject {
         JFreeChart lineChart;
         DefaultCategoryDataset dataset;
         Collection<Auftragskopf> auftraege = null;
-        String monat = "";
         dataset = new DefaultCategoryDataset();
+        double auftragswert = 0;
+        //Datum in ein anderes Format (Tag-Monat-Jahr) konvertieren
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        //Calendar-Objekt holen
+        Calendar cal = Calendar.getInstance();
+        String monat = "";
+        Date vorSechsMonaten = cal.getTime();
         
         
-        
-        auftraege = this.gibAlleAuftraege();
+        for (int i = 6; i >= 1; i--) {
+            //Datum von vor sechs Monaten berechnet
+            cal.add(Calendar.MONTH, -i);
+            vorSechsMonaten = cal.getTime();
+            
+            auftragswert = this.gibUmsatzProMonat(vorSechsMonaten);
 
-        for (Auftragskopf auftrag : auftraege) {
-            monat = new SimpleDateFormat("dd.MM.yyyy").format(
-                    auftrag.getAbschlussdatum());
-            dataset.setValue((double) auftrag.getWert(), 
-                    "Monatlicher Gesamtumsatz", monat);
+            dataset.setValue(auftragswert, 
+                        "Monatlicher Gesamtumsatz", 
+                        dateFormat.format(vorSechsMonaten).split("\\.")[1]);
+            cal = Calendar.getInstance();
         }
         //Diagramm erstellen.
         lineChart = ChartFactory.createLineChart("Umsatzkurve",
@@ -3594,22 +3602,27 @@ public class DataAccessObject {
         //Charts und Datasets.
         JFreeChart barChart;
         DefaultCategoryDataset dataset;
-        ArrayList<Artikel> artikelMenge = null;
+        HashMap<String, Double> artikelMenge = null;
         String name = "";
         dataset = new DefaultCategoryDataset();
         
         
         
-        artikelMenge = null;
-
-        for (Artikel artikel : artikelMenge) {
-            name = artikel.getArtikeltext();
-            dataset.setValue((double) artikel.getVerkauft() * artikel.getVerkaufswert(), 
-                    "Artikel", name);
+        artikelMenge = this.gibUmsatzProArtikel();
+        
+        Iterator<Map.Entry<String, Double>> i = artikelMenge
+                .entrySet().iterator();
+        while (i.hasNext()) {
+            Map.Entry entr = i.next();
+            String artikel = (String) entr.getKey();
+            Double umsatz = (Double) entr.getValue();
+            dataset.setValue(umsatz, 
+                        "Artikel Umsatz", artikel);
         }
+        
         //Diagramm erstellen.
-        barChart = ChartFactory.createStackedBarChart("Kategorieumsatzdiagramm",
-                    "Monate", "Umsatz in â‚¬", dataset, 
+        barChart = ChartFactory.createStackedBarChart("Artikel Umsatz",
+                    "Artikel", "Umsatz", dataset, 
                     PlotOrientation.VERTICAL, true, true, true);
         return barChart;
     }

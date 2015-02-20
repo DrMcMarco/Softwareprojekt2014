@@ -15,6 +15,9 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import Interfaces.InterfaceMainView;
 import Interfaces.InterfaceViewsFunctionality;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import javax.swing.SpinnerNumberModel;
 
 /**
  * GUI Klasse für Zahlungskontion (ZK) verwalten. Diese Klasse beinhaltet alle
@@ -111,8 +114,57 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         this.factory = factory;
         this.dao = GUIFactory.getDAO();
         this.fehlerhafteComponenten = new ArrayList<>();
+//        ((JSpinner.DefaultEditor) jSP_Mahnzeit1.getEditor()).getTextField().addFocusListener(new FocusListener() {
+//
+//            @Override
+//            public void focusGained(FocusEvent e) {
+//            }
+//
+//            @Override
+//            public void focusLost(FocusEvent e) {
+//                jS_Mahnzeit1FocusLost();
+//            }
+//        });
+//        ((JSpinner.DefaultEditor) jSP_Mahnzeit2.getEditor()).getTextField().addFocusListener(new FocusListener() {
+//
+//            @Override
+//            public void focusGained(FocusEvent e) {
+//            }
+//
+//            @Override
+//            public void focusLost(FocusEvent e) {
+//                jS_Mahnzeit2FocusLost();
+//            }
+//        });
     }
 
+//    private void jS_Mahnzeit1FocusLost() {
+//        int mahnzeit1 = ((Number) jSP_Mahnzeit1.getValue()).intValue();
+//        int mahnzeit2 = ((Number) jSP_Mahnzeit2.getValue()).intValue();
+//        int mahnzeit3 = ((Number) jSP_Mahnzeit3.getValue()).intValue();
+//        jSP_Mahnzeit2.setModel(new SpinnerNumberModel(mahnzeit1 + 1, mahnzeit1 + 1, 31, 1));
+//        System.out.println("mahnzeit1");
+////        if (mahnzeit3 <= mahnzeit2) {
+////            System.out.println(mahnzeit2);
+////            JOptionPane.showMessageDialog(null, "Mahnzeit 3 muss größer als Mahnzeit 2 sein!", FEHLER, JOptionPane.ERROR_MESSAGE);
+////            ((JSpinner.DefaultEditor) jSP_Mahnzeit3.getEditor()).getTextField().setText("" + (mahnzeit2 + 1));
+//////            ((JSpinner.DefaultEditor) jSP_Mahnzeit3.getEditor()).getTextField().requestFocusInWindow();
+////        }
+////                jSP_Mahnzeit3.setModel(new SpinnerNumberModel(31, mahnzeit1+1, 31, 1));
+//    }
+//    private void jS_Mahnzeit2FocusLost() {
+//        int mahnzeit1 = ((Number) jSP_Mahnzeit1.getValue()).intValue();
+//        int mahnzeit2 = ((Number) jSP_Mahnzeit2.getValue()).intValue();
+//        int mahnzeit3 = ((Number) jSP_Mahnzeit3.getValue()).intValue();
+//                System.out.println("mahnzeit2");
+////        if (mahnzeit2 <= mahnzeit1) {
+////            System.out.println(mahnzeit2);
+////            JOptionPane.showMessageDialog(null, "Mahnzeit 2 muss größer als Mahnzeit 1 sein!", FEHLER, JOptionPane.ERROR_MESSAGE);
+////            ((JSpinner.DefaultEditor) jSP_Mahnzeit2.getEditor()).getTextField().setText("" + (mahnzeit1 + 1));
+//////            ((JSpinner.DefaultEditor) jSP_Mahnzeit2.getEditor()).getTextField().requestFocusInWindow();
+////        }
+//        jSP_Mahnzeit3.setModel(new SpinnerNumberModel(mahnzeit2 + 1, mahnzeit2 + 1, 31, 1));
+//    }
     /**
      * Methode für die Überprüfung der Daten. Falls ein Textfeld nicht gefüllt
      * ist, wird sie der ArrayList für fehlerhafte Componenten hinzugefuegt.
@@ -352,6 +404,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         jToolBar1.setEnabled(false);
 
         jB_Zurueck.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Home2.PNG"))); // NOI18N
+        jB_Zurueck.setToolTipText("");
         jB_Zurueck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_ZurueckActionPerformed(evt);
@@ -855,66 +908,70 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                 mahnzeit1 = ((Number) jSP_Mahnzeit1.getValue()).intValue();
                 mahnzeit2 = ((Number) jSP_Mahnzeit2.getValue()).intValue();
                 mahnzeit3 = ((Number) jSP_Mahnzeit3.getValue()).intValue();
+                if (mahnzeit3 > mahnzeit2 && mahnzeit2 > mahnzeit1) {
 //                Ueberpruefung in welche Sicht wir sind
-                if (this.getTitle().equals(ZK_ANLEGEN)) {
+                    if (this.getTitle().equals(ZK_ANLEGEN)) {
 //                  Sicht ZK anlegen
 //                  pruefung, ob irgendein Mahn oder skontozeit veraendert wurde, das wuede bedeuten
 //                  dass der benutzer das Aendern der Mahn Skontozeiten nicht vergessen hat
-                    if (lieferzeitSOFORT != 1 || sperrzeitWunsch != 1 || skontozeit1 != 1 || skontozeit2 != 1 || mahnzeit1 != 1 || mahnzeit2 != 1 || mahnzeit3 != 1) {
+                        if (lieferzeitSOFORT != 1 || sperrzeitWunsch != 1 || skontozeit1 != 1 || skontozeit2 != 1 || mahnzeit1 != 1 || mahnzeit2 != 1 || mahnzeit3 != 1) {
 //                veraendern--> neue ZK wird in datenbank geschrieben                        
-                        this.dao.erstelleZahlungskondition(auftragsart, lieferzeitSOFORT,
-                                sperrzeitWunsch, skontozeit1, skontozeit2, skonto1,
-                                skonto2, mahnzeit1, mahnzeit2, mahnzeit3);
-//                      Meldung fuer die Statuszeile wird angepassz
-                        statuszeile = "Zahlungskondition mit der Zahlungskonditon-ID " + zknr + " wurde erfolgreich angelegt. ";
-                        this.hauptFenster.setStatusMeldung(statuszeile);
-                        zuruecksetzen();
-                    } else {
-//                        Kein Skonto und Mahnzeit geaendert, nachfrage ob so gespeichert werden soll
-                        int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                        if (antwort == JOptionPane.YES_OPTION) {
-//                            Antowort ja, also speichern
                             this.dao.erstelleZahlungskondition(auftragsart, lieferzeitSOFORT,
                                     sperrzeitWunsch, skontozeit1, skontozeit2, skonto1,
                                     skonto2, mahnzeit1, mahnzeit2, mahnzeit3);
+//                      Meldung fuer die Statuszeile wird angepassz
+                            statuszeile = "Zahlungskondition mit der Zahlungskonditon-ID " + zknr + " wurde erfolgreich angelegt. ";
+                            this.hauptFenster.setStatusMeldung(statuszeile);
                             zuruecksetzen();
                         } else {
+//                        Kein Skonto und Mahnzeit geaendert, nachfrage ob so gespeichert werden soll
+                            int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                            if (antwort == JOptionPane.YES_OPTION) {
+//                            Antowort ja, also speichern
+                                this.dao.erstelleZahlungskondition(auftragsart, lieferzeitSOFORT,
+                                        sperrzeitWunsch, skontozeit1, skontozeit2, skonto1,
+                                        skonto2, mahnzeit1, mahnzeit2, mahnzeit3);
+                                zuruecksetzen();
+                            } else {
 //                            Antwort nein, ueberarbeiten
-                            fehlerhafteComponenten.clear();
+                                fehlerhafteComponenten.clear();
+                            }
+                        }
+                    } else {
+//                    Sicht ZK aendern: zunaechst ZK aus der Datenbank geladen.
+//                  Artikel aus Datenbank ist Variable ZKVorher  
+                        Zahlungskondition ZKVorher = this.dao.gibZahlungskonditionNachId(zknr);
+//                    Vergleich ZK erzeugen mit den Eingabedaten
+                        Zahlungskondition ZKNachher = new Zahlungskondition(auftragsart, lieferzeitSOFORT,
+                                sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2, mahnzeit1,
+                                mahnzeit2, mahnzeit3);
+//                    Pruefung ob ZkVorher gleich ist wie ZK nachher
+                        if (ZKVorher.equals(ZKNachher)) {
+//                         Keine Veraenderung -> Meldung
+                            JOptionPane.showMessageDialog(null, "Es wurden keine Änderungen gemacht!", "Keine Änderungen", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+//                        Veraenderung: Abfrage, ob Änderungen gespeichert werden sollen
+                            int antwort = JOptionPane.showConfirmDialog(null, MELDUNG_AENDERUNGEN_SPEICHERN, ZK_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                            if (antwort == JOptionPane.YES_OPTION) {
+//                     falls ja, wird der Artikel geaendert
+                                this.dao.aendereZahlungskondition(zknr, auftragsart, lieferzeitSOFORT,
+                                        sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2,
+                                        mahnzeit1, mahnzeit2, mahnzeit3);
+//                          Meldung fuer die Statuszeile wird angepassz
+                                statuszeile = "Zahlungskondition mit der Zahlungskonditon-ID " + zknr + " wurde erfolgreich geändert. ";
+                                this.hauptFenster.setStatusMeldung(statuszeile);
+                                zuruecksetzen(); // Formular zuruecksetzen
+                                this.setVisible(false); // diese Sicht ausblenden 
+//                            jB_ZurueckActionPerformed(null); // Button Zurueck Action ausführen
+                                zurueckInsHauptmenue();
+                            } else {
+//                          Nein button wird geklickt, keine Aktion nur fehlerhafte Komponenten müssen geleert werden
+                                fehlerhafteComponenten.clear();
+                            }
                         }
                     }
                 } else {
-//                    Sicht ZK aendern: zunaechst ZK aus der Datenbank geladen.
-//                  Artikel aus Datenbank ist Variable ZKVorher  
-                    Zahlungskondition ZKVorher = this.dao.gibZahlungskonditionNachId(zknr);
-//                    Vergleich ZK erzeugen mit den Eingabedaten
-                    Zahlungskondition ZKNachher = new Zahlungskondition(auftragsart, lieferzeitSOFORT,
-                            sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2, mahnzeit1,
-                            mahnzeit2, mahnzeit3);
-//                    Pruefung ob ZkVorher gleich ist wie ZK nachher
-                    if (ZKVorher.equals(ZKNachher)) {
-//                         Keine Veraenderung -> Meldung
-                        JOptionPane.showMessageDialog(null, "Es wurden keine Änderungen gemacht!", "Keine Änderungen", JOptionPane.INFORMATION_MESSAGE);
-                    } else {
-//                        Veraenderung: Abfrage, ob Änderungen gespeichert werden sollen
-                        int antwort = JOptionPane.showConfirmDialog(null, MELDUNG_AENDERUNGEN_SPEICHERN, ZK_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                        if (antwort == JOptionPane.YES_OPTION) {
-//                     falls ja, wird der Artikel geaendert
-                            this.dao.aendereZahlungskondition(zknr, auftragsart, lieferzeitSOFORT,
-                                    sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2,
-                                    mahnzeit1, mahnzeit2, mahnzeit3);
-//                          Meldung fuer die Statuszeile wird angepassz
-                            statuszeile = "Zahlungskondition mit der Zahlungskonditon-ID " + zknr + " wurde erfolgreich geändert. ";
-                            this.hauptFenster.setStatusMeldung(statuszeile);
-                            zuruecksetzen(); // Formular zuruecksetzen
-                            this.setVisible(false); // diese Sicht ausblenden 
-//                            jB_ZurueckActionPerformed(null); // Button Zurueck Action ausführen
-                            zurueckInsHauptmenue();
-                        } else {
-//                          Nein button wird geklickt, keine Aktion nur fehlerhafte Komponenten müssen geleert werden
-                            fehlerhafteComponenten.clear();
-                        }
-                    }
+                    JOptionPane.showMessageDialog(null, "Bitte überprüfen Sie die Mahnzeiten.\nMahnzeit 3 muss größer als Mahnzeit 2 sein und Mahnzeit 2 muss größer als Mahnzeit 1 sein!", "Mahnzeiten fehlerhaft", JOptionPane.INFORMATION_MESSAGE);
                 }
 //          Fehler abfangen    
             } catch (ApplicationException e) {
@@ -990,7 +1047,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                     mahnzeit1 = ((Number) jSP_Mahnzeit1.getValue()).intValue();
                     mahnzeit2 = ((Number) jSP_Mahnzeit2.getValue()).intValue();
                     mahnzeit3 = ((Number) jSP_Mahnzeit3.getValue()).intValue();
-
+//                if (mahnzeit3 > mahnzeit2 && mahnzeit2 > mahnzeit1) {
 //                  ZK aus Datenbank ist Variable ZKVorher  
                     Zahlungskondition ZKVorher = this.dao.gibZahlungskonditionNachId(zknr);
 //                    Vergleich ZK erzeugen mit den Eingabedaten
@@ -1005,17 +1062,21 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
 //                        Veraenderung: Abfrage, ob Änderungen gespeichert werden sollen
                         int antwort = JOptionPane.showConfirmDialog(null, MELDUNG_AENDERUNGEN_SPEICHERN, ZK_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                         if (antwort == JOptionPane.YES_OPTION) {
+                            if (mahnzeit3 > mahnzeit2 && mahnzeit2 > mahnzeit1) {
 //                     falls ja, wird die ZK geaendert
-                            this.dao.aendereZahlungskondition(zknr, auftragsart, lieferzeitSOFORT,
-                                    sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2,
-                                    mahnzeit1, mahnzeit2, mahnzeit3);
+                                this.dao.aendereZahlungskondition(zknr, auftragsart, lieferzeitSOFORT,
+                                        sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2,
+                                        mahnzeit1, mahnzeit2, mahnzeit3);
 //                          Meldung fuer die Statuszeile wird angepassz
-                            statuszeile = "Zahlungskondition mit der Zahlungskonditon-ID " + zknr + " wurde erfolgreich geändert. ";
-                            this.hauptFenster.setStatusMeldung(statuszeile);
+                                statuszeile = "Zahlungskondition mit der Zahlungskonditon-ID " + zknr + " wurde erfolgreich geändert. ";
+                                this.hauptFenster.setStatusMeldung(statuszeile);
 
-                            zuruecksetzen(); // Formular zuruecksetzen
-                            this.setVisible(false); // diese Sicht ausblenden 
-                            zurueckInsHauptmenue();
+                                zuruecksetzen(); // Formular zuruecksetzen
+                                this.setVisible(false); // diese Sicht ausblenden 
+                                zurueckInsHauptmenue();
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Bitte überprüfen Sie die Mahnzeiten.\nMahnzeit 3 muss größer als Mahnzeit 2 sein und Mahnzeit 2 muss größer als Mahnzeit 1 sein!", "Mahnzeiten fehlerhaft", JOptionPane.INFORMATION_MESSAGE);
+                            }
                         } else if (antwort == JOptionPane.CLOSED_OPTION) {
 //                                  das x wird geklickt, es soll nichts passieren
                         } else {
@@ -1023,6 +1084,9 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                             zurueckInsHauptmenue();
                         }
                     }
+//                } else {
+//                    JOptionPane.showMessageDialog(null, "Bitte überprüfen Sie die Mahnzeiten.\nMahnzeit 3 muss größer als Mahnzeit 2 sein und Mahnzeit 2 muss größer als Mahnzeit 1 sein!", "Mahnzeiten fehlerhaft", JOptionPane.INFORMATION_MESSAGE);
+//                }
 //          Fehler abfangen    
                 } catch (ApplicationException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
