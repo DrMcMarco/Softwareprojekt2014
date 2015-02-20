@@ -52,8 +52,11 @@ import javax.persistence.metamodel.Attribute;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
+import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
 
 import sun.rmi.transport.TransportConstants;
 
@@ -3558,7 +3561,7 @@ public class DataAccessObject {
     
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
-    /* 10.12.14   loe     angelegt                              */
+    /* 10.12.14   sch     angelegt                              */
     /*----------------------------------------------------------*/
     public JFreeChart gibChartUmsatzAuftragswert() {
         //Charts und Datasets.
@@ -3579,12 +3582,12 @@ public class DataAccessObject {
             //Datum von vor sechs Monaten berechnet
             cal.add(Calendar.MONTH, -i);
             vorSechsMonaten = cal.getTime();
-            
+            monat = new DateFormatSymbols().getMonths()[Integer.parseInt(
+                    dateFormat.format(vorSechsMonaten).split("\\.")[1]) - 1];
             auftragswert = this.gibUmsatzProMonat(vorSechsMonaten);
 
             dataset.setValue(auftragswert, 
-                        "Monatlicher Gesamtumsatz", 
-                        dateFormat.format(vorSechsMonaten).split("\\.")[1]);
+                        "Monatlicher Gesamtumsatz", monat);
             cal = Calendar.getInstance();
         }
         //Diagramm erstellen.
@@ -3596,7 +3599,7 @@ public class DataAccessObject {
     
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
-    /* 10.12.14   loe     angelegt                              */
+    /* 10.12.14   sch     angelegt                              */
     /*----------------------------------------------------------*/
     public JFreeChart gibChartArtikelAbsatz() {
         //Charts und Datasets.
@@ -3623,6 +3626,72 @@ public class DataAccessObject {
         //Diagramm erstellen.
         barChart = ChartFactory.createStackedBarChart("Artikel Umsatz",
                     "Artikel", "Umsatz", dataset, 
+                    PlotOrientation.VERTICAL, true, true, true);
+        return barChart;
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 10.12.14   sch     angelegt                              */
+    /*----------------------------------------------------------*/
+    public JFreeChart gibChartArtikelkategorieAbsatz() {
+        //Charts und Datasets.
+        JFreeChart pieChart;
+        DefaultPieDataset dataset;
+        HashMap<String, Double> artikelMenge = null;
+        dataset = new DefaultPieDataset();
+        
+        
+        
+        artikelMenge = this.gibUmsatzProArtikel();
+        
+        Iterator<Map.Entry<String, Double>> i = artikelMenge
+                .entrySet().iterator();
+        while (i.hasNext()) {
+            Map.Entry entr = i.next();
+            String artikelkat = (String) entr.getKey();
+            Double umsatz = (Double) entr.getValue();
+            dataset.setValue(artikelkat, umsatz);
+        }
+        
+        //Diagramm erstellen.
+        pieChart = ChartFactory.createPieChart("Artikelkategorie-Umsatz", 
+                dataset, true, true, true);
+        PiePlot plot = (PiePlot) pieChart.getPlot();
+        plot.setLabelGenerator(
+                new StandardPieSectionLabelGenerator("{1} Eur ({2})"));
+        return pieChart;
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 10.12.14   sch     angelegt                              */
+    /*----------------------------------------------------------*/
+    public JFreeChart gibChartArtikelMenge() {
+        //Charts und Datasets.
+        JFreeChart barChart;
+        DefaultCategoryDataset dataset;
+        HashMap<String, Integer> artikelMenge = null;
+        String name = "";
+        dataset = new DefaultCategoryDataset();
+        
+        
+        
+        artikelMenge = this.gibVerkauftProArtikel();
+        
+        Iterator<Map.Entry<String, Integer>> i = artikelMenge
+                .entrySet().iterator();
+        while (i.hasNext()) {
+            Map.Entry entr = i.next();
+            String artikel = (String) entr.getKey();
+            Integer mng = (Integer) entr.getValue();
+            dataset.setValue(mng, 
+                        "Menge", artikel);
+        }
+        
+        //Diagramm erstellen.
+        barChart = ChartFactory.createStackedBarChart("Artikel Verkaufsmenge",
+                    "Artikel", "Menge", dataset, 
                     PlotOrientation.VERTICAL, true, true, true);
         return barChart;
     }
