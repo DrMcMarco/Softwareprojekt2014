@@ -2955,7 +2955,7 @@ public class DataAccessObject {
                             "      s.STATUS like 'abgeschlossen' and\n" +
                             "      ap.LKZ = 0 and\n" +
                             "      ak.Auftragsart not like 'Bestellauftrag'\n"+
-                            "group by a.ARTIKELTEXT, ap.EINZELWERT\n" +
+                            "group by a.ARTIKELTEXT\n" +
                             "fetch next 10 rows only");
         
         //Hole Ergebnisse
