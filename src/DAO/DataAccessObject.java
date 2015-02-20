@@ -2926,12 +2926,34 @@ public class DataAccessObject {
         //und nicht gelöscht sind
         List<Auftragskopf> ergebnis = 
                 this.em.createQuery("select st from Auftragskopf st "
-                        + "where st.Erfassungsdatum >= :datum "
+                        + "where st.Abschlussdatum >= :datum "
                         + "AND st.LKZ = false "
                         + "AND st.Status.Status LIKE 'abgeschlossen'")
                         .setParameter("datum", vorSechsMonaten).getResultList();
         
         return ergebnis;
+    }
+    
+    public HashMap<Artikel, Double> gibUmsatzProArtikel() {
+        
+        HashMap<Artikel, Double> artikelUmsatz = new HashMap<>();
+        
+        Query abfrage = em.createNativeQuery("select ap.ARTIKEL, sum(ap.EINZELWERT) \n" +
+                            "from ROOT.AUFTRAGSPOSITION as ap, root.AUFTRAGSKOPF as ak, root.STATUS as s\n" +
+                            "where ap.AUFTRAG = ak.AUFTRAGSKOPFID and\n" +
+                            "      ak.STATUS = s.STATUSID and\n" +
+                            "      s.STATUS like 'abgeschlossen'\n" +
+                            "group by ap.ARTIKEL, ap.EINZELWERT\n" +
+                            "fetch next 10 rows only");
+        
+        List<Object[]> ergebnisse = abfrage.getResultList();
+        
+        for (Object[] ergebnis : ergebnisse) {
+            artikelUmsatz.put((Artikel)ergebnis[0], (double)ergebnis[1]);
+        }
+        
+        
+        return artikelUmsatz;
     }
     
 //</editor-fold>
