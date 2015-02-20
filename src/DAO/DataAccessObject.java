@@ -68,7 +68,9 @@ public class DataAccessObject {
             
             if (st == null) {
                 String currentDir = System.getProperty("user.dir");
-                Runtime.getRuntime().exec("cmd.exe /C start /B " + currentDir + "/fillDatabase.bat");
+                currentDir = "\""+currentDir+"\"";
+                System.out.println(currentDir);
+                Runtime.getRuntime().exec("cmd.exe /C start /B fillDatabase.bat");
             }
             
             this.erstelleSteuereintrag("Letzter Programmstart", new Date().toString());
@@ -218,7 +220,7 @@ public class DataAccessObject {
             }
             
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
             
         }
         
@@ -283,7 +285,7 @@ public class DataAccessObject {
             }
             
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
             
         }
         
@@ -350,7 +352,7 @@ public class DataAccessObject {
             }
             
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
             
         }
     }
@@ -513,7 +515,7 @@ public class DataAccessObject {
             }
             
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
             
         }
     }
@@ -579,7 +581,7 @@ public class DataAccessObject {
             }
             
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
             
         }
     }
@@ -729,7 +731,7 @@ public class DataAccessObject {
             }
             
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
             
         }
     }
@@ -826,7 +828,7 @@ public class DataAccessObject {
             }
             
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
             
         }
     }
@@ -910,7 +912,7 @@ public class DataAccessObject {
                 }
 
                 throw new ApplicationException(FEHLER_TITEL, 
-                        "Ein unerwarteter Fehler ist ausfgetreten.");
+                        th.getMessage());
 
             }
             
@@ -969,7 +971,7 @@ public class DataAccessObject {
             }
 
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
 
         }
     }
@@ -1592,7 +1594,7 @@ public class DataAccessObject {
                     }
 
                     throw new ApplicationException(FEHLER_TITEL, 
-                            "Ein unerwarteter Fehler ist ausfgetreten.");
+                            th.getMessage());
 
                 }
                 
@@ -1676,7 +1678,7 @@ public class DataAccessObject {
             }
 
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
 
         }
     }
@@ -2003,7 +2005,7 @@ public class DataAccessObject {
             }
 
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
 
         }
     }
@@ -2120,7 +2122,7 @@ public class DataAccessObject {
             }
 
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
 
         }
     }
@@ -2187,7 +2189,7 @@ public class DataAccessObject {
             }
 
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
 
         }
     }
@@ -2960,7 +2962,7 @@ public class DataAccessObject {
             }
 
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
 
         }
     }
@@ -3063,7 +3065,7 @@ public class DataAccessObject {
             }
 
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
 
         }
         
@@ -3153,7 +3155,7 @@ public class DataAccessObject {
             }
 
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
 
         }
     }
@@ -3244,7 +3246,7 @@ public class DataAccessObject {
             }
 
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
 
         }
     }
@@ -3308,7 +3310,7 @@ public class DataAccessObject {
             }
 
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
 
         }
     }
@@ -3384,10 +3386,13 @@ public class DataAccessObject {
         
         try {
         
+            //Transaktion starten
             em.getTransaction().begin();
             
+            //Position mit einem Löschkennzeichen versehen
             this.loeschePosition(AuftragsID, Positionsnummer);
             
+            //Transakstion beenden
             em.getTransaction().commit();
             
         } catch (RollbackException re) {
