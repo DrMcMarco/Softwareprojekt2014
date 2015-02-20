@@ -29,7 +29,11 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
 import java.text.DateFormatSymbols;
+
+import java.text.ParseException;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,10 +45,14 @@ import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
 import javax.persistence.metamodel.Attribute;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
+
+import sun.rmi.transport.TransportConstants;
+
 /**
  *
  * @author Simon <Simon.Simon at your.org>
@@ -2891,6 +2899,29 @@ public class DataAccessObject {
         return ergebnis;
     }
     
+    public Collection<Auftragskopf> gibAlleAuftraege() {
+        
+        Calendar cal = Calendar.getInstance();
+        
+        cal.add(Calendar.MONTH, -6);
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        
+        Date vorSechsMonaten = cal.getTime();
+        
+        String string = dateFormat.format(vorSechsMonaten);
+        
+        vorSechsMonaten = DatumParser.gibDatum(string);
+       
+        System.out.println(vorSechsMonaten);
+        
+        List<Auftragskopf> ergebnis = this.em.createQuery("select st from Auftragskopf st where st.Erfassungsdatum >= :datum AND st.LKZ = false").setParameter("datum", vorSechsMonaten).getResultList();
+        
+        System.out.println(ergebnis.size());
+        
+        return ergebnis;
+    }
+    
 //</editor-fold>
     
 //<editor-fold defaultstate="collapsed" desc="loesche-Methoden">
@@ -3464,7 +3495,7 @@ public class DataAccessObject {
         
         
         
-        auftraege = null;
+        auftraege = (ArrayList<Auftragskopf>) this.gibAlleAuftraege();
 
         for (Auftragskopf auftrag : auftraege) {
             monat = new SimpleDateFormat("dd.MM.yyyy").format(
@@ -3504,7 +3535,7 @@ public class DataAccessObject {
         barChart = ChartFactory.createStackedBarChart("Kategorieumsatzdiagramm",
                     "Monate", "Umsatz in â‚¬", dataset, 
                     PlotOrientation.VERTICAL, true, true, true);
-        return null;
+        return barChart;
     }
     
 //</editor-fold>

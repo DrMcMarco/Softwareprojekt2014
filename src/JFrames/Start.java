@@ -924,7 +924,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     }//GEN-LAST:event_jMI_ZKAnzeigenActionPerformed
 
     private void artikel_absatz_mnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_artikel_absatz_mnActionPerformed
-        // TODO add your handling code here:
+        this.statistikAnzeige.setzeChart(GUIFactory.getDAO().gibChartUmsatzAuftragswert());
     }//GEN-LAST:event_artikel_absatz_mnActionPerformed
 
     private void umsatz_mnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_umsatz_mnActionPerformed
