@@ -163,7 +163,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         jToolBar1.setRollover(true);
         jToolBar1.setEnabled(false);
 
-        jB_Zurueck.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/home.PNG"))); // NOI18N
+        jB_Zurueck.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Home2.PNG"))); // NOI18N
         jB_Zurueck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_ZurueckActionPerformed(evt);
@@ -171,7 +171,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         });
         jToolBar1.add(jB_Zurueck);
 
-        jB_Speichern.setText("Speichern");
+        jB_Speichern.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Speichern.PNG"))); // NOI18N
         jB_Speichern.setEnabled(false);
         jB_Speichern.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -180,7 +180,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         });
         jToolBar1.add(jB_Speichern);
 
-        jB_Anzeigen.setText("Anzeige/Ändern");
+        jB_Anzeigen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Bearbeiten.PNG"))); // NOI18N
         jB_Anzeigen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_AnzeigenActionPerformed(evt);
@@ -188,7 +188,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         });
         jToolBar1.add(jB_Anzeigen);
 
-        jB_Loeschen.setText("Löschen");
+        jB_Loeschen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Löschen.PNG"))); // NOI18N
         jB_Loeschen.setEnabled(false);
         jB_Loeschen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -197,7 +197,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         });
         jToolBar1.add(jB_Loeschen);
 
-        jB_Suchen.setText("Suchen");
+        jB_Suchen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Suche.PNG"))); // NOI18N
         jToolBar1.add(jB_Suchen);
 
         auftragspositionsID_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -315,7 +315,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(erfassungsdatum_jLabel)
                     .addComponent(erfassungsdatum_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addContainerGap(76, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(22, 22, 22)

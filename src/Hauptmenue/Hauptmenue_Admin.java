@@ -85,22 +85,23 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
         jToolBar1.setRollover(true);
         jToolBar1.setEnabled(false);
 
-        jB_Zurueck.setText("Zurück");
+        jB_Zurueck.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Home2.PNG"))); // NOI18N
         jB_Zurueck.setEnabled(false);
         jToolBar1.add(jB_Zurueck);
 
-        jB_Speichern.setText("Speichern");
+        jB_Speichern.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Speichern.PNG"))); // NOI18N
         jB_Speichern.setEnabled(false);
         jToolBar1.add(jB_Speichern);
 
-        jB_Anzeigen.setText("Anzeige/Ändern");
+        jB_Anzeigen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Bearbeiten.PNG"))); // NOI18N
         jB_Anzeigen.setEnabled(false);
         jToolBar1.add(jB_Anzeigen);
 
-        jB_Loeschen.setText("Löschen");
+        jB_Loeschen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Löschen.PNG"))); // NOI18N
         jB_Loeschen.setEnabled(false);
         jToolBar1.add(jB_Loeschen);
 
+        jB_Suchen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Suche.PNG"))); // NOI18N
         jB_Suchen.setText("Suchen");
         jB_Suchen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -258,6 +259,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     this.internal.detailSuche.setVisible(false);
 
                     setComponentVisible(this.internal.auftragskopfanlegen);
+                    this.internal.auftragskopfanlegen.zuruecksetzen();
                     this.internal.auftragskopfanlegen.setStatusAnlegen();
                 }
                 // Vergleich des Pfades mit String um "Auftragskopf Ändern" aufzurufen.
