@@ -301,6 +301,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         //Spalten der Positionstabelle können nicht verschieben werden
         auftragsposition_jTable.getTableHeader().setReorderingAllowed(false);
 
+        auftragskopfID_jTextField.setText(String.valueOf(
+                GUIFactory.getDAO().gibNaechsteAuftragsID()));
     }
 
     /**
@@ -1828,7 +1830,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 //        JOptionPane.showMessageDialog(null, FEHLERMELDUNG_UNVOLLSTAENDIGAUFTRAGSPOSITION_TEXT,
 //                    FEHLERMELDUNG_TITEL, JOptionPane.ERROR_MESSAGE);
         fehlendeEingabenAuftragsposition.clear();
-        
+
     }//GEN-LAST:event_NeuePosition_jButtonActionPerformed
 
     /*----------------------------------------------------------*/
@@ -1883,6 +1885,15 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                     this.setVisible(false);// Internalframe wird nicht mehr dargestellt
                     letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
                 }
+            } else if (this.getTitle().equals("Auftragskopf anzeigen")) {
+
+                zuruecksetzen();// Eingabefelder werden zurückgesetzt.
+                letzteComponent = null;   //Initialisierung der Componentspeichervariable
+                //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
+                letzteComponent = this.factory.zurueckButton();
+                this.setVisible(false);// Internalframe wird nicht mehr dargestellt
+                letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
+
             } else {
 
                 // Ermitteln welcher Auftragsstatus gewählt worden ist
@@ -2240,6 +2251,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 
             auftragsposition_jTable.setModel(dtm);
 
+            auftragskopfID_jTextField.setText(String.valueOf(
+                GUIFactory.getDAO().gibNaechsteAuftragsID()));
         } catch (ParseException e) {
             this.hauptFenster.setStatusMeldung(e.getMessage());
         }
@@ -2647,6 +2660,11 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     public void setzeEingabe(Auftragskopf auftragskopf) {
         try {
 
+//            if(this.getTitle().equals("Auftragskopf ändern")){
+//                setStatusAender();
+//            }else{
+//                
+//            }
             auftragspositionen = auftragskopf.getPositionsliste();
 
             this.geschaeftspartner_jTextField.setText(String.valueOf(auftragskopf.getGeschaeftspartner().getGeschaeftspartnerID()));
@@ -2718,7 +2736,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             } else if (auftragskopf.getStatus().getStatus().equals("freigegeben")) {
                 freigegeben_jRadioButton.setSelected(true);
 
-                erfasst_jRadioButton.setEnabled(false);
+                erfasst_jRadioButton.setEnabled(true);
                 abgeschlossen_jRadioButton.setSelected(false);
 
                 geschaeftspartner_jTextField.setEnabled(true);
@@ -2735,6 +2753,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 erfasst_jRadioButton.setEnabled(false);
                 freigegeben_jRadioButton.setEnabled(false);
 
+//                zahlungskonditionen_jComboBox.setEnabled(f);
                 geschaeftspartner_jTextField.setEnabled(false);
                 auftragstext_jTextArea.setEnabled(false);
                 lieferdatum_jFormattedTextField.setEnabled(false);
@@ -2769,8 +2788,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 artikel.put(auftragspositionen.get(i).getArtikel().getArtikelID(),
                         auftragspositionen.get(i).getMenge());
 
-                summenWertFuerPos = auftragspositionen.get(i).getEinzelwert();
-//                        * auftragspositionen.get(i).getMenge();
+                summenWertFuerPos = auftragspositionen.get(i).getEinzelwert()
+                        * auftragspositionen.get(i).getMenge();
 
                 Object[] neuesObj = new Object[]{i + 1,
                     auftragspositionen.get(i).getArtikel().getArtikelID(),
@@ -2819,6 +2838,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 dbAbschlussdatum = gibDatumAlsString(kopf.getAbschlussdatum());
 
             }
+            if(this.getTitle().equals("Auftragskopf anzeigen")){
+                setStatusAnzeigen();
+            }
+            
         } catch (ApplicationException | ParseException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(),
                     FEHLERMELDUNG_TITEL, JOptionPane.ERROR_MESSAGE);
@@ -2871,7 +2894,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                         setText(String.valueOf(gibDatumAlsString(auftragskopf.getAbschlussdatum())));
 
             }
-
+            
             //Hasmap bekommt positionen
             artikel.clear();
 
@@ -2922,6 +2945,15 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             }
 
             dbStatus = kopf.getStatus().getStatus();
+            
+            if (kopf.getStatus().getStatus().equals("erfasst")) {
+                erfasst_jRadioButton.setSelected(true);
+            }else if (auftragskopf.getStatus().getStatus().equals("freigegeben")) {
+                freigegeben_jRadioButton.setSelected(true);
+            }else{
+                abgeschlossen_jRadioButton.setSelected(true);
+            }
+            
             dbLieferdatum = gibDatumAlsString(kopf.getLieferdatum());
             if (kopf.getAbschlussdatum() == null) {
                 dbAbschlussdatum = "";
@@ -2929,6 +2961,17 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 
                 dbAbschlussdatum = gibDatumAlsString(kopf.getAbschlussdatum());
             }
+            
+            System.out.println(this.getTitle());
+            
+            if(this.getTitle().equals("Auftragskopf anzeigen")){
+                setStatusAnzeigen();
+            }else if(this.getTitle().equals("Auftragskopf ändern")){
+                setStatusAenderButton();
+            }else{
+                setStatusAnlegen();
+            }
+            
         } catch (ApplicationException e) {
 //            this.hauptFenster.setStatusMeldung(e.getMessage());
             JOptionPane.showMessageDialog(null, e.getMessage(),
