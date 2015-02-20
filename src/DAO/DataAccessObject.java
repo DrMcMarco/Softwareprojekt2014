@@ -3011,7 +3011,7 @@ public class DataAccessObject {
                                   "      a.KATEGORIE = kat.KATEGORIEID and\n" +
                                   "      ak.STATUS = s.STATUSID and\n" +
                                   "      s.STATUS like 'abgeschlossen' and\n" +
-                                  "      ak.AUFTRAGSART not like 'bestellauftrag' and\n" +
+                                  "      ak.AUFTRAGSART not like 'Bestellauftrag' and\n" +
                                   "      ak.LKZ = 0\n" +
                                   "group by kat.KATEGORIENAME");
         
@@ -3664,10 +3664,9 @@ public class DataAccessObject {
         DefaultPieDataset dataset;
         HashMap<String, Double> artikelMenge = null;
         dataset = new DefaultPieDataset();
+
         
-        
-        
-        artikelMenge = this.gibUmsatzProArtikel();
+        artikelMenge = this.gibUmsatzProKategorie();
         
         Iterator<Map.Entry<String, Double>> i = artikelMenge
                 .entrySet().iterator();
