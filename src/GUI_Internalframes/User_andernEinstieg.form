@@ -39,8 +39,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="BenutzerID_jTextField" min="-2" pref="208" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="Weiter_jButton" min="-2" pref="100" max="-2" attributes="0"/>
-              <EmptySpace pref="82" max="32767" attributes="0"/>
+              <Component id="Weiter_jButton" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="117" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -50,13 +50,13 @@
               <Component id="jToolBar1" min="-2" pref="30" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jSeparator1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="BenutzerID_jLabel" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
                   <Component id="BenutzerID_jTextField" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
                   <Component id="Weiter_jButton" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="144" max="32767" attributes="0"/>
+              <EmptySpace pref="141" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
