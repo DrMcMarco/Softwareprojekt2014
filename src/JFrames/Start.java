@@ -2,6 +2,7 @@ package JFrames;
 
 import DAO.DataAccessObject;
 import DAO.Parser;
+import DTO.Artikel;
 import GUI_Internalframes.*;
 import Interfaces.InterfaceMainView;
 import Hauptmenue.Hauptmenue_User;
@@ -10,6 +11,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import javax.persistence.PersistenceException;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
@@ -162,7 +164,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         zahlungskonditionaendern.setVisible(false);
         suche.setVisible(false);
         detailSuche.setVisible(false);
-
+        
     }
 
     /**
@@ -208,6 +210,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Hauptmenü");
+        setPreferredSize(new java.awt.Dimension(1400, 850));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -222,7 +225,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         jM_Navigation.setText("Navigation");
 
         jM_AuftragVerwalten.setMnemonic('a');
-        jM_AuftragVerwalten.setText("Auftrag Verwalten");
+        jM_AuftragVerwalten.setText("Aufträge Verwalten");
         jM_AuftragVerwalten.setActionCommand("JMenu1");
 
         jM_Auftragskopf.setText("Auftragskopf");

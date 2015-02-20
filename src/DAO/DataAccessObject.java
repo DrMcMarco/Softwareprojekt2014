@@ -2929,6 +2929,70 @@ public class DataAccessObject {
         return umsatz;
     }
     
+    /**
+     * Gibt die zehn größten Umsätze pro Artikel zurück.
+     * Errechnet anhand der abgeschlossenenen Aufträge
+     * @return eine Hashmap(Key: Artikel-Objekt, Value: Umsatz für diesen Artikel)
+     */
+    public HashMap<Artikel, Double> gibUmsatzProArtikel() {
+        
+        //Hashmap zum Speichern der Artikelumsätze
+        HashMap<Artikel, Double> artikelUmsatz = new HashMap<>();
+        
+        //Selektiere die Artikel und den kumulierten Einzelwert pro Artikeln von
+        //allen Verkaufsaufträgen die abgeschlossen und nicht gelöscht sind
+        //Zudem werden nur die zehn größten Umsätze ausgewählt
+        Query abfrage = em.createNativeQuery("select ap.ARTIKEL, sum(ap.EINZELWERT) \n" +
+                            "from ROOT.AUFTRAGSPOSITION as ap, root.AUFTRAGSKOPF as ak, root.STATUS as s\n" +
+                            "where ap.AUFTRAG = ak.AUFTRAGSKOPFID and\n" +
+                            "      ak.STATUS = s.STATUSID and\n" +
+                            "      s.STATUS like 'abgeschlossen' and\n" +
+                            "      ap.LKZ = 0\n" +
+                            "      ak.Auftragsart not like 'Bestellauftrag'\n"+
+                            "group by ap.ARTIKEL, ap.EINZELWERT\n" +
+                            "fetch next 10 rows only");
+        
+        //Hole Ergebnisse
+        List<Object[]> ergebnisse = abfrage.getResultList();
+        
+        //Speichere Ergebnisse in einer Hashmap
+        for (Object[] ergebnis : ergebnisse) {
+            artikelUmsatz.put((Artikel)ergebnis[0], (double)ergebnis[1]);
+        }
+        
+        return artikelUmsatz;
+    }
+    
+    /**
+     * Gibt die zehn am meisten verkauften Artikel zurück.
+     * Wird für die Statistik benutzt
+     * @return eine Hashmap(Key: Name des Artikels, Value: Verkaufte Menge für diesen Artikel)
+     */
+    public HashMap<String, Integer> gibVerkauftProArtikel() {
+        
+        //Hashmap zum Speichern der verkauften Menge
+        HashMap<String, Integer> artikelMenge = new HashMap<>();
+        
+        //Selektiere den Name des Artikels und die verkaufte Menge von allen
+        //Artikel die nicht gelöscht sind
+        //Es sollen nur die ersten zehn Artikel ausgegeben werden
+        Query abfrage = this.em.createNativeQuery("select a.ARTIKELTEXT, a.VERKAUFT\n" +
+                                                  "from root.ARTIKEL as a\n" +
+                                                  "where a.LKZ = 0\n" +
+                                                  "order by a.VERKAUFT desc\n" +
+                                                  "fetch next 10 rows only");
+        
+        //Hole Ergebnisse
+        List<Object[]> ergebnisse = abfrage.getResultList();
+        
+        //Speichere Ergebnisse in die Hashmap
+        for (Object[] ergebnis : ergebnisse) {
+            artikelMenge.put((String)ergebnis[0], (int)ergebnis[1]);
+        }
+        
+        return artikelMenge;
+    }
+    
 //</editor-fold>
     
 //<editor-fold defaultstate="collapsed" desc="loesche-Methoden">

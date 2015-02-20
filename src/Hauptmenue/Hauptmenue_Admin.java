@@ -102,7 +102,6 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
         jToolBar1.add(jB_Loeschen);
 
         jB_Suchen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Suche.PNG"))); // NOI18N
-        jB_Suchen.setText("Suchen");
         jB_Suchen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_SuchenActionPerformed(evt);
@@ -112,7 +111,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
 
         hauptmenueAdmin_Tree.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Navigation");
-        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Auftrag verwalten");
+        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Aufträge verwalten");
         javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Auftragskopf");
         javax.swing.tree.DefaultMutableTreeNode treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Anlegen");
         treeNode3.add(treeNode4);
@@ -249,7 +248,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
         try {
             if (node != null) {// Wird geprüft ob es einen Pfad gibt.
                 // Vergleich des Pfades mit String um "Auftragskopf Anlegen" aufzurufen.
-                if (node.equals("[Navigation, Auftrag verwalten, Auftragskopf, Anlegen]")) {
+                if (node.equals("[Navigation, Aufträge verwalten, Auftragskopf, Anlegen]")) {
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
@@ -263,7 +262,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     this.internal.auftragskopfanlegen.setStatusAnlegen();
                 }
                 // Vergleich des Pfades mit String um "Auftragskopf Ändern" aufzurufen.
-                if (node.equals("[Navigation, Auftrag verwalten, Auftragskopf, Ändern]")) {
+                if (node.equals("[Navigation, Aufträge verwalten, Auftragskopf, Ändern]")) {
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
@@ -277,7 +276,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     this.internal.auftragskopfanlegen.setStatusAender();
                 }
                 // Vergleich des Pfades mit String um "Auftragskopf Anzeigen" aufzurufen.
-                if (node.equals("[Navigation, Auftrag verwalten, Auftragskopf, Anzeigen]")) {
+                if (node.equals("[Navigation, Aufträge verwalten, Auftragskopf, Anzeigen]")) {
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
@@ -291,7 +290,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     this.internal.auftragskopfanlegen.setStatusAnzeigen();
                 }
                 // Vergleich des Pfades mit String um "Auftragsposition Ändern" aufzurufen.
-                if (node.equals("[Navigation, Auftrag verwalten, Auftragsposition, Ändern]")) {
+                if (node.equals("[Navigation, Aufträge verwalten, Auftragsposition, Ändern]")) {
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
@@ -305,7 +304,7 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
                     setComponentVisible(this.internal.auftragsspositionaender);
                 }
                 // Vergleich des Pfades mit String um "Auftragsposition Anzeigen" aufzurufen.
-                if (node.equals("[Navigation, Auftrag verwalten, Auftragsposition, Anzeigen]")) {
+                if (node.equals("[Navigation, Aufträge verwalten, Auftragsposition, Anzeigen]")) {
                     // Aufruf der setComponentVisible-Methode um die 
                     // entsprechende Maske sichtbar zu machen. Es wird der 
                     // aufzurufednen Maske ein Titel übergeben.
