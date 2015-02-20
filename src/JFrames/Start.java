@@ -4,18 +4,20 @@ import DAO.DataAccessObject;
 import DAO.Parser;
 import DTO.Artikel;
 import GUI_Internalframes.*;
-import Interfaces.InterfaceMainView;
 import Hauptmenue.Hauptmenue_User;
+import Interfaces.InterfaceMainView;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.persistence.PersistenceException;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
-import javax.swing.Timer;
 
 /**
  *
@@ -70,6 +72,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     
     public Login logInFester;
 
+    private static Integer counter = 5;
+    
     //Hilfsvariablen
     Dimension desktopSize;//Speichervariable für die Größe der DesktopPane.
     Dimension jInternalFrameSize;//Speichervariable für die Größe des InternalFrames.
@@ -94,6 +98,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     private final String GP_AENDERN_EINSTIEG = "Geschäftspartner ändern Einstieg";
     private final String GP_ANZEIGEN_EINSTIEG = "Geschäftspartner anzeigen Einstieg";
 
+    private static Timer timer;
+    
     /**
      * Creates new form Start
      */
@@ -164,7 +170,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         zahlungskonditionaendern.setVisible(false);
         suche.setVisible(false);
         detailSuche.setVisible(false);
-        
+        this.setExtendedState(Frame.MAXIMIZED_BOTH);
     }
 
     /**
@@ -1189,14 +1195,15 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         Toolkit.getDefaultToolkit().beep();
         
         statusMeldung_jTextField.setText(status);//Meldung wird angezeigt.
-        
-        // Erzeugung eines Timers, der nach 5 Sekunden die Meldung löscht.
-        new Timer(10000, new ActionListener(){
-            public void actionPerformed(ActionEvent ae){
-                
-                // Übergabe eines leeren Strings.
+
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
                 statusMeldung_jTextField.setText("");
-        }}).start();// Timer wird gestartet.
+                
+            }
+        }, 5 * 1000);
+
     }
 
     /**
