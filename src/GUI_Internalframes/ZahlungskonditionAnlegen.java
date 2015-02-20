@@ -92,6 +92,9 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
     private final String ZK_ANLEGEN = "Zahlungskondition anlegen";
     private final String ZK_AENDERN = "Zahlungskondition ändern";
     private final String ZK_ANZEIGEN = "Zahlungskondition anzeigen";
+    private final String TERMINAUFTRAG = "Terminauftrag";
+    private final String SOFORTAUFTRAG = "Sofortauftrag";
+    private final String BESTELLAUFTRAG = "Bestellauftrag";
 
 //    int i = 0;
     /**
@@ -690,15 +693,15 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         if (jCB_Auftragsart.getSelectedIndex() != 0) {
             jCB_Auftragsart.setBackground(JCB_FARBE_STANDARD);
         }
-        if (((String) jCB_Auftragsart.getSelectedItem()).equals("Terminauftrag")) {
+        if (((String) jCB_Auftragsart.getSelectedItem()).equals(TERMINAUFTRAG)) {
             jSP_LieferzeitSOFORT.setEnabled(false);
             jSP_LieferzeitSOFORT.setValue(1);
             jSP_SperrzeitWUNSCH.setEnabled(true);
-        } else if (((String) jCB_Auftragsart.getSelectedItem()).equals("Sofortauftrag")) {
+        } else if (((String) jCB_Auftragsart.getSelectedItem()).equals(SOFORTAUFTRAG)) {
             jSP_SperrzeitWUNSCH.setEnabled(false);
             jSP_SperrzeitWUNSCH.setValue(1);
             jSP_LieferzeitSOFORT.setEnabled(true);
-        } else if (((String) jCB_Auftragsart.getSelectedItem()).equals("Bestellauftrag")) {
+        } else if (((String) jCB_Auftragsart.getSelectedItem()).equals(BESTELLAUFTRAG)) {
             jSP_SperrzeitWUNSCH.setEnabled(false);
             jSP_SperrzeitWUNSCH.setValue(1);
             jSP_LieferzeitSOFORT.setEnabled(false);

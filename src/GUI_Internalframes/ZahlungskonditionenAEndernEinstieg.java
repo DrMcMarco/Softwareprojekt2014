@@ -48,6 +48,9 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
      */
     private final String KEINE_ZKNR_EINGEGEBEN = "Bitte geben Sie eine Zahlungskondition-ID ein!";
     private final String KEINE_ZK_IN_DATENBANK = "Keine passender Zahlungskondition in der Datenbank!";
+    private final String TERMINAUFTRAG = "Terminauftrag";
+    private final String SOFORTAUFTRAG = "Sofortauftrag";
+    private final String BESTELLAUFTRAG = "Bestellauftrag";
 
     /**
      * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die
@@ -213,12 +216,12 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
             Zahlungskondition za = GUIFactory.getDAO().gibZahlungskonditionNachId(zknr);
             zk.gibjTF_ZahlungskonditionID().setText("" + za.getZahlungskonditionID());
             zk.gibjCB_Auftragsart().setSelectedItem(za.getAuftragsart());
-            if (za.getAuftragsart().equals("Bestellauftrag")) {
+            if (za.getAuftragsart().equals(BESTELLAUFTRAG)) {
                 zk.gibjSP_LieferzeitSOFORT().setEnabled(false);
                 zk.gibjSP_SperrzeitWUNSCH().setEnabled(false);
-            } else if (za.getAuftragsart().equals("Terminauftrag")) {
+            } else if (za.getAuftragsart().equals(TERMINAUFTRAG)) {
                 zk.gibjSP_LieferzeitSOFORT().setEnabled(false);
-            } else if (za.getAuftragsart().equals("Sofortauftrag")) {
+            } else if (za.getAuftragsart().equals(SOFORTAUFTRAG)) {
                 zk.gibjSP_SperrzeitWUNSCH().setEnabled(false);
             }
             zk.gibjSP_LieferzeitSOFORT().setValue(za.getLieferzeitSofort());
