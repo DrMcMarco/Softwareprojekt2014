@@ -1360,8 +1360,11 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
     private void setzFormularInZKAEndernFuerButton() {
         this.setTitle(ZK_AENDERN);
         jCB_Auftragsart.setEnabled(false);
-        jSP_LieferzeitSOFORT.setEnabled(true);
-        jSP_SperrzeitWUNSCH.setEnabled(true);
+        if (((String) jCB_Auftragsart.getSelectedItem()).equals(SOFORTAUFTRAG)) {
+            jSP_LieferzeitSOFORT.setEnabled(true);
+        } else if (((String) jCB_Auftragsart.getSelectedItem()).equals(TERMINAUFTRAG)) {
+            jSP_SperrzeitWUNSCH.setEnabled(true);
+        }
         jSP_Skontozeit1.setEnabled(true);
         jSP_Skontozeit2.setEnabled(true);
         jCB_Skonto1.setEnabled(true);
