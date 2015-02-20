@@ -250,6 +250,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         statusMeldung_jTextField.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         statusMeldung_jTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         statusMeldung_jTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        statusMeldung_jTextField.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         statusMeldung_jTextField.setEnabled(false);
 
         jM_Navigation.setMnemonic('n');

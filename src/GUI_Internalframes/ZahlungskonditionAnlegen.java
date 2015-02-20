@@ -696,27 +696,32 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      * 03.12.2014   Sen     angelegt
      */
     private void jCB_AuftragsartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCB_AuftragsartActionPerformed
-        if (jCB_Auftragsart.getSelectedIndex() != 0) {
-            jCB_Auftragsart.setBackground(JCB_FARBE_STANDARD);
-        }
-        if (((String) jCB_Auftragsart.getSelectedItem()).equals(TERMINAUFTRAG)) {
-            jSP_LieferzeitSOFORT.setEnabled(false);
-            jSP_LieferzeitSOFORT.setValue(1);
-            jSP_SperrzeitWUNSCH.setEnabled(true);
-        } else if (((String) jCB_Auftragsart.getSelectedItem()).equals(SOFORTAUFTRAG)) {
+        if (this.getTitle().equals(ZK_ANZEIGEN)) {
             jSP_SperrzeitWUNSCH.setEnabled(false);
-            jSP_SperrzeitWUNSCH.setValue(1);
-            jSP_LieferzeitSOFORT.setEnabled(true);
-        } else if (((String) jCB_Auftragsart.getSelectedItem()).equals(BESTELLAUFTRAG)) {
-            jSP_SperrzeitWUNSCH.setEnabled(false);
-            jSP_SperrzeitWUNSCH.setValue(1);
             jSP_LieferzeitSOFORT.setEnabled(false);
-            jSP_LieferzeitSOFORT.setValue(1);
         } else {
-            jSP_SperrzeitWUNSCH.setEnabled(true);
-            jSP_SperrzeitWUNSCH.setValue(1);
-            jSP_LieferzeitSOFORT.setEnabled(true);
-            jSP_LieferzeitSOFORT.setValue(1);
+            if (jCB_Auftragsart.getSelectedIndex() != 0) {
+                jCB_Auftragsart.setBackground(JCB_FARBE_STANDARD);
+            }
+            if (((String) jCB_Auftragsart.getSelectedItem()).equals(TERMINAUFTRAG)) {
+                jSP_LieferzeitSOFORT.setEnabled(false);
+                jSP_LieferzeitSOFORT.setValue(1);
+                jSP_SperrzeitWUNSCH.setEnabled(true);
+            } else if (((String) jCB_Auftragsart.getSelectedItem()).equals(SOFORTAUFTRAG)) {
+                jSP_SperrzeitWUNSCH.setEnabled(false);
+                jSP_SperrzeitWUNSCH.setValue(1);
+                jSP_LieferzeitSOFORT.setEnabled(true);
+            } else if (((String) jCB_Auftragsart.getSelectedItem()).equals(BESTELLAUFTRAG)) {
+                jSP_SperrzeitWUNSCH.setEnabled(false);
+                jSP_SperrzeitWUNSCH.setValue(1);
+                jSP_LieferzeitSOFORT.setEnabled(false);
+                jSP_LieferzeitSOFORT.setValue(1);
+            } else {
+                jSP_SperrzeitWUNSCH.setEnabled(true);
+                jSP_SperrzeitWUNSCH.setValue(1);
+                jSP_LieferzeitSOFORT.setEnabled(true);
+                jSP_LieferzeitSOFORT.setValue(1);
+            }
         }
     }//GEN-LAST:event_jCB_AuftragsartActionPerformed
     /**
@@ -1032,7 +1037,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                                 zurueckInsHauptmenue();
                             } else {
 //                              Mahnzeiten stimmen nicht, also Fehlermeldung  
-                                JOptionPane.showMessageDialog(null, MELDUNG_SKONTO_MAHNZEITEN, TITEL_SKONTO_MAHNZEITEN, JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(null, MELDUNG_SKONTO_MAHNZEITEN, TITEL_SKONTO_MAHNZEITEN, JOptionPane.ERROR_MESSAGE);
                             }
                         } else if (antwort == JOptionPane.CLOSED_OPTION) {
 //                                  das x wird geklickt, es soll nichts passieren
@@ -1355,8 +1360,11 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
     private void setzFormularInZKAEndernFuerButton() {
         this.setTitle(ZK_AENDERN);
         jCB_Auftragsart.setEnabled(false);
-        jSP_LieferzeitSOFORT.setEnabled(true);
-        jSP_SperrzeitWUNSCH.setEnabled(true);
+        if (((String) jCB_Auftragsart.getSelectedItem()).equals(SOFORTAUFTRAG)) {
+            jSP_LieferzeitSOFORT.setEnabled(true);
+        } else if (((String) jCB_Auftragsart.getSelectedItem()).equals(TERMINAUFTRAG)) {
+            jSP_SperrzeitWUNSCH.setEnabled(true);
+        }
         jSP_Skontozeit1.setEnabled(true);
         jSP_Skontozeit2.setEnabled(true);
         jCB_Skonto1.setEnabled(true);

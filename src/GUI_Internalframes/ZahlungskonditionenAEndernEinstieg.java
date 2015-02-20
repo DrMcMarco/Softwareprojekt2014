@@ -216,12 +216,12 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
             Zahlungskondition za = GUIFactory.getDAO().gibZahlungskonditionNachId(zknr);
             zk.gibjTF_ZahlungskonditionID().setText("" + za.getZahlungskonditionID());
             zk.gibjCB_Auftragsart().setSelectedItem(za.getAuftragsart());
-            if (za.getAuftragsart().equals(BESTELLAUFTRAG)) {
+            if (((String) zk.gibjCB_Auftragsart().getSelectedItem()).equals(BESTELLAUFTRAG)) {
                 zk.gibjSP_LieferzeitSOFORT().setEnabled(false);
                 zk.gibjSP_SperrzeitWUNSCH().setEnabled(false);
-            } else if (za.getAuftragsart().equals(TERMINAUFTRAG)) {
+            } else if (((String) zk.gibjCB_Auftragsart().getSelectedItem()).equals(TERMINAUFTRAG)) {
                 zk.gibjSP_LieferzeitSOFORT().setEnabled(false);
-            } else if (za.getAuftragsart().equals(SOFORTAUFTRAG)) {
+            } else if (((String) zk.gibjCB_Auftragsart().getSelectedItem()).equals(SOFORTAUFTRAG)) {
                 zk.gibjSP_SperrzeitWUNSCH().setEnabled(false);
             }
             zk.gibjSP_LieferzeitSOFORT().setValue(za.getLieferzeitSofort());
