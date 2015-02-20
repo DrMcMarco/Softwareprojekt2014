@@ -5,19 +5,22 @@ package JFrames;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import DAO.DataAccessObject;
 import GUI_Internalframes.*;
 import Hauptmenue.Hauptmenue_Admin;
-import DAO.DataAccessObject;
+import Interfaces.InterfaceMainView;
 import java.awt.Component;
 import java.awt.Dimension;
-import javax.persistence.PersistenceException;
-import javax.swing.JOptionPane;
-import Interfaces.InterfaceMainView;
+import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Timer;
+import java.util.TimerTask;
+import javax.persistence.PersistenceException;
 import javax.swing.JInternalFrame;
-import javax.swing.Timer;
+import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -70,7 +73,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     public StatistikAnzeige statistikAnzeige;
     
     public Login logInFester;
-
+    private static Timer timer;
     //Hilfsvariablen
     Dimension desktopSize;//Speichervariable für die Größe der DesktopPane.
     Dimension jInternalFrameSize;//Speichervariable für die Größe des InternalFrames.
@@ -187,7 +190,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         useraendern.setVisible(false);
         suche.setVisible(false);
         detailSuche.setVisible(false);
-
+        this.setExtendedState(Frame.MAXIMIZED_BOTH);
     }
 
     /**
@@ -1146,14 +1149,14 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         Toolkit.getDefaultToolkit().beep();
         
         statusMeldung_jTextField.setText(status);//Meldung wird angezeigt.
-        
-        // Erzeugung eines Timers, der nach 5 Sekunden die Meldung löscht.
-        new Timer(5000, new ActionListener(){
-            public void actionPerformed(ActionEvent ae){
-                
-                // Übergabe eines leeren Strings.
+
+        timer = new java.util.Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
                 statusMeldung_jTextField.setText("");
-        }}).start();// Timer wird gestartet.
+                
+            }
+        }, 5 * 1000);
     }
 
     @Override
