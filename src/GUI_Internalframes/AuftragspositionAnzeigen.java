@@ -70,20 +70,18 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      Syntax
      */
 
-//    private static final String material_syntax = "|\\d{1,9}?";
     private static final String menge_syntax = "|\\d{1,9}?";
-//    private static final String einzelwert_syntax = "|(\\d*.?\\d{1,2})|(\\d{0,3}(\\.\\d{3})*,?\\d{1,2})";
 
     /*
      Augabetexte für Meldungen
      */
+    final String FEHLER = "Fehler";
+    
     final String FEHLERMELDUNG_TITEL = "Fehlerhafte Eingabe";
-    ;
-//    final String FEHLERMELDUNG_UNGUELTIGESDATUM
-//            = "Üngültigesdatum. Bitte geben Sie eine gültiges Datum ein. (z.B 01.01.2016)";
 
     String FEHLERMELDUNGMENGE_TEXT = "\"Die eingegebene Menge ist nicht gültig! "
             + "\\n Bitte geben Sie eine Menge ein. (z.B. 0 bis 999999999)\"";
+    
     final String AENDERUNGVONDATEN_TEXT = "Es wurden Daten geändert. Wollen Sie wirklich"
             + " die Daten überspeichern?";
     final String AENDERUNGVONDATEN__TITEL = "Änderung von Daten";
@@ -459,10 +457,12 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
                 }
 
             } catch (ApplicationException e) {
-                this.hauptFenster.setStatusMeldung(e.getMessage());
+//                this.hauptFenster.setStatusMeldung(e.getMessage());
+                JOptionPane.showMessageDialog(null, e.getMessage(),
+                    FEHLER, JOptionPane.ERROR_MESSAGE);
             } catch ( NumberFormatException e){
                 JOptionPane.showMessageDialog(null, KEINEEINGABE_TEXT,
-                            FEHLERMELDUNG_TITEL, JOptionPane.ERROR_MESSAGE);
+                            FEHLER, JOptionPane.ERROR_MESSAGE);
                 
                 menge_jTextField.requestFocusInWindow();
                 
@@ -482,7 +482,9 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
                 this.hauptFenster.setStatusMeldung(ERFOLGREICHGELOESCHT_TEXT);
                 jB_ZurueckActionPerformed(evt);
             } catch (ApplicationException e) {
-                this.hauptFenster.setStatusMeldung(e.getMessage());
+                JOptionPane.showMessageDialog(null, e.getMessage(),
+                    FEHLER, JOptionPane.ERROR_MESSAGE);
+//                this.hauptFenster.setStatusMeldung(e.getMessage());
             }
         }
         //Variable wird wieder auf true gesetzt, da nochmals eine Pruefung stattfindet 
@@ -745,7 +747,9 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
             dbEinzelwert = String.valueOf(position.getEinzelwert());
             dbErfassungsdatum = gibDatumAlsString(position.getErfassungsdatum());
         } catch (ApplicationException e) {
-            this.hauptFenster.setStatusMeldung(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage(),
+                    FEHLER, JOptionPane.ERROR_MESSAGE);
+//            this.hauptFenster.setStatusMeldung(e.getMessage());
         }
     }
     /*----------------------------------------------------------*/

@@ -41,20 +41,27 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
     /*
      Ausgabetexte für Meldungen
      */
+    final String FEHLER = "Fehler";
+
     final String FEHLERMELDUNG_TITEL = "Fehlerhafte Eingabe";
     final String FEHLERMELDUNG_TEXT = "Es sind nicht alle Eingaben getätigt worden.\n"
             + "Bitte geben Sie alle Eingaben ein um fortzufahren.";
-    final String ERFOLGREICHEANMELDUNG = "Der Benutzer wurde erfolgreich angelegt.";
-    final String ERFOLGREICHAENDERNDERBENUTZERDATEN = "Die Benutzerdaten wurden erfolgreich geändert.";
+    
+    final String ERFOLGREICHEANMELDUNG = "Der Benutzer wurde erfolgreich angelegt.";    
+    final String ERFOLGREICHAENDERNDERBENUTZERDATEN = "Die Benutzerdaten wurden erfolgreich geändert.";   
     final String ERFOLGREICHBENUTZERGELOESCHT = "Der Benutzer wurde erfolgreich gelöscht";
+    
+    final String AENDERUNGVONDATEN_TITEL = "Änderung von Daten";
     final String AENDERUNGVONDATEN_TEXT = "Es wurden Daten geändert. Wollen Sie wirklich"
             + "die Daten überspeichern?";
-    final String AENDERUNGVONDATEN_TITEL = "Änderung von Daten";
+    
     final String KEINEAENDERUNGEN_Titel = "Benutzer bereits angelegt";
     final String KEINEAENDERUNGEN_TEXT = "Der Benutzerdaten existieren bereits.";
+    
     final String DATENVERWERFEN_TITEL = "Daten verwerfen";
     final String DATENVERWERFEN_TEXT = "Es wurden Daten eingegeben. Wollen Sie "
             + "diese Verwerfen ?";
+    
     final String BENUTZERLOESCHEN_TITEL = "Benutzer löschen";
     final String BENUTZERLOESCHEN_TEXT = "Wollen sie den Benutzer wirklich löschen?";
     /*
@@ -220,27 +227,29 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
      */
     public void setStatusAender() {
         Benutzer benutzer;
-        try{
-            
-        this.setTitle("Benutzer ändern");
-        zuruecksetzen();
-        this.benutzername_jTextField.setEnabled(false);
-        this.passwort_jTextField.setEnabled(true);
-        benutzer = GUIFactory.getDAO().gibBenutzer(benutzername_jTextField.getText());
-        if (benutzer.isIstAdmin()) {
-            this.setCheckBoxSelected(true);// Ceckbox wird selektiert.
-        } else {
-            this.setCheckBoxSelected(false);//Checkbox wird nicht selektiert.
-        }
-        this.admin_jCheckBox.setEnabled(true);
+        try {
+
+            this.setTitle("Benutzer ändern");
+            zuruecksetzen();
+            this.benutzername_jTextField.setEnabled(false);
+            this.passwort_jTextField.setEnabled(true);
+            benutzer = GUIFactory.getDAO().gibBenutzer(benutzername_jTextField.getText());
+            if (benutzer.isIstAdmin()) {
+                this.setCheckBoxSelected(true);// Ceckbox wird selektiert.
+            } else {
+                this.setCheckBoxSelected(false);//Checkbox wird nicht selektiert.
+            }
+            this.admin_jCheckBox.setEnabled(true);
 //        jB_Anzeigen.setText("Anzeigen");
-        jB_Anzeigen.setEnabled(false);
-        jB_Speichern.setEnabled(true);
-        jB_Loeschen.setEnabled(true);
-        jB_Suchen.setEnabled(false);
-        this.hauptFenster.setComponent(this);
-        }catch(ApplicationException e){
-            this.hauptFenster.setStatusMeldung(e.getMessage());
+            jB_Anzeigen.setEnabled(false);
+            jB_Speichern.setEnabled(true);
+            jB_Loeschen.setEnabled(true);
+            jB_Suchen.setEnabled(false);
+            this.hauptFenster.setComponent(this);
+        } catch (ApplicationException e) {
+//            this.hauptFenster.setStatusMeldung(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage(),
+                    FEHLER, JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -503,7 +512,9 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
                         FEHLERMELDUNG_TEXT, warningfarbe);
             }
         } catch (ApplicationException e) {
-            this.hauptFenster.setStatusMeldung(e.getMessage());
+//            this.hauptFenster.setStatusMeldung(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage(),
+                    FEHLER, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jB_SpeichernActionPerformed
 
@@ -594,7 +605,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
             this.setStatusAnzeigen();
         } else {
             this.setStatusAender();
-            
+
         }
     }//GEN-LAST:event_jB_AnzeigenActionPerformed
 
@@ -639,7 +650,9 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
                 this.benutzername_jTextField.setText("");// Eingabefeld ist leer nachdem man den User gelöscht hat.
             }
         } catch (ApplicationException e) {// Fehlerbehandlung.
-            this.hauptFenster.setStatusMeldung(e.getMessage());//Ausgabe einer Meldung.
+//            this.hauptFenster.setStatusMeldung(e.getMessage());//Ausgabe einer Meldung.
+            JOptionPane.showMessageDialog(null, e.getMessage(),
+                    FEHLER, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jB_LoeschenActionPerformed
 
