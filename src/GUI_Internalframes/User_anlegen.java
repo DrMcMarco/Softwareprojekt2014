@@ -201,7 +201,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         this.benutzername_jTextField.setEnabled(false);
         this.passwort_jTextField.setEnabled(false);
         this.admin_jCheckBox.setEnabled(true);
-        jB_Anzeigen.setText("Ändern");
+//        jB_Anzeigen.setText("Ändern");
         jB_Anzeigen.setEnabled(true);
         jB_Speichern.setEnabled(false);
         jB_Loeschen.setEnabled(false);
@@ -233,7 +233,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
             this.setCheckBoxSelected(false);//Checkbox wird nicht selektiert.
         }
         this.admin_jCheckBox.setEnabled(true);
-        jB_Anzeigen.setText("Anzeigen");
+//        jB_Anzeigen.setText("Anzeigen");
         jB_Anzeigen.setEnabled(false);
         jB_Speichern.setEnabled(true);
         jB_Loeschen.setEnabled(true);
@@ -255,7 +255,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         this.benutzername_jTextField.setEnabled(true);
         this.passwort_jTextField.setEnabled(true);
         this.admin_jCheckBox.setEnabled(true);
-        jB_Anzeigen.setText("Anzeigen");
+//        jB_Anzeigen.setText("Anzeigen");
         jB_Anzeigen.setEnabled(false);
         jB_Speichern.setEnabled(true);
         jB_Loeschen.setEnabled(false);
@@ -595,7 +595,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
             this.setStatusAnzeigen();
         } else {
             this.setStatusAender();
-
+            
         }
     }//GEN-LAST:event_jB_AnzeigenActionPerformed
 

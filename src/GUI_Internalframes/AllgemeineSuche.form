@@ -120,7 +120,7 @@
         <Component class="javax.swing.JButton" name="Zur&#xfc;ck_jButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/GUI_Internalframes/Home2.PNG"/>
+              <Image iconType="3" name="/GUI_Internalframes/Zur&#xfc;ck.PNG"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalAlignment" type="int" value="2"/>
