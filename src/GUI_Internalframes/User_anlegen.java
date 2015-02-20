@@ -201,7 +201,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         this.benutzername_jTextField.setEnabled(false);
         this.passwort_jTextField.setEnabled(false);
         this.admin_jCheckBox.setEnabled(true);
-        jB_Anzeigen.setText("Ändern");
+//        jB_Anzeigen.setText("Ändern");
         jB_Anzeigen.setEnabled(true);
         jB_Speichern.setEnabled(false);
         jB_Loeschen.setEnabled(false);
@@ -233,7 +233,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
             this.setCheckBoxSelected(false);//Checkbox wird nicht selektiert.
         }
         this.admin_jCheckBox.setEnabled(true);
-        jB_Anzeigen.setText("Anzeigen");
+//        jB_Anzeigen.setText("Anzeigen");
         jB_Anzeigen.setEnabled(false);
         jB_Speichern.setEnabled(true);
         jB_Loeschen.setEnabled(true);
@@ -255,7 +255,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         this.benutzername_jTextField.setEnabled(true);
         this.passwort_jTextField.setEnabled(true);
         this.admin_jCheckBox.setEnabled(true);
-        jB_Anzeigen.setText("Anzeigen");
+//        jB_Anzeigen.setText("Anzeigen");
         jB_Anzeigen.setEnabled(false);
         jB_Speichern.setEnabled(true);
         jB_Loeschen.setEnabled(false);
@@ -287,7 +287,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
 
         setResizable(true);
         setTitle("User anlegen");
-        setPreferredSize(new java.awt.Dimension(600, 250));
+        setPreferredSize(new java.awt.Dimension(580, 300));
         setRequestFocusEnabled(false);
         try {
             setSelected(true);
@@ -343,7 +343,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
         benutzername_jLabel.setText("Benutzername : ");
 
         passwort_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        passwort_jLabel.setText("Passwort          :");
+        passwort_jLabel.setText("Passwort :");
 
         benutzername_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -377,17 +377,16 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
             .addComponent(jSeparator1)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(passwort_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(benutzername_jLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(95, 95, 95)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(benutzername_jLabel)
+                    .addComponent(passwort_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(admin_jCheckBox)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(benutzername_jTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-                        .addComponent(passwort_jTextField)))
+                        .addComponent(benutzername_jTextField)
+                        .addComponent(passwort_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -396,17 +395,17 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(benutzername_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(benutzername_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(benutzername_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(benutzername_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passwort_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(passwort_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(admin_jCheckBox)
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -595,7 +594,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
             this.setStatusAnzeigen();
         } else {
             this.setStatusAender();
-
+            
         }
     }//GEN-LAST:event_jB_AnzeigenActionPerformed
 
