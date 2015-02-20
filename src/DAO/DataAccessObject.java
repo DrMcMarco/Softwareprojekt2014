@@ -2540,11 +2540,17 @@ public class DataAccessObject {
      */
     public Status gibStatusPerName(String name) throws ApplicationException {
         
+        //Variablen zur Verarbeitung
         Query query = null;
         Status status = null;
+        
+        //Wenn kein Name übergeben wurde, soll eine Fehlermeldung ausgegeben
+        //werden
         if (name == null)
             throw new ApplicationException("Fehler",
                     "Geben Sie eine Kategorie an!");
+        
+        //Hole den Status anhand des Namens aus der Datenbank
         query = em.createQuery("SELECT ST FROM Status ST "
                 + "WHERE ST.Status LIKE :name").setParameter("name", name.toLowerCase());
         try {
@@ -2553,6 +2559,8 @@ public class DataAccessObject {
             throw new ApplicationException("Fehler", e.getMessage());
         }
         
+        //Wenn der Status nicht gefunden wurde oder glöscht ist, soll eine 
+        //Fehlermeldung ausgegeben werden
         if (status == null || status.isLKZ())
             throw new ApplicationException("Fehler",
                     "Es wurde kein Status gefunden!");
@@ -2858,31 +2866,6 @@ public class DataAccessObject {
         return benutzer;
     }
     
-//    /*----------------------------------------------------------*/
-//    /* Datum      Name    Was                                   */
-//    /* 13.01.15   loe     angelegt                              */
-//    /*----------------------------------------------------------*/
-//    /**
-//     * Gibt die Namen der Spalten für eine Entity (Tabelle) als HashSet zurück
-//     * @param entity Entityklasse zu der die Metadaten geholt werden sollen (Übergabe: entity.class)
-//     * @return HashSet das die Namen der Spalten enthält
-//     */
-//    public HashSet<String> gibMetadaten(Class entity) {
-//        
-//        //Über die Metadaten werden die Attribute (Spaltennamen) der angegebenen Entity ermittelt
-//        Set<Attribute> attribute = em.getMetamodel().entity(entity).getAttributes();
-//        
-//        //HashSet das nur die Namen der Attribute enthält
-//        HashSet<String> namen = new HashSet<>();
-//        
-//        //Für jedes Attribute im Set wird der Name gelesen und in das HashSet geschrieben
-//        for(Attribute a : attribute) {
-//            namen.add(a.getName());
-//        }
-//        
-//        return namen;
-//    }
-    
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
     /* 12.01.15   loe     angelegt                              */
@@ -2935,6 +2918,10 @@ public class DataAccessObject {
         return umsatz;
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 18.02.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
     /**
      * Gibt die zehn größten Umsätze pro Artikel zurück.
      * Errechnet anhand der abgeschlossenenen Aufträge
@@ -2970,6 +2957,10 @@ public class DataAccessObject {
         return artikelUmsatz;
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 18.02.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
     /**
      * Gibt die zehn am meisten verkauften Artikel zurück.
      * Wird für die Statistik benutzt
@@ -3000,10 +2991,23 @@ public class DataAccessObject {
         return artikelMenge;
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 18.02.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
+    /**
+     * Gibt den Umsatz pro Kategorie für alle Kategorien an.
+     * Wird für die Statistik benutzt.
+     * @return eine Hashmap(Key: Name der Kategorie, Value: Umsatz für diese Kategorie)
+     */
     public HashMap<String, Double> gibUmsatzProKategorie() {
         
+        //Hashmap zum Speichern des Umsatzes pro Kategorie
         HashMap<String, Double> umsatzKategorie = new HashMap<>();
         
+        //Selektiere den Kategoriename und den kumulierten Auftragswert pro
+        //Kategorie für alle Verkaufsaufträge die abgeschlossen und nicht 
+        //gelöscht sind
         Query abfrage = this.em.createNativeQuery("select kat.KATEGORIENAME, sum(ak.WERT)\n" +
                                   "from root.AUFTRAGSKOPF as ak, root.AUFTRAGSPOSITION as ap, root.ARTIKEL as a, root.ARTIKELKATEGORIE as kat, root.STATUS as s\n" +
                                   "where ap.AUFTRAG = ak.AUFTRAGSKOPFID and\n" +
@@ -3015,8 +3019,10 @@ public class DataAccessObject {
                                   "      ak.LKZ = 0\n" +
                                   "group by kat.KATEGORIENAME");
         
+        //Hole Ergebnisse
         List<Object[]> ergebnisse = abfrage.getResultList();
         
+        //Speichere Ergebnisse in der Hashmap
         for(Object[] ergebnis : ergebnisse) {
             umsatzKategorie.put(ergebnis[0].toString(), (double)ergebnis[1]);
         }
