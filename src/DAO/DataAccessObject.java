@@ -2998,6 +2998,30 @@ public class DataAccessObject {
         return artikelMenge;
     }
     
+    public HashMap<String, Double> gibUmsatzProKategorie() {
+        
+        HashMap<String, Double> umsatzKategorie = new HashMap<>();
+        
+        Query abfrage = this.em.createNativeQuery("select kat.KATEGORIENAME, sum(ak.WERT)\n" +
+                                  "from root.AUFTRAGSKOPF as ak, root.AUFTRAGSPOSITION as ap, root.ARTIKEL as a, root.ARTIKELKATEGORIE as kat, root.STATUS as s\n" +
+                                  "where ap.AUFTRAG = ak.AUFTRAGSKOPFID and\n" +
+                                  "      ap.ARTIKEL = a.ARTIKELID and\n" +
+                                  "      a.KATEGORIE = kat.KATEGORIEID and\n" +
+                                  "      ak.STATUS = s.STATUSID and\n" +
+                                  "      s.STATUS like 'abgeschlossen' and\n" +
+                                  "      ak.AUFTRAGSART not like 'bestellauftrag' and\n" +
+                                  "      ak.LKZ = 0\n" +
+                                  "group by kat.KATEGORIENAME");
+        
+        List<Object[]> ergebnisse = abfrage.getResultList();
+        
+        for(Object[] ergebnis : ergebnisse) {
+            umsatzKategorie.put(ergebnis[0].toString(), (double)ergebnis[1]);
+        }
+        
+        return umsatzKategorie;
+    }
+    
 //</editor-fold>
     
 //<editor-fold defaultstate="collapsed" desc="loesche-Methoden">
