@@ -2956,6 +2956,25 @@ public class DataAccessObject {
         return artikelUmsatz;
     }
     
+    public HashMap<String, Integer> gibVerkauftProArtikel() {
+        
+        HashMap<String, Integer> artikelMenge = new HashMap<>();
+        
+        Query abfrage = this.em.createNativeQuery("select a.ARTIKELTEXT, a.VERKAUFT\n" +
+                                                  "from root.ARTIKEL as a\n" +
+                                                  "where a.LKZ = 0\n" +
+                                                  "order by a.VERKAUFT desc\n" +
+                                                  "fetch next 10 rows only");
+        
+        List<Object[]> ergebnisse = abfrage.getResultList();
+        
+        for (Object[] ergebnis : ergebnisse) {
+            artikelMenge.put((String)ergebnis[0], (int)ergebnis[1]);
+        }
+        
+        return artikelMenge;
+    }
+    
 //</editor-fold>
     
 //<editor-fold defaultstate="collapsed" desc="loesche-Methoden">
