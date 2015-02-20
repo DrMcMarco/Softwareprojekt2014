@@ -227,6 +227,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="umsatz_mnActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="umsatz_einkauf_mn">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Umsatz-Einkauf Vergleich"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="umsatz_einkauf_mnActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="artikel_absatz_mn">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Artikel Umsatz"/>

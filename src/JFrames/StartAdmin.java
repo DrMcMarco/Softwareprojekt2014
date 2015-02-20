@@ -232,6 +232,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         jMI_BenutzerAnzeigen = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         umsatz_mn = new javax.swing.JMenuItem();
+        umsatz_einkauf_mn = new javax.swing.JMenuItem();
         artikel_absatz_mn = new javax.swing.JMenuItem();
         artikel_verkauft_mn = new javax.swing.JMenuItem();
         kat_umsatz_mn = new javax.swing.JMenuItem();
@@ -447,6 +448,14 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
             }
         });
         jMenu2.add(umsatz_mn);
+
+        umsatz_einkauf_mn.setText("Umsatz-Einkauf Vergleich");
+        umsatz_einkauf_mn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                umsatz_einkauf_mnActionPerformed(evt);
+            }
+        });
+        jMenu2.add(umsatz_einkauf_mn);
 
         artikel_absatz_mn.setText("Artikel Umsatz");
         artikel_absatz_mn.addActionListener(new java.awt.event.ActionListener() {
@@ -1074,6 +1083,10 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         this.statistikAnzeige.setzeChart(GUIFactory.getDAO().gibChartArtikelkategorieAbsatz());
     }//GEN-LAST:event_kat_umsatz_mnActionPerformed
 
+    private void umsatz_einkauf_mnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_umsatz_einkauf_mnActionPerformed
+        this.statistikAnzeige.setzeChart(GUIFactory.getDAO().gibChartUmsatzEinkaufAuftragswert());
+    }//GEN-LAST:event_umsatz_einkauf_mnActionPerformed
+
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt */
@@ -1377,6 +1390,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     private javax.swing.JMenuItem kat_umsatz_mn;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JTextField statusMeldung_jTextField;
+    private javax.swing.JMenuItem umsatz_einkauf_mn;
     private javax.swing.JMenuItem umsatz_mn;
     // End of variables declaration//GEN-END:variables
 

@@ -57,6 +57,7 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.xy.XYSeries;
 
 import sun.rmi.transport.TransportConstants;
 
@@ -2930,6 +2931,32 @@ public class DataAccessObject {
         return umsatz;
     }
     
+    /**
+     * Gibt alle Aufträge der letzten sechs Monate zurück.
+     * Wird für die Statistik benutzt.
+     * @return eine Collection aller Aufträge der letzten sechs Monate
+     */
+    public double gibEinkaufProMonat(Date datum) {
+        java.sql.Date datumSql = new java.sql.Date(datum.getTime());
+        double umsatz = 0;
+        
+        
+        //Selektiere alle Aufträge die letzten sechs Monate, die abgeschlossen 
+        //und nicht gelöscht sind
+        List<Auftragskopf> ergebnis = 
+                this.em.createNativeQuery("select * from Auftragskopf st left join Status on st.Status = Status.Statusid "
+                        + "where st.LKZ = 0  AND st.Auftragsart LIKE 'Bestellauftrag' "
+                        + "AND Status.Status LIKE 'abgeschlossen' "
+                        + "AND MONTH(st.abschlussdatum) = MONTH('" + datumSql + "') "
+                        + "AND YEAR(st.abschlussdatum) = YEAR('" + datumSql + "')", Auftragskopf.class)
+                        .getResultList();
+        
+        for (Auftragskopf auftrag : ergebnis) {
+            umsatz = umsatz + auftrag.getWert();
+        }
+        return umsatz;
+    }
+    
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
     /* 18.02.15   loe     angelegt                              */
@@ -3635,6 +3662,63 @@ public class DataAccessObject {
 
             dataset.setValue(auftragswert, 
                         "Monatlicher Gesamtumsatz", monat);
+            cal = Calendar.getInstance();
+        }
+        //Diagramm erstellen.
+        lineChart = ChartFactory.createLineChart("Umsatzkurve "
+                + "(Letzte 6 Monate)",
+                    null, "Umsatz in ", dataset, PlotOrientation.VERTICAL,
+                    true, true, true);
+        return lineChart;
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 10.12.14   sch     angelegt                              */
+    /*----------------------------------------------------------*/
+    /**
+     * Umsatzkurze für die letzten 6 Monate gesamt.
+     * 
+     * @return Linechart
+     */
+    public JFreeChart gibChartUmsatzEinkaufAuftragswert() {
+        //Charts und Datasets.
+        JFreeChart lineChart;
+        DefaultCategoryDataset dataset;
+        Collection<Auftragskopf> auftraege = null;
+        dataset = new DefaultCategoryDataset();
+        double auftragswert = 0;
+        //Datum in ein anderes Format (Tag-Monat-Jahr) konvertieren
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        //Calendar-Objekt holen
+        Calendar cal = Calendar.getInstance();
+        String monat = "";
+        Date vorSechsMonaten = cal.getTime();
+
+        
+        for (int i = 6; i >= 1; i--) {
+            //Datum von vor sechs Monaten berechnet
+            cal.add(Calendar.MONTH, -i);
+            vorSechsMonaten = cal.getTime();
+            monat = new DateFormatSymbols().getMonths()[Integer.parseInt(
+                    dateFormat.format(vorSechsMonaten).split("\\.")[1]) - 1];
+            auftragswert = this.gibUmsatzProMonat(vorSechsMonaten);
+
+            dataset.setValue(auftragswert, 
+                        "Monatlicher Gesamtumsatz", monat);
+            cal = Calendar.getInstance();
+        }
+        cal = Calendar.getInstance();
+        for (int i = 6; i >= 1; i--) {
+            //Datum von vor sechs Monaten berechnet
+            cal.add(Calendar.MONTH, -i);
+            vorSechsMonaten = cal.getTime();
+            monat = new DateFormatSymbols().getMonths()[Integer.parseInt(
+                    dateFormat.format(vorSechsMonaten).split("\\.")[1]) - 1];
+            auftragswert = this.gibEinkaufProMonat(vorSechsMonaten);
+
+            dataset.setValue(auftragswert, 
+                        "Monatlicher Einkaufswert", monat);
             cal = Calendar.getInstance();
         }
         //Diagramm erstellen.
