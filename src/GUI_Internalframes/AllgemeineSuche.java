@@ -136,7 +136,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         Button_jToolBar.setRollover(true);
         Button_jToolBar.setEnabled(false);
 
-        Zurück_jButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/home.PNG"))); // NOI18N
+        Zurück_jButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Home2.PNG"))); // NOI18N
         Zurück_jButton.setFocusable(false);
         Zurück_jButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         Zurück_jButton.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
@@ -154,7 +154,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         Anzeige_jButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         Button_jToolBar.add(Anzeige_jButton);
 
-        sucheStarten_jButton.setText("Suchen");
+        sucheStarten_jButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/DetailSuche.PNG"))); // NOI18N
         sucheStarten_jButton.setFocusable(false);
         sucheStarten_jButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         sucheStarten_jButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);

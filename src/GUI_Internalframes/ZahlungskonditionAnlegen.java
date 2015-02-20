@@ -348,7 +348,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         jToolBar1.setRollover(true);
         jToolBar1.setEnabled(false);
 
-        jB_Zurueck.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/home.PNG"))); // NOI18N
+        jB_Zurueck.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Home2.PNG"))); // NOI18N
         jB_Zurueck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_ZurueckActionPerformed(evt);
@@ -356,7 +356,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         });
         jToolBar1.add(jB_Zurueck);
 
-        jB_Speichern.setText("Speichern");
+        jB_Speichern.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Speichern.PNG"))); // NOI18N
         jB_Speichern.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_SpeichernActionPerformed(evt);
@@ -364,7 +364,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         });
         jToolBar1.add(jB_Speichern);
 
-        jB_AnzeigenAEndern.setText("Anzeige/Ändern");
+        jB_AnzeigenAEndern.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Bearbeiten.PNG"))); // NOI18N
         jB_AnzeigenAEndern.setActionCommand("Anzeigen/Ändern");
         jB_AnzeigenAEndern.setEnabled(false);
         jB_AnzeigenAEndern.addActionListener(new java.awt.event.ActionListener() {
@@ -374,7 +374,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         });
         jToolBar1.add(jB_AnzeigenAEndern);
 
-        jB_Loeschen.setText("Löschen");
+        jB_Loeschen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Löschen.PNG"))); // NOI18N
         jB_Loeschen.setEnabled(false);
         jB_Loeschen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -383,7 +383,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         });
         jToolBar1.add(jB_Loeschen);
 
-        jB_Suchen.setText("Suchen");
+        jB_Suchen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Suche.PNG"))); // NOI18N
         jB_Suchen.setEnabled(false);
         jB_Suchen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

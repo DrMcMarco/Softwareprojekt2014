@@ -121,6 +121,9 @@ insert into PARAMETERDATEN
 VALUES (33,'Integer', 'Geschäftspartner', 14, 'auftragspartnernr', 'Auftragskopf');
 
 insert into PARAMETERDATEN
+VALUES (67,'String', 'AUFTRAGSART', 14, 'auftragsart', 'Auftragskopf');
+
+insert into PARAMETERDATEN
 VALUES (34,'String', 'GeschäftspartnerFK', 14, 'auftragspartnername', 'Auftragskopf');
 
 insert into PARAMETERDATEN
@@ -128,9 +131,6 @@ VALUES (65,'String', 'GeschäftspartnerFKVNAME', 14, 'auftragspartnervorname', 'A
 
 insert into PARAMETERDATEN
 VALUES (35,'String', 'StatusFK', 14, 'auftragsstatus', 'Auftragskopf');
-
-insert into PARAMETERDATEN
-VALUES (36,'String', 'ZAHLUNGSKONDITION_ZAHLUNGSKONDITIONIDFK', 14, 'zkauftragsart', 'Auftragskopf');
 
 insert into PARAMETERDATEN
 VALUES (37,'Integer', 'Auftrag', 14, 'positionsauftragsnr', 'Auftragsposition');
@@ -152,6 +152,9 @@ VALUES (42,'Date', 'ERFASSUNGSDATUM', 14, 'positionserfassungsdatum', 'Auftragsp
 
 insert into PARAMETERDATEN
 VALUES (60,'Integer', 'GESCHAEFTSPARTNERID', 14, 'partnernr', 'Geschäftspartner');
+
+insert into PARAMETERDATEN
+VALUES (66,'String', 'TYP', 14, 'geschäftspartnertyp', 'Geschäftspartner');
 
 insert into PARAMETERDATEN
 VALUES (43,'Double', 'KREDITLIMIT', 14, 'kredit', 'Geschäftspartner');
