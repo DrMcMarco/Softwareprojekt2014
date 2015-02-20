@@ -15,12 +15,12 @@ import java.util.ArrayList;
 public  class  GUIFactory {
     
     static ArrayList<Component> liste;
-    private static DataAccessObject DAO;
+    private static DataAccessObject DAO = new DataAccessObject();
      
     
     public GUIFactory(){
         liste = new ArrayList<>();
-        DAO = new DataAccessObject();
+        //DAO = new DataAccessObject();
     }
     
 

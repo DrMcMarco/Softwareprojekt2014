@@ -22,8 +22,10 @@ import DTO.Parameterdaten;
 import DTO.Rechnungsanschrift;
 import DTO.Sofortauftragskopf;
 import DTO.Status;
+import DTO.Steuertabelle;
 import DTO.Terminauftragskopf;
 import DTO.Zahlungskondition;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -59,6 +61,24 @@ public class DataAccessObject {
     public DataAccessObject() {
         this.em = Persistence.createEntityManagerFactory(
             "Softwareprojekt2014PU").createEntityManager();
+        
+        try {
+            
+            Steuertabelle st = this.gibSteuerparameter("Letzter Programmstart");
+            
+            if (st == null) {
+                String currentDir = System.getProperty("user.dir");
+                currentDir = "\""+currentDir+"\"";
+                System.out.println(currentDir);
+                Runtime.getRuntime().exec("cmd.exe /C start /B fillDatabase.bat");
+            }
+            
+            this.erstelleSteuereintrag("Letzter Programmstart", new Date().toString());
+        } catch (ApplicationException e) {
+            System.out.println(e.getMessage());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
     
     /*----------------------------------------------------------*/
@@ -200,7 +220,7 @@ public class DataAccessObject {
             }
             
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
             
         }
         
@@ -265,7 +285,7 @@ public class DataAccessObject {
             }
             
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
             
         }
         
@@ -332,7 +352,7 @@ public class DataAccessObject {
             }
             
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
             
         }
     }
@@ -397,6 +417,17 @@ public class DataAccessObject {
         if (state == null) {
             throw new ApplicationException("Fehler", 
                     "Status konnte nicht gefunden werden");
+        }
+        
+        if ((Typ.equals("Barauftrag") || Typ.equals("Sofortauftrag") || 
+             Typ.equals("Terminauftrag")) && gp.getTyp().equals("Lieferant")) {
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Für Lieferanten kann diese Art von Auftrag nicht angelegt werden.");
+        }
+        
+        if (Typ.equals("Bestellauftrag") && gp.getTyp().equals("Kunde")) {
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Für Kunden kann keine Bestellauftrag angelegt werden.");
         }
         
         //Hole das aktuelle Systemdatum
@@ -495,7 +526,7 @@ public class DataAccessObject {
             }
             
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
             
         }
     }
@@ -561,7 +592,7 @@ public class DataAccessObject {
             }
             
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
             
         }
     }
@@ -711,7 +742,7 @@ public class DataAccessObject {
             }
             
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
             
         }
     }
@@ -808,7 +839,7 @@ public class DataAccessObject {
             }
             
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
             
         }
     }
@@ -892,11 +923,68 @@ public class DataAccessObject {
                 }
 
                 throw new ApplicationException(FEHLER_TITEL, 
-                        "Ein unerwarteter Fehler ist ausfgetreten.");
+                        th.getMessage());
 
             }
             
         }   
+    }
+    
+    public void erstelleSteuereintrag(String Parameter, String Wert) 
+            throws ApplicationException {
+        
+        Steuertabelle st = em.find(Steuertabelle.class, Parameter);
+        
+        if (st == null) {
+            st = new Steuertabelle(Parameter, Wert);
+        } else {
+            st.setWert(Wert);
+        }
+        
+        if (st == null) {
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Der Eintrag konnte nicht erstellt werden.");
+        }
+        
+        try {
+            
+            em.getTransaction().begin();
+            
+            em.persist(st);
+            
+            em.getTransaction().commit();
+            
+        } catch (RollbackException re) {
+
+            //Der Commit ist fehlgeschlagen
+            //Dadurch wird implizit ein Rollback ausgeführt
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Commit ist fehlgeschlagen. Transkation wurde "
+                            + "rückgängig gemacht.");
+
+        } catch (PersistenceException pe){
+
+            //Es ist ein Fehler beim Persistieren der Daten aufgetreten
+            //Hier muss ein Rollback manuell durchgeführt werdeb
+            em.getTransaction().rollback();
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Fehler beim Persistieren der Daten. Transkation wurde "
+                            + "rückgängig gemacht.");
+
+        } catch (Throwable th) {
+
+            //Ein unerwarteter Fehler ist aufgetreten
+            //Wenn eine Transaktion aktiv ist, muss diese rückgängig gemacht
+            //werden
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+
+            throw new ApplicationException(FEHLER_TITEL, 
+                    th.getMessage());
+
+        }
     }
     
 //</editor-fold>
@@ -1238,7 +1326,7 @@ public class DataAccessObject {
             
             if (Verkaufswert != artikel.getVerkaufswert() ||
                 Einkaufswert != artikel.getEinkaufswert() ||
-                MwST != artikel.getMwST()) {
+                MwST         != artikel.getMwST()) {
             
                 //"Lösche" den Artikel
                 artikel.setLKZ(true);
@@ -1517,7 +1605,7 @@ public class DataAccessObject {
                     }
 
                     throw new ApplicationException(FEHLER_TITEL, 
-                            "Ein unerwarteter Fehler ist ausfgetreten.");
+                            th.getMessage());
 
                 }
                 
@@ -1601,7 +1689,7 @@ public class DataAccessObject {
             }
 
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
 
         }
     }
@@ -1928,7 +2016,7 @@ public class DataAccessObject {
             }
 
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
 
         }
     }
@@ -2045,7 +2133,7 @@ public class DataAccessObject {
             }
 
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
 
         }
     }
@@ -2112,7 +2200,7 @@ public class DataAccessObject {
             }
 
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
 
         }
     }
@@ -2230,7 +2318,11 @@ public class DataAccessObject {
         return prmtr.getDatentyp();
     }
     
-    
+    private Steuertabelle gibSteuerparameter(String parameter) {
+        
+        return em.find(Steuertabelle.class, parameter);
+        
+    }
     
     /*----------------------------------------------------------*/
     /* Datum Name Was                                           */
@@ -2881,7 +2973,7 @@ public class DataAccessObject {
             }
 
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
 
         }
     }
@@ -2984,7 +3076,7 @@ public class DataAccessObject {
             }
 
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
 
         }
         
@@ -3074,7 +3166,7 @@ public class DataAccessObject {
             }
 
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
 
         }
     }
@@ -3165,7 +3257,7 @@ public class DataAccessObject {
             }
 
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
 
         }
     }
@@ -3229,7 +3321,7 @@ public class DataAccessObject {
             }
 
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Ein unerwarteter Fehler ist ausfgetreten.");
+                    th.getMessage());
 
         }
     }
@@ -3305,10 +3397,13 @@ public class DataAccessObject {
         
         try {
         
+            //Transaktion starten
             em.getTransaction().begin();
             
+            //Position mit einem Löschkennzeichen versehen
             this.loeschePosition(AuftragsID, Positionsnummer);
             
+            //Transakstion beenden
             em.getTransaction().commit();
             
         } catch (RollbackException re) {
@@ -3375,6 +3470,7 @@ public class DataAccessObject {
         //Eingegebenes Passwort(als MD5 Hash) stimmt nicht dem Passwort in der 
         //Datenbank (ebenfalls MD5 Hash) überein
         if(benutzer.getPasswort().equals(erstelleHash(password))) {
+            this.erstelleSteuereintrag("Letzter Benutzer", username);
             return benutzer;
         } else {
             return null;

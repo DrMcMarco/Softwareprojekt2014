@@ -118,7 +118,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         // Try-Block
         try {
             factory = new GUIFactory();// Erzeugung eines Guifactoryobjektes.
-            dao = new DataAccessObject();// Erzeugung eines DAO-Objektes.
+            //dao = new DataAccessObject();// Erzeugung eines DAO-Objektes.
         } catch (PersistenceException e) {// Fehlerbehandlung falls bei der 
             // Wenn bei Erzeugung entwas nicht funktioniert hat.
             System.out.println(e.getMessage());// Fehlerausgabe.
@@ -232,7 +232,6 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("HauptmenüAdmin");
-        setAlwaysOnTop(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);

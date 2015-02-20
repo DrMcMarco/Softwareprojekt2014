@@ -1,0 +1,211 @@
+connect 'jdbc:derby://localhost:1527/SWPDB;user=root;password=root';
+
+insert into benutzer values ('admin', '21232f297a57a5a743894a0e4a801fc3', 1);
+
+insert into artikelkategorie values(1, 'Testkategorie', 'Kategorie 1', 'Kommentar', 0);
+insert into artikelkategorie values(2, 'Testkategorie2', 'Kategorie 2', 'Kommentar2', 0);
+
+insert into status values(1, 0, 'erfasst');
+insert into status values(2, 0, 'freigegeben');
+insert into status values(3, 0, 'abgeschlossen');
+
+insert into PARAMETERDATEN 
+VALUES (1,'Long', 'ARTIKELID', 8, 'artikelnr', 'Artikel');
+
+insert into PARAMETERDATEN
+VALUES (2,'String', 'Artikeltext', 15, 'artikelname', 'Artikel');
+
+insert into PARAMETERDATEN
+VALUES (3,'String', 'Bestelltext', 15, 'bestelltext', 'Artikel');
+
+insert into PARAMETERDATEN
+VALUES (4,'Double', 'Einkaufswert', 8, 'artikelwert', 'Artikel');
+
+insert into PARAMETERDATEN
+VALUES (5,'Integer', 'Mwst', 8, 'mwst', 'Artikel');
+
+insert into PARAMETERDATEN
+VALUES (6,'Integer', 'Kategorie', 8, 'artikelkategorie', 'Artikel');
+
+insert into PARAMETERDATEN
+VALUES (7,'Integer', 'Frei', 8, 'frei', 'Artikel');
+
+insert into PARAMETERDATEN
+VALUES (8,'Integer', 'Reserviert', 8, 'reserviert', 'Artikel');
+
+insert into PARAMETERDATEN
+VALUES (9,'Integer', 'Zulauf', 8, 'zulauf', 'Artikel');
+
+insert into PARAMETERDATEN
+VALUES (10,'Integer', 'Verkauft', 8, 'verkauft', 'Artikel');
+
+insert into PARAMETERDATEN
+VALUES (64,'String', 'KategorieFKNAME', 12, 'artikelkategoriename', 'Artikel');
+
+insert into PARAMETERDATEN
+VALUES (63,'Integer', 'ANSCHRIFTID', 8, 'anschriftnr', 'Anschrift');
+
+insert into PARAMETERDATEN
+VALUES (11,'String', 'EMAIL', 20, 'email', 'Anschrift');
+
+insert into PARAMETERDATEN
+VALUES (12,'Date', 'ERFASSUNGSDATUM', 12, 'erfassungsdatum', 'Anschrift');
+
+insert into PARAMETERDATEN
+VALUES (13,'String', 'FAX', 20, 'fax', 'Anschrift');
+
+insert into PARAMETERDATEN
+VALUES (14,'Date', 'GEBURTSDATUM', 12, 'gebdatum', 'Anschrift');
+
+insert into PARAMETERDATEN
+VALUES (15,'Integer', 'HAUSNUMMER', 6, 'hausnr', 'Anschrift');
+
+insert into PARAMETERDATEN
+VALUES (16,'String', 'NAME', 12, 'name', 'Anschrift');
+
+insert into PARAMETERDATEN
+VALUES (17,'String', 'ORT', 12, 'ort', 'Anschrift');
+
+insert into PARAMETERDATEN
+VALUES (18,'String', 'PLZ', 8, 'plz', 'Anschrift');
+
+insert into PARAMETERDATEN
+VALUES (19,'String', 'STAAT', 12, 'staat', 'Anschrift');
+
+insert into PARAMETERDATEN
+VALUES (20,'String', 'STRASSE', 12, 'strasse', 'Anschrift');
+
+insert into PARAMETERDATEN
+VALUES (21,'String', 'TELEFON', 14, 'telefon', 'Anschrift');
+
+insert into PARAMETERDATEN
+VALUES (22,'String', 'TITEL', 14, 'titel', 'Anschrift');
+
+insert into PARAMETERDATEN
+VALUES (23,'String', 'VORNAME', 14, 'vname', 'Anschrift');
+
+insert into PARAMETERDATEN
+VALUES (24,'String', 'TELEFON', 14, 'telefon', 'Anschrift');
+
+insert into PARAMETERDATEN
+VALUES (62,'Integer', 'KATEGORIEID', 14, 'kategorienr', 'Artikelkategorie');
+
+insert into PARAMETERDATEN
+VALUES (25,'String', 'BESCHREIBUNG', 14, 'katbeschreibung', 'Artikelkategorie');
+
+insert into PARAMETERDATEN
+VALUES (26,'String', 'KATEGORIENAME', 14, 'katname', 'Artikelkategorie');
+
+insert into PARAMETERDATEN
+VALUES (27,'String', 'KOMMENTAR', 14, 'katkommentar', 'Artikelkategorie');
+
+insert into PARAMETERDATEN
+VALUES (61,'Integer', 'AUFTRAGSKOPFID', 14, 'auftragsnr', 'Auftragskopf');
+
+insert into PARAMETERDATEN
+VALUES (28,'Date', 'ABSCHLUSSDATUM', 14, 'abschlussdatum', 'Auftragskopf');
+
+insert into PARAMETERDATEN
+VALUES (29,'String', 'AUFTRAGSTEXT', 14, 'auftragstext', 'Auftragskopf');
+
+insert into PARAMETERDATEN
+VALUES (30,'Date', 'ERFASSUNGSDATUM', 14, 'eingangsdatum', 'Auftragskopf');
+
+insert into PARAMETERDATEN
+VALUES (31,'Date', 'LIEFERDATUM', 14, 'lieferdatum', 'Auftragskopf');
+
+insert into PARAMETERDATEN
+VALUES (32,'Double', 'WERT', 14, 'auftragswert', 'Auftragskopf');
+
+insert into PARAMETERDATEN
+VALUES (33,'Integer', 'Geschäftspartner', 14, 'auftragspartnernr', 'Auftragskopf');
+
+insert into PARAMETERDATEN
+VALUES (67,'String', 'AUFTRAGSART', 14, 'auftragsart', 'Auftragskopf');
+
+insert into PARAMETERDATEN
+VALUES (34,'String', 'GeschäftspartnerFK', 14, 'auftragspartnername', 'Auftragskopf');
+
+insert into PARAMETERDATEN
+VALUES (65,'String', 'GeschäftspartnerFKVNAME', 14, 'auftragspartnervorname', 'Auftragskopf');
+
+insert into PARAMETERDATEN
+VALUES (35,'String', 'StatusFK', 14, 'auftragsstatus', 'Auftragskopf');
+
+insert into PARAMETERDATEN
+VALUES (37,'Integer', 'Auftrag', 14, 'positionsauftragsnr', 'Auftragsposition');
+
+insert into PARAMETERDATEN
+VALUES (38,'Integer', 'POSITIONSNUMMER', 14, 'positionsnummer', 'Auftragsposition');
+
+insert into PARAMETERDATEN
+VALUES (39,'Integer', 'ARTIKEL', 14, 'positionartikelnr', 'Auftragsposition');
+
+insert into PARAMETERDATEN
+VALUES (40,'Double', 'EINZELWERT', 14, 'positionswert', 'Auftragsposition');
+
+insert into PARAMETERDATEN
+VALUES (41,'Integer', 'MENGE', 14, 'menge', 'Auftragsposition');
+
+insert into PARAMETERDATEN
+VALUES (42,'Date', 'ERFASSUNGSDATUM', 14, 'positionserfassungsdatum', 'Auftragsposition');
+
+insert into PARAMETERDATEN
+VALUES (60,'Integer', 'GESCHAEFTSPARTNERID', 14, 'partnernr', 'Geschäftspartner');
+
+insert into PARAMETERDATEN
+VALUES (66,'String', 'TYP', 14, 'geschäftspartnertyp', 'Geschäftspartner');
+
+insert into PARAMETERDATEN
+VALUES (43,'Double', 'KREDITLIMIT', 14, 'kredit', 'Geschäftspartner');
+
+insert into PARAMETERDATEN
+VALUES (44,'String', 'RECHNUNGSADRESSE_ANSCHRIFTIDFKNAME', 14, 'partnername', 'Geschäftspartner');
+
+insert into PARAMETERDATEN
+VALUES (45,'String', 'RECHNUNGSADRESSE_ANSCHRIFTIDFK', 14, 'partnervname', 'Geschäftspartner');
+
+insert into PARAMETERDATEN
+VALUES (46,'String', 'RECHNUNGSADRESSE_ANSCHRIFTIDFK', 14, 'partneremail', 'Geschäftspartner');
+
+insert into PARAMETERDATEN
+VALUES (47,'Integer', 'STATUSID', 8, 'statusnr', 'Status');
+
+insert into PARAMETERDATEN
+VALUES (48,'String', 'STATUS', 12, 'status', 'Status');
+
+insert into PARAMETERDATEN
+VALUES (49,'Integer', 'ZAHLUNGSKONDITIONID', 12, 'zahlungskonditionsnr', 'Zahlungskondition');
+
+insert into PARAMETERDATEN
+VALUES (50,'String', 'AUFTRAGSART', 12, 'auftragsart', 'Zahlungskondition');
+
+insert into PARAMETERDATEN
+VALUES (51,'Integer', 'LIEFERZEITSOFORT', 12, 'lieferzeit', 'Zahlungskondition');
+
+insert into PARAMETERDATEN
+VALUES (52,'Integer', 'MAHNZEIT1', 12, 'mahnzeit1', 'Zahlungskondition');
+
+insert into PARAMETERDATEN
+VALUES (53,'Integer', 'MAHNZEIT2', 12, 'mahnzeit2', 'Zahlungskondition');
+
+insert into PARAMETERDATEN
+VALUES (54,'Integer', 'MAHNZEIT3', 12, 'mahnzeit3', 'Zahlungskondition');
+
+insert into PARAMETERDATEN
+VALUES (55,'Double', 'SKONTO1', 12, 'skonto1', 'Zahlungskondition');
+
+insert into PARAMETERDATEN
+VALUES (56,'Double', 'SKONTO2', 12, 'skonto2', 'Zahlungskondition');
+
+insert into PARAMETERDATEN
+VALUES (57,'Integer', 'SKONTOZEIT1', 12, 'skontozeit1', 'Zahlungskondition');
+
+insert into PARAMETERDATEN
+VALUES (58,'Integer', 'SKONTOZEIT2', 12, 'skontozeit2', 'Zahlungskondition');
+
+insert into PARAMETERDATEN
+VALUES (59,'Integer', 'SPERRZEITWUNSCH', 12, 'sperrzeitwunsch', 'Zahlungskondition');
+
+disconnect;
+exit;
