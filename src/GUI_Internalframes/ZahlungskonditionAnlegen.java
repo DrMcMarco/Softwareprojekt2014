@@ -78,6 +78,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
     private final String TITEL_PFLICHTFELDER = "Pflichtfelder nicht ausgefüllt";
     private final String MELDUNG_PFLICHTFELDER = "Einige Pflichtfelder wurden nicht ausgefüllt.\nBitte füllen Sie diese aus!";
     private final String MELDUNG_AENDERUNGEN_SPEICHERN = "Möchten Sie die Änderungen speichern?";
+    private final String MELDUNG_SKONTO_MAHNZEITEN = "Bitte überprüfen Sie die Skonto- und Mahnzeiten.\nDiese müssen aufsteigend sein!";
+    private final String TITEL_SKONTO_MAHNZEITEN = "Skonto- und/oder Mahnzeiten fehlerhaft";
     private final String FEHLER = "Fehler";
     private String statuszeile;
     /**
@@ -114,57 +116,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         this.factory = factory;
         this.dao = GUIFactory.getDAO();
         this.fehlerhafteComponenten = new ArrayList<>();
-//        ((JSpinner.DefaultEditor) jSP_Mahnzeit1.getEditor()).getTextField().addFocusListener(new FocusListener() {
-//
-//            @Override
-//            public void focusGained(FocusEvent e) {
-//            }
-//
-//            @Override
-//            public void focusLost(FocusEvent e) {
-//                jS_Mahnzeit1FocusLost();
-//            }
-//        });
-//        ((JSpinner.DefaultEditor) jSP_Mahnzeit2.getEditor()).getTextField().addFocusListener(new FocusListener() {
-//
-//            @Override
-//            public void focusGained(FocusEvent e) {
-//            }
-//
-//            @Override
-//            public void focusLost(FocusEvent e) {
-//                jS_Mahnzeit2FocusLost();
-//            }
-//        });
     }
 
-//    private void jS_Mahnzeit1FocusLost() {
-//        int mahnzeit1 = ((Number) jSP_Mahnzeit1.getValue()).intValue();
-//        int mahnzeit2 = ((Number) jSP_Mahnzeit2.getValue()).intValue();
-//        int mahnzeit3 = ((Number) jSP_Mahnzeit3.getValue()).intValue();
-//        jSP_Mahnzeit2.setModel(new SpinnerNumberModel(mahnzeit1 + 1, mahnzeit1 + 1, 31, 1));
-//        System.out.println("mahnzeit1");
-////        if (mahnzeit3 <= mahnzeit2) {
-////            System.out.println(mahnzeit2);
-////            JOptionPane.showMessageDialog(null, "Mahnzeit 3 muss größer als Mahnzeit 2 sein!", FEHLER, JOptionPane.ERROR_MESSAGE);
-////            ((JSpinner.DefaultEditor) jSP_Mahnzeit3.getEditor()).getTextField().setText("" + (mahnzeit2 + 1));
-//////            ((JSpinner.DefaultEditor) jSP_Mahnzeit3.getEditor()).getTextField().requestFocusInWindow();
-////        }
-////                jSP_Mahnzeit3.setModel(new SpinnerNumberModel(31, mahnzeit1+1, 31, 1));
-//    }
-//    private void jS_Mahnzeit2FocusLost() {
-//        int mahnzeit1 = ((Number) jSP_Mahnzeit1.getValue()).intValue();
-//        int mahnzeit2 = ((Number) jSP_Mahnzeit2.getValue()).intValue();
-//        int mahnzeit3 = ((Number) jSP_Mahnzeit3.getValue()).intValue();
-//                System.out.println("mahnzeit2");
-////        if (mahnzeit2 <= mahnzeit1) {
-////            System.out.println(mahnzeit2);
-////            JOptionPane.showMessageDialog(null, "Mahnzeit 2 muss größer als Mahnzeit 1 sein!", FEHLER, JOptionPane.ERROR_MESSAGE);
-////            ((JSpinner.DefaultEditor) jSP_Mahnzeit2.getEditor()).getTextField().setText("" + (mahnzeit1 + 1));
-//////            ((JSpinner.DefaultEditor) jSP_Mahnzeit2.getEditor()).getTextField().requestFocusInWindow();
-////        }
-//        jSP_Mahnzeit3.setModel(new SpinnerNumberModel(mahnzeit2 + 1, mahnzeit2 + 1, 31, 1));
-//    }
     /**
      * Methode für die Überprüfung der Daten. Falls ein Textfeld nicht gefüllt
      * ist, wird sie der ArrayList für fehlerhafte Componenten hinzugefuegt.
@@ -908,7 +861,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                 mahnzeit1 = ((Number) jSP_Mahnzeit1.getValue()).intValue();
                 mahnzeit2 = ((Number) jSP_Mahnzeit2.getValue()).intValue();
                 mahnzeit3 = ((Number) jSP_Mahnzeit3.getValue()).intValue();
-                if (mahnzeit3 > mahnzeit2 && mahnzeit2 > mahnzeit1) {
+//              Ueberpruefung, ob Mahnzeiten stimmen  
+                if (mahnzeit3 > mahnzeit2 && mahnzeit2 > mahnzeit1 && skontozeit2 > skontozeit1) {
 //                Ueberpruefung in welche Sicht wir sind
                     if (this.getTitle().equals(ZK_ANLEGEN)) {
 //                  Sicht ZK anlegen
@@ -971,7 +925,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                         }
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Bitte überprüfen Sie die Mahnzeiten.\nMahnzeit 3 muss größer als Mahnzeit 2 sein und Mahnzeit 2 muss größer als Mahnzeit 1 sein!", "Mahnzeiten fehlerhaft", JOptionPane.INFORMATION_MESSAGE);
+//                  Mahnzeiten stimmen nicht, also Fehlermeldung  
+                    JOptionPane.showMessageDialog(null, MELDUNG_SKONTO_MAHNZEITEN, TITEL_SKONTO_MAHNZEITEN, JOptionPane.ERROR_MESSAGE);
                 }
 //          Fehler abfangen    
             } catch (ApplicationException e) {
@@ -1062,7 +1017,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
 //                        Veraenderung: Abfrage, ob Änderungen gespeichert werden sollen
                         int antwort = JOptionPane.showConfirmDialog(null, MELDUNG_AENDERUNGEN_SPEICHERN, ZK_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                         if (antwort == JOptionPane.YES_OPTION) {
-                            if (mahnzeit3 > mahnzeit2 && mahnzeit2 > mahnzeit1) {
+//                          Ueberpruefungob, Mahnzeiten stimmen  
+                            if (mahnzeit3 > mahnzeit2 && mahnzeit2 > mahnzeit1 && skontozeit2 > skontozeit1) {
 //                     falls ja, wird die ZK geaendert
                                 this.dao.aendereZahlungskondition(zknr, auftragsart, lieferzeitSOFORT,
                                         sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2,
@@ -1075,7 +1031,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                                 this.setVisible(false); // diese Sicht ausblenden 
                                 zurueckInsHauptmenue();
                             } else {
-                                JOptionPane.showMessageDialog(null, "Bitte überprüfen Sie die Mahnzeiten.\nMahnzeit 3 muss größer als Mahnzeit 2 sein und Mahnzeit 2 muss größer als Mahnzeit 1 sein!", "Mahnzeiten fehlerhaft", JOptionPane.INFORMATION_MESSAGE);
+//                              Mahnzeiten stimmen nicht, also Fehlermeldung  
+                                JOptionPane.showMessageDialog(null, MELDUNG_SKONTO_MAHNZEITEN, TITEL_SKONTO_MAHNZEITEN, JOptionPane.INFORMATION_MESSAGE);
                             }
                         } else if (antwort == JOptionPane.CLOSED_OPTION) {
 //                                  das x wird geklickt, es soll nichts passieren
