@@ -163,6 +163,11 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     final String FEHLERMELDUNGKEINEPOSITIONGEWAEHLT = " Bitte eine Position wählen.";
     final String FEHLERMELDUNGKEINEMATERIALNUMMER = "Bitte eine Materialnummer eingeben.";
 
+    
+    final String FEHLERMELDUNG_KEINEZAHLUNGSKONDITION_TITEL = "Keine Zahlungskondition vorhanden.";
+    final String FEHLERMELDUNG_KEINEZAHLUNGSKONDITION_TEXT = "Die Auftragsart besitzt keine Zahlungskondition."
+            + "\n Bitte legen sie mindestens eine Zahlungskondition für die Auftragsart an,"
+            + "\n oder whlen Sie eine andere Auftragsart aus.";
     //Ausgaben bei Systemmeldungen.
     final String ERFOLGREICHEANMELDUNG = "Ihr Auftrags wurde erfolgreich angelegt.";
     final String ERFOLGREICHESLOESCHEN = "Der Auftrag wurde erfolgreich gelöscht.";
@@ -474,6 +479,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         abschlussdatum_jLabel.setToolTipText("");
 
         abschlussdatum_jFormattedTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM))));
+        abschlussdatum_jFormattedTextField.setEnabled(false);
         abschlussdatum_jFormattedTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 abschlussdatum_jFormattedTextFieldFocusGained(evt);
@@ -782,7 +788,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(auftragskopfdaten_titel_jLabel)
                 .addGap(8, 8, 8)
@@ -879,9 +885,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                     .addComponent(positionLoeschen_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(22, 22, 22)
+                    .addGap(32, 32, 32)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(28, 28, 28)
+                    .addGap(18, 18, 18)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1007,11 +1013,13 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 Mahnzeit3_jTextField.setText("");
 
             } else {
-                zahlungskondition = GUIFactory.getDAO().gibZahlungskonditionNachId(Long.parseLong(
-                        zahlungskonditionen_jComboBox.getSelectedItem().toString()));
+//                zahlungskondition = GUIFactory.getDAO().gibZahlungskonditionNachId(Long.parseLong(
+//                        zahlungskonditionen_jComboBox.getSelectedItem().toString()));
 
                 if (auftragsart_jComboBox.getSelectedItem().equals(SOFORTAUFTRAG)) {
-
+                    zahlungskondition = GUIFactory.getDAO().gibZahlungskonditionNachId(Long.parseLong(
+                            zahlungskonditionen_jComboBox.getSelectedItem().toString()));
+                    
                     sperrzeit = zahlungskondition.getLieferzeitSofort();
 
                     calender.setTime(heute);
@@ -1122,6 +1130,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 } else if (auftragsart_jComboBox.getSelectedItem().toString().
                         equals(BESTELLAUFTRAG)) {
 
+                    zahlungskondition = GUIFactory.getDAO().gibZahlungskonditionNachId(Long.parseLong(
+                        zahlungskonditionen_jComboBox.getSelectedItem().toString()));
+                    
                     lieferdatum = heute;
 //                    abschlussdatum = heute;
 
@@ -1212,12 +1223,21 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 zahlungskondition = null;
             }
         } catch (ApplicationException e) {
-            this.hauptFenster.setStatusMeldung(e.getMessage());
+//            this.hauptFenster.setStatusMeldung(e.getMessage());
+            JOptionPane.showMessageDialog(null
+                    ,e.getMessage() ,
+                    FEHLERMELDUNG_TITEL,
+                    JOptionPane.ERROR_MESSAGE);
 
         }
-//        catch(){
-//            
-//        }
+        catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(null
+                    ,FEHLERMELDUNG_KEINEZAHLUNGSKONDITION_TEXT ,
+                    FEHLERMELDUNG_KEINEZAHLUNGSKONDITION_TITEL,
+                    JOptionPane.ERROR_MESSAGE);
+            auftragsart_jComboBox.setSelectedIndex(0);
+            auftragsart_jComboBoxActionPerformed(evt);
+        }
     }//GEN-LAST:event_auftragsart_jComboBoxActionPerformed
 
     /**
@@ -2600,7 +2620,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 freigegeben_jRadioButton.setSelected(true);
 
                 erfasst_jRadioButton.setEnabled(false);
-                abgeschlossen_jRadioButton.setSelected(true);
+                abgeschlossen_jRadioButton.setSelected(false);
 
                 auftragsposition_jTable.setEnabled(true);
                 NeuePosition_jButton.setEnabled(true);
