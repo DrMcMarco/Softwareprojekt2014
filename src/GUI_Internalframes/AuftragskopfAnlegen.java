@@ -2053,7 +2053,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             dtm.setRowCount(0);
 
             for (int i = 0; i < auftragspositionen.size(); i++) {
-                summenWertFuerPos = auftragspositionen.get(i).getEinzelwert();
+                summenWertFuerPos = auftragspositionen.get(i).getEinzelwert()
+                        * artikel.get(auftragspositionen.get(i).getArtikel().getArtikelID());
 
                 Object[] neuesObj = new Object[]{i + 1,
                     auftragspositionen.get(i).getArtikel().getArtikelID(),
