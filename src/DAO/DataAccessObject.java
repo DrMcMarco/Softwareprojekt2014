@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -39,6 +41,7 @@ import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
 import javax.persistence.metamodel.Attribute;
+import sun.rmi.transport.TransportConstants;
 /**
  *
  * @author Simon <Simon.Simon at your.org>
@@ -2881,6 +2884,29 @@ public class DataAccessObject {
             throw new ApplicationException("Fehler", 
                     "Für diese Auftragsart gibt es keine Zahlungskonditionen");
         }
+        
+        return ergebnis;
+    }
+    
+    public Collection<Auftragskopf> gibAlleAuftraege() {
+        
+        Calendar cal = Calendar.getInstance();
+        
+        cal.add(Calendar.MONTH, -6);
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        
+        Date vorSechsMonaten = cal.getTime();
+        
+        String string = dateFormat.format(vorSechsMonaten);
+        
+        vorSechsMonaten = DatumParser.gibDatum(string);
+       
+        System.out.println(vorSechsMonaten);
+        
+        List<Auftragskopf> ergebnis = this.em.createQuery("select st from Auftragskopf st where st.Erfassungsdatum >= :datum AND st.LKZ = false").setParameter("datum", vorSechsMonaten).getResultList();
+        
+        System.out.println(ergebnis.size());
         
         return ergebnis;
     }
