@@ -67,6 +67,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     public User_anlegen useranlegen;
     public User_andernEinstieg useraendern;
     
+    public StatistikAnzeige statistikAnzeige;
+    
     public Login logInFester;
 
     //Hilfsvariablen
@@ -149,7 +151,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg(factory, zahlungskonditionanlegen, this);
         useranlegen = new User_anlegen(factory, this);
         useraendern = new User_andernEinstieg(factory, useranlegen, this);
-
+        statistikAnzeige = new StatistikAnzeige();
         // Aufruf der setCenterJIF-Methode
         setCenterJIF(hauptmenueadmin);
         
@@ -169,7 +171,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         desktopPane.add(useraendern);
         desktopPane.add(suche);
         desktopPane.add(detailSuche);
-
+        desktopPane.add(statistikAnzeige);
         //Frames werden nicht sichtbar dargestellt. 
         auftragskopfaendern.setVisible(false);
         auftragskopfanlegen.setVisible(false);
@@ -225,6 +227,11 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         jMI_BenutzerAnlegen = new javax.swing.JMenuItem();
         jMI_BenutzerÄndern = new javax.swing.JMenuItem();
         jMI_BenutzerAnzeigen = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        umsatz_mn = new javax.swing.JMenuItem();
+        artikel_absatz_mn = new javax.swing.JMenuItem();
+        artikel_verkauft_mn = new javax.swing.JMenuItem();
+        kat_umsatz_mn = new javax.swing.JMenuItem();
         jM_Logout = new javax.swing.JMenu();
         jMI_Logout = new javax.swing.JMenuItem();
         jM_Hilfe = new javax.swing.JMenu();
@@ -427,6 +434,42 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         jM_Navigation.add(jMenu1);
 
         menuBar.add(jM_Navigation);
+
+        jMenu2.setText("Statistik");
+
+        umsatz_mn.setText("Gesamt Umsatz");
+        umsatz_mn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                umsatz_mnActionPerformed(evt);
+            }
+        });
+        jMenu2.add(umsatz_mn);
+
+        artikel_absatz_mn.setText("Artikel Umsatz");
+        artikel_absatz_mn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                artikel_absatz_mnActionPerformed(evt);
+            }
+        });
+        jMenu2.add(artikel_absatz_mn);
+
+        artikel_verkauft_mn.setText("Artikel Verkaufsmenge");
+        artikel_verkauft_mn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                artikel_verkauft_mnActionPerformed(evt);
+            }
+        });
+        jMenu2.add(artikel_verkauft_mn);
+
+        kat_umsatz_mn.setText("Kategorie Umsatz");
+        kat_umsatz_mn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                kat_umsatz_mnActionPerformed(evt);
+            }
+        });
+        jMenu2.add(kat_umsatz_mn);
+
+        menuBar.add(jMenu2);
 
         jM_Logout.setText("Logout");
         jM_Logout.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
@@ -1010,6 +1053,24 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         setComponent(useraendern);
     }//GEN-LAST:event_jMI_BenutzerAnzeigenActionPerformed
 
+    private void umsatz_mnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_umsatz_mnActionPerformed
+
+        this.statistikAnzeige.setzeChart(GUIFactory.getDAO().gibChartUmsatzAuftragswert());
+    }//GEN-LAST:event_umsatz_mnActionPerformed
+
+    private void artikel_absatz_mnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_artikel_absatz_mnActionPerformed
+
+        this.statistikAnzeige.setzeChart(GUIFactory.getDAO().gibChartArtikelAbsatz());
+    }//GEN-LAST:event_artikel_absatz_mnActionPerformed
+
+    private void artikel_verkauft_mnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_artikel_verkauft_mnActionPerformed
+        this.statistikAnzeige.setzeChart(GUIFactory.getDAO().gibChartArtikelMenge());
+    }//GEN-LAST:event_artikel_verkauft_mnActionPerformed
+
+    private void kat_umsatz_mnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kat_umsatz_mnActionPerformed
+        this.statistikAnzeige.setzeChart(GUIFactory.getDAO().gibChartArtikelkategorieAbsatz());
+    }//GEN-LAST:event_kat_umsatz_mnActionPerformed
+
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt */
@@ -1277,6 +1338,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem artikel_absatz_mn;
+    private javax.swing.JMenuItem artikel_verkauft_mn;
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JMenuItem jMI_ArtikelAEndern;
     private javax.swing.JMenuItem jMI_ArtikelAnlegen;
@@ -1307,8 +1370,11 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     private javax.swing.JMenu jM_Navigation;
     private javax.swing.JMenu jM_ZKVerwalten;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuItem kat_umsatz_mn;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JTextField statusMeldung_jTextField;
+    private javax.swing.JMenuItem umsatz_mn;
     // End of variables declaration//GEN-END:variables
 
     

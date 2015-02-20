@@ -1523,7 +1523,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                             FEHLERMELDUNG_UNVOLLSTAENDIGAUFTRAGSKOPF_TEXT, warningfarbe);
                 }
             } catch (ApplicationException e) {
-                this.hauptFenster.setStatusMeldung(e.getMessage());
+//                this.hauptFenster.setStatusMeldung(e.getMessage());
+                JOptionPane.showMessageDialog(null, e.getMessage(),
+                        FEHLERMELDUNG_TITEL, JOptionPane.ERROR_MESSAGE);
             }
         }
         formularOK = true;
@@ -1815,7 +1817,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                         warningfarbe);
             }
         } catch (ApplicationException e) {
-            this.hauptFenster.setStatusMeldung(e.getMessage());
+//            this.hauptFenster.setStatusMeldung(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage(),
+                    FEHLERMELDUNG_TITEL, JOptionPane.ERROR_MESSAGE);
         } catch (NumberFormatException e) {
 //            this.hauptFenster.setStatusMeldung("Bitte eine Materialnummer eingeben.");
             JOptionPane.showMessageDialog(null, FEHLERMELDUNGKEINEMATERIALNUMMER,
@@ -1824,6 +1828,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 //        JOptionPane.showMessageDialog(null, FEHLERMELDUNG_UNVOLLSTAENDIGAUFTRAGSPOSITION_TEXT,
 //                    FEHLERMELDUNG_TITEL, JOptionPane.ERROR_MESSAGE);
         fehlendeEingabenAuftragsposition.clear();
+        
     }//GEN-LAST:event_NeuePosition_jButtonActionPerformed
 
     /*----------------------------------------------------------*/
@@ -1950,26 +1955,23 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         try {
 
             if (this.getTitle().equals("Auftragskopf anzeigen")) {
-            if ((GUIFactory.getDAO().gibAuftragskopf(
-                    Long.parseLong(auftragskopfID_jTextField.getText())).
-                    getStatus().getStatus().equals("abgeschlossen"))) {
+                if ((GUIFactory.getDAO().gibAuftragskopf(
+                        Long.parseLong(auftragskopfID_jTextField.getText())).
+                        getStatus().getStatus().equals("abgeschlossen"))) {
 
-                //Ausgabe einer Fehlermeldung
-                JOptionPane.showMessageDialog(null,
-                        FEHLERMMELDUNG_STATUSABGESCHLOSSEN,
-                        FEHLERMELDUNG_STATUS_TITEL,
-                        JOptionPane.WARNING_MESSAGE);
+                    //Ausgabe einer Fehlermeldung
+                    JOptionPane.showMessageDialog(null,
+                            FEHLERMMELDUNG_STATUSABGESCHLOSSEN,
+                            FEHLERMELDUNG_STATUS_TITEL,
+                            JOptionPane.WARNING_MESSAGE);
 
-            } else {
-                this.setStatusAender();// Button in Ändernstatus setzen.
-//                    
+                } else {
+                    this.setStatusAenderButton();// Button in Ändernstatus setzen.
+                    setzeEingabe(GUIFactory.getDAO().gibAuftragskopf(
+                            Long.parseLong(auftragskopfID_jTextField.getText())));
+                }
+
             }
-
-            }
-//            else {
-//this.setStatusAnzeigen();// Button in Anzeigestatus setzen.
-//                
-//            }
         } catch (ApplicationException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(),
                     FEHLERMELDUNG_KEINAUFTRAG_TITEL, JOptionPane.ERROR_MESSAGE);
@@ -2017,7 +2019,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 
                 }
             } catch (ApplicationException | NullPointerException e) { // Abfanagen von Fehlern.
-                this.hauptFenster.setStatusMeldung(e.getMessage()); // Ausgabe der Fehlermeldung.
+//                this.hauptFenster.setStatusMeldung(e.getMessage()); // Ausgabe der Fehlermeldung.
+                JOptionPane.showMessageDialog(null, e.getMessage(),
+                        FEHLERMELDUNG_TITEL, JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_jB_LoeschenActionPerformed
@@ -2378,7 +2382,50 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         }
         this.auftragstext_jTextArea.setEnabled(true);
         this.erfassungsdatum_jFormattedTextField.setEnabled(false);
-//        this.abschlussdatum_jFormattedTextField.setEnabled(true);
+        this.erfasst_jRadioButton.setEnabled(true);
+        this.freigegeben_jRadioButton.setEnabled(true);
+        this.abgeschlossen_jRadioButton.setEnabled(true);
+        this.positionsnummer_jTextField.setEnabled(false);
+        this.materialnummer_jTextField.setEnabled(true);
+        this.menge_jTextField.setEnabled(true);
+        this.erfassungsdatum_auftragsposition_jFormattedTextField.setEnabled(false);
+        this.auftragsposition_jTable.setEnabled(true);
+        jB_Anzeigen.setEnabled(false);
+        jB_Speichern.setEnabled(true);
+        jB_Loeschen.setEnabled(true);
+        NeuePosition_jButton.setEnabled(true);
+        positionLoeschen_jButton.setEnabled(true);
+        this.hauptFenster.setComponent(this);
+    }
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 06.01.2015 Terrasi angelegt,Logik und Dokumentation */
+    /* 08.01.2015 Terrasi Anwendungslogik überarbeitet*/
+    /*----------------------------------------------------------*/
+    /**
+     * Methode mit der das Internalframe nicht mehr als Anzeigefenster
+     * dargestellt wird, sondern als Fenster in dem man Daten ändern kann.
+     */
+    public void setStatusAenderButton() {
+        this.setTitle("Auftragskopf ändern");
+//        zuruecksetzen();
+        this.geschaeftspartner_jTextField.setEnabled(true);
+        this.auftragskopfID_jTextField.setEnabled(false);
+        this.auftragswert_jTextField.setEnabled(false);
+        this.auftragsart_jComboBox.setEnabled(false);
+
+        if (this.auftragsart_jComboBox.getSelectedIndex() == 0) {
+            this.lieferdatum_jFormattedTextField.setEnabled(false);
+            this.zahlungskonditionen_jComboBox.setEnabled(false);
+        } else if (this.auftragsart_jComboBox.getSelectedIndex() == 1) {
+            this.lieferdatum_jFormattedTextField.setEnabled(false);
+            this.zahlungskonditionen_jComboBox.setEnabled(true);
+        } else {
+            this.zahlungskonditionen_jComboBox.setEnabled(true);
+        }
+        this.auftragstext_jTextArea.setEnabled(true);
+        this.erfassungsdatum_jFormattedTextField.setEnabled(false);
         this.erfasst_jRadioButton.setEnabled(true);
         this.freigegeben_jRadioButton.setEnabled(true);
         this.abgeschlossen_jRadioButton.setEnabled(true);
@@ -2772,9 +2819,11 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 dbAbschlussdatum = gibDatumAlsString(kopf.getAbschlussdatum());
 
             }
-        } catch (ApplicationException |ParseException e) {
-            this.hauptFenster.setStatusMeldung(e.getMessage());
-        } 
+        } catch (ApplicationException | ParseException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(),
+                    FEHLERMELDUNG_TITEL, JOptionPane.ERROR_MESSAGE);
+//            this.hauptFenster.setStatusMeldung(e.getMessage());
+        }
 //        catch (ParseException e) {
 //            this.hauptFenster.setStatusMeldung(e.getMessage());
 //        }
@@ -2881,7 +2930,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 dbAbschlussdatum = gibDatumAlsString(kopf.getAbschlussdatum());
             }
         } catch (ApplicationException e) {
-            this.hauptFenster.setStatusMeldung(e.getMessage());
+//            this.hauptFenster.setStatusMeldung(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage(),
+                    FEHLERMELDUNG_TITEL, JOptionPane.ERROR_MESSAGE);
         }
     }
 

@@ -43,12 +43,15 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
     /*
      Augabetexte für Meldungen
      */
+    final String FEHLER = "Fehler";
+
     final String fehlermeldung_titel = "Fehlerhafte Eingabe";
 
     final String FEHLERMELDUNG_STATUS_TITEL = "Abgeschlossener Auftrag";
     final String FEHLERMMELDUNG_STATUSABGESCHLOSSEN = "Der Auftrag ist "
             + "bereits abgeschlossen und kann nicht"
             + "\n bearbeitet werden. ";
+    
     final String fehlermeldungAuftragskopfIDtext = "\"Die eingegebene Auftragskopf-ID ist nicht gültig! "
             + "\\n Bitte geben Sie eine gültige Auftragskopf-ID ein. (z.B. 1 oder 999999999)\"";
     final String fehlermeldungUnvollstaendig = "Es wurden nicht alle Eingaben getätigt.";
@@ -270,7 +273,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
 //        if (fehleingabefelder.isEmpty()) {//Bei ausgefüllten Eingabenfeldern
         try {
             aKopf = GUIFactory.getDAO().gibAuftragskopf(Long.parseLong(auftragskopfID_jTextField.getText()));
-                // Überprüft anhand des Framestitels, ob es das nächste Fenster
+            // Überprüft anhand des Framestitels, ob es das nächste Fenster
             // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
 
             if (this.getTitle().equals("Auftragskopf ändern Einstieg")) {
@@ -309,9 +312,13 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
                 this.hauptFenster.setFrame(this.auftragskopfAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
             }
         } catch (ApplicationException | NullPointerException e) {
-            this.hauptFenster.setStatusMeldung(e.getMessage());
+//            this.hauptFenster.setStatusMeldung(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage(),
+                    FEHLER, JOptionPane.ERROR_MESSAGE);
         } catch (NumberFormatException e) {
-            this.hauptFenster.setStatusMeldung(fehlermeldungUnvollstaendig);
+            JOptionPane.showMessageDialog(null, e.getMessage(),
+                    FEHLER, JOptionPane.ERROR_MESSAGE);
+//            this.hauptFenster.setStatusMeldung(fehlermeldungUnvollstaendig);
         }
 
 //        } else {//Wenn Eingaben fehlen.
