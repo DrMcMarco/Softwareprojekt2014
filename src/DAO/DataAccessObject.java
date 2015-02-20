@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
 
 import java.text.DateFormatSymbols;
 
@@ -1256,6 +1257,7 @@ public class DataAccessObject {
                         } else if (status.getStatus().equals("abgeschlossen")) {
                             this.setzeArtikelBestand(
                                     auftrag.getPositionsliste(), "Frei");
+                            auftrag.setAbschlussdatum(new Date());
                         }
                     //Bei einer Kundenbestellung
                     } else {
@@ -1269,6 +1271,7 @@ public class DataAccessObject {
                         } else if (status.getStatus().equals("abgeschlossen")) {
                             this.setzeArtikelBestand(
                                     auftrag.getPositionsliste(), "Verkauft");
+                            auftrag.setAbschlussdatum(new Date());
                         }
                     }
                     //Zum Schluss übernehmen wir den Status
