@@ -4,7 +4,6 @@
     <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
     <class>DTO.Artikel</class>
     <class>DTO.Artikelkategorie</class>
-    <class>DTO.Benutzer</class>
     <class>DTO.Auftragsposition</class>
     <class>DTO.Auftragskopf</class>
     <class>DTO.Zahlungskondition</class>
@@ -20,6 +19,8 @@
     <class>DTO.Sofortauftragskopf</class>
     <class>DTO.Terminauftragskopf</class>
     <class>DTO.Parameterdaten</class>
+    <class>DTO.Steuertabelle</class>
+    <class>DTO.Benutzer</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/SWPDB"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
