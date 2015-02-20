@@ -2908,30 +2908,25 @@ public class DataAccessObject {
      * Wird für die Statistik benutzt.
      * @return eine Collection aller Aufträge der letzten sechs Monate
      */
-    public Collection<Auftragskopf> gibAlleAuftraege() {
+    public double gibUmsatzProMonat(Date datum) {
+        java.sql.Date datumSql = new java.sql.Date(datum.getTime());
+        double umsatz = 0;
         
-        //Calendar-Objekt holen
-        Calendar cal = Calendar.getInstance();
-        
-        //Datum von vor sechs Monaten berechnet
-        cal.add(Calendar.MONTH, -6);
-        
-        //Datum in ein anderes Format (Tag-Monat-Jahr) konvertieren
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        Date vorSechsMonaten = cal.getTime();
-        String string = dateFormat.format(vorSechsMonaten);
-        vorSechsMonaten = DatumParser.gibDatum(string);
         
         //Selektiere alle Aufträge die letzten sechs Monate, die abgeschlossen 
         //und nicht gelöscht sind
         List<Auftragskopf> ergebnis = 
-                this.em.createQuery("select st from Auftragskopf st "
-                        + "where st.Erfassungsdatum >= :datum "
-                        + "AND st.LKZ = false "
-                        + "AND st.Status.Status LIKE 'abgeschlossen'")
-                        .setParameter("datum", vorSechsMonaten).getResultList();
+                this.em.createNativeQuery("select * from Auftragskopf st left join Status on st.Status = Status.Statusid "
+                        + "where st.LKZ = 0 "
+                        + "AND Status.Status LIKE 'abgeschlossen' "
+                        + "AND MONTH(st.abschlussdatum) = MONTH('" + datumSql + "') "
+                        + "AND YEAR(st.abschlussdatum) = YEAR('" + datumSql + "')", Auftragskopf.class)
+                        .getResultList();
         
-        return ergebnis;
+        for (Auftragskopf auftrag : ergebnis) {
+            umsatz = umsatz + auftrag.getWert();
+        }
+        return umsatz;
     }
     
 //</editor-fold>
@@ -3502,18 +3497,26 @@ public class DataAccessObject {
         JFreeChart lineChart;
         DefaultCategoryDataset dataset;
         Collection<Auftragskopf> auftraege = null;
-        String monat = "";
         dataset = new DefaultCategoryDataset();
+        double auftragswert = 0;
+        //Datum in ein anderes Format (Tag-Monat-Jahr) konvertieren
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        //Calendar-Objekt holen
+        Calendar cal = Calendar.getInstance();
+        
+        Date vorSechsMonaten = cal.getTime();
         
         
-        
-        auftraege = this.gibAlleAuftraege();
+        for (int i = 6; i >= 1; i--) {
+            //Datum von vor sechs Monaten berechnet
+            cal.add(Calendar.MONTH, -i);
+            vorSechsMonaten = cal.getTime();
+            
+            auftragswert = this.gibUmsatzProMonat(vorSechsMonaten);
 
-        for (Auftragskopf auftrag : auftraege) {
-            monat = new SimpleDateFormat("dd.MM.yyyy").format(
-                    auftrag.getAbschlussdatum());
-            dataset.setValue((double) auftrag.getWert(), 
-                    "Monatlicher Gesamtumsatz", monat);
+            dataset.setValue(auftragswert, 
+                        "Monatlicher Gesamtumsatz", new DateFormatSymbols().getMonths()[i]);
+            cal = Calendar.getInstance();
         }
         //Diagramm erstellen.
         lineChart = ChartFactory.createLineChart("Umsatzkurve",
@@ -3530,7 +3533,7 @@ public class DataAccessObject {
         //Charts und Datasets.
         JFreeChart barChart;
         DefaultCategoryDataset dataset;
-        ArrayList<Artikel> artikelMenge = null;
+        HashMap<Artikel, Double> artikelMenge = null;
         String name = "";
         dataset = new DefaultCategoryDataset();
         
@@ -3538,11 +3541,7 @@ public class DataAccessObject {
         
         artikelMenge = null;
 
-        for (Artikel artikel : artikelMenge) {
-            name = artikel.getArtikeltext();
-            dataset.setValue((double) artikel.getVerkauft() * artikel.getVerkaufswert(), 
-                    "Artikel", name);
-        }
+        
         //Diagramm erstellen.
         barChart = ChartFactory.createStackedBarChart("Kategorieumsatzdiagramm",
                     "Monate", "Umsatz in â‚¬", dataset, 
