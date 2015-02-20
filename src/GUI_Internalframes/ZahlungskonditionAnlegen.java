@@ -690,6 +690,25 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         if (jCB_Auftragsart.getSelectedIndex() != 0) {
             jCB_Auftragsart.setBackground(JCB_FARBE_STANDARD);
         }
+        if (((String) jCB_Auftragsart.getSelectedItem()).equals("Terminauftrag")) {
+            jSP_LieferzeitSOFORT.setEnabled(false);
+            jSP_LieferzeitSOFORT.setValue(1);
+            jSP_SperrzeitWUNSCH.setEnabled(true);
+        } else if (((String) jCB_Auftragsart.getSelectedItem()).equals("Sofortauftrag")) {
+            jSP_SperrzeitWUNSCH.setEnabled(false);
+            jSP_SperrzeitWUNSCH.setValue(1);
+            jSP_LieferzeitSOFORT.setEnabled(true);
+        } else if (((String) jCB_Auftragsart.getSelectedItem()).equals("Bestellauftrag")) {
+            jSP_SperrzeitWUNSCH.setEnabled(false);
+            jSP_SperrzeitWUNSCH.setValue(1);
+            jSP_LieferzeitSOFORT.setEnabled(false);
+            jSP_LieferzeitSOFORT.setValue(1);
+        } else {
+            jSP_SperrzeitWUNSCH.setEnabled(true);
+            jSP_SperrzeitWUNSCH.setValue(1);
+            jSP_LieferzeitSOFORT.setEnabled(true);
+            jSP_LieferzeitSOFORT.setValue(1);
+        }
     }//GEN-LAST:event_jCB_AuftragsartActionPerformed
     /**
      * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
