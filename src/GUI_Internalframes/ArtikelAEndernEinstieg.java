@@ -46,8 +46,8 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
     /**
      * Variablen fuer die Fehlermeldungen
      */
-    private final String KEINE_ARTIKELNR_EINGEGEBEN = "Bitte geben Sie eine Artikel-ID ein!";
-    private final String KEINE_ARTIKEL_IN_DATENBANK = "Kein passender Artikel in Datenbank!";
+    private final String KEINE_ARTIKELNR_EINGEGEBEN = "Bitte geben Sie eine Artikel-ID ein.";
+    private final String KEINE_ARTIKEL_IN_DATENBANK = "Kein passender Artikel in der Datenbank.";
 
     /**
      * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die

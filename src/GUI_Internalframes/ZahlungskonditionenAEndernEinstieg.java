@@ -46,8 +46,8 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
     /**
      * Variablen fuer die Fehlermeldungen
      */
-    private final String KEINE_ZKNR_EINGEGEBEN = "Bitte geben Sie eine Zahlungskondition-ID ein!";
-    private final String KEINE_ZK_IN_DATENBANK = "Keine passender Zahlungskondition in der Datenbank!";
+    private final String KEINE_ZKNR_EINGEGEBEN = "Bitte geben Sie eine Zahlungskondition-ID ein.";
+    private final String KEINE_ZK_IN_DATENBANK = "Keine passende Zahlungskondition in der Datenbank.";
     private final String TERMINAUFTRAG = "Terminauftrag";
     private final String SOFORTAUFTRAG = "Sofortauftrag";
     private final String BESTELLAUFTRAG = "Bestellauftrag";
