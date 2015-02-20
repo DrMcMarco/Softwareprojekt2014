@@ -3571,7 +3571,7 @@ public class DataAccessObject {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         //Calendar-Objekt holen
         Calendar cal = Calendar.getInstance();
-        
+        String monat = "";
         Date vorSechsMonaten = cal.getTime();
         
         
@@ -3584,7 +3584,7 @@ public class DataAccessObject {
 
             dataset.setValue(auftragswert, 
                         "Monatlicher Gesamtumsatz", 
-                        new DateFormatSymbols().getMonths()[i]);
+                        dateFormat.format(vorSechsMonaten).split("\\.")[1]);
             cal = Calendar.getInstance();
         }
         //Diagramm erstellen.
