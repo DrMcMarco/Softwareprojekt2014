@@ -20,9 +20,10 @@ import javax.swing.JTextField;
  *
  * @author Luca Terrasi
  *
-/* 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button */
+ * /* 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
+ */
 /* 08.01.2015  Terrasi, implementierung der Schnittstellenmethoden und 
-   der Ändern/Anzeigen Funktion. */
+ der Ändern/Anzeigen Funktion. */
 public class User_andernEinstieg extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
     /*
@@ -32,6 +33,7 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
     GUIFactory factory;
     User_anlegen userAnlegen;
     InterfaceMainView hauptFenster;
+
 
     final String FEHLENDEEINGABEN = "Bitte geben Sie alle Eingaben ein.";
     /*
@@ -184,46 +186,48 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
     private void Weiter_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Weiter_jButtonActionPerformed
 
         Benutzer benutzer;// Anlegen eines Bentzers
-            try {
-                //Initialisierung eines Benutzers.
-                benutzer = GUIFactory.getDAO().gibBenutzer(BenutzerID_jTextField.getText());
+        try {
+            //Initialisierung eines Benutzers.
+            benutzer = GUIFactory.getDAO().gibBenutzer(BenutzerID_jTextField.getText());
 
-                if (benutzer != null) {
+            if (benutzer != null) {
 
-                    if (this.getTitle().equals("Benutzer ändern Einstieg")) {
-                        this.userAnlegen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
-                        this.userAnlegen.setBenutzername(benutzer.getBenutzername());// Benutzername aus der DB wird im Eingabefeld angezeigt.
-                        if(benutzer.isIstAdmin()){
-                            this.userAnlegen.setCheckBoxSelected(true);// Ceckbox wird selektiert.
-                        }else{
-                            this.userAnlegen.setCheckBoxSelected(false);//Checkbox wird nicht selektiert.
-                        }
-                        this.userAnlegen.setZustand(false);// Checkbox wird auf Enable false gesetzt.
-                        zuruecksetzen();//Methode die bestimmte Eingabefelder leert
-                        this.setVisible(false);
-                        this.hauptFenster.setFrame(this.userAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
+                if (this.getTitle().equals("Benutzer ändern Einstieg")) {
+                    this.userAnlegen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
+                    this.userAnlegen.setBenutzername(benutzer.getBenutzername());// Benutzername aus der DB wird im Eingabefeld angezeigt.
+                    if (benutzer.isIstAdmin()) {
+                        this.userAnlegen.setCheckBoxSelected(true);// Ceckbox wird selektiert.
                     } else {
-                        this.userAnlegen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
-                        this.userAnlegen.setBenutzername(benutzer.getBenutzername());// Benutzername aus der DB wird im Eingabefeld angezeigt.
-                        if(benutzer.isIstAdmin()){
-                            this.userAnlegen.setCheckBoxSelected(true);// Ceckbox wird selektiert.
-                        }else{
-                            this.userAnlegen.setCheckBoxSelected(false);//Checkbox wird nicht selektiert.
-                        }
-                        this.userAnlegen.setZustand(false);// Checkbox wird auf Enable false gesetzt.
                         this.userAnlegen.setCheckBoxSelected(false);//Checkbox wird nicht selektiert.
-                        zuruecksetzen();//Methode die bestimmte Eingabefelder leert
-                        this.setVisible(false);
-                        this.hauptFenster.setFrame(this.userAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
                     }
+                    this.userAnlegen.setZustand(false);// Checkbox wird auf Enable false gesetzt.
+                    zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                    this.setVisible(false);
+                    this.hauptFenster.setFrame(this.userAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
                 } else {
-
+                    this.userAnlegen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
+                    this.userAnlegen.setBenutzername(benutzer.getBenutzername());// Benutzername aus der DB wird im Eingabefeld angezeigt.
+                    if (benutzer.isIstAdmin()) {
+                        this.userAnlegen.setCheckBoxSelected(true);// Ceckbox wird selektiert.
+                    } else {
+                        this.userAnlegen.setCheckBoxSelected(false);//Checkbox wird nicht selektiert.
+                    }
+                    this.userAnlegen.setZustand(false);// Checkbox wird auf Enable false gesetzt.
+                    this.userAnlegen.setCheckBoxSelected(false);//Checkbox wird nicht selektiert.
+                    zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                    this.setVisible(false);
+                    this.hauptFenster.setFrame(this.userAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
                 }
-            } catch (ApplicationException e) {
-                JOptionPane.showMessageDialog(null, e.getMessage(), FEHLENDEEINGABEN, JOptionPane.ERROR_MESSAGE);
-            } catch (NumberFormatException e){
-                this.hauptFenster.setStatusMeldung(FEHLENDEEINGABEN);
+            } else {
+
             }
+        } catch (ApplicationException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(),
+                    FEHLENDEEINGABEN, JOptionPane.ERROR_MESSAGE);
+//                JOptionPane.showMessageDialog(null, e.getMessage(), FEHLENDEEINGABEN, JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException e) {
+            this.hauptFenster.setStatusMeldung(FEHLENDEEINGABEN);
+        }
     }//GEN-LAST:event_Weiter_jButtonActionPerformed
 
     /*----------------------------------------------------------*/
