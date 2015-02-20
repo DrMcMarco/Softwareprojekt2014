@@ -3020,7 +3020,7 @@ public class DataAccessObject {
         //Selektiere den Kategoriename und den kumulierten Auftragswert pro
         //Kategorie für alle Verkaufsaufträge die abgeschlossen und nicht 
         //gelöscht sind
-        Query abfrage = this.em.createNativeQuery("select kat.KATEGORIENAME, sum(ak.WERT)\n" +
+        Query abfrage = this.em.createNativeQuery("select kat.KATEGORIENAME, sum(ap.EINZELWERT)\n" +
                                   "from root.AUFTRAGSKOPF as ak, root.AUFTRAGSPOSITION as ap, root.ARTIKEL as a, root.ARTIKELKATEGORIE as kat, root.STATUS as s\n" +
                                   "where ap.AUFTRAG = ak.AUFTRAGSKOPFID and\n" +
                                   "      ap.ARTIKEL = a.ARTIKELID and\n" +
