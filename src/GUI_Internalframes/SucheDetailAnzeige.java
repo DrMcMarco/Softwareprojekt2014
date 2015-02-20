@@ -158,6 +158,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
      * Initialisiert die erste Tabelle.
      */
     private void initTabelle() {
+        String datum = "";
         DefaultTableModel dtm = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -187,10 +188,16 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                     //Caste nach Auftragskopf
                     Auftragskopf ak = (Auftragskopf) o;
                     
+                    if (ak.getAbschlussdatum() == null) {
+                        datum = "NA";
+                    } else {
+                        datum = new SimpleDateFormat("dd.MM.yyyy").format(
+                                ak.getAbschlussdatum());
+                    }
+                    
                     //Füge dem Model einen neuen Datensatz als Zeile hinzu
                     dtm.addRow(new Object[] {ak.getAuftragskopfID(), 
-                        new SimpleDateFormat("dd.MM.yyyy").format(
-                                ak.getAbschlussdatum()), ak.getAuftragstext(),
+                        datum, ak.getAuftragstext(),
                         new SimpleDateFormat("dd.MM.yyyy").format(
                                 ak.getErfassungsdatum()), new SimpleDateFormat(
                                         "dd.MM.yyyy").format(
