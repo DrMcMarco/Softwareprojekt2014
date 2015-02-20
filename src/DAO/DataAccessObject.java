@@ -2668,6 +2668,18 @@ public class DataAccessObject {
         
     }
     
+    /**
+     * Ermittelt dich nächste Auftrags ID und gibt diese zurück
+     * @return die nächste Auftrags ID
+     */
+    public int gibNaechsteAuftragsID() {
+        
+        //Ermittelt die Anzahl an angelegten Aufträgen und gibt die nächste ID
+        //zurück
+        return this.em.createQuery("SELECT ST FROM Auftragskopf ST",
+                Auftragskopf.class).getResultList().size() + 1;
+    }
+    
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
     /* 06.01.15   loe     angelegt                              */
@@ -2691,7 +2703,7 @@ public class DataAccessObject {
         }
         return liste;
     }
-    
+  
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
     /* 06.01.15   loe     angelegt                              */
