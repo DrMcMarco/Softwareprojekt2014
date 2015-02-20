@@ -3490,13 +3490,13 @@ public class DataAccessObject {
         //Charts und Datasets.
         JFreeChart lineChart;
         DefaultCategoryDataset dataset;
-        ArrayList<Auftragskopf> auftraege = null;
+        Collection<Auftragskopf> auftraege = null;
         String monat = "";
         dataset = new DefaultCategoryDataset();
         
         
         
-        auftraege = (ArrayList<Auftragskopf>) this.gibAlleAuftraege();
+        auftraege = this.gibAlleAuftraege();
 
         for (Auftragskopf auftrag : auftraege) {
             monat = new SimpleDateFormat("dd.MM.yyyy").format(
