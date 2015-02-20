@@ -419,6 +419,17 @@ public class DataAccessObject {
                     "Status konnte nicht gefunden werden");
         }
         
+        if ((Typ.equals("Barauftrag") || Typ.equals("Sofortauftrag") || 
+             Typ.equals("Terminauftrag")) && gp.getTyp().equals("Lieferant")) {
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Für Lieferanten kann diese Art von Auftrag nicht angelegt werden.");
+        }
+        
+        if (Typ.equals("Bestellauftrag") && gp.getTyp().equals("Kunde")) {
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Für Kunden kann keine Bestellauftrag angelegt werden.");
+        }
+        
         //Hole das aktuelle Systemdatum
         Calendar cal = Calendar.getInstance();
         Date Erfassungsdatum = cal.getTime();
@@ -1315,7 +1326,7 @@ public class DataAccessObject {
             
             if (Verkaufswert != artikel.getVerkaufswert() ||
                 Einkaufswert != artikel.getEinkaufswert() ||
-                MwST != artikel.getMwST()) {
+                MwST         != artikel.getMwST()) {
             
                 //"Lösche" den Artikel
                 artikel.setLKZ(true);
