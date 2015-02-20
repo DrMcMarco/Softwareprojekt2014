@@ -29,6 +29,12 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import java.text.DateFormatSymbols;
+
+import java.text.ParseException;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -39,6 +45,15 @@ import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
 import javax.persistence.metamodel.Attribute;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+
+import sun.rmi.transport.TransportConstants;
+
+import sun.rmi.transport.TransportConstants;
 /**
  *
  * @author Simon <Simon.Simon at your.org>
@@ -417,6 +432,17 @@ public class DataAccessObject {
         if (state == null) {
             throw new ApplicationException("Fehler", 
                     "Status konnte nicht gefunden werden");
+        }
+        
+        if ((Typ.equals("Barauftrag") || Typ.equals("Sofortauftrag") || 
+             Typ.equals("Terminauftrag")) && gp.getTyp().equals("Lieferant")) {
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Für Lieferanten kann diese Art von Auftrag nicht angelegt werden.");
+        }
+        
+        if (Typ.equals("Bestellauftrag") && gp.getTyp().equals("Kunde")) {
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Für Kunden kann keine Bestellauftrag angelegt werden.");
         }
         
         //Hole das aktuelle Systemdatum
@@ -1315,7 +1341,7 @@ public class DataAccessObject {
             
             if (Verkaufswert != artikel.getVerkaufswert() ||
                 Einkaufswert != artikel.getEinkaufswert() ||
-                MwST != artikel.getMwST()) {
+                MwST         != artikel.getMwST()) {
             
                 //"Lösche" den Artikel
                 artikel.setLKZ(true);
@@ -2874,6 +2900,29 @@ public class DataAccessObject {
         return ergebnis;
     }
     
+    public Collection<Auftragskopf> gibAlleAuftraege() {
+        
+        Calendar cal = Calendar.getInstance();
+        
+        cal.add(Calendar.MONTH, -6);
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        
+        Date vorSechsMonaten = cal.getTime();
+        
+        String string = dateFormat.format(vorSechsMonaten);
+        
+        vorSechsMonaten = DatumParser.gibDatum(string);
+       
+        System.out.println(vorSechsMonaten);
+        
+        List<Auftragskopf> ergebnis = this.em.createQuery("select st from Auftragskopf st where st.Erfassungsdatum >= :datum AND st.LKZ = false").setParameter("datum", vorSechsMonaten).getResultList();
+        
+        System.out.println(ergebnis.size());
+        
+        return ergebnis;
+    }
+    
 //</editor-fold>
     
 //<editor-fold defaultstate="collapsed" desc="loesche-Methoden">
@@ -3428,6 +3477,67 @@ public class DataAccessObject {
         }
     }
 
+    
+//</editor-fold>
+    
+//<editor-fold defaultstate="collapsed" desc="Statistik-Methoden">
+    
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 10.12.14   loe     angelegt                              */
+    /*----------------------------------------------------------*/
+    public JFreeChart gibChartUmsatzAuftragswert() {
+        //Charts und Datasets.
+        JFreeChart lineChart;
+        DefaultCategoryDataset dataset;
+        ArrayList<Auftragskopf> auftraege = null;
+        String monat = "";
+        dataset = new DefaultCategoryDataset();
+        
+        
+        
+        auftraege = (ArrayList<Auftragskopf>) this.gibAlleAuftraege();
+
+        for (Auftragskopf auftrag : auftraege) {
+            monat = new SimpleDateFormat("dd.MM.yyyy").format(
+                    auftrag.getAbschlussdatum());
+            dataset.setValue((double) auftrag.getWert(), 
+                    "Monatlicher Gesamtumsatz", monat);
+        }
+        //Diagramm erstellen.
+        lineChart = ChartFactory.createLineChart("Umsatzkurve",
+                    null, "Umsatz in ", dataset, PlotOrientation.VERTICAL,
+                    true, true, true);
+        return lineChart;
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 10.12.14   loe     angelegt                              */
+    /*----------------------------------------------------------*/
+    public JFreeChart gibChartArtikelAbsatz() {
+        //Charts und Datasets.
+        JFreeChart barChart;
+        DefaultCategoryDataset dataset;
+        ArrayList<Artikel> artikelMenge = null;
+        String name = "";
+        dataset = new DefaultCategoryDataset();
+        
+        
+        
+        artikelMenge = null;
+
+        for (Artikel artikel : artikelMenge) {
+            name = artikel.getArtikeltext();
+            dataset.setValue((double) artikel.getVerkauft() * artikel.getVerkaufswert(), 
+                    "Artikel", name);
+        }
+        //Diagramm erstellen.
+        barChart = ChartFactory.createStackedBarChart("Kategorieumsatzdiagramm",
+                    "Monate", "Umsatz in â‚¬", dataset, 
+                    PlotOrientation.VERTICAL, true, true, true);
+        return barChart;
+    }
     
 //</editor-fold>
     

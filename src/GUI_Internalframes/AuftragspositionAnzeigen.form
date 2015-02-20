@@ -96,7 +96,7 @@
                   <Component id="erfassungsdatum_jLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="erfassungsdatum_jTextField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="80" max="32767" attributes="0"/>
+              <EmptySpace pref="76" max="32767" attributes="0"/>
           </Group>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
@@ -123,7 +123,7 @@
         <Component class="javax.swing.JButton" name="jB_Zurueck">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/GUI_Internalframes/home.PNG"/>
+              <Image iconType="3" name="/GUI_Internalframes/Home2.PNG"/>
             </Property>
           </Properties>
           <Events>
@@ -132,7 +132,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jB_Speichern">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Speichern"/>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/GUI_Internalframes/Speichern.PNG"/>
+            </Property>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
@@ -141,7 +143,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jB_Anzeigen">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Anzeige/&#xc4;ndern"/>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/GUI_Internalframes/Bearbeiten.PNG"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jB_AnzeigenActionPerformed"/>
@@ -149,7 +153,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jB_Loeschen">
           <Properties>
-            <Property name="text" type="java.lang.String" value="L&#xf6;schen"/>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/GUI_Internalframes/L&#xf6;schen.PNG"/>
+            </Property>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
@@ -158,7 +164,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jB_Suchen">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Suchen"/>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/GUI_Internalframes/Suche.PNG"/>
+            </Property>
           </Properties>
         </Component>
       </SubComponents>

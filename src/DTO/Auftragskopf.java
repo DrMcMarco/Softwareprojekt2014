@@ -23,7 +23,7 @@ import javax.persistence.*;
  */
 @Entity
 @Inheritance
-@DiscriminatorColumn(name = "Autragsart")
+@DiscriminatorColumn(name = "Auftragsart")
 @Table(name = "Auftragskopf")
 public abstract class Auftragskopf implements Serializable {
     
