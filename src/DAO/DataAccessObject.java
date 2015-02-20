@@ -2900,25 +2900,33 @@ public class DataAccessObject {
         return ergebnis;
     }
     
+    /**
+     * Gibt alle Aufträge der letzten sechs Monate zurück.
+     * Wird für die Statistik benutzt.
+     * @return eine Collection aller Aufträge der letzten sechs Monate
+     */
     public Collection<Auftragskopf> gibAlleAuftraege() {
         
+        //Calendar-Objekt holen
         Calendar cal = Calendar.getInstance();
         
+        //Datum von vor sechs Monaten berechnet
         cal.add(Calendar.MONTH, -6);
         
+        //Datum in ein anderes Format (Tag-Monat-Jahr) konvertieren
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        
         Date vorSechsMonaten = cal.getTime();
-        
         String string = dateFormat.format(vorSechsMonaten);
-        
         vorSechsMonaten = DatumParser.gibDatum(string);
-       
-        System.out.println(vorSechsMonaten);
         
-        List<Auftragskopf> ergebnis = this.em.createQuery("select st from Auftragskopf st where st.Erfassungsdatum >= :datum AND st.LKZ = false").setParameter("datum", vorSechsMonaten).getResultList();
-        
-        System.out.println(ergebnis.size());
+        //Selektiere alle Aufträge die letzten sechs Monate, die abgeschlossen 
+        //und nicht gelöscht sind
+        List<Auftragskopf> ergebnis = 
+                this.em.createQuery("select st from Auftragskopf st "
+                        + "where st.Erfassungsdatum >= :datum "
+                        + "AND st.LKZ = false "
+                        + "AND st.Status.Status LIKE 'abgeschlossen'")
+                        .setParameter("datum", vorSechsMonaten).getResultList();
         
         return ergebnis;
     }

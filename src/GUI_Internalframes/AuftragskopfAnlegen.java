@@ -1215,6 +1215,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             this.hauptFenster.setStatusMeldung(e.getMessage());
 
         }
+//        catch(){
+//            
+//        }
     }//GEN-LAST:event_auftragsart_jComboBoxActionPerformed
 
     /**
@@ -2293,7 +2296,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      */
     public void setStatusAender() {
         this.setTitle("Auftragskopf ändern");
-//        zuruecksetzen();
+        zuruecksetzen();
         this.geschaeftspartner_jTextField.setEnabled(true);
         this.auftragskopfID_jTextField.setEnabled(false);
         this.auftragswert_jTextField.setEnabled(false);
