@@ -43,10 +43,15 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
     /*
      Augabetexte für Meldungen
      */
-    String fehlermeldung_titel = "Fehlerhafte Eingabe";
-    String fehlermeldungAuftragskopfIDtext = "\"Die eingegebene Auftragskopf-ID ist nicht gültig! "
+    final String fehlermeldung_titel = "Fehlerhafte Eingabe";
+
+    final String FEHLERMELDUNG_STATUS_TITEL = "Abgeschlossener Auftrag";
+    final String FEHLERMMELDUNG_STATUSABGESCHLOSSEN = "Der Auftrag ist "
+            + "bereits abgeschlossen und kann nicht"
+            + "\n bearbeitet werden. ";
+    final String fehlermeldungAuftragskopfIDtext = "\"Die eingegebene Auftragskopf-ID ist nicht gültig! "
             + "\\n Bitte geben Sie eine gültige Auftragskopf-ID ein. (z.B. 1 oder 999999999)\"";
-    String fehlermeldungUnvollstaendig = "Es wurden nicht alle Eingaben getätigt.";
+    final String fehlermeldungUnvollstaendig = "Es wurden nicht alle Eingaben getätigt.";
 
     /*
      Speichervariablen
@@ -263,12 +268,15 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
 //Aufruf der Schnittstellenmethode um auf Vollständigkeit der Eingaben zu prüfen.
 //        ueberpruefen();
 //        if (fehleingabefelder.isEmpty()) {//Bei ausgefüllten Eingabenfeldern
-            try {
-                aKopf = GUIFactory.getDAO().gibAuftragskopf(Long.parseLong(auftragskopfID_jTextField.getText()));
+        try {
+            aKopf = GUIFactory.getDAO().gibAuftragskopf(Long.parseLong(auftragskopfID_jTextField.getText()));
                 // Überprüft anhand des Framestitels, ob es das nächste Fenster
-                // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
-                if (this.getTitle().equals("Auftragskopf ändern Einstieg")) {
-                    if (aKopf != null) {
+            // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
+
+            if (this.getTitle().equals("Auftragskopf ändern Einstieg")) {
+                if (aKopf != null) {
+                    if (!(aKopf.getStatus().getStatus().equals("abgeschlossen"))) {
+
                         this.auftragskopfAnlegen.zuruecksetzen();
                         this.auftragskopfAnlegen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
 
@@ -279,25 +287,32 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
 
                         this.setVisible(false);
                         this.hauptFenster.setFrame(this.auftragskopfAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
-
+                    } else {
+                        //Ausgabe einer Fehlermeldung
+                        JOptionPane.showMessageDialog(null,
+                                FEHLERMMELDUNG_STATUSABGESCHLOSSEN,
+                                FEHLERMELDUNG_STATUS_TITEL,
+                                JOptionPane.WARNING_MESSAGE);
                     }
-                } else {
-                    this.auftragskopfAnlegen.zuruecksetzen();
 
-                    this.auftragskopfAnlegen.
-                            setzeEingabe(aKopf);
-                    this.auftragskopfAnlegen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
-
-                    zuruecksetzen();//Methode die bestimmte Eingabefelder leert
-                    this.setVisible(false);
-//                    this.auftragskopfAnlegen.setStatusAnzeigen();
-                    this.hauptFenster.setFrame(this.auftragskopfAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
                 }
-            } catch (ApplicationException | NullPointerException e) {
-                this.hauptFenster.setStatusMeldung(e.getMessage());
-            } catch(NumberFormatException e){
-                this.hauptFenster.setStatusMeldung(fehlermeldungUnvollstaendig);
+            } else {
+                this.auftragskopfAnlegen.zuruecksetzen();
+
+                this.auftragskopfAnlegen.
+                        setzeEingabe(aKopf);
+                this.auftragskopfAnlegen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
+
+                zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                this.setVisible(false);
+//                    this.auftragskopfAnlegen.setStatusAnzeigen();
+                this.hauptFenster.setFrame(this.auftragskopfAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
             }
+        } catch (ApplicationException | NullPointerException e) {
+            this.hauptFenster.setStatusMeldung(e.getMessage());
+        } catch (NumberFormatException e) {
+            this.hauptFenster.setStatusMeldung(fehlermeldungUnvollstaendig);
+        }
 
 //        } else {//Wenn Eingaben fehlen.
 //            // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
