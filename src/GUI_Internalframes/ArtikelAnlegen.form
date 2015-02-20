@@ -257,7 +257,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jB_Speichern">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Speichern"/>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/GUI_Internalframes/Speichern.PNG"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jB_SpeichernActionPerformed"/>
@@ -265,7 +267,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jB_AnzeigenAEndern">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Anzeige/&#xc4;ndern"/>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/GUI_Internalframes/Bearbeiten.PNG"/>
+            </Property>
             <Property name="actionCommand" type="java.lang.String" value="Anzeigen/&#xc4;ndern"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
@@ -275,7 +279,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jB_Loeschen">
           <Properties>
-            <Property name="text" type="java.lang.String" value="L&#xf6;schen"/>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/GUI_Internalframes/L&#xf6;schen.PNG"/>
+            </Property>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
@@ -284,7 +290,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jB_Suchen">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Suchen"/>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/GUI_Internalframes/Suche.PNG"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jB_SuchenActionPerformed"/>

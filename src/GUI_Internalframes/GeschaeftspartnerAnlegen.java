@@ -546,7 +546,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         });
         jToolBar1.add(jB_Zurueck);
 
-        jB_Speichern.setText("Speichern");
+        jB_Speichern.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Speichern.PNG"))); // NOI18N
+        jB_Speichern.setActionCommand("");
         jB_Speichern.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_SpeichernActionPerformed(evt);
@@ -554,7 +555,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         });
         jToolBar1.add(jB_Speichern);
 
-        jB_AnzeigenAEndern.setText("Anzeige/Ändern");
+        jB_AnzeigenAEndern.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Bearbeiten.PNG"))); // NOI18N
         jB_AnzeigenAEndern.setActionCommand("Anzeigen/Ändern");
         jB_AnzeigenAEndern.setEnabled(false);
         jB_AnzeigenAEndern.addActionListener(new java.awt.event.ActionListener() {
@@ -564,7 +565,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         });
         jToolBar1.add(jB_AnzeigenAEndern);
 
-        jB_Loeschen.setText("Löschen");
+        jB_Loeschen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Löschen.PNG"))); // NOI18N
         jB_Loeschen.setEnabled(false);
         jB_Loeschen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -573,7 +574,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         });
         jToolBar1.add(jB_Loeschen);
 
-        jB_Suchen.setText("Suchen");
+        jB_Suchen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Suche.PNG"))); // NOI18N
         jB_Suchen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_SuchenActionPerformed(evt);
@@ -2351,7 +2352,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //      buttons werden gestzt
         jB_Speichern.setEnabled(true);
         jB_AnzeigenAEndern.setEnabled(false);
-        jB_AnzeigenAEndern.setText("Anzeigen/Ändern");
+//        jB_AnzeigenAEndern.setText("Anzeigen/Ändern");
         jB_Loeschen.setEnabled(false);
 
         this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
@@ -2414,7 +2415,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 
         jB_Speichern.setEnabled(true);
         jB_AnzeigenAEndern.setEnabled(false);
-        jB_AnzeigenAEndern.setText("Anzeigen");
+//        jB_AnzeigenAEndern.setText("Anzeigen");
         jB_Loeschen.setEnabled(true);
     }
 
@@ -2467,7 +2468,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 
         jB_Speichern.setEnabled(false);
         jB_AnzeigenAEndern.setEnabled(true);
-        jB_AnzeigenAEndern.setText("Ändern");
+//        jB_AnzeigenAEndern.setText("Ändern");
         jB_Loeschen.setEnabled(false);
 
     }
