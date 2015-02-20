@@ -242,7 +242,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         erfassungsdatum_jFormattedTextField.setText(format.format(heute));
         erfassungsdatum_auftragsposition_jFormattedTextField.setText(format.format(heute));
         lieferdatum_jFormattedTextField.setText(format.format(heute));
-        abschlussdatum_jFormattedTextField.setText(format.format(heute));
+//        abschlussdatum_jFormattedTextField.setText(format.format(heute));
 
 
         /*
@@ -1035,10 +1035,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                             Mahnzeit3_jTextField.setText("");
                         } else {
                             lieferdatum = berechnetesLieferdatum;
-                            abschlussdatum = berechnetesLieferdatum;
+//                            abschlussdatum = berechnetesLieferdatum;
 
                             lieferdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
-                            abschlussdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
+//                            abschlussdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
                             lieferdatum_jFormattedTextField.setEnabled(false);
 
                             Skontozeit1_jTextField.setText(String.valueOf(zahlungskondition.getSkontozeit1()));
@@ -1054,7 +1054,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                         abschlussdatum = berechnetesLieferdatum;
 
                         lieferdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
-                        abschlussdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
+//                        abschlussdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
                         lieferdatum_jFormattedTextField.setEnabled(false);
 
                         Skontozeit1_jTextField.setText(String.valueOf(zahlungskondition.getSkontozeit1()));
@@ -1091,10 +1091,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                             Mahnzeit3_jTextField.setText("");
                         } else {
                             lieferdatum = berechnetesLieferdatum;
-                            abschlussdatum = berechnetesLieferdatum;
+//                            abschlussdatum = berechnetesLieferdatum;
 
                             lieferdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
-                            abschlussdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
+//                            abschlussdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
                             lieferdatum_jFormattedTextField.setEnabled(true);
 
                             Skontozeit1_jTextField.setText(String.valueOf(zahlungskondition.getSkontozeit1()));
@@ -1106,10 +1106,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                     } else {
 
                         lieferdatum = berechnetesLieferdatum;
-                        abschlussdatum = berechnetesLieferdatum;
+//                        abschlussdatum = berechnetesLieferdatum;
 
                         lieferdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
-                        abschlussdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
+//                        abschlussdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
                         lieferdatum_jFormattedTextField.setEnabled(true);
 
                         Skontozeit1_jTextField.setText(String.valueOf(zahlungskondition.getSkontozeit1()));
@@ -1123,11 +1123,11 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                         equals(BESTELLAUFTRAG)) {
 
                     lieferdatum = heute;
-                    abschlussdatum = heute;
+//                    abschlussdatum = heute;
 
                     lieferdatum_jFormattedTextField.setEnabled(true);
                     lieferdatum_jFormattedTextField.setText(format.format(heute));
-                    abschlussdatum_jFormattedTextField.setText(format.format(heute));
+//                    abschlussdatum_jFormattedTextField.setText(format.format(heute));
 
                     Skontozeit1_jTextField.setText(String.valueOf(zahlungskondition.getSkontozeit1()));
                     Skontozeit2_jTextField.setText(String.valueOf(zahlungskondition.getSkontozeit2()));
@@ -1215,6 +1215,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
             this.hauptFenster.setStatusMeldung(e.getMessage());
 
         }
+//        catch(){
+//            
+//        }
     }//GEN-LAST:event_auftragsart_jComboBoxActionPerformed
 
     /**
@@ -1358,7 +1361,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                                     GUIFactory.getDAO().erstelleAuftragskopf(typ, artikel,
                                             auftragsText, geschaeftspartnerID,
                                             keineZK,
-                                            "erfasst", abschlussdatum, lieferdatum);
+                                            "erfasst", null, lieferdatum);
                                 } else {
                                     zahhlungskonditionID = Integer.parseInt(
                                             zahlungskonditionen_jComboBox.getSelectedItem().toString());
@@ -1367,7 +1370,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                                     GUIFactory.getDAO().erstelleAuftragskopf(typ, artikel,
                                             auftragsText, geschaeftspartnerID,
                                             zahhlungskonditionID,
-                                            "erfasst", abschlussdatum, lieferdatum);
+                                            "erfasst", null, lieferdatum);
                                 }
                                 this.hauptFenster.setStatusMeldung(ERFOLGREICHEANMELDUNG);
                                 zuruecksetzen();//Methode die bestimmte Eingabefelder leert
@@ -1434,7 +1437,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                                                         geschaeftspartnerID,
                                                         Long.parseLong(jetzigeZahlungskonditionen),
                                                         artikel, auftragsText,
-                                                        jetzigerStatus, abschlussdatum, lieferdatum);
+                                                        jetzigerStatus, null, lieferdatum);
 
                                         zuruecksetzen();
 
@@ -1804,8 +1807,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                         && auftragstext_jTextArea.getText().equals("")
                         && lieferdatum_jFormattedTextField.getText().
                         equals(erfassungsdatum_auftragsposition_jFormattedTextField.getText())
-                        && abschlussdatum_jFormattedTextField.getText().equals(
-                                lieferdatum_jFormattedTextField.getText())
+//                        && abschlussdatum_jFormattedTextField.getText().equals(
+//                                lieferdatum_jFormattedTextField.getText())
                         && materialnummer_jTextField.getText().equals("")
                         && menge_jTextField.getText().equals("")
                         && auftragsposition_jTable.getRowCount() == 0)) {
@@ -2040,10 +2043,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 berechnetesLieferdatum = calender.getTime();
 
                 lieferdatum = berechnetesLieferdatum;
-                abschlussdatum = berechnetesLieferdatum;
+//                abschlussdatum = berechnetesLieferdatum;
 
                 lieferdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
-                abschlussdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
+//                abschlussdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
                 lieferdatum_jFormattedTextField.setEnabled(true);
 
                 Skontozeit1_jTextField.setText(String.valueOf(zahlungskondition.getSkontozeit1()));
@@ -2063,10 +2066,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                 berechnetesLieferdatum = calender.getTime();
 
                 lieferdatum = berechnetesLieferdatum;
-                abschlussdatum = berechnetesLieferdatum;
+//                abschlussdatum = berechnetesLieferdatum;
 
                 lieferdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
-                abschlussdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
+//                abschlussdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
                 lieferdatum_jFormattedTextField.setEnabled(false);
 
                 Skontozeit1_jTextField.setText(String.valueOf(zahlungskondition.getSkontozeit1()));
@@ -2079,9 +2082,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
                         zahlungskonditionen_jComboBox.getSelectedItem().toString()));
 
                 lieferdatum = heute;
-                abschlussdatum = heute;
+//                abschlussdatum = heute;
                 lieferdatum_jFormattedTextField.setText(format.format(heute));
-                abschlussdatum_jFormattedTextField.setText(format.format(heute));
+//                abschlussdatum_jFormattedTextField.setText(format.format(heute));
                 lieferdatum_jFormattedTextField.setEnabled(true);
 
                 Skontozeit1_jTextField.setText(String.valueOf(zahlungskondition.getSkontozeit1()));
@@ -2092,9 +2095,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
 
             } else {
                 lieferdatum = heute;
-                abschlussdatum = heute;
+//                abschlussdatum = heute;
                 lieferdatum_jFormattedTextField.setText(format.format(heute));
-                abschlussdatum_jFormattedTextField.setText(format.format(heute));
+//                abschlussdatum_jFormattedTextField.setText(format.format(heute));
                 lieferdatum_jFormattedTextField.setEnabled(true);
             }
 
@@ -2197,9 +2200,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         if (lieferdatum_jFormattedTextField.getText().equals("")) {
             fehlendeEingaben.add(lieferdatum_jFormattedTextField);
         }
-        if (abschlussdatum_jFormattedTextField.getText().equals("")) {
-            fehlendeEingaben.add(abschlussdatum_jFormattedTextField);
-        }
+//        if (abschlussdatum_jFormattedTextField.getText().equals("")) {
+//            fehlendeEingaben.add(abschlussdatum_jFormattedTextField);
+//        }
 //        Eingabefelder für Auftragsposition werden in Variable 
 //         "fehlendeEingabenAuftragsposition" feestgehalten.
         if (materialnummer_jTextField.getText().equals("")) {
@@ -2293,7 +2296,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
      */
     public void setStatusAender() {
         this.setTitle("Auftragskopf ändern");
-//        zuruecksetzen();
+        zuruecksetzen();
         this.geschaeftspartner_jTextField.setEnabled(true);
         this.auftragskopfID_jTextField.setEnabled(false);
         this.auftragswert_jTextField.setEnabled(false);
@@ -2310,7 +2313,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         }
         this.auftragstext_jTextArea.setEnabled(true);
         this.erfassungsdatum_jFormattedTextField.setEnabled(false);
-        this.abschlussdatum_jFormattedTextField.setEnabled(true);
+//        this.abschlussdatum_jFormattedTextField.setEnabled(true);
         this.erfasst_jRadioButton.setEnabled(true);
         this.freigegeben_jRadioButton.setEnabled(true);
         this.abgeschlossen_jRadioButton.setEnabled(true);
@@ -2346,7 +2349,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         this.auftragstext_jTextArea.setEnabled(false);
         this.erfassungsdatum_jFormattedTextField.setEnabled(false);
         this.lieferdatum_jFormattedTextField.setEnabled(false);
-        this.abschlussdatum_jFormattedTextField.setEnabled(false);
+//        this.abschlussdatum_jFormattedTextField.setEnabled(false);
         this.erfasst_jRadioButton.setEnabled(false);
         this.freigegeben_jRadioButton.setEnabled(false);
         this.abgeschlossen_jRadioButton.setEnabled(false);
@@ -2385,7 +2388,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         this.auftragstext_jTextArea.setEnabled(true);
         this.erfassungsdatum_jFormattedTextField.setEnabled(false);
         this.lieferdatum_jFormattedTextField.setEnabled(true);
-        this.abschlussdatum_jFormattedTextField.setEnabled(true);
+//        this.abschlussdatum_jFormattedTextField.setEnabled(true);
         this.erfasst_jRadioButton.setEnabled(true);
         this.erfasst_jRadioButton.setSelected(true);
         this.freigegeben_jRadioButton.setEnabled(false);
@@ -2416,9 +2419,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     /* Datum Name Was */
     /* 14.01.2015 Terrasi angelegt und dokumentiert*/
     /*----------------------------------------------------------*/
-    public void setAbschlussdatum(Date abschlussdatum) {
-        this.abschlussdatum = abschlussdatum;
-    }
+//    public void setAbschlussdatum(Date abschlussdatum) {
+//        this.abschlussdatum = abschlussdatum;
+//    }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */

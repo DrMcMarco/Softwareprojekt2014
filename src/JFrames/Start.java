@@ -150,7 +150,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         desktopPane.add(zahlungskonditionaendern);
         desktopPane.add(suche);
         desktopPane.add(detailSuche);
-
+        desktopPane.add(statistikAnzeige);
         //Frames werden nicht sichtbar dargestellt. 
         auftragskopfaendern.setVisible(false);
         auftragskopfanlegen.setVisible(false);
@@ -383,7 +383,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
 
         jMenu1.setText("jMenu1");
 
-        umsatz_mn.setText("jMenuItem1");
+        umsatz_mn.setText("umsatz");
         umsatz_mn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 umsatz_mnActionPerformed(evt);
@@ -926,12 +926,13 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     }//GEN-LAST:event_jMI_ZKAnzeigenActionPerformed
 
     private void artikel_absatz_mnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_artikel_absatz_mnActionPerformed
-        this.statistikAnzeige.setzeChart(GUIFactory.getDAO().gibChartUmsatzAuftragswert());
+        
+        this.statistikAnzeige.setzeChart(GUIFactory.getDAO().gibChartArtikelAbsatz());
     }//GEN-LAST:event_artikel_absatz_mnActionPerformed
 
     private void umsatz_mnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_umsatz_mnActionPerformed
-        this.statistikAnzeige.setzeChart(GUIFactory.getDAO().gibChartArtikelAbsatz());
         
+        this.statistikAnzeige.setzeChart(GUIFactory.getDAO().gibChartUmsatzAuftragswert());
     }//GEN-LAST:event_umsatz_mnActionPerformed
 
     /*----------------------------------------------------------*/

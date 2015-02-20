@@ -1301,7 +1301,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
 
         jB_Speichern.setEnabled(true);
         jB_AnzeigenAEndern.setEnabled(false);
-        jB_AnzeigenAEndern.setText("Anzeigen/Ändern");
+//        jB_AnzeigenAEndern.setText("Anzeigen/Ändern");
         jB_Loeschen.setEnabled(false);
         jB_Suchen.setEnabled(false);
 
@@ -1333,7 +1333,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      */
     private void setzFormularInZKAEndernFuerButton() {
         this.setTitle(ZK_AENDERN);
-        jCB_Auftragsart.setEnabled(true);
+        jCB_Auftragsart.setEnabled(false);
         jSP_LieferzeitSOFORT.setEnabled(true);
         jSP_SperrzeitWUNSCH.setEnabled(true);
         jSP_Skontozeit1.setEnabled(true);
@@ -1346,7 +1346,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
 
         jB_Speichern.setEnabled(true);
         jB_AnzeigenAEndern.setEnabled(false);
-        jB_AnzeigenAEndern.setText("Anzeigen");
+//        jB_AnzeigenAEndern.setText("Anzeigen");
         jB_Loeschen.setEnabled(true);
         jB_Suchen.setEnabled(false);
     }
@@ -1384,7 +1384,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
 
         jB_Speichern.setEnabled(false);
         jB_AnzeigenAEndern.setEnabled(true);
-        jB_AnzeigenAEndern.setText("Ändern");
+//        jB_AnzeigenAEndern.setText("Ändern");
         jB_Loeschen.setEnabled(false);
         jB_Suchen.setEnabled(true);
     }

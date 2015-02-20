@@ -221,7 +221,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="umsatz_mn">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jMenuItem1"/>
+                <Property name="text" type="java.lang.String" value="umsatz"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="umsatz_mnActionPerformed"/>
