@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -39,6 +41,10 @@ import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
 import javax.persistence.metamodel.Attribute;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 /**
  *
  * @author Simon <Simon.Simon at your.org>
@@ -3439,6 +3445,67 @@ public class DataAccessObject {
         }
     }
 
+    
+//</editor-fold>
+    
+//<editor-fold defaultstate="collapsed" desc="Statistik-Methoden">
+    
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 10.12.14   loe     angelegt                              */
+    /*----------------------------------------------------------*/
+    public JFreeChart gibChartUmsatzAuftragswert() {
+        //Charts und Datasets.
+        JFreeChart lineChart;
+        DefaultCategoryDataset dataset;
+        ArrayList<Auftragskopf> auftraege = null;
+        String monat = "";
+        dataset = new DefaultCategoryDataset();
+        
+        
+        
+        auftraege = null;
+
+        for (Auftragskopf auftrag : auftraege) {
+            monat = new SimpleDateFormat("dd.MM.yyyy").format(
+                    auftrag.getAbschlussdatum());
+            dataset.setValue((double) auftrag.getWert(), 
+                    "Monatlicher Gesamtumsatz", monat);
+        }
+        //Diagramm erstellen.
+        lineChart = ChartFactory.createLineChart("Umsatzkurve",
+                    null, "Umsatz in ", dataset, PlotOrientation.VERTICAL,
+                    true, true, true);
+        return lineChart;
+    }
+    
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 10.12.14   loe     angelegt                              */
+    /*----------------------------------------------------------*/
+    public JFreeChart gibChartArtikelAbsatz() {
+        //Charts und Datasets.
+        JFreeChart barChart;
+        DefaultCategoryDataset dataset;
+        ArrayList<Artikel> artikelMenge = null;
+        String name = "";
+        dataset = new DefaultCategoryDataset();
+        
+        
+        
+        artikelMenge = null;
+
+        for (Artikel artikel : artikelMenge) {
+            name = artikel.getArtikeltext();
+            dataset.setValue((double) artikel.getVerkauft() * artikel.getVerkaufswert(), 
+                    "Artikel", name);
+        }
+        //Diagramm erstellen.
+        barChart = ChartFactory.createStackedBarChart("Kategorieumsatzdiagramm",
+                    "Monate", "Umsatz in â‚¬", dataset, 
+                    PlotOrientation.VERTICAL, true, true, true);
+        return null;
+    }
     
 //</editor-fold>
     

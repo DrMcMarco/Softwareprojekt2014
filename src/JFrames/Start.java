@@ -64,6 +64,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     public ZahlungskonditionAnlegen zahlungskonditionanlegen;
     public ZahlungskonditionenAEndernEinstieg zahlungskonditionaendern;
     
+    public StatistikAnzeige statistikAnzeige;
+    
     public Login logInFester;
 
     //Hilfsvariablen
@@ -129,7 +131,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg(factory, geschaeftspartneranlegen, this);
         zahlungskonditionanlegen = new ZahlungskonditionAnlegen(factory, this);
         zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg(factory, zahlungskonditionanlegen, this);
-
+        statistikAnzeige = new StatistikAnzeige();
         // Aufruf der setCenterJIF-Methode
         setCenterJIF(hauptmenueuser);
         // Zuweisung der Masken an die Hauptansicht
@@ -196,6 +198,9 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         jMI_ZKAnlegen = new javax.swing.JMenuItem();
         jMI_ZKAEndern = new javax.swing.JMenuItem();
         jMI_ZKAnzeigen = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        umsatz_mn = new javax.swing.JMenuItem();
+        artikel_absatz_mn = new javax.swing.JMenuItem();
         jM_Logout = new javax.swing.JMenu();
         jMI_Logout = new javax.swing.JMenuItem();
         jM_Hilfe = new javax.swing.JMenu();
@@ -373,6 +378,26 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         jM_Navigation.add(jM_ZKVerwalten);
 
         menuBar.add(jM_Navigation);
+
+        jMenu1.setText("jMenu1");
+
+        umsatz_mn.setText("jMenuItem1");
+        umsatz_mn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                umsatz_mnActionPerformed(evt);
+            }
+        });
+        jMenu1.add(umsatz_mn);
+
+        artikel_absatz_mn.setText("jMenuItem2");
+        artikel_absatz_mn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                artikel_absatz_mnActionPerformed(evt);
+            }
+        });
+        jMenu1.add(artikel_absatz_mn);
+
+        menuBar.add(jMenu1);
 
         jM_Logout.setText("Logout");
         jM_Logout.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
@@ -898,6 +923,15 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         setComponent(zahlungskonditionaendern);
     }//GEN-LAST:event_jMI_ZKAnzeigenActionPerformed
 
+    private void artikel_absatz_mnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_artikel_absatz_mnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_artikel_absatz_mnActionPerformed
+
+    private void umsatz_mnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_umsatz_mnActionPerformed
+        this.statistikAnzeige.setzeChart(GUIFactory.getDAO().gibChartArtikelAbsatz());
+        
+    }//GEN-LAST:event_umsatz_mnActionPerformed
+
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt */
@@ -1170,6 +1204,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem artikel_absatz_mn;
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JMenuItem jMI_ArtikelAEndern;
     private javax.swing.JMenuItem jMI_ArtikelAnlegen;
@@ -1196,8 +1231,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     private javax.swing.JMenu jM_Logout;
     private javax.swing.JMenu jM_Navigation;
     private javax.swing.JMenu jM_ZKVerwalten;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JTextField statusMeldung_jTextField;
+    private javax.swing.JMenuItem umsatz_mn;
     // End of variables declaration//GEN-END:variables
 
 }
