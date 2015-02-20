@@ -213,6 +213,14 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
             Zahlungskondition za = GUIFactory.getDAO().gibZahlungskonditionNachId(zknr);
             zk.gibjTF_ZahlungskonditionID().setText("" + za.getZahlungskonditionID());
             zk.gibjCB_Auftragsart().setSelectedItem(za.getAuftragsart());
+            if (za.getAuftragsart().equals("Bestellauftrag")) {
+                zk.gibjSP_LieferzeitSOFORT().setEnabled(false);
+                zk.gibjSP_SperrzeitWUNSCH().setEnabled(false);
+            } else if (za.getAuftragsart().equals("Terminauftrag")) {
+                zk.gibjSP_LieferzeitSOFORT().setEnabled(false);
+            } else if (za.getAuftragsart().equals("Sofortauftrag")) {
+                zk.gibjSP_SperrzeitWUNSCH().setEnabled(false);
+            }
             zk.gibjSP_LieferzeitSOFORT().setValue(za.getLieferzeitSofort());
             zk.gibjSP_SperrzeitWUNSCH().setValue(za.getSperrzeitWunsch());
             zk.gibjSP_Skontozeit1().setValue(za.getSkontozeit1());
@@ -294,7 +302,7 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
         this.hauptFenster.rufeSuche(this);
     }//GEN-LAST:event_jB_SuchenActionPerformed
 
-     /**
+    /**
      * setterMethode für die Suche
      *
      * @param zk ZK Obkjekt, aus dem die ZK nummer gelesen wird
@@ -317,6 +325,7 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
     public void zuruecksetzen() {
         jTF_Zahlungskondition_ID.setText("");
     }
+
     public JTextField gibjTF_Zahlungskondition_ID() {
         return jTF_Zahlungskondition_ID;
     }
