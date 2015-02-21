@@ -45,7 +45,7 @@
                   <Component id="AuftragspositionID_jTextField" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="Enter_jButton" min="-2" pref="93" max="-2" attributes="0"/>
+              <Component id="Weiter_jButton" min="-2" pref="93" max="-2" attributes="0"/>
               <EmptySpace pref="118" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -65,7 +65,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="AuftragspositionID_jTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="Enter_jButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="Weiter_jButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="214" max="32767" attributes="0"/>
           </Group>
@@ -147,16 +147,15 @@
     <Component class="javax.swing.JTextField" name="auftragskopfID_jTextField">
       <Events>
         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="auftragskopfID_jTextFieldFocusGained"/>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="auftragskopfID_jTextFieldFocusLost"/>
         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="auftragskopfID_jTextFieldKeyPressed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="Enter_jButton">
+    <Component class="javax.swing.JButton" name="Weiter_jButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Weiter"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Enter_jButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Weiter_jButtonActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
@@ -173,7 +172,6 @@
     <Component class="javax.swing.JTextField" name="AuftragspositionID_jTextField">
       <Events>
         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="AuftragspositionID_jTextFieldFocusGained"/>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="AuftragspositionID_jTextFieldFocusLost"/>
         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="AuftragspositionID_jTextFieldKeyPressed"/>
       </Events>
     </Component>

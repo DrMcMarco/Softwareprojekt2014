@@ -2299,6 +2299,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     /* Datum Name Was */
     /* 10.12.2014 Terrasi, angelegt */
     /* 08.01.2015 Terrasi, Logik implementiert */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der die Eingaben beim FocusLost auf Richtigkeit
@@ -2314,10 +2315,12 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     @Override
     public void ueberpruefungVonFocusLost(JTextField textfield, String syntax,
             String fehlermelgungtitel, String fehlermeldung) {
-        if (!textfield.getText().matches(syntax)) {//Falls Eingabe nicht mit der Syntax übereinstimmt.
+        //Falls Eingabe nicht mit der Syntax übereinstimmt.
+        if (!textfield.getText().matches(syntax)) {
             formularOK = false;
             //Ausgabe einer Fehlermeldung
-            JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, fehlermeldung, 
+                    fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
             //Mit dem Focus in das übergebene Eingabefeld springen
             textfield.requestFocusInWindow();
             textfield.selectAll();
@@ -2335,11 +2338,12 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     /* Datum Name Was */
     /* 10.12.2014 Terrasi, angelegt */
     /* 08.01.2015 Terrasi, Logik implementiert */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der die Eingabefelder die nicht ausgefüllt
      * worden sind, farblich markiert werden und eine Meldung ausgegeben wird,
-     * inder der Benutzer darauf hingewiesen wird, alle Eingaben zu tätigen.
+     * inder der Benutzer darauf hingewiesen wird alle Eingaben zu tätigen.
      *
      * @param list, Arraylist in der die Components die keine Eingaben erhalten
      * haben, gespeichert sind.
@@ -2355,44 +2359,52 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         JOptionPane.showMessageDialog(null, fehlermeldung,
                 fehlermelgungtitel, JOptionPane.WARNING_MESSAGE);
         if (!list.isEmpty()) {
-
-            list.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
-
+            // Fokus gelangt in das erste leere Eingabefeld
+            list.get(0).requestFocusInWindow();
         }
         // Alle leeren Eingabefelder werden farblich markiert.
         for (int i = 0; i <= list.size() - 1; i++) {
             list.get(i).setBackground(farbe);
         }
-
-        list.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
+        //ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
+        list.clear();
     }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 06.01.2015 Terrasi angelegt,Logik und Dokumentation */
     /* 08.01.2015 Terrasi Anwendungslogik überarbeitet*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Methode mit der das Internalframe nicht mehr als Anzeigefenster
      * dargestellt wird, sondern als Fenster in dem man Daten ändern kann.
      */
     public void setStatusAender() {
+        // Titel wird gesetzt.
         this.setTitle("Auftragskopf ändern");
-        zuruecksetzen();
+        zuruecksetzen();// Eingabefelder werden zurück gesetzt.
+        
+        // Komponenten werden auf Enabled gesetzt oder nicht.
         this.geschaeftspartner_jTextField.setEnabled(true);
         this.auftragskopfID_jTextField.setEnabled(false);
         this.auftragswert_jTextField.setEnabled(false);
         this.auftragsart_jComboBox.setEnabled(false);
 
+        // Wird geprüft welche Auftragsart aufgerufen worden ist. 
+        // Je nachdem werden bestimmte Felder auf Enabled gesetzt oder nicht.
+        
+        // Falls Barauftrag
         if (this.auftragsart_jComboBox.getSelectedIndex() == 0) {
             this.lieferdatum_jFormattedTextField.setEnabled(false);
             this.zahlungskonditionen_jComboBox.setEnabled(false);
-        } else if (this.auftragsart_jComboBox.getSelectedIndex() == 1) {
+        } else if (this.auftragsart_jComboBox.getSelectedIndex() == 1) {// Sofortauftrag
             this.lieferdatum_jFormattedTextField.setEnabled(false);
             this.zahlungskonditionen_jComboBox.setEnabled(true);
-        } else {
+        } else {// Falls Bestellauftrag oder Terminauftrag.
             this.zahlungskonditionen_jComboBox.setEnabled(true);
         }
+        // Komponenten werden auf Enabled gesetzt oder nicht.
         this.auftragstext_jTextArea.setEnabled(true);
         this.erfassungsdatum_jFormattedTextField.setEnabled(false);
         this.erfasst_jRadioButton.setEnabled(true);
@@ -2401,13 +2413,15 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         this.positionsnummer_jTextField.setEnabled(false);
         this.materialnummer_jTextField.setEnabled(true);
         this.menge_jTextField.setEnabled(true);
-        this.erfassungsdatum_auftragsposition_jFormattedTextField.setEnabled(false);
+        this.erfassungsdatum_auftragsposition_jFormattedTextField.
+                setEnabled(false);
         this.auftragsposition_jTable.setEnabled(true);
         jB_Anzeigen.setEnabled(false);
         jB_Speichern.setEnabled(true);
         jB_Loeschen.setEnabled(true);
         NeuePosition_jButton.setEnabled(true);
         positionLoeschen_jButton.setEnabled(true);
+        //Übergabe des Fenster an das Hauptfenster.
         this.hauptFenster.setComponent(this);
     }
 
@@ -2415,28 +2429,34 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
     /* Datum Name Was */
     /* 06.01.2015 Terrasi angelegt,Logik und Dokumentation */
     /* 08.01.2015 Terrasi Anwendungslogik überarbeitet*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Methode mit der das Internalframe nicht mehr als Anzeigefenster
-     * dargestellt wird, sondern als Fenster in dem man Daten ändern kann.
+     * dargestellt wird, sondern als Fenster, indem man Daten ändern kann.
      */
     public void setStatusAenderButton() {
         this.setTitle("Auftragskopf ändern");
-//        zuruecksetzen();
+        // Komponenten werden auf Enabled gesetzt oder nicht.
         this.geschaeftspartner_jTextField.setEnabled(true);
         this.auftragskopfID_jTextField.setEnabled(false);
         this.auftragswert_jTextField.setEnabled(false);
         this.auftragsart_jComboBox.setEnabled(false);
 
+        // Wird geprüft welche Auftragsart aufgerufen worden ist. 
+        // Je nachdem werden bestimmte Felder auf Enabled gesetzt oder nicht.
+        
+        // Falls Barauftrag
         if (this.auftragsart_jComboBox.getSelectedIndex() == 0) {
             this.lieferdatum_jFormattedTextField.setEnabled(false);
             this.zahlungskonditionen_jComboBox.setEnabled(false);
-        } else if (this.auftragsart_jComboBox.getSelectedIndex() == 1) {
+        } else if (this.auftragsart_jComboBox.getSelectedIndex() == 1) {// Sofortauftrag
             this.lieferdatum_jFormattedTextField.setEnabled(false);
             this.zahlungskonditionen_jComboBox.setEnabled(true);
-        } else {
+        } else {// Falls Bestellauftrag oder Terminauftrag.
             this.zahlungskonditionen_jComboBox.setEnabled(true);
         }
+        // Komponenten werden auf Enabled gesetzt oder nicht.
         this.auftragstext_jTextArea.setEnabled(true);
         this.erfassungsdatum_jFormattedTextField.setEnabled(false);
         this.erfasst_jRadioButton.setEnabled(true);
@@ -2445,13 +2465,15 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame implements I
         this.positionsnummer_jTextField.setEnabled(false);
         this.materialnummer_jTextField.setEnabled(true);
         this.menge_jTextField.setEnabled(true);
-        this.erfassungsdatum_auftragsposition_jFormattedTextField.setEnabled(false);
+        this.erfassungsdatum_auftragsposition_jFormattedTextField.
+                setEnabled(false);
         this.auftragsposition_jTable.setEnabled(true);
         jB_Anzeigen.setEnabled(false);
         jB_Speichern.setEnabled(true);
         jB_Loeschen.setEnabled(true);
         NeuePosition_jButton.setEnabled(true);
         positionLoeschen_jButton.setEnabled(true);
+        //Übergabe des Fenster an das Hauptfenster.
         this.hauptFenster.setComponent(this);
     }
 

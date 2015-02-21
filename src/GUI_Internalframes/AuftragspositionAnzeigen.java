@@ -23,31 +23,25 @@ import java.util.Calendar;
 /**
  *
  * @author Luca Terrasi
- *
- * 10.12.2014 Dokumentation und Logik 16.12.2014 Terrasi,
- * Funktionsimplementierung im "Zurück"-Button 06.01.2015 Terrasi,
- * Anwendungslogik für das ändern und anzeigen von Auftragspositionen.
- * 08.01.2015 Terrasi, Überarbeitung der Anwendungslogik für anzeigen/ändern
- * Status und das hinzufügen von weiteren Funktion. 17.01.2015 Terrasi, erstelln
- * von Setter-Methoden um Werte den Eingabefelder zu übergeben.
  */
+/* 10.12.2014 Dokumentation und Logik */
+/* 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button */
+/* 06.01.2015 Terrasi, Anwendungslogik für das ändern und anzeigen von 
+ Auftragspositionen. */
+/* 08.01.2015 Terrasi, Überarbeitung der Anwendungslogik für anzeigen/ändern
+ * Status und das hinzufügen von weiteren Funktion.*/
+/* 17.01.2015 Terrasi, erstelln  von Setter-Methoden um Werte den Eingabefelder
+ zu übergeben.*/
+/* 18.02.2015 TER, getestet und freigegeben */
 public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
-    /*
-     Varibalendefinition
-     */
-    public Date heute;// heutiges Datum
-    public SimpleDateFormat format; //Umwandler für Datum
-    Component c;
+    // Speichervariablen
     GUIFactory factory;
     InterfaceMainView hauptFenster;
     Component letzteComponent;
     String mengenAngabe;
-    /*
-     Speichervariablen
-     */
-    ArrayList<Component> fehlendeEingaben;// ArrayList für Eingabefelder des Auftragkopfes.
 
+    // Speichervariablen für Datenbankdaten.
     Auftragsposition dbPosition;
 
     String dbAuftragspositionsID;
@@ -57,71 +51,93 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     String dbEinzelwert;
     String dbErfassungsdatum;
 
+    // ArrayList für Eingabefelder des Auftragkopfes.
+    ArrayList<Component> fehlendeEingaben;
+
+    // Hilfsvariablen
+    public Date heute;// heutiges Datum
+    public SimpleDateFormat format; //Umwandler für Datum
+
+    // Boolische Variable die benötigt wird um zu prüfen ob die Daten bereits 
+    // gespeichert worden sind.
     boolean gespeichert = false;
     private boolean formularOK = true;
 
-    /*
-     Variablen für Farben
-     */
-    Color warningfarbe = Color.YELLOW;
-    Color hintergrundfarbe = Color.WHITE;
+    // Konstanten für Farben
+    final Color warningfarbe = Color.YELLOW;
+    final Color hintergrundfarbe = Color.WHITE;
 
-    /*
-     Syntax
-     */
-
+    // Syntax
     private static final String menge_syntax = "|\\d{1,9}?";
 
-    /*
-     Augabetexte für Meldungen
-     */
+    // Augabetexte für Meldungen
     final String FEHLER = "Fehler";
-    
+
     final String FEHLERMELDUNG_TITEL = "Fehlerhafte Eingabe";
 
-    String FEHLERMELDUNGMENGE_TEXT = "\"Die eingegebene Menge ist nicht gültig! "
+    final String FEHLERMELDUNG_MENGE_TEXT = "\"Die eingegebene Menge ist nicht gültig! "
             + "\\n Bitte geben Sie eine Menge ein. (z.B. 0 bis 999999999)\"";
-    
+
+    final String AENDERUNGVONDATEN__TITEL = "Änderung von Daten";
     final String AENDERUNGVONDATEN_TEXT = "Es wurden Daten geändert. Wollen Sie wirklich"
             + " die Daten überspeichern?";
-    final String AENDERUNGVONDATEN__TITEL = "Änderung von Daten";
+
     final String ERFOLGREICHGEAENDERT_TEXT = "Die Position  wurde erfolgreich geändert.";
-    
-    final String KEINEAENDERUNG_TEXT = "Es sind keine Änderungen vorgenommen worden.";
+
     final String KEINEAENDERUNG_TITEL = "Auftragsposition existiert bereits.";
-    
+    final String KEINEAENDERUNG_TEXT = "Es sind keine Änderungen vorgenommen worden.";
+
     final String ERFOLGREICHGELOESCHT_TITEL = "Auftragsposition löschen";
     final String ERFOLGREICHGELOESCHT_TEXT = "Auftragsposition wurde erfolgreich "
             + "gelöscht";
-    
+
     final String DATENVERWERFEN_TITEL = "Daten verwerfen";
     final String DATENVERWERFEN_TEXT = "Es wurden Daten eingegeben. Wollen Sie"
             + " diese Verwerfen ?";
-    
+
     final String KEINEEINGABE_TEXT = "Es wurde keine Eingabe getätigt. Bitte geben"
             + "\n Sie die notwendige Eingabe ein.";
 
+    final String POSITIONLOESCHEN_TITEL = "Position löschen";
+    final String POSITIONLOESCHEN_TEXT = "Wollen Sie die Auftragsposition "
+            + "wirklich löschen?";
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 TER, Erstellung,Dokumentation und Logik. */
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
-     * Creates new form AuftragspositionAnlegen
+     * Konstruktor, Erzeugung eines AuftragspositionAnzeigensobjektes.
+     *
+     * @param factory, Übergabe eines GUIFactoryobjektes.
+     * @param mainView, Übergabe eines InterfaceMainViewobjektes.
      */
     public AuftragspositionAnzeigen(GUIFactory factory, InterfaceMainView mainView) {
         initComponents();
+        // Übergabe der Parameter.
         this.factory = factory;
         this.hauptFenster = mainView;
+        // Erzeugung eines Dateobjektes mit dem heutigen Datum.
         heute = new Date();
 
         // Variable, die ein Datum in ein vorgegebenes Format umwandelt.
         format = new SimpleDateFormat("dd.MM.yyyy");// Format dd.MM.yyyy
 
-        //Initialisierung der Speichervariblen
+        // Initialisierung der Speichervariblen
         fehlendeEingaben = new ArrayList<Component>();
 
-        //Zuweisung der Documents
-        auftragskofID_jTextField.setDocument(new UniversalDocument("0123456789", false));
-        positionsnummer_jTextField.setDocument(new UniversalDocument("0123456789", false));
-        materialnummer_jTextField.setDocument(new UniversalDocument("0123456789", false));
-        menge_jTextField.setDocument(new UniversalDocument("0123456789", false));
-        einzelwert_jTextField.setDocument(new UniversalDocument("0123456789,.", false));
+        // Zuweisung der Documents an die Eingabefelder
+        auftragskofID_jTextField.setDocument(
+                new UniversalDocument("0123456789", false));
+        positionsnummer_jTextField.setDocument(
+                new UniversalDocument("0123456789", false));
+        materialnummer_jTextField.setDocument(
+                new UniversalDocument("0123456789", false));
+        menge_jTextField.setDocument(
+                new UniversalDocument("0123456789", false));
+        einzelwert_jTextField.setDocument(
+                new UniversalDocument("0123456789,.", false));
 
     }
 
@@ -324,18 +340,29 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 TER, Erstellung,Dokumentation und Logik. */
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
      * Beim wählen des Eingabefeldes, wird alles leer gesetzt und selektiert.
      *
      * @param evt
      */
     private void menge_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_menge_jTextFieldFocusGained
-        mengenAngabe = "";
+        mengenAngabe = "";// Übergabe von leerem String.
+        // Übergabe von eingegebenem Wert an Variable.
+        mengenAngabe = menge_jTextField.getText();
 
         menge_jTextField.selectAll();//Selektion des Eingabefeldes
-        mengenAngabe = menge_jTextField.getText();
     }//GEN-LAST:event_menge_jTextFieldFocusGained
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 TER, Erstellung,Dokumentation und Logik. */
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
      * Beim Focuslost des Eingabefeldes für die Menge, wird auf die Richtigkeit
      * der Eingabe geprüft und gibt gegebenen falls eine Fehlermeldung aus.
@@ -344,27 +371,40 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      * @param evt
      */
     private void menge_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_menge_jTextFieldFocusLost
-        Double neuWert;
+        // Klassenvariable
+        double neuWert;
         double einzelwert = 0.0;
 
+        // Überprüfung ob Meldung mehrmals ausgegeben wird
         if (evt.isTemporary()) {
             return;
         }
         // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
         ueberpruefungVonFocusLost(menge_jTextField, menge_syntax,
-                FEHLERMELDUNG_TITEL, FEHLERMELDUNGMENGE_TEXT);
+                FEHLERMELDUNG_TITEL, FEHLERMELDUNG_MENGE_TEXT);
+        // Überprüfung ob Mengenangabe getätigt worden ist.
         if (!(menge_jTextField.getText().equals(""))) {
 
+            // Einzelwert des Matrials wird berechnet und der Speichervariable 
+            // übergeben.
             einzelwert = Double.parseDouble(einzelwert_jTextField.getText())
                     / Double.parseDouble(mengenAngabe);
+            // Wert der Position wird neu berechnet anhand des Einzelwertes und
+            // der Menge.
             neuWert = Double.parseDouble(menge_jTextField.getText())
                     * einzelwert;
+            // Übergabe des neuen Wertes an das entsprechende Eingabefeld.
             einzelwert_jTextField.setText(String.valueOf(neuWert));
-            menge_jTextField.setBackground(hintergrundfarbe);//Setzen der Hintergrundsfarbe des Eingabefeldes
+            //Setzen der Hintergrundsfarbe des Eingabefeldes
+            menge_jTextField.setBackground(hintergrundfarbe);
         }
-
     }//GEN-LAST:event_menge_jTextFieldFocusLost
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 TER, Erstellung,Dokumentation und Logik. */
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
      * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird. Es wird von
      * der Guifactory die letzte aufgerufene Component abgefragt wodurch man die
@@ -373,121 +413,191 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      * @param evt
      */
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
-        if (formularOK) {
+        if (formularOK) {// Falls das Formula ok ist
+            // Wird geprüft ob sich eingegebene Daten von den Daten in der 
+            // Datenbank unterscheiden. Es wird auch geprüft ob die 
+            // Prüfvariable false ist oder nicht.
             if (!(dbMenge.equals(menge_jTextField.getText())
-                    && dbErfassungsdatum.equals(erfassungsdatum_jTextField.getText()))
+                    && dbErfassungsdatum.equals(
+                            erfassungsdatum_jTextField.getText()))
                     && gespeichert == false) {
 
-                int antwort = JOptionPane.showConfirmDialog(rootPane, DATENVERWERFEN_TEXT,
-                        DATENVERWERFEN_TITEL, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                //PopUp mit "JA/Nein"-Abfrage.
+                int antwort = JOptionPane.showConfirmDialog(rootPane,
+                        DATENVERWERFEN_TEXT,
+                        DATENVERWERFEN_TITEL, JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
 
-                //Falls bejaht wird, werden die Daten verworfen..
+                //Falls bejaht wird, kehrt man zurück ins Hauptmenü.
                 if (antwort == JOptionPane.YES_OPTION) {
-
-                    zuruecksetzen();// Eingabefelder werden zurückgesetzt.
-                    letzteComponent = null;   //Initialisierung der Componentspeichervariable
-                    //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-                    letzteComponent = this.factory.zurueckButton();
-                    this.setVisible(false);// Internalframe wird nicht mehr dargestellt
-                    letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
+                    // Methode um ins Hauptmenü zurück zu kehren.
+                    zurueckInsHauptmenue();
                 }
-            } else {
-                zuruecksetzen();
-                c = null;   //Initialisierung der Componentspeichervariable
-                //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-                c = this.factory.zurueckButton();
-                this.setVisible(false);// Internalframe wird nicht mehr dargestellt
-                c.setVisible(true);// Übergebene Component wird sichtbar gemacht
+            } else {//Falls keine Änderungen an den Daten vorgenommen worden sind
+
+                zurueckInsHauptmenue();// Methode um ins Menü zurückzukehren.
             }
         }
-//      Variable wird wieder auf true gesetzt, da nochmals eine Pruefung stattfindet 
+        // Variable wird wieder auf true gesetzt, da nochmals eine Prüfung
+        // stattfindet. 
         formularOK = true;
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 06.01.2015 Terrasi angelegt,Logik und Dokumentation */
+    /* 10.12.2014 TER, Erstellung,Dokumentation und Logik. */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
-     * Beim betätigen des Anzeigen/Ändern -Buttons, wird geprüft wie der Button
-     * beschriftet ist und ruft daruaf hin die passende Maske auf.
+     * Methode mit der man direkt ins Hauptmenü kehrt.
+     */
+    public void zurueckInsHauptmenue() {
+        zuruecksetzen();// Eingabefelder werden zurückgesetzt.
+        letzteComponent = null;// Initialisierung der Componentspeichervariable
+        //Erhalten über GUIFactorymethode die letzte aufgerufene View und 
+        // speichern diese in Variable.
+        letzteComponent = this.factory.zurueckButton();
+        this.setVisible(false);// Internalframe wird nicht mehr dargestellt
+        // Übergebene Component wird sichtbar gemacht.
+        letzteComponent.setVisible(true);
+    }
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 08.01.2015 Terrasi angelegt,Logik und Dokumentation */
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
+    /**
+     * Beim betätigen des Ändern -Buttons wird die passende Maske aufgerufen.
      *
      * @param evt
      */
     private void jB_AnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AnzeigenActionPerformed
-        if (jB_Anzeigen.getText().equals("Anzeigen")) {
-            this.setStatusAnzeigen();
-        } else {
-            this.setStatusAender();
-        }
+
+        this.setStatusAender();// Methode um den Modus zu wechseln.
     }//GEN-LAST:event_jB_AnzeigenActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 06.01.2015 Terrasi angelegt,Logik und Dokumentation */
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
+    /**
+     * Speichermethode, mit der die Position gespeichert wird oder verändert
+     * gespeichert wird.
+     *
+     * @param evt
+     */
     private void jB_SpeichernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SpeichernActionPerformed
-        if (formularOK) {
-
+        if (formularOK) {// Falls das Formula ok ist
             try {
-                if (!(dbAuftragspositionsID.equals(auftragskofID_jTextField.getText())
-                        && dbPositionsnummer.equals(positionsnummer_jTextField.getText())
-                        && dbMaterialnummer.equals(materialnummer_jTextField.getText())
+                // Wird geprüft ob sich eingegebene Daten von den Daten in der 
+                // Datenbank unterscheiden. 
+                if (!(dbAuftragspositionsID.equals(
+                        auftragskofID_jTextField.getText())
+                        && dbPositionsnummer.equals(
+                                positionsnummer_jTextField.getText())
+                        && dbMaterialnummer.equals(
+                                materialnummer_jTextField.getText())
                         && dbMenge.equals(menge_jTextField.getText())
-                        && dbErfassungsdatum.equals(erfassungsdatum_jTextField.getText())
-                        && dbEinzelwert.equals(einzelwert_jTextField.getText()))) {
-                    int antwort = JOptionPane.showConfirmDialog(rootPane, AENDERUNGVONDATEN_TEXT,
-                            AENDERUNGVONDATEN__TITEL, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        && dbErfassungsdatum.equals(
+                                erfassungsdatum_jTextField.getText())
+                        && dbEinzelwert.equals(
+                                einzelwert_jTextField.getText()))) {
 
-//Falls bejaht wird der Auftragskopf verändert gespeichert.
+                    //PopUp mit "JA/Nein"-Abfrage.
+                    int antwort = JOptionPane.showConfirmDialog(rootPane,
+                            AENDERUNGVONDATEN_TEXT,
+                            AENDERUNGVONDATEN__TITEL, JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE);
+
+                    //Falls bejaht wird,wird die Position gespeichert.
                     if (antwort == JOptionPane.YES_OPTION) {
-
-                        GUIFactory.getDAO().aenderePosition(Long.parseLong(auftragskofID_jTextField.getText()),
-                                Long.parseLong(positionsnummer_jTextField.getText()),
+                        // DAO-Methode um Position zu speichern.
+                        GUIFactory.getDAO().aenderePosition(Long.parseLong(
+                                auftragskofID_jTextField.getText()),
+                                Long.parseLong(
+                                        positionsnummer_jTextField.getText()),
                                 Integer.parseInt(menge_jTextField.getText()));
 
-                        zuruecksetzen();
+                        zuruecksetzen();// Methode um Formular zurückzusetzen.
 
-                        gespeichert = true;
+                        gespeichert = true;// Speichervariable auf true setzen
+
+                        // ActionPerformed-Methode um ins Menü zurückzukehren.
                         jB_ZurueckActionPerformed(evt);
-                        this.hauptFenster.setStatusMeldung(ERFOLGREICHGEAENDERT_TEXT);
+                        // Methodenaufruf um Meldung in der Statuszeile 
+                        // anzeigen zu lassen.
+                        this.hauptFenster.setStatusMeldung(
+                                ERFOLGREICHGEAENDERT_TEXT);
                     } else {
-                        gespeichert = false;
+                        gespeichert = false;// Speichervariable auf false setzen
                     }
 
                 } else {
+                    // Meldung als PopUp.
                     JOptionPane.showMessageDialog(null, KEINEAENDERUNG_TEXT,
                             KEINEAENDERUNG_TITEL, JOptionPane.OK_OPTION);
                 }
 
-            } catch (ApplicationException e) {
-//                this.hauptFenster.setStatusMeldung(e.getMessage());
+            } catch (ApplicationException e) {// Fehlerbehandlung.
+                // Fehlermeldung als PopUp
                 JOptionPane.showMessageDialog(null, e.getMessage(),
-                    FEHLER, JOptionPane.ERROR_MESSAGE);
-            } catch ( NumberFormatException e){
+                        FEHLER, JOptionPane.ERROR_MESSAGE);
+            } catch (NumberFormatException e) {// Fehlerbehandlung.
+                // Fehlermeldung als PopUp
                 JOptionPane.showMessageDialog(null, KEINEEINGABE_TEXT,
-                            FEHLER, JOptionPane.ERROR_MESSAGE);
-                
+                        FEHLER, JOptionPane.ERROR_MESSAGE);
+                // Fokus in das Eingabefeld der Menge setzen.
                 menge_jTextField.requestFocusInWindow();
-                
-                    
             }
-                
         }
-        //Variable wird wieder auf true gesetzt, da nochmals eine Pruefung stattfindet 
+        // Variable wird wieder auf true gesetzt, 
+        // da nochmals eine Pruefung stattfindet 
         formularOK = true;
     }//GEN-LAST:event_jB_SpeichernActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 06.01.2015 Terrasi angelegt,Logik und Dokumentation */
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
+    /**
+     * Lösch-ActionPerformed, Methode mit der eine Position gelöscht werden
+     * kann.
+     *
+     * @param evt
+     */
     private void jB_LoeschenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_LoeschenActionPerformed
-        if (formularOK) {
+        if (formularOK) {// Falls das Formula ok ist
             try {
-                GUIFactory.getDAO().loeschePositionTransaktion(Long.parseLong(dbAuftragspositionsID),
-                        Long.parseLong(dbPositionsnummer));
-                this.hauptFenster.setStatusMeldung(ERFOLGREICHGELOESCHT_TEXT);
-                jB_ZurueckActionPerformed(evt);
-            } catch (ApplicationException e) {
+                //PopUp mit "JA/Nein"-Abfrage.
+                int antwort = JOptionPane.showConfirmDialog(rootPane,
+                        POSITIONLOESCHEN_TEXT,
+                        POSITIONLOESCHEN_TITEL, JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+
+                //Falls bejaht wird, wird der Benutzer gelöscht.
+                if (antwort == JOptionPane.YES_OPTION) {
+
+                    // Aufruf der DAO-Methode um eine Position zu löschen
+                    GUIFactory.getDAO().loeschePositionTransaktion(Long.parseLong(dbAuftragspositionsID),
+                            Long.parseLong(dbPositionsnummer));
+                    // Methodenaufruf um Meldung in der Statuszeile 
+                    // anzeigen zu lassen.
+                    this.hauptFenster.setStatusMeldung(ERFOLGREICHGELOESCHT_TEXT);
+                    // ActionPerformed-Methode um ins Menü zurückzukehren.
+                    jB_ZurueckActionPerformed(evt);
+                }
+
+            } catch (ApplicationException e) {// Fehlerbehandlung
+                // Fehlermeldung als PopUp
                 JOptionPane.showMessageDialog(null, e.getMessage(),
-                    FEHLER, JOptionPane.ERROR_MESSAGE);
-//                this.hauptFenster.setStatusMeldung(e.getMessage());
+                        FEHLER, JOptionPane.ERROR_MESSAGE);
             }
         }
-        //Variable wird wieder auf true gesetzt, da nochmals eine Pruefung stattfindet 
+        // Variable wird wieder auf true gesetzt, da nochmals eine Pruefung 
+        // stattfindet. 
         formularOK = true;
     }//GEN-LAST:event_jB_LoeschenActionPerformed
 
@@ -495,6 +605,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /* Datum Name Was */
     /* 10.12.2014 Terrasi, angelegt */
     /* 08.01.2015 Terrasi, Logik implementiert */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der alle Eingabefelder zurückgesetzt werden
@@ -510,8 +621,10 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
 
         menge_jTextField.setBackground(hintergrundfarbe);
         erfassungsdatum_jTextField.setBackground(hintergrundfarbe);
-        //Eingabefeld für das Erfassungsdatum erhält das heutige Datum
+
+        // Eingabefeld für das Erfassungsdatum erhält das heutige Datum
         erfassungsdatum_jTextField.setText(format.format(heute));
+        // Boolischevariablen erhalten neue Werte.
         gespeichert = false;
         formularOK = true;
     }
@@ -520,16 +633,20 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /* Datum Name Was */
     /* 10.12.2014 Terrasi, angelegt */
     /* 08.01.2015 Terrasi, Logik implementiert */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
-    /*
-     Schnittstellenmethode mit der geprüft wird ob alle Eingaben getätigt worden sind.
+    /**
+     * Schnittstellenmethode mit der geprüft wird ob alle Eingaben getätigt
+     * worden sind.
      */
     @Override
     public void ueberpruefen() {
-        //IF-Anweisungen mit denen geprüft wird welche Eingabefelder keine Eingabe 
-        // erhalten haben. Diese Eingabefelder werden in passende Speichervariablen festgehalten
+        // IF-Anweisungen mit denen geprüft wird welche Eingabefelder keine 
+        // Eingabe erhalten haben. Diese Eingabefelder werden in der passenden 
+        // Speichervariable festgehalten.
 
-        //Eingabefelder für Auftragsposition werden in Variable "fehlendeEingaben" festgehalten.
+        // Eingabefelder für Auftragsposition werden in Variable 
+        // "fehlendeEingaben" festgehalten.
         if (auftragskofID_jTextField.getText().equals("")) {
             fehlendeEingaben.add(auftragskofID_jTextField);
         }
@@ -554,6 +671,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /* Datum Name Was */
     /* 10.12.2014 Terrasi, angelegt */
     /* 08.01.2015 Terrasi, Logik implementiert */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der die Eingaben beim FocusLost auf Richtigkeit
@@ -567,7 +685,9 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      * @param fehlermeldung, String der die Fehlmeldung enthält.
      */
     @Override
-    public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
+    public void ueberpruefungVonFocusLost(JTextField textfield,
+            String syntax, String fehlermelgungtitel, String fehlermeldung) {
+        // Wird geprüft ob Eingabe mit Syntax übereinstimmt.
         if (!textfield.getText().matches(syntax)) {
             formularOK = false;
             //Ausgabe einer Fehlermeldung
@@ -576,15 +696,12 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
             //Mit dem Focus in das übergebene Eingabefeld springen
             textfield.requestFocusInWindow();
             textfield.selectAll();
-        } else if (!textfield.getText().equals("")) {
-//            Eingabe ist ok
-
-//                hinzugefuegt am 04.02 um 15:30 test
+        } else if (!textfield.getText().equals("")) {// Falls Eingabefeld nicht 
+            // leer ist.
             formularOK = true;
+            // Setzen Von Hintergrundsfarbe.
             textfield.setBackground(hintergrundfarbe);
-
-//            hinzugefuegt am 04.02 um 15:30 test!
-        } else {
+        } else {//Falls Eingabe nicht leer ist oder nicht mit Syntax übereinstimmt
             formularOK = true;
         }
     }
@@ -593,6 +710,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /* Datum Name Was */
     /* 10.12.2014 Terrasi, angelegt */
     /* 08.01.2015 Terrasi, Logik implementiert */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der die Eingabefelder die nicht ausgefüllt
@@ -608,46 +726,50 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      */
     @Override
     public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
-        //Meldung die darauf hinweist das nicht alle Eingaben getätigt worden sind.
+        // Meldung die darauf hinweist das nicht alle Eingaben getätigt worden 
+        // sind.
         JOptionPane.showMessageDialog(null, fehlermeldung,
                 fehlermelgungtitel, JOptionPane.WARNING_MESSAGE);
         if (!list.isEmpty()) {
-
-            list.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
+            // Fokus gelangt in das erste leere Eingabefeld
+            list.get(0).requestFocusInWindow();
 
         }
         // Alle leeren Eingabefelder werden farblich markiert.
         for (int i = 0; i <= list.size() - 1; i++) {
             list.get(i).setBackground(farbe);
         }
-
-        list.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
+        //ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
+        list.clear();
     }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 06.01.2015 Terrasi angelegt,Logik und Dokumentation */
     /* 08.01.2015 Terrasi Anwendungslogik überarbeitet*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Methode mit der das Internalframe nicht mehr als Anzeigefenster
      * dargestellt wird, sondern als Fenster in dem man Daten ändern kann.
      */
     public void setStatusAender() {
-        this.setTitle("Auftragsposition ändern");
-//        zuruecksetzen();
+        this.setTitle("Auftragsposition ändern"); // Setzen des Fenstertitels
+
+        // Componenten werden auf Enabled gesetzt mit false oder true.
         this.auftragskofID_jTextField.setEnabled(false);
         this.positionsnummer_jTextField.setEnabled(false);
         this.materialnummer_jTextField.setEnabled(false);
         this.menge_jTextField.setEnabled(true);
         this.einzelwert_jTextField.setEnabled(false);
         this.erfassungsdatum_jTextField.setEnabled(false);
-        jB_Anzeigen.setText("Anzeigen");
         jB_Anzeigen.setEnabled(false);
         jB_Speichern.setEnabled(true);
         jB_Loeschen.setEnabled(true);
         jB_Anzeigen.setEnabled(false);
         jB_Suchen.setEnabled(false);
+
+        // Hauptfenster macht übergebene Maske sichtbar.
         this.hauptFenster.setComponent(this);
     }
 
@@ -655,129 +777,185 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /* Datum Name Was */
     /* 06.01.2015 Terrasi angelegt,Logik und Dokumentation */
     /* 08.01.2015 Terrasi Anwendungslogik überarbeitet*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     public void setStatusAnzeigen() {
-        this.setTitle("Auftragsposition anzeigen");
-//        zuruecksetzen();
+        this.setTitle("Auftragsposition anzeigen");// Setzen des Fenstertitels
+        // Componenten werden auf Enabled gesetzt mit false oder true.
         this.auftragskofID_jTextField.setEnabled(false);
         this.positionsnummer_jTextField.setEnabled(false);
         this.materialnummer_jTextField.setEnabled(false);
         this.menge_jTextField.setEnabled(false);
         this.einzelwert_jTextField.setEnabled(false);
         this.erfassungsdatum_jTextField.setEnabled(false);
-        jB_Anzeigen.setText("Ändern");
         jB_Anzeigen.setEnabled(true);
         jB_Speichern.setEnabled(false);
         jB_Loeschen.setEnabled(false);
         jB_Suchen.setEnabled(false);
+        // Hauptfenster macht übergebene Maske sichtbar.
         this.hauptFenster.setComponent(this);
     }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 17.01.2015 Terrasi angelegt und Dokumentation */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     public void setAuftragspositionsID_jTextField(Auftragsposition position) {
-        this.auftragskofID_jTextField.setText(String.valueOf(position.getAuftrag().getAuftragskopfID()));
+        // ID von Position wird in Eingabefeld gesetzt.
+        this.auftragskofID_jTextField.setText(String.valueOf(
+                position.getAuftrag().getAuftragskopfID()));
     }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 17.01.2015 Terrasi angelegt und Dokumentation */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     public void setEinzelwert_jTextField(Auftragsposition position) {
-        this.einzelwert_jTextField.setText(String.valueOf(position.getEinzelwert()));
+        // Einzelwert der Position wird in das Eingabefeld gesetzt.
+        this.einzelwert_jTextField.setText(String.valueOf(
+                position.getEinzelwert()));
     }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 17.01.2015 Terrasi angelegt und Dokumentation */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     public void setErfassungsdatum_jTextField(Auftragsposition position) {
-        this.erfassungsdatum_jTextField.setText(gibDatumAlsString(position.getErfassungsdatum()));
+        // Datum der Position wird in das Eingabefeld gesetzt.
+        this.erfassungsdatum_jTextField.setText(
+                gibDatumAlsString(position.getErfassungsdatum()));
     }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 17.01.2015 Terrasi angelegt und Dokumentation */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     public void setMaterialnummer_jTextField(Auftragsposition position) {
-        this.materialnummer_jTextField.setText(String.valueOf(position.getArtikel().getArtikelID()));
+        // Artikel ID der Position wird in das Eingabefeld gesetzt.
+        this.materialnummer_jTextField.setText(
+                String.valueOf(position.getArtikel().getArtikelID()));
     }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 17.01.2015 Terrasi angelegt und Dokumentation */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     public void setMenge_jTextField(Auftragsposition position) {
+        // Menge der Position wird in das Eingabefeld gesetzt.
         this.menge_jTextField.setText(String.valueOf(position.getMenge()));
     }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 17.01.2015 Terrasi angelegt und Dokumentation */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     public void setPositionsnummer_jTextField(Auftragsposition position) {
-        this.positionsnummer_jTextField.setText(String.valueOf(position.getPositionsnummer()));
+        // Positionsnummer der Position wird in das Eingabefeld gesetzt.
+        this.positionsnummer_jTextField.setText(
+                String.valueOf(position.getPositionsnummer()));
     }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 17.01.2015 Terrasi angelegt und Dokumentation */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
+    /**
+     * Methode der man ein Positionsobjekt übergibt und dessen Daten in den
+     * passenden Eingabefeldern wiedergibt. Die Daten der Position werden des
+     * Weiteren in Speichervariablen abgelegt.
+     *
+     * @param position
+     */
     public void setzeEingaben(Auftragsposition position) {
-
-        this.auftragskofID_jTextField.setText(String.valueOf(position.getAuftrag().getAuftragskopfID()));
-        this.einzelwert_jTextField.setText(String.valueOf(position.getEinzelwert()));
-        this.erfassungsdatum_jTextField.setText(gibDatumAlsString(position.getErfassungsdatum()));
-        this.materialnummer_jTextField.setText(String.valueOf(position.getArtikel().getArtikelID()));
-        this.menge_jTextField.setText(String.valueOf(position.getMenge()));
-        this.positionsnummer_jTextField.setText(String.valueOf(position.getPositionsnummer()));
+        // Übergeben der Positionsdaten an die jeweiligen Eingabefelder.
+        this.auftragskofID_jTextField.setText(
+                String.valueOf(position.getAuftrag().getAuftragskopfID()));
+        this.einzelwert_jTextField.setText(
+                String.valueOf(position.getEinzelwert()));
+        this.erfassungsdatum_jTextField.setText(
+                gibDatumAlsString(position.getErfassungsdatum()));
+        this.materialnummer_jTextField.setText(
+                String.valueOf(position.getArtikel().getArtikelID()));
+        this.menge_jTextField.setText(
+                String.valueOf(position.getMenge()));
+        this.positionsnummer_jTextField.setText(
+                String.valueOf(position.getPositionsnummer()));
 
         try {
-
+            // DAO-Methode mit der man die Position aufruft.
             dbPosition = GUIFactory.getDAO().
-                    gibAuftragsposition(Long.parseLong(auftragskofID_jTextField.getText()),
+                    gibAuftragsposition(
+                            Long.parseLong(auftragskofID_jTextField.getText()),
                             Long.parseLong(positionsnummer_jTextField.getText()));
-
-            dbAuftragspositionsID = String.valueOf(position.getAuftrag().getAuftragskopfID());
-            dbPositionsnummer = String.valueOf(position.getPositionsnummer());
-            dbMaterialnummer = String.valueOf(position.getArtikel().getArtikelID());
+            // Positionsdaten werden in Variablen gespeichert.
+            dbAuftragspositionsID = String.valueOf(
+                    position.getAuftrag().getAuftragskopfID());
+            dbPositionsnummer = String.valueOf(
+                    position.getPositionsnummer());
+            dbMaterialnummer = String.valueOf(
+                    position.getArtikel().getArtikelID());
             dbMenge = String.valueOf(position.getMenge());
             dbEinzelwert = String.valueOf(position.getEinzelwert());
-            dbErfassungsdatum = gibDatumAlsString(position.getErfassungsdatum());
-        } catch (ApplicationException e) {
+            dbErfassungsdatum = gibDatumAlsString(
+                    position.getErfassungsdatum());
+
+        } catch (ApplicationException e) {// Fehlerbehandlung
+            // Fehlermeldung als PopUp
             JOptionPane.showMessageDialog(null, e.getMessage(),
                     FEHLER, JOptionPane.ERROR_MESSAGE);
-//            this.hauptFenster.setStatusMeldung(e.getMessage());
         }
     }
+
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 17.01.2015 Terrasi angelegt und Dokumentation */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
-
+    /**
+     * Methode die ein Dateobjekt in ein passenden String umwandelt.
+     *
+     * @param date, Datumsobjekt das als String umgewandelt wird.
+     * @return String Objekt, Datum als String
+     */
     private String gibDatumAlsString(Date date) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        int tag = cal.get(Calendar.DAY_OF_MONTH);
-        int mon = cal.get(Calendar.MONTH);
-        mon = mon + 1;
-        int jahr = cal.get(Calendar.YEAR);
+        // Speichervariablen für den Tag und den Monat des Datums
         String tagAlsString;
         String monatAlsString;
+        
+        // Erzeugung eines Calendarobjektes
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        // Tag des Datums wird gespeichert.
+        int tag = cal.get(Calendar.DAY_OF_MONTH);
+        // Monat des Datums wird gespeichert
+        int mon = cal.get(Calendar.MONTH);
+        mon = mon + 1;
+        // Jahr des Datums wird gespeichert
+        int jahr = cal.get(Calendar.YEAR);
+
+        // Falls Tag einstellig ist, wird es mit einer "0" ergänzt und 
+        // zweistellig gespeichert.
         if (tag < 10) {
             tagAlsString = "0" + tag;
         } else {
             tagAlsString = "" + tag;
         }
-
+        // Falls Monat einstellig ist, wird es mit einer "0" ergänzt und 
+        // zweistellig gespeichert.
         if (mon < 10) {
             monatAlsString = "0" + mon;
         } else {
             monatAlsString = "" + mon;
         }
 
+        //Zusammenfhrung der einzelnen Speichervariablen.
         String ausgabeDatum = tagAlsString + "." + monatAlsString + "." + jahr;
         return ausgabeDatum;
     }

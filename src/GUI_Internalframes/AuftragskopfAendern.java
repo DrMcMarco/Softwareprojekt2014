@@ -13,86 +13,77 @@ import DTO.*;
 import java.util.Calendar;
 import java.util.Date;
 
-
+/**
+ *
+ * @author Luca Terrasi
+ */
 /* 10.12.2014 Dokumentation und Logik */
 /* 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button */
 /* 08.01.2015 Terrasi, Überarbeitung der Anwendungslogik und das hinzufügen von
  weiteren Funktion. */
 /* 14.01.2015 Terrasi, Implementierung der DAO-Methode für das finden 
- eines Auftrags.
- */
-/**
- *
- * @author Luca Terrasi
- */
+ eines Auftrags. */
+/* 18.02.2015 TER, getestet und freigegeben */
 public class AuftragskopfAendern extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
-    /*
-     Hilfsvariable
-     */
 
-    Component c;
+    // Speichervariablen
+    Component letzteComponent;
     GUIFactory factory;
     InterfaceMainView hauptFenster;
     AuftragskopfAnlegen auftragskopfAnlegen;
 
-    /*
-     Syntax
-     */
+    ArrayList<Component> fehleingabefelder;
+    
+    // Syntax
     private static final String auftragskopfID_syntax = "|\\d{1,9}?";
 
-    /*
-     Augabetexte für Meldungen
-     */
+    // Augabetexte für Meldungen
     final String FEHLER = "Fehler";
 
-    final String fehlermeldung_titel = "Fehlerhafte Eingabe";
+    final String FEHLERMELDUNG_TITEL = "Fehlerhafte Eingabe";
 
     final String FEHLERMELDUNG_STATUS_TITEL = "Abgeschlossener Auftrag";
-    final String FEHLERMMELDUNG_STATUSABGESCHLOSSEN = "Der Auftrag ist "
+    final String FEHLERMMELDUNG_STATUSABGESCHLOSSEN_TEXT = "Der Auftrag ist "
             + "bereits abgeschlossen und kann nicht"
             + "\n bearbeitet werden. ";
-    
-    final String fehlermeldungAuftragskopfIDtext = "\"Die eingegebene Auftragskopf-ID ist nicht gültig! "
-            + "\\n Bitte geben Sie eine gültige Auftragskopf-ID ein. (z.B. 1 oder 999999999)\"";
-    final String fehlermeldungUnvollstaendig = "Es wurden nicht alle Eingaben getätigt.";
 
-    /*
-     Speichervariablen
-     */
-    ArrayList<Component> fehleingabefelder;
+    final String FEHLERMELDUNG_AUFTRAGSKOPFID_TEXT = "\"Die eingegebene "
+            + "Auftragskopf-ID ist nicht gültig! "
+            + "\\n Bitte geben Sie eine gültige Auftragskopf-ID ein. "
+            + "(z.B. 1 oder 999999999)\"";
+    final String FEHLERMELDUNG_UNVOLLSTAENDIG_TEXT = "Es wurden nicht alle"
+            + " Eingaben getätigt.";
 
-    /*
-     Variablen für Farben
-     */
+    // Konstanten für Farben
     Color warningfarbe = Color.YELLOW;
     Color hintergrundfarbe = Color.WHITE;
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt und dokumentiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Kostruktor, Erzeugung eines AuftragskopfAendernobjektes.
      *
-     * @param factory
-     * @param auftragsKopf
-     * @param mainView
+     * @param factory, Übergabe eines GUIFactoryobjektes.
+     * @param auftragsKopf, Übergabe eines AUftragskopfAnlegenobjektes.
+     * @param mainView, Übergabe eines InterfaceMainViewobjektes.
      */
-    public AuftragskopfAendern(GUIFactory factory, AuftragskopfAnlegen auftragsKopf, InterfaceMainView mainView) {
+    public AuftragskopfAendern(GUIFactory factory, 
+            AuftragskopfAnlegen auftragsKopf, InterfaceMainView mainView) {
         initComponents();
+        // Übergabe der Parameter.
         this.factory = factory;
         this.auftragskopfAnlegen = auftragsKopf;
         this.hauptFenster = mainView;
 
-        /*
-         Initialisierung von Variablen
-         */
+        // Initialisierung der Speichervariblen
         fehleingabefelder = new ArrayList<>();
 
-        /*
-         Zuweisung von verschiedenen Documents 
-         */
-        auftragskopfID_jTextField.setDocument(new UniversalDocument("0123456789", false));
+        // Zuweisung der Documents an die Eingabefelder
+        auftragskopfID_jTextField.setDocument(
+                new UniversalDocument("0123456789", false));
     }
 
     /**
@@ -220,6 +211,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt und dokumentiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Beim wählen des Eingabefeldes, wird alles selektiert.
@@ -245,7 +237,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
     private void auftragskopfID_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_auftragskopfID_jTextFieldFocusLost
         // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
         ueberpruefungVonFocusLost(auftragskopfID_jTextField, auftragskopfID_syntax,
-                fehlermeldung_titel, fehlermeldungAuftragskopfIDtext);
+                FEHLERMELDUNG_TITEL, FEHLERMELDUNG_AUFTRAGSKOPFID_TEXT);
 
     }//GEN-LAST:event_auftragskopfID_jTextFieldFocusLost
 
@@ -293,7 +285,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
                     } else {
                         //Ausgabe einer Fehlermeldung
                         JOptionPane.showMessageDialog(null,
-                                FEHLERMMELDUNG_STATUSABGESCHLOSSEN,
+                                FEHLERMMELDUNG_STATUSABGESCHLOSSEN_TEXT,
                                 FEHLERMELDUNG_STATUS_TITEL,
                                 JOptionPane.WARNING_MESSAGE);
                     }
@@ -318,14 +310,14 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(),
                     FEHLER, JOptionPane.ERROR_MESSAGE);
-//            this.hauptFenster.setStatusMeldung(fehlermeldungUnvollstaendig);
+//            this.hauptFenster.setStatusMeldung(FEHLERMELDUNG_UNVOLLSTAENDIG_TEXT);
         }
 
 //        } else {//Wenn Eingaben fehlen.
 //            // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
 //            // getätigt worden sind
-//            fehlEingabenMarkierung(fehleingabefelder, fehlermeldung_titel,
-//                    fehlermeldungUnvollstaendig, warningfarbe);//Meldung wird ausgegeben und
+//            fehlEingabenMarkierung(fehleingabefelder, FEHLERMELDUNG_TITEL,
+//                    FEHLERMELDUNG_UNVOLLSTAENDIG_TEXT, warningfarbe);//Meldung wird ausgegeben und
 //
 //        }
     }//GEN-LAST:event_weiter_jButtonActionPerformed
@@ -342,11 +334,11 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame implements I
      * @param evt
      */
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
-        c = null;   //Initialisierung der Componentspeichervariable
+        letzteComponent = null;   //Initialisierung der Componentspeichervariable
         //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-        c = this.factory.zurueckButton();
+        letzteComponent = this.factory.zurueckButton();
         this.setVisible(false);// Internalframe wird nicht mehr dargestellt
-        c.setVisible(true);// Übergebene Component wird sichtbar gemacht
+        letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
     /*----------------------------------------------------------*/

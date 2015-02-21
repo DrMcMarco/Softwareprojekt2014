@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GUI_Internalframes;
 
 import DAO.ApplicationException;
@@ -13,47 +8,55 @@ import Interfaces.InterfaceViewsFunctionality;
 import Interfaces.InterfaceMainView;
 import java.awt.Color;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 /**
  *
  * @author Luca Terrasi
- *
- * /* 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
+ */
+/* 10.12.2014 Terrasi,Erstellung
+ */
+/* 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
  */
 /* 08.01.2015  Terrasi, implementierung der Schnittstellenmethoden und 
  der Ändern/Anzeigen Funktion. */
+/* 10.03.2015 Terrasi,  getestet und freigegeben */
 public class User_andernEinstieg extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
-    /*
-     Hilfsvariablen
-     */
+    // Hilfsvariablen
     Component c;
     GUIFactory factory;
     User_anlegen userAnlegen;
     InterfaceMainView hauptFenster;
 
-
+    // Konstanten für Meldungen.
     final String FEHLENDEEINGABEN = "Bitte geben Sie alle Eingaben ein.";
-    /*
-     Speichervariablen
-     */
-    ArrayList<Component> fehleingabefelder;
+    final String FEHLER = "Fehler bei Eingabe ";
 
-    /**
-     * Creates new form Fenster
-     */
+    // Speichervariablen
+    ArrayList<Component> fehleingabefelder; // Liste für Fehleingaben.
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.14 TER Erstellung */
+    /* 18.02.15 TER getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
      * Konstruktor, Erzeugung eines UseraendernEinstiegobjektes.
      *
-     * @param factory
+     * @param factory, Übergabe eines GUIFactoryobjektes.
+     * @param user, Übergabe eines Useranlegenobjektes.
+     * @param main, Übergabe eines InterfaceMainViewobjektes
      */
-    public User_andernEinstieg(GUIFactory factory, User_anlegen user, InterfaceMainView main) {
+    public User_andernEinstieg(GUIFactory factory, User_anlegen user,
+            InterfaceMainView main) {
         initComponents();
+        //Übergabe der Parameter.
         this.factory = factory;
         this.userAnlegen = user;
         this.hauptFenster = main;
+
+        //Initialisierung einer ArrayList für fehlende Eingaben.
         fehleingabefelder = new ArrayList<>();
     }
 
@@ -168,6 +171,12 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.14 TER Erstellung */
+    /* 16.02.14 TER Überarbeitung */
+    /* 18.02.15 TER getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
      * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird. Es wird von
      * der Guifactory die letzte aufgerufene Component abgefragt wodurch man die
@@ -183,78 +192,116 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.14 TER Erstellung */
+    /* 16.02.14 TER Überarbeitung */
+    /* 18.02.15 TER getestet und freigegeben */
+    /*----------------------------------------------------------*/
+    /**
+     * Weiter-Button Funktion.
+     *
+     * @param evt
+     */
     private void Weiter_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Weiter_jButtonActionPerformed
-
+        String benutzerAendernEinstieg = "Benutzer ändern Einstieg";
         Benutzer benutzer;// Anlegen eines Bentzers
         try {
             //Initialisierung eines Benutzers.
             benutzer = GUIFactory.getDAO().gibBenutzer(BenutzerID_jTextField.getText());
 
+            // Wird geprüft ob eseien Benutzer gibt.
             if (benutzer != null) {
+                // Benutzer ist vorhanden und nund wird geprüft welche Maske die
+                // Funktion aufruft.
+                if (this.getTitle().equals(benutzerAendernEinstieg)) {
+                    // Benutzername aus der DB wird im Eingabefeld angezeigt.
+                    this.userAnlegen.setBenutzername(benutzer.getBenutzername());
+                    if (benutzer.isIstAdmin()) {//Falls Benutzer Admin ist.
+                        // Ceckbox wird selektiert.
+                        this.userAnlegen.setCheckBoxSelected(true);
+                    } else {
+                        // Checkbox wird nicht selektiert.
+                        this.userAnlegen.setCheckBoxSelected(false);
+                    }
+                    // Setzt das Internalframe in den Ändernmodus.
+                    this.userAnlegen.setStatusAender();
+                    
+                    // Checkbox wird auf Enable false gesetzt.
+                    this.userAnlegen.setZustand(false);
+                    zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                    this.setVisible(false);//Maske ist nicht mehr Sichtbar.
+                    // Hauptfenster macht übergebene Maske sichtbar.
+                    this.hauptFenster.setFrame(this.userAnlegen);
 
-                if (this.getTitle().equals("Benutzer ändern Einstieg")) {
-                    this.userAnlegen.setStatusAender();// Setzt das Internalframe in den Ändernmodus.
-                    this.userAnlegen.setBenutzername(benutzer.getBenutzername());// Benutzername aus der DB wird im Eingabefeld angezeigt.
-                    if (benutzer.isIstAdmin()) {
-                        this.userAnlegen.setCheckBoxSelected(true);// Ceckbox wird selektiert.
+                } else {// Falls Maske nicht "Benutzer ändern Einstieg" ist.
+
+                    // Setzt das Internalframe in den Anzeigenmodus.
+                    this.userAnlegen.setStatusAnzeigen();
+                    // Benutzername aus der DB wird im Eingabefeld angezeigt.
+                    this.userAnlegen.setBenutzername(benutzer.getBenutzername());
+                    if (benutzer.isIstAdmin()) {//Falls Benutzer Admin ist.                       
+                        // Ceckbox wird selektiert.
+                        this.userAnlegen.setCheckBoxSelected(true);
                     } else {
+                        // Checkbox wird nicht selektiert.
                         this.userAnlegen.setCheckBoxSelected(false);//Checkbox wird nicht selektiert.
                     }
-                    this.userAnlegen.setZustand(false);// Checkbox wird auf Enable false gesetzt.
+                    // Checkbox wird auf Enable false gesetzt.
+                    this.userAnlegen.setZustand(false);
+//                    this.userAnlegen.setCheckBoxSelected(false);//Checkbox wird nicht selektiert.
                     zuruecksetzen();//Methode die bestimmte Eingabefelder leert
-                    this.setVisible(false);
-                    this.hauptFenster.setFrame(this.userAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
-                } else {
-                    this.userAnlegen.setStatusAnzeigen();// Setzt das Internalframe in den Anzeigenmodus.
-                    this.userAnlegen.setBenutzername(benutzer.getBenutzername());// Benutzername aus der DB wird im Eingabefeld angezeigt.
-                    if (benutzer.isIstAdmin()) {
-                        this.userAnlegen.setCheckBoxSelected(true);// Ceckbox wird selektiert.
-                    } else {
-                        this.userAnlegen.setCheckBoxSelected(false);//Checkbox wird nicht selektiert.
-                    }
-                    this.userAnlegen.setZustand(false);// Checkbox wird auf Enable false gesetzt.
-                    this.userAnlegen.setCheckBoxSelected(false);//Checkbox wird nicht selektiert.
-                    zuruecksetzen();//Methode die bestimmte Eingabefelder leert
-                    this.setVisible(false);
-                    this.hauptFenster.setFrame(this.userAnlegen);// Hauptfenster macht übergebene Maske sichtbar.
+                    this.setVisible(false);//Maske ist nicht mehr Sichtbar.
+                    // Hauptfenster macht übergebene Maske sichtbar.
+                    this.hauptFenster.setFrame(this.userAnlegen);
                 }
-            } else {
-
             }
-        } catch (ApplicationException e) {
+        } catch (ApplicationException e) {//Fehlerbehandlung "ApplicationException"
+            //Fehler wird als ein PopUp ausgegeben.
             JOptionPane.showMessageDialog(null, e.getMessage(),
                     FEHLENDEEINGABEN, JOptionPane.ERROR_MESSAGE);
-//                JOptionPane.showMessageDialog(null, e.getMessage(), FEHLENDEEINGABEN, JOptionPane.ERROR_MESSAGE);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {//Fehlerbehandlung "NumberFormatException"
             this.hauptFenster.setStatusMeldung(FEHLENDEEINGABEN);
+            //Fehler wird als ein PopUp ausgegeben.
+            JOptionPane.showMessageDialog(null, FEHLENDEEINGABEN,
+                    FEHLER, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_Weiter_jButtonActionPerformed
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 08.01.2015 Terrasi, angelegt, Dokumentation und Logik. */
+    /* 08.01.2015 TER, Erstellung, Dokumentation und Logik. */
+    /* 18.02.15 TER getestet und freigegeben */
     /*----------------------------------------------------------*/
+    /**
+     * Methode um mit dem Enter-Button die Weiter-Button Funktion zu betätigen.
+     * @param evt
+     */
     private void BenutzerID_jTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BenutzerID_jTextFieldKeyPressed
+        // Wird geprft ob die Entertste betätigt worden ist.
         if (evt.getKeyCode() == evt.VK_ENTER) {
+            // Weiter_ActionPerformed wird ausgeführt.
             Weiter_jButtonActionPerformed(null);
         }
     }//GEN-LAST:event_BenutzerID_jTextFieldKeyPressed
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 08.01.2015 Terrasi angelegt,Logik und Dokumentation */
+    /* 08.01.2015 TER angelegt,Logik und Dokumentation */
+    /* 18.02.15 TER getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der alle Eingabefelder zurückgesetzt werden.
      */
     @Override
     public void zuruecksetzen() {
-        BenutzerID_jTextField.setText("");
+        BenutzerID_jTextField.setText(""); // Feld erhält leeren String
     }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 08.01.2015 Terrasi angelegt,Logik und Dokumentation */
+    /* 08.01.2015 TER angelegt,Logik und Dokumentation */
+    /* 18.02.15 TER getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der geprüft wird ob alle Eingaben getätigt
@@ -263,18 +310,19 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
      */
     @Override
     public void ueberpruefen() {
-        //IF-Anweisungen mit denen geprüft wird welche eingabefelder keine Eingabe 
-        // erhalten haben. Diese Eingabefelder werden in passende Speichervariablen festgehalten.
+        // IF-Anweisungen mit denen geprüft wird, welche Eingabefelder  
+        // keine Eingabe erhalten haben. Diese Eingabefelder werden in der 
+        // passenden Speichervariable festgehalten.
 
-        //Eingabefeld für Auftragskopf werden in Variable "fehleingabefelder" feestgehalten.
         if (BenutzerID_jTextField.getText().equals("")) {
-            fehleingabefelder.add(BenutzerID_jTextField);
+            fehleingabefelder.add(BenutzerID_jTextField);// Übergabe des Feldes.
         }
     }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 08.01.2015 Terrasi angelegt,Logik und Dokumentation */
+    /* 08.01.2015 TER angelegt,Logik und Dokumentation */
+    /* 18.02.15 TER getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der die Eingaben beim FocusLost auf Richtigkeit
@@ -288,33 +336,51 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
      * @param fehlermeldung, String der die Fehlmeldung enthält.
      */
     @Override
-    public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
-
+    public void ueberpruefungVonFocusLost(JTextField textfield, String syntax,
+            String fehlermelgungtitel, String fehlermeldung) {
+        if (!textfield.getText().matches(syntax)) {
+            //Ausgabe einer Fehlermeldung
+            JOptionPane.showMessageDialog(null, fehlermeldung,
+                    fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
+            //Mit dem Focus in das übergebene Eingabefeld springen
+            textfield.requestFocusInWindow();
+            textfield.selectAll();
+        }
     }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 08.01.2015 Terrasi angelegt,Logik und Dokumentation */
+    /* 08.01.2015 TER angelegt,Logik und Dokumentation */
+    /* 18.02.15 TER getestet und freigegeben */
     /*----------------------------------------------------------*/
+    /**
+     * Schnittstellenmethode mit der die Eingabefelder die nicht ausgefüllt
+     * worden sind, farblich markiert werden und eine Meldung ausgegeben wird,
+     * inder der Benutzer darauf hingewiesen wird alle Eingaben zu tätigen.
+     *
+     * @param list, Arraylist in der die Components die keine Eingaben erhalten
+     * haben, gespeichert sind.
+     * @param fehlermelgungtitel, Srting der den Titel der Fehlmeldung enthält.
+     * @param fehlermeldung, String der die Fehlmeldung enthält.
+     * @param farbe, Color in der der Hintergrund der Components markiert werden
+     * soll
+     */
     @Override
-    public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
+    public void fehlEingabenMarkierung(ArrayList<Component> list,
+            String fehlermelgungtitel, String fehlermeldung, Color farbe ) {
         //Meldung die darauf hinweist das nicht alle Eingaben getätigt worden sind.
         JOptionPane.showMessageDialog(null, fehlermeldung,
                 fehlermelgungtitel, JOptionPane.WARNING_MESSAGE);
         if (!list.isEmpty()) {
 
-            list.get(0).requestFocusInWindow();// Fokus gelangt in das erste leere Eingabefeld
+            // Fokus gelangt in das erste leere Eingabefeld
+            list.get(0).requestFocusInWindow();
 
         }
-//        // Alle leeren Eingabefelder werden farblich markiert.
-//        for (int i = 0; i <= list.size() - 1; i++) {
-//            list.get(i).setBackground(farbe);
-//        }
-
-        list.clear();//ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
+        //ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
+        list.clear();
     }
-
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BenutzerID_jLabel;
     private javax.swing.JTextField BenutzerID_jTextField;
