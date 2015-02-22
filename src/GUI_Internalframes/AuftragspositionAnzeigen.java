@@ -102,6 +102,11 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     final String POSITIONLOESCHEN_TEXT = "Wollen Sie die Auftragsposition "
             + "wirklich löschen?";
 
+    final String FEHLERMELDUNG_STATUS_TITEL = "Abgeschlossener Auftrag";
+    final String FEHLERMMELDUNG_STATUSABGESCHLOSSEN = "Der Auftrag ist "
+            + "bereits abgeschlossen und somit kann "
+            + "\n keine Position bearbeitet werden. ";
+
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 TER, Erstellung,Dokumentation und Logik. */
@@ -473,8 +478,25 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      * @param evt
      */
     private void jB_AnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AnzeigenActionPerformed
+        try {
 
-        this.setStatusAender();// Methode um den Modus zu wechseln.
+            if ((GUIFactory.getDAO().gibAuftragskopf(
+                    Long.parseLong(auftragskofID_jTextField.getText())).
+                    getStatus().getStatus().equals("abgeschlossen"))) {
+
+                //Ausgabe einer Fehlermeldung
+                JOptionPane.showMessageDialog(null,
+                        FEHLERMMELDUNG_STATUSABGESCHLOSSEN,
+                        FEHLERMELDUNG_STATUS_TITEL,
+                        JOptionPane.WARNING_MESSAGE);
+            } else {
+                this.setStatusAender();// Methode um den Modus zu wechseln.
+            }
+        } catch (ApplicationException e) {// Fehlerbehandlung.
+            // Fehlermeldung als PopUp
+            JOptionPane.showMessageDialog(null, e.getMessage(),
+                    FEHLER, JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jB_AnzeigenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -806,7 +828,8 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /*----------------------------------------------------------*/
     /**
      * Methode mit der die ID der Position gesetzt wird.
-     * @param position, Auftragsposition 
+     *
+     * @param position, Auftragsposition
      */
     public void setAuftragspositionsID_jTextField(Auftragsposition position) {
         // ID von Position wird in Eingabefeld gesetzt.
@@ -821,7 +844,8 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /*----------------------------------------------------------*/
     /**
      * Methode mit der der Einzelwert der Position gesetzt wird.
-     * @param position, Auftragsposition 
+     *
+     * @param position, Auftragsposition
      */
     public void setEinzelwert_jTextField(Auftragsposition position) {
         // Einzelwert der Position wird in das Eingabefeld gesetzt.
@@ -836,7 +860,8 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /*----------------------------------------------------------*/
     /**
      * Methode mit der das Erfassungsdatum der Position gesetzt wird.
-     * @param position, Auftragsposition 
+     *
+     * @param position, Auftragsposition
      */
     public void setErfassungsdatum_jTextField(Auftragsposition position) {
         // Datum der Position wird in das Eingabefeld gesetzt.
@@ -851,7 +876,8 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /*----------------------------------------------------------*/
     /**
      * Methode mit der die Materialnummer der Position gesetzt wird.
-     * @param position, Auftragsposition 
+     *
+     * @param position, Auftragsposition
      */
     public void setMaterialnummer_jTextField(Auftragsposition position) {
         // Artikel ID der Position wird in das Eingabefeld gesetzt.
@@ -866,7 +892,8 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /*----------------------------------------------------------*/
     /**
      * Methode mit der die Menge der Position gesetzt wird.
-     * @param position, Auftragsposition 
+     *
+     * @param position, Auftragsposition
      */
     public void setMenge_jTextField(Auftragsposition position) {
         // Menge der Position wird in das Eingabefeld gesetzt.
@@ -880,7 +907,8 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /*----------------------------------------------------------*/
     /**
      * Methode mit der die Positionsnummer der Position gesetzt wird.
-     * @param position, Auftragsposition 
+     *
+     * @param position, Auftragsposition
      */
     public void setPositionsnummer_jTextField(Auftragsposition position) {
         // Positionsnummer der Position wird in das Eingabefeld gesetzt.
@@ -955,7 +983,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         // Speichervariablen für den Tag und den Monat des Datums
         String tagAlsString;
         String monatAlsString;
-        
+
         // Erzeugung eines Calendarobjektes
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);

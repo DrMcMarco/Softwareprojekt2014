@@ -51,7 +51,7 @@ import javax.swing.table.DefaultTableModel;
  Status und das hinzufügen von weiteren Funktion. */
 /* 13.01.2015 Terrasi, Implementierung der DAO-Methoden zum anlegen eines 
  Auftragskopfs und von Auftragspositionen. Desweiteren deren wiedergabe in 
- ener Tabelle. */
+ einer Tabelle. */
 /* 14.01.2015 Terrasi, Implementierung der Löschmethode der DAO und Überprüfung
  der Eingabefelder überarbeitet.*/
 /* 17.01.2015 Schulz Such button und setMethode Artikel eingefügt.*/
@@ -639,11 +639,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
         erfassungsdatum_auftragsposition_jFormattedTextField.setEditable(false);
         erfassungsdatum_auftragsposition_jFormattedTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM))));
         erfassungsdatum_auftragsposition_jFormattedTextField.setEnabled(false);
-        erfassungsdatum_auftragsposition_jFormattedTextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                erfassungsdatum_auftragsposition_jFormattedTextFieldFocusGained(evt);
-            }
-        });
 
         geschaeftspartner_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -1006,6 +1001,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 TER, Erstellung,Dokumentation und Logik. */
+    /* 13.01.2014 TER, Überarbeitung der Funktion */
     /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
@@ -1087,29 +1083,39 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                 Mahnzeit3_jTextField.setText("");
 
             } else {// Falls es kein Barauftrag ist
+
+                // Aufruf der Zahlungskondition-Methode 
+                // gibZahlungskonditionNachId.
+                zahlungskondition = GUIFactory.getDAO().
+                        gibZahlungskonditionNachId(Long.parseLong(
+                                        zahlungskonditionen_jComboBox.getSelectedItem().
+                                        toString()));
+                // Falls Sofortauftrag ausgewählt wurde.
                 if (auftragsart_jComboBox.getSelectedItem().equals(SOFORTAUFTRAG)) {
-                    // Einstellungen der Maske, wenn es ein Sofortauftrag ist.
-                    
-                    // Aufruf der Zahlungskondition-Methode 
-                    // gibZahlungskonditionNachId.
-                    zahlungskondition = GUIFactory.getDAO().
-                            gibZahlungskonditionNachId(Long.parseLong(
-                            zahlungskonditionen_jComboBox.getSelectedItem().
-                                    toString()));
+
                     //Aufruf der Zahlungskondition-Methode getLieferzeitSofort()
                     sperrzeit = zahlungskondition.getLieferzeitSofort();
 
+                    // Sperrzeit wird auf den Tag des Datums drauf berechnet
                     calender.setTime(heute);
                     calender.add(Calendar.DAY_OF_MONTH, sperrzeit);
-
+                    // Neuberechnetes Datum wird gespeichert.
                     berechnetesLieferdatum = calender.getTime();
-
+                    // Es wird geprüft ob der Tag des Datums auf ein Wochenende
+                    // fällt.
                     if (tagesformat.format(berechnetesLieferdatum).equals("So")
-                            || tagesformat.format(berechnetesLieferdatum).equals("Sa")) {
-                        int antwort = JOptionPane.showConfirmDialog(rootPane, LIEFERUNGAMWOCHENENDE_TEXT,
-                                LIEFERUNGAMWOCHENENDE_TITEL, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                            || tagesformat.format(berechnetesLieferdatum).
+                            equals("Sa")) {
 
-                        //Falls bejaht wird, werden die Daten verworfen..
+                        //PopUp mit "JA/Nein"-Abfrage.
+                        int antwort = JOptionPane.showConfirmDialog(
+                                rootPane, LIEFERUNGAMWOCHENENDE_TEXT,
+                                LIEFERUNGAMWOCHENENDE_TITEL,
+                                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+                        // Falls verneint wird, wird Barauftrag ausgewählt und
+                        // Skonto sowie Mahnzeiteneingabefelder erhalten einen 
+                        // leeren String.
                         if (antwort == JOptionPane.NO_OPTION) {
                             auftragsart_jComboBox.setSelectedIndex(0);
                             auftragsart_jComboBoxActionPerformed(evt);
@@ -1118,39 +1124,22 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                             Mahnzeit1_jTextField.setText("");
                             Mahnzeit2_jTextField.setText("");
                             Mahnzeit3_jTextField.setText("");
-                        } else {
-                            lieferdatum = berechnetesLieferdatum;
-//                            abschlussdatum = berechnetesLieferdatum;
-
-                            lieferdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
-//                            abschlussdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
-                            lieferdatum_jFormattedTextField.setEnabled(false);
-
-                            Skontozeit1_jTextField.setText(String.valueOf(zahlungskondition.getSkontozeit1()));
-                            Skontozeit2_jTextField.setText(String.valueOf(zahlungskondition.getSkontozeit2()));
-                            Mahnzeit1_jTextField.setText(String.valueOf(zahlungskondition.getMahnzeit1()));
-                            Mahnzeit2_jTextField.setText(String.valueOf(zahlungskondition.getMahnzeit2()));
-                            Mahnzeit3_jTextField.setText(String.valueOf(zahlungskondition.getMahnzeit3()));
+                        } else {// Falls bejaht wird
+                            // Methodenaufruf um Skonto-/Mahnzeit und neues
+                            // Lieferdatum anzeigen zu lassen
+                            gibSkontoUndMahnzeiten(zahlungskondition, false);
                         }
 
-                    } else {
+                    } else { // Falls das Lieferdatum nicht auf ein Wochenende
+                        // fällt.
 
-                        lieferdatum = berechnetesLieferdatum;
-                        abschlussdatum = berechnetesLieferdatum;
+                        // Methodenaufruf um Skonto-/Mahnzeit und neues
+                        // Lieferdatum anzeigen zu lassen
+                        gibSkontoUndMahnzeiten(zahlungskondition, false);
 
-                        lieferdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
-//                        abschlussdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
-                        lieferdatum_jFormattedTextField.setEnabled(false);
-
-                        Skontozeit1_jTextField.setText(String.valueOf(zahlungskondition.getSkontozeit1()));
-                        Skontozeit2_jTextField.setText(String.valueOf(zahlungskondition.getSkontozeit2()));
-                        Mahnzeit1_jTextField.setText(String.valueOf(zahlungskondition.getMahnzeit1()));
-                        Mahnzeit2_jTextField.setText(String.valueOf(zahlungskondition.getMahnzeit2()));
-                        Mahnzeit3_jTextField.setText(String.valueOf(zahlungskondition.getMahnzeit3()));
                     }
-                } else if (auftragsart_jComboBox.getSelectedItem().equals(TERMINAUFTRAG)) {
-                    zahlungskondition = GUIFactory.getDAO().gibZahlungskonditionNachId(Long.parseLong(
-                            zahlungskonditionen_jComboBox.getSelectedItem().toString()));
+                } else if (auftragsart_jComboBox.getSelectedItem().
+                        equals(TERMINAUFTRAG)) {//Falls es ein terminauftrag ist.
 
                     sperrzeit = zahlungskondition.getSperrzeitWunsch();
 
@@ -1160,13 +1149,18 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                     berechnetesLieferdatum = calender.getTime();
 
                     if (tagesformat.format(berechnetesLieferdatum).equals("So")
-                            || tagesformat.format(berechnetesLieferdatum).equals("Sa")) {
-                        int antwort = JOptionPane.showConfirmDialog(rootPane, LIEFERUNGAMWOCHENENDE_TEXT,
-                                LIEFERUNGAMWOCHENENDE_TITEL, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                            || tagesformat.format(berechnetesLieferdatum).
+                            equals("Sa")) {
+                        int antwort = JOptionPane.showConfirmDialog(rootPane,
+                                LIEFERUNGAMWOCHENENDE_TEXT,
+                                LIEFERUNGAMWOCHENENDE_TITEL,
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE);
 
                         //Falls bejaht wird, werden die Daten verworfen..
                         if (antwort == JOptionPane.NO_OPTION) {
-                            lieferdatum_jFormattedTextField.requestFocusInWindow();
+                            lieferdatum_jFormattedTextField.
+                                    requestFocusInWindow();
                             lieferdatum_jFormattedTextField.selectAll();
 
                             Skontozeit1_jTextField.setText("");
@@ -1175,160 +1169,199 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                             Mahnzeit2_jTextField.setText("");
                             Mahnzeit3_jTextField.setText("");
                         } else {
-                            lieferdatum = berechnetesLieferdatum;
-//                            abschlussdatum = berechnetesLieferdatum;
-
-                            lieferdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
-//                            abschlussdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
-                            lieferdatum_jFormattedTextField.setEnabled(true);
-
-                            Skontozeit1_jTextField.setText(String.valueOf(zahlungskondition.getSkontozeit1()));
-                            Skontozeit2_jTextField.setText(String.valueOf(zahlungskondition.getSkontozeit2()));
-                            Mahnzeit1_jTextField.setText(String.valueOf(zahlungskondition.getMahnzeit1()));
-                            Mahnzeit2_jTextField.setText(String.valueOf(zahlungskondition.getMahnzeit2()));
-                            Mahnzeit3_jTextField.setText(String.valueOf(zahlungskondition.getMahnzeit3()));
+                            // Methodenaufruf um Skonto-/Mahnzeit und neues
+                            // Lieferdatum anzeigen zu lassen
+                            gibSkontoUndMahnzeiten(zahlungskondition, true);
                         }
                     } else {
-
-                        lieferdatum = berechnetesLieferdatum;
-//                        abschlussdatum = berechnetesLieferdatum;
-
-                        lieferdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
-//                        abschlussdatum_jFormattedTextField.setText(format.format(berechnetesLieferdatum));
-                        lieferdatum_jFormattedTextField.setEnabled(true);
-
-                        Skontozeit1_jTextField.setText(String.valueOf(zahlungskondition.getSkontozeit1()));
-                        Skontozeit2_jTextField.setText(String.valueOf(zahlungskondition.getSkontozeit2()));
-                        Mahnzeit1_jTextField.setText(String.valueOf(zahlungskondition.getMahnzeit1()));
-                        Mahnzeit2_jTextField.setText(String.valueOf(zahlungskondition.getMahnzeit2()));
-                        Mahnzeit3_jTextField.setText(String.valueOf(zahlungskondition.getMahnzeit3()));
+                        // Methodenaufruf um Skonto-/Mahnzeit und neues
+                        // Lieferdatum anzeigen zu lassen
+                        gibSkontoUndMahnzeiten(zahlungskondition, true);
                     }
 
                 } else if (auftragsart_jComboBox.getSelectedItem().toString().
                         equals(BESTELLAUFTRAG)) {
 
-                    zahlungskondition = GUIFactory.getDAO().gibZahlungskonditionNachId(Long.parseLong(
-                            zahlungskonditionen_jComboBox.getSelectedItem().toString()));
-
+                    // Methodenaufruf um Skonto-/Mahnzeit und neues
+                    // Lieferdatum anzeigen zu lassen
+                    gibSkontoUndMahnzeiten(zahlungskondition, true);
+                    // Heutiges Datum wird als Lieferdatum gesetzt
                     lieferdatum = heute;
-//                    abschlussdatum = heute;
+                    // Heutiges Datum im Eingabefeld des Lieferdatums angezeigt.
+                    lieferdatum_jFormattedTextField.setText(
+                            format.format(heute));
 
-                    lieferdatum_jFormattedTextField.setEnabled(true);
-                    lieferdatum_jFormattedTextField.setText(format.format(heute));
-//                    abschlussdatum_jFormattedTextField.setText(format.format(heute));
-
-                    Skontozeit1_jTextField.setText(String.valueOf(zahlungskondition.getSkontozeit1()));
-                    Skontozeit2_jTextField.setText(String.valueOf(zahlungskondition.getSkontozeit2()));
-                    Mahnzeit1_jTextField.setText(String.valueOf(zahlungskondition.getMahnzeit1()));
-                    Mahnzeit2_jTextField.setText(String.valueOf(zahlungskondition.getMahnzeit2()));
-                    Mahnzeit3_jTextField.setText(String.valueOf(zahlungskondition.getMahnzeit3()));
-
-                    if (auftragspositionen.size() > 0) {
-
+                    // Da es ein Bestellauftrag ist, werden alle 
+                    // Positionswerte neuberechnet. Für die Neuberechnung
+                    // werden die Einkaufwerte der jeweilige Artikel genommen.
+                    if (auftragspositionen.size() > 0) {// Ob Positionsliste leer ist.
+                        // Positionstabelle löscht alle bisherigen angezeigten 
+                        // Zeilen.
                         dtm.setRowCount(0);
-
+                        // Durch Positionsliste interieren.
                         for (int i = 0; i < auftragspositionen.size(); i++) {
-                            summenWertFuerPos = 0.0;
 
-                            artikelid = auftragspositionen.get(i).getArtikel().getArtikelID();
-                            neuerWert = (GUIFactory.getDAO().gibArtikel(artikelid)).getEinkaufswert();
+                            summenWertFuerPos = 0.0;//Positionswert auf 0 setzen
 
+                            // Artikel-ID des Artikel der jeweiligen Position
+                            artikelid = auftragspositionen.get(i).
+                                    getArtikel().getArtikelID();
+
+                            // Einkaufswert des Artikels erhalten
+                            neuerWert = (GUIFactory.getDAO().
+                                    gibArtikel(artikelid)).getEinkaufswert();
+
+                            // Position den neuen Einzelwert übergeben
                             auftragspositionen.get(i).setEinzelwert(neuerWert);
 
-                            summenWertFuerPos = auftragspositionen.get(i).getEinzelwert()
-                                    * artikel.get(artikelid);
+                            // Summe der Position berechnen und speichern
+                            summenWertFuerPos = auftragspositionen.get(i).
+                                    getEinzelwert() * artikel.get(artikelid);
 
+                            // Objekt erzeugen mit den Daten der Position
                             Object[] neuesObj = new Object[]{i + 1,
-                                auftragspositionen.get(i).getArtikel().getArtikelID(),
+                                auftragspositionen.get(i).getArtikel().
+                                getArtikelID(),
                                 artikel.get(artikelid), summenWertFuerPos,
                                 gibDatumAlsString(abschlussdatum)};
 
+                            // Objekt dem DefaultTabelModel übergeben
                             dtm.addRow(neuesObj);
 
+                            // Positionswert auf Gesamtauftragswert drauf 
+                            // rechnen.
                             gesamtAuftragswert += summenWertFuerPos;
 
                         }
                     }
-                    Skontozeit1_jTextField.setText(String.valueOf(zahlungskondition.getSkontozeit1()));
-                    Skontozeit2_jTextField.setText(String.valueOf(zahlungskondition.getSkontozeit2()));
-                    Mahnzeit1_jTextField.setText(String.valueOf(zahlungskondition.getMahnzeit1()));
-                    Mahnzeit2_jTextField.setText(String.valueOf(zahlungskondition.getMahnzeit2()));
-                    Mahnzeit3_jTextField.setText(String.valueOf(zahlungskondition.getMahnzeit3()));
-
                 }
+                // Falls es kein Bestellauftrag sein sollte.
                 if (!(auftragsart_jComboBox.getSelectedItem().toString().
                         equals(BESTELLAUFTRAG))) {
-
-//                lieferdatum_jFormattedTextField.setText(format.format(heute));
-//                abschlussdatum_jFormattedTextField.setText(format.format(heute));
+                    // Ob Positionsliste leer ist.
                     if (auftragspositionen.size() > 0) {
-
+                        // Positionstabelle löscht alle bisherigen angezeigten 
+                        // Zeilen.
                         dtm.setRowCount(0);
-
+                        // Durch Positionsliste interieren.
                         for (int i = 0; i < auftragspositionen.size(); i++) {
-                            summenWertFuerPos = 0.0;
-
-                            artikelid = auftragspositionen.get(i).getArtikel().getArtikelID();
-                            neuerWert = (GUIFactory.getDAO().gibArtikel(artikelid)).getVerkaufswert();
-
+                            summenWertFuerPos = 0.0;//Positionswert auf 0 setzen
+                            // Artikel-ID des Artikel der jeweiligen Position
+                            artikelid = auftragspositionen.get(i).
+                                    getArtikel().getArtikelID();
+                            // Verkaufswert des Artikels erhalten
+                            neuerWert = (GUIFactory.getDAO().
+                                    gibArtikel(artikelid)).getVerkaufswert();
+                            // Position den neuen Einzelwert übergeben
                             auftragspositionen.get(i).setEinzelwert(neuerWert);
+                            // Artikel-ID und dessen Menge werden in HashMap
+                            // gespeichert.
+                            artikel.put(artikelid, auftragspositionen.get(i).
+                                    getMenge());
 
-                            artikel.put(artikelid, auftragspositionen.get(i).getMenge());
+                            // Summe der Position berechnen und speichern
+                            summenWertFuerPos = auftragspositionen.get(i).
+                                    getEinzelwert() * artikel.get(artikelid);
 
-                            summenWertFuerPos = auftragspositionen.get(i).getEinzelwert()
-                                    * artikel.get(artikelid);
-
+                            // Objekt erzeugen mit den Daten der Position
                             Object[] neuesObj = new Object[]{i + 1,
                                 auftragspositionen.get(i).getArtikel().getArtikelID(),
                                 artikel.get(artikelid), summenWertFuerPos,
                                 gibDatumAlsString(abschlussdatum)};
 
+                            // Objekt dem DefaultTabelModel übergeben
                             dtm.addRow(neuesObj);
 
+                            // Positionswert auf Gesamtauftragswert drauf 
+                            // rechnen.
                             gesamtAuftragswert += summenWertFuerPos;
                         }
                     }
                 }
 
+                // Eingabefelder für Positionen erhalten einen leeren String.
                 materialnummer_jTextField.setText("");
                 menge_jTextField.setText("");
                 einzelwert_jTextField.setText("");
 
-                auftragswert_jTextField.setText(String.valueOf(gesamtAuftragswert));
+                // Gesamtauftragswert wird im Auftragswerteingabefeld angezeigt.
+                auftragswert_jTextField.setText(
+                        String.valueOf(gesamtAuftragswert));
+
+                // Speichervariable fr Gesamtauftragswert erhält den Wert 0
                 gesamtAuftragswert = 0.00;
+
+                // Tabelle erhält das neue DefaulTableModel
                 auftragsposition_jTable.setModel(dtm);
-                zahlungskondition = null;
+
             }
-        } catch (ApplicationException e) {
-//            this.hauptFenster.setStatusMeldung(e.getMessage());
+        } catch (ApplicationException e) {// Fehlerbehandlung
+            // Fehlermeldung als PopUp
             JOptionPane.showMessageDialog(null, e.getMessage(),
                     FEHLERMELDUNG_TITEL,
                     JOptionPane.ERROR_MESSAGE);
-//            JOptionPane.showMessageDialog(null, Fe.,
-//                    FEHLERMELDUNG_KEINEZAHLUNGSKONDITION_TITEL,
-//                    JOptionPane.ERROR_MESSAGE);
-//            auftragsart_jComboBox.setSelectedIndex(0);
-//            auftragsart_jComboBoxActionPerformed(evt);
 
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {// Fehlerbehandlung
+            // Fehlermeldung als PopUp
             JOptionPane.showMessageDialog(null, FEHLERMELDUNG_KEINEZAHLUNGSKONDITION_TEXT,
                     FEHLERMELDUNG_KEINEZAHLUNGSKONDITION_TITEL,
                     JOptionPane.ERROR_MESSAGE);
+            // Barauftrag wird als Aufragsart gewählt.
             auftragsart_jComboBox.setSelectedIndex(0);
-            auftragsart_jComboBoxActionPerformed(evt);
+            // ActionPerformed fr Auftragsarten wird aufgerufen
+            auftragsart_jComboBoxActionPerformed(null);
         }
     }//GEN-LAST:event_auftragsart_jComboBoxActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 13.01.2014 TER, Erstellung,Dokumentation und Logik. */
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
-     * Selektiert das Eingabefeld des Erfassungsdatums der Auftragsposition
+     * Methode mit der die Skontozeiten und Mahnzeiten einer Zahlungskondition
+     * in den passenden Eingabefelder angezeigt werden und die das Eingabefeld
+     * des Lieferdatum wählbar macht oder nicht.
      *
-     * @param evt
+     * @param zahlungskondition, Zhalungskonditionsobjekt
+     * @param enabledSetzen, boolische Variable die bestimmt ob Liferdatum
+     * wählbar ist oder nicht
      */
-    private void erfassungsdatum_auftragsposition_jFormattedTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_erfassungsdatum_auftragsposition_jFormattedTextFieldFocusGained
+    public void gibSkontoUndMahnzeiten(Zahlungskondition zahlungskondition,
+            boolean enabledSetzen) {
+        // Neues Datum wird angezeigt und die passenden
+        // Skonto und Mahnzeiten der jeweiligen Kondition
+        // werden in den entsprechenden Felder angezeigt.
+        lieferdatum = berechnetesLieferdatum;
+        lieferdatum_jFormattedTextField.setText(
+                format.format(berechnetesLieferdatum));
+        lieferdatum_jFormattedTextField.
+                setEnabled(enabledSetzen);
+        // Skonto und Mahnzeiten werden an die 
+        // Felder übergeben.
+        Skontozeit1_jTextField.setText(
+                String.valueOf(
+                        zahlungskondition.getSkontozeit1()));
+        Skontozeit2_jTextField.setText(
+                String.valueOf(
+                        zahlungskondition.getSkontozeit2()));
+        Mahnzeit1_jTextField.setText(
+                String.valueOf(
+                        zahlungskondition.getMahnzeit1()));
+        Mahnzeit2_jTextField.setText(
+                String.valueOf(
+                        zahlungskondition.getMahnzeit2()));
+        Mahnzeit3_jTextField.setText(
+                String.valueOf(
+                        zahlungskondition.getMahnzeit3()));
+    }
 
-        erfassungsdatum_auftragsposition_jFormattedTextField.selectAll();//Selektion des Eingabefeldes
-    }//GEN-LAST:event_erfassungsdatum_auftragsposition_jFormattedTextFieldFocusGained
-
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 TER, Erstellung,Dokumentation und Logik. */
+    /* 13.01.2014 TER, Überarbeitung der Funktion. */
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
      * Beim Focuslost des Eingabefeldes für die Materialnummer, wird auf die
      * Richtigkeit der Eingabe geprüft und gibt gegebenen falls eine
@@ -1337,58 +1370,93 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
      * @param evt
      */
     private void materialnummer_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_materialnummer_jTextFieldFocusLost
+        // Klassenvariablen
         long artikelnummer;
         int positionsnummer = 0;
-// Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
-        try {
-            artikelnummer = Long.valueOf(materialnummer_jTextField.getText());
-            GUIFactory.getDAO().gibArtikel(artikelnummer);
-            if (auftragsart_jComboBox.getSelectedItem().toString().equals("Bestellauftrag")) {
+        final String BESTELLAUFTRAG = "Bestellauftrag";
 
+        try {// Try-Block
+
+            //Speicher der materialnummer aus dem Eingabefeld 
+            artikelnummer = Long.valueOf(materialnummer_jTextField.getText());
+            //
+//            GUIFactory.getDAO().gibArtikel(artikelnummer);
+            if (auftragsart_jComboBox.getSelectedItem().toString().
+                    equals(BESTELLAUFTRAG)) {
+                // Einkaufswert des Material wird ermittelt und gspeichert.
                 einzelwert = (GUIFactory.getDAO().gibArtikel(
-                        (Long.parseLong(materialnummer_jTextField.getText()))).getEinkaufswert());
+                        (Long.parseLong(materialnummer_jTextField.getText()))).
+                        getEinkaufswert());
+                // Neuer Einzelwert wird in das Eingabefeld des einzelwertes 
+                // angezeigt.
                 einzelwert_jTextField.setText(String.valueOf(einzelwert));
 
             } else {
+                // Verkaufswert des Material wird ermittelt und gspeichert.
                 einzelwert = (GUIFactory.getDAO().gibArtikel(
-                        (Long.parseLong(materialnummer_jTextField.getText()))).getVerkaufswert());
+                        (Long.parseLong(materialnummer_jTextField.getText()))).
+                        getVerkaufswert());
+                // Neuer Einzelwert wird in das Eingabefeld des einzelwertes 
+                // angezeigt.
                 einzelwert_jTextField.setText(String.valueOf(einzelwert));
             }
 
+            // Falls Artikelhashmap den Artkel bereits entält
             if (artikel.containsKey(artikelnummer)) {
+                // Erzeugung eines Iterators für die Schlsselwerte der 
+                // Artikelhashmap.
                 Iterator<Long> it = artikel.keySet().iterator();
-                int i = 0;
+
+                int i = 0;// Indexvariable
+                // Schleife fr das durchinterieren der Schlsselwerte
                 while (it.hasNext()) {
-                    i++;
+                    i++;// Indexvariable wird eins hochgezählt
+                    // Falls Artikelnummern gleich sind
                     if (it.next() == artikelnummer) {
+                        // Positionsnummer erhält die nächste Position
                         positionsnummer = i;
                     }
                 }
-                positionsnummer_jTextField.setText(String.valueOf(positionsnummer));
+                // Die nchste Positionsnummer wird dem Positionseingaebfeld 
+                // übergeben.
+                positionsnummer_jTextField.setText(
+                        String.valueOf(positionsnummer));
             }
+            // Hintergrundsfarbe des MAterialseinagebfeldes wird Weiß gesetzt
             materialnummer_jTextField.setBackground(hintergrundfarbe);
-        } catch (ApplicationException e) {
-            //Ausgabe einer Fehlermeldung
-            JOptionPane.showMessageDialog(null, e.getMessage(), FEHLERMELDUNG_TITEL, JOptionPane.ERROR_MESSAGE);
 
+        } catch (ApplicationException e) {// Fehlerbehandlung.
+            //Ausgabe einer Fehlermeldung
+            JOptionPane.showMessageDialog(null, e.getMessage(),
+                    FEHLERMELDUNG_TITEL, JOptionPane.ERROR_MESSAGE);
+            // Fokus in das Materialeingabefeld setzen.
             materialnummer_jTextField.requestFocusInWindow();
+            // Eingabefeld slektieren.
             geschaeftspartner_jTextField.selectAll();
 
-        } catch (NumberFormatException e) {
-            ueberpruefungVonFocusLost(materialnummer_jTextField, MATERIALNUMMER_SYNTAX,
+        } catch (NumberFormatException e) {// Fehlerbehandlung.
+            // Aufruf der "ueberpruefungVonFocusLost"- Methode
+            ueberpruefungVonFocusLost(materialnummer_jTextField,
+                    MATERIALNUMMER_SYNTAX,
                     FEHLERMELDUNG_TITEL, FEHLERMELDUNGMATERIAL_TEXT);
+            // Einzelwerteingabefeld erhält leeren String.
             einzelwert_jTextField.setText("");
+            // Hintergrundsfarbe des MAterialseinagebfeldes wird Weiß gesetzt
             materialnummer_jTextField.setBackground(hintergrundfarbe);
         }
     }//GEN-LAST:event_materialnummer_jTextFieldFocusLost
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 TER, Erstellung,Dokumentation und Logik. */
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
      * Selektier das Eingabefeld des Auftragstextes
      *
      * @param evt
      */
     private void auftragstext_jTextAreaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_auftragstext_jTextAreaFocusGained
-
         auftragstext_jTextArea.selectAll();//Selektion des Eingabefeldes
     }//GEN-LAST:event_auftragstext_jTextAreaFocusGained
 
@@ -1396,6 +1464,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
     /* Datum Name Was */
     /* 14.01.2015 Terrasi, angelegt und dokumentiert */
     /* 17.01.2015 Terrasi, gibZahlungskonditionenFürAuftragsart implementiert */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Methode um die Zahlungskonditionen die in der Datenbank gespeichert sind,
@@ -1407,27 +1476,43 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
         try {
             //Collection erhält Zahlugskonditionen aus der Datenbank.   
             zahlungskondditionAusDatenbank
-                    = GUIFactory.getDAO().gibZahlungskonditionenFürAuftragsart(auftragsart);// Aufruf der Zahlungskonditionen zur jeweiligen Aufragsart.
-            //ArrayList für die Combobox
+                    = GUIFactory.getDAO().
+                    gibZahlungskonditionenFürAuftragsart(
+                            auftragsart);// Aufruf der Zahlungskonditionen zur jeweiligen Aufragsart.
+            //ArrayList für die Zahlungskonditionscombobox wird gleert
             zahlungskonditionFuerCombobox.clear();
-            Iterator<Zahlungskondition> it = zahlungskondditionAusDatenbank.iterator();
-            while (it.hasNext()) {
+            // Erzeugung eines Iterator fr die Arraylist der Konditionen
+            Iterator<Zahlungskondition> it
+                    = zahlungskondditionAusDatenbank.iterator();
 
+            while (it.hasNext()) {
+                // Hinzufügen einer Kondition in die ArrayList der konditionen
                 zahlungskonditionFuerCombobox.add(
                         String.valueOf(it.next().getZahlungskonditionID()));
-
             }
-        } catch (NullPointerException | NoSuchElementException | ApplicationException ex) {//Abfangen von fehlern
-//            this.hauptFenster.setStatusMeldung(ex.getMessage());// Fehlermeldung wird in Statuszeile ausgegeben.
-            JOptionPane.showMessageDialog(null, FEHLERMELDUNG_KEINEZAHLUNGSKONDITION_TEXT,
+
+        } catch (NullPointerException |
+                NoSuchElementException |
+                ApplicationException e) {// Fehlerbehandlung.
+            // Fehlermeldung als PopUp
+            JOptionPane.showMessageDialog(null,
+                    FEHLERMELDUNG_KEINEZAHLUNGSKONDITION_TEXT,
                     FEHLERMELDUNG_KEINEZAHLUNGSKONDITION_TITEL,
                     JOptionPane.ERROR_MESSAGE);
+            // Barauftrag wird als Aufragsart gewählt.
             auftragsart_jComboBox.setSelectedIndex(0);
+            // ActionPerformed fr Auftragsarten wird aufgerufen
             auftragsart_jComboBoxActionPerformed(null);
 
         }
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2015 Terrasi, angelegt  */
+    /* 13.01.2015 Terrasi, gibZahlungskonditionenFürAuftragsart implementiert */
+    /* 18.02.2015 TER, getestet,freigegeben und dokumentiert */
+    /*----------------------------------------------------------*/
     /**
      * Action beim betätigen des Speicher-Buttons. Es wird die Prüfmethode
      * aufgerufen die wieder gibt ob irgendwelche Eingaben nicht getätigt worden
@@ -1455,38 +1540,46 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
 
                         typ = auftragsart_jComboBox.getSelectedItem().toString();
                         auftragsText = auftragstext_jTextArea.getText();
-                        geschaeftspartnerID = Long.parseLong(geschaeftspartner_jTextField.getText());
+                        geschaeftspartnerID = Long.parseLong(
+                                geschaeftspartner_jTextField.getText());
 
-//                        if (!(abschlussdatum.before(lieferdatum))) {
                         if (this.getTitle().equals("Auftragskopf anlegen")) {
 
                             if (auftragsart_jComboBox.getSelectedIndex() == 0) {
                                 // Ein Auftragskopfobjekt erzeugen
-                                GUIFactory.getDAO().erstelleAuftragskopf(typ, artikel,
+                                GUIFactory.getDAO().erstelleAuftragskopf(typ, 
+                                        artikel,
                                         auftragsText, geschaeftspartnerID,
                                         keineZK,
                                         "erfasst", null, lieferdatum);
                             } else {
                                 zahhlungskonditionID = Integer.parseInt(
-                                        zahlungskonditionen_jComboBox.getSelectedItem().toString());
+                                        zahlungskonditionen_jComboBox.
+                                                getSelectedItem().toString());
 
                                 // Ein Auftragskopfobjekt erzeugen
-                                GUIFactory.getDAO().erstelleAuftragskopf(typ, artikel,
+                                GUIFactory.getDAO().erstelleAuftragskopf(typ, 
+                                        artikel,
                                         auftragsText, geschaeftspartnerID,
                                         zahhlungskonditionID,
                                         "erfasst", null, lieferdatum);
                             }
-                            this.hauptFenster.setStatusMeldung(ERFOLGREICHEANMELDUNG);
-                            zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                            this.hauptFenster.
+                                    setStatusMeldung(ERFOLGREICHEANMELDUNG);
+                            // Methode die bestimmte Eingabefelder leert
+                            zuruecksetzen();
                         } else if (this.getTitle().equals("Auftragskopf ändern")) {
 
-                            dbAuftragspositionen = GUIFactory.getDAO().gibAuftragspositionen(kopf.getAuftragskopfID());
+                            dbAuftragspositionen = GUIFactory.getDAO().
+                                    gibAuftragspositionen(
+                                            kopf.getAuftragskopfID());
 
                             if (dbAuftragspositionen.size() == artikel.size()) {
 
                                 for (long artikelid : artikel.keySet()) {
 
-                                    if (dbAuftragspositionen.containsKey(artikelid)
+                                    if (dbAuftragspositionen.
+                                            containsKey(artikelid)
                                             && positionenSindGleich) {
                                         if (dbAuftragspositionen.get(artikelid)
                                                 == artikel.get(artikelid)) {
@@ -1507,13 +1600,15 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                             ButtonModel bm = buttonGroup1.getSelection();
                             if (bm.getActionCommand().equals("Erfasst")) {
                                 jetzigerStatus = "erfasst";
-                            } else if (bm.getActionCommand().equals("Freigegeben")) {
+                            } else if (bm.getActionCommand().
+                                    equals("Freigegeben")) {
                                 jetzigerStatus = "freigegeben";
                             } else {
                                 jetzigerStatus = "abgeschlossen";
                             }
 
-                            if (!(auftragsart_jComboBox.getSelectedIndex() == 0)) {
+                            if (!(auftragsart_jComboBox.
+                                    getSelectedIndex() == 0)) {
                                 jetzigeZahlungskonditionen
                                         = zahlungskonditionen_jComboBox.
                                         getSelectedItem().toString();
@@ -1521,25 +1616,46 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                                 jetzigeZahlungskonditionen = "0";
                             }
 
-                            if (!(dbGeschaeftspartnerID.equals(geschaeftspartner_jTextField.getText())
-                                    && dbAuftragsart.equals(auftragsart_jComboBox.getSelectedItem().toString())
-                                    && dbZahlungskondition.equals(jetzigeZahlungskonditionen)
-                                    && dbAuftragstext.equals(auftragstext_jTextArea.getText())
-                                    && dbStatus.equals(jetzigerStatus)
-                                    && dbLieferdatum.equals(lieferdatum_jFormattedTextField.getText())
-                                    && dbAbschlussdatum.equals(abschlussdatum_jFormattedTextField.getText())
+                            if (!(dbGeschaeftspartnerID.equals(
+                                    geschaeftspartner_jTextField.getText())
+                                    && dbAuftragsart.equals(
+                                            auftragsart_jComboBox.
+                                                    getSelectedItem().
+                                                    toString())
+                                    && dbZahlungskondition.
+                                            equals(jetzigeZahlungskonditionen)
+                                    && dbAuftragstext.
+                                            equals(auftragstext_jTextArea.
+                                                    getText())
+                                    && dbStatus.
+                                            equals(jetzigerStatus)
+                                    && 
+                                    dbLieferdatum.
+                                            equals(lieferdatum_jFormattedTextField.
+                                                    getText())
+                                    && 
+                                    dbAbschlussdatum.equals(
+                                            abschlussdatum_jFormattedTextField.
+                                                    getText())
                                     && positionenSindGleich == true)) {
 
-                                int antwort = JOptionPane.showConfirmDialog(rootPane, AENDERUNGVONDATEN_TEXT,
-                                        AENDERUNGVONDATEN_TITEL, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                                int antwort = JOptionPane.showConfirmDialog(
+                                        rootPane, AENDERUNGVONDATEN_TEXT,
+                                        AENDERUNGVONDATEN_TITEL, 
+                                        JOptionPane.YES_NO_OPTION, 
+                                        JOptionPane.QUESTION_MESSAGE);
 
-                                //Falls bejaht wird der Auftragskopf verändert gespeichert.
+                                // Falls bejaht wird der Auftragskopf verändert 
+                                // gespeichert.
                                 if (antwort == JOptionPane.YES_OPTION) {
 
                                     GUIFactory.getDAO().
-                                            aendereAuftrag(Long.parseLong(auftragskopfID_jTextField.getText()),
+                                            aendereAuftrag(Long.parseLong(
+                                                    auftragskopfID_jTextField.
+                                                            getText()),
                                                     geschaeftspartnerID,
-                                                    Long.parseLong(jetzigeZahlungskonditionen),
+                                                    Long.parseLong(
+                                                            jetzigeZahlungskonditionen),
                                                     artikel, auftragsText,
                                                     jetzigerStatus, null, lieferdatum);
 
@@ -1547,45 +1663,45 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
 
                                     gespeichert = true;
                                     jB_ZurueckActionPerformed(evt);
-                                    this.hauptFenster.setStatusMeldung(ERFOLGREICHGEAENDERT_TEXT);
+                                    this.hauptFenster.
+                                            setStatusMeldung(
+                                                    ERFOLGREICHGEAENDERT_TEXT);
                                 } else {
                                     gespeichert = false;
                                 }
 
                             } else {
 
-                                JOptionPane.showMessageDialog(null, KEINEAENDERUNGEN_TEXT,
-                                        KEINEAENDERUNGEN_Titel, JOptionPane.OK_OPTION);
+                                JOptionPane.showMessageDialog(null,
+                                        KEINEAENDERUNGEN_TEXT,
+                                        KEINEAENDERUNGEN_Titel, 
+                                        JOptionPane.OK_OPTION);
                             }
 
                         }
-//                        } else {//Wenn Abschlussdatum vor dem Erfassungsdatum liegt
-//                            //Ausgabe einer Fehlermeldung
-//                            JOptionPane.showMessageDialog(null, FEHLERMELDUNG_ABSCHLUSSDATUM_TEXT,
-//                                    FEHLERMELDUNG_TITEL, JOptionPane.ERROR_MESSAGE);
-//                            //In das Eingabefeld springen
-//                            abschlussdatum_jFormattedTextField.requestFocusInWindow();
-//                            abschlussdatum_jFormattedTextField.selectAll();
-//                        }
                     } else {
-
-                        if (auftragsposition_jTable.getModel().getRowCount() == 0) {//Wenn nicht mindestens eine Auftragsposition zum Auftragskopf angelegt worden ist
-                            // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben getätigt worden sind
-                            fehlEingabenMarkierung(fehlendeEingabenAuftragsposition,
+                        // Wenn nicht mindestens eine Auftragsposition zum 
+                        // Auftragskopf angelegt worden ist.
+                        if (auftragsposition_jTable.getModel().
+                                getRowCount() == 0) {
+                            // Methodenaufruf um daraufhinzuweisen das nicht 
+                            // alle eingaben getätigt worden sind
+                            fehlEingabenMarkierung(
+                                    fehlendeEingabenAuftragsposition,
                                     FEHLERMELDUNG_UNVOLLSTAENDIG_TITEL,
                                     FEHLERMELDUNG_UNVOLLSTAENDIG_KEINEPOSITIONZUMKOPF_TEXT,
                                     warningfarbe);
                         }
                     }
                 } else {
-                    // Methodenaufruf um daraufhinzuweisen das nicht alle eingaben 
-                    // getätigt worden sind
+                    // Methodenaufruf um daraufhinzuweisen das nicht alle 
+                    // eingaben getätigt worden sind
                     fehlEingabenMarkierung(fehlendeEingaben,
                             FEHLERMELDUNG_UNVOLLSTAENDIG_TITEL,
-                            FEHLERMELDUNG_UNVOLLSTAENDIGAUFTRAGSKOPF_TEXT, warningfarbe);
+                            FEHLERMELDUNG_UNVOLLSTAENDIGAUFTRAGSKOPF_TEXT,
+                            warningfarbe);
                 }
             } catch (ApplicationException e) {
-//                this.hauptFenster.setStatusMeldung(e.getMessage());
                 JOptionPane.showMessageDialog(null, e.getMessage(),
                         FEHLERMELDUNG_TITEL, JOptionPane.ERROR_MESSAGE);
             }
@@ -1630,9 +1746,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
             geschaeftspartner_jTextField.requestFocusInWindow();
             geschaeftspartner_jTextField.selectAll();
         }
-//        catch (NumberFormatException e) {
-//
-//        }
     }//GEN-LAST:event_geschaeftspartner_jTextFieldFocusLost
 
     /**
@@ -1928,31 +2041,18 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                     //Falls bejaht wird, werden die Daten verworfen..
                     if (antwort == JOptionPane.YES_OPTION) {
 
-                        zuruecksetzen();// Eingabefelder werden zurückgesetzt.
-                        letzteComponent = null;   //Initialisierung der Componentspeichervariable
-                        //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-                        letzteComponent = this.factory.zurueckButton();
-                        this.setVisible(false);// Internalframe wird nicht mehr dargestellt
-                        letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
+                        // Aufruf der "zurueckInsHauptmenue"-Methode.
+                        zurueckInsHauptmenue();
                     }
 
                 } else {
 
-                    zuruecksetzen();// Eingabefelder werden zurückgesetzt.
-                    letzteComponent = null;   //Initialisierung der Componentspeichervariable
-                    //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-                    letzteComponent = this.factory.zurueckButton();
-                    this.setVisible(false);// Internalframe wird nicht mehr dargestellt
-                    letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
+                    // Aufruf der "zurueckInsHauptmenue"-Methode.
+                    zurueckInsHauptmenue();
                 }
             } else if (this.getTitle().equals("Auftragskopf anzeigen")) {
-
-                zuruecksetzen();// Eingabefelder werden zurückgesetzt.
-                letzteComponent = null;   //Initialisierung der Componentspeichervariable
-                //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-                letzteComponent = this.factory.zurueckButton();
-                this.setVisible(false);// Internalframe wird nicht mehr dargestellt
-                letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
+                // Aufruf der "zurueckInsHauptmenue"-Methode.
+                zurueckInsHauptmenue();
 
             } else {
 
@@ -1984,22 +2084,13 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                     //Falls bejaht wird, werden die Daten verworfen..
                     if (antwort == JOptionPane.YES_OPTION) {
 
-                        zuruecksetzen();// Eingabefelder werden zurückgesetzt.
-                        letzteComponent = null;   //Initialisierung der Componentspeichervariable
-                        //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-                        letzteComponent = this.factory.zurueckButton();
-                        this.setVisible(false);// Internalframe wird nicht mehr dargestellt
-                        letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
+                        // Aufruf der "zurueckInsHauptmenue"-Methode.
+                        zurueckInsHauptmenue();
                     }
                 } else {
 
-                    zuruecksetzen();// Eingabefelder werden zurückgesetzt.
-                    letzteComponent = null;   //Initialisierung der Componentspeichervariable
-                    //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-                    letzteComponent = this.factory.zurueckButton();
-                    this.setVisible(false);// Internalframe wird nicht mehr dargestellt
-
-                    letzteComponent.setVisible(true);// Übergebene Component wird sichtbar gemacht
+                    // Aufruf der "zurueckInsHauptmenue"-Methode.
+                    zurueckInsHauptmenue();
 
                 }
 
@@ -2011,9 +2102,28 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
+    /* 10.12.2014 TER, Erstellung,Dokumentation und Logik. */
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
+    /**
+     * Methode mit der man direkt ins Hauptmenü kehrt.
+     */
+    public void zurueckInsHauptmenue() {
+        zuruecksetzen();// Eingabefelder werden zurückgesetzt.
+        letzteComponent = null;// Initialisierung der Componentspeichervariable
+        //Erhalten über GUIFactorymethode die letzte aufgerufene View und 
+        // speichern diese in Variable.
+        letzteComponent = this.factory.zurueckButton();
+        this.setVisible(false);// Internalframe wird nicht mehr dargestellt
+        // Übergebene Component wird sichtbar gemacht.
+        letzteComponent.setVisible(true);
+    }
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt */
     /* 08.01.2015 Terrasi AuftragskopfAnlegenMaske mit der Anzeigen/Ändern-
      Funktion angepasst.*/
+
     /**
      *
      * Beim betätigen des Anzeigen/Ändern Buttons wird je nach Modus die Maske
@@ -2025,7 +2135,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
     private void jB_AnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AnzeigenActionPerformed
         try {
 
-            if (this.getTitle().equals("Auftragskopf anzeigen")) {
+            if (this.getTitle().equals("Auftragskopf anzeigen")) { 
                 if ((GUIFactory.getDAO().gibAuftragskopf(
                         Long.parseLong(auftragskopfID_jTextField.getText())).
                         getStatus().getStatus().equals("abgeschlossen"))) {

@@ -284,7 +284,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
                     if (!(aKopf.getStatus().getStatus().
                             equals("abgeschlossen"))) {//Status des Auftrags 
                         // ist nicht "Abgeschlossen".
-                        // Maske AuftragsKopfAnlegen zurcksetzen
+                        // Maske AuftragsKopfAnlegen zurücksetzen
                         this.auftragskopfAnlegen.zuruecksetzen();
                         // Setzt das Internalframe in den Ändernmodus.
                         this.auftragskopfAnlegen.setStatusAender();

@@ -44,6 +44,10 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
     final String FEHLERMELDUNG_TITEL = "Fehlerhafte Eingabe";
     final String FEHLERMELDUNG_AUFTRAGSKOPFID_TEXT = "Bitte geben sie alle "
             + "notwendigen Eingaben ein!";
+    final String FEHLERMELDUNG_STATUS_TITEL = "Abgeschlossener Auftrag";
+    final String FEHLERMMELDUNG_STATUSABGESCHLOSSEN_TEXT = "Der Auftrag ist "
+            + "bereits abgeschlossen und kann nicht"
+            + "\n bearbeitet werden. ";
 
 
     /*----------------------------------------------------------*/
@@ -274,6 +278,11 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
         // Überprfung, ob auch alle Eingaben getätigt worden sind.
         ueberpruefen();
         try {// Try-Block
+            Auftragskopf aKopf = GUIFactory.getDAO().
+                    gibAuftragskopf(
+                            Long.parseLong(
+                                    auftragskopfID_jTextField.getText()));
+
             // Erzeugung eines Auftragspositionsobjektes mit der DAO-Methode
             // "gibAuftragsposition". Es werden dafür die Eingaben genutzt.
             Auftragsposition position = GUIFactory.getDAO().
@@ -282,25 +291,43 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
                             Long.parseLong(
                                     AuftragspositionID_jTextField.getText()));
             if (position != null) {//Wird geprüft ob eine Position vorhanden ist
-                // Überprüft anhand des Framestitels, ob es das nächste Fenster
-                // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
+
                 if (this.getTitle().equals(auftragspositionaendern)) {
-                    // Setzt das Internalframe in den Ändernmodus.
-                    this.auftragspositionAnzeigen.setStatusAender();
-                    zuruecksetzen();//Methode die bestimmte Eingabefelder leert
-                    this.auftragspositionAnzeigen.setzeEingaben(position);
-                    this.setVisible(false);// Fenster wird nicht mehr sichtbar.
-                    // Hauptfenster macht übergebene Maske sichtbar.
-                    this.hauptFenster.setFrame(this.auftragspositionAnzeigen);
+
+                    // Überprüft anhand des Framestitels, ob es das nächste Fenster
+                    // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
+                    if (!(aKopf.getStatus().getStatus().
+                            equals("abgeschlossen"))) {//Status des Auftrags 
+                        // Setzt das Internalframe in den Anzeigenmodus.
+                        this.auftragspositionAnzeigen.setStatusAnzeigen();
+                        //Methode die bestimmte Eingabefelder leert
+                        zuruecksetzen();
+                        this.auftragspositionAnzeigen.setzeEingaben(position);
+                        // Fenster wird nicht mehr sichtbar.
+                        this.setVisible(false);
+                        // Hauptfenster macht übergebene Maske sichtbar.
+                        this.hauptFenster.setFrame(
+                                this.auftragspositionAnzeigen);
+                    } else {
+                        // Fehlermeldung als PopUp
+                        JOptionPane.showMessageDialog(null,
+                                FEHLERMMELDUNG_STATUSABGESCHLOSSEN_TEXT,
+                                FEHLERMELDUNG_STATUS_TITEL,
+                                JOptionPane.WARNING_MESSAGE);
+                    }
                 } else {//Falls Titel gleich "Auftragsposition anzeigen Einstieg"
                     // Setzt das Internalframe in den Anzeigenmodus.
-                    this.auftragspositionAnzeigen.setStatusAnzeigen();
-                    zuruecksetzen();//Methode die bestimmte Eingabefelder leert
-                    this.auftragspositionAnzeigen.setzeEingaben(position);
-                    this.setVisible(false);// Fenster wird nicht mehr sichtbar.
-                    // Hauptfenster macht übergebene Maske sichtbar.
-                    this.hauptFenster.setFrame(this.auftragspositionAnzeigen);
+                        this.auftragspositionAnzeigen.setStatusAnzeigen();
+                        //Methode die bestimmte Eingabefelder leert
+                        zuruecksetzen();
+                        this.auftragspositionAnzeigen.setzeEingaben(position);
+                        // Fenster wird nicht mehr sichtbar.
+                        this.setVisible(false);
+                        // Hauptfenster macht übergebene Maske sichtbar.
+                        this.hauptFenster.setFrame(
+                                this.auftragspositionAnzeigen);
                 }
+
             }
         } catch (NumberFormatException e) {// Fehlerbehandlung.
             // Fehlermeldung als PopUp

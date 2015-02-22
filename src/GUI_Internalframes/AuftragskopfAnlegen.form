@@ -815,9 +815,6 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
-              <Events>
-                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="erfassungsdatum_auftragsposition_jFormattedTextFieldFocusGained"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="geschaeftspartner_jTextField">
               <Events>
