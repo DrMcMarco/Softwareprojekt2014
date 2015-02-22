@@ -76,7 +76,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
     private String tabelle;
     
     /**
-     * 
+     * Letzte Component.
      */
     private Component comp;
     
@@ -134,8 +134,8 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
     }
     
     /**
-     * 
-     * @param fenster 
+     * Setzt das letzte Fenster.
+     * @param fenster Component Fenster
      */
     public void setzeFenster(Component fenster) {
         this.comp = fenster;
@@ -561,7 +561,10 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Zurück button veranlasst dass der Benutzer zurück zur suche kommt.
+     * @param evt ein Event.
+     */
     private void Zurueck_jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Zurueck_jButton1ActionPerformed
         Start framestart = null;
         StartAdmin framestartadmin = null;

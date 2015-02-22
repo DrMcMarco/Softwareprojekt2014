@@ -3812,6 +3812,10 @@ public class DataAccessObject {
     /* Datum      Name    Was                                   */
     /* 10.12.14   sch     angelegt                              */
     /*----------------------------------------------------------*/
+    /**
+     * Gibt ein Diagramm zur bestellten Artikelmenge zurück.
+     * @return BarChart
+     */
     public JFreeChart gibChartArtikelMenge() {
         //Charts und Datasets.
         JFreeChart barChart;
