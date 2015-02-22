@@ -3667,7 +3667,7 @@ public class DataAccessObject {
         //Diagramm erstellen.
         lineChart = ChartFactory.createLineChart("Umsatzkurve "
                 + "(Letzte 6 Monate)",
-                    null, "Umsatz in ", dataset, PlotOrientation.VERTICAL,
+                    null, "Umsatz in €", dataset, PlotOrientation.VERTICAL,
                     true, true, true);
         return lineChart;
     }
@@ -3724,7 +3724,7 @@ public class DataAccessObject {
         //Diagramm erstellen.
         lineChart = ChartFactory.createLineChart("Umsatzkurve "
                 + "(Letzte 6 Monate)",
-                    null, "Umsatz in ", dataset, PlotOrientation.VERTICAL,
+                    null, "Umsatz in €", dataset, PlotOrientation.VERTICAL,
                     true, true, true);
         return lineChart;
     }
@@ -3757,12 +3757,13 @@ public class DataAccessObject {
             String artikel = (String) entr.getKey();
             Double umsatz = (Double) entr.getValue();
             dataset.setValue(umsatz, 
-                        "Artikel Umsatz", artikel);
+                        "Artikel Umsatz in €", artikel);
         }
         
         //Diagramm erstellen.
-        barChart = ChartFactory.createStackedBarChart("Umsatz pro Artikel",
-                    "Artikel", "Umsatz", dataset, 
+        barChart = ChartFactory.createStackedBarChart("Umsatz pro Artikel "
+                + "(Gesamt)",
+                    "Artikel", "Umsatz in €", dataset, 
                     PlotOrientation.VERTICAL, true, true, true);
         return barChart;
     }
@@ -3798,7 +3799,8 @@ public class DataAccessObject {
         }
         
         //Diagramm erstellen.
-        pieChart = ChartFactory.createPieChart("Umsatz pro Artikelkategorie", 
+        pieChart = ChartFactory.createPieChart("Umsatz pro Artikelkategorie "
+                + "(Gesamt)", 
                 dataset, true, true, true);
         PiePlot plot = (PiePlot) pieChart.getPlot();
         plot.setLabelGenerator(
@@ -3829,13 +3831,13 @@ public class DataAccessObject {
             String artikel = (String) entr.getKey();
             Integer mng = (Integer) entr.getValue();
             dataset.setValue(mng, 
-                        "Menge", artikel);
+                        "Menge (Stück)", artikel);
         }
         
         //Diagramm erstellen.
         barChart = ChartFactory.createStackedBarChart("Verkaufsmenge "
-                + "pro Artikel",
-                    "Artikel", "Menge", dataset, 
+                + "pro Artikel (Gesamt)",
+                    "Artikel", "Menge (Stück)", dataset, 
                     PlotOrientation.VERTICAL, true, true, true);
         return barChart;
     }

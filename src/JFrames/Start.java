@@ -219,7 +219,6 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Hauptmenü");
-        setPreferredSize(new java.awt.Dimension(1400, 850));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
