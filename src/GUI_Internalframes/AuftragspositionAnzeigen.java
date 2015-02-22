@@ -779,6 +779,9 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /* 08.01.2015 Terrasi Anwendungslogik überarbeitet*/
     /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
+    /**
+     * Methode mit der das Internalframe im Anzeigenmodus dargestellt wird.
+     */
     public void setStatusAnzeigen() {
         this.setTitle("Auftragsposition anzeigen");// Setzen des Fenstertitels
         // Componenten werden auf Enabled gesetzt mit false oder true.
@@ -801,6 +804,10 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /* 17.01.2015 Terrasi angelegt und Dokumentation */
     /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
+    /**
+     * Methode mit der die ID der Position gesetzt wird.
+     * @param position, Auftragsposition 
+     */
     public void setAuftragspositionsID_jTextField(Auftragsposition position) {
         // ID von Position wird in Eingabefeld gesetzt.
         this.auftragskofID_jTextField.setText(String.valueOf(
@@ -812,6 +819,10 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /* 17.01.2015 Terrasi angelegt und Dokumentation */
     /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
+    /**
+     * Methode mit der der Einzelwert der Position gesetzt wird.
+     * @param position, Auftragsposition 
+     */
     public void setEinzelwert_jTextField(Auftragsposition position) {
         // Einzelwert der Position wird in das Eingabefeld gesetzt.
         this.einzelwert_jTextField.setText(String.valueOf(
@@ -823,6 +834,10 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /* 17.01.2015 Terrasi angelegt und Dokumentation */
     /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
+    /**
+     * Methode mit der das Erfassungsdatum der Position gesetzt wird.
+     * @param position, Auftragsposition 
+     */
     public void setErfassungsdatum_jTextField(Auftragsposition position) {
         // Datum der Position wird in das Eingabefeld gesetzt.
         this.erfassungsdatum_jTextField.setText(
@@ -834,6 +849,10 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /* 17.01.2015 Terrasi angelegt und Dokumentation */
     /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
+    /**
+     * Methode mit der die Materialnummer der Position gesetzt wird.
+     * @param position, Auftragsposition 
+     */
     public void setMaterialnummer_jTextField(Auftragsposition position) {
         // Artikel ID der Position wird in das Eingabefeld gesetzt.
         this.materialnummer_jTextField.setText(
@@ -845,6 +864,10 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /* 17.01.2015 Terrasi angelegt und Dokumentation */
     /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
+    /**
+     * Methode mit der die Menge der Position gesetzt wird.
+     * @param position, Auftragsposition 
+     */
     public void setMenge_jTextField(Auftragsposition position) {
         // Menge der Position wird in das Eingabefeld gesetzt.
         this.menge_jTextField.setText(String.valueOf(position.getMenge()));
@@ -855,6 +878,10 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     /* 17.01.2015 Terrasi angelegt und Dokumentation */
     /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
+    /**
+     * Methode mit der die Positionsnummer der Position gesetzt wird.
+     * @param position, Auftragsposition 
+     */
     public void setPositionsnummer_jTextField(Auftragsposition position) {
         // Positionsnummer der Position wird in das Eingabefeld gesetzt.
         this.positionsnummer_jTextField.setText(

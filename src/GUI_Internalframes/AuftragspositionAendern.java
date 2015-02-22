@@ -23,7 +23,8 @@ import javax.swing.JTextField;
 /* 08.01.2015 Terrasi, Überarbeitung der Anwendungslogik und das hinzufügen
  *  von weiteren Funktion sowie die Suche.*/
 /* 18.02.2015 Terrasi, getestet und freigegeben */
-public class AuftragspositionAendern extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
+public class AuftragspositionAendern extends javax.swing.JInternalFrame
+        implements InterfaceViewsFunctionality {
 
     // Speichervariablen
     Component c;
@@ -268,7 +269,7 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame implemen
      *
      */
     private void Weiter_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Weiter_jButtonActionPerformed
-
+        // Klassenvariable
         final String auftragspositionaendern = "Auftragsposition ändern Einstieg";
         // Überprfung, ob auch alle Eingaben getätigt worden sind.
         ueberpruefen();
