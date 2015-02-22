@@ -449,7 +449,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         });
         jToolBar1.add(Zurueck_jButton1);
 
-        Anzeige_jButton.setText("Anzeigen");
+        Anzeige_jButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/anzeigen.PNG"))); // NOI18N
         Anzeige_jButton.setFocusable(false);
         Anzeige_jButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         Anzeige_jButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -460,7 +460,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         });
         jToolBar1.add(Anzeige_jButton);
 
-        Auswaehlen_jButton.setText("Auswählen");
+        Auswaehlen_jButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/auswaehlen.PNG"))); // NOI18N
         Auswaehlen_jButton.setFocusable(false);
         Auswaehlen_jButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         Auswaehlen_jButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
