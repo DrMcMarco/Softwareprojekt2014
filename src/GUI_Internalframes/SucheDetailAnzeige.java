@@ -214,10 +214,10 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                 break;
             case "Auftragsposition":
                 //Setze Spaltennamen
-                dtm.addColumn("Artikelnummer");
-                dtm.addColumn("Artikelname");
                 dtm.addColumn("Auftragsnummer");
                 dtm.addColumn("Positionsnummer");
+                dtm.addColumn("Artikelnummer");
+                dtm.addColumn("Artikelname");
                 dtm.addColumn("Einzelwert");
                 dtm.addColumn("Menge");
                 dtm.addColumn("Erfassungsdatum");
@@ -227,11 +227,12 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                     //Caste nach Auftragsposition
                     Auftragsposition position = (Auftragsposition) o;
                     //Füge dem Model einen neuen Datensatz als Zeile hinzu
-                    dtm.addRow(new Object[] {position.getArtikel()
-                            .getArtikelID(),
+                    dtm.addRow(new Object[] {position.getAuftrag()
+                            .getAuftragskopfID(),
+                        position.getArtikel().getArtikelID(),
+                                position.getPositionsnummer(),
                                 position.getArtikel().getArtikeltext(), 
-                                position.getAuftrag().getAuftragskopfID(), 
-                                position.getPositionsnummer(), 
+                                  
                                 position.getEinzelwert(), 
                                 position.getMenge(),
                                 new SimpleDateFormat("dd.MM.yyyy").format(
@@ -672,10 +673,10 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
             this.position_jPanel1.setVisible(true);
             this.Positionanzeige_jTable2.setVisible(true);
             //Setze die Spaltennamen
-            dtm.addColumn("Artikelnummer");
-            dtm.addColumn("Artikelname");
-            dtm.addColumn("Auftragsnummer");
             dtm.addColumn("Positionsnummer");
+            dtm.addColumn("Artikelnummer");
+            dtm.addColumn("Auftragsnummer");
+            dtm.addColumn("Artikelname");
             dtm.addColumn("Einzelwert");
             dtm.addColumn("Menge");
             dtm.addColumn("Erfassungsdatum");
@@ -690,10 +691,10 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
             for (Auftragsposition position : ak.getPositionsliste()) {
                 
                 //Füge dem Tabellen-Modell einen Datensatz als Zeile hinzu
-                dtm.addRow(new Object[] {position.getArtikel().getArtikelID(),
-                    position.getArtikel().getArtikeltext(), 
+                dtm.addRow(new Object[] {position.getPositionsnummer(),
+                    position.getArtikel().getArtikelID(),
                     position.getAuftrag().getAuftragskopfID(),
-                    position.getPositionsnummer(), 
+                    position.getArtikel().getArtikeltext(), 
                     position.getEinzelwert(), position.getMenge(),
                     new SimpleDateFormat("dd.MM.yyyy").format(
                             position.getErfassungsdatum())});
