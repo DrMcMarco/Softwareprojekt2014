@@ -263,6 +263,12 @@ public abstract class Auftragskopf implements Serializable {
         }
         return ergebnis;
     }
+    
+    public ArrayList<Auftragsposition> getPositionslisteOhneLKZ() {
+       
+        return this.Positionsliste;
+        
+    }
 
     /**
      * Generiert
