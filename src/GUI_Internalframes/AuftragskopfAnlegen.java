@@ -1105,7 +1105,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                                         toString()));
                 // Falls Sofortauftrag ausgewählt wurde.
                 if (auftragsart_jComboBox.getSelectedItem().equals(SOFORTAUFTRAG)) {
-                    System.out.println("Sofort auftragsart");
                     //Aufruf der Zahlungskondition-Methode getLieferzeitSofort()
                     sperrzeit = zahlungskondition.getLieferzeitSofort();
 
@@ -1153,7 +1152,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
 //                            gibSkontoUndMahnzeiten(zahlungskondition, false);
 //
 //                        }
-                        gibSkontoUndMahnzeiten(zahlungskondition, false);
+                    gibSkontoUndMahnzeiten(zahlungskondition, false);
 //                    }
                 } else if (auftragsart_jComboBox.getSelectedItem().
                         equals(TERMINAUFTRAG)) {//Falls es ein terminauftrag ist.
@@ -1165,7 +1164,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                     berechnetesLieferdatum = calender.getTime();
 
 //                    if (gibMeldungaus) {
-
 //                        if (tagesformat.format(berechnetesLieferdatum).equals("So")
 //                                || tagesformat.format(berechnetesLieferdatum).
 //                                equals("Sa")) {
@@ -1195,12 +1193,16 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
 //                        gibSkontoUndMahnzeiten(zahlungskondition, false);
 //                        }
 //                    } else {
-                        // Methodenaufruf um Skonto-/Mahnzeit und neues
-                        // Lieferdatum anzeigen zu lassen
-                        gibSkontoUndMahnzeiten(zahlungskondition, true);
+                    // Methodenaufruf um Skonto-/Mahnzeit und neues
+                    // Lieferdatum anzeigen zu lassen
+                    gibSkontoUndMahnzeiten(zahlungskondition, true);
 //                    }
 
-                } else if (auftragsart_jComboBox.getSelectedItem().toString().
+                }
+
+//                
+//                else
+                if (auftragsart_jComboBox.getSelectedItem().toString().
                         equals(BESTELLAUFTRAG)) {
 
                     // Methodenaufruf um Skonto-/Mahnzeit und neues
@@ -1564,13 +1566,12 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                         auftragsText = auftragstext_jTextArea.getText();
                         geschaeftspartnerID = Long.parseLong(
                                 geschaeftspartner_jTextField.getText());
-                        
-                        
-                        
+
+                        lieferdatum = format.parse(lieferdatum_jFormattedTextField.getText());
                         if (tagesformat.format(
-                                lieferdatum_jFormattedTextField.getText()).equals("So")
+                                lieferdatum).equals("So")
                                 || tagesformat.format(
-                                lieferdatum_jFormattedTextField.getText()).
+                                        lieferdatum).
                                 equals("Sa")) {
 
                             //PopUp mit "JA/Nein"-Abfrage.
@@ -1593,161 +1594,286 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                                 lieferdatum_jFormattedTextField.
                                         requestFocusInWindow();
                             } else {// Falls bejaht wird
-                                
-                                
-//                            }
-//
-//                        } else { // Falls das Lieferdatum nicht auf ein Wochenende
-//                            // fällt.
-//
-//
-//                        }
-                        
-                        
-                        
 
-                        if (this.getTitle().equals("Auftragskopf anlegen")) {
+                                if (this.getTitle().equals("Auftragskopf anlegen")) {
 
-                            GUIFactory.getDAO().gibGeschaeftspartner(
-                                    Long.valueOf(geschaeftspartner_jTextField.getText()));
+                                    GUIFactory.getDAO().gibGeschaeftspartner(
+                                            Long.valueOf(geschaeftspartner_jTextField.getText()));
 
-                            if (auftragsart_jComboBox.getSelectedIndex() == 0) {
-                                // Ein Auftragskopfobjekt erzeugen
-                                GUIFactory.getDAO().erstelleAuftragskopf(typ,
-                                        artikel,
-                                        auftragsText, geschaeftspartnerID,
-                                        keineZK,
-                                        "erfasst", null, lieferdatum);
-                            } else {
-                                zahhlungskonditionID = Integer.parseInt(
-                                        zahlungskonditionen_jComboBox.
-                                        getSelectedItem().toString());
+                                    if (auftragsart_jComboBox.getSelectedIndex() == 0) {
 
-                                // Ein Auftragskopfobjekt erzeugen
-                                GUIFactory.getDAO().erstelleAuftragskopf(typ,
-                                        artikel,
-                                        auftragsText, geschaeftspartnerID,
-                                        zahhlungskonditionID,
-                                        "erfasst", null, lieferdatum);
-                            }
-                            this.hauptFenster.
-                                    setStatusMeldung(ERFOLGREICHEANMELDUNG);
-                            // Methode die bestimmte Eingabefelder leert
-                            zuruecksetzen();
-                        } else if (this.getTitle().equals("Auftragskopf ändern")) {
+                                        // Ein Auftragskopfobjekt erzeugen
+                                        GUIFactory.getDAO().erstelleAuftragskopf(typ,
+                                                artikel,
+                                                auftragsText, geschaeftspartnerID,
+                                                keineZK,
+                                                "erfasst", null, lieferdatum);
+                                    } else {
+                                        zahhlungskonditionID = Integer.parseInt(
+                                                zahlungskonditionen_jComboBox.
+                                                getSelectedItem().toString());
 
-                            dbAuftragspositionen = GUIFactory.getDAO().
-                                    gibAuftragspositionen(
-                                            kopf.getAuftragskopfID());
+                                        // Ein Auftragskopfobjekt erzeugen
+                                        GUIFactory.getDAO().erstelleAuftragskopf(typ,
+                                                artikel,
+                                                auftragsText, geschaeftspartnerID,
+                                                zahhlungskonditionID,
+                                                "erfasst", null, lieferdatum);
+                                    }
+                                    this.hauptFenster.
+                                            setStatusMeldung(ERFOLGREICHEANMELDUNG);
+                                    // Methode die bestimmte Eingabefelder leert
+                                    zuruecksetzen();
+                                } else if (this.getTitle().equals("Auftragskopf ändern")) {
 
-                            if (dbAuftragspositionen.size() == artikel.size()) {
+                                    dbAuftragspositionen = GUIFactory.getDAO().
+                                            gibAuftragspositionen(
+                                                    kopf.getAuftragskopfID());
 
-                                for (long artikelid : artikel.keySet()) {
+                                    if (dbAuftragspositionen.size() == artikel.size()) {
 
-                                    if (dbAuftragspositionen.
-                                            containsKey(artikelid)
-                                            && positionenSindGleich) {
-                                        if (dbAuftragspositionen.get(artikelid)
-                                                == artikel.get(artikelid)) {
-                                            positionenSindGleich = true;
-                                        } else {
-                                            positionenSindGleich = false;
+                                        for (long artikelid : artikel.keySet()) {
+
+                                            if (dbAuftragspositionen.
+                                                    containsKey(artikelid)
+                                                    && positionenSindGleich) {
+                                                if (dbAuftragspositionen.get(artikelid)
+                                                        == artikel.get(artikelid)) {
+                                                    positionenSindGleich = true;
+                                                } else {
+                                                    positionenSindGleich = false;
+                                                }
+                                            } else {
+                                                positionenSindGleich = false;
+
+                                            }
                                         }
                                     } else {
                                         positionenSindGleich = false;
-
                                     }
+
+                                    // Ermitteln welcher Auftragsstatus gewählt worden ist
+                                    ButtonModel bm = buttonGroup1.getSelection();
+                                    if (bm.getActionCommand().equals("Erfasst")) {
+                                        jetzigerStatus = "erfasst";
+                                    } else if (bm.getActionCommand().
+                                            equals("Freigegeben")) {
+                                        jetzigerStatus = "freigegeben";
+                                    } else {
+                                        jetzigerStatus = "abgeschlossen";
+                                    }
+
+                                    if (!(auftragsart_jComboBox.
+                                            getSelectedIndex() == 0)) {
+                                        jetzigeZahlungskonditionen
+                                                = zahlungskonditionen_jComboBox.
+                                                getSelectedItem().toString();
+                                    } else {
+                                        jetzigeZahlungskonditionen = "0";
+                                    }
+
+                                    if (!(dbGeschaeftspartnerID.equals(
+                                            geschaeftspartner_jTextField.getText())
+                                            && dbAuftragsart.equals(
+                                                    auftragsart_jComboBox.
+                                                    getSelectedItem().
+                                                    toString())
+                                            && dbZahlungskondition.
+                                            equals(jetzigeZahlungskonditionen)
+                                            && dbAuftragstext.
+                                            equals(auftragstext_jTextArea.
+                                                    getText())
+                                            && dbStatus.
+                                            equals(jetzigerStatus)
+                                            && dbLieferdatum.
+                                            equals(lieferdatum_jFormattedTextField.
+                                                    getText())
+                                            && dbAbschlussdatum.equals(
+                                                    abschlussdatum_jFormattedTextField.
+                                                    getText())
+                                            && positionenSindGleich == true)) {
+
+                                        int antwortAenderung = JOptionPane.showConfirmDialog(
+                                                rootPane, AENDERUNGVONDATEN_TEXT,
+                                                AENDERUNGVONDATEN_TITEL,
+                                                JOptionPane.YES_NO_OPTION,
+                                                JOptionPane.QUESTION_MESSAGE);
+
+                                        // Falls bejaht wird der Auftragskopf verändert 
+                                        // gespeichert.
+                                        if (antwortAenderung == JOptionPane.YES_OPTION) {
+
+                                            GUIFactory.getDAO().
+                                                    aendereAuftrag(Long.parseLong(
+                                                                    auftragskopfID_jTextField.
+                                                                    getText()),
+                                                            geschaeftspartnerID,
+                                                            Long.parseLong(
+                                                                    jetzigeZahlungskonditionen),
+                                                            artikel, auftragsText,
+                                                            jetzigerStatus, null, lieferdatum);
+
+                                            zuruecksetzen();
+
+                                            gespeichert = true;
+                                            jB_ZurueckActionPerformed(evt);
+                                            this.hauptFenster.
+                                                    setStatusMeldung(
+                                                            ERFOLGREICHGEAENDERT_TEXT);
+                                        } else {
+                                            gespeichert = false;
+                                        }
+
+                                    } else {
+
+                                        JOptionPane.showMessageDialog(null,
+                                                KEINEAENDERUNGEN_TEXT,
+                                                KEINEAENDERUNGEN_Titel,
+                                                JOptionPane.OK_OPTION);
+                                    }
+
                                 }
-                            } else {
-                                positionenSindGleich = false;
                             }
 
-                            // Ermitteln welcher Auftragsstatus gewählt worden ist
-                            ButtonModel bm = buttonGroup1.getSelection();
-                            if (bm.getActionCommand().equals("Erfasst")) {
-                                jetzigerStatus = "erfasst";
-                            } else if (bm.getActionCommand().
-                                    equals("Freigegeben")) {
-                                jetzigerStatus = "freigegeben";
-                            } else {
-                                jetzigerStatus = "abgeschlossen";
-                            }
+                        } else {
+                            if (this.getTitle().equals("Auftragskopf anlegen")) {
 
-                            if (!(auftragsart_jComboBox.
-                                    getSelectedIndex() == 0)) {
-                                jetzigeZahlungskonditionen
-                                        = zahlungskonditionen_jComboBox.
-                                        getSelectedItem().toString();
-                            } else {
-                                jetzigeZahlungskonditionen = "0";
-                            }
+                                GUIFactory.getDAO().gibGeschaeftspartner(
+                                        Long.valueOf(geschaeftspartner_jTextField.getText()));
 
-                            if (!(dbGeschaeftspartnerID.equals(
-                                    geschaeftspartner_jTextField.getText())
-                                    && dbAuftragsart.equals(
-                                            auftragsart_jComboBox.
-                                            getSelectedItem().
-                                            toString())
-                                    && dbZahlungskondition.
-                                    equals(jetzigeZahlungskonditionen)
-                                    && dbAuftragstext.
-                                    equals(auftragstext_jTextArea.
-                                            getText())
-                                    && dbStatus.
-                                    equals(jetzigerStatus)
-                                    && dbLieferdatum.
-                                    equals(lieferdatum_jFormattedTextField.
-                                            getText())
-                                    && dbAbschlussdatum.equals(
-                                            abschlussdatum_jFormattedTextField.
-                                            getText())
-                                    && positionenSindGleich == true)) {
+                                if (auftragsart_jComboBox.getSelectedIndex() == 0) {
 
-                                int antwortAenderung = JOptionPane.showConfirmDialog(
-                                        rootPane, AENDERUNGVONDATEN_TEXT,
-                                        AENDERUNGVONDATEN_TITEL,
-                                        JOptionPane.YES_NO_OPTION,
-                                        JOptionPane.QUESTION_MESSAGE);
+                                    // Ein Auftragskopfobjekt erzeugen
+                                    GUIFactory.getDAO().erstelleAuftragskopf(typ,
+                                            artikel,
+                                            auftragsText, geschaeftspartnerID,
+                                            keineZK,
+                                            "erfasst", null, lieferdatum);
+                                } else {
+                                    zahhlungskonditionID = Integer.parseInt(
+                                            zahlungskonditionen_jComboBox.
+                                            getSelectedItem().toString());
+
+                                    // Ein Auftragskopfobjekt erzeugen
+                                    GUIFactory.getDAO().erstelleAuftragskopf(typ,
+                                            artikel,
+                                            auftragsText, geschaeftspartnerID,
+                                            zahhlungskonditionID,
+                                            "erfasst", null, lieferdatum);
+                                }
+                                this.hauptFenster.
+                                        setStatusMeldung(ERFOLGREICHEANMELDUNG);
+                                // Methode die bestimmte Eingabefelder leert
+                                zuruecksetzen();
+                            } else if (this.getTitle().equals("Auftragskopf ändern")) {
+
+                                dbAuftragspositionen = GUIFactory.getDAO().
+                                        gibAuftragspositionen(
+                                                kopf.getAuftragskopfID());
+
+                                if (dbAuftragspositionen.size() == artikel.size()) {
+
+                                    for (long artikelid : artikel.keySet()) {
+
+                                        if (dbAuftragspositionen.
+                                                containsKey(artikelid)
+                                                && positionenSindGleich) {
+                                            if (dbAuftragspositionen.get(artikelid)
+                                                    == artikel.get(artikelid)) {
+                                                positionenSindGleich = true;
+                                            } else {
+                                                positionenSindGleich = false;
+                                            }
+                                        } else {
+                                            positionenSindGleich = false;
+
+                                        }
+                                    }
+                                } else {
+                                    positionenSindGleich = false;
+                                }
+
+                                // Ermitteln welcher Auftragsstatus gewählt worden ist
+                                ButtonModel bm = buttonGroup1.getSelection();
+                                if (bm.getActionCommand().equals("Erfasst")) {
+                                    jetzigerStatus = "erfasst";
+                                } else if (bm.getActionCommand().
+                                        equals("Freigegeben")) {
+                                    jetzigerStatus = "freigegeben";
+                                } else {
+                                    jetzigerStatus = "abgeschlossen";
+                                }
+
+                                if (!(auftragsart_jComboBox.
+                                        getSelectedIndex() == 0)) {
+                                    jetzigeZahlungskonditionen
+                                            = zahlungskonditionen_jComboBox.
+                                            getSelectedItem().toString();
+                                } else {
+                                    jetzigeZahlungskonditionen = "0";
+                                }
+
+                                if (!(dbGeschaeftspartnerID.equals(
+                                        geschaeftspartner_jTextField.getText())
+                                        && dbAuftragsart.equals(
+                                                auftragsart_jComboBox.
+                                                getSelectedItem().
+                                                toString())
+                                        && dbZahlungskondition.
+                                        equals(jetzigeZahlungskonditionen)
+                                        && dbAuftragstext.
+                                        equals(auftragstext_jTextArea.
+                                                getText())
+                                        && dbStatus.
+                                        equals(jetzigerStatus)
+                                        && dbLieferdatum.
+                                        equals(lieferdatum_jFormattedTextField.
+                                                getText())
+                                        && dbAbschlussdatum.equals(
+                                                abschlussdatum_jFormattedTextField.
+                                                getText())
+                                        && positionenSindGleich == true)) {
+
+                                    int antwortAenderung = JOptionPane.showConfirmDialog(
+                                            rootPane, AENDERUNGVONDATEN_TEXT,
+                                            AENDERUNGVONDATEN_TITEL,
+                                            JOptionPane.YES_NO_OPTION,
+                                            JOptionPane.QUESTION_MESSAGE);
 
                                 // Falls bejaht wird der Auftragskopf verändert 
-                                // gespeichert.
-                                if (antwortAenderung == JOptionPane.YES_OPTION) {
+                                    // gespeichert.
+                                    if (antwortAenderung == JOptionPane.YES_OPTION) {
 
-                                    GUIFactory.getDAO().
-                                            aendereAuftrag(Long.parseLong(
-                                                            auftragskopfID_jTextField.
-                                                            getText()),
-                                                    geschaeftspartnerID,
-                                                    Long.parseLong(
-                                                            jetzigeZahlungskonditionen),
-                                                    artikel, auftragsText,
-                                                    jetzigerStatus, null, lieferdatum);
+                                        GUIFactory.getDAO().
+                                                aendereAuftrag(Long.parseLong(
+                                                                auftragskopfID_jTextField.
+                                                                getText()),
+                                                        geschaeftspartnerID,
+                                                        Long.parseLong(
+                                                                jetzigeZahlungskonditionen),
+                                                        artikel, auftragsText,
+                                                        jetzigerStatus, null, lieferdatum);
 
-                                    zuruecksetzen();
+                                        zuruecksetzen();
 
-                                    gespeichert = true;
-                                    jB_ZurueckActionPerformed(evt);
-                                    this.hauptFenster.
-                                            setStatusMeldung(
-                                                    ERFOLGREICHGEAENDERT_TEXT);
+                                        gespeichert = true;
+                                        jB_ZurueckActionPerformed(evt);
+                                        this.hauptFenster.
+                                                setStatusMeldung(
+                                                        ERFOLGREICHGEAENDERT_TEXT);
+                                    } else {
+                                        gespeichert = false;
+                                    }
+
                                 } else {
-                                    gespeichert = false;
+
+                                    JOptionPane.showMessageDialog(null,
+                                            KEINEAENDERUNGEN_TEXT,
+                                            KEINEAENDERUNGEN_Titel,
+                                            JOptionPane.OK_OPTION);
                                 }
 
-                            } else {
-
-                                JOptionPane.showMessageDialog(null,
-                                        KEINEAENDERUNGEN_TEXT,
-                                        KEINEAENDERUNGEN_Titel,
-                                        JOptionPane.OK_OPTION);
                             }
-
-                        }
-                         }
-
-                        } else { // Falls das Lieferdatum nicht auf ein Wochenende
-                            // fällt.
-
 
                         }
                     } else {
@@ -1774,6 +1900,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                 }
             } catch (ApplicationException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(),
+                        FEHLERMELDUNG_TITEL, JOptionPane.ERROR_MESSAGE);
+            } catch (ParseException e) {
+                JOptionPane.showMessageDialog(null,
+                        FEHLERMELDUNG_UNGUELTIGESDATUM_TEXT,
                         FEHLERMELDUNG_TITEL, JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -2386,10 +2516,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
 //
 //                        lieferdatum = berechnetesLieferdatum;
 //                    }
-                
+
 //                }
                 lieferdatum = berechnetesLieferdatum;
-                
+
                 lieferdatum_jFormattedTextField.setText(
                         format.format(berechnetesLieferdatum));
                 lieferdatum_jFormattedTextField.setEnabled(true);
@@ -2407,7 +2537,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
             } else if ((auftragsart_jComboBox.
                     getSelectedItem().equals(SOFORTAUFTRAG))) {
                 System.out.println("Sofort");
-                
+
                 zahlungskondition = GUIFactory.getDAO().
                         gibZahlungskonditionNachId(Long.parseLong(
                                         zahlungskonditionen_jComboBox.
@@ -2444,7 +2574,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
 //                        lieferdatum = berechnetesLieferdatum;
 //                    }
 //                }
-
                 lieferdatum = berechnetesLieferdatum;
 
                 lieferdatum_jFormattedTextField.setText(
@@ -2461,30 +2590,29 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                         String.valueOf(zahlungskondition.getMahnzeit2()));
                 Mahnzeit3_jTextField.setText(
                         String.valueOf(zahlungskondition.getMahnzeit3()));
-            } 
-//            else if ((auftragsart_jComboBox.getSelectedItem().
-//                    equals(SOFORTAUFTRAG))) {
-//                zahlungskondition = GUIFactory.getDAO().
-//                        gibZahlungskonditionNachId(Long.parseLong(
-//                                        zahlungskonditionen_jComboBox.
-//                                        getSelectedItem().toString()));
-//
-//                lieferdatum = heute;
-//                lieferdatum_jFormattedTextField.setText(format.format(heute));
-//                lieferdatum_jFormattedTextField.setEnabled(true);
-//
-//                Skontozeit1_jTextField.setText(String.valueOf(
-//                        zahlungskondition.getSkontozeit1()));
-//                Skontozeit2_jTextField.setText(String.valueOf(
-//                        zahlungskondition.getSkontozeit2()));
-//                Mahnzeit1_jTextField.setText(String.valueOf(
-//                        zahlungskondition.getMahnzeit1()));
-//                Mahnzeit2_jTextField.setText(String.valueOf(
-//                        zahlungskondition.getMahnzeit2()));
-//                Mahnzeit3_jTextField.setText(String.valueOf(
-//                        zahlungskondition.getMahnzeit3()));
-//
-//            } 
+            } //            else if ((auftragsart_jComboBox.getSelectedItem().
+            //                    equals(SOFORTAUFTRAG))) {
+            //                zahlungskondition = GUIFactory.getDAO().
+            //                        gibZahlungskonditionNachId(Long.parseLong(
+            //                                        zahlungskonditionen_jComboBox.
+            //                                        getSelectedItem().toString()));
+            //
+            //                lieferdatum = heute;
+            //                lieferdatum_jFormattedTextField.setText(format.format(heute));
+            //                lieferdatum_jFormattedTextField.setEnabled(true);
+            //
+            //                Skontozeit1_jTextField.setText(String.valueOf(
+            //                        zahlungskondition.getSkontozeit1()));
+            //                Skontozeit2_jTextField.setText(String.valueOf(
+            //                        zahlungskondition.getSkontozeit2()));
+            //                Mahnzeit1_jTextField.setText(String.valueOf(
+            //                        zahlungskondition.getMahnzeit1()));
+            //                Mahnzeit2_jTextField.setText(String.valueOf(
+            //                        zahlungskondition.getMahnzeit2()));
+            //                Mahnzeit3_jTextField.setText(String.valueOf(
+            //                        zahlungskondition.getMahnzeit3()));
+            //
+            //            } 
             else {
                 lieferdatum = heute;
                 lieferdatum_jFormattedTextField.setText(format.format(heute));
