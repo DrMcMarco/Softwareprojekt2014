@@ -51,9 +51,10 @@ public  class  GUIFactory {
         return DAO;
     }
     
-      /**
-     * 
-     * @param dao 
+
+    /**
+     * Setzt die Instanz.
+     * @param dao dao objekt
      */
     public void setDAO(DataAccessObject dao){
         this.DAO = dao;

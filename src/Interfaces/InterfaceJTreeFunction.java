@@ -38,6 +38,7 @@ public interface InterfaceJTreeFunction {
     /**
      * Schnittstellenmethode setComponentVisible die verwendet werden soll
      * um einzelne Frames sichtbar zu machen.
-     */ 
+     * @param frame ein Fenster.
+     */
     public void setComponentVisible(JInternalFrame frame);
 }

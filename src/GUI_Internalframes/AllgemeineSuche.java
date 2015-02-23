@@ -67,7 +67,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
      * Konstruktor, Suchfenster wird erzeugt.
      *
      * @param factory, übergebene GuiFactory
-     * @param mainView
+     * @param mainView Interface
      */
     public AllgemeineSuche(GUIFactory factory, InterfaceMainView mainView) {
         initComponents();

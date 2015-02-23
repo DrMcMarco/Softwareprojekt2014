@@ -115,7 +115,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     
     
     /**
-     * Creates new form Start
+     * Erstellt Startadmin.
+     * @param login Login Klasse.
      */
     public StartAdmin(Login login) {
         initComponents();
@@ -1126,7 +1127,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     /**
      * Methode mit der eine übergebene Component angezeigt wird.
      *
-     * @param component
+     * @param component Setzende Komponente
      */
     @Override
     public void setFrame(Component component) {
@@ -1140,7 +1141,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     /**
      * Methode mit der man eine übergebene Component speichert.
      *
-     * @param component
+     * @param component Setzende Komponente
      */
     @Override
     public void setComponent(JInternalFrame component) {

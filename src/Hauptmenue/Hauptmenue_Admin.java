@@ -43,8 +43,8 @@ public class Hauptmenue_Admin extends javax.swing.JInternalFrame
      * in ein "StartAdmin"-Internalframe gecastet wird. Eine Fehlerbehandlung
      * findet statt, falls nicht gecastet werden kann.
      *
-     * @param factory
-     * @param frame
+     * @param factory die Gui Factory
+     * @param frame Komponente
      */
     public Hauptmenue_Admin(GUIFactory factory, Component frame) {
         initComponents();
