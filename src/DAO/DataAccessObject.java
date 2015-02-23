@@ -29,27 +29,18 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.DateFormat;
-
 import java.text.DateFormatSymbols;
-
-import java.text.ParseException;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import javax.persistence.*;
-import javax.persistence.metamodel.Attribute;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
@@ -57,14 +48,12 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.xy.XYSeries;
 
-import sun.rmi.transport.TransportConstants;
-
-import sun.rmi.transport.TransportConstants;
 /**
- *
- * @author Simon <Simon.Simon at your.org>
+ * Diese Klasse stellt die Verbindung zwischen der Datenbank und dem Rest des
+ * Programms her.
+ * Alle Datenbankzugriffe geschehen ausschließlich über diese Klasse
+ * @author Simon Schulz, Marco Loewe
  */
 public class DataAccessObject {
     
@@ -82,25 +71,36 @@ public class DataAccessObject {
      * Standartkonstruktor
      */
     public DataAccessObject() {
+        
+        //Erstellung des Entity-Managers
+        //Dadurch wird die Verbindung zur Datenbank hergestellt und bei
+        //Bedarf werden die Entities in Datenbanktabellen umgesetzt
         this.em = Persistence.createEntityManagerFactory(
             "Softwareprojekt2014PU").createEntityManager();
         
         try {
             
+            //Versuche den letzten Programmstart zu ermitteln
             Steuertabelle st = this.gibSteuerparameter("Letzter Programmstart");
             
+            //Wenn das Programm noch nie gestarten wurde...
             if (st == null) {
+                
+                //...soll ein Startskript ausgeführt werden das die Datenbank
+                //mit einigen Einträge füllt die für einen ordnungsgemäßen 
+                //Betrieb notwendig sind
                 String currentDir = System.getProperty("user.dir");
                 currentDir = "\""+currentDir+"\"";
                 System.out.println(currentDir);
                 Runtime.getRuntime().exec("cmd.exe /C start /B fillDatabase.bat");
+                
             }
             
+            //Erstelle bzw. überschreibe den Eintrag "Letztes Programmstart"
             this.erstelleSteuereintrag("Letzter Programmstart", new Date().toString());
-        } catch (ApplicationException e) {
-            System.out.println(e.getMessage());
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+            
+        } catch (ApplicationException | IOException e) {
+            
         }
     }
     
@@ -173,17 +173,18 @@ public class DataAccessObject {
     /**
      * Methode zur Erzeugung eines Artikels.
      *
-     * @param kategorie
-     * @param artikeltext
-     * @param bestelltext
-     * @param verkaufswert
-     * @param einkaufswert
-     * @param MwST
-     * @param Frei
-     * @param Reserviert
-     * @param Zulauf
-     * @param Verkauft
-     * @throws DAO.ApplicationException Die Exception wird durchgereicht
+     * @param kategorie String für die Kategorie des Artikels
+     * @param artikeltext Name des Artikels
+     * @param bestelltext Zusätzlicher Text für die Bestellung
+     * @param verkaufswert Der Preis für den der Artikel verkauft wird
+     * @param einkaufswert Der Preis für den der Artikel eingekauft wird
+     * @param MwST Mehrwertsteuersatz des Artikels (in Prozent)
+     * @param Frei Menge an freiem Bestand
+     * @param Reserviert Menge an reserviertem Bestand
+     * @param Zulauf Menge an eingekauften aber noch nicht geliefertem Bestand
+     * @param Verkauft Menge an verkauften Bestand
+     * @throws ApplicationException wenn keine Kategorie übergeben wurde oder
+     *                              der Artikel nicht erstellt werden kann
      */
     public void erstelleArtikel(String kategorie, String artikeltext, 
         String bestelltext, double verkaufswert, double einkaufswert,
@@ -628,20 +629,21 @@ public class DataAccessObject {
     /**
      * Methode zur Erzeugung einer Anschrift
      * @param Typ Art der Anschrift (Rechnungs-/Lieferanschrift)
-     * @param Name
-     * @param Vorname
-     * @param Titel
-     * @param Strasse
-     * @param Hausnummer
-     * @param PLZ
-     * @param Ort
-     * @param Staat
-     * @param Telefon
-     * @param Fax
-     * @param Email
-     * @param Geburtsdatum
+     * @param Name Nachname des Geschäftspartners
+     * @param Vorname Vorname des Geschäftspartners
+     * @param Titel Anrede des Geschäftspartners
+     * @param Strasse Straße
+     * @param Hausnummer Hausnummer
+     * @param PLZ Postleitzahl
+     * @param Ort Wohnort
+     * @param Staat Staat
+     * @param Telefon Telefonnummer
+     * @param Fax Fasnummer
+     * @param Email Emailadresse
+     * @param Geburtsdatum Geburtsdatum
      * @return anschrift Erzeugtes Objekt vom Typ Anschrift
-     * @throws ApplicationException 
+     * @throws ApplicationException wenn der Anschriftstyp nicht existiert oder
+     *                              die Anschrift nicht erstellt werden konnte
      */
     public Anschrift erstelleAnschrift(String Typ, String Name, String Vorname,
             String Titel, String Strasse, String Hausnummer, String PLZ,
@@ -691,18 +693,20 @@ public class DataAccessObject {
     /* 30.01.15   loe     Fehlerbehandlung                      */
     /*----------------------------------------------------------*/
     /**
-     * 
-     * @param Auftragsart
-     * @param LieferzeitSofort
-     * @param SperrzeitWunsch
-     * @param Skontozeit1
-     * @param Skontozeit2
-     * @param Skonto1
-     * @param Skonto2
-     * @param Mahnzeit1
-     * @param Mahnzeit2
-     * @param Mahnzeit3
-     * @throws ApplicationException 
+     * Methode zur Erstellung von Zahlungskonditionen.
+     * @param Auftragsart Art des Auftrags (Bar-/Sofort-/Termin-/Bestellauftrag)
+     * @param LieferzeitSofort Zeit in Tagen bis ein Sofortauftrag geliefert wird
+     * @param SperrzeitWunsch Zeit in Tagen bis ein Terminauftrag geliefert werden kann
+     * @param Skontozeit1 Zeit in Tagen wielange Skonto1 gültig ist
+     * @param Skontozeit2 Zeit in Tagen wielange Skonto2 gültig ist
+     * @param Skonto1 Skonto1 in Prozent
+     * @param Skonto2 Skonto2 in Prozent
+     * @param Mahnzeit1 Zeit in Tagen bis die erste Mahnung verschickt wird
+     * @param Mahnzeit2 Zeit in Tagen bis die zweite Mahnung verschickt wird
+     * @param Mahnzeit3 Zeit in Tagen bis die dritte Mahnung verschickt wird
+     * @throws ApplicationException wenn die Auftragsart ungültig ist oder die
+     *                              die Zahlungskondition nicht erstellt werden
+     *                              konnte
      */
     public void erstelleZahlungskondition(String Auftragsart, 
             int LieferzeitSofort, int SperrzeitWunsch, int Skontozeit1,
@@ -779,9 +783,9 @@ public class DataAccessObject {
      * Methode zur Erzeugung von Geschäftspartnern
      * Es muss zuerst eine Anschrift geholt oder angelegt werden
      * @param Typ Typ des Geschäftspartners(Kunde, Lieferant)
-     * @param Lieferadresse
-     * @param Rechnungsadresse
-     * @param Kreditlimit
+     * @param Lieferadresse Anschrift an die geliefert werden soll
+     * @param Rechnungsadresse Anschrift an die die Rechnung geschickt werden soll
+     * @param Kreditlimit Kreditlimit des Geschäftspartners
      * @throws ApplicationException 
      */
     public void erstelleGeschaeftspartner(String Typ, Anschrift Lieferadresse, 
@@ -2316,7 +2320,7 @@ public class DataAccessObject {
      * Gibt den Datentyp eines Attributs zurück.
      * @param attribut Das Attribut.
      * @param tabelle Die Tabelle
-     * @return Datentyp.
+     * @return Datentyp Der Datentyp eines Suchattributes
      * @throws DAO.ApplicationException Fehler bei pu.
      */
     public String gibDatentypVonSuchAttribut(String attribut, String tabelle) 
@@ -2377,12 +2381,10 @@ public class DataAccessObject {
     /* 11.11.14 sch angelegt                                    */
     /*----------------------------------------------------------*/
     /**
-     * 
-     * @return
-     * @throws ApplicationException 
+     * Diese Methode gibt alle Kategorien zurück.
+     * @return eine Collection mit allen Kategorien
      */
-    public Collection<Artikelkategorie> gibAlleKategorien() 
-            throws ApplicationException {
+    public Collection<Artikelkategorie> gibAlleKategorien() {
 
         List<Artikelkategorie> ergebnis = this.em.createQuery("SELECT ST FROM Artikelkategorie ST", 
                 Artikelkategorie.class).getResultList();
@@ -2403,9 +2405,10 @@ public class DataAccessObject {
     /*----------------------------------------------------------*/
     /**
      *  TO-DO :  Query "SELECT ST FROM Artikelkategorie ST WHERE ST.Kategoriename = 'a'" selected no result, but expected unique result.
-     * @param name
-     * @return
-     * @throws ApplicationException
+     * @param name Name der Kategorie
+     * @return Die Kategorie als Objekt
+     * @throws ApplicationException Wenn kein Name übergeben wurde oder die
+     *                              Kategorie nicht gefunden werden kann
      */
     public Artikelkategorie gibKategorie(String name)
         throws ApplicationException {
@@ -2537,7 +2540,8 @@ public class DataAccessObject {
      * Sucht den Status anhand des Namens in der Datenbank
      * @param name Name des Status
      * @return die persistente Abbildung des Status
-     * @throws ApplicationException 
+     * @throws ApplicationException Wenn kein Name übergeben wurde oder der 
+     *                              Status nicht gefunden werden kann
      */
     public Status gibStatusPerName(String name) throws ApplicationException {
         
@@ -2908,7 +2912,8 @@ public class DataAccessObject {
     /**
      * Gibt alle Aufträge der letzten sechs Monate zurück.
      * Wird für die Statistik benutzt.
-     * @return eine Collection aller Aufträge der letzten sechs Monate
+     * @param datum Datum aus dessen Monat der Umsatz zurückgegben werden soll
+     * @return Umsatz für den Monat des übergebenen Datums
      */
     public double gibUmsatzProMonat(Date datum) {
         java.sql.Date datumSql = new java.sql.Date(datum.getTime());
@@ -3104,7 +3109,8 @@ public class DataAccessObject {
         //enthalten, deren Aufträge im Status erstellt bzw. freigegeben ist und
         //die nicht schon "gelöscht" sind
         Query query = em.createQuery("select ap from Auftragskopf ak, "
-                + "in(ak.Positionsliste) ap where ap.Artikel.ArtikelId = :artikelnummer")
+                + "in(ak.Positionsliste) ap where ak.Status.Status not like 'abgeschlossen' "
+                + "and ap.Artikel.ArtikelId = :artikelnummer")
                 .setParameter("artikelnummer", Artikelnummer);
         
         List<Auftragsposition> ergebnis = (List<Auftragsposition>) query.getResultList();
@@ -3198,7 +3204,8 @@ public class DataAccessObject {
         //Selektiere alle Aufträge die den Geschäftspartner enthalten und noch
         //noch nicht gelöscht sind
         Query query = em.createQuery("select ak from Auftragskopf ak "
-                + "where ak.Geschaeftspartner.GeschaeftspartnerID = :gpid")
+                + "where ak.Status.Status not like 'abgeschlossen' "
+                + "and ak.Geschaeftspartner.GeschaeftspartnerID = :gpid")
                 .setParameter("gpid", GeschaeftspartnerID);
         
         List<Auftragskopf> ergebnis = (List<Auftragskopf>) query.getResultList();
@@ -3387,7 +3394,8 @@ public class DataAccessObject {
         //Selektiere alle Aufträge die diese Zahlungskondition enthalten und
         //noch nicht gelöscht sind
         Query query = em.createQuery("select ak from Auftragskopf ak "
-                + "where ak.Zahlungskondition.ZahlungskonditionID = :zk")
+                + "where ak.Status.Status not like 'abgeschlosssen' "
+                + "and ak.Zahlungskondition.ZahlungskonditionID = :zk")
                 .setParameter("zk", ZahlungskonditionsID);
         
         List<Auftragskopf> ergebnis = (List<Auftragskopf>) query.getResultList();
