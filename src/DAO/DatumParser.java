@@ -16,7 +16,8 @@ import java.util.Date;
 /*----------------------------------------------------------*/
 /**
  *
- * @author Simon <Simon.Simon at your.org>
+ * @author Simon Schulz
+ * @version 1.0
  */
 public class DatumParser {
     

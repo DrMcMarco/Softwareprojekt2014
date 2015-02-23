@@ -11,8 +11,12 @@ import java.util.Objects;
 import javax.persistence.*;
 
 /**
- *
- * @author Marco
+ * Entitätsklasse für Anschriften.
+ * - Oberklasse für Liefer-/Rechnungsanschrift
+ * - In der Spalte "Typ" wird die Art der Anschrift angegeben
+ * - Enthält neben der Anschrift auch Informationen des Geschäftspartners
+ * @author Marco Loewe
+ * @version 1.0
  */
 
 @Entity
@@ -21,25 +25,79 @@ import javax.persistence.*;
 @Table(name = "Anschrift")
 public abstract class Anschrift implements Serializable {
     
+    /**
+     * ID der Anschrift, wird generiert.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long AnschriftID;
     
+    /**
+    * Nachname des Geschäftspartners.
+    */
     private String Name;
+    
+    /**
+     * Vorname des Geschäftspartners.
+     */
     private String Vorname;
+    
+    /**
+     * Anrede des Geschäftspartners.
+     */
     private String Titel;
+    
+    /**
+     * Straßenname für die Anschrift.
+     */
     private String Strasse;
+    
+    /**
+     * Hausnummer des Anschrift.
+     */
     private String Hausnummer;
+    
+    /**
+     * Postleitzahl der Anschrift.
+     */
     private String PLZ;
+    
+    /**
+     * Ort der Anschrift.
+     */
     private String Ort;
+    
+    /**
+     * Staat für die Anschrift.
+     */
     private String Staat;
+    
+    /**
+     * Telefonnummer des Geschäftspartners.
+     */
     private String Telefon;
+    
+    /**
+     * Faxnummer des Geschäftspartners.
+     */
     private String FAX;
+    
+    /**
+     * Emailadresse des Geschäftspartners.
+     */
     private String Email;
     
+    /**
+     * Geburtsdatum des Geschäftspartner, muss für die Datenbank als Datum 
+     * markiert werden.
+     */
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date Geburtsdatum;
     
+    /**
+     * Erfassungsdatun des Geschäftspartner, muss für die Datenbank als Datum 
+     * markiert werden.
+     */
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date Erfassungsdatum;
     

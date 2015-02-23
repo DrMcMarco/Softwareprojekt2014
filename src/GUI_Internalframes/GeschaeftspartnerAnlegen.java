@@ -180,20 +180,20 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         nf.setMinimumFractionDigits(2);
         nf.setMaximumFractionDigits(2);
 //      Documente der Textfelder werden gesetzt
-        jTF_Name.setDocument(new UniversalDocument(" &/-.´", true));
-        jTF_Vorname.setDocument(new UniversalDocument(" &/-.´", true));
-        jTF_Telefon.setDocument(new UniversalDocument("0123456789/-+", false));
-        jTF_Fax.setDocument(new UniversalDocument("0123456789/-+", false));
-        jTF_EMail.setDocument(new UniversalDocument("0123456789@-_.", true));
-        jTF_Kreditlimit.setDocument(new UniversalDocument("0123456789.,", false));
-        jTF_StrasseRechnungsanschrift.setDocument(new UniversalDocument("-.´ ", true));
-        jTF_StrasseLieferanschrift.setDocument(new UniversalDocument("-.´ ", true));
+        jTF_Name.setDocument(new UniversalDocument(" &/-.´", true, 30));
+        jTF_Vorname.setDocument(new UniversalDocument(" &/-.´", true, 30));
+        jTF_Telefon.setDocument(new UniversalDocument("0123456789/-+", false, 12));
+        jTF_Fax.setDocument(new UniversalDocument("0123456789/-+", false, 12));
+        jTF_EMail.setDocument(new UniversalDocument("0123456789@-_.", true, 30));
+        jTF_Kreditlimit.setDocument(new UniversalDocument("0123456789.,", false, 20));
+        jTF_StrasseRechnungsanschrift.setDocument(new UniversalDocument("-.´ ", true, 30));
+        jTF_StrasseLieferanschrift.setDocument(new UniversalDocument("-.´ ", true, 30));
         jTF_HausnummerRechnungsanschrift.setDocument(new UniversalDocument("0123456789", true, 4));
         jTF_HausnummerLieferanschrift.setDocument(new UniversalDocument("0123456789", true, 4));
         jTF_PLZRechnungsanschrift.setDocument(new UniversalDocument("0123456789", false, 5));
         jTF_PLZLieferanschrift.setDocument(new UniversalDocument("0123456789", false, 5));
-        jTF_OrtRechnungsanschrift.setDocument(new UniversalDocument("-", true));
-        jTF_OrtLieferanschrift.setDocument(new UniversalDocument("-", true));
+        jTF_OrtRechnungsanschrift.setDocument(new UniversalDocument("-", true, 30));
+        jTF_OrtLieferanschrift.setDocument(new UniversalDocument("-", true, 30));
 //      Aktuelles Datum wird geholt
         GregorianCalendar aktuellesDaum = new GregorianCalendar();
         DateFormat df_aktuellesDatum = DateFormat.getDateInstance(DateFormat.MEDIUM);    //05.12.2014     

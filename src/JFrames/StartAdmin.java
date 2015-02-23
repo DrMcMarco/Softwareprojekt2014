@@ -226,11 +226,11 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         jMI_ZKAnlegen = new javax.swing.JMenuItem();
         jMI_ZKAEndern = new javax.swing.JMenuItem();
         jMI_ZKAnzeigen = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
+        jM_BenutzerVerwalten = new javax.swing.JMenu();
         jMI_BenutzerAnlegen = new javax.swing.JMenuItem();
         jMI_BenutzerÄndern = new javax.swing.JMenuItem();
         jMI_BenutzerAnzeigen = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        jM_Statistik = new javax.swing.JMenu();
         umsatz_mn = new javax.swing.JMenuItem();
         umsatz_einkauf_mn = new javax.swing.JMenuItem();
         artikel_absatz_mn = new javax.swing.JMenuItem();
@@ -242,7 +242,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         jMI_Benutzerhandbuch = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("HauptmenüAdmin");
+        setTitle("Hauptmenü Admin");
         setPreferredSize(new java.awt.Dimension(1400, 850));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -323,6 +323,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         jM_ArtikelVerwalten.setText("Artikel verwalten");
         jM_ArtikelVerwalten.setActionCommand("JMenu1");
 
+        jMI_ArtikelAnlegen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMI_ArtikelAnlegen.setText("Anlegen");
         jMI_ArtikelAnlegen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -331,6 +332,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         });
         jM_ArtikelVerwalten.add(jMI_ArtikelAnlegen);
 
+        jMI_ArtikelAEndern.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMI_ArtikelAEndern.setText("Ändern");
         jMI_ArtikelAEndern.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -339,6 +341,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         });
         jM_ArtikelVerwalten.add(jMI_ArtikelAEndern);
 
+        jMI_ArtikelAnzeigen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMI_ArtikelAnzeigen.setText("Anzeigen");
         jMI_ArtikelAnzeigen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -352,6 +355,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         jM_GPVerwalten.setText("Geschäftspartner verwalten");
         jM_GPVerwalten.setActionCommand("JMenu1");
 
+        jMI_GPAnlegen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMI_GPAnlegen.setText("Anlegen");
         jMI_GPAnlegen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -360,6 +364,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         });
         jM_GPVerwalten.add(jMI_GPAnlegen);
 
+        jMI_GPAEndern.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMI_GPAEndern.setText("Ändern");
         jMI_GPAEndern.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -368,6 +373,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         });
         jM_GPVerwalten.add(jMI_GPAEndern);
 
+        jMI_GPAnzeigen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_J, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMI_GPAnzeigen.setText("Anzeigen");
         jMI_GPAnzeigen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -381,7 +387,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         jM_ZKVerwalten.setText("Zahlungskonditionen verwalten");
         jM_ZKVerwalten.setActionCommand("JMenu1");
 
-        jMI_ZKAnlegen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
+        jMI_ZKAnlegen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMI_ZKAnlegen.setText("Anlegen");
         jMI_ZKAnlegen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -390,6 +396,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         });
         jM_ZKVerwalten.add(jMI_ZKAnlegen);
 
+        jMI_ZKAEndern.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMI_ZKAEndern.setText("Ändern");
         jMI_ZKAEndern.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -398,6 +405,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         });
         jM_ZKVerwalten.add(jMI_ZKAEndern);
 
+        jMI_ZKAnzeigen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMI_ZKAnzeigen.setText("Anzeigen");
         jMI_ZKAnzeigen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -408,38 +416,40 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
 
         jM_Navigation.add(jM_ZKVerwalten);
 
-        jMenu1.setText("Benutzer verwalten");
+        jM_BenutzerVerwalten.setText("Benutzer verwalten");
 
-        jMI_BenutzerAnlegen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
+        jMI_BenutzerAnlegen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMI_BenutzerAnlegen.setText("Anlegen");
         jMI_BenutzerAnlegen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMI_BenutzerAnlegenActionPerformed(evt);
             }
         });
-        jMenu1.add(jMI_BenutzerAnlegen);
+        jM_BenutzerVerwalten.add(jMI_BenutzerAnlegen);
 
+        jMI_BenutzerÄndern.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMI_BenutzerÄndern.setText("Ändern");
         jMI_BenutzerÄndern.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMI_BenutzerÄndernActionPerformed(evt);
             }
         });
-        jMenu1.add(jMI_BenutzerÄndern);
+        jM_BenutzerVerwalten.add(jMI_BenutzerÄndern);
 
+        jMI_BenutzerAnzeigen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMI_BenutzerAnzeigen.setText("Anzeigen");
         jMI_BenutzerAnzeigen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMI_BenutzerAnzeigenActionPerformed(evt);
             }
         });
-        jMenu1.add(jMI_BenutzerAnzeigen);
+        jM_BenutzerVerwalten.add(jMI_BenutzerAnzeigen);
 
-        jM_Navigation.add(jMenu1);
+        jM_Navigation.add(jM_BenutzerVerwalten);
 
         menuBar.add(jM_Navigation);
 
-        jMenu2.setText("Statistik");
+        jM_Statistik.setText("Statistik");
 
         umsatz_mn.setText("Gesamt Umsatz");
         umsatz_mn.addActionListener(new java.awt.event.ActionListener() {
@@ -447,7 +457,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
                 umsatz_mnActionPerformed(evt);
             }
         });
-        jMenu2.add(umsatz_mn);
+        jM_Statistik.add(umsatz_mn);
 
         umsatz_einkauf_mn.setText("Umsatz-Einkauf Vergleich");
         umsatz_einkauf_mn.addActionListener(new java.awt.event.ActionListener() {
@@ -455,7 +465,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
                 umsatz_einkauf_mnActionPerformed(evt);
             }
         });
-        jMenu2.add(umsatz_einkauf_mn);
+        jM_Statistik.add(umsatz_einkauf_mn);
 
         artikel_absatz_mn.setText("Artikel Umsatz");
         artikel_absatz_mn.addActionListener(new java.awt.event.ActionListener() {
@@ -463,7 +473,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
                 artikel_absatz_mnActionPerformed(evt);
             }
         });
-        jMenu2.add(artikel_absatz_mn);
+        jM_Statistik.add(artikel_absatz_mn);
 
         artikel_verkauft_mn.setText("Artikel Verkaufsmenge");
         artikel_verkauft_mn.addActionListener(new java.awt.event.ActionListener() {
@@ -471,7 +481,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
                 artikel_verkauft_mnActionPerformed(evt);
             }
         });
-        jMenu2.add(artikel_verkauft_mn);
+        jM_Statistik.add(artikel_verkauft_mn);
 
         kat_umsatz_mn.setText("Kategorie Umsatz");
         kat_umsatz_mn.addActionListener(new java.awt.event.ActionListener() {
@@ -479,9 +489,9 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
                 kat_umsatz_mnActionPerformed(evt);
             }
         });
-        jMenu2.add(kat_umsatz_mn);
+        jM_Statistik.add(kat_umsatz_mn);
 
-        menuBar.add(jMenu2);
+        menuBar.add(jM_Statistik);
 
         jM_Logout.setText("Logout");
         jM_Logout.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
@@ -1380,13 +1390,13 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     private javax.swing.JMenu jM_AuftragVerwalten;
     private javax.swing.JMenu jM_Auftragskopf;
     private javax.swing.JMenu jM_Auftragspos;
+    private javax.swing.JMenu jM_BenutzerVerwalten;
     private javax.swing.JMenu jM_GPVerwalten;
     private javax.swing.JMenu jM_Hilfe;
     private javax.swing.JMenu jM_Logout;
     private javax.swing.JMenu jM_Navigation;
+    private javax.swing.JMenu jM_Statistik;
     private javax.swing.JMenu jM_ZKVerwalten;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuItem kat_umsatz_mn;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JTextField statusMeldung_jTextField;
