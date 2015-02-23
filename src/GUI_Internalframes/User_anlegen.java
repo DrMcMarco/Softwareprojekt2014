@@ -726,6 +726,7 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
                 this.hauptFenster.setStatusMeldung(ERFOLGREICHBENUTZERGELOESCHT);
                 // Eingabefeld ist leer nachdem man den User gelöscht hat.
                 this.benutzername_jTextField.setText("");
+                zurueckInsHauptmenue();
             }
         } catch (ApplicationException e) {// Fehlerbehandlung.
             // Fehlermeldung als PopUp

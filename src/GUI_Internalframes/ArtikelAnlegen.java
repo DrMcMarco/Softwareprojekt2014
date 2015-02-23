@@ -145,10 +145,10 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         nf.setMinimumFractionDigits(2);
         nf.setMaximumFractionDigits(2);
 //        Documente werden gesetzt
-        jTF_Artikelname.setDocument(new UniversalDocument("0123456789-.´+_=/&!'§%()[]{}? ", true));
-        jTF_Einzelwert.setDocument(new UniversalDocument("0123456789.,", false));
-        jTF_Bestellwert.setDocument(new UniversalDocument("0123456789.,", false));
-        jTF_Bestandsmenge_FREI.setDocument(new UniversalDocument("0123456789", false));
+        jTF_Artikelname.setDocument(new UniversalDocument("0123456789-.´+_=/&!'§%()[]{}? ", true, 30));
+        jTF_Einzelwert.setDocument(new UniversalDocument("0123456789.,", false, 20));
+        jTF_Bestellwert.setDocument(new UniversalDocument("0123456789.,", false, 20));
+//        jTF_Bestandsmenge_FREI.setDocument(new UniversalDocument("0123456789", false));
     }
 
 
@@ -177,7 +177,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
             }
 //            alle Kategorien geladen, also wird die Combobox gesetzt
             jCB_Kategorie.setModel(new DefaultComboBoxModel(kategorienFuerCombobox.toArray()));
-        } catch (ApplicationException | NullPointerException ex) {
+        } catch (NullPointerException ex) {
             System.out.println("Fehler beim Laden der Kategorien " + ex.getMessage());
         }
     }
@@ -451,7 +451,6 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         jTB_Menueleiste.setEnabled(false);
 
         jB_Zurueck.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Home2.PNG"))); // NOI18N
-        jB_Zurueck.setToolTipText("");
         jB_Zurueck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_ZurueckActionPerformed(evt);

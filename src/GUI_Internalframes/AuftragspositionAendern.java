@@ -298,8 +298,8 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
                     // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
                     if (!(aKopf.getStatus().getStatus().
                             equals("abgeschlossen"))) {//Status des Auftrags 
-                        // Setzt das Internalframe in den Anzeigenmodus.
-                        this.auftragspositionAnzeigen.setStatusAnzeigen();
+                        // Setzt das Internalframe in den Ändernmodus.
+                        this.auftragspositionAnzeigen.setStatusAender();
                         //Methode die bestimmte Eingabefelder leert
                         zuruecksetzen();
                         this.auftragspositionAnzeigen.setzeEingaben(position);

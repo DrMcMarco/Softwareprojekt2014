@@ -53,8 +53,8 @@
               <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="BenutzerID_jLabel" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
-                  <Component id="BenutzerID_jTextField" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
-                  <Component id="Weiter_jButton" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
+                  <Component id="BenutzerID_jTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="Weiter_jButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="141" max="32767" attributes="0"/>
           </Group>
@@ -112,6 +112,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/GUI_Internalframes/Suche.PNG"/>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -129,7 +130,7 @@
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="BenutzerID_jTextField"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Benutzer-ID :"/>
+        <Property name="text" type="java.lang.String" value="Benutzername :"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>

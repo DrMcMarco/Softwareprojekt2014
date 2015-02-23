@@ -270,59 +270,66 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
         Auftragskopf aKopf;// Variable für einen Auftragskopf.
 
         try {// Try-Block
+            // Wird geprüft ob eine Eingabe getätigt worden ist.
+            if (!(auftragskopfID_jTextField.getText().equals(""))) {
 
             // Initialisieirung eines Auftragskopfes mit der DAO-Methode
-            // "gibAuftragskopf".
-            aKopf = GUIFactory.getDAO().
-                    gibAuftragskopf(
-                            Long.parseLong(auftragskopfID_jTextField.getText()));
+                // "gibAuftragskopf".
+                aKopf = GUIFactory.getDAO().
+                        gibAuftragskopf(
+                                Long.parseLong(auftragskopfID_jTextField.getText()));
 
             // Überprüft anhand des Framestitels, ob es das nächste Fenster
-            // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
-            if (this.getTitle().equals(auftragskopfAendern)) {
-                if (aKopf != null) {// Falls Auftragskopf vorhanden ist.
-                    if (!(aKopf.getStatus().getStatus().
-                            equals("abgeschlossen"))) {//Status des Auftrags 
-                        // ist nicht "Abgeschlossen".
-                        // Maske AuftragsKopfAnlegen zurücksetzen
-                        this.auftragskopfAnlegen.zuruecksetzen();
-                        // Setzt das Internalframe in den Ändernmodus.
-                        this.auftragskopfAnlegen.setStatusAender();
-                        //Übergabe des Auftrags an die AuftragskopfAnlege Maske.
-                        this.auftragskopfAnlegen.
-                                setzeEingabe(aKopf);
-                        // Methode die bestimmte Eingabefelder leert
-                        zuruecksetzen();
-                        // Fenster wird nicht mehr sichtbar gemacht.
-                        this.setVisible(false);
-                        // Hauptfenster macht übergebene Maske sichtbar.
-                        this.hauptFenster.setFrame(this.auftragskopfAnlegen);
-                    } else {
-                        // Fehlermeldung als PopUp
-                        JOptionPane.showMessageDialog(null,
-                                FEHLERMMELDUNG_STATUSABGESCHLOSSEN_TEXT,
-                                FEHLERMELDUNG_STATUS_TITEL,
-                                JOptionPane.WARNING_MESSAGE);
-                    }
+                // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
+                if (this.getTitle().equals(auftragskopfAendern)) {
+                    if (aKopf != null) {// Falls Auftragskopf vorhanden ist.
+                        if (!(aKopf.getStatus().getStatus().
+                                equals("abgeschlossen"))) {//Status des Auftrags 
+                            // ist nicht "Abgeschlossen".
+                            // Maske AuftragsKopfAnlegen zurücksetzen
+                            this.auftragskopfAnlegen.zuruecksetzen();
+                            // Setzt das Internalframe in den Ändernmodus.
+                            this.auftragskopfAnlegen.setStatusAender();
+                            //Übergabe des Auftrags an die AuftragskopfAnlege Maske.
+                            this.auftragskopfAnlegen.
+                                    setzeEingabe(aKopf);
+                            // Methode die bestimmte Eingabefelder leert
+                            zuruecksetzen();
+                            // Fenster wird nicht mehr sichtbar gemacht.
+                            this.setVisible(false);
+                            // Hauptfenster macht übergebene Maske sichtbar.
+                            this.hauptFenster.setFrame(this.auftragskopfAnlegen);
+                        } else {
+                            // Fehlermeldung als PopUp
+                            JOptionPane.showMessageDialog(null,
+                                    FEHLERMMELDUNG_STATUSABGESCHLOSSEN_TEXT,
+                                    FEHLERMELDUNG_STATUS_TITEL,
+                                    JOptionPane.WARNING_MESSAGE);
+                        }
 
+                    }
+                } else {// Falls Maske "Auftragskopf anzeigen Einstieg" ist.
+                    // Maske AuftragsKopfAnlegen zurcksetzen
+                    this.auftragskopfAnlegen.zuruecksetzen();
+                    //Übergabe des Auftrags an die AuftragskopfAnlege Maske.
+                    this.auftragskopfAnlegen.
+                            setzeEingabe(aKopf);
+                    // Setzt das Internalframe in den Anzeigenmodus.
+                    this.auftragskopfAnlegen.setStatusAnzeigen();
+                    //Methode die bestimmte Eingabefelder leert
+                    zuruecksetzen();
+                    // Fenster wird nicht mehr sichtbar gemacht.
+                    this.setVisible(false);
+                    // Hauptfenster macht übergebene Maske sichtbar.
+                    this.hauptFenster.setFrame(this.auftragskopfAnlegen);
                 }
-            } else {// Falls Maske "Auftragskopf anzeigen Einstieg" ist.
-                // Maske AuftragsKopfAnlegen zurcksetzen
-                this.auftragskopfAnlegen.zuruecksetzen();
-                //Übergabe des Auftrags an die AuftragskopfAnlege Maske.
-                this.auftragskopfAnlegen.
-                        setzeEingabe(aKopf);
-                // Setzt das Internalframe in den Anzeigenmodus.
-                this.auftragskopfAnlegen.setStatusAnzeigen();
-                //Methode die bestimmte Eingabefelder leert
-                zuruecksetzen();
-                // Fenster wird nicht mehr sichtbar gemacht.
-                this.setVisible(false);
-                // Hauptfenster macht übergebene Maske sichtbar.
-                this.hauptFenster.setFrame(this.auftragskopfAnlegen);
+            } else {// Falls keine eingabegetätigt worden ist.
+                // Fehlermeldung als PopUp
+                JOptionPane.showMessageDialog(null,
+                        FEHLERMELDUNG_UNVOLLSTAENDIG_TEXT,
+                        FEHLER, JOptionPane.ERROR_MESSAGE);
             }
-        } catch (ApplicationException | NullPointerException |
-                NumberFormatException e) {// Fehlerbehandlung.
+        } catch (ApplicationException | NullPointerException e) {// Fehlerbehandlung.
             // Fehlermeldung als PopUp
             JOptionPane.showMessageDialog(null, e.getMessage(),
                     FEHLER, JOptionPane.ERROR_MESSAGE);
@@ -536,6 +543,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
     /*----------------------------------------------------------*/
     /**
      * Methode mit der die Auftragskopf-ID des Auftragskopf gesetzt wird.
+     *
      * @param auftragskopf, Auftragskopf
      */
     public void setAuftragskopfID_jTextField(Auftragskopf auftragskopf) {
