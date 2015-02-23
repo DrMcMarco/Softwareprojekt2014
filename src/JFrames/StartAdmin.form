@@ -13,7 +13,7 @@
             <Menu class="javax.swing.JMenu" name="jM_AuftragVerwalten">
               <Properties>
                 <Property name="mnemonic" type="int" value="97"/>
-                <Property name="text" type="java.lang.String" value="Auftr&#xe4;ge Verwalten"/>
+                <Property name="text" type="java.lang.String" value="Auftr&#xe4;ge verwalten"/>
                 <Property name="actionCommand" type="java.lang.String" value="JMenu1"/>
               </Properties>
               <SubComponents>
@@ -91,7 +91,7 @@
             <Menu class="javax.swing.JMenu" name="jM_ArtikelVerwalten">
               <Properties>
                 <Property name="mnemonic" type="int" value="97"/>
-                <Property name="text" type="java.lang.String" value="Artikel Verwalten"/>
+                <Property name="text" type="java.lang.String" value="Artikel verwalten"/>
                 <Property name="actionCommand" type="java.lang.String" value="JMenu1"/>
               </Properties>
               <SubComponents>
@@ -123,7 +123,7 @@
             </Menu>
             <Menu class="javax.swing.JMenu" name="jM_GPVerwalten">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Gesch&#xe4;ftspartner Verwalten"/>
+                <Property name="text" type="java.lang.String" value="Gesch&#xe4;ftspartner verwalten"/>
                 <Property name="actionCommand" type="java.lang.String" value="JMenu1"/>
               </Properties>
               <SubComponents>
@@ -155,7 +155,7 @@
             </Menu>
             <Menu class="javax.swing.JMenu" name="jM_ZKVerwalten">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Zahlungskonditionen Verwalten"/>
+                <Property name="text" type="java.lang.String" value="Zahlungskonditionen verwalten"/>
                 <Property name="actionCommand" type="java.lang.String" value="JMenu1"/>
               </Properties>
               <SubComponents>
@@ -190,7 +190,7 @@
             </Menu>
             <Menu class="javax.swing.JMenu" name="jMenu1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Benutzer Verwalten"/>
+                <Property name="text" type="java.lang.String" value="Benutzer verwalten"/>
               </Properties>
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="jMI_BenutzerAnlegen">

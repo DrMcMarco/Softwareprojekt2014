@@ -177,7 +177,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
             }
 //            alle Kategorien geladen, also wird die Combobox gesetzt
             jCB_Kategorie.setModel(new DefaultComboBoxModel(kategorienFuerCombobox.toArray()));
-        } catch (ApplicationException | NullPointerException ex) {
+        } catch (NullPointerException ex) {
             System.out.println("Fehler beim Laden der Kategorien " + ex.getMessage());
         }
     }

@@ -231,7 +231,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
         jM_Navigation.setText("Navigation");
 
         jM_AuftragVerwalten.setMnemonic('a');
-        jM_AuftragVerwalten.setText("Aufträge Verwalten");
+        jM_AuftragVerwalten.setText("Aufträge verwalten");
         jM_AuftragVerwalten.setActionCommand("JMenu1");
 
         jM_Auftragskopf.setText("Auftragskopf");
@@ -290,7 +290,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
         jM_Navigation.add(jM_AuftragVerwalten);
 
         jM_ArtikelVerwalten.setMnemonic('a');
-        jM_ArtikelVerwalten.setText("Artikel Verwalten");
+        jM_ArtikelVerwalten.setText("Artikel verwalten");
         jM_ArtikelVerwalten.setActionCommand("JMenu1");
 
         jMI_ArtikelAnlegen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
@@ -322,7 +322,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
 
         jM_Navigation.add(jM_ArtikelVerwalten);
 
-        jM_GPVerwalten.setText("Geschäftspartner Verwalten");
+        jM_GPVerwalten.setText("Geschäftspartner verwalten");
         jM_GPVerwalten.setActionCommand("JMenu1");
 
         jMI_GPAnlegen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
@@ -354,7 +354,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
 
         jM_Navigation.add(jM_GPVerwalten);
 
-        jM_ZKVerwalten.setText("Zahlungskonditionen Verwalten");
+        jM_ZKVerwalten.setText("Zahlungskonditionen verwalten");
         jM_ZKVerwalten.setActionCommand("JMenu1");
 
         jMI_ZKAnlegen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
