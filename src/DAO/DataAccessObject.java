@@ -2612,6 +2612,8 @@ public class DataAccessObject {
         //Persistente Abbildung des Auftrags holen
         Auftragskopf auftragskopf = em.find(Auftragskopf.class, Auftragsnummer);
         
+        em.merge(auftragskopf);
+        
         //Falls der Auftrag nicht existiert
         if (auftragskopf == null || auftragskopf.isLKZ()) {
             throw new ApplicationException("Fehler", 
