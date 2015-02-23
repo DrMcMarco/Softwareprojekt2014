@@ -3684,7 +3684,7 @@ public class DataAccessObject {
         Date vorSechsMonaten = cal.getTime();
         
         
-        for (int i = 6; i >= 1; i--) {
+        for (int i = 5; i >= 0; i--) {
             //Datum von vor sechs Monaten berechnet
             cal.add(Calendar.MONTH, -i);
             vorSechsMonaten = cal.getTime();
@@ -3728,7 +3728,7 @@ public class DataAccessObject {
         Date vorSechsMonaten = cal.getTime();
 
         
-        for (int i = 6; i >= 1; i--) {
+        for (int i = 5; i >= 0; i--) {
             //Datum von vor sechs Monaten berechnet
             cal.add(Calendar.MONTH, -i);
             vorSechsMonaten = cal.getTime();
@@ -3741,7 +3741,7 @@ public class DataAccessObject {
             cal = Calendar.getInstance();
         }
         cal = Calendar.getInstance();
-        for (int i = 6; i >= 1; i--) {
+        for (int i = 5; i >= 0; i--) {
             //Datum von vor sechs Monaten berechnet
             cal.add(Calendar.MONTH, -i);
             vorSechsMonaten = cal.getTime();
