@@ -329,9 +329,9 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                                         
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
-                    
-                    setComponentVisible(this.internal.artikelaendern);
+                                        
                     this.internal.artikelanlegen.setzeFormularInArtikelAEndern();
+                    setComponentVisible(this.internal.artikelaendern);
                 }
                 // Vergleich des Pfades mit String um "Artikel Anzeigen" aufzurufen.
                 if (node.equals("[Navigation, Artikel verwalten, Anzeigen]")) {
@@ -343,9 +343,9 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
-                    
-                    setComponentVisible(this.internal.artikelaendern);
+                                      
                     this.internal.artikelanlegen.setzeFormularInArtikelAnzeigen();
+                    setComponentVisible(this.internal.artikelaendern);
                 }
                 // Vergleich des Pfades mit String um "Geschäftspartner Anlegen" aufzurufen.
                 if (node.equals("[Navigation, Geschäftspartner verwalten, Anlegen]")) {
@@ -371,8 +371,8 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
                     
-                    setComponentVisible(this.internal.geschaeftspartneraendern);
                     this.internal.geschaeftspartneranlegen.setzeFormularInGPAEndern();
+                    setComponentVisible(this.internal.geschaeftspartneraendern);
                 }
                 // Vergleich des Pfades mit String um "Geschäftspartner Anzeigen" aufzurufen.
                 if (node.equals("[Navigation, Geschäftspartner verwalten, Anzeigen]")) {
@@ -385,8 +385,8 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
                     
-                    setComponentVisible(this.internal.geschaeftspartneraendern);
                     this.internal.geschaeftspartneranlegen.setzeFormularInGPAnzeigen();
+                    setComponentVisible(this.internal.geschaeftspartneraendern);
                 }
                 // Vergleich des Pfades mit String um "Zahlungskonditionen Anlegen" aufzurufen.
                 if (node.equals("[Navigation, Zahlungskonditionen verwalten, Anlegen]")) {
@@ -412,8 +412,8 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
                     
-                    setComponentVisible(this.internal.zahlungskonditionaendern);
                     this.internal.zahlungskonditionanlegen.setzeFormularInZKAEndern();
+                    setComponentVisible(this.internal.zahlungskonditionaendern);
                 }
                 // Vergleich des Pfades mit String um "Zahlungskonditionen Anzeigen" aufzurufen.
                 if (node.equals("[Navigation, Zahlungskonditionen verwalten, Anzeigen]")) {
@@ -426,8 +426,8 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                     this.internal.suche.setVisible(false);
                     this.internal.detailSuche.setVisible(false);
                     
-                    setComponentVisible(this.internal.zahlungskonditionaendern);
                     this.internal.zahlungskonditionanlegen.setzeFormularInZKAnzeigen();
+                    setComponentVisible(this.internal.zahlungskonditionaendern);
                 }
             }
         } catch (NullPointerException e) {//Fehlerbehandlung bei einer NullpointerException
