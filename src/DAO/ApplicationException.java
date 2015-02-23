@@ -8,7 +8,8 @@ package DAO;
 
 /**
  *
- * @author Simon <Simon.Simon at your.org>
+ * @author Simon Schulz
+ * @version 1.0
  */
 public class ApplicationException extends Exception {
     

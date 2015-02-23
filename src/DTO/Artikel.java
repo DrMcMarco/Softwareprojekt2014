@@ -10,36 +10,100 @@ import java.util.Objects;
 import javax.persistence.*;
 
 /**
- *
- * @author Marco
+ * Entitätsklasse für Artikel.
+ * - Verweist auf ein Kategorie-Objekt
+ * - Enthält zum Zweck der Versionierung Vorgänger und Nachfolger falls ein
+ *   Artikel, der in einem Auftrag vorkommt, geändert wird
+ * @author Marco Loewe
+ * @version 1.0
  */
 
 @Entity
 public class Artikel implements Serializable {
     
+    /**
+     * ID des Artikels, wird generiert.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long ArtikelId;
     
+    /**
+     * Verweis auf ein Kategorie-Objekt (Fremdschlüssel).
+     * n:1-Beziehung, eine Kategorie kann mehrere Artikel enthalten
+     */
     @ManyToOne
     @JoinColumn(name = "Kategorie")
     private Artikelkategorie Kategorie;
     
+    /**
+     * Name des Artikels.
+     */
     private String Artikeltext;
+    
+    /**
+     * Kommentar für die Bestellung des Artikels.
+     */
     private String Bestelltext;
+    
+    /**
+     * Preis des Artikels, wenn er verkauft wird.
+     */
     private double Verkaufswert;
+    
+    /**
+     * Preis des Artikels, wenn er eingekauft wird.
+     */
     private double Einkaufswert;
+    
+    /**
+     * Mehrwertsteuersatz des Artikels (in Prozenz).
+     */
     private int MwST;
+    
+    /**
+     * Menge an frei verfügbarem Bestand für den Artikel.
+     * - wird durch abgeschlossene Bestellaufträge erzeugt
+     */
     private int Frei;
+    
+    /**
+     * Menge an reserviertem Bestand für den Atikel.
+     * - wird durch freigegebene Verkaufsaufträge erzeugt
+     */
     private int Reserviert;
+    
+    /**
+     * Menge an bestellten aber noch nicht gelieferten Artikeln.
+     * - wird durch freigegebene Bestellaufträge erzeugt
+     */
     private int Zulauf;
+    
+    /**
+     * Menge an verkauften Artikeln.
+     * - wird durch abgeschlossene Verkaufsaufträge erzeugt
+     */
     private int Verkauft;
+    
+    /**
+     * Gibt an ob der Artikel gelöscht ist oder nicht.
+     * - Ein gelöschter Artikel bleibt weiterhin in der Datenbank bestehen, wird
+     *   im Programm aber nicht angezeigt
+     */
     private boolean LKZ;
     
+    /**
+     * Vorgänger des Artikels.
+     * - 1:1-Beziehung, ein Artikle kann nur einen Vorgänger haben
+     */
     @OneToOne
     @JoinColumn(name = "Vorgänger")
     private Artikel Vorgaenger;
     
+    /**
+     * Nachfolger des Artikels
+     * - 1:1-Beziehung, ein Artikel kann nur einen Nachfolger haben
+     */
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "Nachfolger")
     private Artikel Nachfolger;

@@ -25,6 +25,7 @@ import DTO.Status;
 import DTO.Steuertabelle;
 import DTO.Terminauftragskopf;
 import DTO.Zahlungskondition;
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -54,6 +55,7 @@ import org.jfree.data.general.DefaultPieDataset;
  * Programms her.
  * Alle Datenbankzugriffe geschehen ausschließlich über diese Klasse
  * @author Simon Schulz, Marco Loewe
+ * @version 1.0
  */
 public class DataAccessObject {
     
@@ -89,10 +91,10 @@ public class DataAccessObject {
                 //...soll ein Startskript ausgeführt werden das die Datenbank
                 //mit einigen Einträge füllt die für einen ordnungsgemäßen 
                 //Betrieb notwendig sind
-                String currentDir = System.getProperty("user.dir");
-                currentDir = "\""+currentDir+"\"";
-                System.out.println(currentDir);
-                Runtime.getRuntime().exec("cmd.exe /C start /B fillDatabase.bat");
+                
+                String[] commands = {"CMD", "/C", "start", "/B", "fillDatabase.bat"};          
+                ProcessBuilder pb = new ProcessBuilder(commands);
+                Process p = pb.start();
                 
             }
             
@@ -100,7 +102,7 @@ public class DataAccessObject {
             this.erstelleSteuereintrag("Letzter Programmstart", new Date().toString());
             
         } catch (ApplicationException | IOException e) {
-            
+            System.out.println(e.getMessage());
         }
     }
     
@@ -113,7 +115,7 @@ public class DataAccessObject {
      * @param eingabe Sucheingabe 
      * @param tabelle Tabelle in der gesucht werden soll
      * @param sortierung Absteigend oder Aufsteigende sortierung.
-     * @return gibt eine Collection<?> zurück mit allen gefunden Datensätzen
+     * @return gibt eine Collection(?) zurück mit allen gefunden Datensätzen
      * @throws DAO.ApplicationException Die Exception wird durchgereicht
      * 
      * TO-DO: Anpassung wenn nach einem String gesucht wird müssen hochkommas
@@ -391,13 +393,15 @@ public class DataAccessObject {
      * Methode zur Erzeugung eines Auftragskopfes und seinen Positionen
      * @param Typ Typ des Auftrags (möglich sind: Barauftrag, Sofortauftrag, Terminauftrag, Bestellauftrag)
      * @param Artikel HashMap die ein Artikel(ArtikelID) und die bestellte Menge enthält
-     * @param Auftragstext 
+     * @param Auftragstext Zusätzlicher Kommentar für einen Auftrag
      * @param GeschaeftspartnerID Eindeutige Nummer eines Geschäftspartners
      * @param ZahlungskonditionID Eindeute Nummer einer Zahlungskondition
      * @param Status Status des Auftrags
      * @param Abschlussdatum Auftragsabschlussdatum
      * @param Lieferdatum Datum der Lieferung
-     * @throws ApplicationException 
+     * @throws ApplicationException Wenn die Stammdaten nicht gefunden werden
+     *                              können oder der Auftrag nicht erstellt
+     *                              werden könnte
      */
     public void erstelleAuftragskopf(String Typ, HashMap<Long, Integer> Artikel, 
             String Auftragstext, long GeschaeftspartnerID,
@@ -563,7 +567,7 @@ public class DataAccessObject {
     /**
      * Methode zur Erzeugung eines Status
      * @param Status Name des Status
-     * @throws ApplicationException
+     * @throws ApplicationException Wenn der Status nicht erstellt werden konnte
      */
     public void erstelleStatus(String Status)
             throws ApplicationException {
@@ -786,7 +790,9 @@ public class DataAccessObject {
      * @param Lieferadresse Anschrift an die geliefert werden soll
      * @param Rechnungsadresse Anschrift an die die Rechnung geschickt werden soll
      * @param Kreditlimit Kreditlimit des Geschäftspartners
-     * @throws ApplicationException 
+     * @throws ApplicationException Wenn der Geschäftspartnertyp nicht existiert
+     *                              oder der Geschäftspartner nicht erstellt 
+     *                              werden konnte
      */
     public void erstelleGeschaeftspartner(String Typ, Anschrift Lieferadresse, 
             Anschrift Rechnungsadresse, double Kreditlimit) 
@@ -2282,7 +2288,7 @@ public class DataAccessObject {
     /*----------------------------------------------------------*/
     /**
      * Gibt alle Suchkuerzel und deren DBAttribut zurück.
-     * @return hashmap<Suchkuerzel, DBAttribut>.
+     * @return hashmap(Suchkuerzel, DBAttribut).
      * @throws DAO.ApplicationException Bei Fehler in pu.
      */
     public HashMap<String, String> gibAlleSuchAttribute() 
@@ -2358,10 +2364,11 @@ public class DataAccessObject {
     /* 11.11.14 sch angelegt                                    */
     /*----------------------------------------------------------*/
     /**
-     * 
-     * @param id
-     * @return
-     * @throws ApplicationException 
+     * Gibt eine Zahlungskondition anhand der ID zurück
+     * @param id ID der Zahlungskondition
+     * @return ein Zahlungskonditions-Objekt
+     * @throws ApplicationException wenn die Zahlungskondition nicht gefunden
+     *                              werden kann
      */
     public Zahlungskondition gibZahlungskonditionNachId(long id) 
             throws ApplicationException {
@@ -2467,6 +2474,7 @@ public class DataAccessObject {
      * Gibt alle Versionen eines Artikels zurück
      * @param Artikelnummer ID eines Artikels
      * @return eine Liste aller Versionen dieses Artikels
+     * @throws ApplicationException Wenn der Artikel nicht gefunden werden kann
      */
     public Collection<Artikel> gibAlleArtikel(long Artikelnummer)
             throws ApplicationException{
@@ -2939,6 +2947,7 @@ public class DataAccessObject {
     /**
      * Gibt alle Aufträge der letzten sechs Monate zurück.
      * Wird für die Statistik benutzt.
+     * @param datum Datum aus dessen Monat der Umsatz zurückgegben werden soll
      * @return eine Collection aller Aufträge der letzten sechs Monate
      */
     public double gibEinkaufProMonat(Date datum) {

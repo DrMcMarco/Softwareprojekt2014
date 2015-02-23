@@ -9,24 +9,46 @@ import java.util.ArrayList;
 import javax.persistence.*;
 
 /**
- *
- * @author Marco
+ * Entitätsklasse für Artikelkategorien.
+ * @author Marco Loewe
  */
 
 @Entity
 public class Artikelkategorie implements java.io.Serializable {
     
+    /**
+     * ID der Artikelkategorie, wird generiert.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long KategorieId;
     
+    /**
+     * Name der Kategorie.
+     */
     private String Kategoriename;
     
+    /**
+     * Liste aller Kategorien für eine Kategorie.
+     */
     @OneToMany(mappedBy = "Kategorie", cascade = CascadeType.ALL)
     public ArrayList<Artikel> Artikelliste;
     
+    /**
+     * Beschreibung der Kategorie.
+     */
     private String Beschreibung;
+    
+    /**
+     * Kommentar für die Kategorie.
+     */
     private String Kommentar;
+    
+    /**
+     * Gibt an ob die Kategorie gelöscht ist oder nicht.
+     * - Eine gelöschte Kategorie bleibt weiterhin in der Datenbank bestehen, 
+     *   wird im Programm aber nicht angezeigt
+     */
     private boolean LKZ;
 
     public Artikelkategorie() {

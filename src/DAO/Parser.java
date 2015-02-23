@@ -28,7 +28,7 @@ import java.util.logging.Logger;
 /*----------------------------------------------------------*/
 /**
  *
- * @author Simon <Simon.Simon at your.org>
+ * @author Simon Schulz
  * Klasse Parser
  */
 public class Parser {

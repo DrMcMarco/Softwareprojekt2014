@@ -5,18 +5,23 @@
  */
 package DTO;
 
-import JFrames.GUIFactory;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.*;
+
 /**
- *
- * @author Marco
+ * Entitätsklasse für Auftragspositionen.
+ * - Enthält einen zusammengesetzten Primärschlüssen und brauch daher eine 
+ *   Primärschlüsselklasse (AuftragspositionPK)
+ * @author Marco Loewe
  */
 @Entity
 @IdClass(AuftragspositionPK.class)
 public class Auftragsposition implements java.io.Serializable {
     
+    /**
+     * Verweis auf den Auftrag (Fremdschlüssel)
+     */
     @Id
     @ManyToOne
     @JoinColumn(name = "Auftrag")

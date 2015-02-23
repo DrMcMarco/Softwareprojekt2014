@@ -6,11 +6,9 @@
 package DTO;
 
 import DAO.ApplicationException;
-import JFrames.GUIFactory;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Objects;
 import javax.persistence.*;
 
@@ -154,104 +152,96 @@ public abstract class Auftragskopf implements Serializable {
     }
 
     /**
-     * 
-     * @return 
+     * Generiert.
+     * @return den Auftragstext
      */
     public String getAuftragstext() {
         return Auftragstext;
     }
 
     /**
-     * 
-     * @param Auftragstext 
+     * Generiert.
+     * @param Auftragstext der neue Auftragstext
      */
     public void setAuftragstext(String Auftragstext) {
         this.Auftragstext = Auftragstext;
     }
 
     /**
-     * 
-     * @return 
+     * Generiert.
+     * @return den Wert des Auftrags
      */
     public double getWert() {
         return Wert;
     }
 
     /**
-     * 
-     * @param Wert 
-     */
-    public void setWert(double Wert) {
-        this.Wert = Wert;
-    }
-
-    /**
-     * 
-     * @return 
+     * Generiert
+     * @return den zugewiesenen Geschäftspartner
      */
     public Geschaeftspartner getGeschaeftspartner() {
         return Geschaeftspartner;
     }
 
     /**
-     * 
-     * @param Geschaeftspartner 
+     * Generiert
+     * @param Geschaeftspartner der neue Geschäftspartner
      */
     public void setGeschaeftspartner(Geschaeftspartner Geschaeftspartner) {
         this.Geschaeftspartner = Geschaeftspartner;
     }
     
     /**
-     * 
-     * @return 
+     * Generiert
+     * @return den zugewiesenen Status
      */
     public Status getStatus() {
         return Status;
     }
 
     /**
-     * 
-     * @return 
+     * Generiert.
+     * @return das Abschlussdatum (null bedeutet das der Auftrag noch nicht abgeschlossen ist)
      */
     public Date getAbschlussdatum() {
         return Abschlussdatum;
     }
 
     /**
-     * 
-     * @param Abschlussdatum 
+     * Generiert.
+     * @param Abschlussdatum das neue Abschlussdatum
      */
     public void setAbschlussdatum(Date Abschlussdatum) {
         this.Abschlussdatum = Abschlussdatum;
     }
 
     /**
-     * 
-     * @return 
+     * Generiert
+     * @return das Erfassungsdatum 
      */
     public Date getErfassungsdatum() {
         return Erfassungsdatum;
     }
 
     /**
-     * 
-     * @param Erfassungsdatum 
+     * Generiert.
+     * @param Erfassungsdatum das neue Erfassungsdatum
      */
     public void setErfassungsdatum(Date Erfassungsdatum) {
         this.Erfassungsdatum = Erfassungsdatum;
     }
 
     /**
-     * 
-     * @return 
+     * Generiert.
+     * @return das Lieferdatum
      */
     public Date getLieferdatum() {
         return Lieferdatum;
     }
 
     /**
-     * 
-     * @param Lieferdatum 
+     * Generiert.
+     * @param Lieferdatum das neue Lieferdatum
      */
     public void setLieferdatum(Date Lieferdatum) {
         this.Lieferdatum = Lieferdatum;
@@ -275,24 +265,24 @@ public abstract class Auftragskopf implements Serializable {
     }
 
     /**
-     * 
-     * @param Positionsliste 
+     * Generiert
+     * @param Positionsliste die neue Positionsliste
      */
     public void setPositionsliste(ArrayList<Auftragsposition> Positionsliste) {
         this.Positionsliste = Positionsliste;
     }
 
     /**
-     * 
-     * @return 
+     * Generiert.
+     * @return ob das Löschkennzeichen gesetzt ist oder nicht
      */
     public boolean isLKZ() {
         return LKZ;
     }
 
     /**
-     * 
-     * @param LKZ 
+     * Generiert.
+     * @param LKZ der neue Wert für das Löschkennzeichen 
      */
     public void setLKZ(boolean LKZ) {
         this.LKZ = LKZ;
@@ -371,8 +361,8 @@ public abstract class Auftragskopf implements Serializable {
 
     /**
      * Generiert.
-     * @param obj
-     * @return 
+     * @param obj das Objekt mit dem dieser Auftrag verglichen werden soll
+     * @return ob dieser Auftrag gleich dem übergebenen Objekt ist
      */
     @Override
     public boolean equals(Object obj) {
@@ -389,6 +379,10 @@ public abstract class Auftragskopf implements Serializable {
         return true;
     }
 
+    /**
+     * Generiert.
+     * @return ein Hashwert dieses Auftrag-Objektes
+     */
     @Override
     public int hashCode() {
         int hash = 5;

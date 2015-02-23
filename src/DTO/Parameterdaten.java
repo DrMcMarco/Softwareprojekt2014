@@ -19,7 +19,7 @@ import javax.persistence.Id;
 /*----------------------------------------------------------*/
 /**
  *
- * @author Simon <Simon.Simon at your.org>
+ * @author Simon Schulz
  */
 @Entity
 public class Parameterdaten implements Serializable {
@@ -151,7 +151,7 @@ public class Parameterdaten implements Serializable {
 
     /**
      * Generiert.
-     * @param tabelle 
+     * @param tabelle die neue Tabelle
      */
     public void setTabelle(String tabelle) {
         this.tabelle = tabelle;
