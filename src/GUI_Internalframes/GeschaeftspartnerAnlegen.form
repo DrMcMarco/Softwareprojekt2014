@@ -252,6 +252,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/GUI_Internalframes/Home2.PNG"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Hauptmen&#xfc;"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jB_ZurueckActionPerformed"/>
@@ -262,6 +263,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/GUI_Internalframes/Speichern.PNG"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Speichern"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jB_SpeichernActionPerformed"/>
@@ -272,6 +274,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/GUI_Internalframes/Bearbeiten.PNG"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Bearbeiten"/>
             <Property name="actionCommand" type="java.lang.String" value="Anzeigen/&#xc4;ndern"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
@@ -284,6 +287,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/GUI_Internalframes/L&#xf6;schen.PNG"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="L&#xf6;schen"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
@@ -295,6 +299,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/GUI_Internalframes/Suche.PNG"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Allgemeine Suche"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jB_SuchenActionPerformed"/>
@@ -439,11 +444,10 @@
     <Component class="javax.swing.JComboBox" name="jCB_Anrede">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
+          <StringArray count="3">
             <StringItem index="0" value="Bitte ausw&#xe4;hlen"/>
-            <StringItem index="1" value="Firma"/>
-            <StringItem index="2" value="Herr "/>
-            <StringItem index="3" value="Frau"/>
+            <StringItem index="1" value="Herr "/>
+            <StringItem index="2" value="Frau"/>
           </StringArray>
         </Property>
       </Properties>
