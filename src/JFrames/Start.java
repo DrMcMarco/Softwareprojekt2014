@@ -9,6 +9,8 @@ import Interfaces.InterfaceMainView;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +20,7 @@ import java.util.TimerTask;
 import javax.persistence.PersistenceException;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -29,18 +32,13 @@ import javax.swing.JOptionPane;
  * Daten anlegen,ändern oder sich anzeigen lassen kann.
  *
  *
- * 10.12.2014 Terrasi,Erstellung 
- * 16.12.2014 Terrasi, Überarbeitung und Zuweisung
- * der Navigationsfunktion 
- * 02.01.2015 Terrasi, Überarbeitung der
- * Navigationsfünktion 
- * 06.01.2015 Terrasi, Statuszeile implementiert
- * 08.01.2015 Terrasi Anwendungslogik überarbeitet und alle Komponenten
- * 18.02.2015 Sen Tastenkuerzel hinzugefuegt
- * zusammengefügt.
+ * 10.12.2014 Terrasi,Erstellung 16.12.2014 Terrasi, Überarbeitung und Zuweisung
+ * der Navigationsfunktion 02.01.2015 Terrasi, Überarbeitung der
+ * Navigationsfünktion 06.01.2015 Terrasi, Statuszeile implementiert 08.01.2015
+ * Terrasi Anwendungslogik überarbeitet und alle Komponenten 18.02.2015 Sen
+ * Tastenkuerzel hinzugefuegt zusammengefügt.
  */
- 
-public class Start extends javax.swing.JFrame implements InterfaceMainView{
+public class Start extends javax.swing.JFrame implements InterfaceMainView {
 
     /**
      * Definition der Attribute
@@ -67,13 +65,13 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
 
     public ZahlungskonditionAnlegen zahlungskonditionanlegen;
     public ZahlungskonditionenAEndernEinstieg zahlungskonditionaendern;
-    
+
     public StatistikAnzeige statistikAnzeige;
-    
+
     public Login logInFester;
 
     private static Integer counter = 5;
-    
+
     //Hilfsvariablen
     Dimension desktopSize;//Speichervariable für die Größe der DesktopPane.
     Dimension jInternalFrameSize;//Speichervariable für die Größe des InternalFrames.
@@ -83,12 +81,12 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     private final String BEENDEN_MELDUNG = "Wollen sie wirklich das Programm beenden und sich abmelden?";
     private final String BEENDEN_MELDUNG_TYP = "Programm beenden";
 
-    private final String AUFTRAGSKOPF_AENDERN_EINSTIEG ="Auftragskopf ändern Einstieg";
-    private final String AUFTRAGSKOPF_ANZEIGEN_EINSTIEG ="Auftragskopf anzeigen Einstieg";
-    
-    private final String AUFTRAGSPOSITION_AENDERN_EINSTIEG ="Auftragsposition ändern Einstieg";
-    private final String AUFTRAGSPOSITION_ANZEIGEN_EINSTIEG ="Auftragsposition anzeigen Einstieg";
-     
+    private final String AUFTRAGSKOPF_AENDERN_EINSTIEG = "Auftragskopf ändern Einstieg";
+    private final String AUFTRAGSKOPF_ANZEIGEN_EINSTIEG = "Auftragskopf anzeigen Einstieg";
+
+    private final String AUFTRAGSPOSITION_AENDERN_EINSTIEG = "Auftragsposition ändern Einstieg";
+    private final String AUFTRAGSPOSITION_ANZEIGEN_EINSTIEG = "Auftragsposition anzeigen Einstieg";
+
     private final String ARTIKEL_AENDERN_EINSTIEG = "Artikel ändern Einstieg";
     private final String ARTIKEL_ANZEIGEN_EINSTIEG = "Artikel anzeigen Einstieg";
 
@@ -99,7 +97,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     private final String GP_ANZEIGEN_EINSTIEG = "Geschäftspartner anzeigen Einstieg";
 
     private static Timer timer;
-    
+
     /**
      * Creates new form Start
      */
@@ -113,12 +111,12 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             // Erzeugung entwas nicht funktioniert hat.
             System.out.println(e.getMessage());// Fehlerausgabe.
         }
-
+        
         c = null; // Initialisierung der Hilfsvariable für die Components.
         this.letzteAnzeige = null;
-        
+
         this.logInFester = login;
-        
+
         //Initialisierung der einzelnen Masken.
         hauptmenueuser = new Hauptmenue_User(factory, this);
         hauptmenueuser.setName("HauptmenüUser");
@@ -126,13 +124,12 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         auftragskopfanlegen = new AuftragskopfAnlegen(factory, this);
         this.suche = new AllgemeineSuche(factory, this);
         detailSuche = new SucheDetailAnzeige(this);
-        
-        auftragskopfaendern = new AuftragskopfAendern(factory,auftragskopfanlegen,
-         this);
+
+        auftragskopfaendern = new AuftragskopfAendern(factory, auftragskopfanlegen,
+                this);
         auftragsspositionanzeigen = new AuftragspositionAnzeigen(factory,
-        this);
-        auftragsspositionaender = new AuftragspositionAendern(factory
-                ,auftragsspositionanzeigen, this);
+                this);
+        auftragsspositionaender = new AuftragspositionAendern(factory, auftragsspositionanzeigen, this);
         artikelanlegen = new ArtikelAnlegen(factory, this);
         artikelaendern = new ArtikelAEndernEinstieg(factory, artikelanlegen, this);
         geschaeftspartneranlegen = new GeschaeftspartnerAnlegen(factory, this);
@@ -548,7 +545,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
     /* 08.01.2015 Terrasi AuftragskopfAnlegenMaske mit der Anzeigen/Ändern-
-        Funktion angepasst.*/
+     Funktion angepasst.*/
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die AuftrgaskopfAnlegen Maske aufgerufen wird
@@ -558,18 +555,18 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     private void jMI_AuftragskopfAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragskopfAnlegenActionPerformed
         if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
-        System.out.println(getComponent() != null);
-        
+            System.out.println(getComponent() != null);
+
             System.out.println(getComponent().getTitle());
         }
         factory.setComponent(hauptmenueuser);
-        
+
         hauptmenueuser.setVisible(false);
         this.suche.setVisible(false);
         this.detailSuche.setVisible(false);
-        
+
         auftragskopfanlegen.setStatusAnlegen();
-        
+
         setCenterJIF(auftragskopfanlegen);
         setComponent(auftragskopfanlegen);
     }//GEN-LAST:event_jMI_AuftragskopfAnlegenActionPerformed
@@ -584,20 +581,20 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     /**
      * ActionPerformed in der die AuftrgaskopfAendern Maske aufgerufen wird
      *
-     * 
+     *
      * @param evt
      */
     private void jMI_AuftragkopfAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragkopfAEndernActionPerformed
-       
+
         if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
-        
+
         this.suche.setVisible(false);
         this.detailSuche.setVisible(false);
-        
+
         auftragskopfaendern.zuruecksetzen();
         auftragskopfaendern.setTitle(AUFTRAGSKOPF_AENDERN_EINSTIEG);
         setCenterJIF(auftragskopfaendern);
@@ -621,11 +618,11 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
-        
+
         hauptmenueuser.setVisible(false);
         this.suche.setVisible(false);
         this.detailSuche.setVisible(false);
-        
+
         auftragskopfaendern.zuruecksetzen();
         auftragskopfaendern.setTitle(AUFTRAGSKOPF_ANZEIGEN_EINSTIEG);
         setCenterJIF(auftragskopfaendern);
@@ -645,16 +642,16 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
      * @param evt
      */
     private void jMI_AuftragsposAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragsposAEndernActionPerformed
-        
+
         if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
-        
+
         hauptmenueuser.setVisible(false);
         this.suche.setVisible(false);
         this.detailSuche.setVisible(false);
-        
+
         auftragsspositionaender.zuruecksetzen();
         auftragsspositionaender.setTitle(AUFTRAGSPOSITION_AENDERN_EINSTIEG);
         setCenterJIF(auftragsspositionaender);
@@ -674,16 +671,16 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
      * @param evt
      */
     private void jMI_AuftragsposAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragsposAnzeigenActionPerformed
-        
+
         if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
-        
+
         hauptmenueuser.setVisible(false);
         this.suche.setVisible(false);
         this.detailSuche.setVisible(false);
-        
+
         auftragsspositionaender.zuruecksetzen();
         auftragsspositionaender.setTitle(AUFTRAGSPOSITION_ANZEIGEN_EINSTIEG);
         setCenterJIF(auftragsspositionaender);
@@ -709,11 +706,11 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
-        
+
         hauptmenueuser.setVisible(false);
         this.suche.setVisible(false);
         this.detailSuche.setVisible(false);
-        
+
         artikelanlegen.setzeFormularInArtikelAnlegen();
         setCenterJIF(artikelanlegen);
         setComponent(artikelanlegen);
@@ -737,11 +734,11 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
-        
+
         hauptmenueuser.setVisible(false);
         this.suche.setVisible(false);
         this.detailSuche.setVisible(false);
-        
+
         artikelaendern.setTitle(ARTIKEL_AENDERN_EINSTIEG);
         artikelaendern.zuruecksetzen();
         artikelanlegen.setzeFormularInArtikelAEndern();
@@ -768,11 +765,11 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
-        
+
         hauptmenueuser.setVisible(false);
         this.suche.setVisible(false);
         this.detailSuche.setVisible(false);
-        
+
         artikelaendern.setTitle(ARTIKEL_ANZEIGEN_EINSTIEG);
         artikelaendern.zuruecksetzen();
         artikelanlegen.setzeFormularInArtikelAnzeigen();
@@ -798,11 +795,11 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
-        
+
         hauptmenueuser.setVisible(false);
         this.suche.setVisible(false);
         this.detailSuche.setVisible(false);
-        
+
         geschaeftspartneranlegen.setzeFormularInGPAnlegen();
         setCenterJIF(geschaeftspartneranlegen);
         setComponent(geschaeftspartneranlegen);
@@ -826,11 +823,11 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
-        
+
         hauptmenueuser.setVisible(false);
         this.suche.setVisible(false);
         this.detailSuche.setVisible(false);
-        
+
         geschaeftspartneraendern.setTitle(GP_AENDERN_EINSTIEG);
         geschaeftspartneraendern.zuruecksetzen();
         geschaeftspartneranlegen.setzeFormularInGPAEndern();
@@ -857,11 +854,11 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
-        
+
         hauptmenueuser.setVisible(false);
         this.suche.setVisible(false);
         this.detailSuche.setVisible(false);
-        
+
         geschaeftspartneraendern.setTitle(GP_ANZEIGEN_EINSTIEG);
         geschaeftspartneraendern.zuruecksetzen();
         geschaeftspartneranlegen.setzeFormularInGPAnzeigen();
@@ -888,11 +885,11 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
-        
+
         hauptmenueuser.setVisible(false);
         this.suche.setVisible(false);
         this.detailSuche.setVisible(false);
-        
+
         zahlungskonditionanlegen.setzeFormularInZKAnlegen();
         setCenterJIF(zahlungskonditionanlegen);
         setComponent(zahlungskonditionanlegen);
@@ -918,11 +915,11 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
-        
+
         hauptmenueuser.setVisible(false);
         this.suche.setVisible(false);
         this.detailSuche.setVisible(false);
-        
+
         zahlungskonditionaendern.setTitle(ZK_AENDERN_EINSTIEG);
         zahlungskonditionaendern.zuruecksetzen();
         zahlungskonditionanlegen.setzeFormularInZKAEndern();
@@ -947,11 +944,11 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
             getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
         }
         factory.setComponent(hauptmenueuser);
-        
+
         hauptmenueuser.setVisible(false);
         this.suche.setVisible(false);
         this.detailSuche.setVisible(false);
-        
+
         zahlungskonditionaendern.setTitle(ZK_AZEIGEN_EINSTIEG);
         zahlungskonditionaendern.zuruecksetzen();
         zahlungskonditionanlegen.setzeFormularInZKAnzeigen();
@@ -960,12 +957,12 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     }//GEN-LAST:event_jMI_ZKAnzeigenActionPerformed
 
     private void artikel_absatz_mnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_artikel_absatz_mnActionPerformed
-        
+
         this.statistikAnzeige.setzeChart(GUIFactory.getDAO().gibChartArtikelAbsatz());
     }//GEN-LAST:event_artikel_absatz_mnActionPerformed
 
     private void umsatz_mnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_umsatz_mnActionPerformed
-        
+
         this.statistikAnzeige.setzeChart(GUIFactory.getDAO().gibChartUmsatzAuftragswert());
     }//GEN-LAST:event_umsatz_mnActionPerformed
 
@@ -1015,7 +1012,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     public void setFrame(Component component) {
         component.setVisible(true);
     }
-    
+
     @Override
     public void rufeSuche(JInternalFrame comp) {
         this.suche.setzeModelCombobox(this.gibTabellenFuerSuche(comp));
@@ -1027,60 +1024,65 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     public JInternalFrame gibLetzteAnzeige() {
         return this.letzteAnzeige;
     }
-    
+
     @Override
     public String gibTitel() {
         return this.letzteAnzeige.getTitle();
     }
-    
+
     @Override
     public ArtikelAnlegen gibArtikelAnlegenFenster() {
         return this.artikelanlegen;
     }
-    
+
     @Override
     public AuftragskopfAnlegen gibAuftragskopfanlegenFenster() {
         return this.auftragskopfanlegen;
     }
+
     @Override
     public GeschaeftspartnerAnlegen gibGeschaeftspartneranlegenFenster() {
         return this.geschaeftspartneranlegen;
     }
-    
+
     @Override
     public ZahlungskonditionenAEndernEinstieg gibZkAendernEinstieg() {
         return this.zahlungskonditionaendern;
     }
-    
+
     @Override
     public GeschaeftspartnerAEndernEinstieg gibGeschaeftspartnerAendernEinstieg() {
         return this.geschaeftspartneraendern;
     }
-    
+
     @Override
     public ArtikelAEndernEinstieg gibArtikelaendernEinstieg() {
         return this.artikelaendern;
     }
+
     @Override
     public AuftragskopfAendern gibAkAendernEinstieg() {
         return this.auftragskopfaendern;
     }
-    
+
     @Override
     public AuftragspositionAendern gibPositionAendernEinstieg() {
         return this.auftragsspositionaender;
     }
+
     @Override
     public ZahlungskonditionAnlegen gibZkAnlegen() {
         return this.zahlungskonditionanlegen;
     }
+
     @Override
     public AuftragspositionAnzeigen gibApAnzeigen() {
         return this.auftragsspositionanzeigen;
     }
-    
+
     /**
      * Gibt die Tabellennamen je nach Fenster zurück.
+     *
      * @param comp Fenster
      * @return Tabellen
      */
@@ -1088,79 +1090,79 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
         String[] tabellen = null;
         //Suche wurde vom Hauptmenü aus gestartet
         if (comp == null) {
-            tabellen = new String[] {"Auftragskopf", "Auftragsposition", 
-                "Artikel", "Artikelkategorie", "Geschäftspartner", 
-                "Zahlungskondition", "Anschrift", "Status" };
+            tabellen = new String[]{"Auftragskopf", "Auftragsposition",
+                "Artikel", "Artikelkategorie", "Geschäftspartner",
+                "Zahlungskondition", "Anschrift", "Status"};
         } else {
             //Prüfe, um welches Fenster es sich handelt und setze die Tabellen
             switch (comp.getTitle()) {
-                case "Artikel anlegen" :
-                    tabellen = new String[] {"Artikelkategorie" };
+                case "Artikel anlegen":
+                    tabellen = new String[]{"Artikelkategorie"};
                     break;
-                case "Artikel ändern" :
-                    tabellen = new String[] {"Artikelkategorie" };
+                case "Artikel ändern":
+                    tabellen = new String[]{"Artikelkategorie"};
                     break;
-                case "Auftragskopf anlegen" :
-                    tabellen = new String[] {"Geschäftspartner", "Artikel" };
+                case "Auftragskopf anlegen":
+                    tabellen = new String[]{"Geschäftspartner", "Artikel"};
                     break;
-                case "Auftragskopf ändern" :
-                    tabellen = new String[] {"Geschäftspartner", "Artikel" };
+                case "Auftragskopf ändern":
+                    tabellen = new String[]{"Geschäftspartner", "Artikel"};
                     break;
-                case "Geschäftspartner anlegen" :
-                    tabellen = new String[] {"Anschrift" };
+                case "Geschäftspartner anlegen":
+                    tabellen = new String[]{"Anschrift"};
                     break;
-                case "Geschäftspartner ändern" :
-                    tabellen = new String[] {"Anschrift" };
+                case "Geschäftspartner ändern":
+                    tabellen = new String[]{"Anschrift"};
                     break;
-                case "Artikel ändern Einstieg" :
-                    tabellen = new String[] {"Artikel" };
+                case "Artikel ändern Einstieg":
+                    tabellen = new String[]{"Artikel"};
                     break;
-                case "Artikel anzeigen" :
-                    tabellen = new String[] {"Artikel" };
+                case "Artikel anzeigen":
+                    tabellen = new String[]{"Artikel"};
                     break;
-                case "Artikel anzeigen Einstieg" :
-                    tabellen = new String[] {"Artikel" };
+                case "Artikel anzeigen Einstieg":
+                    tabellen = new String[]{"Artikel"};
                     break;
-                case "Geschäftspartner ändern Einstieg" :
-                    tabellen = new String[] {"Geschäftspartner" };
+                case "Geschäftspartner ändern Einstieg":
+                    tabellen = new String[]{"Geschäftspartner"};
                     break;
-                case "Geschäftspartner anzeigen" :
-                    tabellen = new String[] {"Geschäftspartner" };
+                case "Geschäftspartner anzeigen":
+                    tabellen = new String[]{"Geschäftspartner"};
                     break;
-                case "Geschäftspartner anzeigen Einstieg" :
-                    tabellen = new String[] {"Geschäftspartner" };
+                case "Geschäftspartner anzeigen Einstieg":
+                    tabellen = new String[]{"Geschäftspartner"};
                     break;
-                case "Zahlungskondition ändern Einstieg" :
-                    tabellen = new String[] {"Zahlungskondition" };
+                case "Zahlungskondition ändern Einstieg":
+                    tabellen = new String[]{"Zahlungskondition"};
                     break;
-                case "Zahlungskondition anzeigen" :
-                    tabellen = new String[] {"Zahlungskondition" };
-                    break; 
-                case "Zahlungskondition anzeigen Einstieg" :
-                    tabellen = new String[] {"Zahlungskondition" };
-                    break; 
-                case "Auftragsposition ändern Einstieg" :
-                    tabellen = new String[] {"Auftragskopf" };
-                    break; 
-                case "Auftragsposition anzeigen Einstieg" :
-                    tabellen = new String[] {"Auftragskopf" };
-                    break; 
-                case "Auftragskopf anzeigen Einstieg" :
-                    tabellen = new String[] {"Auftragskopf" };
-                    break; 
-                case "Auftragskopf ändern Einstieg" :
-                    tabellen = new String[] {"Auftragskopf" };
-                    break; 
-                case "Auftragskopf anzeigen" :
-                    tabellen = new String[] {"Auftragskopf" };
-                    break; 
-                default :
+                case "Zahlungskondition anzeigen":
+                    tabellen = new String[]{"Zahlungskondition"};
+                    break;
+                case "Zahlungskondition anzeigen Einstieg":
+                    tabellen = new String[]{"Zahlungskondition"};
+                    break;
+                case "Auftragsposition ändern Einstieg":
+                    tabellen = new String[]{"Auftragskopf"};
+                    break;
+                case "Auftragsposition anzeigen Einstieg":
+                    tabellen = new String[]{"Auftragskopf"};
+                    break;
+                case "Auftragskopf anzeigen Einstieg":
+                    tabellen = new String[]{"Auftragskopf"};
+                    break;
+                case "Auftragskopf ändern Einstieg":
+                    tabellen = new String[]{"Auftragskopf"};
+                    break;
+                case "Auftragskopf anzeigen":
+                    tabellen = new String[]{"Auftragskopf"};
+                    break;
+                default:
                     break;
             }
         }
         return tabellen;
     }
-    
+
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
@@ -1181,15 +1183,16 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     /*----------------------------------------------------------*/
     /**
      * Methode mit der man die aktuell übergebene Component erhält.
-     * @return 
+     *
+     * @return
      */
     @Override
     public JInternalFrame getComponent() {
-        try{
-        System.out.println(c.getName().toString());
-            
-        }catch(NullPointerException e){
-            
+        try {
+            System.out.println(c.getName().toString());
+
+        } catch (NullPointerException e) {
+
         }
         return c;
     }
@@ -1205,14 +1208,14 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView{
     public void setStatusMeldung(String status) {
         // Erzeugung eines Peeptons.
         Toolkit.getDefaultToolkit().beep();
-        
+
         statusMeldung_jTextField.setText(status);//Meldung wird angezeigt.
 
         timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
                 statusMeldung_jTextField.setText("");
-                
+
             }
         }, 5 * 1000);
 
