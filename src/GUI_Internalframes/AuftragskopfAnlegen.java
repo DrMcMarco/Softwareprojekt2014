@@ -1730,7 +1730,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
     private void geschaeftspartner_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_geschaeftspartner_jTextFieldFocusLost
 
         try {
-            if (!geschaeftspartner_jTextField.getText().isEmpty()) {
+//            if (!geschaeftspartner_jTextField.getText().isEmpty()) {
 
                 GUIFactory.getDAO().gibGeschaeftspartner(
                         Long.valueOf(geschaeftspartner_jTextField.getText()));
@@ -1739,7 +1739,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                         GESCHAEFTSPARTNER_SYNTAX, FEHLERMELDUNG_TITEL,
                         FEHLERMELDUNGGESCHAEFTSPARTNERID_TEXT);
                 geschaeftspartner_jTextField.setBackground(hintergrundfarbe);// Hintergrundsfarbe wird gesetzt
-            }
+//            }
         } catch (ApplicationException e) {
             //Ausgabe einer Fehlermeldung
             JOptionPane.showMessageDialog(null, e.getMessage(), FEHLERMELDUNG_TITEL, JOptionPane.ERROR_MESSAGE);
