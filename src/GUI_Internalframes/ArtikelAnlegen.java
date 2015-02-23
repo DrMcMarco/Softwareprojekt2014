@@ -145,10 +145,10 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         nf.setMinimumFractionDigits(2);
         nf.setMaximumFractionDigits(2);
 //        Documente werden gesetzt
-        jTF_Artikelname.setDocument(new UniversalDocument("0123456789-.´+_=/&!'§%()[]{}? ", true));
-        jTF_Einzelwert.setDocument(new UniversalDocument("0123456789.,", false));
-        jTF_Bestellwert.setDocument(new UniversalDocument("0123456789.,", false));
-        jTF_Bestandsmenge_FREI.setDocument(new UniversalDocument("0123456789", false));
+        jTF_Artikelname.setDocument(new UniversalDocument("0123456789-.´+_=/&!'§%()[]{}? ", true, 30));
+        jTF_Einzelwert.setDocument(new UniversalDocument("0123456789.,", false, 20));
+        jTF_Bestellwert.setDocument(new UniversalDocument("0123456789.,", false, 20));
+//        jTF_Bestandsmenge_FREI.setDocument(new UniversalDocument("0123456789", false));
     }
 
 
