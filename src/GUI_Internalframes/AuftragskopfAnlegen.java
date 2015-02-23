@@ -1232,7 +1232,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
 
                             // Einkaufswert des Artikels erhalten
                             neuerWert = (GUIFactory.getDAO().
-                                    gibArtikel(artikelid)).getEinkaufswert();
+                                    gibArtikelOhneLKZ(artikelid)).getEinkaufswert();
 
                             // Position den neuen Einzelwert übergeben
                             auftragspositionen.get(i).setEinzelwert(neuerWert);
@@ -1274,7 +1274,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                                     getArtikel().getArtikelID();
                             // Verkaufswert des Artikels erhalten
                             neuerWert = (GUIFactory.getDAO().
-                                    gibArtikel(artikelid)).getVerkaufswert();
+                                    gibArtikelOhneLKZ(artikelid)).getVerkaufswert();
                             // Position den neuen Einzelwert übergeben
                             auftragspositionen.get(i).setEinzelwert(neuerWert);
                             // Artikel-ID und dessen Menge werden in HashMap
@@ -2548,6 +2548,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                 calender.setTime(heute);
                 calender.add(Calendar.DAY_OF_MONTH, sperrzeit);
 
+                berechnetesLieferdatum = calender.getTime();
 //                if (tagesformat.format(berechnetesLieferdatum).equals("So")
 //                        || tagesformat.format(berechnetesLieferdatum).
 //                        equals("Sa")) {
@@ -3114,7 +3115,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
     /*----------------------------------------------------------*/
     public void setzeEingabe(Auftragskopf auftragskopf) {
         try {
-            auftragspositionen = auftragskopf.getPositionslisteOhneLKZ();
+            auftragspositionen = auftragskopf.getPositionsliste();
 
             if (auftragskopf.getStatus().getStatus().equals("erfasst")) {
 
