@@ -17,8 +17,8 @@ import javax.swing.JOptionPane;
  *
  * @author Luca Terrasi
  *
- * 05.01.2015 Terrasi, Erstellung und Dokumentation 
- * 06.01.2015 Terrasi, Übergabe einer Stausmeldung implementiert
+ * 05.01.2015 Terrasi, Erstellung und Dokumentation 06.01.2015 Terrasi, Übergabe
+ * einer Stausmeldung implementiert
  */
 public class Anmeldung extends javax.swing.JInternalFrame {
 
@@ -34,11 +34,11 @@ public class Anmeldung extends javax.swing.JInternalFrame {
     //Variablen für Meldungen
     final String WILLKOMMENSMELDUNG = "Willkommen ";
     final String FEHLERMELDUNGSTITEL = "Fehler";
-    
+    final String KEINE_EINGABEN = "Bitte geben Sie den Benutzernamen und das Passwort ein.";
 
-    
     /**
      * Erstellt neues Hauptmenü.
+     *
      * @param test login
      */
     public Anmeldung(Login test) {
@@ -50,9 +50,9 @@ public class Anmeldung extends javax.swing.JInternalFrame {
             // Erzeugung eines DAO-Objektes.
         } catch (PersistenceException e) {// Fehlerbehandlung falls bei der 
             // Erzeugung etwas nicht funktioniert hat.
-            
+
             //Ausgabe einer Fehlermeldung
-            JOptionPane.showMessageDialog(null, e.getMessage(), 
+            JOptionPane.showMessageDialog(null, e.getMessage(),
                     FEHLERMELDUNGSTITEL, JOptionPane.ERROR_MESSAGE);
         }
         benutzer = new Benutzer();// Initialisierung eines Benutzers.
@@ -175,83 +175,92 @@ public class Anmeldung extends javax.swing.JInternalFrame {
 
     /**
      * 05.01.2015 Terrasi, Erstellung
-     * 
+     *
      * Es wird überprüft ob der Benutzername und das dazugehrige Passwort
      * bereits in der Datenbank hinterlegt ist. Falls der Suer in der DB
-     * existiert, wird überprüft ob der User ein Admin ist oder nicht.
-     * Es wird dann bei erfolgreichen Anmeldung und überprüfung der Identität
-     * des Users, wird das entsprechende Fenster aufgerufen und man erhält
-     * eine Statusmeldung im jeweiligen Fenster.
-     * @param evt 
+     * existiert, wird überprüft ob der User ein Admin ist oder nicht. Es wird
+     * dann bei erfolgreichen Anmeldung und überprüfung der Identität des Users,
+     * wird das entsprechende Fenster aufgerufen und man erhält eine
+     * Statusmeldung im jeweiligen Fenster.
+     *
+     * @param evt
      */
     private void Anmelde_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Anmelde_buttonActionPerformed
         try {//Try-Block, falls Benutzername oder Passwort nicht mit DB
             // Einträgen übereinstimmen, wird der Fehler passend im Catchblock
             // abgefangen.
-            
+
             // Benutzer bekommt Daten von der DB.
             // DAO-Methode prüft ob Benutzername und Passwort mit hinterlegten
             // Daten in der DB übereinstimmen.Falls ja erhält das Benutzer-Objekt
             // Daten von der DB.
-            benutzer = GUIFactory.getDAO().login(benutzername_jTextField.getText()
-                    , new String(passwort_jPasswordField.getPassword()));
-            
-            if (benutzer == null) {
-                throw new ApplicationException("Fehler",
-                        "Das Passwort ist falsch!");
-            }
+            if (!benutzername_jTextField.getText().equals("") && !passwort_jPasswordField.getPassword().equals("")) {
 
-            if (benutzer.isIstAdmin()) {//Überprüfung ob der user ein Admin ist
-                adminStart = new StartAdmin(this.login);// Initialisierung der Adminansicht.
-                adminStart.setStatusMeldung(WILLKOMMENSMELDUNG 
-                        + benutzername_jTextField.getText());// Übergabe einer Statusmeldung
-                adminStart.setVisible(true);// Adminansicht wird sichtbar.
-                this.login.setVisible(false);//Anmeldefenster wird nicht mehr 
-                //sichtbar dargestellt.
+                benutzer = GUIFactory.getDAO().login(benutzername_jTextField.getText(), new String(passwort_jPasswordField.getPassword()));
+
+                if (benutzer == null) {
+                    throw new ApplicationException("Fehler",
+                            "Das Passwort ist falsch!");
+                }
+
+                Anmelde_button.setEnabled(false);
+                if (benutzer.isIstAdmin()) {//Überprüfung ob der user ein Admin ist
+                    adminStart = new StartAdmin(this.login);// Initialisierung der Adminansicht.
+                    adminStart.setStatusMeldung(WILLKOMMENSMELDUNG
+                            + benutzername_jTextField.getText());// Übergabe einer Statusmeldung
+                    adminStart.setVisible(true);// Adminansicht wird sichtbar.
+                    this.login.setVisible(false);//Anmeldefenster wird nicht mehr 
+                    //sichtbar dargestellt.
+                } else {
+                    userStart = new Start(this.login);// Initialisierung der Useransicht.
+                    userStart.setStatusMeldung(WILLKOMMENSMELDUNG
+                            + benutzername_jTextField.getText());// Übergabe einer Statusmeldung
+                    // an die User ansicht.
+                    userStart.setVisible(true);// Useransicht wird sichtbar.
+                    this.login.setVisible(false);//Anmeldefenster wird nicht mehr 
+                    //sichtbar dargestellt.
+                }
             } else {
-                userStart = new Start(this.login);// Initialisierung der Useransicht.
-                userStart.setStatusMeldung(WILLKOMMENSMELDUNG 
-                        + benutzername_jTextField.getText());// Übergabe einer Statusmeldung
-                // an die User ansicht.
-                userStart.setVisible(true);// Useransicht wird sichtbar.
-                this.login.setVisible(false);//Anmeldefenster wird nicht mehr 
-                //sichtbar dargestellt.
+                JOptionPane.showMessageDialog(null, KEINE_EINGABEN,
+                        FEHLERMELDUNGSTITEL, JOptionPane.WARNING_MESSAGE);
             }
-
         } catch (ApplicationException e) {
             // Fehlerausgabe falls Passwort oder Benutzernamen nicht in der
             // DB vorhanden sind.
             //Ausgabe einer Fehlermeldung
-            JOptionPane.showMessageDialog(null, e.getMessage(), 
-                    FEHLERMELDUNGSTITEL, JOptionPane.WARNING_MESSAGE);
-            
+            JOptionPane.showMessageDialog(null, e.getMessage(),
+                    FEHLERMELDUNGSTITEL, JOptionPane.ERROR_MESSAGE);
+
         }
     }//GEN-LAST:event_Anmelde_buttonActionPerformed
 
     /**
-     * 06.01.2015 Terrasi, Erstellung
-     * Methode mit der alles ausgewählt wird wen man das Feld wählt. 
-     * @param evt 
+     * 06.01.2015 Terrasi, Erstellung Methode mit der alles ausgewählt wird wen
+     * man das Feld wählt.
+     *
+     * @param evt
      */
     private void benutzername_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_benutzername_jTextFieldFocusGained
         benutzername_jTextField.selectAll();// Selektiert das Eingabefeld.
     }//GEN-LAST:event_benutzername_jTextFieldFocusGained
 
     /**
-     * 06.01.2015 Terrasi, Erstellung
-     * Methode mit der alles ausgewählt wird wen man das Feld wählt. 
-     * @param evt 
+     * 06.01.2015 Terrasi, Erstellung Methode mit der alles ausgewählt wird wen
+     * man das Feld wählt.
+     *
+     * @param evt
      */
     private void passwort_jPasswordFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwort_jPasswordFieldFocusGained
         passwort_jPasswordField.selectAll();// Selektiert das Eingabefeld.
     }//GEN-LAST:event_passwort_jPasswordFieldFocusGained
 
     /**
-     * 14.01.2015 Terrasi, Erstellung. 
-     * 
+     * 14.01.2015 Terrasi, Erstellung.
+     *
      * Methode mit der man anhand des Enterbuttons, man die gleiche Funktion
      * aufruft, wie wenn man auf den Anmeldebutton klickt.
-     * @param evt 
+     *
+     * @param evt
      */
     private void passwort_jPasswordFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwort_jPasswordFieldKeyPressed
         if (evt.getKeyCode() == evt.VK_ENTER) {
@@ -259,7 +268,8 @@ public class Anmeldung extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_passwort_jPasswordFieldKeyPressed
 
-    public void zurueckSetzen(){
+    public void zurueckSetzen() {
+        Anmelde_button.setEnabled(true);
         benutzername_jTextField.setText("");
         passwort_jPasswordField.setText("");
     }

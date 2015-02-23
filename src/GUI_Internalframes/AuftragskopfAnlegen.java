@@ -1311,8 +1311,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                 auftragswert_jTextField.setText(
                         String.valueOf(gesamtAuftragswert));
 
-                // Speichervariable fr Gesamtauftragswert erhält den Wert 0
-                gesamtAuftragswert = 0.00;
+//                // Speichervariable fr Gesamtauftragswert erhält den Wert 0
+//                gesamtAuftragswert = 0.00;
 
                 // Tabelle erhält das neue DefaulTableModel
                 auftragsposition_jTable.setModel(dtm);
@@ -2548,6 +2548,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                 calender.setTime(heute);
                 calender.add(Calendar.DAY_OF_MONTH, sperrzeit);
 
+                berechnetesLieferdatum = calender.getTime();
 //                if (tagesformat.format(berechnetesLieferdatum).equals("So")
 //                        || tagesformat.format(berechnetesLieferdatum).
 //                        equals("Sa")) {
@@ -3176,6 +3177,34 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                 auftragsart_jComboBox.setSelectedIndex(0);
                 lieferdatum_jFormattedTextField.setEnabled(false);
             }
+            
+            
+            //Hasmap bekommt positionen
+            artikel.clear();
+
+            dtm.setRowCount(0);
+            for (int i = 0; i < auftragspositionen.size(); i++) {
+
+                artikel.put(auftragspositionen.get(i).getArtikel().
+                        getArtikelID(),
+                        auftragspositionen.get(i).getMenge());
+
+                summenWertFuerPos = auftragspositionen.get(i).getEinzelwert()
+                        * auftragspositionen.get(i).getMenge();
+
+                Object[] neuesObj = new Object[]{i + 1,
+                    auftragspositionen.get(i).getArtikel().getArtikelID(),
+                    auftragspositionen.get(i).getMenge(), summenWertFuerPos,
+                    gibDatumAlsString(heute)};
+
+                gesamtAuftragswert += summenWertFuerPos;
+
+                dtm.addRow(neuesObj);
+
+            }
+            
+            
+            
             if (auftragsart_jComboBox.getItemAt(1).toString().equals(
                     auftragskopf.getTyp())) {
                 auftragsart_jComboBox.setSelectedIndex(1);
@@ -3243,29 +3272,29 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
 
             }
 
-            //Hasmap bekommt positionen
-            artikel.clear();
-
-            dtm.setRowCount(0);
-            for (int i = 0; i < auftragspositionen.size(); i++) {
-
-                artikel.put(auftragspositionen.get(i).getArtikel().
-                        getArtikelID(),
-                        auftragspositionen.get(i).getMenge());
-
-                summenWertFuerPos = auftragspositionen.get(i).getEinzelwert();
+//            //Hasmap bekommt positionen
+//            artikel.clear();
+//
+//            dtm.setRowCount(0);
+//            for (int i = 0; i < auftragspositionen.size(); i++) {
+//
+//                artikel.put(auftragspositionen.get(i).getArtikel().
+//                        getArtikelID(),
+//                        auftragspositionen.get(i).getMenge());
+//
+//                summenWertFuerPos = auftragspositionen.get(i).getEinzelwert()
 //                        * auftragspositionen.get(i).getMenge();
-
-                Object[] neuesObj = new Object[]{i + 1,
-                    auftragspositionen.get(i).getArtikel().getArtikelID(),
-                    auftragspositionen.get(i).getMenge(), summenWertFuerPos,
-                    gibDatumAlsString(heute)};
-
-                gesamtAuftragswert += summenWertFuerPos;
-
-                dtm.addRow(neuesObj);
-
-            }
+//
+//                Object[] neuesObj = new Object[]{i + 1,
+//                    auftragspositionen.get(i).getArtikel().getArtikelID(),
+//                    auftragspositionen.get(i).getMenge(), summenWertFuerPos,
+//                    gibDatumAlsString(heute)};
+//
+//                gesamtAuftragswert += summenWertFuerPos;
+//
+//                dtm.addRow(neuesObj);
+//
+//            }
 
             auftragsposition_jTable.setModel(dtm);
 
