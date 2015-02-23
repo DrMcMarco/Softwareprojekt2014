@@ -2465,6 +2465,21 @@ public class DataAccessObject {
         
         return item;
     }
+    
+    public Artikel gibArtikelOhneLKZ(long Artikelnummer) throws ApplicationException {
+        
+        //Suche den Artikel mit der angegebenen ID aus der Datenbank
+        Artikel item = em.find(Artikel.class, Artikelnummer);
+        
+        //Artikel existiert nicht
+        if (item == null) {
+            throw new ApplicationException("Fehler",
+                    "Es wurde kein Artikel gefunden!");
+        }
+        
+        return item;
+        
+    }
         
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
