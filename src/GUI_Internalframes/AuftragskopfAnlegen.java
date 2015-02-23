@@ -117,6 +117,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
     // Variable, um zu pruefen, ob alle Eingaben, wenn welche gemacht wurden, ok
     // sind.
     private boolean formularOK = true;
+    private boolean gibMeldungaus = true;
 
     // Varibalendefinition für Datumseingaben.
     public Date heute;// heutiges Datum
@@ -1104,7 +1105,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                                         toString()));
                 // Falls Sofortauftrag ausgewählt wurde.
                 if (auftragsart_jComboBox.getSelectedItem().equals(SOFORTAUFTRAG)) {
-
+                    System.out.println("Sofort auftragsart");
                     //Aufruf der Zahlungskondition-Methode getLieferzeitSofort()
                     sperrzeit = zahlungskondition.getLieferzeitSofort();
 
@@ -1115,44 +1116,47 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                     berechnetesLieferdatum = calender.getTime();
                     // Es wird geprüft ob der Tag des Datums auf ein Wochenende
                     // fällt.
-                    if (tagesformat.format(berechnetesLieferdatum).equals("So")
-                            || tagesformat.format(berechnetesLieferdatum).
-                            equals("Sa")) {
+//                    if (gibMeldungaus) {
 
-                        //PopUp mit "JA/Nein"-Abfrage.
-                        int antwort = JOptionPane.showConfirmDialog(
-                                rootPane, LIEFERUNGAMWOCHENENDE_TEXT,
-                                LIEFERUNGAMWOCHENENDE_TITEL,
-                                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-
-                        // Falls verneint wird, wird Barauftrag ausgewählt und
-                        // Skonto sowie Mahnzeiteneingabefelder erhalten einen 
-                        // leeren String.
-                        if (antwort == JOptionPane.NO_OPTION) {
-                            auftragsart_jComboBox.setSelectedIndex(0);
-                            auftragsart_jComboBoxActionPerformed(evt);
-                            Skontozeit1_jTextField.setText("");
-                            Skontozeit2_jTextField.setText("");
-                            Mahnzeit1_jTextField.setText("");
-                            Mahnzeit2_jTextField.setText("");
-                            Mahnzeit3_jTextField.setText("");
-                        } else {// Falls bejaht wird
-                            // Methodenaufruf um Skonto-/Mahnzeit und neues
-                            // Lieferdatum anzeigen zu lassen
-                            gibSkontoUndMahnzeiten(zahlungskondition, false);
-                        }
-
-                    } else { // Falls das Lieferdatum nicht auf ein Wochenende
-                        // fällt.
-
-                        // Methodenaufruf um Skonto-/Mahnzeit und neues
-                        // Lieferdatum anzeigen zu lassen
+//                        if (tagesformat.format(berechnetesLieferdatum).equals("So")
+//                                || tagesformat.format(berechnetesLieferdatum).
+//                                equals("Sa")) {
+//
+//                            //PopUp mit "JA/Nein"-Abfrage.
+//                            int antwort = JOptionPane.showConfirmDialog(
+//                                    rootPane, LIEFERUNGAMWOCHENENDE_TEXT,
+//                                    LIEFERUNGAMWOCHENENDE_TITEL,
+//                                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+//
+//                            // Falls verneint wird, wird Barauftrag ausgewählt und
+//                            // Skonto sowie Mahnzeiteneingabefelder erhalten einen 
+//                            // leeren String.
+//                            if (antwort == JOptionPane.NO_OPTION) {
+//                                auftragsart_jComboBox.setSelectedIndex(0);
+//                                auftragsart_jComboBoxActionPerformed(evt);
+//                                Skontozeit1_jTextField.setText("");
+//                                Skontozeit2_jTextField.setText("");
+//                                Mahnzeit1_jTextField.setText("");
+//                                Mahnzeit2_jTextField.setText("");
+//                                Mahnzeit3_jTextField.setText("");
+//                            } else {// Falls bejaht wird
+//                                // Methodenaufruf um Skonto-/Mahnzeit und neues
+//                                // Lieferdatum anzeigen zu lassen
+//                                gibSkontoUndMahnzeiten(zahlungskondition, false);
+//                            }
+//
+//                        } else { // Falls das Lieferdatum nicht auf ein Wochenende
+//                            // fällt.
+//
+//                            // Methodenaufruf um Skonto-/Mahnzeit und neues
+//                            // Lieferdatum anzeigen zu lassen
+//                            gibSkontoUndMahnzeiten(zahlungskondition, false);
+//
+//                        }
                         gibSkontoUndMahnzeiten(zahlungskondition, false);
-
-                    }
+//                    }
                 } else if (auftragsart_jComboBox.getSelectedItem().
                         equals(TERMINAUFTRAG)) {//Falls es ein terminauftrag ist.
-
                     sperrzeit = zahlungskondition.getSperrzeitWunsch();
 
                     calender.setTime(heute);
@@ -1160,36 +1164,41 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
 
                     berechnetesLieferdatum = calender.getTime();
 
-                    if (tagesformat.format(berechnetesLieferdatum).equals("So")
-                            || tagesformat.format(berechnetesLieferdatum).
-                            equals("Sa")) {
-                        int antwort = JOptionPane.showConfirmDialog(rootPane,
-                                LIEFERUNGAMWOCHENENDE_TEXT,
-                                LIEFERUNGAMWOCHENENDE_TITEL,
-                                JOptionPane.YES_NO_OPTION,
-                                JOptionPane.QUESTION_MESSAGE);
+//                    if (gibMeldungaus) {
 
-                        //Falls bejaht wird, werden die Daten verworfen..
-                        if (antwort == JOptionPane.NO_OPTION) {
-                            lieferdatum_jFormattedTextField.
-                                    requestFocusInWindow();
-                            lieferdatum_jFormattedTextField.selectAll();
-
-                            Skontozeit1_jTextField.setText("");
-                            Skontozeit2_jTextField.setText("");
-                            Mahnzeit1_jTextField.setText("");
-                            Mahnzeit2_jTextField.setText("");
-                            Mahnzeit3_jTextField.setText("");
-                        } else {
-                            // Methodenaufruf um Skonto-/Mahnzeit und neues
-                            // Lieferdatum anzeigen zu lassen
-                            gibSkontoUndMahnzeiten(zahlungskondition, true);
-                        }
-                    } else {
+//                        if (tagesformat.format(berechnetesLieferdatum).equals("So")
+//                                || tagesformat.format(berechnetesLieferdatum).
+//                                equals("Sa")) {
+//
+//                            int antwort = JOptionPane.showConfirmDialog(rootPane,
+//                                    LIEFERUNGAMWOCHENENDE_TEXT,
+//                                    LIEFERUNGAMWOCHENENDE_TITEL,
+//                                    JOptionPane.YES_NO_OPTION,
+//                                    JOptionPane.QUESTION_MESSAGE);
+//
+//                            //Falls bejaht wird, werden die Daten verworfen..
+//                            if (antwort == JOptionPane.NO_OPTION) {
+//                                lieferdatum_jFormattedTextField.
+//                                        requestFocusInWindow();
+//                                lieferdatum_jFormattedTextField.selectAll();
+//
+//                                Skontozeit1_jTextField.setText("");
+//                                Skontozeit2_jTextField.setText("");
+//                                Mahnzeit1_jTextField.setText("");
+//                                Mahnzeit2_jTextField.setText("");
+//                                Mahnzeit3_jTextField.setText("");
+//                            } else {
+//                                // Methodenaufruf um Skonto-/Mahnzeit und neues
+//                                // Lieferdatum anzeigen zu lassen
+//                                gibSkontoUndMahnzeiten(zahlungskondition, true);
+//                            }
+//                        gibSkontoUndMahnzeiten(zahlungskondition, false);
+//                        }
+//                    } else {
                         // Methodenaufruf um Skonto-/Mahnzeit und neues
                         // Lieferdatum anzeigen zu lassen
                         gibSkontoUndMahnzeiten(zahlungskondition, true);
-                    }
+//                    }
 
                 } else if (auftragsart_jComboBox.getSelectedItem().toString().
                         equals(BESTELLAUFTRAG)) {
@@ -1305,6 +1314,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
 
                 // Tabelle erhält das neue DefaulTableModel
                 auftragsposition_jTable.setModel(dtm);
+//                gibMeldungaus = true;
 
             }
         } catch (ApplicationException e) {// Fehlerbehandlung
@@ -1554,8 +1564,52 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                         auftragsText = auftragstext_jTextArea.getText();
                         geschaeftspartnerID = Long.parseLong(
                                 geschaeftspartner_jTextField.getText());
+                        
+                        
+                        
+                        if (tagesformat.format(
+                                lieferdatum_jFormattedTextField.getText()).equals("So")
+                                || tagesformat.format(
+                                lieferdatum_jFormattedTextField.getText()).
+                                equals("Sa")) {
+
+                            //PopUp mit "JA/Nein"-Abfrage.
+                            int antwort = JOptionPane.showConfirmDialog(
+                                    rootPane, LIEFERUNGAMWOCHENENDE_TEXT,
+                                    LIEFERUNGAMWOCHENENDE_TITEL,
+                                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+                            // Falls verneint wird, wird Barauftrag ausgewählt und
+                            // Skonto sowie Mahnzeiteneingabefelder erhalten einen 
+                            // leeren String.
+                            if (antwort == JOptionPane.NO_OPTION) {
+                                auftragsart_jComboBox.setSelectedIndex(0);
+                                auftragsart_jComboBoxActionPerformed(evt);
+                                Skontozeit1_jTextField.setText("");
+                                Skontozeit2_jTextField.setText("");
+                                Mahnzeit1_jTextField.setText("");
+                                Mahnzeit2_jTextField.setText("");
+                                Mahnzeit3_jTextField.setText("");
+                                lieferdatum_jFormattedTextField.
+                                        requestFocusInWindow();
+                            } else {// Falls bejaht wird
+                                
+                                
+//                            }
+//
+//                        } else { // Falls das Lieferdatum nicht auf ein Wochenende
+//                            // fällt.
+//
+//
+//                        }
+                        
+                        
+                        
 
                         if (this.getTitle().equals("Auftragskopf anlegen")) {
+
+                            GUIFactory.getDAO().gibGeschaeftspartner(
+                                    Long.valueOf(geschaeftspartner_jTextField.getText()));
 
                             if (auftragsart_jComboBox.getSelectedIndex() == 0) {
                                 // Ein Auftragskopfobjekt erzeugen
@@ -1649,7 +1703,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                                             getText())
                                     && positionenSindGleich == true)) {
 
-                                int antwort = JOptionPane.showConfirmDialog(
+                                int antwortAenderung = JOptionPane.showConfirmDialog(
                                         rootPane, AENDERUNGVONDATEN_TEXT,
                                         AENDERUNGVONDATEN_TITEL,
                                         JOptionPane.YES_NO_OPTION,
@@ -1657,7 +1711,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
 
                                 // Falls bejaht wird der Auftragskopf verändert 
                                 // gespeichert.
-                                if (antwort == JOptionPane.YES_OPTION) {
+                                if (antwortAenderung == JOptionPane.YES_OPTION) {
 
                                     GUIFactory.getDAO().
                                             aendereAuftrag(Long.parseLong(
@@ -1687,6 +1741,13 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                                         KEINEAENDERUNGEN_Titel,
                                         JOptionPane.OK_OPTION);
                             }
+
+                        }
+                         }
+
+                        } else { // Falls das Lieferdatum nicht auf ein Wochenende
+                            // fällt.
+
 
                         }
                     } else {
@@ -1739,23 +1800,12 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
      */
     private void geschaeftspartner_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_geschaeftspartner_jTextFieldFocusLost
 
-        try {
-//            if (!geschaeftspartner_jTextField.getText().isEmpty()) {
-
-            GUIFactory.getDAO().gibGeschaeftspartner(
-                    Long.valueOf(geschaeftspartner_jTextField.getText()));
-            // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
-            ueberpruefungVonFocusLost(geschaeftspartner_jTextField,
-                    GESCHAEFTSPARTNER_SYNTAX, FEHLERMELDUNG_TITEL,
-                    FEHLERMELDUNGGESCHAEFTSPARTNERID_TEXT);
+        if (!(geschaeftspartner_jTextField.getText().isEmpty())) {
             geschaeftspartner_jTextField.setBackground(hintergrundfarbe);// Hintergrundsfarbe wird gesetzt
-//            }
-        } catch (ApplicationException e) {
-            //Ausgabe einer Fehlermeldung
-            JOptionPane.showMessageDialog(null, e.getMessage(), FEHLERMELDUNG_TITEL, JOptionPane.ERROR_MESSAGE);
-            geschaeftspartner_jTextField.requestFocusInWindow();
-            geschaeftspartner_jTextField.selectAll();
+
         }
+
+
     }//GEN-LAST:event_geschaeftspartner_jTextFieldFocusLost
 
     /**
@@ -2278,7 +2328,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
     }//GEN-LAST:event_positionLoeschen_jButtonActionPerformed
 
     private void auftragstext_jTextAreaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_auftragstext_jTextAreaFocusLost
-        auftragstext_jTextArea.setBackground(hintergrundfarbe);// Hintergrundsfarbe wird gesetzt
+        if (!(auftragstext_jTextArea.getText().isEmpty())) {
+
+            auftragstext_jTextArea.setBackground(hintergrundfarbe);// Hintergrundsfarbe wird gesetzt
+        }
     }//GEN-LAST:event_auftragstext_jTextAreaFocusLost
 
     private void menge_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_menge_jTextFieldFocusLost
@@ -2308,9 +2361,35 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                 calender.add(Calendar.DAY_OF_MONTH, sperrzeit);
 
                 berechnetesLieferdatum = calender.getTime();
-
+//                if (tagesformat.format(berechnetesLieferdatum).equals("So")
+//                        || tagesformat.format(berechnetesLieferdatum).
+//                        equals("Sa")) {
+//
+//                    //PopUp mit "JA/Nein"-Abfrage.
+//                    int antwort = JOptionPane.showConfirmDialog(
+//                            rootPane, LIEFERUNGAMWOCHENENDE_TEXT,
+//                            LIEFERUNGAMWOCHENENDE_TITEL,
+//                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+//
+//                    // Falls verneint wird, wird Barauftrag ausgewählt und
+//                    // Skonto sowie Mahnzeiteneingabefelder erhalten einen 
+//                    // leeren String.
+//                    if (antwort == JOptionPane.NO_OPTION) {
+//                        auftragsart_jComboBox.setSelectedIndex(0);
+//                        auftragsart_jComboBoxActionPerformed(evt);
+//                        Skontozeit1_jTextField.setText("");
+//                        Skontozeit2_jTextField.setText("");
+//                        Mahnzeit1_jTextField.setText("");
+//                        Mahnzeit2_jTextField.setText("");
+//                        Mahnzeit3_jTextField.setText("");
+//                    } else {
+//
+//                        lieferdatum = berechnetesLieferdatum;
+//                    }
+                
+//                }
                 lieferdatum = berechnetesLieferdatum;
-
+                
                 lieferdatum_jFormattedTextField.setText(
                         format.format(berechnetesLieferdatum));
                 lieferdatum_jFormattedTextField.setEnabled(true);
@@ -2327,6 +2406,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                         String.valueOf(zahlungskondition.getMahnzeit3()));
             } else if ((auftragsart_jComboBox.
                     getSelectedItem().equals(SOFORTAUFTRAG))) {
+                System.out.println("Sofort");
+                
                 zahlungskondition = GUIFactory.getDAO().
                         gibZahlungskonditionNachId(Long.parseLong(
                                         zahlungskonditionen_jComboBox.
@@ -2337,7 +2418,32 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                 calender.setTime(heute);
                 calender.add(Calendar.DAY_OF_MONTH, sperrzeit);
 
-                berechnetesLieferdatum = calender.getTime();
+//                if (tagesformat.format(berechnetesLieferdatum).equals("So")
+//                        || tagesformat.format(berechnetesLieferdatum).
+//                        equals("Sa")) {
+//
+//                    //PopUp mit "JA/Nein"-Abfrage.
+//                    int antwort = JOptionPane.showConfirmDialog(
+//                            rootPane, LIEFERUNGAMWOCHENENDE_TEXT,
+//                            LIEFERUNGAMWOCHENENDE_TITEL,
+//                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+//
+//                    // Falls verneint wird, wird Barauftrag ausgewählt und
+//                    // Skonto sowie Mahnzeiteneingabefelder erhalten einen 
+//                    // leeren String.
+//                    if (antwort == JOptionPane.NO_OPTION) {
+//                        auftragsart_jComboBox.setSelectedIndex(0);
+//                        auftragsart_jComboBoxActionPerformed(evt);
+//                        Skontozeit1_jTextField.setText("");
+//                        Skontozeit2_jTextField.setText("");
+//                        Mahnzeit1_jTextField.setText("");
+//                        Mahnzeit2_jTextField.setText("");
+//                        Mahnzeit3_jTextField.setText("");
+//                    } else {
+//
+//                        lieferdatum = berechnetesLieferdatum;
+//                    }
+//                }
 
                 lieferdatum = berechnetesLieferdatum;
 
@@ -2355,31 +2461,32 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                         String.valueOf(zahlungskondition.getMahnzeit2()));
                 Mahnzeit3_jTextField.setText(
                         String.valueOf(zahlungskondition.getMahnzeit3()));
-            } else if ((auftragsart_jComboBox.getSelectedItem().
-                    equals(SOFORTAUFTRAG))) {
-                zahlungskondition = GUIFactory.getDAO().
-                        gibZahlungskonditionNachId(Long.parseLong(
-                                        zahlungskonditionen_jComboBox.
-                                        getSelectedItem().toString()));
-
+            } 
+//            else if ((auftragsart_jComboBox.getSelectedItem().
+//                    equals(SOFORTAUFTRAG))) {
+//                zahlungskondition = GUIFactory.getDAO().
+//                        gibZahlungskonditionNachId(Long.parseLong(
+//                                        zahlungskonditionen_jComboBox.
+//                                        getSelectedItem().toString()));
+//
+//                lieferdatum = heute;
+//                lieferdatum_jFormattedTextField.setText(format.format(heute));
+//                lieferdatum_jFormattedTextField.setEnabled(true);
+//
+//                Skontozeit1_jTextField.setText(String.valueOf(
+//                        zahlungskondition.getSkontozeit1()));
+//                Skontozeit2_jTextField.setText(String.valueOf(
+//                        zahlungskondition.getSkontozeit2()));
+//                Mahnzeit1_jTextField.setText(String.valueOf(
+//                        zahlungskondition.getMahnzeit1()));
+//                Mahnzeit2_jTextField.setText(String.valueOf(
+//                        zahlungskondition.getMahnzeit2()));
+//                Mahnzeit3_jTextField.setText(String.valueOf(
+//                        zahlungskondition.getMahnzeit3()));
+//
+//            } 
+            else {
                 lieferdatum = heute;
-                lieferdatum_jFormattedTextField.setText(format.format(heute));
-                lieferdatum_jFormattedTextField.setEnabled(true);
-
-                Skontozeit1_jTextField.setText(String.valueOf(
-                        zahlungskondition.getSkontozeit1()));
-                Skontozeit2_jTextField.setText(String.valueOf(
-                        zahlungskondition.getSkontozeit2()));
-                Mahnzeit1_jTextField.setText(String.valueOf(
-                        zahlungskondition.getMahnzeit1()));
-                Mahnzeit2_jTextField.setText(String.valueOf(
-                        zahlungskondition.getMahnzeit2()));
-                Mahnzeit3_jTextField.setText(String.valueOf(
-                        zahlungskondition.getMahnzeit3()));
-
-            } else {
-                lieferdatum = heute;
-//                abschlussdatum = heute;
                 lieferdatum_jFormattedTextField.setText(format.format(heute));
                 lieferdatum_jFormattedTextField.setEnabled(true);
             }
@@ -2879,7 +2986,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
     /*----------------------------------------------------------*/
     public void setzeEingabe(Auftragskopf auftragskopf) {
         try {
-            auftragspositionen = auftragskopf.getPositionsliste();
+            auftragspositionen = auftragskopf.getPositionslisteOhneLKZ();
 
             if (auftragskopf.getStatus().getStatus().equals("erfasst")) {
 
@@ -2928,8 +3035,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                 positionLoeschen_jButton.setEnabled(false);
             }
 
-            
-
             this.geschaeftspartner_jTextField.setText(
                     String.valueOf(auftragskopf.getGeschaeftspartner().
                             getGeschaeftspartnerID()));
@@ -2973,7 +3078,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
 
                 lieferdatum_jFormattedTextField.setEnabled(true);
             }
-            
+
             if (auftragsart_jComboBox.getItemAt(3).toString().
                     equals(auftragskopf.getTyp())) {
                 auftragsart_jComboBox.setSelectedIndex(3);
@@ -2992,7 +3097,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
             }
             this.auftragstext_jTextArea.setText(auftragskopf.getAuftragstext());
 
-            
             this.erfassungsdatum_jFormattedTextField.
                     setText(String.valueOf(gibDatumAlsString(
                                             auftragskopf.getErfassungsdatum())));
@@ -3229,6 +3333,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
             JOptionPane.showMessageDialog(null, e.getMessage(),
                     FEHLERMELDUNG_TITEL, JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public void setMeldungAus(boolean wert) {
+        gibMeldungaus = wert;
     }
 
     private String gibDatumAlsString(Date date) {

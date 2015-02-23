@@ -933,7 +933,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      * passenden Eingabefeldern wiedergibt. Die Daten der Position werden des
      * Weiteren in Speichervariablen abgelegt.
      *
-     * @param position
+     * @param position positionen
      */
     public void setzeEingaben(Auftragsposition position) {
         // Übergeben der Positionsdaten an die jeweiligen Eingabefelder.

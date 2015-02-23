@@ -279,11 +279,13 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
                 // "gibAuftragskopf".
                 aKopf = GUIFactory.getDAO().
                         gibAuftragskopf(
-                                Long.parseLong(auftragskopfID_jTextField.getText()));
+                                Long.parseLong(
+                                        auftragskopfID_jTextField.getText()));
 
             // Überprüft anhand des Framestitels, ob es das nächste Fenster
                 // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
                 if (this.getTitle().equals(auftragskopfAendern)) {
+                    this.auftragskopfAnlegen.setMeldungAus(false);
                     if (aKopf != null) {// Falls Auftragskopf vorhanden ist.
                         if (!(aKopf.getStatus().getStatus().
                                 equals("abgeschlossen"))) {//Status des Auftrags 

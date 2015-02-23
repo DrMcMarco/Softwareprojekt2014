@@ -35,7 +35,7 @@ import javax.swing.table.DefaultTableModel;
 /*----------------------------------------------------------*/
 /**
  *
- * @author Simon <Simon.Simon at your.org>
+ * @author Simon Simon.Simon at your.org
  */
 public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
     
