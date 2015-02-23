@@ -83,41 +83,85 @@ public interface InterfaceMainView {
     /*----------------------------------------------------------*/
     /**
      * Methode mit der ein Component übergeben wird.
-     * @param component, Component die übergeben wird.
+     * @param component Component die übergeben wird.
      */
     public void setFrame(Component component);
     
     /**
-     * 
-     * @return 
+     * Gibt die letzte Anzeige.
+     * @return InternalFrame mit der letzten Anzeige.
      */
     public JInternalFrame gibLetzteAnzeige();
     
     /**
-     * 
-     * @param comp 
+     * Ruft die Suche auf.
+     * @param comp aufrufende Komponente
      */
     public void rufeSuche(JInternalFrame comp);
     
+    /**
+     * Gibt den Titel zurück.
+     * @return Text mit Titel
+     */
     public String gibTitel();
     
+    /**
+     * Gibt das anlegen Fenster.
+     * @return Artikelanlegen
+     */
     public ArtikelAnlegen gibArtikelAnlegenFenster();
     
+    /**
+     * Gibt das anlegen Fenster.
+     * @return Auftragskopfanlegen
+     */
     public AuftragskopfAnlegen gibAuftragskopfanlegenFenster();
     
+    /**
+     * Gibt das anlegen Fenster.
+     * @return Geschäftspartner anlegen
+     */
     public GeschaeftspartnerAnlegen gibGeschaeftspartneranlegenFenster();
     
+    /**
+     * Gibt das anlegen Fenster.
+     * @return Artikeländerneinstieg
+     */
     public ArtikelAEndernEinstieg gibArtikelaendernEinstieg();
     
+    /**
+     * Gibt das anlegen Fenster.
+     * @return Geschäftspartner aendern Einstieg.
+     */
     public GeschaeftspartnerAEndernEinstieg gibGeschaeftspartnerAendernEinstieg();
     
+    /**
+     * Gibt das anlegen Fenster.
+     * @return ZkändernEinstieg
+     */
     public ZahlungskonditionenAEndernEinstieg gibZkAendernEinstieg();
     
+    /**
+     * Gibt das anlegen Fenster.
+     * @return Auftragskopfänderneinstieg
+     */
     public AuftragskopfAendern gibAkAendernEinstieg();
     
+    /**
+     * Gibt das anlegen Fenster.
+     * @return auftragspositionändern
+     */
     public AuftragspositionAendern gibPositionAendernEinstieg();
     
+    /**
+     * Gibt das anlegen Fenster.
+     * @return zkanlegen
+     */
     public ZahlungskonditionAnlegen gibZkAnlegen();
     
+    /**
+     * Gibt das anlegen Fenster.
+     * @return auftragspositionanzeigen
+     */
     public AuftragspositionAnzeigen gibApAnzeigen();
 }

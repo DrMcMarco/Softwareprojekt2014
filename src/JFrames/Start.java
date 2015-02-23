@@ -98,8 +98,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
 
     private static Timer timer;
 
+
     /**
-     * Creates new form Start
+     * Start Methode.
+     * @param login Login klasse
      */
     public Start(Login login) {
         initComponents();
@@ -1006,7 +1008,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /**
      * Methode mit der eine übergebene Component angezeigt wird.
      *
-     * @param component
+     * @param component eine komponente
      */
     @Override
     public void setFrame(Component component) {
@@ -1170,7 +1172,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /**
      * Methode mit der man eine übergebene Component speichert.
      *
-     * @param component
+     * @param component eine Komponente
      */
     @Override
     public void setComponent(JInternalFrame component) {
@@ -1184,7 +1186,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /**
      * Methode mit der man die aktuell übergebene Component erhält.
      *
-     * @return
+     * @return Aktuelle Komponente
      */
     @Override
     public JInternalFrame getComponent() {

@@ -36,8 +36,8 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
      * in ein "Start"-Internalframe gecastet wird. Eine Fehlerbehandlung findet
      * statt, falls nicht gecastet werden kann.
      *
-     * @param factory
-     * @param frame
+     * @param factory GuiFactory
+     * @param frame Frame Interface
      */
     public Hauptmenue_User(GUIFactory factory, InterfaceMainView frame) {
         initComponents();

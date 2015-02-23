@@ -36,8 +36,10 @@ public class Anmeldung extends javax.swing.JInternalFrame {
     final String FEHLERMELDUNGSTITEL = "Fehler";
     
 
+    
     /**
-     * Creates new form Hauptmenue
+     * Erstellt neues Hauptmenü.
+     * @param test login
      */
     public Anmeldung(Login test) {
         initComponents();

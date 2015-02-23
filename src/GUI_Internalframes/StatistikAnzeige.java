@@ -12,17 +12,21 @@ import org.jfree.chart.JFreeChart;
 
 /**
  *
- * @author Simon <Simon.Simon at your.org>
+ * @author Simon Simon.Simon at your.org
  */
 public class StatistikAnzeige extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form StatistikAnzeige
+     * Creates new form StatistikAnzeige.
      */
     public StatistikAnzeige() {
         initComponents();
     }
 
+    /**
+     * Setzt das Chart.
+     * @param chart JFreechart
+     */
     public void setzeChart(JFreeChart chart) {
         ChartPanel chartPanel = new ChartPanel(chart);
         // default size
