@@ -2548,6 +2548,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                 calender.setTime(heute);
                 calender.add(Calendar.DAY_OF_MONTH, sperrzeit);
 
+                berechnetesLieferdatum = calender.getTime();
 //                if (tagesformat.format(berechnetesLieferdatum).equals("So")
 //                        || tagesformat.format(berechnetesLieferdatum).
 //                        equals("Sa")) {
