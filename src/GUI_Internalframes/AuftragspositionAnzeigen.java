@@ -175,6 +175,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         einzelwert_jTextField = new javax.swing.JTextField();
         erfassungsdatum_jTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
 
         setTitle("Auftragsposition anzeigen");
 
@@ -233,7 +234,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
 
         menge_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         menge_jLabel.setLabelFor(menge_jTextField);
-        menge_jLabel.setText("Menge :");
+        menge_jLabel.setText("Menge* :");
 
         einzelwert_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         einzelwert_jLabel.setLabelFor(einzelwert_jTextField);
@@ -271,6 +272,9 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Auftragspositionsdaten :");
 
+        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
+        jLabel12.setText("*Pflichtfelder");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -289,7 +293,8 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
                             .addComponent(materialnummer_jLabel)
                             .addComponent(menge_jLabel)
                             .addComponent(einzelwert_jLabel)
-                            .addComponent(erfassungsdatum_jLabel))
+                            .addComponent(erfassungsdatum_jLabel)
+                            .addComponent(jLabel12))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(auftragskofID_jTextField)
@@ -298,7 +303,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
                             .addComponent(menge_jTextField)
                             .addComponent(einzelwert_jTextField)
                             .addComponent(erfassungsdatum_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(124, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
@@ -334,7 +339,9 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(erfassungsdatum_jLabel)
                     .addComponent(erfassungsdatum_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(79, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel12)
+                .addContainerGap(54, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(22, 22, 22)
@@ -1029,6 +1036,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
     private javax.swing.JButton jB_Suchen;
     private javax.swing.JButton jB_Zurueck;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JLabel materialnummer_jLabel;
