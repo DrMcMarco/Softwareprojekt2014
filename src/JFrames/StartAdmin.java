@@ -261,7 +261,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         jM_Navigation.setText("Navigation");
 
         jM_AuftragVerwalten.setMnemonic('a');
-        jM_AuftragVerwalten.setText("Aufträge Verwalten");
+        jM_AuftragVerwalten.setText("Aufträge verwalten");
         jM_AuftragVerwalten.setActionCommand("JMenu1");
 
         jM_Auftragskopf.setText("Auftragskopf");
@@ -320,7 +320,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         jM_Navigation.add(jM_AuftragVerwalten);
 
         jM_ArtikelVerwalten.setMnemonic('a');
-        jM_ArtikelVerwalten.setText("Artikel Verwalten");
+        jM_ArtikelVerwalten.setText("Artikel verwalten");
         jM_ArtikelVerwalten.setActionCommand("JMenu1");
 
         jMI_ArtikelAnlegen.setText("Anlegen");
@@ -349,7 +349,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
 
         jM_Navigation.add(jM_ArtikelVerwalten);
 
-        jM_GPVerwalten.setText("Geschäftspartner Verwalten");
+        jM_GPVerwalten.setText("Geschäftspartner verwalten");
         jM_GPVerwalten.setActionCommand("JMenu1");
 
         jMI_GPAnlegen.setText("Anlegen");
@@ -378,7 +378,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
 
         jM_Navigation.add(jM_GPVerwalten);
 
-        jM_ZKVerwalten.setText("Zahlungskonditionen Verwalten");
+        jM_ZKVerwalten.setText("Zahlungskonditionen verwalten");
         jM_ZKVerwalten.setActionCommand("JMenu1");
 
         jMI_ZKAnlegen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
@@ -408,7 +408,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
 
         jM_Navigation.add(jM_ZKVerwalten);
 
-        jMenu1.setText("Benutzer Verwalten");
+        jMenu1.setText("Benutzer verwalten");
 
         jMI_BenutzerAnlegen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
         jMI_BenutzerAnlegen.setText("Anlegen");

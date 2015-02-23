@@ -30,7 +30,8 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
     InterfaceMainView hauptFenster;
 
     // Konstanten für Meldungen.
-    final String FEHLENDEEINGABEN = "Bitte geben Sie alle Eingaben ein.";
+    final String USER_NICHT_GEFUNDEN = "Keine passender Benutzer in der Datenbank.";
+    final String KEINE_EINGABE = "Bitte geben Sie einen Benutzernamen ein.";
     final String FEHLER = "Fehler bei Eingabe ";
 
     // Speichervariablen
@@ -115,13 +116,14 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
         jToolBar1.add(jB_Loeschen);
 
         jB_Suchen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Suche.PNG"))); // NOI18N
+        jB_Suchen.setEnabled(false);
         jToolBar1.add(jB_Suchen);
 
         jSeparator1.setEnabled(false);
 
         BenutzerID_jLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         BenutzerID_jLabel.setLabelFor(BenutzerID_jTextField);
-        BenutzerID_jLabel.setText("Benutzer-ID :");
+        BenutzerID_jLabel.setText("Benutzername :");
         BenutzerID_jLabel.setToolTipText("");
 
         BenutzerID_jTextField.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -161,8 +163,8 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
                 .addGap(66, 66, 66)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BenutzerID_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BenutzerID_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Weiter_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(BenutzerID_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Weiter_jButton))
                 .addContainerGap(141, Short.MAX_VALUE))
         );
 
@@ -197,6 +199,7 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
     /* 10.12.14 TER Erstellung */
     /* 16.02.14 TER Überarbeitung */
     /* 18.02.15 TER getestet und freigegeben */
+    /* 23.02.15 Sen Logik ueberarbeitet */
     /*----------------------------------------------------------*/
     /**
      * Weiter-Button Funktion.
@@ -208,63 +211,67 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
         Benutzer benutzer;// Anlegen eines Bentzers
         try {
             //Initialisierung eines Benutzers.
-            benutzer = GUIFactory.getDAO().gibBenutzer(BenutzerID_jTextField.getText());
+            if (!BenutzerID_jTextField.getText().equals("")) {
 
-            // Wird geprüft ob eseien Benutzer gibt.
-            if (benutzer != null) {
+                benutzer = GUIFactory.getDAO().gibBenutzer(BenutzerID_jTextField.getText());
+
+                // Wird geprüft ob eseien Benutzer gibt.
+                if (benutzer != null) {
                 // Benutzer ist vorhanden und nund wird geprüft welche Maske die
-                // Funktion aufruft.
-                if (this.getTitle().equals(benutzerAendernEinstieg)) {
-                    // Benutzername aus der DB wird im Eingabefeld angezeigt.
-                    this.userAnlegen.setBenutzername(benutzer.getBenutzername());
-                    if (benutzer.isIstAdmin()) {//Falls Benutzer Admin ist.
-                        // Ceckbox wird selektiert.
-                        this.userAnlegen.setCheckBoxSelected(true);
-                    } else {
-                        // Checkbox wird nicht selektiert.
-                        this.userAnlegen.setCheckBoxSelected(false);
-                    }
-                    // Setzt das Internalframe in den Ändernmodus.
-                    this.userAnlegen.setStatusAender();
-                    
-                    // Checkbox wird auf Enable false gesetzt.
-                    this.userAnlegen.setZustand(false);
-                    zuruecksetzen();//Methode die bestimmte Eingabefelder leert
-                    this.setVisible(false);//Maske ist nicht mehr Sichtbar.
-                    // Hauptfenster macht übergebene Maske sichtbar.
-                    this.hauptFenster.setFrame(this.userAnlegen);
+                    // Funktion aufruft.
+                    if (this.getTitle().equals(benutzerAendernEinstieg)) {
+                        // Benutzername aus der DB wird im Eingabefeld angezeigt.
+                        this.userAnlegen.setBenutzername(benutzer.getBenutzername());
+                        if (benutzer.isIstAdmin()) {//Falls Benutzer Admin ist.
+                            // Ceckbox wird selektiert.
+                            this.userAnlegen.setCheckBoxSelected(true);
+                        } else {
+                            // Checkbox wird nicht selektiert.
+                            this.userAnlegen.setCheckBoxSelected(false);
+                        }
+                        // Setzt das Internalframe in den Ändernmodus.
+                        this.userAnlegen.setStatusAender();
 
-                } else {// Falls Maske nicht "Benutzer ändern Einstieg" ist.
+                        // Checkbox wird auf Enable false gesetzt.
+//                    naechste Zeile auskommentiert von Tahir
+//                    this.userAnlegen.setZustand(false);
+                        zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                        this.setVisible(false);//Maske ist nicht mehr Sichtbar.
+                        // Hauptfenster macht übergebene Maske sichtbar.
+                        this.hauptFenster.setFrame(this.userAnlegen);
 
-                    // Setzt das Internalframe in den Anzeigenmodus.
-                    this.userAnlegen.setStatusAnzeigen();
-                    // Benutzername aus der DB wird im Eingabefeld angezeigt.
-                    this.userAnlegen.setBenutzername(benutzer.getBenutzername());
-                    if (benutzer.isIstAdmin()) {//Falls Benutzer Admin ist.                       
-                        // Ceckbox wird selektiert.
-                        this.userAnlegen.setCheckBoxSelected(true);
-                    } else {
-                        // Checkbox wird nicht selektiert.
-                        this.userAnlegen.setCheckBoxSelected(false);//Checkbox wird nicht selektiert.
-                    }
-                    // Checkbox wird auf Enable false gesetzt.
-                    this.userAnlegen.setZustand(false);
+                    } else {// Falls Maske nicht "Benutzer ändern Einstieg" ist.
+
+                        // Setzt das Internalframe in den Anzeigenmodus.
+                        this.userAnlegen.setStatusAnzeigen();
+                        // Benutzername aus der DB wird im Eingabefeld angezeigt.
+                        this.userAnlegen.setBenutzername(benutzer.getBenutzername());
+                        if (benutzer.isIstAdmin()) {//Falls Benutzer Admin ist.                       
+                            // Ceckbox wird selektiert.
+                            this.userAnlegen.setCheckBoxSelected(true);
+                        } else {
+                            // Checkbox wird nicht selektiert.
+                            this.userAnlegen.setCheckBoxSelected(false);//Checkbox wird nicht selektiert.
+                        }
+                        // Checkbox wird auf Enable false gesetzt.
+                        this.userAnlegen.setZustand(false);
 //                    this.userAnlegen.setCheckBoxSelected(false);//Checkbox wird nicht selektiert.
-                    zuruecksetzen();//Methode die bestimmte Eingabefelder leert
-                    this.setVisible(false);//Maske ist nicht mehr Sichtbar.
-                    // Hauptfenster macht übergebene Maske sichtbar.
-                    this.hauptFenster.setFrame(this.userAnlegen);
+                        zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                        this.setVisible(false);//Maske ist nicht mehr Sichtbar.
+                        // Hauptfenster macht übergebene Maske sichtbar.
+                        this.hauptFenster.setFrame(this.userAnlegen);
+                    }
                 }
+            } else {
+
+                this.hauptFenster.setStatusMeldung(KEINE_EINGABE);
             }
         } catch (ApplicationException e) {//Fehlerbehandlung "ApplicationException"
             //Fehler wird als ein PopUp ausgegeben.
-            JOptionPane.showMessageDialog(null, e.getMessage(),
-                    FEHLENDEEINGABEN, JOptionPane.ERROR_MESSAGE);
-        } catch (NumberFormatException e) {//Fehlerbehandlung "NumberFormatException"
-            this.hauptFenster.setStatusMeldung(FEHLENDEEINGABEN);
-            //Fehler wird als ein PopUp ausgegeben.
-            JOptionPane.showMessageDialog(null, FEHLENDEEINGABEN,
-                    FEHLER, JOptionPane.ERROR_MESSAGE);
+//            JOptionPane.showMessageDialog(null, e.getMessage(),
+//                    FEHLENDEEINGABEN, JOptionPane.ERROR_MESSAGE);
+            this.hauptFenster.setStatusMeldung(USER_NICHT_GEFUNDEN);
+            BenutzerID_jTextField.setText("");
         }
     }//GEN-LAST:event_Weiter_jButtonActionPerformed
 
@@ -275,6 +282,7 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
     /*----------------------------------------------------------*/
     /**
      * Methode um mit dem Enter-Button die Weiter-Button Funktion zu betätigen.
+     *
      * @param evt
      */
     private void BenutzerID_jTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BenutzerID_jTextFieldKeyPressed
@@ -367,7 +375,7 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
      */
     @Override
     public void fehlEingabenMarkierung(ArrayList<Component> list,
-            String fehlermelgungtitel, String fehlermeldung, Color farbe ) {
+            String fehlermelgungtitel, String fehlermeldung, Color farbe) {
         //Meldung die darauf hinweist das nicht alle Eingaben getätigt worden sind.
         JOptionPane.showMessageDialog(null, fehlermeldung,
                 fehlermelgungtitel, JOptionPane.WARNING_MESSAGE);
@@ -380,7 +388,7 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
         //ArrayList mit leeren Eingabefeldern für den Auftragskopf leeren.
         list.clear();
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BenutzerID_jLabel;
     private javax.swing.JTextField BenutzerID_jTextField;
