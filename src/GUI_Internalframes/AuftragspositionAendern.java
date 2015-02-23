@@ -47,7 +47,11 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
     final String FEHLERMELDUNG_STATUS_TITEL = "Abgeschlossener Auftrag";
     final String FEHLERMMELDUNG_STATUSABGESCHLOSSEN_TEXT = "Der Auftrag ist "
             + "bereits abgeschlossen und kann nicht"
-            + "\n bearbeitet werden. ";
+            + "\nbearbeitet werden. ";
+    final String AUFTRAG_NICHT_GEFUNDEN = "Keine passender Auftrag in der Datenbank.";
+    final String KEINE_EINGABE = "Bitte geben Sie eine Auftragskopf-ID und die Auftragsposition-ID ein.";
+    final String KEINE_AUFTRAGSID = "Bitte geben Sie eine Auftragskopf-ID ein.";
+    final String KEINE_POSITIONSID = "Bitte geben Sie eine Auftragsposition-ID ein.";
 
 
     /*----------------------------------------------------------*/
@@ -275,48 +279,53 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
     private void Weiter_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Weiter_jButtonActionPerformed
         // Klassenvariable
         final String auftragspositionaendern = "Auftragsposition ändern Einstieg";
-        // Überprfung, ob auch alle Eingaben getätigt worden sind.
-        ueberpruefen();
-        try {// Try-Block
-            Auftragskopf aKopf = GUIFactory.getDAO().
-                    gibAuftragskopf(
-                            Long.parseLong(
-                                    auftragskopfID_jTextField.getText()));
+//        Ueberpruefung, ob beide Felder leer sind
+        if (!auftragskopfID_jTextField.getText().equals("") && !AuftragspositionID_jTextField.getText().equals("")) {
+            // Überprfung, ob auch alle Eingaben getätigt worden sind.
+            ueberpruefen();
+            try {// Try-Block
+                Auftragskopf aKopf = GUIFactory.getDAO().
+                        gibAuftragskopf(
+                                Long.parseLong(
+                                        auftragskopfID_jTextField.getText()));
 
-            // Erzeugung eines Auftragspositionsobjektes mit der DAO-Methode
-            // "gibAuftragsposition". Es werden dafür die Eingaben genutzt.
-            Auftragsposition position = GUIFactory.getDAO().
-                    gibAuftragsposition(Long.parseLong(
-                                    auftragskopfID_jTextField.getText()),
-                            Long.parseLong(
-                                    AuftragspositionID_jTextField.getText()));
-            if (position != null) {//Wird geprüft ob eine Position vorhanden ist
+                // Erzeugung eines Auftragspositionsobjektes mit der DAO-Methode
+                // "gibAuftragsposition". Es werden dafür die Eingaben genutzt.
+                Auftragsposition position = GUIFactory.getDAO().
+                        gibAuftragsposition(Long.parseLong(
+                                        auftragskopfID_jTextField.getText()),
+                                Long.parseLong(
+                                        AuftragspositionID_jTextField.getText()));
+                if (position != null) {//Wird geprüft ob eine Position vorhanden ist
 
-                if (this.getTitle().equals(auftragspositionaendern)) {
+                    if (this.getTitle().equals(auftragspositionaendern)) {
 
-                    // Überprüft anhand des Framestitels, ob es das nächste Fenster
-                    // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
-                    if (!(aKopf.getStatus().getStatus().
-                            equals("abgeschlossen"))) {//Status des Auftrags 
-                        // Setzt das Internalframe in den Ändernmodus.
-                        this.auftragspositionAnzeigen.setStatusAender();
-                        //Methode die bestimmte Eingabefelder leert
-                        zuruecksetzen();
-                        this.auftragspositionAnzeigen.setzeEingaben(position);
-                        // Fenster wird nicht mehr sichtbar.
-                        this.setVisible(false);
-                        // Hauptfenster macht übergebene Maske sichtbar.
-                        this.hauptFenster.setFrame(
-                                this.auftragspositionAnzeigen);
-                    } else {
-                        // Fehlermeldung als PopUp
-                        JOptionPane.showMessageDialog(null,
-                                FEHLERMMELDUNG_STATUSABGESCHLOSSEN_TEXT,
-                                FEHLERMELDUNG_STATUS_TITEL,
-                                JOptionPane.WARNING_MESSAGE);
-                    }
-                } else {//Falls Titel gleich "Auftragsposition anzeigen Einstieg"
-                    // Setzt das Internalframe in den Anzeigenmodus.
+                        // Überprüft anhand des Framestitels, ob es das nächste Fenster
+                        // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
+                        if (!(aKopf.getStatus().getStatus().
+                                equals("abgeschlossen"))) {//Status des Auftrags 
+                            // Setzt das Internalframe in den Ändernmodus.
+                            this.auftragspositionAnzeigen.setStatusAender();
+                            //Methode die bestimmte Eingabefelder leert
+                            zuruecksetzen();
+                            this.auftragspositionAnzeigen.setzeEingaben(position);
+                            // Fenster wird nicht mehr sichtbar.
+                            this.setVisible(false);
+                            // Hauptfenster macht übergebene Maske sichtbar.
+                            this.hauptFenster.setFrame(
+                                    this.auftragspositionAnzeigen);
+                        } else {
+                            // Fehlermeldung als PopUp
+                            JOptionPane.showMessageDialog(null,
+                                    FEHLERMMELDUNG_STATUSABGESCHLOSSEN_TEXT,
+                                    FEHLERMELDUNG_STATUS_TITEL,
+                                    JOptionPane.WARNING_MESSAGE);
+                            AuftragspositionID_jTextField.setText("");
+                            auftragskopfID_jTextField.setText("");
+                            auftragskopfID_jTextField.requestFocusInWindow();
+                        }
+                    } else {//Falls Titel gleich "Auftragsposition anzeigen Einstieg"
+                        // Setzt das Internalframe in den Anzeigenmodus.
                         this.auftragspositionAnzeigen.setStatusAnzeigen();
                         //Methode die bestimmte Eingabefelder leert
                         zuruecksetzen();
@@ -326,21 +335,39 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
                         // Hauptfenster macht übergebene Maske sichtbar.
                         this.hauptFenster.setFrame(
                                 this.auftragspositionAnzeigen);
-                }
+                    }
 
+                }
+            } catch (NumberFormatException e) {// Fehlerbehandlung.
+//            // Fehlermeldung als PopUp
+//            JOptionPane.showMessageDialog(null,
+//                    FEHLERMELDUNG_AUFTRAGSKOPFID_TEXT,
+//                    FEHLER, JOptionPane.ERROR_MESSAGE);
+                this.hauptFenster.setStatusMeldung(KEINE_EINGABE);
+            } catch (ApplicationException e) {// Fehlerbehandlung.
+//            // Fehlermeldung als PopUp
+//            JOptionPane.showMessageDialog(null, e.getMessage(),
+//                    FEHLER, JOptionPane.ERROR_MESSAGE);
+                this.hauptFenster.setStatusMeldung(AUFTRAG_NICHT_GEFUNDEN);
+                auftragskopfID_jTextField.setText("");
+                AuftragspositionID_jTextField.setText("");
+            } catch (NullPointerException e) {// Fehlerbehandlung.
+                // Fehlermeldung als PopUp
+                this.hauptFenster.setStatusMeldung(FEHLENDEEINGABEN);
             }
-        } catch (NumberFormatException e) {// Fehlerbehandlung.
-            // Fehlermeldung als PopUp
-            JOptionPane.showMessageDialog(null,
-                    FEHLERMELDUNG_AUFTRAGSKOPFID_TEXT,
-                    FEHLER, JOptionPane.ERROR_MESSAGE);
-        } catch (ApplicationException e) {// Fehlerbehandlung.
-            // Fehlermeldung als PopUp
-            JOptionPane.showMessageDialog(null, e.getMessage(),
-                    FEHLER, JOptionPane.ERROR_MESSAGE);
-        } catch (NullPointerException e) {// Fehlerbehandlung.
-            // Fehlermeldung als PopUp
-            this.hauptFenster.setStatusMeldung(FEHLENDEEINGABEN);
+        } else {
+//            Ein oder beide Felder sind leer
+//            Ueberpruefung welches Feld leer ist
+            if (auftragskopfID_jTextField.getText().equals("") && AuftragspositionID_jTextField.getText().equals("")) {
+//                beide Felder sind leer, Fehlermeldung
+                this.hauptFenster.setStatusMeldung(KEINE_EINGABE);
+            } else if (AuftragspositionID_jTextField.getText().equals("")) {
+//                Auftragspoisitons-ID ist leer, entsprechende Fehlermeldung
+                this.hauptFenster.setStatusMeldung(KEINE_POSITIONSID);
+            } else {
+//                Auftrags-ID ist leer, entsprechende Fehlermeldung
+                this.hauptFenster.setStatusMeldung(KEINE_AUFTRAGSID);
+            }
         }
 
     }//GEN-LAST:event_Weiter_jButtonActionPerformed

@@ -54,6 +54,8 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
             + "(z.B. 1 oder 999999999)\"";
     final String FEHLERMELDUNG_UNVOLLSTAENDIG_TEXT = "Es wurden nicht alle"
             + " Eingaben getätigt.";
+    final String AUFTRAG_NICHT_GEFUNDEN = "Keine passender Auftrag in der Datenbank.";
+    final String KEINE_EINGABE = "Bitte geben Sie eine Auftrags-ID ein.";
 
     // Konstanten für Farben
     Color warningfarbe = Color.YELLOW;
@@ -240,9 +242,9 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
      */
     private void auftragskopfID_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_auftragskopfID_jTextFieldFocusLost
         // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
-        ueberpruefungVonFocusLost(auftragskopfID_jTextField,
-                auftragskopfID_syntax,
-                FEHLERMELDUNG_TITEL, FEHLERMELDUNG_AUFTRAGSKOPFID_TEXT);
+//        ueberpruefungVonFocusLost(auftragskopfID_jTextField,
+//                auftragskopfID_syntax,
+//                FEHLERMELDUNG_TITEL, FEHLERMELDUNG_AUFTRAGSKOPFID_TEXT);
 
     }//GEN-LAST:event_auftragskopfID_jTextFieldFocusLost
 
@@ -325,14 +327,18 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
                 }
             } else {// Falls keine eingabegetätigt worden ist.
                 // Fehlermeldung als PopUp
-                JOptionPane.showMessageDialog(null,
-                        FEHLERMELDUNG_UNVOLLSTAENDIG_TEXT,
-                        FEHLER, JOptionPane.ERROR_MESSAGE);
+//                JOptionPane.showMessageDialog(null,
+//                        FEHLERMELDUNG_UNVOLLSTAENDIG_TEXT,
+//                        FEHLER, JOptionPane.ERROR_MESSAGE);
+                
+                this.hauptFenster.setStatusMeldung(KEINE_EINGABE);
             }
         } catch (ApplicationException | NullPointerException e) {// Fehlerbehandlung.
             // Fehlermeldung als PopUp
-            JOptionPane.showMessageDialog(null, e.getMessage(),
-                    FEHLER, JOptionPane.ERROR_MESSAGE);
+//            JOptionPane.showMessageDialog(null, e.getMessage(),
+//                    FEHLER, JOptionPane.ERROR_MESSAGE);
+                this.hauptFenster.setStatusMeldung(AUFTRAG_NICHT_GEFUNDEN);
+                auftragskopfID_jTextField.setText("");
         }
     }//GEN-LAST:event_weiter_jButtonActionPerformed
 
