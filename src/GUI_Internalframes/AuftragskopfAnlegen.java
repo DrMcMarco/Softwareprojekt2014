@@ -1151,9 +1151,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
 //                            // Lieferdatum anzeigen zu lassen
 //                            gibSkontoUndMahnzeiten(zahlungskondition, false);
 //
-//                        }
+//                        }assas
                     gibSkontoUndMahnzeiten(zahlungskondition, false);
-//                    }
+//                    }asa
                 } else if (auftragsart_jComboBox.getSelectedItem().
                         equals(TERMINAUFTRAG)) {//Falls es ein terminauftrag ist.
                     sperrzeit = zahlungskondition.getSperrzeitWunsch();
@@ -1259,7 +1259,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                     }
                 }
                 // Falls es kein Bestellauftrag sein sollte.
-                if (!(auftragsart_jComboBox.getSelectedItem().toString().
+                else if (!(auftragsart_jComboBox.getSelectedItem().toString().
                         equals(BESTELLAUFTRAG))) {
                     // Ob Positionsliste leer ist.
                     if (auftragspositionen.size() > 0) {
@@ -1279,8 +1279,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                             auftragspositionen.get(i).setEinzelwert(neuerWert);
                             // Artikel-ID und dessen Menge werden in HashMap
                             // gespeichert.
-                            artikel.put(artikelid, auftragspositionen.get(i).
-                                    getMenge());
+//                            artikel.put(artikelid, auftragspositionen.get(i).
+//                                    getMenge());
 
                             // Summe der Position berechnen und speichern
                             summenWertFuerPos = auftragspositionen.get(i).
