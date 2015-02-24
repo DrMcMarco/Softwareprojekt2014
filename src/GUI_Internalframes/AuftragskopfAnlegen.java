@@ -2761,6 +2761,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
     /* Datum Name Was */
     /* 10.12.2014 Terrasi, angelegt */
     /* 08.01.2015 Terrasi, Logik implementiert */
+    /* 18.02.2015, TER, getestet,freigegeben und dokumentiert */
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode mit der geprüft wird ob alle Eingaben getätigt
@@ -2822,7 +2823,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
             textfield.selectAll();
         } else if (!textfield.getText().equals("")) {
             formularOK = true;
-
+            
             textfield.setBackground(hintergrundfarbe);
 
         } else {
@@ -2924,7 +2925,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
     /* Datum Name Was */
     /* 06.01.2015 Terrasi angelegt,Logik und Dokumentation */
     /* 08.01.2015 Terrasi Anwendungslogik überarbeitet*/
-    /* 18.02.2015 TER, getestet und freigegeben */
+    /* 18.02.2015 TER, getestet und freigegeben  */
     /*----------------------------------------------------------*/
     /**
      * Methode mit der das Internalframe nicht mehr als Anzeigefenster
@@ -2975,6 +2976,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
     /* Datum Name Was */
     /* 06.01.2015 Terrasi angelegt,Logik und Dokumentation */
     /* 08.01.2015 Terrasi Anwendungslogik überarbeitet*/
+    /* 18.02.2015 TER, getestet und freigegeben  */
     /*----------------------------------------------------------*/
     /**
      * Methode mit der das Internalframe wieder als Anzeigefenster dargestellt
@@ -2982,6 +2984,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
      */
     public void setStatusAnzeigen() {
         this.setTitle("Auftragskopf anzeigen");
+        // Komponenten werden auf Enabled gesetzt oder nicht.
         this.geschaeftspartner_jTextField.setEnabled(false);
         this.auftragskopfID_jTextField.setEnabled(false);
         this.auftragswert_jTextField.setEnabled(false);
@@ -3004,12 +3007,14 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
         jB_Loeschen.setEnabled(false);
         NeuePosition_jButton.setEnabled(false);
         positionLoeschen_jButton.setEnabled(false);
+        //Übergabe des Fenster an das Hauptfenster.
         this.hauptFenster.setComponent(this);
     }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 08.01.2015 Terrasi angelegt und dokumentiert*/
+    /* 18.02.2015 TER, getestet und freigegeben  */
     /*----------------------------------------------------------*/
     /**
      * Methode mit der das Internalframe als Anlegenfenster dargestellt wird um
@@ -3017,7 +3022,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
      */
     public void setStatusAnlegen() {
         this.setTitle("Auftragskopf anlegen");
-        zuruecksetzen();
+        zuruecksetzen();// Zurücksetzen des Formulars.
+        // Komponenten werden auf Enabled gesetzt oder nicht.
         this.geschaeftspartner_jTextField.setEnabled(true);
         this.auftragskopfID_jTextField.setEnabled(false);
 
@@ -3044,42 +3050,49 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
         jB_Loeschen.setEnabled(false);
         NeuePosition_jButton.setEnabled(true);
         positionLoeschen_jButton.setEnabled(true);
+        //Übergabe des Fenster an das Hauptfenster.
         this.hauptFenster.setComponent(this);
     }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /* 18.02.2015 TER, getestet und freigegeben  */
     /*----------------------------------------------------------*/
-//    public void setArtikel(HashMap<Long, Integer> artikel) {
+    /**
+     * Methode mit der man eine HashMAp von Artikel übergibt und speichert.
+     * @param artikel, HashMap die Artikel-ID und deren Menge enhält. 
+     */
     public void setArtikel(LinkedHashMap<Long, Integer> artikel) {
         this.artikel = artikel;
     }
 
 
-    /*----------------------------------------------------------*/
-    /* Datum Name Was */
-    /* 14.01.2015 Terrasi angelegt und dokumentiert*/
-    /*----------------------------------------------------------*/
-    public void setAbschlussdatum_jFormattedTextField(
-            JFormattedTextField abschlussdatum_jFormattedTextField) {
-        this.abschlussdatum_jFormattedTextField
-                = abschlussdatum_jFormattedTextField;
-    }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 14.01.2015 sch angelegt und dokumentiert*/
+    /* 14.01.2015 TER angelegt und dokumentiert*/
+    /* 18.02.2015 TER, getestet und freigegeben  */
     /*----------------------------------------------------------*/
+    /**
+     * Methode mit der man eine Artikel-ID übergibt und den FocusLost
+     * des Eingabefeldes aufruft, um zu überprüfen ob die ID auch gültig ist.
+     * @param id , String der die Artikel-ID rpräsentiert
+     */
     public void setArtikelid_jTextField(String id) {
-        this.materialnummer_jTextField.setText(id);
-        materialnummer_jTextFieldFocusLost(null);
+        this.materialnummer_jTextField.setText(id);// Übergabe der ID
+        materialnummer_jTextFieldFocusLost(null);// FocusLost
     }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /* 18.02.2015 TER, getestet und freigegeben  */
     /*----------------------------------------------------------*/
+    /**
+     * Methode mit der man eine Auftragsart in der Combobox auswählt.
+     * @param auftragsArt, String der eine Auftragsart repräsentiert. 
+     */
     public void setAuftragsart_jComboBox(String auftragsArt) {
         auftragsart_jComboBox.setSelectedItem(auftragsArt);
     }
@@ -3087,7 +3100,12 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /* 18.02.2015 TER, getestet und freigegeben  */
     /*----------------------------------------------------------*/
+    /**
+     * Methode um Auftragskopf-ID  zu setzen.
+     * @param id, String repräsentiert eine Auftragskopf-ID 
+     */
     public void setAuftragskopfID_jTextField(String id) {
         this.auftragskopfID_jTextField.setText(id);
     }
@@ -3095,7 +3113,12 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /* 18.02.2015 TER, getestet und freigegeben  */
     /*----------------------------------------------------------*/
+    /**
+     * Methode um Auftragstext  zu setzen.
+     * @param auftragstext , String repräsentiert einen Auftragstext
+     */
     public void setAuftragstext_jTextArea(String auftragstext) {
         this.auftragstext_jTextArea.setText(auftragstext);
     }
@@ -3103,7 +3126,12 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /* 18.02.2015 TER, getestet und freigegeben  */
     /*----------------------------------------------------------*/
+    /**
+     * Methode um Auftragswert  zu setzen.
+     * @param wert, String repräsentiert eine Auftragswert 
+     */
     public void setAuftragswert_jTextField(String wert) {
         this.auftragswert_jTextField.setText(wert);
     }
@@ -3111,7 +3139,12 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /* 18.02.2015 TER, getestet und freigegeben  */
     /*----------------------------------------------------------*/
+    /**
+     * Methode um Geschäftspartner-ID  zu setzen.
+     * @param id, String repräsentiert eine Geschäftspartner-ID
+     */
     public void setGeschaeftspartnerID(String id) {
         this.geschaeftspartner_jTextField.setText(id);
     }
@@ -3119,7 +3152,13 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /* 18.02.2015 TER, getestet und freigegeben  */
     /*----------------------------------------------------------*/
+    /**
+     * Methode um Erfassungsdatum  zu setzen.
+     * @param erfassungsdatumAuftragsposition , String repräsentiert ein
+     * Erfassungsdatum.
+     */
     public void setErfassungsdatum_auftragsposition_jFormattedTextField(
             String erfassungsdatumAuftragsposition) {
         this.erfassungsdatum_auftragsposition_jFormattedTextField.
@@ -3129,7 +3168,13 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /* 18.02.2015 TER, getestet und freigegeben  */
     /*----------------------------------------------------------*/
+    /**
+     * Methode um Erfassungsdatum  zu setzen.
+     * @param erfassungsdatum , String repräsentiert ein
+     * Erfassungsdatum.
+     */
     public void setErfassungsdatum_jFormattedTextField(String erfassungsdatum) {
         this.erfassungsdatum_jFormattedTextField.setText(erfassungsdatum);
     }
@@ -3137,7 +3182,13 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /* 18.02.2015 TER, getestet und freigegeben  */
     /*----------------------------------------------------------*/
+    /**
+     * Methode um Lieferdatum  zu setzen.
+     * @param lieferdatum  , String repräsentiert ein
+     * Lieferdatum.
+     */
     public void setLieferdatum_jFormattedTextField(String lieferdatum) {
         this.lieferdatum_jFormattedTextField.setText(lieferdatum);
     }
@@ -3145,7 +3196,13 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /* 18.02.2015 TER, getestet und freigegeben  */
     /*----------------------------------------------------------*/
+    /**
+     * Methode um Materialnummer zu setzen.
+     * @param materialnummer  , String repräsentiert eine
+     * Materialnummer.
+     */
     public void setMaterialnummer_jTextField(String materialnummer) {
         this.materialnummer_jTextField.setText(materialnummer);
     }
@@ -3153,7 +3210,12 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /* 18.02.2015 TER, getestet und freigegeben  */
     /*----------------------------------------------------------*/
+    /**
+     * Methode um Menge zu setzen.
+     * @param menge , String repräsentiert eine Menge.
+     */
     public void setMenge_jTextField(String menge) {
         this.menge_jTextField.setText(menge);
     }
@@ -3161,7 +3223,12 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /* 18.02.2015 TER, getestet und freigegeben  */
     /*----------------------------------------------------------*/
+    /**
+     * Methode um Positionsnummer zu setzen.
+     * @param positionsnummer, String repräsentiert eine Menge.
+     */
     public void setPositionsnummer_jTextField(String positionsnummer) {
         this.positionsnummer_jTextField.setText(positionsnummer);
     }
@@ -3169,13 +3236,18 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 14.01.2015 Terrasi angelegt und dokumentiert*/
+    /* 18.02.2015 TER, getestet und freigegeben  */
     /*----------------------------------------------------------*/
+    /**
+     * Methode um Auftragskopf zu setzen.
+     * @param auftragskopf , String repräsentiert eine Menge.
+     */
     public void setzeEingabe(Auftragskopf auftragskopf) {
-        try {
+        try {// Try-Block
+            // Positionen des Auftrags aufrufen.
             auftragspositionen = auftragskopf.getPositionsliste();
-
+            // Falls Auftragsstatus erfasst ist.
             if (auftragskopf.getStatus().getStatus().equals("erfasst")) {
-
                 erfasst_jRadioButton.setSelected(true);
                 freigegeben_jRadioButton.setEnabled(true);
                 abgeschlossen_jRadioButton.setEnabled(false);
@@ -3205,7 +3277,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                 auftragsposition_jTable.setEnabled(true);
                 NeuePosition_jButton.setEnabled(false);
                 positionLoeschen_jButton.setEnabled(false);
-            } else {
+            } else {// Falls Status abgeschlossen ist.
                 abgeschlossen_jRadioButton.setSelected(true);
                 erfasst_jRadioButton.setEnabled(false);
                 freigegeben_jRadioButton.setEnabled(false);
@@ -3221,6 +3293,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                 positionLoeschen_jButton.setEnabled(false);
             }
 
+            // Übergabe der der Auftragsdaten in die passenden Eingabefelder.
             this.geschaeftspartner_jTextField.setText(
                     String.valueOf(auftragskopf.getGeschaeftspartner().
                             getGeschaeftspartnerID()));
@@ -3235,23 +3308,24 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                 lieferdatum_jFormattedTextField.setEnabled(false);
             }
 
-            //Hasmap bekommt positionen
+            //Hasmap wird geleert
             artikel.clear();
-
+            // DefaultTable Model wird geleert.
             dtm.setRowCount(0);
+            // Über Positionen interieren
             for (int i = 0; i < auftragspositionen.size(); i++) {
-
+                // Artikel und Menge in HashMap übergeben.
                 artikel.put(auftragspositionen.get(i).getArtikel().
                         getArtikelID(),
                         auftragspositionen.get(i).getMenge());
-
+                // Positionswert berechnen.
                 summenWertFuerPos = auftragspositionen.get(i).getEinzelwert();
 
                 Object[] neuesObj = new Object[]{i + 1,
                     auftragspositionen.get(i).getArtikel().getArtikelID(),
                     auftragspositionen.get(i).getMenge(), summenWertFuerPos,
                     gibDatumAlsString(heute)};
-
+                
                 gesamtAuftragswert += summenWertFuerPos;
 
                 dtm.addRow(neuesObj);
@@ -3259,9 +3333,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
             }
 
             if (auftragsart_jComboBox.getItemAt(1).toString().equals(
-                    auftragskopf.getTyp())) {
+                    auftragskopf.getTyp())) {// Falls Auftragsart Sofortauftrag gewählt ist.
                 auftragsart_jComboBox.setSelectedIndex(1);
-
+                // Passende Zahlungskonditionen interieren.
                 for (int i = 0; i < zahlungskonditionen_jComboBox.getItemCount(); i++) {
                     if (zahlungskonditionen_jComboBox.getItemAt(i).toString().
                             equals(String.valueOf(auftragskopf.
@@ -3270,13 +3344,12 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                         zahlungskonditionen_jComboBox.setSelectedIndex(i);
                     }
                 }
-
                 lieferdatum_jFormattedTextField.setEnabled(false);
             }
             if (auftragsart_jComboBox.getItemAt(2).toString().
-                    equals(auftragskopf.getTyp())) {
+                    equals(auftragskopf.getTyp())) {// Falls Auftragsart Terminauftrag gewählt ist.
                 auftragsart_jComboBox.setSelectedIndex(2);
-
+                // Passende Zahlungskonditionen interieren.
                 for (int i = 0; i < zahlungskonditionen_jComboBox.getItemCount(); i++) {
                     if (zahlungskonditionen_jComboBox.getItemAt(i).toString().
                             equals(String.valueOf(auftragskopf.
@@ -3285,7 +3358,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                         zahlungskonditionen_jComboBox.setSelectedIndex(i);
                     }
                 }
-
                 lieferdatum_jFormattedTextField.setEnabled(true);
             }
 
