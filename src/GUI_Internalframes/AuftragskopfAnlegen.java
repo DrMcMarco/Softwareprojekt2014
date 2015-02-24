@@ -26,7 +26,6 @@ import java.util.NoSuchElementException;
 import java.util.Vector;
 import javax.swing.ButtonModel;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JFormattedTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
