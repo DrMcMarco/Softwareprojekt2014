@@ -51,9 +51,9 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
     final String AUFTRAG_NICHT_GEFUNDEN = "Keine passender Auftrag in der "
             + "Datenbank.";
     final String KEINE_EINGABE = "Bitte geben Sie eine Auftragskopf-ID und die"
-            + " Auftragsposition-ID ein.";
+            + " Positionsnummer ein.";
     final String KEINE_AUFTRAGSID = "Bitte geben Sie eine Auftragskopf-ID ein.";
-    final String KEINE_POSITIONSID = "Bitte geben Sie eine Auftragsposition-ID"
+    final String KEINE_POSITIONSID = "Bitte geben Sie eine Positionsnummer"
             + " ein.";
 
 

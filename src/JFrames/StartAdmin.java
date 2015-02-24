@@ -84,7 +84,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     JInternalFrame c;// Speichervariable für Components.
     private JInternalFrame letzteAnzeige;
     //Stringvariablen für die einzelnen Meldungen die ausgegeben werden können.
-    private final String Beenden_Meldung = "Wollen sie wirklich das Programm beenden und sich abmelden?";
+    private final String Beenden_Meldung = "Wollen sie sich wirklich abmelden?";
     private final String Beenden_Meldung_Typ = "Programm beenden";
 
 //    private final String ARTIKEL_ANLEGEN = "Artikel anlegen";
