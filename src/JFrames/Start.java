@@ -550,10 +550,16 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
      */
     private void jMI_BenutzerhandbuchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_BenutzerhandbuchActionPerformed
 
+        //Prüfe ob die Klasse Desktop für die aktuelle Plattform unterstützt 
+        //wird
         if (Desktop.isDesktopSupported()) {
+            //Wenn ja, versuche das Benutzerhandbuch über die Klasse Desktop zu
+            //öffnen. Es muss eine Anwendung zur Darstellung von PDF-Dateien auf
+            //dem System vorhanden sein
             try {
                 File pdf = new File("Benutzerhandbuch_SWP_GR3.pdf");
                 Desktop.getDesktop().open(pdf);
+            //Wenn die Datei nicht gefunden werden kann    
             } catch (IOException e) {
                 
             }
