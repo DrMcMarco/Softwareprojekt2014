@@ -131,7 +131,6 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
             //dao = new DataAccessObject();// Erzeugung eines DAO-Objektes.
         } catch (PersistenceException e) {// Fehlerbehandlung falls bei der 
             // Wenn bei Erzeugung entwas nicht funktioniert hat.
-            System.out.println(e.getMessage());// Fehlerausgabe.
         }
 
         c = null; // Initialisierung der Hilfsvariable für die Components.
