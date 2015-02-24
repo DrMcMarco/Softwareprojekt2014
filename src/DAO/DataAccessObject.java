@@ -70,7 +70,7 @@ public class DataAccessObject {
     private final EntityManager em;
     
     /**.
-     * Standartkonstruktor
+     * Standardkonstruktor
      */
     public DataAccessObject() {
         
@@ -90,10 +90,9 @@ public class DataAccessObject {
                 
                 //...soll ein Startskript ausgeführt werden das die Datenbank
                 //mit einigen Einträge füllt die für einen ordnungsgemäßen 
-                //Betrieb notwendig sind
-                
-                String[] commands = {"CMD", "/C", "start", "/B", "fillDatabase.bat"};          
-                ProcessBuilder pb = new ProcessBuilder(commands);
+                //Betrieb notwendig sind                
+                String[] befehl = {"CMD", "/C", "start", "/B", "fillDatabase.bat"};          
+                ProcessBuilder pb = new ProcessBuilder(befehl);
                 Process p = pb.start();
                 
             }
@@ -963,7 +962,7 @@ public class DataAccessObject {
         }   
     }
     
-    public void erstelleSteuereintrag(String Parameter, String Wert) 
+    private void erstelleSteuereintrag(String Parameter, String Wert) 
             throws ApplicationException {
         
         Steuertabelle st = em.find(Steuertabelle.class, Parameter);
