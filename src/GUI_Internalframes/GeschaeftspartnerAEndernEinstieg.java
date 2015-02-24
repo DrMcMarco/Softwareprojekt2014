@@ -286,6 +286,7 @@ public class GeschaeftspartnerAEndernEinstieg
             g.setVisible(true);
             this.setVisible(false);
             zuruecksetzen();
+            this.hauptFenster.setComponent(g);
 //            entsprechende Fehlermeldungen werden in der Statuszeile angezeigt
         } catch (ParseException e) {
             this.hauptFenster.setStatusMeldung(KEINE_GPNR_EINGEGEBEN);
