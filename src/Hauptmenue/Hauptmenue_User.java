@@ -149,6 +149,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
         jToolBar1.add(jB_Loeschen);
 
         jB_Suchen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Suche.PNG"))); // NOI18N
+        jB_Suchen.setToolTipText("Allgemeine Suche");
         jB_Suchen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_SuchenActionPerformed(evt);
