@@ -536,7 +536,8 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
                         if (antwort == JOptionPane.YES_OPTION) {
 
                             // Methodenaufruf zum ändern von Benutzerdaten.
-                            GUIFactory.getDAO().aendereBenutzer(benutzername, passwort, istAdmin);
+                            GUIFactory.getDAO().aendereBenutzer(benutzername,
+                                    passwort, istAdmin);
 
                             //Methode die bestimmte Eingabefelder leert
                             zuruecksetzen();
@@ -545,8 +546,9 @@ public class User_anlegen extends javax.swing.JInternalFrame implements Interfac
 
                             // Boolischevariable erhält den Wert true.
                             gespeichert = true;
-                            // Zurück ActionPerformed wird ausgeführt
-                            jB_ZurueckActionPerformed(evt);
+                            // Zurück ins Hauptmenü springen.
+//                            jB_ZurueckActionPerformed(evt);
+                            zurueckInsHauptmenue();
                             // Meldung wird an die Statuszeile übergeben.
                             this.hauptFenster.setStatusMeldung(
                                     ERFOLGREICHAENDERNDERBENUTZERDATEN);

@@ -1025,7 +1025,14 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     public void setFrame(Component component) {
         component.setVisible(true);
     }
+    
+    @Override
+    public JInternalFrame gibMenu() {
+        return this.hauptmenueuser;
+    }
 
+    
+    
     @Override
     public void rufeSuche(JInternalFrame comp) {
         this.suche.setzeModelCombobox(this.gibTabellenFuerSuche(comp));
@@ -1201,12 +1208,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
      */
     @Override
     public JInternalFrame getComponent() {
-        try {
-            System.out.println(c.getName().toString());
-
-        } catch (NullPointerException e) {
-
-        }
+        
         return c;
     }
 

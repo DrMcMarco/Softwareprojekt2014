@@ -163,14 +163,14 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
             jSP_LieferzeitSOFORT.setValue(1);
             jSP_SperrzeitWUNSCH.setValue(1);
             jSP_Skontozeit1.setValue(1);
-            jSP_Skontozeit2.setValue(1);
+            jSP_Skontozeit2.setValue(2);
             jCB_Skonto1.setSelectedIndex(0);
             jCB_Skonto1.setBackground(JCB_FARBE_STANDARD);
             jCB_Skonto2.setSelectedIndex(0);
             jCB_Skonto2.setBackground(JCB_FARBE_STANDARD);
             jSP_Mahnzeit1.setValue(1);
-            jSP_Mahnzeit2.setValue(1);
-            jSP_Mahnzeit3.setValue(1);
+            jSP_Mahnzeit2.setValue(2);
+            jSP_Mahnzeit3.setValue(3);
 
             fehlerhafteComponenten.clear();
         } catch (NullPointerException e) {
@@ -499,7 +499,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
             }
         });
 
-        jSP_Skontozeit2.setModel(new javax.swing.SpinnerNumberModel(1, 1, 31, 1));
+        jSP_Skontozeit2.setModel(new javax.swing.SpinnerNumberModel(2, 1, 31, 1));
         jSP_Skontozeit2.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 jSP_Skontozeit2PropertyChange(evt);
@@ -513,14 +513,14 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
             }
         });
 
-        jSP_Mahnzeit2.setModel(new javax.swing.SpinnerNumberModel(1, 1, 31, 1));
+        jSP_Mahnzeit2.setModel(new javax.swing.SpinnerNumberModel(2, 1, 31, 1));
         jSP_Mahnzeit2.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 jSP_Mahnzeit2PropertyChange(evt);
             }
         });
 
-        jSP_Mahnzeit3.setModel(new javax.swing.SpinnerNumberModel(1, 1, 31, 1));
+        jSP_Mahnzeit3.setModel(new javax.swing.SpinnerNumberModel(3, 1, 31, 1));
         jSP_Mahnzeit3.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 jSP_Mahnzeit3PropertyChange(evt);

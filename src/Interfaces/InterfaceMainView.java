@@ -15,6 +15,7 @@ import GUI_Internalframes.GeschaeftspartnerAEndernEinstieg;
 import GUI_Internalframes.GeschaeftspartnerAnlegen;
 import GUI_Internalframes.ZahlungskonditionAnlegen;
 import GUI_Internalframes.ZahlungskonditionenAEndernEinstieg;
+import Hauptmenue.Hauptmenue_User;
 import java.awt.Component;
 import javax.swing.JInternalFrame;
 
@@ -164,4 +165,10 @@ public interface InterfaceMainView {
      * @return auftragspositionanzeigen
      */
     public AuftragspositionAnzeigen gibApAnzeigen();
+    
+    /**
+     * Gibt das jeweilige Menü.
+     * @return Hauptmenü
+     */
+    public JInternalFrame gibMenu();
 }

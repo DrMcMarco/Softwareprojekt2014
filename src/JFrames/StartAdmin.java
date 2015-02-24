@@ -8,6 +8,7 @@ package JFrames;
 import DAO.DataAccessObject;
 import GUI_Internalframes.*;
 import Hauptmenue.Hauptmenue_Admin;
+import Hauptmenue.Hauptmenue_User;
 import Interfaces.InterfaceMainView;
 import java.awt.Component;
 import java.awt.Desktop;
@@ -1257,6 +1258,11 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
         return this.auftragsspositionanzeigen;
     }
     
+    @Override
+    public JInternalFrame gibMenu() {
+        return this.hauptmenueadmin;
+    }
+    
     /**
      * Gibt die Tabellennamen je nach Fenster zurück.
      * @param comp Fenster
@@ -1317,10 +1323,10 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
                 case "Zahlungskondition anzeigen Einstieg" :
                     tabellen = new String[] {"Zahlungskondition" };
                     break; 
-                case "Auftragsposition ändern" :
+                case "Auftragsposition ändern Einstieg" :
                     tabellen = new String[] {"Auftragskopf" };
                     break; 
-                case "Auftragsposition anzeigen" :
+                case "Auftragsposition anzeigen Einstieg" :
                     tabellen = new String[] {"Auftragskopf" };
                     break; 
                 case "Auftragskopf anzeigen Einstieg" :
