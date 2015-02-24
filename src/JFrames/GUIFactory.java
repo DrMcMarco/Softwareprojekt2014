@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public  class  GUIFactory {
     
     static ArrayList<Component> liste;
-    private static DataAccessObject DAO = new DataAccessObject();
+    private static final DataAccessObject DAO = new DataAccessObject();
      
     
     public GUIFactory(){
@@ -51,13 +51,7 @@ public  class  GUIFactory {
     }
     
 
-    /**
-     * Setzt die Instanz.
-     * @param dao dao objekt
-     */
-    public void setDAO(DataAccessObject dao){
-        this.DAO = dao;
-    }
+
     
 
 }

@@ -1571,8 +1571,11 @@ public class DataAccessObject {
                     
                     //Wenn der Auftrag bereits freigegeben ist, soll nur der 
                     //Auftragstext sowie der Status ändernbar sein
+                    //aenderePositionen() wird ausgeführt um den Einzelwert der
+                    //Positionen und des Auftrags neu zu berechnen
                     ak.setLieferdatum(Lieferdatum);
                     ak.setAuftragstext(Auftragstext);
+                    this.aenderePositionen(ak, Artikel);
                     this.setzeAuftragsstatus(ak, this.gibStatusPerName(Status));
                     
                     //Auftragskopf persistieren
