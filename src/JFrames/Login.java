@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package JFrames;
 
 import GUI_Internalframes.Anmeldung;
 import java.awt.Component;
 import java.awt.Dimension;
-import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,28 +13,41 @@ import javax.swing.JInternalFrame;
  *
  */
 public class Login extends javax.swing.JFrame {
-    /*
-     Referenzvariablen
-     */
-
-    Anmeldung anmeldung;//Variable für die Anmeldungsmaske
-
-    //Hilfsvariablen
-    Dimension desktopSize;//Speichervariable für die Größe der DesktopPane.
-    Dimension jInternalFrameSize;//Speichervariable für die Größe des InternalFrames.
 
     /**
-     * Creates new form test2
+     * Variable fuer die Anmeldung.
+     */
+    private Anmeldung anmeldung;//Variable für die Anmeldungsmaske
+    /**
+     * Speichervariable für die Größe der DesktopPane.
+     */
+    private Dimension desktopSize;
+    /**
+     * Speichervariable für die Größe des InternalFrames.
+     */
+    private Dimension jInternalFrameSize;
+    /**
+     * Variable fuer die Meldungen.
+     */
+    private final String BEENDEN_MELDUNG = "Wollen sie"
+            + " wirklich das Programm beenden?";
+    /**
+     * Variable fuer die Meldungen.
+     */
+    private final String BEENDEN_MELDUNG_TYP = "Programm beenden";
+
+    /**
+     * Konstruktor.
      */
     public Login() {
         initComponents();
-        //Initialisierung
+//        Initialisierung
         anmeldung = new Anmeldung(this);
 
-        //Maske wird im Zentrum der Frame dargestellt
+//        Maske wird im Zentrum der Frame dargestellt
         setCenterJIF(anmeldung);
-        
-        //Maske wird desktopdpane hinzugefügt
+
+//        Maske wird desktopdpane hinzugefügt
         desktopPane.add(anmeldung);
     }
 
@@ -55,7 +63,12 @@ public class Login extends javax.swing.JFrame {
         desktopPane = new javax.swing.JDesktopPane();
         menuBar = new javax.swing.JMenuBar();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
         setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -71,15 +84,33 @@ public class Login extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was */
+    /* 20.02.2015 Sen     angelegt, Logik und Dokumentation*/
+    /*----------------------------------------------------------*/
+    /**
+     * Methode zum Schliessen des Programms. 
+     *
+     */
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+//         Erzeugen eine Meldung mit Abfrage
+        int antwort = JOptionPane.showConfirmDialog(rootPane, BEENDEN_MELDUNG,
+                BEENDEN_MELDUNG_TYP, JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+        if (antwort == JOptionPane.YES_OPTION) {
+//         Antwort ist ja, also schliessen  
+            System.exit(0);
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     /**
-     * 05.01.2015 Terrasi , Erstellung und Dokumentation 
-     * 
+     * 05.01.2015 Terrasi , Erstellung und Dokumentation
+     *
      * Methode mit der das Fenster geschlossen wird.
      *
      */
     public void schliessen() {
-        this.setVisible(false);//Fenster nicht mehr sichtbar machen
+        this.setVisible(false); //Fenster nicht mehr sichtbar machen
     }
 
     /*----------------------------------------------------------*/
@@ -100,8 +131,17 @@ public class Login extends javax.swing.JFrame {
         jif.setLocation(width, height);
         jif.setVisible(true);
     }
-    
-    public Anmeldung getAnmeldeFenster(){
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 05.01.2015 Terrasi angelegt, Logik und Dokumentation*/
+    /*----------------------------------------------------------*/
+    /**
+     * Methode, um das Objekt der Anmeldung zu erhalten.
+     *
+     * @return gibt das Objekt der Anmeldung zurueck
+     */
+    public Anmeldung getAnmeldeFenster() {
         return this.anmeldung;
     }
 

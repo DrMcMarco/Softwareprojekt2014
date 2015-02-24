@@ -81,7 +81,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     JInternalFrame c;// Speichervariable für Components.
     private JInternalFrame letzteAnzeige;
     //Stringvariablen für die einzelnen Meldungen die ausgegeben werden können.
-    private final String BEENDEN_MELDUNG = "Wollen sie wirklich das Programm beenden und sich abmelden?";
+    private final String BEENDEN_MELDUNG = "Wollen sie sich wirklich abmelden?";
     private final String BEENDEN_MELDUNG_TYP = "Programm beenden";
 
     private final String AUFTRAGSKOPF_AENDERN_EINSTIEG = "Auftragskopf ändern Einstieg";
@@ -487,6 +487,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
+    /* 20.02.2015 Sen     Ueberarbeitet.*/
     /*----------------------------------------------------------*/
     /**
      * Action die ausgeführt wird, wenn das Programm geschlossen werden soll,
@@ -497,12 +498,13 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
      */
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // Erzeugen eine Meldung mit Abfrage
-        int antwort = JOptionPane.showConfirmDialog(rootPane, BEENDEN_MELDUNG,
-                BEENDEN_MELDUNG_TYP, JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE);
-        if (antwort == JOptionPane.YES_OPTION) {
-            System.exit(0);
-        }
+//        int antwort = JOptionPane.showConfirmDialog(rootPane, BEENDEN_MELDUNG,
+//                BEENDEN_MELDUNG_TYP, JOptionPane.YES_NO_OPTION,
+//                JOptionPane.QUESTION_MESSAGE);
+//        if (antwort == JOptionPane.YES_OPTION) {
+//            System.exit(0);
+//        }
+        jMI_LogoutActionPerformed(null);
     }//GEN-LAST:event_formWindowClosing
 
     /*----------------------------------------------------------*/
