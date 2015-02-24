@@ -3110,8 +3110,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                         getArtikelID(),
                         auftragspositionen.get(i).getMenge());
 
-                summenWertFuerPos = auftragspositionen.get(i).getEinzelwert()
-                        * auftragspositionen.get(i).getMenge();
+                summenWertFuerPos = auftragspositionen.get(i).getEinzelwert();
 
                 Object[] neuesObj = new Object[]{i + 1,
                     auftragspositionen.get(i).getArtikel().getArtikelID(),
