@@ -8,6 +8,7 @@ package JFrames;
 import DAO.DataAccessObject;
 import GUI_Internalframes.*;
 import Hauptmenue.Hauptmenue_Admin;
+import Hauptmenue.Hauptmenue_User;
 import Interfaces.InterfaceMainView;
 import java.awt.Component;
 import java.awt.Desktop;
@@ -1255,6 +1256,11 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
     @Override
     public AuftragspositionAnzeigen gibApAnzeigen() {
         return this.auftragsspositionanzeigen;
+    }
+    
+    @Override
+    public JInternalFrame gibMenu() {
+        return this.hauptmenueadmin;
     }
     
     /**

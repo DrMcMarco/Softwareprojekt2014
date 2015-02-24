@@ -753,6 +753,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                 this.Positionanzeige_jTable2.setVisible(false);
                 //Schliesse das Suchfenster
                 this.setVisible(false);
+                this.hauptFenster.gibMenu().setVisible(false);
                 break;
             case "Artikel" :
                 //Lade die gefundenen Datensätze typisiert
@@ -764,6 +765,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                                 this.Anzeige_jTable1.getSelectedRow()));
                 //Mach das Fenster sichtbar
                 this.hauptFenster.gibArtikelAnlegenFenster().setVisible(true);
+                this.hauptFenster.gibMenu().setVisible(false);
                 //Setze ggf. die Positions-Table auf nicht sichtbar
                 this.position_jPanel1.setVisible(false);
                 this.Positionanzeige_jTable2.setVisible(false);
@@ -786,6 +788,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                 this.Positionanzeige_jTable2.setVisible(false);
                 //Schliesse das Suchfenster
                 this.setVisible(false);
+                this.hauptFenster.gibMenu().setVisible(false);
                 break;
             case "Zahlungskondition" :
                 //Lade die gefundenen Datensätze typisiert
@@ -801,6 +804,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                 this.Positionanzeige_jTable2.setVisible(false);
                 //Schliesse das Suchfenster
                 this.setVisible(false);
+                this.hauptFenster.gibMenu().setVisible(false);
                 break;
             case "Auftragsposition" :
                 //Lade die gefundenen Datensätze typisiert
@@ -816,6 +820,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                 this.Positionanzeige_jTable2.setVisible(false);
                 //Schliesse das Suchfenster
                 this.setVisible(false);
+                this.hauptFenster.gibMenu().setVisible(false);
                 break;
             case "Artikelkategorie" : 
                 JOptionPane.showMessageDialog(null, FEHLER_ANZEIGE 
