@@ -2153,13 +2153,16 @@ public class DataAccessObject {
         //und es entstehen keine Inkonsistenzen
         if (!ergebnis.isEmpty()) {
             
-            //"Lösche" die Zahlungskondition
-            zk.setLKZ(true);
-            
-            //Erstelle eine neue Zahlungskondition mit den neuen Werten
-            this.erstelleZahlungskondition(Auftragsart, LieferzeitSofort, 
-                    SperrzeitWunsch, Skontozeit1, Skontozeit2, Skonto1, 
-                    Skonto2, Mahnzeit1, Mahnzeit2, Mahnzeit3);
+//            //"Lösche" die Zahlungskondition
+//            zk.setLKZ(true);
+//            
+//            //Erstelle eine neue Zahlungskondition mit den neuen Werten
+//            this.erstelleZahlungskondition(Auftragsart, LieferzeitSofort, 
+//                    SperrzeitWunsch, Skontozeit1, Skontozeit2, Skonto1, 
+//                    Skonto2, Mahnzeit1, Mahnzeit2, Mahnzeit3);
+            throw new ApplicationException(FEHLER_TITEL, 
+                    "Diese Zahlungskondition wird bereits in Aufträgen verwendet"
+                            + " und kann daher nicht geändert werden.");
         
         //Wenn die Zahlungskondition noch nicht in einem Auftrag vorkommt
         } else {
@@ -2424,6 +2427,19 @@ public class DataAccessObject {
         Zahlungskondition conditions = em.find(Zahlungskondition.class, id);
         //Prüfen, ob Daten gefunden worden sind
         if (conditions == null || conditions.isLKZ()) {
+            throw new ApplicationException("Fehler", 
+                    "Keine Zahlungskonditionen gefunden!");
+        }
+        
+        return conditions;
+    }
+    
+    public Zahlungskondition gibZahlungskonditionOhneLKZ(long id) 
+            throws ApplicationException {
+        //Konditionen aus der DB laden
+        Zahlungskondition conditions = em.find(Zahlungskondition.class, id);
+        //Prüfen, ob Daten gefunden worden sind
+        if (conditions == null) {
             throw new ApplicationException("Fehler", 
                     "Keine Zahlungskonditionen gefunden!");
         }
@@ -2783,17 +2799,11 @@ public class DataAccessObject {
     public Collection<Zahlungskondition> gibAlleZahlungskonditionen() {
         
         List<Zahlungskondition> ergebnis = this.em.createQuery("SELECT ST "
-                + "FROM Zahlungskondition ST",
+                + "FROM Zahlungskondition ST WHERE ST.LKZ = 0",
                 Zahlungskondition.class).getResultList();
         
-        ArrayList<Zahlungskondition> liste = new ArrayList<>();
         
-        for (Zahlungskondition zk : ergebnis) {
-            if(!zk.isLKZ()) {
-                liste.add(zk);
-            }
-        }
-        return liste;
+        return ergebnis;
     }
   
     /*----------------------------------------------------------*/
@@ -3492,8 +3502,7 @@ public class DataAccessObject {
         //Selektiere alle Aufträge die diese Zahlungskondition enthalten und
         //noch nicht gelöscht sind
         Query query = em.createQuery("select ak from Auftragskopf ak "
-                + "where ak.Status.Status not like 'abgeschlosssen' "
-                + "and ak.Zahlungskondition.ZahlungskonditionID = :zk")
+                + "where ak.Zahlungskondition.ZahlungskonditionID = :zk")
                 .setParameter("zk", ZahlungskonditionsID);
         
         List<Auftragskopf> ergebnis = (List<Auftragskopf>) query.getResultList();
