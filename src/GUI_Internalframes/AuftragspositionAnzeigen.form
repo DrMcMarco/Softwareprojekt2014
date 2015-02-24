@@ -128,6 +128,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/GUI_Internalframes/Home2.PNG"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Hauptmen&#xfc;"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jB_ZurueckActionPerformed"/>
@@ -149,6 +150,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/GUI_Internalframes/Bearbeiten.PNG"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Bearbeiten"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jB_AnzeigenActionPerformed"/>
@@ -170,6 +172,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/GUI_Internalframes/Suche.PNG"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
         </Component>
       </SubComponents>

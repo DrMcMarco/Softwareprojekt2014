@@ -185,6 +185,7 @@ implements InterfaceViewsFunctionality {
         jToolBar1.setEnabled(false);
 
         jB_Zurueck.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Home2.PNG"))); // NOI18N
+        jB_Zurueck.setToolTipText("Hauptmenü");
         jB_Zurueck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_ZurueckActionPerformed(evt);
@@ -202,6 +203,7 @@ implements InterfaceViewsFunctionality {
         jToolBar1.add(jB_Speichern);
 
         jB_Anzeigen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Bearbeiten.PNG"))); // NOI18N
+        jB_Anzeigen.setToolTipText("Bearbeiten");
         jB_Anzeigen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_AnzeigenActionPerformed(evt);
@@ -219,6 +221,7 @@ implements InterfaceViewsFunctionality {
         jToolBar1.add(jB_Loeschen);
 
         jB_Suchen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Suche.PNG"))); // NOI18N
+        jB_Suchen.setToolTipText("");
         jToolBar1.add(jB_Suchen);
 
         auftragspositionsID_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N

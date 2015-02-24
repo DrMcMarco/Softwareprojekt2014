@@ -414,6 +414,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
         jToolBar1.setEnabled(false);
 
         jB_Zurueck.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Home2.PNG"))); // NOI18N
+        jB_Zurueck.setToolTipText("Hauptmenü");
         jB_Zurueck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_ZurueckActionPerformed(evt);
@@ -422,6 +423,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
         jToolBar1.add(jB_Zurueck);
 
         jB_Speichern.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Speichern.PNG"))); // NOI18N
+        jB_Speichern.setToolTipText("Speichern");
         jB_Speichern.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_SpeichernActionPerformed(evt);
@@ -430,6 +432,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
         jToolBar1.add(jB_Speichern);
 
         jB_Anzeigen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Bearbeiten.PNG"))); // NOI18N
+        jB_Anzeigen.setToolTipText("Bearbeiten");
         jB_Anzeigen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_AnzeigenActionPerformed(evt);
@@ -438,6 +441,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
         jToolBar1.add(jB_Anzeigen);
 
         jB_Loeschen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Löschen.PNG"))); // NOI18N
+        jB_Loeschen.setToolTipText("Löschen");
         jB_Loeschen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_LoeschenActionPerformed(evt);
@@ -446,6 +450,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
         jToolBar1.add(jB_Loeschen);
 
         jB_Suchen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Suche.PNG"))); // NOI18N
+        jB_Suchen.setToolTipText("Allgemeine Suche");
         jB_Suchen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_SuchenActionPerformed(evt);
@@ -521,7 +526,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
         auftragswert_jLabel.setLabelFor(auftragswert_jTextField);
         auftragswert_jLabel.setText("Aufragswert :");
 
-        auftragswert_jTextField.setToolTipText("");
         auftragswert_jTextField.setEnabled(false);
 
         erfasst_jRadioButton.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -618,10 +622,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
         erfassungsdatum_jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         erfassungsdatum_jLabel1.setText("Erfassungsdatum :");
 
-        positionsnummer_jTextField.setToolTipText("");
         positionsnummer_jTextField.setEnabled(false);
 
-        materialnummer_jTextField.setToolTipText("");
         materialnummer_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 materialnummer_jTextFieldFocusGained(evt);
@@ -640,7 +642,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
             }
         });
 
-        einzelwert_jTextField.setToolTipText("");
         einzelwert_jTextField.setEnabled(false);
 
         erfassungsdatum_auftragsposition_jFormattedTextField.setEditable(false);

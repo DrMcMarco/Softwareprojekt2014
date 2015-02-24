@@ -35,7 +35,6 @@ public  class  GUIFactory {
          component = liste.get(liste.size()-1);
          liste.remove(liste.size()-1);
          } catch (ArrayIndexOutOfBoundsException e) {
-             System.out.println("Es gibt keine weitere Maske.");
          }
          return component;
      }

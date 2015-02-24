@@ -99,6 +99,7 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame
         jToolBar1.setEnabled(false);
 
         jB_Zurueck.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Home2.PNG"))); // NOI18N
+        jB_Zurueck.setToolTipText("Hauptmenü");
         jB_Zurueck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_ZurueckActionPerformed(evt);
