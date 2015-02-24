@@ -256,7 +256,6 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         try {
             mf = new MaskFormatter("##.##.####");
         } catch (ParseException e) {
-            System.out.println(e.toString());
         }
         mf.setValueContainsLiteralCharacters(false);
         mf.setPlaceholder("########");
@@ -1494,9 +1493,6 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                 cal.add(Calendar.YEAR, -82);
                 Date tagVor100jahren = cal.getTime();
 //              Pruefung, ob eingabe in der Zukunft
-//                
-//                    System.out.println(heutigesDatum);
-//                    System.out.println(tagVor100jahren);
                 if (eingabeGeburtsdatum.after(heutigesDatum)) {
 //                  Datum ist in zukunft, formularOK wird auf false gesetzt  
                     formularOK = false;

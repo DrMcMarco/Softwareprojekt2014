@@ -948,8 +948,6 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame
                     JOptionPane.showMessageDialog(null, e.getMessage(),
                             FEHLER, JOptionPane.ERROR_MESSAGE);
                 } catch (ParseException | NullPointerException e) {
-                    System.out.println("Fehler in Sicht Artikel"
-                            + " anlegen Methode Speichern " + e.getMessage());
                 }
             } else {
 //          fehlerhafteComponenten ist nicht leer
