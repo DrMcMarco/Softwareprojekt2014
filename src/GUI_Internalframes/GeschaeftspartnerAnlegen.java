@@ -847,7 +847,6 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         });
 
         jCHB_WieAnschrift.setText("wie Rechnungsanschrift");
-        jCHB_WieAnschrift.setToolTipText("");
         jCHB_WieAnschrift.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCHB_WieAnschriftActionPerformed(evt);
