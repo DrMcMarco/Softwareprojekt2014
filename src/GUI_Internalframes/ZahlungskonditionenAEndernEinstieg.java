@@ -263,6 +263,7 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
             zk.setVisible(true);
             this.setVisible(false);
             zuruecksetzen();
+            this.hauptFenster.setComponent(zk);
 //            entsprechende Fehlermeldungen werden in der Statuszeile angezeigt
         } catch (ParseException ex) {
             this.hauptFenster.setStatusMeldung(KEINE_ZKNR_EINGEGEBEN);

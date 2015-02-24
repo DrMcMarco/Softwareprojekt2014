@@ -242,6 +242,7 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
             artikelAnlegen.setVisible(true);
             this.setVisible(false);
             zuruecksetzen();
+            this.hauptFenster.setComponent(artikelAnlegen);
 //            entsprechende Fehlermeldungen werden in der Statuszeile angezeigt
         } catch (ParseException ex) {
             this.hauptFenster.setStatusMeldung(KEINE_ARTIKELNR_EINGEGEBEN);

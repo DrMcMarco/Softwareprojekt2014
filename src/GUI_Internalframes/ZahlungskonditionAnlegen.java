@@ -421,7 +421,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         jToolBar1.add(jB_Speichern);
 
         jB_AnzeigenAEndern.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Bearbeiten.PNG"))); // NOI18N
-        jB_AnzeigenAEndern.setToolTipText("Löschen");
+        jB_AnzeigenAEndern.setToolTipText("Bearbeiten");
         jB_AnzeigenAEndern.setActionCommand("Anzeigen/Ändern");
         jB_AnzeigenAEndern.setEnabled(false);
         jB_AnzeigenAEndern.addActionListener(new java.awt.event.ActionListener() {
