@@ -45,11 +45,11 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      */
     private Component c;
     /**
-     * Varibale für die GUI Factory
+     * Varibale für die GUI Factory.
      */
     private GUIFactory factory;
     /**
-     * Variable für die DAO
+     * Variable für die DAO.
      */
     private DataAccessObject dao;
     /**
@@ -59,100 +59,132 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      */
     private InterfaceMainView hauptFenster;
     /**
-     * Variable fuer die Rechnungsanschrift
-     */
-//    private Anschrift anschrift;
-    /**
-     * Variable fuer die Lieferanschrift
-     */
-//    private Anschrift lieferanschrift;
-    /**
-     * Variable fuer das aktuelle Datum
+     * Variable fuer das aktuelle Datum.
      */
     private String aktuellesDatum;
     /**
-     * Varibale fue die GP nummer
+     * Varibale fue die GP nummer.
      */
     private int geschaeftspartnerNr;
     /**
-     * Arraylist, um fehlerhafte Componenten zu speichern
+     * Arraylist, um fehlerhafte Componenten zu speichern.
      */
     private ArrayList<Component> fehlerhafteComponenten;
     /**
-     * Varible, die die Standard Farbe eine Combobox beinhaltet
+     * Varible, die die Standard Farbe eine Combobox beinhaltet.
      */
     private final Color JCB_FARBE_STANDARD = new Color(214, 217, 223);
     /**
-     * Variable, die die Standard Farbe eines Textfieldes beinhaltet
+     * Variable, die die Standard Farbe eines Textfieldes beinhaltet.
      */
     private final Color JTF_FARBE_STANDARD = new Color(255, 255, 255);
     /**
-     * Varibale, die die Farbe fuer fehlerhafte Componenten beinhaltet
+     * Varibale, die die Farbe fuer fehlerhafte Componenten beinhaltet.
      */
     private final Color FARBE_FEHLERHAFT = Color.YELLOW;
     /**
-     * Varibalen fuer die Meldungen
+     * Varibalen fuer die Meldungen.
      */
-    private final String MELDUNG_PFLICHTFELDER_TITEL = "Pflichtfelder nicht ausgefüllt";
-    private final String MELDUNG_PFLICHTFELDER_TEXT = "Einige Pflichtfelder wurden nicht ausgefüllt.\nBitte füllen Sie diese aus.";
-    private final String MELDUNG_AENDERUNGEN_SPEICHERN = "Möchten Sie die Änderungen speichern?";
+    private final String MELDUNG_PFLICHTFELDER_TITEL
+            = "Pflichtfelder nicht ausgefüllt";
+    /**
+     * Varibalen fuer die Meldungen.
+     */
+    private final String MELDUNG_PFLICHTFELDER_TEXT = "Einige Pflichtfelder"
+            + " wurden nicht ausgefüllt.\nBitte füllen Sie diese aus.";
+    /**
+     * Varibalen fuer die Meldungen.
+     */
+    private final String MELDUNG_AENDERUNGEN_SPEICHERN = "Möchten Sie"
+            + " die Änderungen speichern?";
+    /**
+     * Varibalen fuer die Meldungen.
+     */
     private final String FEHLER = "Fehler";
+    /**
+     * Varibalen fuer die Meldungen.
+     */
     private final String FEHLERHAFTE_EINGABE = "Fehlerhafte Eingabe";
+    /**
+     * Varibalen fuer die Meldungen.
+     */
     private final String UNVOLLSTAENDIGE_EINGABE = "Unvollständige Eingabe";
+    /**
+     * Varibalen fuer die Meldungen.
+     */
     private final String RECHNUNGSANSCHRIFT = "Rechnungsanschrift";
+    /**
+     * Varibalen fuer die Meldungen.
+     */
     private final String LIEFERANSCHRIFT = "Lieferanschrift";
+    /**
+     * Varibalen fur Adresse.
+     */
     private final String DEUTSCHLAND = "Deutschland";
+    /**
+     * Varibalen fuer die Titel.
+     */
     private final String GP_ANLEGEN = "Geschäftspartner anlegen";
+    /**
+     * Varibalen fuer die Titel.
+     */
     private final String GP_AENDERN = "Geschäftspartner ändern";
+    /**
+     * Varibalen fuer die Titel.
+     */
     private final String GP_ANZEIGEN = "Geschäftspartner anzeigen";
     /**
      * Regulaerer Ausdruck fuer die Pruefung der Eingabe fuer den Preis
      */
-    private final String PRUEFUNG_PREIS = "|(\\d*,?\\d{1,2})|(\\d{0,3}(\\.\\d{3})*,?\\d{1,2})";
+    private final String PRUEFUNG_PREIS = "|(\\d*,?\\d{1,2})|"
+            + "(\\d{0,3}(\\.\\d{3})*,?\\d{1,2})";
     /**
-     * Regulaerer Ausdruck fuer die Pruefung der Eingabe fuer die Hausnummer
+     * Regulaerer Ausdruck fuer die Pruefung der Eingabe fuer die Hausnummer.
      */
     private final String PRUEFUNG_HAUSNUMMER = "|[1-9][0-9]{0,2}[a-zA-Z]?";
     /**
-     * Regulaerer Ausdruck fuer die Pruefung der Eingabe fuer die PLZ
+     * Regulaerer Ausdruck fuer die Pruefung der Eingabe fuer die PLZ.
      */
     private final String PRUEFUNG_PLZ = "|[0-9]{5}";
     /**
-     * Regulaerer Ausdruck fuer die Pruefung der Eingabe fuer die e-Mail
+     * Regulaerer Ausdruck fuer die Pruefung der Eingabe fuer die e-Mail.
      */
-    private final String PRUEFUNG_EMAIL = "|^[a-zA-Z0-9][\\w\\.-]*@(?:[a-zA-Z0-9][a-zA-Z0-9_-]+\\.)+[A-Z,a-z]{2,5}$";
+    private final String PRUEFUNG_EMAIL = "|^[a-zA-Z0-9][\\w\\.-]"
+            + "*@(?:[a-zA-Z0-9][a-zA-Z0-9_-]+\\.)+[A-Z,a-z]{2,5}$";
     /**
-     * Regulaerer Ausdruck fuer die Pruefung der Eingabe fuer die Telefonnummer
+     * Regulaerer Ausdruck fuer die Pruefung der Eingabe fuer die Telefonnummer.
      */
-    private final String PRUEFUNG_TELEFON = "|^([+][ ]?[1-9][0-9][ ]?[-]?[ ]?|[(]?[0][ ]?)[0-9]{3,4}[-)/ ]?[ ]?[1-9][-0-9 ]{3,16}$";
+    private final String PRUEFUNG_TELEFON = "|^([+][ ]?[1-9][0-9][ ]?[-]?[ ]?"
+            + "|[(]?[0][ ]?)[0-9]{3,4}[-)/ ]?[ ]?[1-9][-0-9 ]{3,16}$";
     /**
-     * Varibalen fuer den Format des Datums
+     * Varibalen fuer den Format des Datums.
      */
     private final SimpleDateFormat FORMAT;
     /**
      * Number Formatter wird benoetigt fuer das Parsen der Eingaben, sowie das
-     * Anzeigen von Preisen
+     * Anzeigen von Preisen.
      */
     private NumberFormat nf;
     /**
-     * Varibalen fuer das aktuelle Datum
+     * Varibalen fuer das aktuelle Datum.
      */
     private Calendar cal = Calendar.getInstance();
     /**
-     * Varibalen fuer die Eingabe des Geburtsdatum
+     * Varibalen fuer die Eingabe des Geburtsdatum.
      */
     private Date eingabeGeburtsdatum;
     /**
-     * Varibale, die die maximale Anzahl von fehlerhaften Componenten beinhaltet
+     * Varibale, die die maximale Anzahl von fehlerhaften Componenten
+     * beinhaltet.
      */
     private int anzahlFehlerhafterComponenten = 16;
     /**
      * Variable, um zu pruefen, ob alle Eingaben, wenn welche gemacht wurden, ok
-     * sind
+     * sind.
      */
     private boolean formularOK = true;
     /**
-     * Variable, um die Statusmeldungen ausgeben zu koennen
+     * Variable, um die Statusmeldungen ausgeben zu koennen.
      */
     private String STATUSZEILE;
 
@@ -163,7 +195,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * @param factory beinhaltet das factory Obejekt
      * @param mainView beinhaltet das Objekt des StartFenster
      */
-    public GeschaeftspartnerAnlegen(GUIFactory factory, InterfaceMainView mainView) {
+    public GeschaeftspartnerAnlegen(GUIFactory factory,
+            InterfaceMainView mainView) {
         initComponents();
         fehlerhafteComponenten = new ArrayList<>();
 //        factory und die dao werden gesetzt
@@ -173,8 +206,6 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //        Format des Datums wird festgelegt
         FORMAT = new SimpleDateFormat("dd.MM.yyyy");
         FORMAT.setLenient(false);
-//        anschrift = null;
-//        lieferanschrift = null;
         nf = NumberFormat.getInstance();
 
         nf.setMinimumFractionDigits(2);
@@ -182,21 +213,33 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //      Documente der Textfelder werden gesetzt
         jTF_Name.setDocument(new UniversalDocument(" &/-.´", true, 30));
         jTF_Vorname.setDocument(new UniversalDocument(" &/-.´", true, 30));
-        jTF_Telefon.setDocument(new UniversalDocument("0123456789/-+", false, 12));
+        jTF_Telefon.setDocument(new UniversalDocument("0123456789/-+", false,
+                12));
         jTF_Fax.setDocument(new UniversalDocument("0123456789/-+", false, 12));
-        jTF_EMail.setDocument(new UniversalDocument("0123456789@-_.", true, 30));
-        jTF_Kreditlimit.setDocument(new UniversalDocument("0123456789.,", false, 20));
-        jTF_StrasseRechnungsanschrift.setDocument(new UniversalDocument("-.´ ", true, 30));
-        jTF_StrasseLieferanschrift.setDocument(new UniversalDocument("-.´ ", true, 30));
-        jTF_HausnummerRechnungsanschrift.setDocument(new UniversalDocument("0123456789", true, 4));
-        jTF_HausnummerLieferanschrift.setDocument(new UniversalDocument("0123456789", true, 4));
-        jTF_PLZRechnungsanschrift.setDocument(new UniversalDocument("0123456789", false, 5));
-        jTF_PLZLieferanschrift.setDocument(new UniversalDocument("0123456789", false, 5));
-        jTF_OrtRechnungsanschrift.setDocument(new UniversalDocument("-", true, 30));
-        jTF_OrtLieferanschrift.setDocument(new UniversalDocument("-", true, 30));
+        jTF_EMail.setDocument(new UniversalDocument("0123456789@-_.", true,
+                30));
+        jTF_Kreditlimit.setDocument(new UniversalDocument("0123456789.,", false,
+                20));
+        jTF_StrasseRechnungsanschrift.setDocument(new UniversalDocument("-.´ ",
+                true, 30));
+        jTF_StrasseLieferanschrift.setDocument(new UniversalDocument("-.´ ",
+                true, 30));
+        jTF_HausnummerRechnungsanschrift.
+                setDocument(new UniversalDocument("0123456789", true, 4));
+        jTF_HausnummerLieferanschrift.
+                setDocument(new UniversalDocument("0123456789", true, 4));
+        jTF_PLZRechnungsanschrift.
+                setDocument(new UniversalDocument("0123456789", false, 5));
+        jTF_PLZLieferanschrift.
+                setDocument(new UniversalDocument("0123456789", false, 5));
+        jTF_OrtRechnungsanschrift.
+                setDocument(new UniversalDocument("-", true, 30));
+        jTF_OrtLieferanschrift.
+                setDocument(new UniversalDocument("-", true, 30));
 //      Aktuelles Datum wird geholt
         GregorianCalendar aktuellesDaum = new GregorianCalendar();
-        DateFormat df_aktuellesDatum = DateFormat.getDateInstance(DateFormat.MEDIUM);    //05.12.2014     
+        DateFormat df_aktuellesDatum = DateFormat
+                .getDateInstance(DateFormat.MEDIUM);    //05.12.2014     
         aktuellesDatum = df_aktuellesDatum.format(aktuellesDaum.getTime());
 //      Erfassungsdatum wird auf das aktuelle Datum gesetzt
         DateFormat df_jTF = DateFormat.getDateInstance();
@@ -207,7 +250,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         DefaultFormatterFactory dff1 = new DefaultFormatterFactory(dform1);
         jFTF_Erfassungsdatum.setFormatterFactory(dff1);
         jFTF_Erfassungsdatum.setText(aktuellesDatum);
-//      Das aussehen des Textfeldes fuer die Eingabe des Geburtsdatum wird festgelegt
+//      Das aussehen des Textfeldes fuer die Eingabe des Geburtsdatum 
+//      wird festgelegt
         MaskFormatter mf = null;
         try {
             mf = new MaskFormatter("##.##.####");
@@ -221,19 +265,18 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         DefaultFormatterFactory dff = new DefaultFormatterFactory(mf);
         jFTF_Geburtsdatum.setFormatterFactory(dff);
         jFTF_Geburtsdatum.setText("##.##.####");
-//        this.zuruecksetzen();
     }
 
-    /**
-     * Methode für die Überprüfung der Daten. Falls ein Textfeld nicht gefüllt
-     * ist, wird sie der ArrayList für fehlerhafte Componenten hinzugefuegt.
-     * Falls bei eine Compobox der selektierte Index auf 0 ("Bitte auswählen")
-     * steht, wird diese ebenfalls in die ArrayList uebernommen
-     */
     /*
      * Historie:
      * 02.12.2014   Sen     angelegt
      * 16.12.2014   Sen     ueberarbeitet
+     */
+    /**
+     * Methode für die Überprüfung der Daten. Falls ein Textfeld nicht gefüllt
+     * ist, wird sie der ArrayList für fehlerhafte Componenten hinzugefuegt.
+     * Falls bei eine Compobox der selektierte Index auf 0 ("Bitte auswählen")
+     * steht, wird diese ebenfalls in die ArrayList uebernommen.
      */
     @Override
     public void ueberpruefen() {
@@ -289,15 +332,15 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         }
     }
 
-    /**
-     * Schnittstellen Methode, die die Eingaben zurücksetzt, beim Zurücksetzen
-     * wird auch die Hintergrundfarbe zurückgesetzt.
-     */
     /*
      * Historie:
      * 02.12.2014   Sen     angelegt
      * 11.12.2014   Sen     ueberarbeitet
      * 14.01.2015   Sen     ueberarbeitet
+     */
+    /**
+     * Schnittstellen Methode, die die Eingaben zurücksetzt, beim Zurücksetzen
+     * wird auch die Hintergrundfarbe zurückgesetzt.
      */
     @Override
     public void zuruecksetzen() {
@@ -338,48 +381,57 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
             jTF_PLZLieferanschrift.setBackground(JTF_FARBE_STANDARD);
             jTF_OrtLieferanschrift.setBackground(JTF_FARBE_STANDARD);
 
-//        fehlerhafteComponenten werden immer gelöscht, wenn das Formular zureckgesetzt wird!
+//          fehlerhafteComponenten werden immer gelöscht, wenn das Formular
+//          zureckgesetzt wird!
             fehlerhafteComponenten.clear();
             formularOK = true;
         } catch (NullPointerException e) {
-            System.out.println(e.getMessage());
         }
     }
 
+    /*
+     * Historie:
+     * 02.12.2014   Sen     angelegt
+     * 09.12.2014   Sen     ueberarbeitet
+     */
     /**
      * Schnittstellen Methode, die bei focusloost ueberprueft, ob Eingaben
-     * korrekt sind
+     * korrekt sind.
      *
      * @param textfield textfield, von wo die Daten geprueft werden sollen
      * @param syntax Pruefsyntax(Regulaerer Ausdruck)
      * @param fehlermelgungtitel Titel der Fehlermeldung, die erzugt wird
      * @param fehlermeldung Text der Fehlermeldung
      */
-    /*
-     * Historie:
-     * 02.12.2014   Sen     angelegt
-     * 09.12.2014   Sen     ueberarbeitet
-     */
     @Override
-    public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
+    public void ueberpruefungVonFocusLost(JTextField textfield, String syntax,
+            String fehlermelgungtitel, String fehlermeldung) {
 //            Prüfung, ob die Eingabe mit der Synstax passen
         if (!textfield.getText().matches(syntax)) {
-//            Eingabe ist nicht ok, also wird die vairbale formular ok auf false gesetzt
+//            Eingabe ist nicht ok, also wird die vairbale
+//            formular ok auf false gesetzt
             formularOK = false;
-//            Eingabe nicht korrekt, also wird eine Fehlermeldung ausgegeben            
-            JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
-//            Focus wird auf das Feld für die Eingabe des Einzelwertes gesetzt und der Eingabefeld wird auf leer gesetzt.
+//            Eingabe nicht korrekt, also wird eine Fehlermeldung ausgegeben
+            JOptionPane.showMessageDialog(null, fehlermeldung,
+                    fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
+//            Focus wird auf das Feld für die Eingabe des Einzelwertes
+//            gesetzt und der Eingabefeld wird auf leer gesetzt.
             textfield.requestFocusInWindow();
             textfield.setText("");
         } else if (!textfield.getText().equals("")) {
             formularOK = true;
-//            Eingabe ist ok, nun Pruefung ob etwas im Feld steht, falls ja wird Hitnergrund auf normal gestzt
+//            Eingabe ist ok, nun Pruefung ob etwas im Feld steht, 
+//            falls ja wird Hitnergrund auf normal gestzt
             textfield.setBackground(JTF_FARBE_STANDARD);
         } else {
             formularOK = true;
         }
     }
 
+    /*
+     * Historie:
+     * 05.12.2014   Sen     angelegt
+     */
     /**
      * Schnittstellen Methode, die am Ende der Speichern Aktion aufgerufen wird.
      * Aufgabe ist es, den Hintergrund der jeweiligen Componenten der List in
@@ -392,18 +444,19 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * @param fehlermeldung Text der Meldung
      * @param farbe Farbe, in die die Hintergruende gefaerbt werden sollen
      */
-    /*
-     * Historie:
-     * 05.12.2014   Sen     angelegt
-     */
     @Override
-    public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
-//          fehlerhafteComponenten ist nicht leer (es sind fehlerhafte Componenten vorhanden)
+    public void fehlEingabenMarkierung(ArrayList<Component> list,
+            String fehlermelgungtitel, String fehlermeldung, Color farbe) {
+//          fehlerhafteComponenten ist nicht leer 
+//          (es sind fehlerhafte Componenten vorhanden)
 //          eine Meldung wird ausgegeben  
-        JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel,
+                JOptionPane.WARNING_MESSAGE);
 //          an die erste fehlerhafte Componenten wird der Focus gesetzt  
         list.get(0).requestFocusInWindow();
-//          ueber die fehlerhaften Komponenten wird iteriert und bei allen fehlerhaften Componenten wird der Hintergrund in der fehlerhaften Farbe gefaerbt 
+//      ueber die fehlerhaften Komponenten wird iteriert und bei allen
+//      fehlerhaften Componenten wird der Hintergrund in der fehlerhaften
+//      Farbe gefaerbt 
         for (int i = 0; i <= list.size() - 1; i++) {
             list.get(i).setBackground(farbe);
         }
@@ -411,30 +464,33 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         list.clear();
     }
 
-    /**
-     * Methode, die beim Schließen des Fenster aufgerufen wird.
-     */
     /*
      * Historie:
      * 08.12.2014   Sen     angelegt
+     */
+    /**
+     * Methode, die beim Schließen des Fenster aufgerufen wird.
      */
     private void beendenEingabeNachfrage() {
 //        varibablen fuer Titel und Text der erzeugten Meldung
         String meldung = "Möchten Sie die Eingaben verwerfen?";
         String titel = "Eingaben verwerfen";
-//        Falls Titel des Fensters GP anlegen oder GP aendern ist wird eine Nachfrage gemacht 
+//        Falls Titel des Fensters GP anlegen oder GP aendern ist wird
+//        eine Nachfrage gemacht 
         if (this.getTitle().equals(GP_ANLEGEN)) {
 //            zunaechst wird ueberprueft, ob alle Eingaben getaetigt wurden
             ueberpruefen();
-//            Falls anzahl fehlerhafter Componenten kleiner ist als max Anzahl von fehlerhaften Componenten
+//            Falls anzahl fehlerhafter Componenten kleiner ist als max Anzahl
+//            von fehlerhaften Componenten
 //            heist dass, dass Eingaben getaetigt wurden
             if (fehlerhafteComponenten.size() < anzahlFehlerhafterComponenten) {
-                int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                int antwort = JOptionPane.showConfirmDialog(null, meldung,
+                        titel, JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
                 if (antwort == JOptionPane.YES_OPTION) {
-//            Also nachfrage
+//                  Also nachfrage
                     zuruecksetzen();
                     this.setVisible(false);
-//                    jB_ZurueckActionPerformed(null);
                     zurueckInsHauptmenue();
                 } else {
                     fehlerhafteComponenten.clear();
@@ -998,39 +1054,50 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-     /**
-     * Methode um die Lieferanschrift wie die Rechnungsanschrift zu setzen.
-     */
+
     /*
      * Historie:
      * 13.12.2014   Sen     angelegt
      */
+    /**
+     * Methode um die Lieferanschrift wie die Rechnungsanschrift zu setzen.
+     */
     private void jCHB_WieAnschriftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCHB_WieAnschriftActionPerformed
-        String meldung = "Bitte geben Sie zunächst die komplette Anschrift ein.";
+        String meldung = "Bitte geben Sie zunächst die"
+                + " komplette Anschrift ein.";
 //        Pruefung, ob Checkbox wie anschrift geklickt wurde
         if (jCHB_WieAnschrift.isSelected()) {
-//             fals ja, wird geprueft, ob alle Felder der rechnungsanschrift belegt sind 
-            if (!jTF_StrasseRechnungsanschrift.getText().equals("") && !jTF_HausnummerRechnungsanschrift.getText().equals("")
-                    && !jTF_PLZRechnungsanschrift.getText().equals("") && !jTF_OrtRechnungsanschrift.getText().equals("")) {
-//                 alle Felder belegt, also werden die Felder der Liefeanschrift wie die Felder
+//     fals ja, wird geprueft, ob alle Felder der rechnungsanschrift belegt sind 
+            if (!jTF_StrasseRechnungsanschrift.getText().equals("")
+                    && !jTF_HausnummerRechnungsanschrift.getText().equals("")
+                    && !jTF_PLZRechnungsanschrift.getText().equals("")
+                    && !jTF_OrtRechnungsanschrift.getText().equals("")) {
+//                 alle Felder belegt, also werden die Felder der Liefeanschrift
+//                 wie die Felder
 //                 der Rechnungsanschift gesetzt
-                jTF_StrasseLieferanschrift.setText(jTF_StrasseRechnungsanschrift.getText());
+                jTF_StrasseLieferanschrift
+                        .setText(jTF_StrasseRechnungsanschrift.getText());
                 jTF_StrasseLieferanschrift.setEnabled(false);
-                jTF_HausnummerLieferanschrift.setText(jTF_HausnummerRechnungsanschrift.getText());
+                jTF_HausnummerLieferanschrift
+                        .setText(jTF_HausnummerRechnungsanschrift.getText());
                 jTF_HausnummerLieferanschrift.setEnabled(false);
-                jTF_PLZLieferanschrift.setText(jTF_PLZRechnungsanschrift.getText());
+                jTF_PLZLieferanschrift
+                        .setText(jTF_PLZRechnungsanschrift.getText());
                 jTF_PLZLieferanschrift.setEnabled(false);
-                jTF_OrtLieferanschrift.setText(jTF_OrtRechnungsanschrift.getText());
+                jTF_OrtLieferanschrift
+                        .setText(jTF_OrtRechnungsanschrift.getText());
                 jTF_OrtLieferanschrift.setEnabled(false);
             } else {
 //                nicht alle Felder sind belegt
 //                Prufueung, welche nicht belegt ist und zuvor eine Meldung
 //                Focus wird auf das nicht belegte Feld gesetzt
-                JOptionPane.showMessageDialog(null, meldung, UNVOLLSTAENDIGE_EINGABE, JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, meldung,
+                        UNVOLLSTAENDIGE_EINGABE, JOptionPane.ERROR_MESSAGE);
                 jCHB_WieAnschrift.setSelected(false);
                 if (jTF_StrasseRechnungsanschrift.getText().equals("")) {
                     jTF_StrasseRechnungsanschrift.requestFocusInWindow();
-                } else if (jTF_HausnummerRechnungsanschrift.getText().equals("")) {
+                } else if (jTF_HausnummerRechnungsanschrift.getText()
+                        .equals("")) {
                     jTF_HausnummerRechnungsanschrift.requestFocusInWindow();
                 } else if (jTF_PLZRechnungsanschrift.getText().equals("")) {
                     jTF_PLZRechnungsanschrift.requestFocusInWindow();
@@ -1039,7 +1106,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                 }
             }
         } else {
-//            Checkbox wie anschrift nicht geklickt, also werden die Felder der Lieferschrift geleert
+//            Checkbox wie anschrift nicht geklickt, also werden die Felder
+//            der Lieferschrift geleert
             jTF_StrasseLieferanschrift.setText("");
             jTF_StrasseLieferanschrift.setEnabled(true);
             jTF_HausnummerLieferanschrift.setText("");
@@ -1050,46 +1118,51 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
             jTF_OrtLieferanschrift.setEnabled(true);
         }
     }//GEN-LAST:event_jCHB_WieAnschriftActionPerformed
-    /**
-     * Methode, um den Typ des Geschäftspartners zu wählen. in standard gefärbt.
-     */
+
     /*
      * Historie:
      * 03.12.2014   Sen     angelegt
+     */
+    /**
+     * Methode, um den Typ des Geschäftspartners zu wählen in standard gefärbt.
      */
     private void jCHB_KundeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCHB_KundeActionPerformed
         if (jCHB_Kunde.isSelected()) {
             jCHB_Lieferant.setSelected(false);
         }
     }//GEN-LAST:event_jCHB_KundeActionPerformed
-    /**
-     * Methode, um den Typ des Geschäftspartners zu wählen. in standard gefärbt.
-     *//*
+
+    /*
      * Historie:
      * 03.12.2014   Sen     angelegt
+     */
+    /**
+     * Methode, um den Typ des Geschäftspartners zu wählen. in standard gefärbt.
      */
     private void jCHB_LieferantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCHB_LieferantActionPerformed
         if (jCHB_Lieferant.isSelected()) {
             jCHB_Kunde.setSelected(false);
         }
     }//GEN-LAST:event_jCHB_LieferantActionPerformed
-    /**
-     * Methode für das Speichern der Daten. Falls die Sicht Aritkel anlegen
-     * geoeffnet ist, wird eine Artikel angelegt. Ist Sicht Artikel aendern
-     * geoffnet, wird der Artikel ueberschieben
-     */
+
     /*
      * Historie:
      * 20.12.2014   Sen     angelegt
      * 28.12.2014   Sen     ueberarbeitet
      * 30.12.2014   Sen     Funtkion fuer Sicht GP anlegen implementiert
      * 10.01.2015   Sen     Funtkion fuer Sicht GP aendern implementiert
-     * 04.02.2015   Sen     Fehler beseitigt, z.B. wenn falscher Preis eingegeben wird 
-     *                      und direkt auf speichern geklickt wird
+     * 04.02.2015   Sen     Fehler beseitigt, z.B. wenn falscher Preis 
+     *                      eingegeben wird und direkt auf speichern geklickt
+     *                      wird
+     */
+    /**
+     * Methode für das Speichern der Daten. Falls die Sicht Aritkel anlegen
+     * geoeffnet ist, wird eine Artikel angelegt. Ist Sicht Artikel aendern
+     * geoffnet, wird der Artikel ueberschieben.
      */
     private void jB_SpeichernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SpeichernActionPerformed
-//      falls das Formular ok ist, d.h. es sind vorher keine Fehlermeldungen enstanden, 
-//      dann wird die Speichern Aktion durchgefuehrt  
+//      falls das Formular ok ist, d.h. es sind vorher keine Fehlermeldungen 
+//      enstanden, dann wird die Speichern Aktion durchgefuehrt  
         if (formularOK) {
 //      zunaechst werden die Eingaben ueberprueft.    
             ueberpruefen();
@@ -1112,7 +1185,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
             Anschrift rechnungsanschrift;
             Anschrift lieferanschrift;
             long gpnr;
-//      falls fehlerhafteComponenten leer ist (es sind keine fehlerhaften Componenten verfuegbar), 
+//      falls fehlerhafteComponenten leer ist (es sind keine fehlerhaften
+//      Componenten verfuegbar), 
 //      koennen wir sicher sein, dass alle Felder ausgefuellt sind, nun
 //      werden die Eingaben in die entsprechenden Variablen gespeichert
             if (fehlerhafteComponenten.isEmpty()) {
@@ -1128,236 +1202,280 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                 fax = jTF_Fax.getText();
                 eMail = jTF_EMail.getText();
                 strasseAnschrift = jTF_StrasseRechnungsanschrift.getText();
-                hausnummerAnschrift = jTF_HausnummerRechnungsanschrift.getText();
+                hausnummerAnschrift = jTF_HausnummerRechnungsanschrift
+                        .getText();
                 plzAnschrift = jTF_PLZRechnungsanschrift.getText();
                 ortAnschrift = jTF_OrtRechnungsanschrift.getText();
 
                 strasseLieferanschrift = jTF_StrasseLieferanschrift.getText();
-                hausnummerLieferanschrift = jTF_HausnummerLieferanschrift.getText();
+                hausnummerLieferanschrift = jTF_HausnummerLieferanschrift
+                        .getText();
                 plzLieferanschrift = jTF_PLZLieferanschrift.getText();
                 ortLieferanschrift = jTF_OrtLieferanschrift.getText();
                 try {
-                    kreditlimit = nf.parse(jTF_Kreditlimit.getText()).doubleValue();
-                    gpnr = nf.parse(jTF_GeschaeftspartnerID.getText()).longValue();
+                    kreditlimit = nf.parse(jTF_Kreditlimit.getText())
+                            .doubleValue();
+                    gpnr = nf.parse(jTF_GeschaeftspartnerID.getText())
+                            .longValue();
 //                Pruefung, ob typ des GP ausgewaehlt ist
-                    if (jCHB_Kunde.isSelected() || jCHB_Lieferant.isSelected()) {
+                    if (jCHB_Kunde.isSelected()
+                            || jCHB_Lieferant.isSelected()) {
 //                Ueberpruefung in welche Sicht wir sind
                         if (this.getTitle().equals(GP_ANLEGEN)) {
-//                      Sicht GP anlegen--> neuer GP wird in datenbank geschrieben
-//                      zunaechst muss aber die rechnungsanschrift erstellt werden 
-                            rechnungsanschrift = this.dao.erstelleAnschrift(RECHNUNGSANSCHRIFT, name, vorname,
-                                    titel, strasseAnschrift, hausnummerAnschrift, plzAnschrift,
-                                    ortAnschrift, DEUTSCHLAND, telefon, fax, eMail, eingabeGeburtsdatum);
+//                    Sicht GP anlegen--> neuer GP wird in datenbank geschrieben
+//                    zunaechst muss aber die rechnungsanschrift erstellt werden
+                            rechnungsanschrift = this.dao
+                                    .erstelleAnschrift(RECHNUNGSANSCHRIFT,
+                                            name, vorname,
+                                            titel, strasseAnschrift,
+                                            hausnummerAnschrift, plzAnschrift,
+                                            ortAnschrift, DEUTSCHLAND, telefon,
+                                            fax, eMail, eingabeGeburtsdatum);
 //                      Pruefung, ob checkbox wie anschrift gesetzt
                             if (jCHB_WieAnschrift.isSelected()) {
-//                      Falls checkbox wie anschrift geklickt ist, ist die Lieferanschrift = die rechnungsanschrift
+//                      Falls checkbox wie anschrift geklickt ist, ist die 
+//                      Lieferanschrift = die rechnungsanschrift
                                 lieferanschrift = rechnungsanschrift;
                             } else {
 //                          nicht gesetzt neue Lieferanschrift erzeugen  
-                                lieferanschrift = this.dao.erstelleAnschrift(LIEFERANSCHRIFT, name, vorname,
-                                        titel, strasseLieferanschrift, hausnummerLieferanschrift, plzLieferanschrift,
-                                        ortLieferanschrift, DEUTSCHLAND, telefon, fax, eMail, eingabeGeburtsdatum);
+                                lieferanschrift = this.dao
+                                        .erstelleAnschrift(LIEFERANSCHRIFT,
+                                                name, vorname, titel,
+                                                strasseLieferanschrift,
+                                                hausnummerLieferanschrift,
+                                                plzLieferanschrift,
+                                                ortLieferanschrift,
+                                                DEUTSCHLAND, telefon, fax,
+                                                eMail, eingabeGeburtsdatum);
                             }
 //                        Nun einen neuene GP mit beiden Anschriften erzeugen
-                            this.dao.erstelleGeschaeftspartner(typ, lieferanschrift, rechnungsanschrift, kreditlimit);
+                            this.dao.erstelleGeschaeftspartner(typ,
+                                    lieferanschrift, rechnungsanschrift,
+                                    kreditlimit);
 //                          Meldung fuer die Statuszeile wird angepasst
-                            STATUSZEILE = "Geschäftspartner mit der Geschäftspartner-ID " + gpnr + " wurde erfolgreich angelegt. ";
+                            STATUSZEILE = "Geschäftspartner mit der"
+                                    + " Geschäftspartner-ID " + gpnr
+                                    + " wurde erfolgreich angelegt. ";
                             this.hauptFenster.setStatusMeldung(STATUSZEILE);
                             zuruecksetzen();
                         } else {
-//                  Sicht GP aendern ist geoffnet, also wird zunaechst der GP aus der Datenbank geladen.
+//                  Sicht GP aendern ist geoffnet, also wird zunaechst der GP
+//                  aus der Datenbank geladen.
 //                        Vergleichsanschriften werden erzeugt
                             Anschrift rechnungsanschriftNachher;
                             Anschrift lieferanschriftNachher;
 //                        das eingebene geburtsdatum wird nochmals geholt
-                            eingabeGeburtsdatum = FORMAT.parse(jFTF_Geburtsdatum.getText());
+                            eingabeGeburtsdatum = FORMAT
+                                    .parse(jFTF_Geburtsdatum.getText());
 //                      GP aus Datenbank ist Variable gpVorher  
-                            Geschaeftspartner gpVorher = this.dao.gibGeschaeftspartner(gpnr);
-//                       vergleich GP erzeugen mit den Eingabedaten, doch zunaechst muessen die Anschriften erzeugt werden
+                            Geschaeftspartner gpVorher = this.dao
+                                    .gibGeschaeftspartner(gpnr);
+//                       vergleich GP erzeugen mit den Eingabedaten,
+//                       doch zunaechst muessen die Anschriften erzeugt werden
                             Geschaeftspartner gpNachher;
 //                      rechnungsanschrift nachher wird erzeugt
-                            rechnungsanschriftNachher = new Rechnungsanschrift(name, vorname, titel, strasseAnschrift, hausnummerAnschrift,
-                                    plzAnschrift, ortAnschrift, DEUTSCHLAND, telefon, fax, eMail, eingabeGeburtsdatum, gpVorher.getRechnungsadresse().getErfassungsdatum());
+                            rechnungsanschriftNachher
+                                    = new Rechnungsanschrift(name, vorname,
+                                            titel, strasseAnschrift,
+                                            hausnummerAnschrift,
+                                            plzAnschrift, ortAnschrift,
+                                            DEUTSCHLAND, telefon, fax, eMail,
+                                            eingabeGeburtsdatum,
+                                            gpVorher.getRechnungsadresse()
+                                            .getErfassungsdatum());
                             if (jCHB_WieAnschrift.isSelected()) {
-                                lieferanschriftNachher = rechnungsanschriftNachher;
+                                lieferanschriftNachher
+                                        = rechnungsanschriftNachher;
                             } else {
-                                lieferanschriftNachher = new Lieferanschrift(name, vorname, titel, strasseLieferanschrift, hausnummerLieferanschrift,
-                                        plzLieferanschrift, ortLieferanschrift, DEUTSCHLAND, telefon, fax, eMail, eingabeGeburtsdatum, gpVorher.getLieferadresse().getErfassungsdatum());
+                                lieferanschriftNachher
+                                        = new Lieferanschrift(name, vorname,
+                                                titel, strasseLieferanschrift,
+                                                hausnummerLieferanschrift,
+                                                plzLieferanschrift,
+                                                ortLieferanschrift, DEUTSCHLAND,
+                                                telefon, fax, eMail,
+                                                eingabeGeburtsdatum,
+                                                gpVorher.getLieferadresse()
+                                                .getErfassungsdatum());
                             }
 //                      Pruefung, elchen Typ der GP hat 
                             if (jCHB_Kunde.isSelected()) {
 //                            GP ist Kunde, also Kunde erzeugen
-                                gpNachher = new Kunde(lieferanschriftNachher, rechnungsanschriftNachher, kreditlimit, false);
+                                gpNachher
+                                        = new Kunde(lieferanschriftNachher,
+                                                rechnungsanschriftNachher,
+                                                kreditlimit, false);
                             } else {
 //                            GP ist Lieferant, Lieferant erzeugen
-                                gpNachher = new Lieferant(lieferanschriftNachher, rechnungsanschriftNachher, kreditlimit, false);
+                                gpNachher
+                                        = new Lieferant(lieferanschriftNachher,
+                                                rechnungsanschriftNachher,
+                                                kreditlimit, false);
                             }
 //                      Vergeleich, ob der GP sich geaendert hat
                             if (gpVorher.equals(gpNachher)) {
 //                            Keine Veraenderung, Meldung
-                                JOptionPane.showMessageDialog(null, "Es wurden keine Änderungen gemacht!", "Keine Änderungen", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(null,
+                                        "Es wurden keine Änderungen gemacht!",
+                                        "Keine Änderungen",
+                                        JOptionPane.INFORMATION_MESSAGE);
                             } else {
-//                            Aenderung -> Abfrage, ob Änderungen gespeichert werden sollen
-                                int antwort = JOptionPane.showConfirmDialog(null, MELDUNG_AENDERUNGEN_SPEICHERN, GP_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-//                            System.out.println(gpVorher.getLieferadresse());
-//                            System.out.println(gpVorher.getRechnungsadresse());
-//                            System.out.println("");
-//                            System.out.println(gpNachher.getLieferadresse());
-//                            System.out.println(gpNachher.getRechnungsadresse());
+//                              Aenderung -> Abfrage, ob Änderungen
+//                              gespeichert werden sollen
+                                int antwort = JOptionPane
+                                        .showConfirmDialog(null,
+                                                MELDUNG_AENDERUNGEN_SPEICHERN,
+                                                GP_AENDERN,
+                                                JOptionPane.YES_NO_OPTION,
+                                                JOptionPane.QUESTION_MESSAGE);
                                 if (antwort == JOptionPane.YES_OPTION) {
 //                              falls ja, gp in DP aendern
-                                    this.dao.aendereGeschaeftspartner(gpVorher.getGeschaeftspartnerID(), jCHB_WieAnschrift.isSelected(),
-                                            kreditlimit, name, vorname, titel, strasseAnschrift, hausnummerAnschrift,
-                                            plzAnschrift, ortAnschrift, strasseLieferanschrift, hausnummerLieferanschrift,
-                                            plzLieferanschrift, ortLieferanschrift, DEUTSCHLAND, telefon, fax, eMail, eingabeGeburtsdatum);
+                                    this.dao.aendereGeschaeftspartner(gpVorher
+                                            .getGeschaeftspartnerID(),
+                                            jCHB_WieAnschrift.isSelected(),
+                                            kreditlimit, name, vorname, titel,
+                                            strasseAnschrift,
+                                            hausnummerAnschrift,
+                                            plzAnschrift, ortAnschrift,
+                                            strasseLieferanschrift,
+                                            hausnummerLieferanschrift,
+                                            plzLieferanschrift,
+                                            ortLieferanschrift, DEUTSCHLAND,
+                                            telefon, fax, eMail,
+                                            eingabeGeburtsdatum);
 //                                  Meldung fuer die Statuszeile wird angepasst
-                                    STATUSZEILE = "Geschäftspartner mit der Geschäftspartner-ID " + gpnr + " wurde erfolgreich geändert. ";
-                                    this.hauptFenster.setStatusMeldung(STATUSZEILE);
+                                    STATUSZEILE = "Geschäftspartner mit der"
+                                            + " Geschäftspartner-ID " + gpnr
+                                            + " wurde erfolgreich geändert. ";
+                                    this.hauptFenster
+                                            .setStatusMeldung(STATUSZEILE);
                                     zuruecksetzen(); // Formular zuruecksetzen
-                                    this.setVisible(false); // diese Sicht ausblenden 
+                                    this.setVisible(false); 
 //                                Änderung am 03.02.2015
-//                                jB_ZurueckActionPerformed(null); // Button Zurueck Action ausführen
                                     zurueckInsHauptmenue();
 //                                ende Änderung
                                 } else {
-//                              Nein button wird geklickt, keine Aktion nur fehlerhafte Komponenten müssen geleert werden
+//                              Nein button wird geklickt, keine Aktion nur 
+//                              fehlerhafte Komponenten müssen geleert werden
                                     fehlerhafteComponenten.clear();
                                 }
                             }
 
                         }
                     } else {
-//                    Checkbox Kunde und Lieferant nicht ausgewaehlt-> Meldung das der Typ des GP ausgeaehlt sein muss
-                        JOptionPane.showMessageDialog(null, "Bitte wählen Sie den Typ des Geschäftspartners.", UNVOLLSTAENDIGE_EINGABE, JOptionPane.ERROR_MESSAGE);
+//                    Checkbox Kunde und Lieferant nicht ausgewaehlt-> 
+//                    Meldung das der Typ des GP ausgeaehlt sein muss
+                        JOptionPane.showMessageDialog(null, "Bitte wählen Sie "
+                                + "den Typ des Geschäftspartners.",
+                                UNVOLLSTAENDIGE_EINGABE,
+                                JOptionPane.ERROR_MESSAGE);
                         jCHB_Kunde.requestFocusInWindow();
                     }
 //          Abfangen der Fehler
                 } catch (ApplicationException e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, e.getMessage(),
+                            FEHLER, JOptionPane.ERROR_MESSAGE);
                 } catch (ParseException | NullPointerException e) {
-                    System.out.println(e.getMessage());
                 }
             } else {
-//            fehlerhafteComponenten ist nicht leer (es sind fehlerhafte Componenten vorhanden)
-////          wird methode fuer das Markieren ausgefuehrt 
-//            JOptionPane.showMessageDialog(null, MELDUNG_PFLICHTFELDER_TEXT, MELDUNG_PFLICHTFELDER_TITEL, JOptionPane.ERROR_MESSAGE);
-////          an die erste fehlerhafte Componenten wird der Focus gesetzt  
-//            fehlerhafteComponenten.get(0).requestFocusInWindow();
-////          ueber die fehlerhaften Komponenten wird iteriert und bei allen fehlerhaften Componenten wird der Hintergrund in der fehlerhaften Farbe gefaerbt 
-//            for (int i = 0; i <= fehlerhafteComponenten.size() - 1; i++) {
-//                fehlerhafteComponenten.get(i).setBackground(FARBE_FEHLERHAFT);
-//            }
-////          ArrayList fue fehlerhafte Componenten wird geleert
-//            fehlerhafteComponenten.clear();
-                fehlEingabenMarkierung(fehlerhafteComponenten, MELDUNG_PFLICHTFELDER_TITEL, MELDUNG_PFLICHTFELDER_TEXT, FARBE_FEHLERHAFT);
+//            fehlerhafteComponenten ist nicht leer (es sind 
+//            fehlerhafte Componenten vorhanden)
+//          wird methode fuer das Markieren ausgefuehrt
+                fehlEingabenMarkierung(fehlerhafteComponenten,
+                        MELDUNG_PFLICHTFELDER_TITEL, MELDUNG_PFLICHTFELDER_TEXT,
+                        FARBE_FEHLERHAFT);
             }
         }
-//      Varibale formularOk muss wieder als true gesetzt werden, da wieder geprueft wird.    
+//      Varibale formularOk muss wieder als true gesetzt werden,
+//      da wieder geprueft wird.    
         formularOK = true;
     }//GEN-LAST:event_jB_SpeichernActionPerformed
-    /**
-     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
-     * in standard gefärbt.
-     */
+
     /*
      * Historie:
      * 29.11.2014   Sen     angelegt
+     */
+    /**
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
+     * in standard gefärbt.
      */
     private void jCB_AnredeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCB_AnredeActionPerformed
         if (jCB_Anrede.getSelectedIndex() != 0) {
             jCB_Anrede.setBackground(JCB_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jCB_AnredeActionPerformed
-    /**
-     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
-     * in standard gefärbt.
-     */
+
     /*
      * Historie:
      * 29.11.2014   Sen     angelegt
+     */
+    /**
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
+     * in standard gefärbt.
      */
     private void jTF_NameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_NameFocusLost
         if (!jTF_Name.getText().equals("")) {
             jTF_Name.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jTF_NameFocusLost
-    /**
-     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
-     * in standard gefärbt.
-     */
+
     /*
      * Historie:
      * 29.11.2014   Sen     angelegt
+     */
+    /**
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
+     * in standard gefärbt.
      */
     private void jTF_VornameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_VornameFocusLost
         if (!jTF_Vorname.getText().equals("")) {
             jTF_Vorname.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jTF_VornameFocusLost
+
+    /*
+     * Historie:
+     * 29.11.2014   Sen     angelegt
+     */
     /**
      * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
      * in standard gefärbt. Wenn nicht, wird eine Meldung ausgegeben.
      *
-     */
-    /*
-     * Historie:
-     * 29.11.2014   Sen     angelegt
      */
     private void jTF_TelefonFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_TelefonFocusLost
-//        if (!jTF_Telefon.getText().matches(PRUEFUNG_TELEFON)) {
-//            String meldung = "Die eingegebene Telefonnummer ist nicht richtig! \n Bitte geben Sie eine richtige Telefonnummer ein. (z.B. 1234123)";
-//            String titel = "Fehlerhafte Eingabe";
-//            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-//            jTF_Telefon.requestFocusInWindow();
-//            jTF_Telefon.setText("");
-//        } else if (!jTF_Telefon.getText().equals("")) {
-//            jTF_Telefon.setBackground(JTF_FARBE_STANDARD);
-//        }
-        String meldung = "Die eingegebene Telefonnummer ist nicht richtig!\nBitte geben Sie eine richtige Telefonnummer ein. (z.B. 01771234567)";
-        ueberpruefungVonFocusLost(jTF_Telefon, PRUEFUNG_TELEFON, FEHLERHAFTE_EINGABE, meldung);
-
+        String meldung = "Die eingegebene Telefonnummer ist nicht"
+                + " richtig!\nBitte geben Sie eine richtige Telefonnummer"
+                + " ein. (z.B. 01771234567)";
+        ueberpruefungVonFocusLost(jTF_Telefon, PRUEFUNG_TELEFON,
+                FEHLERHAFTE_EINGABE, meldung);
     }//GEN-LAST:event_jTF_TelefonFocusLost
+
+    /*
+     * Historie:
+     * 29.11.2014   Sen     angelegt
+     */
     /**
      * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
      * in standard gefärbt. Wenn nicht, wird eine Meldung ausgegeben.
      *
      */
+    private void jTF_FaxFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_FaxFocusLost
+        String meldung = "Die eingegebene Faxnummer ist nicht richtig!\nBitte "
+                + "geben Sie eine richtige Faxnummer ein. (z.B. 0234123123)";
+        ueberpruefungVonFocusLost(jTF_Fax, PRUEFUNG_TELEFON,
+                FEHLERHAFTE_EINGABE, meldung);
+    }//GEN-LAST:event_jTF_FaxFocusLost
+
     /*
      * Historie:
      * 29.11.2014   Sen     angelegt
+     * 05.12.2014   Sen     ueberarbeitet
      */
-    private void jTF_FaxFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_FaxFocusLost
-//        if (!jTF_Fax.getText().matches(PRUEFUNG_TELEFON)) {
-//            String meldung = "Die eingegebene Faxnummer ist nicht richtig! \n Bitte geben Sie eine richtige Faxnummer ein. (z.B. 1234123)";
-//            String titel = "Fehlerhafte Eingabe";
-//            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-//            jTF_Fax.requestFocusInWindow();
-//            jTF_Fax.setText("");
-//        } else if (!jTF_Fax.getText().equals("")) {
-//            jTF_Fax.setBackground(JTF_FARBE_STANDARD);
-//        }
-
-//        if (!textfield.getText().matches(syntax)) {
-//            JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
-//            textfield.requestFocusInWindow();
-//            textfield.setText("");
-//        } else if (!textfield.getText().equals("")) {
-//            textfield.setBackground(JTF_FARBE_STANDARD);
-//        }
-        String meldung = "Die eingegebene Faxnummer ist nicht richtig!\nBitte geben Sie eine richtige Faxnummer ein. (z.B. 0234123123)";
-        ueberpruefungVonFocusLost(jTF_Fax, PRUEFUNG_TELEFON, FEHLERHAFTE_EINGABE, meldung);
-
-    }//GEN-LAST:event_jTF_FaxFocusLost
     /**
      * Methode prüft, ob das eingebene Geburstdatum ok ist. Falls ja, wird der
      * Hintergrund in standard gefärbt. Wenn nicht, wird eine Meldung
      * ausgegeben.
      *
-     */
-    /*
-     * Historie:
-     * 29.11.2014   Sen     angelegt
-     * 05.12.2014   Sen     ueberarbeitet
      */
     private void jFTF_GeburtsdatumFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFTF_GeburtsdatumFocusLost
         String meldung;
@@ -1384,8 +1502,11 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //                  Datum ist in zukunft, formularOK wird auf false gesetzt  
                     formularOK = false;
 //                    Falls ja Fehlermedung
-                    meldung = "Das eingegebene Geburtsdatum ist in der Zukunft!\nBitte geben Sie ein gültiges Geburtsdatum ein. (z.B. 01.01.1980)";
-                    JOptionPane.showMessageDialog(null, meldung, FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
+                    meldung = "Das eingegebene Geburtsdatum ist in der"
+                            + " Zukunft!\nBitte geben Sie ein gültiges"
+                            + " Geburtsdatum ein. (z.B. 01.01.1980)";
+                    JOptionPane.showMessageDialog(null, meldung,
+                            FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
                     jFTF_Geburtsdatum.requestFocusInWindow();
                     jFTF_Geburtsdatum.setValue(null);
 //                    Pruefung ob GP volljaehrig
@@ -1393,27 +1514,33 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //                  GP ist unter 18, formularOK wird auf false gesetzt 
                     formularOK = false;
 //                    Falls nicht, Fehlermeldung
-                    meldung = "Der eingegebene Geschäftspartner ist nicht volljährig!\nEs können nur volljährige Geschäftspartner angelegt werden.";
-                    JOptionPane.showMessageDialog(null, meldung, FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
+                    meldung = "Der eingegebene Geschäftspartner ist nicht"
+                            + " volljährig!\nEs können nur volljährige "
+                            + "Geschäftspartner angelegt werden.";
+                    JOptionPane.showMessageDialog(null, meldung,
+                            FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
                     jFTF_Geburtsdatum.requestFocusInWindow();
                     jFTF_Geburtsdatum.setValue(null);
                 } else if (eingabeGeburtsdatum.before(tagVor100jahren)) {
-//                  Pruefung, ob das eingegebene Geburtsdatum ein vier stelliges Jahr enthaelt,
-//                  denn falls der Benutzer 01.01.1### eingibt, interpretiert der
-//                  Formatter das so, als ob das Jahr 0.01.1 eingegeben wurde.
-//                  Da dies aber nicht gueltig sein soll, kommt diese Ueberpruefung
+//   Pruefung, ob das eingegebene Geburtsdatum ein vier stelliges Jahr enthaelt,
+//   denn falls der Benutzer 01.01.1### eingibt, interpretiert der
+//   Formatter das so, als ob das Jahr 0.01.1 eingegeben wurde.
+//   Da dies aber nicht gueltig sein soll, kommt diese Ueberpruefung
 //                  Das Date Objekt wird in ein String umgewandelt  
                     String s = gibDatumAusDatenbank(eingabeGeburtsdatum);
 //                  Ueberpruefung, ob das Jahr vier stellig ist  
                     if ((s.substring(6, s.length())).length() != 4) {
-//                      Es ist vier Stellig, es wird eine Parse Exception geworfen  
+//                    Es ist vier Stellig, es wird eine Parse Exception geworfen
                         throw new ParseException("Fehler", ERROR);
                     }
-//                  GP ist ueber 100 Jahre alt, formularOK wird auf false gesetzt 
+//                 GP ist ueber 100 Jahre alt, formularOK wird auf false gesetzt
                     formularOK = false;
 //                    Falls nicht, Fehlermeldung
-                    meldung = "Der eingegebene Geschäftspartner ist über 100 Jahre alt!\nGeschäftspartner, die über 100 Jahre alt sind können nicht angelegt werden.";
-                    JOptionPane.showMessageDialog(null, meldung, FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
+                    meldung = "Der eingegebene Geschäftspartner ist über 100 "
+                            + "Jahre alt!\nGeschäftspartner, die über 100 Jahre"
+                            + " alt sind können nicht angelegt werden.";
+                    JOptionPane.showMessageDialog(null, meldung,
+                            FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
                     jFTF_Geburtsdatum.requestFocusInWindow();
                     jFTF_Geburtsdatum.setValue(null);
                 } else {
@@ -1424,130 +1551,112 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
             } catch (ParseException e) {
 //              Datum ist in ungueltig, formularOK wird auf false gesetzt 
                 formularOK = false;
-//                Parse Exception, da EingabeDatum nicht gueltig --> Fehlermeldung
-                meldung = "Das eingegebene Geburtsdatum ist nicht gültig!\nBitte geben Sie ein gültiges Geburtsdatum ein. (z.B. 01.01.1980)";
-                JOptionPane.showMessageDialog(null, meldung, FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
+//            Parse Exception, da EingabeDatum nicht gueltig --> Fehlermeldung
+                meldung = "Das eingegebene Geburtsdatum ist nicht"
+                        + " gültig!\nBitte geben Sie ein gültiges Geburtsdatum"
+                        + " ein. (z.B. 01.01.1980)";
+                JOptionPane.showMessageDialog(null, meldung,
+                        FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
                 jFTF_Geburtsdatum.requestFocusInWindow();
                 jFTF_Geburtsdatum.setValue(null);
             }
         }
     }//GEN-LAST:event_jFTF_GeburtsdatumFocusLost
-    /**
-     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
-     * in standard gefärbt. Bei Fehleingaben wird eine Meldung ausgegeben.
-     */
+
     /*
      * Historie:
      * 29.11.2014   Sen     angelegt
+     */
+    /**
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
+     * in standard gefärbt. Bei Fehleingaben wird eine Meldung ausgegeben.
      */
     private void jTF_EMailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_EMailFocusLost
-//        if (!jTF_EMail.getText().matches(PRUEFUNG_EMAIL)) {
-//            String meldung = "Die einegebene eMail ist nicht richtig! \nBitte geben Sie eine richtige eMail Adresse ein. (z.B. abc@abc.de)";
-//            String titel = "Fehlerhafte Eingabe";
-//            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-//            jTF_EMail.requestFocusInWindow();
-//            jTF_EMail.setText("");
-//        } else if (!jTF_EMail.getText().equals("")) {
-//            jTF_EMail.setBackground(JTF_FARBE_STANDARD);
-//        }
-
-        //        if (!textfield.getText().matches(syntax)) {
-//            JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
-//            textfield.requestFocusInWindow();
-//            textfield.setText("");
-//        } else if (!textfield.getText().equals("")) {
-//            textfield.setBackground(JTF_FARBE_STANDARD);
-//        }
-        String meldung = "Die eingegebene e-Mail Adresse ist nicht gültig!\nBitte geben Sie eine gültige e-Mail Adresse ein. (z.B. max.mustermann@w-hs.de)";
-        ueberpruefungVonFocusLost(jTF_EMail, PRUEFUNG_EMAIL, FEHLERHAFTE_EINGABE, meldung);
-
-
+        String meldung = "Die eingegebene e-Mail Adresse ist nicht "
+                + "gültig!\nBitte geben Sie eine gültige e-Mail"
+                + " Adresse ein. (z.B. max.mustermann@w-hs.de)";
+        ueberpruefungVonFocusLost(jTF_EMail, PRUEFUNG_EMAIL,
+                FEHLERHAFTE_EINGABE, meldung);
     }//GEN-LAST:event_jTF_EMailFocusLost
-    /**
-     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
-     * in standard gefärbt. Bei Fehleingaben wird eine Meldung ausgegeben.
-     */
+
     /*
      * Historie:
      * 29.11.2014   Sen     angelegt
      */
+    /**
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
+     * in standard gefärbt. Bei Fehleingaben wird eine Meldung ausgegeben.
+     */
     private void jTF_KreditlimitFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_KreditlimitFocusLost
-//        Pruefung, ob Krediitlimit mit Synstax uebereinstimmt, falls nein wird eine Meldung ausgegeben
+//        Pruefung, ob Krediitlimit mit Synstax uebereinstimmt, 
+//        falls nein wird eine Meldung ausgegeben
         if (!jTF_Kreditlimit.getText().matches(PRUEFUNG_PREIS)) {
 //          Kreditlimit ist nicht ok, formularOK wird auf false gesetzt 
             formularOK = false;
-            String meldung = "Der eingegebene Wert ist nicht richtig!\nBitte geben Sie einen richtigen Wert ein. (z.B. 9,99 oder 99.999,99)";
-            JOptionPane.showMessageDialog(null, meldung, FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
+            String meldung = "Der eingegebene Wert ist nicht richtig!\nBitte"
+                    + " geben Sie einen richtigen Wert ein."
+                    + " (z.B. 9,99 oder 99.999,99)";
+            JOptionPane.showMessageDialog(null, meldung, FEHLERHAFTE_EINGABE,
+                    JOptionPane.ERROR_MESSAGE);
             jTF_Kreditlimit.requestFocusInWindow();
             jTF_Kreditlimit.setText("");
         } else if (!jTF_Kreditlimit.getText().equals("")) {
             try {
                 formularOK = true;
-                double eingabeKreditlimit = nf.parse(jTF_Kreditlimit.getText()).doubleValue();
+                double eingabeKreditlimit = nf.parse(jTF_Kreditlimit.getText())
+                        .doubleValue();
                 jTF_Kreditlimit.setText(nf.format(eingabeKreditlimit));
                 jTF_Kreditlimit.setBackground(JTF_FARBE_STANDARD);
             } catch (ParseException ex) {
-                System.out.println("Fehler in der Methode jTF_eMailFocusLost()");
-                System.out.println(ex.getMessage());
             }
         } else {
             formularOK = true;
         }
     }//GEN-LAST:event_jTF_KreditlimitFocusLost
-    /**
-     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
-     * in standard gefärbt.
-     */
+
     /*
      * Historie:
      * 29.11.2014   Sen     angelegt
+     */
+    /**
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
+     * in standard gefärbt.
      */
     private void jTF_StrasseRechnungsanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_StrasseRechnungsanschriftFocusLost
         if (!jTF_StrasseRechnungsanschrift.getText().equals("")) {
             jTF_StrasseRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jTF_StrasseRechnungsanschriftFocusLost
-    /**
-     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
-     * in standard gefärbt.
-     */
+
     /*
      * Historie:
      * 29.11.2014   Sen     angelegt
+     */
+    /**
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
+     * in standard gefärbt.
      */
     private void jTF_StrasseLieferanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_StrasseLieferanschriftFocusLost
         if (!jTF_StrasseLieferanschrift.getText().equals("")) {
             jTF_StrasseLieferanschrift.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jTF_StrasseLieferanschriftFocusLost
-    /**
-     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
-     * in standard gefärbt. Bei Fehleingaben wird eine Meldung ausgegeben.
-     */
+
     /*
      * Historie:
      * 29.11.2014   Sen     angelegt
      */
+    /**
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
+     * in standard gefärbt. Bei Fehleingaben wird eine Meldung ausgegeben.
+     */
     private void jTF_HausnummerRechnungsanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_HausnummerRechnungsanschriftFocusLost
-//        if (!jTF_HausnummerRechnungsanschrift.getText().matches(PRUEFUNG_HAUSNUMMER)) {
-//            String meldung = "Die eingegebene Hausnummer ist nicht richtig! \n Bitte geben Sie eine richtige Hausnummer ein. (z.B. 10A oder 10)";
-//            String titel = "Fehlerhafte Eingabe";
-//            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-//            jTF_HausnummerRechnungsanschrift.requestFocusInWindow();
-//            jTF_HausnummerRechnungsanschrift.setText("");
-//        } else if (!jTF_HausnummerRechnungsanschrift.getText().equals("")) {
-//            jTF_HausnummerRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
-//        }
-
-        //        if (!textfield.getText().matches(syntax)) {
-//            JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
-//            textfield.requestFocusInWindow();
-//            textfield.setText("");
-//        } else if (!textfield.getText().equals("")) {
-//            textfield.setBackground(JTF_FARBE_STANDARD);
-//        }
-        String meldung = "Die eingegebene Hausnummer ist nicht richtig!\nSie können eine maximal dreistellige Hausnummer gefolgt von\neinem optionalen Buchstaben eingeben. (z.B. 10 oder 100A)";
-        ueberpruefungVonFocusLost(jTF_HausnummerRechnungsanschrift, PRUEFUNG_HAUSNUMMER, FEHLERHAFTE_EINGABE, meldung);
+        String meldung = "Die eingegebene Hausnummer ist nicht richtig!\nSie"
+                + " können eine maximal dreistellige Hausnummer gefolgt"
+                + " von\neinem optionalen Buchstaben eingeben."
+                + " (z.B. 10 oder 100A)";
+        ueberpruefungVonFocusLost(jTF_HausnummerRechnungsanschrift,
+                PRUEFUNG_HAUSNUMMER, FEHLERHAFTE_EINGABE, meldung);
 
 
     }//GEN-LAST:event_jTF_HausnummerRechnungsanschriftFocusLost
@@ -1560,239 +1669,246 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * 29.11.2014   Sen     angelegt
      */
     private void jTF_HausnummerLieferanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_HausnummerLieferanschriftFocusLost
-//        if (!jTF_HausnummerLieferanschrift.getText().matches(PRUEFUNG_HAUSNUMMER)) {
-//            String meldung = "Die eingegebene Hausnummer ist nicht richtig! \n Bitte geben Sie eine richtige Hausnummer ein. (z.B. 10A oder 10)";
-//            String titel = "Fehlerhafte Eingabe";
-//            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-//            jTF_HausnummerLieferanschrift.requestFocusInWindow();
-//            jTF_HausnummerLieferanschrift.setText("");
-//        } else if (!jTF_HausnummerLieferanschrift.getText().equals("")) {
-//            jTF_HausnummerLieferanschrift.setBackground(JTF_FARBE_STANDARD);
-//        }
-
-        String meldung = "Die eingegebene Hausnummer ist nicht richtig!\nSie können eine maximal dreistellige Hausnummer gefolgt von\neinem optionalen Buchstaben eingeben. (z.B. 10 oder 100A)";
-        ueberpruefungVonFocusLost(jTF_HausnummerLieferanschrift, PRUEFUNG_HAUSNUMMER, FEHLERHAFTE_EINGABE, meldung);
+        String meldung = "Die eingegebene Hausnummer ist nicht "
+                + "richtig!\nSie können eine maximal dreistellige Hausnummer"
+                + " gefolgt von\neinem optionalen Buchstaben eingeben."
+                + " (z.B. 10 oder 100A)";
+        ueberpruefungVonFocusLost(jTF_HausnummerLieferanschrift,
+                PRUEFUNG_HAUSNUMMER, FEHLERHAFTE_EINGABE, meldung);
     }//GEN-LAST:event_jTF_HausnummerLieferanschriftFocusLost
-    /**
-     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
-     * in standard gefärbt. Bei Fehleingaben wird eine Meldung ausgegeben.
-     */
+
     /*
      * Historie:
      * 29.11.2014   Sen     angelegt
+     */
+    /**
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
+     * in standard gefärbt. Bei Fehleingaben wird eine Meldung ausgegeben.
      */
     private void jTF_PLZRechnungsanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_PLZRechnungsanschriftFocusLost
-//        if (!jTF_PLZRechnungsanschrift.getText().matches(PRUEFUNG_PLZ)) {
-//            String meldung = "Die eingegebene Postleitzahl ist nicht richtig! \n Bitte geben Sie eine richtige Postleitzahl ein. (z.B. 45968)";
-//            String titel = "Fehlerhafte Eingabe";
-//            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-//            jTF_PLZRechnungsanschrift.requestFocusInWindow();
-//            jTF_PLZRechnungsanschrift.setText("");
-//        } else if (!jTF_PLZRechnungsanschrift.getText().equals("")) {
-//            jTF_PLZRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
-//        }
-        String meldung = "Die eingegebene Postleitzahl ist nicht richtig!\nBitte geben Sie eine fünfstellige Postleitzahl ein. (z.B. 45968)";
-        ueberpruefungVonFocusLost(jTF_PLZRechnungsanschrift, PRUEFUNG_PLZ, FEHLERHAFTE_EINGABE, meldung);
+        String meldung = "Die eingegebene Postleitzahl ist nicht "
+                + "richtig!\nBitte geben Sie eine fünfstellige "
+                + "Postleitzahl ein. (z.B. 45968)";
+        ueberpruefungVonFocusLost(jTF_PLZRechnungsanschrift, PRUEFUNG_PLZ,
+                FEHLERHAFTE_EINGABE, meldung);
     }//GEN-LAST:event_jTF_PLZRechnungsanschriftFocusLost
-    /**
-     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
-     * in standard gefärbt. Bei Fehleingaben wird eine Meldung ausgegeben.
-     */
+
     /*
      * Historie:
      * 29.11.2014   Sen     angelegt
      */
+    /**
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
+     * in standard gefärbt. Bei Fehleingaben wird eine Meldung ausgegeben.
+     */
     private void jTF_PLZLieferanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_PLZLieferanschriftFocusLost
-//        if (!jTF_PLZLieferanschrift.getText().matches(PRUEFUNG_PLZ)) {
-//            String meldung = "Die eingegebene Postleitzahl ist nicht richtig! \n Bitte geben Sie eine richtige Postleitzahl ein. (z.B. 45968)";
-//            String titel = "Fehlerhafte Eingabe";
-//            JOptionPane.showMessageDialog(null, meldung, titel, JOptionPane.ERROR_MESSAGE);
-//            jTF_PLZLieferanschrift.requestFocusInWindow();
-//            jTF_PLZLieferanschrift.setText("");
-//        } else if (!jTF_PLZLieferanschrift.getText().equals("")) {
-//            jTF_PLZLieferanschrift.setBackground(JTF_FARBE_STANDARD);
-//        }
-
-        String meldung = "Die eingegebene Postleitzahl ist nicht richtig!\nBitte geben Sie eine fünfstellige Postleitzahl ein. (z.B. 45968)";
-        ueberpruefungVonFocusLost(jTF_PLZLieferanschrift, PRUEFUNG_PLZ, FEHLERHAFTE_EINGABE, meldung);
+        String meldung = "Die eingegebene Postleitzahl ist nicht "
+                + "richtig!\nBitte geben Sie eine fünfstellige Postleitzahl"
+                + " ein. (z.B. 45968)";
+        ueberpruefungVonFocusLost(jTF_PLZLieferanschrift, PRUEFUNG_PLZ,
+                FEHLERHAFTE_EINGABE, meldung);
     }//GEN-LAST:event_jTF_PLZLieferanschriftFocusLost
+
+    /*
+     * Historie:
+     * 29.11.2014   Sen     angelegt
+     */
     /**
      * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
      * in standard gefärbt.
-     */
-    /*
-     * Historie:
-     * 29.11.2014   Sen     angelegt
      */
     private void jTF_OrtRechnungsanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_OrtRechnungsanschriftFocusLost
         if (!jTF_OrtRechnungsanschrift.getText().equals("")) {
             jTF_OrtRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jTF_OrtRechnungsanschriftFocusLost
-    /**
-     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
-     * in standard gefärbt.
-     */
+
     /*
      * Historie:
      * 29.11.2014   Sen     angelegt
+     */
+    /**
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
+     * in standard gefärbt.
      */
     private void jTF_OrtLieferanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_OrtLieferanschriftFocusLost
         if (!jTF_OrtLieferanschrift.getText().equals("")) {
             jTF_OrtLieferanschrift.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jTF_OrtLieferanschriftFocusLost
-    /**
-     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
-     */
+
     /*
      * Historie:
      * 30.11.2014   Sen     angelegt
+     */
+    /**
+     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
      */
     private void jTF_NameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_NameFocusGained
         jTF_Name.selectAll();
     }//GEN-LAST:event_jTF_NameFocusGained
-    /**
-     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
-     */
+
     /*
      * Historie:
      * 30.11.2014   Sen     angelegt
+     */
+    /**
+     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
      */
     private void jTF_VornameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_VornameFocusGained
         jTF_Vorname.selectAll();
     }//GEN-LAST:event_jTF_VornameFocusGained
-    /**
-     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
-     */
+
     /*
      * Historie:
      * 30.11.2014   Sen     angelegt
+     */
+    /**
+     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
      */
     private void jTF_TelefonFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_TelefonFocusGained
         jTF_Telefon.selectAll();
     }//GEN-LAST:event_jTF_TelefonFocusGained
-    /**
-     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
-     */
+
     /*
      * Historie:
      * 30.11.2014   Sen     angelegt
+     */
+    /**
+     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
      */
     private void jTF_FaxFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_FaxFocusGained
         jTF_Fax.selectAll();
     }//GEN-LAST:event_jTF_FaxFocusGained
-    /**
-     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
-     */
+
     /*
      * Historie:
      * 30.11.2014   Sen     angelegt
+     */
+    /**
+     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
      */
     private void jTF_EMailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_EMailFocusGained
         jTF_EMail.selectAll();
     }//GEN-LAST:event_jTF_EMailFocusGained
-    /**
-     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
-     */
+
     /*
      * Historie:
      * 30.11.2014   Sen     angelegt
+     */
+    /**
+     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
      */
     private void jTF_KreditlimitFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_KreditlimitFocusGained
         jTF_Kreditlimit.selectAll();
     }//GEN-LAST:event_jTF_KreditlimitFocusGained
-    /**
-     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
-     */
+
     /*
      * Historie:
      * 30.11.2014   Sen     angelegt
+     */
+    /**
+     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
      */
     private void jTF_StrasseRechnungsanschriftFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_StrasseRechnungsanschriftFocusGained
         jTF_StrasseRechnungsanschrift.selectAll();
     }//GEN-LAST:event_jTF_StrasseRechnungsanschriftFocusGained
-    /**
-     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
-     */
+
     /*
      * Historie:
      * 30.11.2014   Sen     angelegt
+     */
+    /**
+     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
      */
     private void jTF_StrasseLieferanschriftFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_StrasseLieferanschriftFocusGained
         jTF_StrasseLieferanschrift.selectAll();
     }//GEN-LAST:event_jTF_StrasseLieferanschriftFocusGained
-    /**
-     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
-     */
+
     /*
      * Historie:
      * 30.11.2014   Sen     angelegt
+     */
+    /**
+     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
      */
     private void jTF_HausnummerRechnungsanschriftFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_HausnummerRechnungsanschriftFocusGained
         jTF_HausnummerRechnungsanschrift.selectAll();
     }//GEN-LAST:event_jTF_HausnummerRechnungsanschriftFocusGained
-    /**
-     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
-     */
+
     /*
      * Historie:
      * 30.11.2014   Sen     angelegt
+     */
+    /**
+     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
      */
     private void jTF_HausnummerLieferanschriftFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_HausnummerLieferanschriftFocusGained
         jTF_HausnummerLieferanschrift.selectAll();
     }//GEN-LAST:event_jTF_HausnummerLieferanschriftFocusGained
-    /**
-     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
-     */
+
     /*
      * Historie:
      * 30.11.2014   Sen     angelegt
+     */
+    /**
+     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
      */
     private void jTF_PLZRechnungsanschriftFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_PLZRechnungsanschriftFocusGained
         jTF_PLZRechnungsanschrift.selectAll();
     }//GEN-LAST:event_jTF_PLZRechnungsanschriftFocusGained
-    /**
-     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
-     */
+
     /*
      * Historie:
      * 30.11.2014   Sen     angelegt
+     */
+    /**
+     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
      */
     private void jTF_PLZLieferanschriftFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_PLZLieferanschriftFocusGained
         jTF_PLZLieferanschrift.selectAll();
     }//GEN-LAST:event_jTF_PLZLieferanschriftFocusGained
-    /**
-     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
-     */
+
     /*
      * Historie:
      * 30.11.2014   Sen     angelegt
+     */
+    /**
+     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
      */
     private void jTF_OrtRechnungsanschriftFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_OrtRechnungsanschriftFocusGained
         jTF_OrtRechnungsanschrift.selectAll();
     }//GEN-LAST:event_jTF_OrtRechnungsanschriftFocusGained
-    /**
-     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
-     */
+
     /*
      * Historie:
      * 30.11.2014   Sen     angelegt
+     */
+    /**
+     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
      */
     private void jTF_OrtLieferanschriftFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_OrtLieferanschriftFocusGained
         jTF_OrtLieferanschrift.selectAll();
     }//GEN-LAST:event_jTF_OrtLieferanschriftFocusGained
-    /**
-     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
-     */
+
     /*
      * Historie:
      * 30.11.2014   Sen     angelegt
+     */
+    /**
+     * Wenn in das Textfeld der Focus kommt, wird die Eingabe selektiert.
      */
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         beendenEingabeNachfrage();
     }//GEN-LAST:event_formInternalFrameClosing
 
+    /*
+     * Historie:
+     * 29.11.2014   Terrasi     angelegt
+     * 04.02.2015   Sen         Fehler beseitigt, z.B. wenn falscher Preis 
+     *                          eingegeben wird und direkt auf zurueck geklickt
+     *                          wird
+     */
     /**
      * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird. Es wird von
      * der Guifactory die letzte aufgerufene Component abgefragt wodurch man die
@@ -1800,20 +1916,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      *
      * @param evt Event, der ausgeloest wird
      */
-    /*
-     * Historie:
-     * 29.11.2014   Terrasi     angelegt
-     * 04.02.2015   Sen         Fehler beseitigt, z.B. wenn falscher Preis eingegeben wird 
-     *                          und direkt auf zurueck geklickt wird
-     */
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
-//        c = null;   //Initialisierung der Componentspeichervariable
-//        //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-//        c = this.factory.zurueckButton();
-//        this.setVisible(false);// Internalframe wird nicht mehr dargestellt
-//        c.setVisible(true);// Übergebene Component wird sichtbar gemacht
-////        this.setzeFormularZurueck();
-
 //          Falls formular ok ist, wird die Zurueck Aktion durchgefuehrt 
         if (formularOK) {
             if (this.getTitle().equals(GP_ANLEGEN)) {
@@ -1839,7 +1942,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                 String ortLieferanschrift;
                 Anschrift rechnungsanschrift;
                 Anschrift lieferanschrift;
-//      falls fehlerhafteComponenten leer ist (es sind keine fehlerhaften Componenten verfuegbar), 
+//      falls fehlerhafteComponenten leer ist (es sind keine fehlerhaften 
+//      Componenten verfuegbar), 
 //      koennen wir sicher sein, dass alle Felder ausgefuellt sind, nun
 //      werden die Eingaben in die entsprechenden Variablen gespeichert
                 if (fehlerhafteComponenten.isEmpty()) {
@@ -1855,101 +1959,153 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                     fax = jTF_Fax.getText();
                     eMail = jTF_EMail.getText();
                     strasseAnschrift = jTF_StrasseRechnungsanschrift.getText();
-                    hausnummerAnschrift = jTF_HausnummerRechnungsanschrift.getText();
+                    hausnummerAnschrift = jTF_HausnummerRechnungsanschrift
+                            .getText();
                     plzAnschrift = jTF_PLZRechnungsanschrift.getText();
                     ortAnschrift = jTF_OrtRechnungsanschrift.getText();
 
-                    strasseLieferanschrift = jTF_StrasseLieferanschrift.getText();
-                    hausnummerLieferanschrift = jTF_HausnummerLieferanschrift.getText();
+                    strasseLieferanschrift = jTF_StrasseLieferanschrift
+                            .getText();
+                    hausnummerLieferanschrift = jTF_HausnummerLieferanschrift
+                            .getText();
                     plzLieferanschrift = jTF_PLZLieferanschrift.getText();
                     ortLieferanschrift = jTF_OrtLieferanschrift.getText();
 
                     try {
-                        kreditlimit = nf.parse(jTF_Kreditlimit.getText()).doubleValue();
+                        kreditlimit = nf.parse(jTF_Kreditlimit.getText())
+                                .doubleValue();
 //                Pruefung, ob typ des GP ausgewaehlt ist
-                        if (jCHB_Kunde.isSelected() || jCHB_Lieferant.isSelected()) {
-//                  Sicht GP aendern ist geoffnet, also wird zunaechst der GP aus der Datenbank geladen.
+                        if (jCHB_Kunde.isSelected()
+                                || jCHB_Lieferant.isSelected()) {
+//                  Sicht GP aendern ist geoffnet, also wird zunaechst
+//                  der GP aus der Datenbank geladen.
                             long gpnr;
 //                        Vergleichsanschriften werden erzeugt
                             Anschrift rechnungsanschriftNachher;
                             Anschrift lieferanschriftNachher;
 //                        das eingebene geburtsdatum wird nochmals geholt
-                            eingabeGeburtsdatum = FORMAT.parse(jFTF_Geburtsdatum.getText());
-                            gpnr = nf.parse(jTF_GeschaeftspartnerID.getText()).longValue();
+                            eingabeGeburtsdatum = FORMAT
+                                    .parse(jFTF_Geburtsdatum.getText());
+                            gpnr = nf.parse(jTF_GeschaeftspartnerID.getText())
+                                    .longValue();
 //                      GP aus Datenbank ist Variable gpVorher  
-                            Geschaeftspartner gpVorher = this.dao.gibGeschaeftspartner(gpnr);
-//                       vergleich GP erzeugen mit den Eingabedaten, doch zunaechst muessen die Anschriften erzeugt werden
+                            Geschaeftspartner gpVorher = this.dao
+                                    .gibGeschaeftspartner(gpnr);
+//                       vergleich GP erzeugen mit den Eingabedaten,
+//                       doch zunaechst muessen die Anschriften erzeugt werden
                             Geschaeftspartner gpNachher;
 //                      rechnungsanschrift nachher wird erzeugt
-                            rechnungsanschriftNachher = new Rechnungsanschrift(name, vorname, titel, strasseAnschrift, hausnummerAnschrift,
-                                    plzAnschrift, ortAnschrift, DEUTSCHLAND, telefon, fax, eMail, eingabeGeburtsdatum, gpVorher.getRechnungsadresse().getErfassungsdatum());
+                            rechnungsanschriftNachher
+                                    = new Rechnungsanschrift(name, vorname,
+                                            titel, strasseAnschrift,
+                                            hausnummerAnschrift,
+                                            plzAnschrift, ortAnschrift,
+                                            DEUTSCHLAND, telefon, fax, eMail,
+                                            eingabeGeburtsdatum,
+                                            gpVorher.getRechnungsadresse()
+                                            .getErfassungsdatum());
                             if (jCHB_WieAnschrift.isSelected()) {
-                                lieferanschriftNachher = rechnungsanschriftNachher;
+                                lieferanschriftNachher
+                                        = rechnungsanschriftNachher;
                             } else {
-                                lieferanschriftNachher = new Lieferanschrift(name, vorname, titel, strasseLieferanschrift, hausnummerLieferanschrift,
-                                        plzLieferanschrift, ortLieferanschrift, DEUTSCHLAND, telefon, fax, eMail, eingabeGeburtsdatum, gpVorher.getLieferadresse().getErfassungsdatum());
+                                lieferanschriftNachher
+                                        = new Lieferanschrift(name, vorname,
+                                                titel, strasseLieferanschrift,
+                                                hausnummerLieferanschrift,
+                                                plzLieferanschrift,
+                                                ortLieferanschrift,
+                                                DEUTSCHLAND, telefon, fax,
+                                                eMail, eingabeGeburtsdatum,
+                                                gpVorher.getLieferadresse()
+                                                .getErfassungsdatum());
                             }
 //                      Pruefung, elchen Typ der GP hat 
                             if (jCHB_Kunde.isSelected()) {
 //                            GP ist Kunde, also Kunde erzeugen
-                                gpNachher = new Kunde(lieferanschriftNachher, rechnungsanschriftNachher, kreditlimit, false);
+                                gpNachher = new Kunde(lieferanschriftNachher,
+                                        rechnungsanschriftNachher, kreditlimit,
+                                        false);
                             } else {
 //                            GP ist Lieferant, Lieferant erzeugen
-                                gpNachher = new Lieferant(lieferanschriftNachher, rechnungsanschriftNachher, kreditlimit, false);
+                                gpNachher
+                                        = new Lieferant(lieferanschriftNachher,
+                                                rechnungsanschriftNachher,
+                                                kreditlimit, false);
                             }
-//                      Vergeleich, ob der GP sich geaendert hat
+//                          Vergeleich, ob der GP sich geaendert hat
                             if (gpVorher.equals(gpNachher)) {
-                                this.setVisible(false); // diese Sicht ausblenden 
+                                this.setVisible(false); //diese Sicht ausblenden
                                 zurueckInsHauptmenue();
                             } else {
-//                            Aenderung -> Abfrage, ob Änderungen gespeichert werden sollen
-                                int antwort = JOptionPane.showConfirmDialog(null, MELDUNG_AENDERUNGEN_SPEICHERN, GP_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+//                Aenderung -> Abfrage, ob Änderungen gespeichert werden sollen
+                                int antwort
+                                        = JOptionPane.showConfirmDialog(null,
+                                                MELDUNG_AENDERUNGEN_SPEICHERN,
+                                                GP_AENDERN,
+                                                JOptionPane.YES_NO_OPTION,
+                                                JOptionPane.QUESTION_MESSAGE);
                                 if (antwort == JOptionPane.YES_OPTION) {
 //                              falls ja, gp in DP aendern
-                                    this.dao.aendereGeschaeftspartner(gpVorher.getGeschaeftspartnerID(), jCHB_WieAnschrift.isSelected(),
-                                            kreditlimit, name, vorname, titel, strasseAnschrift, hausnummerAnschrift,
-                                            plzAnschrift, ortAnschrift, strasseLieferanschrift, hausnummerLieferanschrift,
-                                            plzLieferanschrift, ortLieferanschrift, DEUTSCHLAND, telefon, fax, eMail, eingabeGeburtsdatum);
+                                    this.dao
+                                            .aendereGeschaeftspartner(gpVorher.getGeschaeftspartnerID(), jCHB_WieAnschrift.isSelected(),
+                                                    kreditlimit, name, vorname, titel, strasseAnschrift, hausnummerAnschrift,
+                                                    plzAnschrift, ortAnschrift, strasseLieferanschrift, hausnummerLieferanschrift,
+                                                    plzLieferanschrift, ortLieferanschrift, DEUTSCHLAND, telefon, fax, eMail, eingabeGeburtsdatum);
 //                                  Meldung fuer die Statuszeile wird angepasst
-                                    STATUSZEILE = "Geschäftspartner mit der Geschäftspartner-ID " + gpnr + " wurde erfolgreich geändert. ";
-                                    this.hauptFenster.setStatusMeldung(STATUSZEILE);
-                                    this.setVisible(false); // diese Sicht ausblenden 
+                                    STATUSZEILE = "Geschäftspartner mit der"
+                                            + " Geschäftspartner-ID " + gpnr
+                                            + " wurde erfolgreich geändert. ";
+                                    this.hauptFenster
+                                            .setStatusMeldung(STATUSZEILE);
+                                    this.setVisible(false);
                                     zurueckInsHauptmenue();
                                 } else if (antwort == JOptionPane.CLOSED_OPTION) {
-//                                  das x wird geklickt, es soll nichts passieren
+//                                 das x wird geklickt, es soll nichts passieren
                                 } else {
-                                    this.setVisible(false); // diese Sicht ausblenden 
+                                    this.setVisible(false);
                                     zurueckInsHauptmenue();
                                 }
                             }
                         } else {
-                            //                     etwas ist nicht gleich
+//                     etwas ist nicht gleich
 //                     Abfrage, ob Änderungen gespeichert werden sollen
-                            int antwort = JOptionPane.showConfirmDialog(null, MELDUNG_AENDERUNGEN_SPEICHERN, GP_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                            int antwort = JOptionPane.showConfirmDialog(null,
+                                    MELDUNG_AENDERUNGEN_SPEICHERN, GP_AENDERN,
+                                    JOptionPane.YES_NO_OPTION,
+                                    JOptionPane.QUESTION_MESSAGE);
                             if (antwort == JOptionPane.YES_OPTION) {
-//                    Checkbox Kunde und Lieferant nicht ausgewaehlt-> Meldung das der Typ des GP ausgeaehlt sein muss
-                                JOptionPane.showMessageDialog(null, "Bitte wählen Sie den Typ des Geschäftspartners.", UNVOLLSTAENDIGE_EINGABE, JOptionPane.ERROR_MESSAGE);
+//                    Checkbox Kunde und Lieferant nicht ausgewaehlt
+//                    -> Meldung das der Typ des GP ausgeaehlt sein muss
+                                JOptionPane.showMessageDialog(null,
+                                        "Bitte wählen Sie den Typ "
+                                        + "des Geschäftspartners.",
+                                        UNVOLLSTAENDIGE_EINGABE,
+                                        JOptionPane.ERROR_MESSAGE);
                                 jCHB_Kunde.requestFocusInWindow();
                             } else {
-//                    zuruecksetzen(); // Formular zuruecksetzen
-                                this.setVisible(false); // diese Sicht ausblenden 
+                                this.setVisible(false); //diese Sicht ausblenden
                                 zurueckInsHauptmenue();
                             }
                         }
 //          Abfangen der Fehler
                     } catch (ApplicationException e) {
-                        JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, e.getMessage(),
+                                FEHLER, JOptionPane.ERROR_MESSAGE);
                     } catch (ParseException | NullPointerException e) {
-                        System.out.println(e.getMessage());
                     }
                 } else {
 //                     etwas ist nicht gleich
 //                     Abfrage, ob Änderungen gespeichert werden sollen
-                    int antwort = JOptionPane.showConfirmDialog(null, MELDUNG_AENDERUNGEN_SPEICHERN, GP_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    int antwort = JOptionPane.showConfirmDialog(null,
+                            MELDUNG_AENDERUNGEN_SPEICHERN, GP_AENDERN,
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE);
                     if (antwort == JOptionPane.YES_OPTION) {
-                        fehlEingabenMarkierung(fehlerhafteComponenten, MELDUNG_PFLICHTFELDER_TITEL, MELDUNG_PFLICHTFELDER_TEXT, FARBE_FEHLERHAFT);
+                        fehlEingabenMarkierung(fehlerhafteComponenten,
+                                MELDUNG_PFLICHTFELDER_TITEL,
+                                MELDUNG_PFLICHTFELDER_TEXT,
+                                FARBE_FEHLERHAFT);
                     } else {
-//                    zuruecksetzen(); // Formular zuruecksetzen
                         this.setVisible(false); // diese Sicht ausblenden 
                         zurueckInsHauptmenue();
                     }
@@ -1959,35 +2115,38 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                 zurueckInsHauptmenue();
             }
         }
-//      Variable wird wieder auf true gesetzt, da nochmals eine Pruefung stattfindet 
+//      Variable wird wieder auf true gesetzt, da nochmals eine Pruefung 
+//      stattfindet 
         formularOK = true;
     }//GEN-LAST:event_jB_ZurueckActionPerformed
-    /**
-     * Methode, die das zurueckspringen in das Hauptmenue ermoeglicht.
-     */
+
     /*
      * Historie:
      * 03.02.2015   Sen     angelegt
      */
+    /**
+     * Methode, die das zurueckspringen in das Hauptmenue ermoeglicht.
+     */
     private void zurueckInsHauptmenue() {
         c = null;   //Initialisierung der Componentspeichervariable
-        //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
+//        Erhalten über GUIFactorymethode die letzte aufgerufene View
+//        und speichern diese in Variable
         c = this.factory.zurueckButton();
-        this.setVisible(false);// Internalframe wird nicht mehr dargestellt
-        c.setVisible(true);// Übergebene Component wird sichtbar gemacht
-//        this.setzeFormularZurueck();
+        this.setVisible(false); // Internalframe wird nicht mehr dargestellt
+        c.setVisible(true); // Übergebene Component wird sichtbar gemacht
     }
 
+    /*
+     * Historie:
+     * 05.01.2015   Sen     angelegt
+     * 04.02.2015   Sen     Fehler beseitigt, z.B. wenn falscher Preis  
+     *                      eingegeben wird und direkt auf loeschen geklickt 
+     *                      wird.
+     */
     /**
      * Methode fuer das Loeschen eines GP.
      *
      * @param evt Event der ausgeloest wird
-     */
-    /*
-     * Historie:
-     * 05.01.2015   Sen     angelegt
-     * 04.02.2015   Sen     Fehler beseitigt, z.B. wenn falscher Preis eingegeben wird 
-     *                      und direkt auf loeschen geklickt wird
      */
     private void jB_LoeschenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_LoeschenActionPerformed
 //        Variablen fuer Meldung und titel
@@ -1999,336 +2158,341 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //          GP wird aus Datenbank geladen, 
 //          Nachfrage, ob er wirklick geloescht werden soll, 
 //          falls ja wird er geloescht
-                long gpnr = nf.parse(jTF_GeschaeftspartnerID.getText()).longValue();
-                int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                long gpnr = nf.parse(jTF_GeschaeftspartnerID
+                        .getText()).longValue();
+                int antwort = JOptionPane.showConfirmDialog(null,
+                        meldung, titel, JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
                 if (antwort == JOptionPane.YES_OPTION) {
                     this.dao.loescheGeschaeftspartner(gpnr);
 //              Meldung fuer die Statuszeile wird angepasst
-                    STATUSZEILE = "Geschäftspartner mit der Geschäftspartner-ID " + gpnr + " wurde erfolgreich gelöscht. ";
+                    STATUSZEILE = "Geschäftspartner mit der "
+                            + "Geschäftspartner-ID " + gpnr
+                            + " wurde erfolgreich gelöscht. ";
                     this.hauptFenster.setStatusMeldung(STATUSZEILE);
-//                jB_ZurueckActionPerformed(evt);
                     zurueckInsHauptmenue();
                 }
             } catch (ApplicationException e) {
 //              Ein Fehler ist aufgetreten, dieser wird ausgegeben  
-                JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, e.getMessage(),
+                        FEHLER, JOptionPane.ERROR_MESSAGE);
             } catch (ParseException | NullPointerException e) {
-                System.out.println(e.getMessage());
             }
         }
-//      Variable wird wieder auf true gesetzt, da nochmals eine Pruefung stattfindet 
+//      Variable wird wieder auf true gesetzt, da nochmals eine Pruefung 
+//      stattfindet 
         formularOK = true;
     }//GEN-LAST:event_jB_LoeschenActionPerformed
-    /**
-     * Methode fuer den Aufruf der Suche Maske
-     *
-     * @param evt Event der ausgeloest wird
-     */
+
     /*
      * Historie:
      * 15.01.2015   Sen     angelegt
      * 17.01.2015   Schulz  Suchbutton event eingefügt
      */
-    private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
-        this.hauptFenster.rufeSuche(this);
-    }//GEN-LAST:event_jB_SuchenActionPerformed
     /**
-     * Methode fuer den Button Anzeigen/AEnden
+     * Methode fuer den Aufruf der Suche Maske.
      *
      * @param evt Event der ausgeloest wird
      */
+    private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
+        this.hauptFenster.rufeSuche(this);
+    }//GEN-LAST:event_jB_SuchenActionPerformed
+
     /*
      * Historie:
      * 16.01.2015   Sen     angelegt
      */
+    /**
+     * Methode fuer den Button Anzeigen/AEnden.
+     *
+     * @param evt Event der ausgeloest wird
+     */
     private void jB_AnzeigenAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AnzeigenAEndernActionPerformed
-//        if (this.getTitle().equals(GP_AENDERN)) {
-//            setzeFormularInGPAnzeigenFuerButton();
-//        } else 
         if (this.getTitle().equals(GP_ANZEIGEN)) {
             setzeFormularInGPAEndernFuerButton();
         }
     }//GEN-LAST:event_jB_AnzeigenAEndernActionPerformed
-    /**
-     * getter Methode fuer die Sicht GP aendern Einstieg
-     *
-     * @return textfield der GP nummer
-     */
+
     /*
      * Historie:
      * 12.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht GP aendern Einstieg.
+     *
+     * @return textfield der GP nummer
      */
     public JTextField gibjTF_GeschaeftspartnerID() {
         return jTF_GeschaeftspartnerID;
     }
 
-    /**
-     * getter Methode fuer die Sicht GP aendern Einstieg
-     *
-     * @return checkbox der GP kunde
-     */
     /*
      * Historie:
      * 12.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht GP aendern Einstieg.
+     *
+     * @return checkbox der GP kunde
      */
     public JCheckBox gibjCHB_Kunde() {
         return jCHB_Kunde;
     }
 
-    /**
-     * getter Methode fuer die Sicht GP aendern Einstieg
-     *
-     * @return checkbox der GP lieferant
-     */
     /*
      * Historie:
      * 12.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht GP aendern Einstieg.
+     *
+     * @return checkbox der GP lieferant
      */
     public JCheckBox gibjCHB_Lieferant() {
         return jCHB_Lieferant;
     }
 
-    /**
-     * getter Methode fuer die Sicht GP aendern Einstieg
-     *
-     * @return checkbox der GP anrede
-     */
     /*
      * Historie:
      * 12.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht GP aendern Einstieg.
+     *
+     * @return checkbox der GP anrede
      */
     public JComboBox gibjCB_Anrede() {
         return jCB_Anrede;
     }
 
-    /**
-     * getter Methode fuer die Sicht GP aendern Einstieg
-     *
-     * @return textfield der GP name
-     */
     /*
      * Historie:
      * 12.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht GP aendern Einstieg.
+     *
+     * @return textfield der GP name
      */
     public JTextField gibjTF_Name() {
         return jTF_Name;
     }
 
-    /**
-     * getter Methode fuer die Sicht GP aendern Einstieg
-     *
-     * @return textfield der GP vorname
-     */
     /*
      * Historie:
      * 12.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht GP aendern Einstieg.
+     *
+     * @return textfield der GP vorname
      */
     public JTextField gibjTF_Vorname() {
         return jTF_Vorname;
     }
 
-    /**
-     * getter Methode fuer die Sicht GP aendern Einstieg
-     *
-     * @return textfield der GP telefon
-     */
     /*
      * Historie:
      * 12.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht GP aendern Einstieg.
+     *
+     * @return textfield der GP telefon
      */
     public JTextField gibjTF_Telefon() {
         return jTF_Telefon;
     }
 
-    /**
-     * getter Methode fuer die Sicht GP aendern Einstieg
-     *
-     * @return textfield der GP fax
-     */
     /*
      * Historie:
      * 12.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht GP aendern Einstieg.
+     *
+     * @return textfield der GP fax
      */
     public JTextField gibjTF_Fax() {
         return jTF_Fax;
     }
 
-    /**
-     * getter Methode fuer die Sicht GP aendern Einstieg
-     *
-     * @return jftextfield der GP geburstdatum
-     */
     /*
      * Historie:
      * 12.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht GP aendern Einstieg.
+     *
+     * @return jftextfield der GP geburstdatum
      */
     public JFormattedTextField gibjFTF_Geburtsdatum() {
         return jFTF_Geburtsdatum;
     }
 
-    /**
-     * getter Methode fuer die Sicht GP aendern Einstieg
-     *
-     * @return jftextfield der GP geburstdatum
-     */
     /*
      * Historie:
      * 12.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht GP aendern Einstieg.
+     *
+     * @return jftextfield der GP geburstdatum
      */
     public JFormattedTextField gibjFTF_Erfassungsdatum() {
         return jFTF_Erfassungsdatum;
     }
 
-    /**
-     * getter Methode fuer die Sicht GP aendern Einstieg
-     *
-     * @return textfield der GP email
-     */
     /*
      * Historie:
      * 12.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht GP aendern Einstieg.
+     *
+     * @return textfield der GP email
      */
     public JTextField gibjTF_EMail() {
         return jTF_EMail;
     }
 
-    /**
-     * getter Methode fuer die Sicht GP aendern Einstieg
-     *
-     * @return textfield der GP kreditlimit
-     */
     /*
      * Historie:
      * 12.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht GP aendern Einstieg.
+     *
+     * @return textfield der GP kreditlimit
      */
     public JTextField gibjTF_Kreditlimit() {
         return jTF_Kreditlimit;
     }
 
-    /**
-     * getter Methode fuer die Sicht GP aendern Einstieg
-     *
-     * @return checkbox der GP wie anschrift
-     */
     /*
      * Historie:
      * 12.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht GP aendern Einstieg.
+     *
+     * @return checkbox der GP wie anschrift
      */
     public JCheckBox gibjCHB_WieAnschrift() {
         return jCHB_WieAnschrift;
     }
 
-    /**
-     * getter Methode fuer die Sicht GP aendern Einstieg
-     *
-     * @return textfield der GP strasse rechnungsanschrift
-     */
     /*
      * Historie:
      * 12.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht GP aendern Einstieg.
+     *
+     * @return textfield der GP strasse rechnungsanschrift
      */
     public JTextField gibjTF_StrasseRechnungsanschrift() {
         return jTF_StrasseRechnungsanschrift;
     }
 
-    /**
-     * getter Methode fuer die Sicht GP aendern Einstieg
-     *
-     * @return textfield der GP hausnummer rechnungsanschrift
-     */
     /*
      * Historie:
      * 12.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht GP aendern Einstieg.
+     *
+     * @return textfield der GP hausnummer rechnungsanschrift
      */
     public JTextField gibjTF_HausnummerRechnungsanschrift() {
         return jTF_HausnummerRechnungsanschrift;
     }
 
-    /**
-     * getter Methode fuer die Sicht GP aendern Einstieg
-     *
-     * @return textfield der GP plz rechnungsanschrift
-     */
     /*
      * Historie:
      * 12.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht GP aendern Einstieg.
+     *
+     * @return textfield der GP plz rechnungsanschrift
      */
     public JTextField gibjTF_PLZRechnungsanschrift() {
         return jTF_PLZRechnungsanschrift;
     }
 
-    /**
-     * getter Methode fuer die Sicht GP aendern Einstieg
-     *
-     * @return textfield der GP ort rechnungsanschrift
-     */
     /*
      * Historie:
      * 12.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht GP aendern Einstieg.
+     *
+     * @return textfield der GP ort rechnungsanschrift
      */
     public JTextField gibjTF_OrtRechnungsanschrift() {
         return jTF_OrtRechnungsanschrift;
     }
 
-    /**
-     * getter Methode fuer die Sicht GP aendern Einstieg
-     *
-     * @return textfield der GP strasse lieferanschrift
-     */
     /*
      * Historie:
      * 12.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht GP aendern Einstieg.
+     *
+     * @return textfield der GP strasse lieferanschrift
      */
     public JTextField gibjTF_StrasseLieferanschrift() {
         return jTF_StrasseLieferanschrift;
     }
 
-    /**
-     * getter Methode fuer die Sicht GP aendern Einstieg
-     *
-     * @return textfield der GP hausnummer lieferanschrift
-     */
     /*
      * Historie:
      * 12.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht GP aendern Einstieg.
+     *
+     * @return textfield der GP hausnummer lieferanschrift
      */
     public JTextField gibjTF_HausnummerLieferanschrift() {
         return jTF_HausnummerLieferanschrift;
     }
 
-    /**
-     * getter Methode fuer die Sicht GP aendern Einstieg
-     *
-     * @return textfield der GP plz lieferanschrift
-     */
     /*
      * Historie:
      * 12.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht GP aendern Einstieg.
+     *
+     * @return textfield der GP plz lieferanschrift
      */
     public JTextField gibjTF_PLZLieferanschrift() {
         return jTF_PLZLieferanschrift;
     }
 
-    /**
-     * getter Methode fuer die Sicht GP aendern Einstieg
-     *
-     * @return textfield der GP ort lieferanschrift
-     */
     /*
      * Historie:
      * 12.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht GP aendern Einstieg.
+     *
+     * @return textfield der GP ort lieferanschrift
      */
     public JTextField gibjTF_OrtLieferanschrift() {
         return jTF_OrtLieferanschrift;
     }
 
-    /**
-     * Methode, die das Formular in die Sicht GP anlegen aendert
-     */
     /*
      * Historie:
      * 07.01.2015   Sen     angelegt
-     /* 08.01.2015 Terrasi, implemtiereung der Referenzvariable "hauptfenster"
+     * 08.01.2015 Terrasi, implemtiereung der Referenzvariable "hauptfenster"
+     */
+    /**
+     * Methode, die das Formular in die Sicht GP anlegen aendert.
      */
     public void setzeFormularInGPAnlegen() {
         zuruecksetzen();
@@ -2358,33 +2522,34 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         jB_AnzeigenAEndern.setEnabled(false);
 //        jB_AnzeigenAEndern.setText("Anzeigen/Ändern");
         jB_Loeschen.setEnabled(false);
-
-        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
+//      Übergibt der Referenz des Hauptfensters das Internaframe
+        this.hauptFenster.setComponent(this);
     }
 
-    /**
-     * Methode, die das Formular in die Sicht GP aendern aendert
-     */
     /*
      * Historie:
      * 07.01.2015   Sen     angelegt
      * 08.01.2015   Terrasi implemtiereung der Referenzvariable "hauptfenster"
      */
+    /**
+     * Methode, die das Formular in die Sicht GP aendern aendert.
+     */
     public void setzeFormularInGPAEndern() {
         zuruecksetzen();
         setzeFormularInGPAEndernFuerButton();
-        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
+//        Übergibt der Referenz des Hauptfensters das Internaframe
+        this.hauptFenster.setComponent(this);
     }
 
-    /**
-     * Methode wird aufgerufen, wenn auf Button Anzeigen/Aendern geklickt wird,
-     * das Formular wird nicht zurueckgesetzt, deswegen musste eine extra
-     * Methode geschrieben werden
-     */
     /*
      * Historie:
      * 05.01.2015   Sen     angelegt
      * 08.01.2015   Terrasi implemtiereung der Referenzvariable "hauptfenster"
+     */
+    /**
+     * Methode wird aufgerufen, wenn auf Button Anzeigen/Aendern geklickt wird,
+     * das Formular wird nicht zurueckgesetzt, deswegen musste eine extra
+     * Methode geschrieben werden.
      */
     private void setzeFormularInGPAEndernFuerButton() {
         this.setTitle(GP_AENDERN);
@@ -2419,33 +2584,33 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 
         jB_Speichern.setEnabled(true);
         jB_AnzeigenAEndern.setEnabled(false);
-//        jB_AnzeigenAEndern.setText("Anzeigen");
         jB_Loeschen.setEnabled(true);
     }
 
-    /**
-     * Methode, die das Formular in die Sicht GP anzeigen aendert
-     */
     /*
      * Historie:
      * 07.01.2015   Sen     angelegt
      * 08.01.2015 Terrasi, implemtiereung der Referenzvariable "hauptfenster"
      */
+    /**
+     * Methode, die das Formular in die Sicht GP anzeigen aendert.
+     */
     public void setzeFormularInGPAnzeigen() {
         zuruecksetzen();
         setzeFormularInGPAnzeigenFuerButton();
-        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
+//      Übergibt der Referenz des Hauptfensters das Internaframe
+        this.hauptFenster.setComponent(this);
     }
 
-    /**
-     * Methode wird aufgerufen, wenn auf Button Anzeigen/Aendern geklickt wird,
-     * das Formular wird nicht zurueckgesetzt, deswegen musste eine extra
-     * Methode geschrieben werden
-     */
     /*
      * Historie:
      * 05.01.2015   Sen     angelegt
      * 08.01.2015   Terrasi implemtiereung der Referenzvariable "hauptfenster"
+     */
+    /**
+     * Methode wird aufgerufen, wenn auf Button Anzeigen/Aendern geklickt wird,
+     * das Formular wird nicht zurueckgesetzt, deswegen musste eine extra
+     * Methode geschrieben werden.
      */
     private void setzeFormularInGPAnzeigenFuerButton() {
         this.setTitle(GP_ANZEIGEN);
@@ -2472,29 +2637,25 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 
         jB_Speichern.setEnabled(false);
         jB_AnzeigenAEndern.setEnabled(true);
-//        jB_AnzeigenAEndern.setText("Ändern");
         jB_Loeschen.setEnabled(false);
 
     }
 
-    /*----------------------------------------------------------*/
-    /* Datum Name Was */
-    /* 17.01.2015 Schulz, Anlegen*/
-    /*----------------------------------------------------------*/
-    /**
-     * Methode fuer das Setzen alle Anschriftsfelder
-     *
-     * @param anschriftDaten Die zu übergebenen Daten
-     *
-     */
     /* Historie:
      * 17.01.2015   Schulz  Anlegen
      * 18.01.2015   Sen     uberarbeitet
      */
+    /**
+     * Methode fuer das Setzen alle Anschriftsfelder.
+     *
+     * @param anschriftDaten Die zu übergebenen Daten
+     *
+     */
     public void setzeAnschrift(Anschrift anschriftDaten) {
         this.jTF_StrasseRechnungsanschrift.setText(anschriftDaten.getStrasse());
         this.jTF_StrasseRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
-        this.jTF_HausnummerRechnungsanschrift.setText(anschriftDaten.getHausnummer());
+        this.jTF_HausnummerRechnungsanschrift.
+                setText(anschriftDaten.getHausnummer());
         this.jTF_HausnummerRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
         this.jTF_PLZRechnungsanschrift.setText(anschriftDaten.getPLZ());
         this.jTF_PLZRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
@@ -2502,15 +2663,15 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         this.jTF_OrtRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
     }
 
-    /**
-     * setzeMethode, die aus der Suche aufgerufen wird. Es wird die Sicht GP
-     * Anzeigen aufgerufen und der gesuchte GP angezeigt
-     *
-     * @param gp artikel aus der Suche
-     */
     /*
      * Historie:
      * 17.01.2015   Sen     angelegt
+     */
+    /**
+     * setzeMethode, die aus der Suche aufgerufen wird. Es wird die Sicht GP
+     * Anzeigen aufgerufen und der gesuchte GP angezeigt.
+     *
+     * @param gp artikel aus der Suche
      */
     public void zeigeGPausSucheAN(Geschaeftspartner gp) {
         setzeFormularInGPAnzeigen();
@@ -2529,7 +2690,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         jTF_Telefon.setText(ra.getTelefon());
         jTF_Fax.setText(ra.getFAX());
         jFTF_Geburtsdatum.setText(gibDatumAusDatenbank(la.getGeburtsdatum()));
-        jFTF_Erfassungsdatum.setText(gibDatumAusDatenbank(la.getErfassungsdatum()));
+        jFTF_Erfassungsdatum
+                .setText(gibDatumAusDatenbank(la.getErfassungsdatum()));
         jTF_EMail.setText(ra.getEmail());
         jTF_Kreditlimit.setText("" + nf.format(gp.getKreditlimit()));
         jTF_StrasseRechnungsanschrift.setText(ra.getStrasse());
@@ -2558,6 +2720,10 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         }
     }
 
+    /*
+     * Historie:
+     * 14.12.2014   Sen     angelegt
+     */
     /**
      * Methode, die aus dem uebergebenem Date Objekt ein String mit dem
      * richtigen Format zureueckgibt.
@@ -2565,17 +2731,14 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * @param date date objekt, welches uebergeben wird
      * @return String Datum im richtigen Format (z.B. 01.01.2014)
      */
-    /*
-     * Historie:
-     * 14.12.2014   Sen     angelegt
-     */
     private String gibDatumAusDatenbank(Date date) {
         Calendar cale = Calendar.getInstance();
         cale.setTime(date);
 //        tag, monat, jahr werden aus dem Date Objekt herausgenommen
         int tag = cale.get(Calendar.DAY_OF_MONTH);
         int mon = cale.get(Calendar.MONTH);
-//        auf den monat wird eine 1 addiert, da sie von 0 anfaengt, d.h 0 = januar
+//        auf den monat wird eine 1 addiert, da sie von 0 anfaengt,
+//        d.h 0 = januar
         mon = mon + 1;
         int jahr = cale.get(Calendar.YEAR);
         String tagAlsString;
