@@ -81,7 +81,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     JInternalFrame c;// Speichervariable für Components.
     private JInternalFrame letzteAnzeige;
     //Stringvariablen für die einzelnen Meldungen die ausgegeben werden können.
-    private final String BEENDEN_MELDUNG = "Wollen sie wirklich das Programm beenden und sich abmelden?";
+    private final String BEENDEN_MELDUNG = "Wollen sie sich wirklich abmelden?";
     private final String BEENDEN_MELDUNG_TYP = "Programm beenden";
 
     private final String AUFTRAGSKOPF_AENDERN_EINSTIEG = "Auftragskopf ändern Einstieg";
