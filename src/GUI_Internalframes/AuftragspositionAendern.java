@@ -178,7 +178,7 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setLabelFor(AuftragspositionID_jTextField);
-        jLabel1.setText("Auftragsposition-ID :");
+        jLabel1.setText("Positionsnummer    :");
 
         AuftragspositionID_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
