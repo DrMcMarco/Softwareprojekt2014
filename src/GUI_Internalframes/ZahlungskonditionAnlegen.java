@@ -209,7 +209,6 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
 
             fehlerhafteComponenten.clear();
         } catch (NullPointerException e) {
-            System.out.println(e.getMessage());
         }
     }
 
@@ -1037,7 +1036,6 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                 JOptionPane.showMessageDialog(null, e.getMessage(),
                         FEHLER, JOptionPane.ERROR_MESSAGE);
             } catch (ParseException | NullPointerException e) {
-                System.out.println(e.getMessage());
             }
 //          das Formular wird zurueckgesetzt  
         } else {
@@ -1163,7 +1161,6 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                     JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER,
                             JOptionPane.ERROR_MESSAGE);
                 } catch (ParseException | NullPointerException e) {
-                    System.out.println(e.getMessage());
                 }
 //          das Formular wird zurueckgesetzt  
             } else {
@@ -1261,7 +1258,6 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
             JOptionPane.showMessageDialog(null, e.getMessage(),
                     FEHLER, JOptionPane.ERROR_MESSAGE);
         } catch (ParseException | NullPointerException e) {
-            System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_jB_LoeschenActionPerformed
 

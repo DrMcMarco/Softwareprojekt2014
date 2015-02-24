@@ -1,20 +1,18 @@
 package Hauptmenue;
 
-import GUI_Internalframes.*;
 import Interfaces.*;
 import javax.swing.JInternalFrame;
 import JFrames.*;
-import java.awt.Component;
 import javax.swing.tree.TreePath;
 
 /**
  *
  * @author Luca Terrasi
- *
- * 10.12.2014 Terrasi, Erstellung. 
- * 02.01.2015 Terrasi, JTreenavigation erstellt
- * und Einbindung der Guifactory und der Methoden des Internalframes "Start".
  */
+ /* 10.12.2014 Terrasi, Erstellung. */
+ /* 02.01.2015 Terrasi, JTreenavigation erstellt
+  und Einbindung der Guifactory und der Methoden des Internalframes "Start".*/ 
+/* 18.02.2015 TER, getestet und freigegeben */
 public class Hauptmenue_User extends javax.swing.JInternalFrame implements InterfaceJTreeFunction {
     /*
      Hilfsvariablen
