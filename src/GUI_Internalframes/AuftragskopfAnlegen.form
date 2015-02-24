@@ -592,10 +592,6 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
-              <Events>
-                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="abschlussdatum_jFormattedTextFieldFocusGained"/>
-                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="abschlussdatum_jFormattedTextFieldFocusLost"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="auftragswert_jLabel">
               <Properties>
