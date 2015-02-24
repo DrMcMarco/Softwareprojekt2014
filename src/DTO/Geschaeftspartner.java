@@ -149,7 +149,7 @@ public abstract class Geschaeftspartner implements Serializable {
      * Gibt den Typ des Geschäftspartners zurück.
      * Muss so gemacht werden, da man auf die Spalte die durch den
      * DiscriminatorValue gesetzt wird, nicht über JPA zugreifen kann
-     * @return 
+     * @return den Typ des Geschäftspartners als String
      */
     public String getTyp(){
         

@@ -101,7 +101,7 @@ public class DataAccessObject {
             this.erstelleSteuereintrag("Letzter Programmstart", new Date().toString());
             
         } catch (ApplicationException | IOException e) {
-            System.out.println(e.getMessage());
+
         }
     }
     
