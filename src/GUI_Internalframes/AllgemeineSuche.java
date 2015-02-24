@@ -429,7 +429,6 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
             //Fehlerbehandlung 
             //einer ApplikationException oder einer NullpointerException
             
-            System.out.println(e.getMessage()); //Ausgabe einer Fehlermeldung
         }
         
         return ausgabelegende;//Rückgabe eines Strings.

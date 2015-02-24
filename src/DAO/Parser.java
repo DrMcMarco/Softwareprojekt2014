@@ -6,21 +6,12 @@
 
 package DAO;
 
-import DTO.Auftragskopf;
-import DTO.Geschaeftspartner;
 import JFrames.GUIFactory;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /*----------------------------------------------------------*/
 /* Datum Name Was                                           */
