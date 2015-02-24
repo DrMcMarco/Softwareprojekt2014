@@ -4,22 +4,22 @@ import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
 import javax.swing.JTextField;
-import DAO.*;
 
 /**
  *
- * @author Luca Terrasi 
+ * @author Luca Terrasi
  *
  * Schnittstelle für die einzelnen Masken in denen die gleichen Methoden
  * aufgerufen werden müssen
- * 
- * 10.12.2014 Terrasi, Erstellung und Dokumentation
  */
+/* 10.12.2014 Terrasi, Erstellung und Dokumentation */
+/* 18.02.2015 TER, getestet und freigegeben */
 public interface InterfaceViewsFunctionality {
-   
+
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 10.12.2014 Terrasi, angelegt*/
+    /* 10.12.2014 Terrasi, angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /*    
      * Methode mit der die Eingaben aus den Eingabefeldern gelöscht werden und 
@@ -30,7 +30,8 @@ public interface InterfaceViewsFunctionality {
     
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 10.12.2014 Terrasi, angelegt*/
+    /* 10.12.2014 Terrasi, angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /*
      * Methode mit der auf vollständigkeit der Eingaben geprüft wird.
@@ -40,7 +41,8 @@ public interface InterfaceViewsFunctionality {
     
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 10.12.2014 Terrasi, angelegt*/
+    /* 10.12.2014 Terrasi, angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Methode mit der die Richtigkeit der Eingabe beim Focuslost geprüft wird.
@@ -58,7 +60,8 @@ public interface InterfaceViewsFunctionality {
     
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 10.12.2014 Terrasi, angelegt*/
+    /* 10.12.2014 Terrasi, angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Methode mir der die Eingabefelder ohne einer entsprechenden Eingabe,
@@ -75,5 +78,4 @@ public interface InterfaceViewsFunctionality {
     public void fehlEingabenMarkierung(ArrayList<Component> list,
             String fehlermelgungtitel, String fehlermeldung, Color farbe);
 
-  
 }

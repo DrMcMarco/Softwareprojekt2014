@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Interfaces;
 
 import GUI_Internalframes.ArtikelAEndernEinstieg;
@@ -15,7 +11,6 @@ import GUI_Internalframes.GeschaeftspartnerAEndernEinstieg;
 import GUI_Internalframes.GeschaeftspartnerAnlegen;
 import GUI_Internalframes.ZahlungskonditionAnlegen;
 import GUI_Internalframes.ZahlungskonditionenAEndernEinstieg;
-import Hauptmenue.Hauptmenue_User;
 import java.awt.Component;
 import javax.swing.JInternalFrame;
 
@@ -24,14 +19,16 @@ import javax.swing.JInternalFrame;
  * @author Luca Terrasi
  * 
  * Schnittstelle für die Hauptfenster.
- * 
- * 05.01.2015 Terrasi, Erstellung und Dokumentation.
  */
+/* 05.01.2015 Terrasi, Erstellung. */
+/* 18.02.2015 TER, getestet und freigegeben */
+
 public interface InterfaceMainView {
     
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 05.01.2015 Terrasi angelegt */
+    /* 05.01.2015 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Methode mit dem das Zentrum eines Frames ausgerechnet werden soll
@@ -44,7 +41,8 @@ public interface InterfaceMainView {
     
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 05.01.2015 Terrasi angelegt */
+    /* 05.01.2015 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Methode mit der man eine Component zum zwischenabspeichern
@@ -58,7 +56,8 @@ public interface InterfaceMainView {
     
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 05.01.2015 Terrasi angelegt */
+    /* 05.01.2015 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Methode mit der man eine gespeicherte Component zurückerhält.
@@ -69,7 +68,8 @@ public interface InterfaceMainView {
     
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 05.01.2015 Terrasi angelegt */
+    /* 05.01.2015 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Methode die einen String  der Statuszeile eines Hauptfenster übergibt.
@@ -80,7 +80,8 @@ public interface InterfaceMainView {
     
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 05.01.2015 Terrasi angelegt */
+    /* 05.01.2015 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Methode mit der ein Component übergeben wird.
@@ -88,84 +89,154 @@ public interface InterfaceMainView {
      */
     public void setFrame(Component component);
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 05.01.2015 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
      * Gibt die letzte Anzeige.
      * @return InternalFrame mit der letzten Anzeige.
      */
     public JInternalFrame gibLetzteAnzeige();
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 05.01.2015 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
      * Ruft die Suche auf.
      * @param comp aufrufende Komponente
      */
     public void rufeSuche(JInternalFrame comp);
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 05.01.2015 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
      * Gibt den Titel zurück.
      * @return Text mit Titel
      */
     public String gibTitel();
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 05.01.2015 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
      * Gibt das anlegen Fenster.
      * @return Artikelanlegen
      */
     public ArtikelAnlegen gibArtikelAnlegenFenster();
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 05.01.2015 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
      * Gibt das anlegen Fenster.
      * @return Auftragskopfanlegen
      */
     public AuftragskopfAnlegen gibAuftragskopfanlegenFenster();
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 05.01.2015 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
      * Gibt das anlegen Fenster.
      * @return Geschäftspartner anlegen
      */
     public GeschaeftspartnerAnlegen gibGeschaeftspartneranlegenFenster();
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 05.01.2015 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
      * Gibt das anlegen Fenster.
      * @return Artikeländerneinstieg
      */
     public ArtikelAEndernEinstieg gibArtikelaendernEinstieg();
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 05.01.2015 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
      * Gibt das anlegen Fenster.
      * @return Geschäftspartner aendern Einstieg.
      */
     public GeschaeftspartnerAEndernEinstieg gibGeschaeftspartnerAendernEinstieg();
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 05.01.2015 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
      * Gibt das anlegen Fenster.
      * @return ZkändernEinstieg
      */
     public ZahlungskonditionenAEndernEinstieg gibZkAendernEinstieg();
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 05.01.2015 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
      * Gibt das anlegen Fenster.
      * @return Auftragskopfänderneinstieg
      */
     public AuftragskopfAendern gibAkAendernEinstieg();
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 05.01.2015 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
      * Gibt das anlegen Fenster.
      * @return auftragspositionändern
      */
     public AuftragspositionAendern gibPositionAendernEinstieg();
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 05.01.2015 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
      * Gibt das anlegen Fenster.
      * @return zkanlegen
      */
     public ZahlungskonditionAnlegen gibZkAnlegen();
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 05.01.2015 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
      * Gibt das anlegen Fenster.
      * @return auftragspositionanzeigen
      */
     public AuftragspositionAnzeigen gibApAnzeigen();
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 05.01.2015 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
      * Gibt das jeweilige Menü.
      * @return Hauptmenü
