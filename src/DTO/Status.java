@@ -10,20 +10,33 @@ import java.util.ArrayList;
 import java.util.Objects;
 import javax.persistence.*;
 /**
- *
- * @author Marco
+ * Entitätsklasse für den Status.
+ * @author Marco Loewe
  */
 @Entity
 public class Status implements Serializable {
     
+    /**
+     * Eindeutige Nummer eines Status.
+     * Wird generiert.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long StatusID;
     
+    /**
+     * Name des Status.
+     */
     private String Status;
     
+    /**
+     * Gibt an ob der Status gelöscht ist oder nicht.
+     */
     private boolean LKZ;
     
+    /**
+     * Eine Liste aller Aufträge die einen bestimmtem Status besitzen.
+     */
     @OneToMany(mappedBy = "Status")
     private ArrayList<Auftragskopf> Auftragsliste;
 

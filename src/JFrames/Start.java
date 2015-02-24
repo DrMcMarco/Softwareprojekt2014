@@ -1208,12 +1208,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
      */
     @Override
     public JInternalFrame getComponent() {
-        try {
-            System.out.println(c.getName().toString());
-
-        } catch (NullPointerException e) {
-
-        }
+        
         return c;
     }
 

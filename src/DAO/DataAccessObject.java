@@ -25,7 +25,6 @@ import DTO.Status;
 import DTO.Steuertabelle;
 import DTO.Terminauftragskopf;
 import DTO.Zahlungskondition;
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -94,14 +93,13 @@ public class DataAccessObject {
                 String[] befehl = {"CMD", "/C", "start", "/B", "fillDatabase.bat"};          
                 ProcessBuilder pb = new ProcessBuilder(befehl);
                 Process p = pb.start();
-                
             }
             
             //Erstelle bzw. überschreibe den Eintrag "Letztes Programmstart"
             this.erstelleSteuereintrag("Letzter Programmstart", new Date().toString());
             
         } catch (ApplicationException | IOException e) {
-            System.out.println(e.getMessage());
+
         }
     }
     
@@ -251,6 +249,26 @@ public class DataAccessObject {
         
     }
 
+    /**
+     * Methode zur Erstellung eines Artikels mit Vorgänger.
+     * Diese Methode muss innerhalb einer Transaktion aufgerufen werden, da diese
+     * Methode selber keine Transaktion ausführt
+     * @param kategorie String für die Kategorie des Artikels
+     * @param artikeltext Name des Artikels
+     * @param bestelltext Zusätzlicher Text für die Bestellung
+     * @param verkaufswert Der Preis für den der Artikel verkauft wird
+     * @param einkaufswert Der Preis für den der Artikel eingekauft wird
+     * @param MwST Mehrwertsteuersatz des Artikels (in Prozent)
+     * @param Frei Menge an freiem Bestand
+     * @param Reserviert Menge an reserviertem Bestand
+     * @param Zulauf Menge an eingekauften aber noch nicht geliefertem Bestand
+     * @param Verkauft Menge an verkauften Bestand
+     * @param Vorgaenger Der Vorgänger des anzulegenden Artikels
+     * @throws ApplicationException wenn keine Kategorie übergeben wurde oder
+     *                              der Artikel nicht erstellt werden kann
+     * 
+     * @return der angelegte Artikel mit Vorgänger
+     */
     public Artikel erstelleArtikel(String kategorie, String artikeltext, 
         String bestelltext, double verkaufswert, double einkaufswert,
         int MwST, int Frei, int Reserviert, int Zulauf, int Verkauft,
@@ -264,6 +282,7 @@ public class DataAccessObject {
                     "Der Kategoriename existiert nicht!");
         }
         
+        //Erstelle Artikel mit Vorgänger
         Artikel item = new Artikel(cat, artikeltext, bestelltext,
                 verkaufswert, einkaufswert, MwST, Frei, Reserviert,
                 Zulauf, Verkauft, Vorgaenger);
@@ -390,8 +409,10 @@ public class DataAccessObject {
     /*----------------------------------------------------------*/
     /**
      * Methode zur Erzeugung eines Auftragskopfes und seinen Positionen
-     * @param Typ Typ des Auftrags (möglich sind: Barauftrag, Sofortauftrag, Terminauftrag, Bestellauftrag)
-     * @param Artikel HashMap die ein Artikel(ArtikelID) und die bestellte Menge enthält
+     * @param Typ Typ des Auftrags (möglich sind: Barauftrag, Sofortauftrag, 
+     *                              Terminauftrag, Bestellauftrag)
+     * @param Artikel HashMap die ein Artikel(ArtikelID) und die bestellte Menge 
+     *                enthält
      * @param Auftragstext Zusätzlicher Kommentar für einen Auftrag
      * @param GeschaeftspartnerID Eindeutige Nummer eines Geschäftspartners
      * @param ZahlungskonditionID Eindeute Nummer einer Zahlungskondition
@@ -449,7 +470,8 @@ public class DataAccessObject {
         if ((Typ.equals("Barauftrag") || Typ.equals("Sofortauftrag") || 
              Typ.equals("Terminauftrag")) && gp.getTyp().equals("Lieferant")) {
             throw new ApplicationException(FEHLER_TITEL, 
-                    "Für Lieferanten kann diese Art von Auftrag nicht angelegt werden.");
+                    "Für Lieferanten kann diese Art von Auftrag nicht "
+                            + "angelegt werden.");
         }
         
         if (Typ.equals("Bestellauftrag") && gp.getTyp().equals("Kunde")) {
@@ -509,7 +531,8 @@ public class DataAccessObject {
             
                 //Es wird geprüft ob der Artikel existiert
                 if(artikel == null) {
-                throw new ApplicationException("Fehler", "Der angegebene Artikel konne nicht gefunden werden");
+                throw new ApplicationException("Fehler", 
+                        "Der angegebene Artikel konne nicht gefunden werden");
                 }
             
                 ak.addPosition(artikel, Artikel.get(ID));
@@ -822,7 +845,8 @@ public class DataAccessObject {
             geschaeftspartner.setKreditlimit(Kreditlimit);
             geschaeftspartner.setLKZ(false);
             
-            //Wenn die Anschriften identisch sind, wird nur die Rechnungsadresse persistiert
+            //Wenn die Anschriften identisch sind, wird nur die Rechnungsadresse
+            //persistiert
             if (Rechnungsadresse.equals(Lieferadresse)) {
                 geschaeftspartner.setRechnungsadresse(Rechnungsadresse);
                 geschaeftspartner.setLieferadresse(Rechnungsadresse);
@@ -899,7 +923,8 @@ public class DataAccessObject {
         //Benutzername bereits vergeben und es muss ein neuer ausgewählt werden
         if (benutzer != null) {
             throw new ApplicationException("Fehler", 
-                    "Es wurde bereits ein Benutzer mit diesem Benutzernamen erstellt.");
+                    "Es wurde bereits ein Benutzer mit diesem Benutzernamen "
+                            + "erstellt.");
         } else {
             
             //Neuen Benutzer anlegen
@@ -962,17 +987,31 @@ public class DataAccessObject {
         }   
     }
     
+    /**
+     * Methode zur Erstellung von Steuereinträgen.
+     * Ist ein Parameter bereits in der Steuertabelle vorhanden, wird der 
+     * Wert überschrieben.
+     * @param Parameter Name des Parameters
+     * @param Wert Wert des Parameters
+     * @throws ApplicationException wenn bei der Erstellung des Eintrags ein
+     *                              Fehler auftritt
+     */
     private void erstelleSteuereintrag(String Parameter, String Wert) 
             throws ApplicationException {
         
+        //Suche den Steuerparameter anhand des Parameternames in der Datenbank
         Steuertabelle st = em.find(Steuertabelle.class, Parameter);
         
+        //Wurde der Eintrag nicht gefunden, soll ein neuer Eintrag erstellt
+        //werden. Wenn ein Eintrag gefunden wird, wird der alte Wert 
+        //überschrieben
         if (st == null) {
             st = new Steuertabelle(Parameter, Wert);
         } else {
             st.setWert(Wert);
         }
         
+        //Wenn bei der Erstellung des Eintrags ein Fehler auftritt
         if (st == null) {
             throw new ApplicationException(FEHLER_TITEL, 
                     "Der Eintrag konnte nicht erstellt werden.");
@@ -980,10 +1019,13 @@ public class DataAccessObject {
         
         try {
             
+            //Transaktion beginnen
             em.getTransaction().begin();
             
+            //Steuereintrag persistieren
             em.persist(st);
             
+            //Transaktion beenden
             em.getTransaction().commit();
             
         } catch (RollbackException re) {
@@ -1374,10 +1416,14 @@ public class DataAccessObject {
                         artikel.getFrei(), artikel.getReserviert(), 
                         artikel.getZulauf(), artikel.getVerkauft(), artikel);
                 
+                //Setze den neu erstellten Artikel als Nachfolger des alten
+                //Artikels
                 artikel.setNachfolger(neuerArtikel);
                 
             } else {
                 
+                //Haben sich die Werte für die Bewertung des Artikels nicht
+                //verändert, werden nur die anderen Werte überschrieben
                 artikel.setArtikeltext(Artikeltext);
                 artikel.setBestelltext(Bestelltext);
                 artikel.setKategorie(this.gibKategorie(Kategorie));
@@ -1525,6 +1571,7 @@ public class DataAccessObject {
                     
                     //Wenn der Auftrag bereits freigegeben ist, soll nur der 
                     //Auftragstext sowie der Status ändernbar sein
+                    ak.setLieferdatum(Lieferdatum);
                     ak.setAuftragstext(Auftragstext);
                     this.setzeAuftragsstatus(ak, this.gibStatusPerName(Status));
                     
@@ -1839,7 +1886,8 @@ public class DataAccessObject {
      * @param Fax Faxnummer
      * @param Email Emailadresse
      * @param Geburtsdatum Geburtsdatum des Geschäftspartners (über 18!)
-     * @throws ApplicationException wenn der Geschäftspartner oder die Anschrift nicht gefunden werden können
+     * @throws ApplicationException wenn der Geschäftspartner oder die Anschrift
+     *                              nicht gefunden werden können
      */
     public void aendereGeschaeftspartner(long GeschaeftspartnerID, boolean modus,
             double Kreditlimit, String Name, String Vorname, String Titel, 
@@ -2180,7 +2228,8 @@ public class DataAccessObject {
     /**
      * Methode zum Ändern eines Benutzers
      * @param Benutzername Name des Benutzers (eindeutig)
-     * @param Passwort Passwort des Benutzers, wird als MD5-Hash in der Datenbank abgelegt
+     * @param Passwort Passwort des Benutzers, wird als MD5-Hash in der 
+     *                 Datenbank abgelegt
      * @param istAdmin Gibt an ob ein Benutzer ein Admin ist oder nicht
      * @throws ApplicationException wenn der Benutzer nicht gefunden werden konnte
      */
@@ -2392,7 +2441,8 @@ public class DataAccessObject {
      */
     public Collection<Artikelkategorie> gibAlleKategorien() {
 
-        List<Artikelkategorie> ergebnis = this.em.createQuery("SELECT ST FROM Artikelkategorie ST", 
+        List<Artikelkategorie> ergebnis = this.em.createQuery("SELECT ST FROM "
+                + "Artikelkategorie ST", 
                 Artikelkategorie.class).getResultList();
         
         ArrayList<Artikelkategorie> liste = new ArrayList<>();
@@ -2410,7 +2460,6 @@ public class DataAccessObject {
     /* 11.11.14 sch angelegt                                    */
     /*----------------------------------------------------------*/
     /**
-     *  TO-DO :  Query "SELECT ST FROM Artikelkategorie ST WHERE ST.Kategoriename = 'a'" selected no result, but expected unique result.
      * @param name Name der Kategorie
      * @return Die Kategorie als Objekt
      * @throws ApplicationException Wenn kein Name übergeben wurde oder die
@@ -2465,6 +2514,19 @@ public class DataAccessObject {
         return item;
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 18.12.14   loe     angelegt                              */
+    /*----------------------------------------------------------*/
+    /**
+     * Gibt einen Artikel zurück auch wenn für diesen Artikel das
+     * Löschkennzeichen gesetzt ist.
+     * Wird genutzt um bereits gelöschte Artikel weiterhin in Aufträgen anzeigen
+     * zu können.
+     * @param Artikelnummer Artikelnummer des Artikels
+     * @return ein Artikel-Objekt
+     * @throws ApplicationException wenn kein Artikel gefunden werden kann
+     */
     public Artikel gibArtikelOhneLKZ(long Artikelnummer) throws ApplicationException {
         
         //Suche den Artikel mit der angegebenen ID aus der Datenbank
@@ -2720,7 +2782,8 @@ public class DataAccessObject {
      */
     public Collection<Zahlungskondition> gibAlleZahlungskonditionen() {
         
-        List<Zahlungskondition> ergebnis = this.em.createQuery("SELECT ST FROM Zahlungskondition ST",
+        List<Zahlungskondition> ergebnis = this.em.createQuery("SELECT ST "
+                + "FROM Zahlungskondition ST",
                 Zahlungskondition.class).getResultList();
         
         ArrayList<Zahlungskondition> liste = new ArrayList<>();
@@ -2947,7 +3010,8 @@ public class DataAccessObject {
         //Selektiere alle Aufträge die letzten sechs Monate, die abgeschlossen 
         //und nicht gelöscht sind
         List<Auftragskopf> ergebnis = 
-                this.em.createNativeQuery("select * from Auftragskopf st left join Status on st.Status = Status.Statusid "
+                this.em.createNativeQuery("select * from Auftragskopf st "
+                        + "left join Status on st.Status = Status.Statusid "
                         + "where st.LKZ = 0  AND st.Auftragsart NOT LIKE 'Bestellauftrag' "
                         + "AND Status.Status LIKE 'abgeschlossen' "
                         + "AND MONTH(st.abschlussdatum) = MONTH('" + datumSql + "') "
@@ -2974,7 +3038,8 @@ public class DataAccessObject {
         //Selektiere alle Aufträge die letzten sechs Monate, die abgeschlossen 
         //und nicht gelöscht sind
         List<Auftragskopf> ergebnis = 
-                this.em.createNativeQuery("select * from Auftragskopf st left join Status on st.Status = Status.Statusid "
+                this.em.createNativeQuery("select * from Auftragskopf st "
+                        + "left join Status on st.Status = Status.Statusid "
                         + "where st.LKZ = 0  AND st.Auftragsart LIKE 'Bestellauftrag' "
                         + "AND Status.Status LIKE 'abgeschlossen' "
                         + "AND MONTH(st.abschlussdatum) = MONTH('" + datumSql + "') "
@@ -3111,20 +3176,23 @@ public class DataAccessObject {
     /**
      * Methode zum Setzen eines Löschkennzeichens für Artikel
      * @param Artikelnummer ID des Artikels
-     * @throws ApplicationException wenn der Artikel nicht gefunden werden kann oder bereits gelöscht ist
+     * @throws ApplicationException wenn der Artikel nicht gefunden werden kann 
+     *                              oder bereits gelöscht ist
      */
     public void loescheArtikel(long Artikelnummer) throws ApplicationException {
         
         //Holen des Artikels aus der Datenbank anhand der ID
         Artikel artikel = em.find(Artikel.class, Artikelnummer);
         
-        //Wenn der Artikel nicht gefunden werden kann wird eine entsprechende Exception geworfen
+        //Wenn der Artikel nicht gefunden werden kann wird eine entsprechende 
+        //Exception geworfen
         if (artikel == null) {
             throw new ApplicationException("Fehler", 
                     "Der Artikel konnte nicht gefunden werden.");
         }
         
-        //Wenn der Artikel bereits "gelöscht" ist wird eine entsprechende Exception geworfen
+        //Wenn der Artikel bereits "gelöscht" ist wird eine entsprechende 
+        //Exception geworfen
         if (artikel.isLKZ()) {
             throw new ApplicationException("Fehler",
                     "Diese Artikel ist bereits mit einem Löschkennzeichen versehen");
@@ -3304,9 +3372,11 @@ public class DataAccessObject {
     /* 30.01.15   loe     Fehlerbehandlung                      */
     /*----------------------------------------------------------*/
     /**
-     * Methode zum Setzen eines Löschkennzeichens für Aufträge und dazugehörige Positionen.
+     * Methode zum Setzen eines Löschkennzeichens für Aufträge und dazugehörige 
+     * Positionen.
      * @param AuftragskopfID ID des Auftragkopfes
-     * @throws ApplicationException wenn der Auftrag nicht gefunden werden kann oder bereits gelöscht ist
+     * @throws ApplicationException wenn der Auftrag nicht gefunden werden kann 
+     *                              oder bereits gelöscht ist
      */
     public void loescheAuftrag(long AuftragskopfID) 
             throws ApplicationException {
@@ -3314,13 +3384,15 @@ public class DataAccessObject {
         //Holen des Auftrags aus der Datenbank anhand der ID
         Auftragskopf ak = em.find(Auftragskopf.class, AuftragskopfID);
         
-        //Wenn der Auftrag nicht gefunden werden kann wird eine entsprechende Exception geworfen
+        //Wenn der Auftrag nicht gefunden werden kann wird eine entsprechende 
+        //Exception geworfen
         if (ak == null) {
             throw new ApplicationException("Fehler", 
                     "Der Auftrag konnte nicht gefunden werden.");
         }
         
-        //Wenn der Auftrag bereits "gelöscht" ist wird eine entsprechende Exception geworfen
+        //Wenn der Auftrag bereits "gelöscht" ist wird eine entsprechende 
+        //Exception geworfen
         if (ak.isLKZ()) {
             throw new ApplicationException("Fehler", 
                     "Der Auftrag ist bereits mit einem Löschlennzeichen versehen.");
@@ -3395,7 +3467,8 @@ public class DataAccessObject {
     /**
      * Methode zum Setzen eines Löschkennzeichens für eine Zahlungskondition
      * @param ZahlungskonditionsID ID der Zahlungskondition
-     * @throws ApplicationException wenn die Zahlungskondition nicht gefunden werden kann oder bereis gelöscht ist
+     * @throws ApplicationException wenn die Zahlungskondition nicht gefunden 
+     *                              werden kann oder bereis gelöscht ist
      */
     public void loescheZahlungskondition(long ZahlungskonditionsID) 
             throws ApplicationException {

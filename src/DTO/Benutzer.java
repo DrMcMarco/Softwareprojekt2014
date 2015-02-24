@@ -7,18 +7,30 @@ package DTO;
 
 import java.util.Objects;
 import javax.persistence.*;
+
 /**
- *
- * @author Marco
+ * Entitätsklasse für Benutzer.
+ * @author Marco Loewe
  */
 @Entity
 public class Benutzer implements java.io.Serializable {
     
+    /**
+     * Benutzername eines Accounts.
+     * - muss eindeutig sein, daher Primärschlüssel
+     */
     @Id
     private String Benutzername;
     
+    /**
+     * Passwort eines Accounts.
+     * - wird später verschlüsselt in der Datenbank abgelegt
+     */
     private String Passwort;
     
+    /**
+     * Gibt an ob der Benutzer ein Administrator ist oder nicht.
+     */
     private boolean istAdmin;
     
     public Benutzer() {

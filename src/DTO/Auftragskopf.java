@@ -14,10 +14,10 @@ import javax.persistence.*;
 
 /**
  * Entitiyklasse für den Aufragskopf.
- * - Spaltet sich in vier Auftragsarten auf, allerdings wird diese Entity
+ * - Spaltet sich in vier Auftragsarten auf, allerdings wird nur diese Entity
  *   in der Datenbank abgelegt. Unterschieden werden diese durch eine
  *   Tabellenspalte "Auftragsart"
- * @author Marco
+ * @author Marco Loewe
  */
 @Entity
 @Inheritance
@@ -35,7 +35,7 @@ public abstract class Auftragskopf implements Serializable {
     private long AuftragskopfID;
     
     /**
-     * Gedaxht für Anmerkungen/Notizen zum Auftrag
+     * Gedacht für Anmerkungen/Notizen zum Auftrag
      */
     private String Auftragstext;
     
@@ -105,7 +105,7 @@ public abstract class Auftragskopf implements Serializable {
     }
 
     /**
-     * Generiert.
+     * Konstruktor ohne Zahlungskondition, für Baraufträge
      * @param Auftragstext Anmerkungen zum Auftrag
      * @param Wert Auftragswert, wird später berrechnet
      * @param Geschaeftspartner Geschäftspartnerobjekt
@@ -128,6 +128,17 @@ public abstract class Auftragskopf implements Serializable {
         this.LKZ = false;
     }
 
+    /**
+     * Konstruktor mit Zahlungskondition, für alles außer Baraufträge
+     * @param Auftragstext Anmerkungen zum Auftrag
+     * @param Wert Auftragswert, wird später berrechnet
+     * @param Geschaeftspartner Geschäftspartnerobjekt
+     * @param Status Statusobjekt
+     * @param Abschlussdatum Abschlussdatum
+     * @param Erfassungsdatum Erfassungsdatum, wird intern bestimmt
+     * @param Lieferdatum Lieferdatum, wird berechnet
+     * @param Zahlungskondition Zahlungskondition für diesen Auftrag
+     */
     public Auftragskopf(String Auftragstext, double Wert,
             Geschaeftspartner Geschaeftspartner, Status Status, 
             Date Abschlussdatum, Date Erfassungsdatum, Date Lieferdatum, 
@@ -330,11 +341,11 @@ public abstract class Auftragskopf implements Serializable {
         ap.setArtikel(artikel);
         ap.setMenge(Menge);
         
-        if (this instanceof Bestellauftragskopf) {
-            ap.setEinzelwert(artikel.getEinkaufswert() * Menge);
-        } else {
-            ap.setEinzelwert(artikel.getVerkaufswert() * Menge);
-        }
+//        if (this instanceof Bestellauftragskopf) {
+//            ap.setEinzelwert(artikel.getEinkaufswert() * Menge);
+//        } else {
+//            ap.setEinzelwert(artikel.getVerkaufswert() * Menge);
+//        }
 
         ap.setErfassungsdatum(this.Erfassungsdatum);
         //Wert der Position zum Gesamtwert hinzufügen

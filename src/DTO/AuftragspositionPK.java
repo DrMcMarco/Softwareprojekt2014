@@ -6,13 +6,21 @@
 package DTO;
 
 /**
- *
- * @author Marco
+ * Primärschlüsselklasse für Auftragspositionen.
+ * Muss bei zusammengesetzten Primärschlüsseln angelegt werden.
+ * Beinhaltet die Bestandteile des Primärschlüssels.
+ * @author Marco Loewe
  */
 public class AuftragspositionPK implements java.io.Serializable {
     
+    /**
+     * Auftrags-ID
+     */
     private long Auftrag;
     
+    /**
+     * Artikel-ID
+     */
     private long Artikel;
     
     public AuftragspositionPK() {
@@ -24,8 +32,6 @@ public class AuftragspositionPK implements java.io.Serializable {
         this.Artikel = Positionsnummer;
     }
 
-    
-    
     @Override
     public int hashCode() {
         int hash = 7;

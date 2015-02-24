@@ -9,26 +9,73 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.*;
 /**
- *
- * @author Marco
+ * Entitätsklasse für Zahlungskonditionen.
+ * @author Marco Loewe
  */
 @Entity
 public class Zahlungskondition implements Serializable {
     
+    /**
+     * Eindeutige Nummer für eine Zahlungskondition.
+     * Wird generiert.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long ZahlungskonditionID;
     
+    /**
+     * Name der Auftragsart.
+     */
     private String Auftragsart;
+    
+    /**
+     * Zeit in Tagen bis ein Sofortauftrag geliefert wird.
+     */
     private int LieferzeitSofort;
+    
+    /**
+     * Zeit in Tagen bis ein Terminauftrag geliefert wird.
+     */
     private int SperrzeitWunsch;
+    
+    /**
+     * Zeit in Tagen für die Skonto 1 gilt.
+     */
     private int Skontozeit1;
+    
+    /**
+     * Zeit in Tagen für die Skonto 2 gilt.
+     */
     private int Skontozeit2;
+    
+    /**
+     * Wert für Skonto 1 in Prozent.
+     */
     private double Skonto1;
+    
+    /**
+     * Wert für Skonto 2 in Prozent.
+     */
     private double Skonto2;
+    
+    /**
+     * Zeit in Tagen bis die erste Mahnung abgeschickt wird.
+     */
     private int Mahnzeit1;
+    
+    /**
+     * Zeit in Tagen bis die zweite Mahnung abgeschickt wird.
+     */
     private int Mahnzeit2;
+    
+    /**
+     * Zeit in Tagen bis die dritte Mahnung abgeschickt wird.
+     */
     private int Mahnzeit3;
+    
+    /**
+     * Gibt an ob die Zahlungskondition gelöscht ist oder nicht.
+     */
     private boolean LKZ;
 
     public Zahlungskondition() {

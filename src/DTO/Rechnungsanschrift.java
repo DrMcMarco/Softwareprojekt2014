@@ -9,8 +9,11 @@ import java.util.Date;
 import javax.persistence.*;
 
 /**
- *
- * @author Marco
+ * Spezialisierte Rechnungsanschriftklasse.
+ * Erbt von der Klasse Anschrift.
+ * Wird nicht in einer eigenen Tabelle sondern in "Anschrift" unter "Typ" als
+ * "Rechnungsanschrift" dargestellt.
+ * @author Marco Loewe
  */
 @Entity
 @DiscriminatorValue("Rechnungsanschrift")

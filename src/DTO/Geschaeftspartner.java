@@ -10,7 +10,10 @@ import java.util.Objects;
 import javax.persistence.*;
 
 /**
- *
+ * Entitätsklasse für Geschäftspartner.
+ * - Spaltet sich in Kunde und Lieferant auf, allerdings wird nur diese Entity
+ *   in der Datenbank abgelegt. Um welche Art von Geschäftspartner es sich
+ *   handelt wird in der Spalte "Typ" festgehalten
  * @author Marco
  */
 
@@ -20,18 +23,41 @@ import javax.persistence.*;
 @Table(name = "Geschäftspartner")
 public abstract class Geschaeftspartner implements Serializable {
     
+    /**
+     * Eindeutige Nummer für einen Geschäftspartner.
+     * Wird generiert.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long GeschaeftspartnerID;
     
+    /**
+     * Lieferadresse eines Geschäftspartner.
+     * - 1:1-Beziehung, ein Geschäftspartner kann genau eine Lieferadresse
+     *   besitzen
+     * - Ist eventuell identisch mit der Rechnungsadresse
+     */
     @OneToOne(cascade = CascadeType.ALL)
     private Anschrift Lieferadresse;
     
+    /**
+     * Rechnungsadresse eines Geschäftspartner.
+     * - 1:1-Beziehung, ein Geschäftspartner kann genau eine Rechnungsadresse
+     *   besitzen
+     * - Sollte immer angegeben werden
+     */
     @OneToOne(cascade = CascadeType.ALL)
     private Anschrift Rechnungsadresse;
     
+    /**
+     * Kreditlimit eines Geschäftspartners.
+     * Wird beim Freigeben von Aufträgen überprüft.
+     */
     private double Kreditlimit;
     
+    /**
+     * Gibt an ob ein Geschäftspartner gelöscht ist oder nicht.
+     */
     private boolean LKZ;
     
     public Geschaeftspartner() {
@@ -119,9 +145,16 @@ public abstract class Geschaeftspartner implements Serializable {
     }
     
     
+    /**
+     * Gibt den Typ des Geschäftspartners zurück.
+     * Muss so gemacht werden, da man auf die Spalte die durch den
+     * DiscriminatorValue gesetzt wird, nicht über JPA zugreifen kann
+     * @return den Typ des Geschäftspartners als String
+     */
     public String getTyp(){
         
-        DiscriminatorValue val = this.getClass().getAnnotation( DiscriminatorValue.class );
+        DiscriminatorValue val = 
+                this.getClass().getAnnotation( DiscriminatorValue.class );
 
         return val == null ? null : val.value();
     }

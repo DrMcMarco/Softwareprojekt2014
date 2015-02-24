@@ -8,8 +8,11 @@ package DTO;
 import javax.persistence.*;
 
 /**
- *
- * @author Marco
+ * Spezialisierte Kundenklasse.
+ * Erbt von der Geschäftspartnerklasse.
+ * Wird nicht in einer eigenen Tabelle sondern in der Tabelle "Geschäftspartner"
+ * unter "Typ" als "Kunde" dargestellt
+ * @author Marco Loewe
  */
 @Entity
 @DiscriminatorValue("Kunde")
