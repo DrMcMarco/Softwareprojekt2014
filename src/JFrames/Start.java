@@ -2,7 +2,6 @@ package JFrames;
 
 import DAO.DataAccessObject;
 import DAO.Parser;
-import DTO.Artikel;
 import GUI_Internalframes.*;
 import Hauptmenue.Hauptmenue_User;
 import Interfaces.InterfaceMainView;
@@ -10,20 +9,14 @@ import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.persistence.PersistenceException;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
 
 /**
  *
@@ -34,13 +27,15 @@ import javax.swing.SwingConstants;
  * der die einzelnen Masken aufgerufen werden können mit denen der User seine
  * Daten anlegen,ändern oder sich anzeigen lassen kann.
  *
- *
- * 10.12.2014 Terrasi,Erstellung 16.12.2014 Terrasi, Überarbeitung und Zuweisung
- * der Navigationsfunktion 02.01.2015 Terrasi, Überarbeitung der
- * Navigationsfünktion 06.01.2015 Terrasi, Statuszeile implementiert 08.01.2015
- * Terrasi Anwendungslogik überarbeitet und alle Komponenten 18.02.2015 Sen
- * Tastenkuerzel hinzugefuegt zusammengefügt.
  */
+ /*10.12.2014 Terrasi,Erstellung */
+/*16.12.2014 Terrasi, Überarbeitung und Zuweisung
+ * der Navigationsfunktion */
+/* 02.01.2015 Terrasi, Überarbeitung der  Navigationsfünktion */
+/* 06.01.2015 Terrasi, Statuszeile implementiert */
+/* 08.01.2015 Terrasi, Anwendungslogik überarbeitet und alle Komponenten */
+/* 18.02.2015 Sen, Tastenkuerzel hinzugefuegt zusammengefügt.*/
+/* 18.02.2015 TER, getestet und freigegeben */
 public class Start extends javax.swing.JFrame implements InterfaceMainView {
 
     /**
@@ -73,7 +68,6 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
 
     public Login logInFester;
 
-    private static Integer counter = 5;
 
     //Hilfsvariablen
     Dimension desktopSize;//Speichervariable für die Größe der DesktopPane.
@@ -84,20 +78,30 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     private final String BEENDEN_MELDUNG = "Wollen sie sich wirklich abmelden?";
     private final String BEENDEN_MELDUNG_TYP = "Programm beenden";
 
-    private final String AUFTRAGSKOPF_AENDERN_EINSTIEG = "Auftragskopf ändern Einstieg";
-    private final String AUFTRAGSKOPF_ANZEIGEN_EINSTIEG = "Auftragskopf anzeigen Einstieg";
+    private final String AUFTRAGSKOPF_AENDERN_EINSTIEG = "Auftragskopf "
+            + "ändern Einstieg";
+    private final String AUFTRAGSKOPF_ANZEIGEN_EINSTIEG = "Auftragskopf "
+            + "anzeigen Einstieg";
 
-    private final String AUFTRAGSPOSITION_AENDERN_EINSTIEG = "Auftragsposition ändern Einstieg";
-    private final String AUFTRAGSPOSITION_ANZEIGEN_EINSTIEG = "Auftragsposition anzeigen Einstieg";
+    private final String AUFTRAGSPOSITION_AENDERN_EINSTIEG = "Auftragsposition "
+            + "ändern Einstieg";
+    private final String AUFTRAGSPOSITION_ANZEIGEN_EINSTIEG = "Auftragsposition "
+            + "anzeigen Einstieg";
 
-    private final String ARTIKEL_AENDERN_EINSTIEG = "Artikel ändern Einstieg";
-    private final String ARTIKEL_ANZEIGEN_EINSTIEG = "Artikel anzeigen Einstieg";
+    private final String ARTIKEL_AENDERN_EINSTIEG = "Artikel "
+            + "ändern Einstieg";
+    private final String ARTIKEL_ANZEIGEN_EINSTIEG = "Artikel "
+            + "anzeigen Einstieg";
 
-    private final String ZK_AENDERN_EINSTIEG = "Zahlungskondition ändern Einstieg";
-    private final String ZK_AZEIGEN_EINSTIEG = "Zahlungskondition anzeigen Einstieg";
+    private final String ZK_AENDERN_EINSTIEG = "Zahlungskondition "
+            + "ändern Einstieg";
+    private final String ZK_AZEIGEN_EINSTIEG = "Zahlungskondition "
+            + "anzeigen Einstieg";
 
-    private final String GP_AENDERN_EINSTIEG = "Geschäftspartner ändern Einstieg";
-    private final String GP_ANZEIGEN_EINSTIEG = "Geschäftspartner anzeigen Einstieg";
+    private final String GP_AENDERN_EINSTIEG = "Geschäftspartner "
+            + "ändern Einstieg";
+    private final String GP_ANZEIGEN_EINSTIEG = "Geschäftspartner "
+            + "anzeigen Einstieg";
 
     private static Timer timer;
 
@@ -114,7 +118,6 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
             // Erzeugung eines DAO-Objektes.
         } catch (PersistenceException e) {// Fehlerbehandlung falls bei der 
             // Erzeugung entwas nicht funktioniert hat.
-            System.out.println(e.getMessage());// Fehlerausgabe.
         }
         
         c = null; // Initialisierung der Hilfsvariable für die Components.
@@ -134,16 +137,22 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
                 this);
         auftragsspositionanzeigen = new AuftragspositionAnzeigen(factory,
                 this);
-        auftragsspositionaender = new AuftragspositionAendern(factory, auftragsspositionanzeigen, this);
+        auftragsspositionaender = new AuftragspositionAendern(factory, 
+                auftragsspositionanzeigen, this);
         artikelanlegen = new ArtikelAnlegen(factory, this);
         artikelaendern = new ArtikelAEndernEinstieg(factory, artikelanlegen, this);
         geschaeftspartneranlegen = new GeschaeftspartnerAnlegen(factory, this);
-        geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg(factory, geschaeftspartneranlegen, this);
+        geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg(factory, 
+                geschaeftspartneranlegen, this);
         zahlungskonditionanlegen = new ZahlungskonditionAnlegen(factory, this);
-        zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg(factory, zahlungskonditionanlegen, this);
+        zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg(
+                factory, zahlungskonditionanlegen, this);
         statistikAnzeige = new StatistikAnzeige();
+        
+        
         // Aufruf der setCenterJIF-Methode
         setCenterJIF(hauptmenueuser);
+        
         // Zuweisung der Masken an die Hauptansicht
         desktopPane.add(hauptmenueuser);
         desktopPane.add(auftragskopfanlegen);
@@ -488,6 +497,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 20.02.2015 Sen     Ueberarbeitet.*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Action die ausgeführt wird, wenn das Programm geschlossen werden soll,
@@ -497,13 +507,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
      * @param evt
      */
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        // Erzeugen eine Meldung mit Abfrage
-//        int antwort = JOptionPane.showConfirmDialog(rootPane, BEENDEN_MELDUNG,
-//                BEENDEN_MELDUNG_TYP, JOptionPane.YES_NO_OPTION,
-//                JOptionPane.QUESTION_MESSAGE);
-//        if (antwort == JOptionPane.YES_OPTION) {
-//            System.exit(0);
-//        }
+        // ActionPerformed für Logout wird ausgeführt.
         jMI_LogoutActionPerformed(null);
     }//GEN-LAST:event_formWindowClosing
 
@@ -511,9 +515,9 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
-     *
      * Methode in der definiert wird was beim betätigen des Logouts in der
      * Navigation passiert
      *
@@ -522,8 +526,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     private void jMI_LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_LogoutActionPerformed
         // Erzeugen eine Meldung mit Abfrage
         int antwort = JOptionPane.showConfirmDialog(rootPane, BEENDEN_MELDUNG,
-                BEENDEN_MELDUNG_TYP, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (antwort == JOptionPane.YES_OPTION) {
+                BEENDEN_MELDUNG_TYP, JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+        
+        if (antwort == JOptionPane.YES_OPTION) {// Bei positiver Antwort.
             this.logInFester.getAnmeldeFenster().zurueckSetzen();
             this.logInFester.setVisible(true);
             this.setVisible(false);
@@ -534,6 +540,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik und Dokumentation.*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Methode in der definiert wird was aufgerufen wird wenn man den
@@ -561,6 +568,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /* 02.01.2015 Terrasi Logik überarbeitet*/
     /* 08.01.2015 Terrasi AuftragskopfAnlegenMaske mit der Anzeigen/Ändern-
      Funktion angepasst.*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die AuftrgaskopfAnlegen Maske aufgerufen wird
@@ -568,11 +576,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
      * @param evt
      */
     private void jMI_AuftragskopfAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragskopfAnlegenActionPerformed
-        if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
-            getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
-            System.out.println(getComponent() != null);
-
-            System.out.println(getComponent().getTitle());
+        //Überprüfung ob ein Internalframe bereits sichtbar ist
+        if (getComponent() != null) {
+            //Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+            getComponent().setVisible(false);
         }
         factory.setComponent(hauptmenueuser);
 
@@ -592,17 +599,17 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
     /* 08.01.2015 Terrasi AuftragskopfÄndernMaske hinzugefügt*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
-     * ActionPerformed in der die AuftrgaskopfAendern Maske aufgerufen wird
-     *
-     *
+     * ActionPerformed in der die AuftrgaskopfAendern Maske aufgerufen wird.
      * @param evt
      */
     private void jMI_AuftragkopfAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragkopfAEndernActionPerformed
-
-        if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
-            getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        //Überprüfung ob ein Internalframe bereits sichtbar ist.
+        if (getComponent() != null) {
+            //Angezeigte Internaframe wird nicht mehr sichtbar dargestellt.
+            getComponent().setVisible(false);
         }
         factory.setComponent(hauptmenueuser);
         hauptmenueuser.setVisible(false);
@@ -622,6 +629,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
     /* 08.01.2015 Terrasi AuftragskopfAnzeigenMaske hinzugefügt*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die AuftrgaskopfAnzeigen Maske aufgerufen wird
@@ -629,8 +637,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
      * @param evt
      */
     private void jMI_AuftragskopfAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragskopfAnzeigenActionPerformed
-        if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
-            getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        //Überprüfung ob ein Internalframe bereits sichtbar ist
+        if (getComponent() != null) {
+            //Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+            getComponent().setVisible(false);
         }
         factory.setComponent(hauptmenueuser);
 
@@ -650,6 +660,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
     /* 08.01.2015 Terrasi AuftragspositionÄndernMaske hinzugefügt*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Auftrgaspositionändern Maske aufgerufen wird
@@ -658,8 +669,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
      */
     private void jMI_AuftragsposAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragsposAEndernActionPerformed
 
-        if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
-            getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        //Überprüfung ob ein Internalframe bereits sichtbar ist
+        if (getComponent() != null) {
+            //Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+            getComponent().setVisible(false);
         }
         factory.setComponent(hauptmenueuser);
 
@@ -679,6 +692,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /* 16.12.2014 Terrasi Logik  und Dokumentation.*/
     /* 02.01.2015 Terrasi Logik überarbeitet*/
     /* 08.01.2015 Terrasi AuftragspositionAnzeigenMaske hinzugefügt*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Auftrgaspositionanzeigen Maske aufgerufen wird
@@ -687,8 +701,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
      */
     private void jMI_AuftragsposAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_AuftragsposAnzeigenActionPerformed
 
-        if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
-            getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        //Überprüfung ob ein Internalframe bereits sichtbar ist
+        if (getComponent() != null) {
+            //Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+            getComponent().setVisible(false);
         }
         factory.setComponent(hauptmenueuser);
 
@@ -709,6 +725,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /* 02.01.2015 Terrasi Logik überarbeitet*/
     /* 07.01.2015 Sen anlegen Funktion hinzugefuegt */
     /* 09.01.2015 Sen anlegen Funktion View erweitert */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Artikelanlegen Maske aufgerufen wird
@@ -717,8 +734,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
      */
     private void jMI_ArtikelAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ArtikelAnlegenActionPerformed
 
-        if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
-            getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        //Überprüfung ob ein Internalframe bereits sichtbar ist
+        if (getComponent() != null) {
+            //Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+            getComponent().setVisible(false);
         }
         factory.setComponent(hauptmenueuser);
 
@@ -738,6 +757,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /* 02.01.2015 Terrasi Logik überarbeitet*/
     /* 07.01.2015 Sen aendern Funktion View hinzugefuegt */
     /* 09.01.2015 Sen aendern Funktion View erweitert */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Artikeländern Maske aufgerufen wird
@@ -745,8 +765,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
      * @param evt
      */
     private void jMI_ArtikelAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ArtikelAEndernActionPerformed
-        if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
-            getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        //Überprüfung ob ein Internalframe bereits sichtbar ist
+        if (getComponent() != null) {
+            //Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+            getComponent().setVisible(false);
         }
         factory.setComponent(hauptmenueuser);
 
@@ -769,6 +791,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /* 02.01.2015 Terrasi Logik überarbeitet*/
     /* 07.01.2015 Sen anzeigen Funktion hinzugefuegt */
     /* 09.01.2015 Sen anzeigen Funktion erweitert */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Artikelanzeigen Maske aufgerufen wird
@@ -776,8 +799,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
      * @param evt
      */
     private void jMI_ArtikelAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ArtikelAnzeigenActionPerformed
-        if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
-            getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        //Überprüfung ob ein Internalframe bereits sichtbar ist
+        if (getComponent() != null) {
+            //Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+            getComponent().setVisible(false);
         }
         factory.setComponent(hauptmenueuser);
 
@@ -799,6 +824,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /* 02.01.2015 Terrasi Logik überarbeitet*/
     /* 07.01.2015 Sen anlegen Funktion hinzugefuegt */
     /* 09.01.2015 Sen anlegen Funktion View erweitert */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Geschäftspartneranlegen Maske aufgerufen wird
@@ -806,8 +832,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
      * @param evt
      */
     private void jMI_GPAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_GPAnlegenActionPerformed
-        if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
-            getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        //Überprüfung ob ein Internalframe bereits sichtbar ist
+        if (getComponent() != null) {
+            //Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+            getComponent().setVisible(false);
         }
         factory.setComponent(hauptmenueuser);
 
@@ -827,6 +855,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /* 02.01.2015 Terrasi Logik überarbeitet*/
     /* 07.01.2015 Sen aendern Funktion hinzugefuegt */
     /* 09.01.2015 Sen aendern Funktion View erweitert */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Geschäftspartnerändern Maske aufgerufen wird
@@ -834,8 +863,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
      * @param evt
      */
     private void jMI_GPAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_GPAEndernActionPerformed
-        if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
-            getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        //Überprüfung ob ein Internalframe bereits sichtbar ist
+        if (getComponent() != null) {
+            //Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+            getComponent().setVisible(false);
         }
         factory.setComponent(hauptmenueuser);
 
@@ -857,6 +888,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /* 02.01.2015 Terrasi Logik überarbeitet*/
     /* 07.01.2015 Sen anzeigen Funktion hinzugefuegt */
     /* 09.01.2015 Sen anzeigen Funktion View erweitert */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Geschäftspartneranzeigen Maske aufgerufen wird
@@ -865,8 +897,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
      */
     private void jMI_GPAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_GPAnzeigenActionPerformed
 
-        if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
-            getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        //Überprüfung ob ein Internalframe bereits sichtbar ist
+        if (getComponent() != null) {
+            //Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+            getComponent().setVisible(false);
         }
         factory.setComponent(hauptmenueuser);
 
@@ -888,6 +922,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /* 02.01.2015 Terrasi Logik überarbeitet */
     /* 07.01.2015 Sen anlegen Funktion hinzugefuegt */
     /* 09.01.2015 Sen anlegen Funktion View erweitert */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Zahlungskonditionenanlegen Maske aufgerufen
@@ -896,8 +931,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
      * @param evt
      */
     private void jMI_ZKAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ZKAnlegenActionPerformed
-        if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
-            getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        //Überprüfung ob ein Internalframe bereits sichtbar ist
+        if (getComponent() != null) {
+            //Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+            getComponent().setVisible(false);
         }
         factory.setComponent(hauptmenueuser);
 
@@ -917,6 +954,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /* 02.01.2015 Terrasi Logik überarbeitet*/
     /* 07.01.2015 Sen aendern Funktion hinzugefuegt */
     /* 09.01.2015 Sen aendern Funktion View erweitert */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Zahlungskonditionenändern Maske aufgerufen
@@ -926,8 +964,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
      */
     private void jMI_ZKAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ZKAEndernActionPerformed
 
-        if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
-            getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        //Überprüfung ob ein Internalframe bereits sichtbar ist
+        if (getComponent() != null) {
+            //Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+            getComponent().setVisible(false);
         }
         factory.setComponent(hauptmenueuser);
 
@@ -947,6 +987,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /* 10.12.2014 Terrasi angelegt */
     /* 07.01.2015 Sen anzeigen Funktion hinzugefuegt */
     /* 09.01.2015 Sen anzeigen Funktion View erweitert */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * ActionPerformed in der die Zahlungskonditionenanzeigen Maske aufgerufen
@@ -955,8 +996,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
      * @param evt
      */
     private void jMI_ZKAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_ZKAnzeigenActionPerformed
-        if (getComponent() != null) {//Überprüfung ob ein Internalframe bereits sichtbar ist
-            getComponent().setVisible(false);//Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+        //Überprüfung ob ein Internalframe bereits sichtbar ist
+        if (getComponent() != null) {
+            //Angezeigte Internaframe wird nicht mehr sichtbar dargestellt
+            getComponent().setVisible(false);
         }
         factory.setComponent(hauptmenueuser);
 
@@ -971,6 +1014,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
         setComponent(zahlungskonditionaendern);
     }//GEN-LAST:event_jMI_ZKAnzeigenActionPerformed
 
+    
     private void artikel_absatz_mnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_artikel_absatz_mnActionPerformed
 
         this.statistikAnzeige.setzeChart(GUIFactory.getDAO().gibChartArtikelAbsatz());
@@ -997,6 +1041,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt */
     /* 16.12.2014 Terrasi Logik und Dokumentation */
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Methode setCenterJIF Methode ermittelt das Zentrum der DesktopPane und
@@ -1017,10 +1062,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Methode mit der eine übergebene Component angezeigt wird.
-     *
      * @param component eine komponente
      */
     @Override
@@ -1028,13 +1073,30 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
         component.setVisible(true);
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
+    /**
+     * Schnittstellenmethode
+     * @return hauptmenü
+     */
     @Override
     public JInternalFrame gibMenu() {
         return this.hauptmenueuser;
     }
 
     
-    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
+    /**
+     * Schnittstellenmethode
+     * 
+     */
     @Override
     public void rufeSuche(JInternalFrame comp) {
         this.suche.setzeModelCombobox(this.gibTabellenFuerSuche(comp));
@@ -1042,66 +1104,168 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
         this.letzteAnzeige = comp;
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
+    /**
+     * Schnittstellenmethode
+     * 
+     */
     @Override
     public JInternalFrame gibLetzteAnzeige() {
         return this.letzteAnzeige;
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
+    /**
+     * Schnittstellenmethode
+     */
     @Override
     public String gibTitel() {
         return this.letzteAnzeige.getTitle();
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
+    /**
+     * Schnittstellenmethode
+     */
     @Override
     public ArtikelAnlegen gibArtikelAnlegenFenster() {
         return this.artikelanlegen;
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
+    /**
+     * Schnittstellenmethode
+     */
     @Override
     public AuftragskopfAnlegen gibAuftragskopfanlegenFenster() {
         return this.auftragskopfanlegen;
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
+    /**
+     * Schnittstellenmethode
+     */
     @Override
     public GeschaeftspartnerAnlegen gibGeschaeftspartneranlegenFenster() {
         return this.geschaeftspartneranlegen;
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
+    /**
+     * Schnittstellenmethode
+     */
     @Override
     public ZahlungskonditionenAEndernEinstieg gibZkAendernEinstieg() {
         return this.zahlungskonditionaendern;
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
+    /**
+     * Schnittstellenmethode
+     */
     @Override
     public GeschaeftspartnerAEndernEinstieg gibGeschaeftspartnerAendernEinstieg() {
         return this.geschaeftspartneraendern;
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
+    /**
+     * Schnittstellenmethode
+     */
     @Override
     public ArtikelAEndernEinstieg gibArtikelaendernEinstieg() {
         return this.artikelaendern;
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
+    /**
+     * Schnittstellenmethode
+     */
     @Override
     public AuftragskopfAendern gibAkAendernEinstieg() {
         return this.auftragskopfaendern;
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
+    /**
+     * Schnittstellenmethode
+     */
     @Override
     public AuftragspositionAendern gibPositionAendernEinstieg() {
         return this.auftragsspositionaender;
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
+    /**
+     * Schnittstellenmethode
+     */
     @Override
     public ZahlungskonditionAnlegen gibZkAnlegen() {
         return this.zahlungskonditionanlegen;
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
+    /**
+     * Schnittstellenmethode
+     */
     @Override
     public AuftragspositionAnzeigen gibApAnzeigen() {
         return this.auftragsspositionanzeigen;
     }
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
      * Gibt die Tabellennamen je nach Fenster zurück.
      *
@@ -1185,9 +1349,11 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
         return tabellen;
     }
 
+    
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Methode mit der man eine übergebene Component speichert.
@@ -1199,9 +1365,11 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
         c = component;
     }
 
+    
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Methode mit der man die aktuell übergebene Component erhält.
@@ -1214,8 +1382,14 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
         return c;
     }
 
+    
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 06.01.2015 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
-     * 06.01.2015 Methode mit der man der Statuszeile eine Mitteilung pbergibt
+     * Methode mit der man der Statuszeile eine Mitteilung übergibt
      * die darauf hin in der Statuszeile angeziegt wird.
      *
      * @param status, Übergebener String der dann in der Zeile angegeben werden
@@ -1228,13 +1402,13 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
 
         statusMeldung_jTextField.setText(status);//Meldung wird angezeigt.
 
-        timer = new Timer();
+        timer = new Timer();// Timer
         timer.schedule(new TimerTask() {
             public void run() {
                 statusMeldung_jTextField.setText("");
 
             }
-        }, 5 * 1000);
+        }, 5 * 1000);// 5 Sekunden.
 
     }
 

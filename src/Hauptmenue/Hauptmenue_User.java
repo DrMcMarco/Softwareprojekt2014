@@ -13,6 +13,7 @@ import javax.swing.tree.TreePath;
  /* 02.01.2015 Terrasi, JTreenavigation erstellt
   und Einbindung der Guifactory und der Methoden des Internalframes "Start".*/ 
 /* 18.02.2015 TER, getestet und freigegeben */
+
 public class Hauptmenue_User extends javax.swing.JInternalFrame implements InterfaceJTreeFunction {
     /*
      Hilfsvariablen
@@ -28,6 +29,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt und Dokumentation */
     /* 02.01.2015 Terrasi Überarbeitung des Konstruktors und Dokumentation*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Konstruktor, es wird eine GuiFactory gespeichert sowie ein Component das
@@ -45,7 +47,6 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
             // in Hilfsvariable gespeichert.
         } catch (ClassCastException e) {// Fehlerbehandlung, falls ein ein Component nicht  
             // gecastet werden kann.
-            System.out.println(e.getMessage());// Ausgabe des Fehlers
         }
     }
 
@@ -186,6 +187,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
     /* Datum Name Was */
     /* 10.12.2014 Terrasi, angelegt */
     /* 02.01.2015 Terrasi  Zuweisung der Funktion und Dokumentation*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * TreeMouseClicke Event, bei diesem Event soll der Pfad der Baumstruktur
@@ -220,8 +222,10 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
     /* 10.12.2014 Terrasi angelegt und Dokumentation*/
     /* 02.01.2015 Terrasi  Überarbeitung der Funktion und Dokumentation*/
     /* 08.01.2015 Terrasi  implementierung von Auftrgaskopf,
-    /* 14.01.2015 Sen      setStatus() bzw. setzeFormularIn..() methode implementiert aussser bei Auftragsposition!
+    /* 14.01.2015 Sen      setStatus() bzw. setzeFormularIn..() methode 
+    implementiert aussser bei Auftragsposition!
     Auftragspositionen und Zahlungskonditionen Masken in die Baumnavigation*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode openJtreeNodes, diese methode bekommt einen String
@@ -430,13 +434,13 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
                 }
             }
         } catch (NullPointerException e) {//Fehlerbehandlung bei einer NullpointerException
-            System.out.println(e.getMessage());
         }
     }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 02.01.2015 Terrasi angelegt und Überschrieben*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Methode setComponentVisible erhält ein Frame das sichtbar gemacht werden
@@ -455,9 +459,7 @@ public class Hauptmenue_User extends javax.swing.JInternalFrame implements Inter
         this.internal.setComponent(frame);// Aufruf der Internalframe-Methode "setComponent".
         // Aufruf der "setComponent"-Methode der Guifactory.
         this.factory.setComponent(this.internal.hauptmenueuser);
-//        System.out.println("01");
         this.setVisible(false);// Setzt sich selbst auf visible false um nicht
-//        System.out.println("02");
         // mehr sichtbar zu sein.
     }
 
