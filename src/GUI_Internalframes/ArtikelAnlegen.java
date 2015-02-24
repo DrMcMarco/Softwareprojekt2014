@@ -13,14 +13,12 @@ import DTO.Artikel;
 import DTO.Artikelkategorie;
 import Interfaces.InterfaceMainView;
 import Interfaces.InterfaceViewsFunctionality;
-import java.awt.Dimension;
 import java.util.Collection;
 import java.util.Iterator;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
 /**
  * GUI Klasse für Artikel verwalten. Diese Klasse beinhaltet alle Methoden, die
@@ -33,7 +31,8 @@ import javax.swing.border.Border;
  * @author Tahir
  *
  */
-public class ArtikelAnlegen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
+public class ArtikelAnlegen extends javax.swing.JInternalFrame
+        implements InterfaceViewsFunctionality {
 
     /**
      * Variable, die für die Navigation benoetigt wird, in ihr wird gespeichert,
@@ -86,16 +85,37 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
     /**
      * Regulaerer Ausdruck fuer die Pruefung der Eingabe fuer den Preis.
      */
-    private final String PREUFUNG_PREIS = "|(\\d*,?\\d{1,2})|(\\d{0,3}(\\.\\d{3})*,?\\d{1,2})";
+    private final String PREUFUNG_PREIS = "|(\\d*,?\\d{1,2})"
+            + "|(\\d{0,3}(\\.\\d{3})*,?\\d{1,2})";
     /**
-     * Varibalen fuer die Meldungen
+     * Varibalen fuer die Meldungen.
      */
     private final String TITEL_PFLICHTFELDER_AUSFUELLEN = "Pflichtfelder nicht "
             + "ausgefüllt";
-    private final String MELDUNG_PFLICHTFELDER_AUSFUELLEN = "Einige Pflichtfelder wurden nicht ausgefüllt.\nBitte füllen Sie diese aus!";
-    private final String MELDUNG_EINZELWERT_FALSCH = "Der eingegebene Preis ist nicht richtig!\nBitte geben Sie einen richtigen Preis ein. (z.B. 9,99 oder 99.999,99)";
+    /**
+     * Varibalen fuer die Meldungen.
+     */
+    private final String MELDUNG_PFLICHTFELDER_AUSFUELLEN = "Einige"
+            + " Pflichtfelder wurden nicht ausgefüllt.\nBitte füllen"
+            + " Sie diese aus!";
+    /**
+     * Varibalen fuer die Meldungen.
+     */
+    private final String MELDUNG_EINZELWERT_FALSCH = "Der eingegebene"
+            + " Preis ist nicht richtig!\nBitte geben Sie einen richtigen"
+            + " Preis ein. (z.B. 9,99 oder 99.999,99)";
+    /**
+     * Varibalen fuer die Meldungen.
+     */
     private final String TITEL_FEHLERHAFTE_EINGABE = "Fehlerhafte Eingabe";
-    private final String MELDUNG_AENDERUNGEN_SPEICHERN = "Möchten Sie die Änderungen speichern?";
+    /**
+     * Varibalen fuer die Meldungen.
+     */
+    private final String MELDUNG_AENDERUNGEN_SPEICHERN = "Möchten Sie die"
+            + " Änderungen speichern?";
+    /**
+     * Varibalen fuer die Meldungen.
+     */
     private final String FEHLER = "Fehler";
     /**
      * Variable, um die Statusmeldungen ausgeben zu koennen.
@@ -116,7 +136,13 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
      * Variablen für den Titel der jeweilige Maske.
      */
     private final String ARTIKEL_ANLEGEN = "Artikel anlegen";
+    /**
+     * Variablen für den Titel der jeweilige Maske.
+     */
     private final String ARTIKEL_AENDERN = "Artikel ändern";
+    /**
+     * Variablen für den Titel der jeweilige Maske.
+     */
     private final String ARTIKEL_ANZEIGEN = "Artikel anzeigen";
     /**
      * Variable, um zu pruefen, ob alle Eingaben, wenn welche gemacht wurden, ok
@@ -145,10 +171,13 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         nf.setMinimumFractionDigits(2);
         nf.setMaximumFractionDigits(2);
 //        Documente werden gesetzt
-        jTF_Artikelname.setDocument(new UniversalDocument("0123456789-.´+_=/&!'§%()[]{}? ", true, 30));
-        jTF_Einzelwert.setDocument(new UniversalDocument("0123456789.,", false, 20));
-        jTF_Bestellwert.setDocument(new UniversalDocument("0123456789.,", false, 20));
-//        jTF_Bestandsmenge_FREI.setDocument(new UniversalDocument("0123456789", false));
+        jTF_Artikelname.setDocument(
+                new UniversalDocument("0123456789-.´+_=/&!'§%()[]{}? ",
+                        true, 30));
+        jTF_Einzelwert.setDocument(
+                new UniversalDocument("0123456789.,", false, 20));
+        jTF_Bestellwert.setDocument(
+                new UniversalDocument("0123456789.,", false, 20));
     }
 
 
@@ -164,34 +193,34 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
     private void ladeKategorienAusDatenbank() {
         try {
             kategorienAusDatenbank = this.dao.gibAlleKategorien();
-//            StringArray fuer das Model der Combobox mit der Groeße der aus der Datenbank
-//            geladenen Collection erzeugen;
+//            StringArray fuer das Model der Combobox mit der Groeße
+//            der aus der Datenbank geladenen Collection erzeugen;
             kategorienFuerCombobox = new ArrayList<>();
 //            Die Combobox soll zunaechst Bitte auswaehlen beinhalten
             kategorienFuerCombobox.add("Bitte auswählen");
-//            UEber die Kategorien der Datenbank wird itteritert und die jeweiligen
-//            Kategorienamen werden in die Arraylist fuer die Combobox hinzugefuegt
+//         UEber die Kategorien der Datenbank wird itteritert und die jeweiligen
+//         Kategorienamen werden in die Arraylist fuer die Combobox hinzugefuegt
             Iterator<Artikelkategorie> it = kategorienAusDatenbank.iterator();
             while (it.hasNext()) {
                 kategorienFuerCombobox.add(it.next().getKategoriename());
             }
 //            alle Kategorien geladen, also wird die Combobox gesetzt
-            jCB_Kategorie.setModel(new DefaultComboBoxModel(kategorienFuerCombobox.toArray()));
+            jCB_Kategorie.setModel(new DefaultComboBoxModel(
+                    kategorienFuerCombobox.toArray()));
         } catch (NullPointerException ex) {
-            System.out.println("Fehler beim Laden der Kategorien " + ex.getMessage());
         }
     }
 
+    /*
+     * Historie:
+     * 30.11.2014   Sen     angelegt
+     * 10.12.2014   Sen     ueberarbeitet
+     */
     /**
      * Methode für die Überprüfung der Daten. Falls ein Textfeld nicht gefüllt
      * ist, wird sie der ArrayList für fehlerhafte Componenten hinzugefuegt.
      * Falls bei eine Compobox der selektierte Index auf 0 ("Bitte auswählen")
      * steht, wird diese ebenfalls in die ArrayList uebernommen
-     */
-    /*
-     * Historie:
-     * 30.11.2014   Sen     angelegt
-     * 10.12.2014   Sen     ueberarbeitet
      */
     @Override
     public void ueberpruefen() {
@@ -213,20 +242,18 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         if (jCB_MwST.getSelectedIndex() == 0) {
             fehlerhafteComponenten.add(jCB_MwST);
         }
-//        if (jTF_Bestandsmenge_FREI.getText().equals("")) {
-//            fehlerhafteComponenten.add(jTF_Bestandsmenge_FREI);
-//        }
     }
 
-    /**
-     * Schnittstellen Methode, die die Eingaben zurücksetzt, beim Zurücksetzen
-     * wird auch die Hintergrundfarbe zurückgesetzt.
-     */
+
     /*
      * Historie:
      * 30.11.2014   Sen     angelegt
      * 10.12.2014   Sen     ueberarbeitet
      * 18.01.2015   Sen     ueberarbeitet
+     */
+    /**
+     * Schnittstellen Methode, die die Eingaben zurücksetzt, beim Zurücksetzen
+     * wird auch die Hintergrundfarbe zurückgesetzt.
      */
     @Override
     public final void zuruecksetzen() {
@@ -245,38 +272,38 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
             jTF_Bestellwert.setBackground(JTF_FARBE_STANDARD);
             jCB_MwST.setSelectedIndex(0);
             jCB_MwST.setBackground(JCB_FARBE_STANDARD);
-//            jTF_Bestandsmenge_FREI.setText("");
-//            jTF_Bestandsmenge_FREI.setBackground(JTF_FARBE_STANDARD);
 
             fehlerhafteComponenten.clear();
             formularOK = true;
         } catch (NullPointerException e) {
-            System.out.println(e.getMessage());
         }
     }
 
+    /*
+     * Historie:
+     * 30.11.2014   Sen     angelegt
+     * 01.12.2014   Sen     ueberarbeitet
+     */
     /**
      * Schnittstellen Methode, die bei focusloost ueberprueft, ob Eingaben
-     * korrekt sind
+     * korrekt sind.
      *
      * @param textfield textfield, von wo die Daten geprueft werden sollen
      * @param syntax Pruefsyntax(Regulaerer Ausdruck)
      * @param fehlermelgungtitel Titel der Fehlermeldung, die erzugt wird
      * @param fehlermeldung Text der Fehlermeldung
      */
-    /*
-     * Historie:
-     * 30.11.2014   Sen     angelegt
-     * 01.12.2014   Sen     ueberarbeitet
-     */
     @Override
-    public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
+    public void ueberpruefungVonFocusLost(JTextField textfield, String syntax,
+            String fehlermelgungtitel, String fehlermeldung) {
 //            Prüfung, ob die Eingabe mit der Synstax passen
         if (!textfield.getText().matches(syntax)) {
             formularOK = false;
 //            Eingabe nicht korrekt, also wird eine Fehlermeldung ausgegeben
-            JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
-//            Focus wird auf das Feld für die Eingabe des Einzelwertes gesetzt und der Eingabefeld wird auf leer gesetzt.
+            JOptionPane.showMessageDialog(null, fehlermeldung,
+                    fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
+//            Focus wird auf das Feld für die Eingabe des Einzelwertes
+//            gesetzt und der Eingabefeld wird auf leer gesetzt.
             textfield.requestFocusInWindow();
             textfield.setText("");
         } else if (!textfield.getText().equals("")) {
@@ -286,12 +313,12 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
                 double einzelwert = nf.parse(textfield.getText()).doubleValue();
 //                hinzugefuegt am 04.02 um 15:30 test
                 formularOK = true;
-//            der format wird angepasst und ausgegeben, Hintergrund des Feldes wird auf normalgestzt    
+//            der format wird angepasst und ausgegeben, Hintergrund des Feldes
+//            wird auf normalgestzt    
                 textfield.setText(nf.format(einzelwert));
                 textfield.setBackground(JTF_FARBE_STANDARD);
             } catch (ParseException ex) {
 //            Fehler beim Parsen
-                System.out.println("Fehler in der Methode jTF_EinzelwertFocusLost() " + ex.getMessage());
             }
 //            hinzugefuegt am 04.02 um 15:30 test!
         } else {
@@ -299,6 +326,10 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         }
     }
 
+    /*
+     * Historie:
+     * 30.11.2014   Sen     angelegt
+     */
     /**
      * Schnittstellen Methode, die am Ende der Speichern Aktion aufgerufen wird.
      * Aufgabe ist es, den Hintergrund der jeweiligen Componenten der List in
@@ -311,18 +342,18 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
      * @param fehlermeldung Text der Meldung
      * @param farbe Farbe, in die die Hintergruende gefaerbt werden sollen
      */
-    /*
-     * Historie:
-     * 30.11.2014   Sen     angelegt
-     */
     @Override
-    public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
-//          fehlerhafteComponenten ist nicht leer (es sind fehlerhafte Componenten vorhanden)
+    public void fehlEingabenMarkierung(ArrayList<Component> list,
+            String fehlermelgungtitel, String fehlermeldung, Color farbe) {
+//          fehlerhafteComponenten ist nicht leer
+//          (es sind fehlerhafte Componenten vorhanden)
 //          eine Meldung wird ausgegeben  
-        JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel,
+                JOptionPane.WARNING_MESSAGE);
 //          an die erste fehlerhafte Componenten wird der Focus gesetzt  
         list.get(0).requestFocusInWindow();
-//          ueber die fehlerhaften Komponenten wird iteriert und bei allen fehlerhaften 
+//          ueber die fehlerhaften Komponenten wird iteriert und bei
+//          allen fehlerhaften 
 //          Componenten wird der Hintergrund in der fehlerhaften Farbe gefaerbt 
         for (int i = 0; i <= list.size() - 1; i++) {
             list.get(i).setBackground(farbe);
@@ -331,30 +362,34 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         list.clear();
     }
 
-    /**
-     * Methode, die beim Schließen des Fenster aufgerufen wird.
-     */
     /*
      * Historie:
      * 08.12.2014   Sen     angelegt
+     */
+    /**
+     * Methode, die beim Schließen des Fenster aufgerufen wird.
      */
     private void beendenEingabeNachfrage() {
 //        varibablen fuer Titel und Text der erzeugten Meldung
         String meldung = "Möchten Sie die Eingaben verwerfen?";
         String titel = "Eingaben verwerfen";
-//        Falls Titel des Fensters Artikel anlegen oder Artikel aendern ist wird eine Nachfrage gemacht  
+//        Falls Titel des Fensters Artikel anlegen oder Artikel aendern
+//        ist wird eine Nachfrage gemacht  
         if (this.getTitle().equals(ARTIKEL_ANLEGEN)) {
 //            zunaechst wird ueberprueft, ob alle Eingaben getaetigt wurden
             ueberpruefen();
-//            Falls anzahl fehlerhafter Componenten kleiner ist als max Anzahl von fehlerhaften Componenten
+//            Falls anzahl fehlerhafter Componenten kleiner ist als max Anzahl 
+//            von fehlerhaften Componenten
 //            heist dass, dass Eingaben getaetigt wurden
-            if (fehlerhafteComponenten.size() < maxAnzahlFehlerhafterComponenten) {
+            if (fehlerhafteComponenten.size()
+                    < maxAnzahlFehlerhafterComponenten) {
 //            Also nachfrage
-                int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                int antwort = JOptionPane.showConfirmDialog(null,
+                        meldung, titel, JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
                 if (antwort == JOptionPane.YES_OPTION) {
                     zuruecksetzen();
                     this.setVisible(false);
-//                    jB_ZurueckActionPerformed(null);
                     zurueckInsHauptmenue();
                 } else {
                     fehlerhafteComponenten.clear();
@@ -363,7 +398,6 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
 //            keine Eingaben getaetigt, direkt Fenster schließen 
                 zuruecksetzen();
                 this.setVisible(false);
-//                jB_ZurueckActionPerformed(null);
                 zurueckInsHauptmenue();
             }
         }
@@ -785,29 +819,31 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * Methode für das Speichern der Daten. Falls die Sicht Aritkel anlegen
-     * geoeffnet ist, wird eine Artikel angelegt. Ist Sicht Artikel aendern
-     * geoffnet, wird der Artikel ueberschieben
-     */
     /*
      * Historie:
      * 20.12.2014   Sen     angelegt
      * 25.12.2014   Sen     ueberarbeitet
      * 30.12.2014   Sen     Funtkion fuer Sicht Artikel anlegen implementiert
      * 05.01.2015   Sen     Funtkion fuer Sicht Artikel aendern implementiert
-     * 04.02.2015   Sen     Fehler beseitigt, z.B. wenn falscher Preis eingegeben wird 
-     *                      und direkt auf speichern geklickt wird
+     * 04.02.2015   Sen     Fehler beseitigt, z.B. wenn falscher Preis 
+     *                      eingegeben wird und direkt auf speichern geklickt 
+     *                      wird
+     */
+    /**
+     * Methode für das Speichern der Daten. Falls die Sicht Aritkel anlegen
+     * geoeffnet ist, wird eine Artikel angelegt. Ist Sicht Artikel aendern
+     * geoffnet, wird der Artikel ueberschieben
      */
     private void jB_SpeichernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SpeichernActionPerformed
 //      zunaechst werdne die Eingaben ueberprueft.    
         if (formularOK) {
             ueberpruefen();
-//      falls fehlerhafteComponenten leer ist (es sind keine fehlerhaften Componenten verfuegbar), 
+//      falls fehlerhafteComponenten leer ist (es sind keine fehlerhaften
+//      Componenten verfuegbar), 
 //      werden die Eingaben in die entsprechenden Variablen gespeichert
             if (fehlerhafteComponenten.isEmpty()) {
-//                  Sicht Artikel aendern ist geoffnet, also wird zunaechst der Artikel aus
-//                  der Datenbank geladen.
+//                  Sicht Artikel aendern ist geoffnet,
+//                  also wird zunaechst der Artikel aus der Datenbank geladen.
                 long artikelnr;
                 String artikelname;
                 String artikelbeschreibung;
@@ -825,22 +861,32 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
 
                 try {
 //                einzel- und bestelltwert sowie die mwst und die bestandsmenge
-//                muessen geparst werden, da die dao Methode int und double Typen moechte
-                    einzelwert = nf.parse(jTF_Einzelwert.getText()).doubleValue();
-                    bestellwert = nf.parse(jTF_Bestellwert.getText()).doubleValue();
-                    artikelnr = nf.parse(jTF_Artikelnummer.getText()).longValue();
+//                muessen geparst werden, da die dao Methode int und
+//                double Typen moechte
+                    einzelwert = nf.parse(jTF_Einzelwert.getText())
+                            .doubleValue();
+                    bestellwert = nf.parse(jTF_Bestellwert.getText())
+                            .doubleValue();
+                    artikelnr = nf.parse(jTF_Artikelnummer.getText())
+                            .longValue();
 
-                    mwst = nf.parse((String) jCB_MwST.getSelectedItem()).intValue();
-//                    bestandsmengeFREI = nf.parse(jTF_Bestandsmenge_FREI.getText()).intValue();
+                    mwst = nf.parse((String) jCB_MwST.getSelectedItem())
+                            .intValue();
 //                Ueberpruefung in welche Sicht wir sind
                     if (this.getTitle().equals(ARTIKEL_ANLEGEN)) {
-//                Sicht Artikel anlegen--> neuer Artikel wird in datenbank geschrieben
-                        this.dao.erstelleArtikel(kategorie, artikelname, artikelbeschreibung,
-                                einzelwert, bestellwert, mwst, bestandsmengeFREI,
-                                bestandsmengeRESERVIERT, bestandsmengeZULAUF,
+//                  Sicht Artikel anlegen-->
+//                  neuer Artikel wird in datenbank geschrieben
+                        this.dao.erstelleArtikel(kategorie, artikelname,
+                                artikelbeschreibung,
+                                einzelwert,
+                                bestellwert,
+                                mwst, bestandsmengeFREI,
+                                bestandsmengeRESERVIERT,
+                                bestandsmengeZULAUF,
                                 bestandsmengeVERKAUFT);
 //              Meldung fuer die Statuszeile wird angepasst
-                        statuszeile = "Artikel mit der Artikel-ID " + artikelnr + " wurde erfolgreich angelegt. ";
+                        statuszeile = "Artikel mit der Artikel-ID "
+                                + artikelnr + " wurde erfolgreich angelegt.";
                         this.hauptFenster.setStatusMeldung(statuszeile);
 //              das Formular wird zurueckgesetzt  
                         zuruecksetzen();
@@ -848,183 +894,167 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
 //                  Artikel aus Datenbank ist Variable artikelVorher  
                         Artikel artikelVorher = this.dao.gibArtikel(artikelnr);
 //                  vergleich Artikel erzeugen mit den Eingabedaten
-                        Artikel artikelNachher = new Artikel(artikelVorher.getKategorie(),
+                        Artikel artikelNachher = new Artikel(
+                                artikelVorher.getKategorie(),
                                 artikelname, artikelbeschreibung,
-                                einzelwert, bestellwert, mwst, artikelVorher.getFrei(),
-                                artikelVorher.getReserviert(), artikelVorher.getZulauf(), artikelVorher.getVerkauft());
+                                einzelwert, bestellwert, mwst,
+                                artikelVorher.getFrei(),
+                                artikelVorher.getReserviert(),
+                                artikelVorher.getZulauf(),
+                                artikelVorher.getVerkauft());
 //                  ArtikelID des Nachher Artikel setzen
                         artikelNachher.setArtikelID(artikelnr);
-                        if (artikelVorher.getKategorie().getKategoriename().equals(kategorie) && artikelVorher.equals(artikelNachher)) {
-//                    Falls die Kategorienamen und auch die Artikel selbst gleich sind ist keine Veränderung
-                            JOptionPane.showMessageDialog(null, "Es wurden keine Änderungen gemacht!", "Keine Änderungen", JOptionPane.INFORMATION_MESSAGE);
+                        if (artikelVorher.getKategorie().getKategoriename()
+                                .equals(kategorie)
+                                && artikelVorher.equals(artikelNachher)) {
+//                          Falls die Kategorienamen und auch die Artikel selbst
+//                          gleich sind ist keine Veränderung
+                            JOptionPane.showMessageDialog(null,
+                                    "Es wurden keine Änderungen gemacht!",
+                                    "Keine Änderungen",
+                                    JOptionPane.INFORMATION_MESSAGE);
                         } else {
 //                     etwas ist nicht gleich
 //                     Abfrage, ob Änderungen gespeichert werden sollen
-                            int antwort = JOptionPane.showConfirmDialog(null, MELDUNG_AENDERUNGEN_SPEICHERN, ARTIKEL_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                            int antwort = JOptionPane.showConfirmDialog(null,
+                                    MELDUNG_AENDERUNGEN_SPEICHERN,
+                                    ARTIKEL_AENDERN, JOptionPane.YES_NO_OPTION,
+                                    JOptionPane.QUESTION_MESSAGE);
                             if (antwort == JOptionPane.YES_OPTION) {
 //                              falls ja, wird der Artikel geaendert
 //                              Meldung fuer die Statuszeile wird angepasst
-                                statuszeile = "Artikel mit der Artikel-ID " + artikelnr + " wurde erfolgreich geändert. ";
+                                statuszeile = "Artikel mit der Artikel-ID "
+                                        + artikelnr
+                                        + " wurde erfolgreich geändert.";
                                 this.hauptFenster.setStatusMeldung(statuszeile);
-                                this.dao.aendereArtikel(artikelnr, kategorie, artikelname, artikelbeschreibung, einzelwert,
-                                        bestellwert, mwst, artikelVorher.getFrei());
+                                this.dao.aendereArtikel(artikelnr, kategorie,
+                                        artikelname, artikelbeschreibung,
+                                        einzelwert,
+                                        bestellwert,
+                                        mwst, artikelVorher.getFrei());
                                 zuruecksetzen(); // Formular zuruecksetzen
-                                this.setVisible(false); // diese Sicht ausblenden 
-//                            jB_ZurueckActionPerformed(null); // Button Zurueck Action ausführen
+                                this.setVisible(false);
                                 zurueckInsHauptmenue();
                             } else {
-                                fehlerhafteComponenten.clear(); // Nein button wird geklickt, keine Aktion nur fehlerhafte Komponenten müssen geleert werden
+//                              Nein button wird geklickt, keine Aktion nur
+//                              fehlerhafte Komponenten müssen geleert werden
+                                fehlerhafteComponenten.clear();
                             }
                         }
 
                     }
-//          Fehler abfangen
+//              Fehler abfangen
                 } catch (ApplicationException e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, e.getMessage(),
+                            FEHLER, JOptionPane.ERROR_MESSAGE);
                 } catch (ParseException | NullPointerException e) {
-                    System.out.println("Fehler in Sicht Artikel anlegen Methode Speichern " + e.getMessage());
+                    System.out.println("Fehler in Sicht Artikel"
+                            + " anlegen Methode Speichern " + e.getMessage());
                 }
             } else {
-////          fehlerhafteComponenten ist nicht leer (es sind fehlerhafte Componenten vorhanden)
-////          wird methode fuer das Markieren ausgefuehrt
-//            JOptionPane.showMessageDialog(null, TEXT_PFLICHTFELDER, TITEL_PFLICHTFELDER, JOptionPane.ERROR_MESSAGE);
-////          an die erste fehlerhafte Componenten wird der Focus gesetzt  
-//            fehlerhafteComponenten.get(0).requestFocusInWindow();
-////          ueber die fehlerhaften Komponenten wird iteriert und bei allen fehlerhaften Componenten wird der Hintergrund in der fehlerhaften Farbe gefaerbt 
-//            for (int i = 0; i <= fehlerhafteComponenten.size() - 1; i++) {
-//                fehlerhafteComponenten.get(i).setBackground(FARBE_FEHLERHAFT);
-//            }
-////          ArrayList fue fehlerhafte Componenten wird geleert
-//            fehlerhafteComponenten.clear();
-//        }
-                fehlEingabenMarkierung(fehlerhafteComponenten, TITEL_PFLICHTFELDER_AUSFUELLEN, MELDUNG_PFLICHTFELDER_AUSFUELLEN, FARBE_FEHLERHAFT);
+//          fehlerhafteComponenten ist nicht leer
+//          (es sind fehlerhafte Componenten vorhanden)
+//          wird methode fuer das Markieren ausgefuehrt
+                fehlEingabenMarkierung(fehlerhafteComponenten,
+                        TITEL_PFLICHTFELDER_AUSFUELLEN,
+                        MELDUNG_PFLICHTFELDER_AUSFUELLEN, FARBE_FEHLERHAFT);
             }
         }
-//      Variable wird wieder auf true gesetzt, da nochmals eine Pruefung stattfindet 
+//      Variable wird wieder auf true gesetzt,
+//      da nochmals eine Pruefung stattfindet 
         formularOK = true;
     }//GEN-LAST:event_jB_SpeichernActionPerformed
 
-    /**
-     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
-     * in standard gefärbt.
-     */
     /*
      * Historie:
      * 27.11.2014   Sen     angelegt
+     */
+    /**
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
+     * in standard gefärbt.
      */
     private void jTF_ArtikelnameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_ArtikelnameFocusLost
         if (!jTF_Artikelname.getText().equals("")) {
             jTF_Artikelname.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jTF_ArtikelnameFocusLost
-    /**
-     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
-     * in standard gefärbt.
-     */
+
     /*
      * Historie:
      * 27.11.2014   Sen     angelegt
+     */
+    /**
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
+     * in standard gefärbt.
      */
     private void jCB_KategorieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCB_KategorieActionPerformed
         if (jCB_Kategorie.getSelectedIndex() != 0) {
             jCB_Kategorie.setBackground(JCB_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jCB_KategorieActionPerformed
+
+    /*
+     * Historie:
+     * 27.11.2014   Sen     angelegt
+     */
     /**
      * Methode wür die Überprüfung der Eingabe des Einzelwertes.
      */
+    private void jTF_EinzelwertFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_EinzelwertFocusLost
+//      Aufruf der Methode zur Ueberpruefung
+        ueberpruefungVonFocusLost(jTF_Einzelwert, PREUFUNG_PREIS,
+                TITEL_FEHLERHAFTE_EINGABE, MELDUNG_EINZELWERT_FALSCH);
+    }//GEN-LAST:event_jTF_EinzelwertFocusLost
+
     /*
      * Historie:
      * 27.11.2014   Sen     angelegt
      */
-    private void jTF_EinzelwertFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_EinzelwertFocusLost
-////            Prüfung, ob die Eingabe ein Preis ist
-//        if (!jTF_Einzelwert.getText().matches(PREUFUNG_PREIS)) {
-////            Eingabe ist kein Preis, also wird eine Fehlermeldung ausgegeben
-//            JOptionPane.showMessageDialog(null, TEXT_EINZELWERT, TITEL_FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
-////            Focus wird auf das Feld für die Eingabe des Einzelwertes gesetzt und der Eingabefeld wird auf leer gesetzt.
-//            jTF_Einzelwert.requestFocusInWindow();
-//            jTF_Einzelwert.setText("");
-//        } else if (!jTF_Einzelwert.getText().equals("")) {
-////            Eingabe ist ein Preis
-//            try {
-////            Eingabe wird in ein double geparst    
-//                double einzelwert = nf.parse(jTF_Einzelwert.getText()).doubleValue();
-////            der format wird angepasst und ausgegeben, Hintergrund des Feldes wird auf normalgestzt    
-//                jTF_Einzelwert.setText(nf.format(einzelwert));
-//                jTF_Einzelwert.setBackground(JTF_FARBE_STANDARD);
-//            } catch (ParseException ex) {
-////            Fehler beim Parsen
-//                System.out.println("Fehler in der Methode jTF_EinzelwertFocusLost()");
-//                System.out.println(ex.getMessage());
-//            }
-//        }
-        ueberpruefungVonFocusLost(jTF_Einzelwert, PREUFUNG_PREIS, TITEL_FEHLERHAFTE_EINGABE, MELDUNG_EINZELWERT_FALSCH);
-    }//GEN-LAST:event_jTF_EinzelwertFocusLost
     /**
      * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
      * in standard gefärbt.
-     */
-    /*
-     * Historie:
-     * 27.11.2014   Sen     angelegt
      */
     private void jTF_BestellwertFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_BestellwertFocusLost
-////            Prüfung, ob die Eingabe ein Preis ist
-//        if (!jTF_Bestellwert.getText().matches(PREUFUNG_PREIS)) {
-////            Eingabe ist kein Preis, also wird eine Fehlermeldung ausgegeben            
-//            JOptionPane.showMessageDialog(null, TEXT_EINZELWERT, TITEL_FEHLERHAFTE_EINGABE, JOptionPane.ERROR_MESSAGE);
-////            Focus wird auf das Feld für die Eingabe des Einzelwertes gesetzt und der Eingabefeld wird auf leer gesetzt.            
-//            jTF_Bestellwert.requestFocusInWindow();
-//            jTF_Bestellwert.setText("");
-//        } else if (!jTF_Bestellwert.getText().equals("")) {
-////            Eingabe ist ein Preis           
-//            try {
-////            Eingabe wird in ein double geparst                 
-//                double bestellwert = nf.parse(jTF_Bestellwert.getText()).doubleValue();
-////            der format wird angepasst und ausgegeben, Hintergrund des Feldes wird auf normalgestzt                  
-//                jTF_Bestellwert.setText(nf.format(bestellwert));
-//                jTF_Bestellwert.setBackground(JTF_FARBE_STANDARD);
-//            } catch (ParseException ex) {
-////            Fehler beim Parsen             
-//                System.out.println("Fehler in der Methode jTF_BestellwertFocusLost() " + ex.getMessage());
-//            }
-//        }
-        ueberpruefungVonFocusLost(jTF_Bestellwert, PREUFUNG_PREIS, TITEL_FEHLERHAFTE_EINGABE, MELDUNG_EINZELWERT_FALSCH);
+//      Aufruf der Methode zur Ueberpruefung
+        ueberpruefungVonFocusLost(jTF_Bestellwert, PREUFUNG_PREIS,
+                TITEL_FEHLERHAFTE_EINGABE, MELDUNG_EINZELWERT_FALSCH);
     }//GEN-LAST:event_jTF_BestellwertFocusLost
-    /**
-     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
-     * in standard gefärbt.
-     */
+
     /*
      * Historie:
      * 27.11.2014   Sen     angelegt
+     */
+    /**
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
+     * in standard gefärbt.
      */
     private void jCB_MwSTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCB_MwSTActionPerformed
         if (jCB_MwST.getSelectedIndex() != 0) {
             jCB_MwST.setBackground(JCB_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jCB_MwSTActionPerformed
-    /**
-     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
-     * in standard gefärbt.
-     */
+
     /*
      * Historie:
      * 27.11.2014   Sen     angelegt
+     */
+    /**
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
+     * in standard gefärbt.
      */
     private void jTF_Bestandsmenge_FREIFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_Bestandsmenge_FREIFocusLost
         if (!jTF_Bestandsmenge_FREI.getText().equals("")) {
             jTF_Bestandsmenge_FREI.setBackground(JTF_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jTF_Bestandsmenge_FREIFocusLost
-    /**
-     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
-     * in standard gefärbt.
-     */
+
     /*
      * Historie:
      * 27.11.2014   Sen     angelegt
+     */
+    /**
+     * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
+     * in standard gefärbt.
      */
     private void jTA_ArtikelbeschreibungFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTA_ArtikelbeschreibungFocusLost
         if (!jTA_Artikelbeschreibung.getText().equals("")) {
@@ -1032,13 +1062,6 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         }
     }//GEN-LAST:event_jTA_ArtikelbeschreibungFocusLost
 
-    /**
-     * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird. Es wird von
-     * der Guifactory die letzte aufgerufene Component abgefragt wodurch man die
-     * jetzige Component verlässt und zur übergebnen Component zurück kehrt.
-     *
-     * @param evt Event, der ausgeloest wird
-     */
     /*
      * Historie:
      * 27.11.2014   Terrasi     angelegt
@@ -1047,13 +1070,14 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
      * 04.02.2015   Sen         Fehler beseitigt, z.B. wenn falscher Preis eingegeben wird 
      *                          und direkt auf zurueck geklickt wird
      */
+    /**
+     * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird. Es wird von
+     * der Guifactory die letzte aufgerufene Component abgefragt wodurch man die
+     * jetzige Component verlässt und zur übergebnen Component zurück kehrt.
+     *
+     * @param evt Event, der ausgeloest wird
+     */
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
-//        c = null;   //Initialisierung der Componentspeichervariable
-//        //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-//        c = this.factory.zurueckButton();
-//        this.setVisible(false);// Internalframe wird nicht mehr dargestellt
-//        c.setVisible(true);// Übergebene Component wird sichtbar gemacht
-
 //      Falls formular ok ist, wird die Zurueck Aktion durchgefuehrt  
         if (formularOK) {
             if (this.getTitle().equals(ARTIKEL_ANLEGEN)) {
@@ -1061,7 +1085,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
             } else if (this.getTitle().equals(ARTIKEL_AENDERN)) {
 //      zunaechst werdne die Eingaben ueberprueft.    
                 ueberpruefen();
-//      falls fehlerhafteComponenten leer ist (es sind keine fehlerhaften Componenten verfuegbar), 
+//      falls fehlerhafteComponenten leer ist 
+//      (es sind keine fehlerhaften Componenten verfuegbar), 
 //      werden die Eingaben in die entsprechenden Variablen gespeichert
                 if (fehlerhafteComponenten.isEmpty()) {
                     String artikelname;
@@ -1080,73 +1105,89 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
 
                     try {
 //                einzel- und bestelltwert sowie die mwst und die bestandsmenge
-//                muessen geparst werden, da die dao Methode int und double Typen moechte
-                        einzelwert = nf.parse(jTF_Einzelwert.getText()).doubleValue();
-                        bestellwert = nf.parse(jTF_Bestellwert.getText()).doubleValue();
-////                  Pruefung, ob Einzelwert und Bestellwert gultig sind, falls
-////                  nf.parse faengt die Faelle 12.... oder 12.,.,. nicht ab, daher
-////                  diese Pruefung   
-//                        if (!jTF_Einzelwert.getText().matches(PREUFUNG_PREIS) || !jTF_Bestellwert.getText().matches(PREUFUNG_PREIS)) {
-//                            throw new ParseException("Preis konnte nicht geparst werden", 1);
-//                        }
-
-                        mwst = nf.parse((String) jCB_MwST.getSelectedItem()).intValue();
-//                        bestandsmengeFREI = nf.parse(jTF_Bestandsmenge_FREI.getText()).intValue();
+//                muessen geparst werden, da die dao Methode int und
+//                double Typen moechte
+                        einzelwert = nf.parse(jTF_Einzelwert.getText())
+                                .doubleValue();
+                        bestellwert = nf.parse(jTF_Bestellwert.getText())
+                                .doubleValue();
+                        mwst = nf.parse((String) jCB_MwST.getSelectedItem())
+                                .intValue();
 //                Ueberpruefung in welche Sicht wir sind
                         if (this.getTitle().equals(ARTIKEL_AENDERN)) {
-//                  Sicht Artikel aendern ist geoffnet, also wird zunaechst der Artikel aus
-//                  der Datenbank geladen.
-                            long artikelnr = nf.parse(jTF_Artikelnummer.getText()).longValue();
+//                  Sicht Artikel aendern ist geoffnet, also
+//                  wird zunaechst der Artikel aus der Datenbank geladen.
+                            long artikelnr = nf.parse(jTF_Artikelnummer
+                                    .getText()).longValue();
 //                  Artikel aus Datenbank ist Variable artikelVorher  
                             Artikel artikelVorher = this.dao.gibArtikel(artikelnr);
 //                  vergleich Artikel erzeugen mit den Eingabedaten
-                            Artikel artikelNachher = new Artikel(artikelVorher.getKategorie(),
+                            Artikel artikelNachher = new Artikel(
+                                    artikelVorher.getKategorie(),
                                     artikelname, artikelbeschreibung,
-                                    einzelwert, bestellwert, mwst, artikelVorher.getFrei(),
-                                    artikelVorher.getReserviert(), artikelVorher.getZulauf(), artikelVorher.getVerkauft());
+                                    einzelwert, bestellwert, mwst,
+                                    artikelVorher.getFrei(),
+                                    artikelVorher.getReserviert(),
+                                    artikelVorher.getZulauf(),
+                                    artikelVorher.getVerkauft());
 //                  ArtikelID des Nachher Artikel setzen
                             artikelNachher.setArtikelID(artikelnr);
-                            if (artikelVorher.getKategorie().getKategoriename().equals(kategorie) && artikelVorher.equals(artikelNachher)) {
+                            if (artikelVorher.getKategorie().getKategoriename()
+                                    .equals(kategorie)
+                                    && artikelVorher.equals(artikelNachher)) {
 //                            zuruecksetzen(); // Formular zuruecksetzen
-                                this.setVisible(false); // diese Sicht ausblenden 
+                                this.setVisible(false);
                                 zurueckInsHauptmenue();
                             } else {
 //                     etwas ist nicht gleich
 //                     Abfrage, ob Änderungen gespeichert werden sollen
-                                int antwort = JOptionPane.showConfirmDialog(null, MELDUNG_AENDERUNGEN_SPEICHERN, ARTIKEL_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                                int antwort = JOptionPane.showConfirmDialog(
+                                        null, MELDUNG_AENDERUNGEN_SPEICHERN,
+                                        ARTIKEL_AENDERN,
+                                        JOptionPane.YES_NO_OPTION,
+                                        JOptionPane.QUESTION_MESSAGE);
                                 if (antwort == JOptionPane.YES_OPTION) {
 //                                  Meldung fuer die Statuszeile wird angepasst
-                                    statuszeile = "Artikel mit der Artikel-ID " + artikelnr + " wurde erfolgreich geändert. ";
-                                    this.hauptFenster.setStatusMeldung(statuszeile);
+                                    statuszeile = "Artikel mit der Artikel-ID "
+                                            + artikelnr
+                                            + " wurde erfolgreich geändert. ";
+                                    this.hauptFenster
+                                            .setStatusMeldung(statuszeile);
 //                                  falls ja, wird der Artikel geaendert
-                                    this.dao.aendereArtikel(artikelnr, kategorie, artikelname, artikelbeschreibung, einzelwert,
-                                            bestellwert, mwst, artikelVorher.getFrei());
-//                                zuruecksetzen(); // Formular zuruecksetzen
-                                    this.setVisible(false); // diese Sicht ausblenden 
+                                    this.dao.aendereArtikel(artikelnr,
+                                            kategorie, artikelname,
+                                            artikelbeschreibung, einzelwert,
+                                            bestellwert, mwst,
+                                            artikelVorher.getFrei());
+                                    this.setVisible(false);
                                     zurueckInsHauptmenue();
                                 } else if (antwort == JOptionPane.CLOSED_OPTION) {
-//                                  das x wird geklickt, es soll nichts passieren  
+//                                 das x wird geklickt, es soll nichts passieren
                                 } else {
-//                                zuruecksetzen(); // Formular zuruecksetzen
-                                    this.setVisible(false); // diese Sicht ausblenden 
+                                    this.setVisible(false);
                                     zurueckInsHauptmenue();
                                 }
                             }
                         }
-//          Fehler abfangen
+//                  Fehler abfangen
                     } catch (ApplicationException e) {
-                        JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, e.getMessage(),
+                                FEHLER, JOptionPane.ERROR_MESSAGE);
                     } catch (ParseException | NullPointerException e) {
-                        System.out.println("Fehler in Sicht Artikel anlegen Methode jB_ZurueckAktionPerformed() " + e.getMessage());
                     }
                 } else {
 //                     etwas ist nicht gleich
 //                     Abfrage, ob Änderungen gespeichert werden sollen
-                    int antwort = JOptionPane.showConfirmDialog(null, MELDUNG_AENDERUNGEN_SPEICHERN, ARTIKEL_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    int antwort = JOptionPane.showConfirmDialog(null,
+                            MELDUNG_AENDERUNGEN_SPEICHERN, ARTIKEL_AENDERN,
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE);
                     if (antwort == JOptionPane.YES_OPTION) {
-                        fehlEingabenMarkierung(fehlerhafteComponenten, TITEL_PFLICHTFELDER_AUSFUELLEN, MELDUNG_PFLICHTFELDER_AUSFUELLEN, FARBE_FEHLERHAFT);
+                        fehlEingabenMarkierung(fehlerhafteComponenten,
+                                TITEL_PFLICHTFELDER_AUSFUELLEN,
+                                MELDUNG_PFLICHTFELDER_AUSFUELLEN,
+                                FARBE_FEHLERHAFT);
                     } else {
-//                    zuruecksetzen(); // Formular zuruecksetzen
                         this.setVisible(false); // diese Sicht ausblenden 
                         zurueckInsHauptmenue();
                     }
@@ -1159,43 +1200,46 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
 //      Variable wird wieder auf true gesetzt, da nochmals eine Pruefung stattfindet 
         formularOK = true;
     }//GEN-LAST:event_jB_ZurueckActionPerformed
-    /**
-     * Methode, die das zurueckspringen in das Hauptmenue ermoeglicht.
-     */
+
     /*
      * Historie:
      * 03.02.2015   Sen     angelegt
      */
+    /**
+     * Methode, die das zurueckspringen in das Hauptmenue ermoeglicht.
+     */
     private void zurueckInsHauptmenue() {
         c = null;   //Initialisierung der Componentspeichervariable
-        //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
+//        Erhalten über GUIFactorymethode die letzte aufgerufene
+//        View und speichern diese in Variable
         c = this.factory.zurueckButton();
         this.setVisible(false);// Internalframe wird nicht mehr dargestellt
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
-//        this.setzeFormularZurueck();
     }
 
-    /**
-     *
-     * @param evt Event, der ausgeloest wird
-     */
     /*
      * Historie:
      * 12.12.2014   Sen     angelegt
      */
+    /**
+     *
+     * @param evt Event, der ausgeloest wird
+     */
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         beendenEingabeNachfrage();
     }//GEN-LAST:event_formInternalFrameClosing
+
+    /*
+     * Historie:
+     * 29.12.2014   Sen     angelegt
+     * 04.02.2015   Sen     Fehler beseitigt, z.B. wenn falscher Preis
+     *                      eingegeben wird und direkt auf loeschen geklickt
+     *                      wird
+     */
     /**
      * Methode fuer das Loeschen eines Artikel.
      *
      * @param evt Event der ausgeloest wird
-     */
-    /*
-     * Historie:
-     * 29.12.2014   Sen     angelegt
-     * 04.02.2015   Sen     Fehler beseitigt, z.B. wenn falscher Preis eingegeben wird 
-     *                      und direkt auf loeschen geklickt wird
      */
     private void jB_LoeschenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_LoeschenActionPerformed
 //       Loeschen geht nur in der Sicht Artikel aendern
@@ -1208,171 +1252,178 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
 //                 Artikel wird aus Datenbank geladen, 
 //                 Nachfrage, ob er wirklick geloescht werden soll, 
 //                 falls ja wird er geloescht
-                    long artikelnr = nf.parse(jTF_Artikelnummer.getText()).longValue();
-                    int antwort = JOptionPane.showConfirmDialog(null, text, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    long artikelnr = nf.parse(jTF_Artikelnummer.getText())
+                            .longValue();
+                    int antwort = JOptionPane.showConfirmDialog(null,
+                            text, titel, JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE);
                     if (antwort == JOptionPane.YES_OPTION) {
                         this.dao.loescheArtikel(artikelnr);
 //                      Meldung fuer die Statuszeile wird angepasst
-                        statuszeile = "Artikel mit der Artikel-ID " + artikelnr + " wurde erfolgreich gelöscht. ";
+                        statuszeile = "Artikel mit der Artikel-ID "
+                                + artikelnr + " wurde erfolgreich gelöscht. ";
                         this.hauptFenster.setStatusMeldung(statuszeile);
 //                    jB_ZurueckActionPerformed(evt);
                         zurueckInsHauptmenue();
                     }
                 } catch (ApplicationException e) {
 //                  Ein Fehler ist aufgereten, dieser wird ausgegeben  
-                    JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, e.getMessage(),
+                            FEHLER, JOptionPane.ERROR_MESSAGE);
                 } catch (ParseException e) {
-                    System.out.println(e.getMessage());
                 }
             }
         }
-//      Variable wird wieder auf true gesetzt, da nochmals eine Pruefung stattfindet 
+//      Variable wird wieder auf true gesetzt,
+//      da nochmals eine Pruefung stattfindet 
         formularOK = true;
     }//GEN-LAST:event_jB_LoeschenActionPerformed
-    /**
-     * Methode fuer den Aufruf der Suche Maske
-     *
-     * @param evt Event der ausgeloest wird
-     */
+
     /*
      * Historie:
      * 15.01.2015   Sen     angelegt
      */
-    private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
-        this.hauptFenster.rufeSuche(this);
-    }//GEN-LAST:event_jB_SuchenActionPerformed
     /**
-     * Methode fuer den Button Anzeigen/AEnden
+     * Methode fuer den Aufruf der Suche Maske.
      *
      * @param evt Event der ausgeloest wird
      */
+    private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
+        this.hauptFenster.rufeSuche(this);
+    }//GEN-LAST:event_jB_SuchenActionPerformed
+
     /*
      * Historie:
      * 16.01.2015   Sen     angelegt
      */
+    /**
+     * Methode fuer den Button Anzeigen/AEnden.
+     *
+     * @param evt Event der ausgeloest wird
+     */
     private void jB_AnzeigenAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AnzeigenAEndernActionPerformed
-//      ist Sicht Artikel aendern geoffnet, muss wir die Sicht in Artikel anzeigen aendern
-//        if (this.getTitle().equals(ARTIKEL_AENDERN)) {
-//            setzFormularInArtikelAnzeigenFuerButton();
-//        } else 
-
         if (this.getTitle().equals(ARTIKEL_ANZEIGEN)) {
-//      ist Sicht Artikel anzeigen geoffnet, muss wir die Sicht in Artikel aendern aendern
+//          ist Sicht Artikel anzeigen geoffnet, muss wird
+//          die Sicht in Artikel aendern aendern
             setzFormularInArtikelAEndernFuerButton();
         }
     }//GEN-LAST:event_jB_AnzeigenAEndernActionPerformed
+
+    /*
+     * Historie:
+     * 16.01.2015   Sen     angelegt
+     */
     /**
      * Methode, die dafuer sorgt, dass der vorhandene Text beim Eintritt des
      * Focuses selektiert wird.
      *
      * @param evt Event der ausgeloest wird
-     */
-    /*
-     * Historie:
-     * 16.01.2015   Sen     angelegt
      */
     private void jTF_ArtikelnameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_ArtikelnameFocusGained
         jTF_Artikelname.selectAll();
     }//GEN-LAST:event_jTF_ArtikelnameFocusGained
+
+    /*
+     * Historie:
+     * 16.01.2015   Sen     angelegt
+     */
     /**
      * Methode, die dafuer sorgt, dass der vorhandene Text beim Eintritt des
      * Focuses selektiert wird.
      *
      * @param evt Event der ausgeloest wird
-     */
-    /*
-     * Historie:
-     * 16.01.2015   Sen     angelegt
      */
     private void jTF_EinzelwertFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_EinzelwertFocusGained
         jTF_Einzelwert.selectAll();
     }//GEN-LAST:event_jTF_EinzelwertFocusGained
+
+    /*
+     * Historie:
+     * 16.01.2015   Sen     angelegt
+     */
     /**
      * Methode, die dafuer sorgt, dass der vorhandene Text beim Eintritt des
      * Focuses selektiert wird.
      *
      * @param evt Event der ausgeloest wird
      */
-    /*
-     * Historie:
-     * 16.01.2015   Sen     angelegt
-     */
     private void jTF_BestellwertFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_BestellwertFocusGained
         jTF_Bestellwert.selectAll();
     }//GEN-LAST:event_jTF_BestellwertFocusGained
-    /**
-     * getter Methode fuer die Sicht Artikel aendern Einstieg
-     *
-     * @return textfield der Artikelnummer
-     */
+
     /*
      * Historie:
      * 10.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht Artikel aendern Einstieg.
+     *
+     * @return textfield der Artikelnummer
      */
     public JTextField gibjTF_Artikelnummer() {
         return jTF_Artikelnummer;
     }
 
-    /**
-     * getter Methode fuer die Sicht Artikel aendern Einstieg
-     *
-     * @return textfield der Artikelname
-     */
     /*
      * Historie:
      * 10.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht Artikel aendern Einstieg.
+     *
+     * @return textfield der Artikelname
      */
     public JTextField gibjTF_Artikelname() {
         return jTF_Artikelname;
     }
 
-    /**
-     * getter Methode fuer die Sicht Artikel aendern Einstieg
-     *
-     * @return texttarea der Artikelbeschreibung
-     */
     /*
      * Historie:
      * 10.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht Artikel aendern Einstieg.
+     *
+     * @return texttarea der Artikelbeschreibung
      */
     public JTextArea gibjTA_Artikelbeschreibung() {
         return jTA_Artikelbeschreibung;
     }
 
-    /**
-     * getter Methode fuer die Sicht Artikel aendern Einstieg
-     *
-     * @return combobox der Artikelkategorie
-     */
     /*
      * Historie:
      * 10.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht Artikel aendern Einstieg.
+     *
+     * @return combobox der Artikelkategorie
      */
     public JComboBox gibjCB_Artikelkategorie() {
         return jCB_Kategorie;
     }
 
-    /**
-     * getter Methode fuer die Sicht Artikel aendern Einstieg
-     *
-     * @return textfield des Einzelwerts
-     */
     /*
      * Historie:
      * 10.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht Artikel aendern Einstieg.
+     *
+     * @return textfield des Einzelwerts
      */
     public JTextField gibjTF_Einzelwert() {
         return jTF_Einzelwert;
     }
 
-    /**
-     * getter Methode fuer die Sicht Artikel aendern Einstieg
-     *
-     * @return textfield des Bestellwerts
-     */
     /*
      * Historie:
      * 10.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht Artikel aendern Einstieg.
+     *
+     * @return textfield des Bestellwerts
      */
     public JTextField gibjTF_Bestellwert() {
         return jTF_Bestellwert;
@@ -1391,53 +1442,53 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         return jCB_MwST;
     }
 
-    /**
-     * getter Methode fuer die Sicht Artikel aendern Einstieg
-     *
-     * @return textfield der Bestandsmenge FREI
-     */
     /*
      * Historie:
      * 10.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht Artikel aendern Einstieg.
+     *
+     * @return textfield der Bestandsmenge FREI
      */
     public JTextField gibjTF_BestandsmengeFREI() {
         return jTF_Bestandsmenge_FREI;
     }
 
-    /**
-     * getter Methode fuer die Sicht Artikel aendern Einstieg
-     *
-     * @return textfield der Bestandsmenge RESERVIERT
-     */
     /*
      * Historie:
      * 10.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht Artikel aendern Einstieg.
+     *
+     * @return textfield der Bestandsmenge RESERVIERT
      */
     public JTextField gibjTF_BestandsmengeRESERVIERT() {
         return jTF_Bestandsmenge_RES;
     }
 
-    /**
-     * getter Methode fuer die Sicht Artikel aendern Einstieg
-     *
-     * @return textfield der Bestandsmenge ZULAUF
-     */
     /*
      * Historie:
      * 10.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht Artikel aendern Einstieg.
+     *
+     * @return textfield der Bestandsmenge ZULAUF
      */
     public JTextField gibjTF_BestandsmengeZULAUF() {
         return jTF_Bestandsmenge_ZULAUF;
     }
 
-    /**
-     * getter Methode fuer die Sicht Artikel aendern Einstieg
-     *
-     * @return textfield der Bestandsmenge VERKAUFT
-     */
     /*
      * Historie:
      * 10.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht Artikel aendern Einstieg.
+     *
+     * @return textfield der Bestandsmenge VERKAUFT
      */
     public JTextField gibjTF_BestandsmengeVERKAUFT() {
         return jTF_Bestandsmenge_VERKAUFT;
@@ -1459,42 +1510,43 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         jTF_Einzelwert.setEnabled(true);
         jTF_Bestellwert.setEnabled(true);
         jCB_MwST.setEnabled(true);
-//        jTF_Bestandsmenge_FREI.setEnabled(true);
 
         jB_Speichern.setEnabled(true);
         jB_AnzeigenAEndern.setEnabled(false);
-//        jB_AnzeigenAEndern.setText("Anzeigen/Ändern");
         jB_Loeschen.setEnabled(false);
+
 //      Übergibt der Referenz des Hauptfensters das Internaframe
         this.hauptFenster.setComponent(this);
+//      setzt die Bestandsmengen  
         jTF_Bestandsmenge_FREI.setText("0");
         jTF_Bestandsmenge_RES.setText("0");
         jTF_Bestandsmenge_VERKAUFT.setText("0");
         jTF_Bestandsmenge_ZULAUF.setText("0");
     }
 
-    /**
-     * Methode, die das Formular in die Sicht Artikel aendern aendert
-     */
     /*
      * Historie:
      * 05.01.2015   Sen     angelegt
      * 08.01.2015   Terrasi implemtiereung der Referenzvariable "hauptfenster"
      */
+    /**
+     * Methode, die das Formular in die Sicht Artikel aendern aendert.
+     */
     public void setzeFormularInArtikelAEndern() {
         zuruecksetzen();
         setzFormularInArtikelAEndernFuerButton();
-        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
+//      Übergibt der Referenz des Hauptfensters das Internaframe
+        this.hauptFenster.setComponent(this);
     }
 
-    /**
-     * Methode wird aufgerufen, wenn auf Button Anzeigen/Aendern geklickt wird,
-     * das Formular wird nicht zurueckgesetzt, deswegen musste eine extra
-     * Methode geschrieben werden
-     */
     /*
      * Historie:
      * 05.01.2015   Sen     angelegt
+     */
+    /**
+     * Methode wird aufgerufen, wenn auf Button Anzeigen/Aendern geklickt wird,
+     * das Formular wird nicht zurueckgesetzt, deswegen musste eine extra
+     * Methode geschrieben werden.
      */
     private void setzFormularInArtikelAEndernFuerButton() {
         this.setTitle(ARTIKEL_AENDERN);
@@ -1504,37 +1556,35 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         jTF_Einzelwert.setEnabled(true);
         jTF_Bestellwert.setEnabled(true);
         jCB_MwST.setEnabled(true);
-//        jTF_Bestandsmenge_FREI.setEnabled(false);
 
         jB_Speichern.setEnabled(true);
         jB_AnzeigenAEndern.setEnabled(false);
-//        jB_AnzeigenAEndern.setText("Anzeigen");
         jB_Loeschen.setEnabled(true);
     }
 
-    /**
-     * Methode, die das Formular in die Sicht Artikel anzeigen aendert
-     */
     /*
      * Historie:
      * 05.01.2015   Sen     angelegt
      * 08.01.2015   Terrasi implemtiereung der Referenzvariable "hauptfenster"
      */
+    /**
+     * Methode, die das Formular in die Sicht Artikel anzeigen aendert.
+     */
     public void setzeFormularInArtikelAnzeigen() {
         zuruecksetzen();
         setzFormularInArtikelAnzeigenFuerButton();
-
-        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
+//      Übergibt der Referenz des Hauptfensters das Internaframe
+        this.hauptFenster.setComponent(this);
     }
 
-    /**
-     * Methode wird aufgerufen, wenn auf Button Anzeigen/Aendern geklickt wird,
-     * das Formular wird nicht zurueckgesetzt, deswegen musste eine extra
-     * Methode geschrieben werden
-     */
     /*
      * Historie:
      * 05.01.2015   Sen     angelegt
+     */
+    /**
+     * Methode wird aufgerufen, wenn auf Button Anzeigen/Aendern geklickt wird,
+     * das Formular wird nicht zurueckgesetzt, deswegen musste eine extra
+     * Methode geschrieben werden.
      */
     private void setzFormularInArtikelAnzeigenFuerButton() {
         this.setTitle(ARTIKEL_ANZEIGEN);
@@ -1544,44 +1594,43 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame implements Interf
         jTF_Einzelwert.setEnabled(false);
         jTF_Bestellwert.setEnabled(false);
         jCB_MwST.setEnabled(false);
-//        jTF_Bestandsmenge_FREI.setEnabled(false);
 
         jB_Speichern.setEnabled(false);
         jB_AnzeigenAEndern.setEnabled(true);
-//        jB_AnzeigenAEndern.setText("Ändern");
         jB_Loeschen.setEnabled(false);
     }
 
+    /*
+     * Historie:
+     * 10.01.2015   Sen     angelegt
+     */
     /**
      * setter Methode, die fuer die Suche benoetigt wird. In der Suche kann eine
      * Kategorie gesucht werden und in in das Formular eingetargen werden
      *
      * @param kategorie Datum Name Was 17.01.2015 SEN angelegt
      */
-    /*
-     * Historie:
-     * 10.01.2015   Sen     angelegt
-     */
     public void setzteKategorie(Artikelkategorie kategorie) {
         jCB_Kategorie.setSelectedItem(kategorie.getKategoriename());
     }
 
+    /*
+     * Historie:
+     * 17.01.2015   Sen     angelegt
+     */
     /**
      * setzeMethode, die aus der Suche aufgerufen wird. Es wird die Sicht Atikel
      * Anzeigen aufgerufen und der gesuchte Artikel angezeigt
      *
      * @param artikel artikel aus der Suche
      */
-    /*
-     * Historie:
-     * 17.01.2015   Sen     angelegt
-     */
     public void zeigeArtikelAusSucheAn(Artikel artikel) {
         setzeFormularInArtikelAnzeigen();
         jTF_Artikelnummer.setText("" + artikel.getArtikelID());
         jTF_Artikelname.setText(artikel.getArtikeltext());
         jTA_Artikelbeschreibung.setText(artikel.getBestelltext());
-        jCB_Kategorie.setSelectedItem(artikel.getKategorie().getKategoriename());
+        jCB_Kategorie.setSelectedItem(artikel.getKategorie()
+                .getKategoriename());
         jTF_Einzelwert.setText("" + nf.format(artikel.getVerkaufswert()));
         jTF_Bestellwert.setText("" + nf.format(artikel.getEinkaufswert()));
         jCB_MwST.setSelectedItem("" + artikel.getMwST());

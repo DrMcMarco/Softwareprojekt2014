@@ -15,9 +15,6 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import Interfaces.InterfaceMainView;
 import Interfaces.InterfaceViewsFunctionality;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import javax.swing.SpinnerNumberModel;
 
 /**
  * GUI Klasse für Zahlungskontion (ZK) verwalten. Diese Klasse beinhaltet alle
@@ -27,9 +24,7 @@ import javax.swing.SpinnerNumberModel;
  * ändert sich zum Beispiel in die Sicht ZK ändern. Falls der Button ZK anlegen
  * betätigt wird, ändert sich die Sicht in ZK anlegen.
  *
- * @author Tahir 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button
- * 08.01.2015 Terrasi, Implementierung der Anzeigen/Ändern Funktion, hinzufügen
- * der Schnittstelle für InternalFrames
+ * @author Tahir
  */
 public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
 
@@ -39,11 +34,11 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      */
     private Component c;
     /**
-     * Varibale für die GUI Factory
+     * Varibale für die GUI Factory.
      */
     private GUIFactory factory;
     /**
-     * Variable für die DAO
+     * Variable für die DAO.
      */
     private DataAccessObject dao;
     /**
@@ -53,55 +48,92 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      */
     private InterfaceMainView hauptFenster;
     /**
-     * Varibale fue die ZK nummer
+     * Varibale fue die ZK nummer.
      */
     private int zknummer;
     /**
-     * Arraylist, um fehlerhafte Componenten zu speichern
+     * Arraylist, um fehlerhafte Componenten zu speichern.
      */
     private ArrayList<Component> fehlerhafteComponenten;
     /**
-     * Varible, die die Standard Farbe eine Combobox beinhaltet
+     * Varible, die die Standard Farbe eine Combobox beinhaltet.
      */
     private final Color JCB_FARBE_STANDARD = new Color(214, 217, 223);
     /**
-     * Variable, die die Standard Farbe eines Textfieldes beinhaltet
+     * Variable, die die Standard Farbe eines Textfieldes beinhaltet.
      */
     private final Color JTF_FARBE_STANDARD = new Color(255, 255, 255);
     /**
-     * Varibale, die die Farbe fuer fehlerhafte Componenten beinhaltet
+     * Varibale, die die Farbe fuer fehlerhafte Componenten beinhaltet.
      */
     private final Color FARBE_FEHLERHAFT = Color.YELLOW;
     /**
-     * Varibalen fuer die Meldungen
+     * Varibalen fuer die Meldungen.
      */
     private final String TITEL_PFLICHTFELDER = "Pflichtfelder nicht ausgefüllt";
-    private final String MELDUNG_PFLICHTFELDER = "Einige Pflichtfelder wurden nicht ausgefüllt.\nBitte füllen Sie diese aus!";
-    private final String MELDUNG_AENDERUNGEN_SPEICHERN = "Möchten Sie die Änderungen speichern?";
-    private final String MELDUNG_SKONTO_MAHNZEITEN = "Bitte überprüfen Sie die Skonto- und Mahnzeiten.\nDiese müssen aufsteigend sein!";
-    private final String TITEL_SKONTO_MAHNZEITEN = "Skonto- und/oder Mahnzeiten fehlerhaft";
+    /**
+     * Varibalen fuer die Meldungen.
+     */
+    private final String MELDUNG_PFLICHTFELDER = "Einige Pflichtfelder wurden"
+            + " nicht ausgefüllt.\nBitte füllen Sie diese aus!";
+    /**
+     * Varibalen fuer die Meldungen.
+     */
+    private final String MELDUNG_AENDERUNGEN_SPEICHERN = "Möchten Sie die"
+            + " Änderungen speichern?";
+    /**
+     * Varibalen fuer die Meldungen.
+     */
+    private final String MELDUNG_SKONTO_MAHNZEITEN = "Bitte überprüfen Sie die"
+            + " Skonto- und Mahnzeiten.\nDiese müssen aufsteigend sein!";
+    /**
+     * Varibalen fuer die Meldungen.
+     */
+    private final String TITEL_SKONTO_MAHNZEITEN = "Skonto- und/oder"
+            + " Mahnzeiten fehlerhaft";
+    /**
+     * Varibalen fuer die Meldungen.
+     */
     private final String FEHLER = "Fehler";
+    /**
+     * Varibale fuer die Statuszeile.
+     */
     private String statuszeile;
     /**
      * Number Formatter wird benoetigt fuer das Parsen der Eingaben, sowie das
-     * Anzeigen von Preisen
+     * Anzeigen von Preisen.
      */
     private NumberFormat nf;
     /**
-     * Varibale, die die maximale Anzahl von fehlerhaften Componenten beinhaltet
+     * Varibale, die die maximale Anzahl von fehlerhaften Componenten
+     * beinhaltet.
      */
     private final int anzahlFehlerhafterComponenten = 3;
     /**
-     * Variablen für den Titel der jeweiligen Sicht
+     * Variablen für den Titel der jeweiligen Sicht.
      */
     private final String ZK_ANLEGEN = "Zahlungskondition anlegen";
+    /**
+     * Variablen für den Titel der jeweiligen Sicht.
+     */
     private final String ZK_AENDERN = "Zahlungskondition ändern";
+    /**
+     * Variablen für den Titel der jeweiligen Sicht.
+     */
     private final String ZK_ANZEIGEN = "Zahlungskondition anzeigen";
+    /**
+     * Variablen für die Auftragsart.
+     */
     private final String TERMINAUFTRAG = "Terminauftrag";
+    /**
+     * Variablen für die Auftragsart.
+     */
     private final String SOFORTAUFTRAG = "Sofortauftrag";
+    /**
+     * Variablen für die Auftragsart.
+     */
     private final String BESTELLAUFTRAG = "Bestellauftrag";
 
-//    int i = 0;
     /**
      * Konstruktor der Klasse, erstellt die benötigten Objekte und setzt die
      * Documents.
@@ -109,7 +141,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      * @param factory beinhaltet das factory Obejekt
      * @param mainView beinhaltet das Objekt des StartFenster
      */
-    public ZahlungskonditionAnlegen(GUIFactory factory, InterfaceMainView mainView) {
+    public ZahlungskonditionAnlegen(GUIFactory factory,
+            InterfaceMainView mainView) {
         initComponents();
         this.hauptFenster = mainView;
         this.nf = NumberFormat.getInstance();
@@ -118,16 +151,17 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         this.fehlerhafteComponenten = new ArrayList<>();
     }
 
+
+    /*
+     * Historie:
+     * 05.12.2014   Sen     angelegt
+     * 15.12.2014   Sen     ueberarbeitet
+     */
     /**
      * Methode für die Überprüfung der Daten. Falls ein Textfeld nicht gefüllt
      * ist, wird sie der ArrayList für fehlerhafte Componenten hinzugefuegt.
      * Falls bei eine Compobox der selektierte Index auf 0 ("Bitte auswählen")
      * steht, wird diese ebenfalls in die ArrayList uebernommen
-     */
-    /*
-     * Historie:
-     * 05.12.2014   Sen     angelegt
-     * 15.12.2014   Sen     ueberarbeitet
      */
     @Override
     public void ueberpruefen() {
@@ -142,15 +176,16 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         }
     }
 
-    /**
-     * Schnittstellen Methode, die die Eingaben zurücksetzt, beim Zurücksetzen
-     * wird auch die Hintergrundfarbe zurückgesetzt.
-     */
+
     /*
      * Historie:
      * 05.12.2014   Sen     angelegt
      * 17.12.2014   Sen     ueberarbeitet
      * 18.01.2015   Sen     ueberarbeitet
+     */
+    /**
+     * Schnittstellen Methode, die die Eingaben zurücksetzt, beim Zurücksetzen
+     * wird auch die Hintergrundfarbe zurückgesetzt.
      */
     @Override
     public final void zuruecksetzen() {
@@ -178,6 +213,10 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         }
     }
 
+    /*
+     * Historie:
+     * 05.12.2014   Sen     angelegt
+     */
     /**
      * Schnittstellen Methode, die bei focusloost ueberprueft, ob Eingaben
      * korrekt sind Da in dieser Klasse diese Methode keine Funktion hat, musste
@@ -191,25 +230,29 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      * @param fehlermelgungtitel Titel der Fehlermeldung, die erzugt wird
      * @param fehlermeldung Text der Fehlermeldung
      */
-    /*
-     * Historie:
-     * 05.12.2014   Sen     angelegt
-     */
     @Override
-    public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
+    public void ueberpruefungVonFocusLost(JTextField textfield,
+            String syntax, String fehlermelgungtitel, String fehlermeldung) {
 //            Prüfung, ob die Eingabe mit der Synstax passen
         if (!textfield.getText().matches(syntax)) {
-//            Eingabe nicht korrekt, also wird eine Fehlermeldung ausgegeben            
-            JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
-//            Focus wird auf das Feld für die Eingabe des Einzelwertes gesetzt und der Eingabefeld wird auf leer gesetzt.
+//            Eingabe nicht korrekt, also wird eine Fehlermeldung ausgegeben      
+            JOptionPane.showMessageDialog(null, fehlermeldung,
+                    fehlermelgungtitel, JOptionPane.ERROR_MESSAGE);
+//            Focus wird auf das Feld für die Eingabe des Einzelwertes
+//            gesetzt und der Eingabefeld wird auf leer gesetzt.
             textfield.requestFocusInWindow();
             textfield.setText("");
         } else if (!textfield.getText().equals("")) {
-//            Eingabe ist ok, nun Pruefung ob etwas im Feld steht, falls ja wird Hitnergrund auf normal gestzt
+//            Eingabe ist ok, nun Pruefung ob etwas im Feld steht, 
+//            falls ja wird Hitnergrund auf normal gestzt
             textfield.setBackground(JTF_FARBE_STANDARD);
         }
     }
 
+    /*
+     * Historie:
+     * 05.12.2014   Sen     angelegt
+     */
     /**
      * Schnittstellen Methode, die am Ende der Speichern Aktion aufgerufen wird.
      * Aufgabe ist es, den Hintergrund der jeweiligen Componenten der List in
@@ -222,18 +265,19 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      * @param fehlermeldung Text der Meldung
      * @param farbe Farbe, in die die Hintergruende gefaerbt werden sollen
      */
-    /*
-     * Historie:
-     * 05.12.2014   Sen     angelegt
-     */
     @Override
-    public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
-//          fehlerhafteComponenten ist nicht leer (es sind fehlerhafte Componenten vorhanden)
+    public void fehlEingabenMarkierung(ArrayList<Component> list,
+            String fehlermelgungtitel, String fehlermeldung, Color farbe) {
+//          fehlerhafteComponenten ist nicht leer (es sind fehlerhafte
+//          Componenten vorhanden)
 //          eine Meldung wird ausgegeben  
-        JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel, JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(null, fehlermeldung, fehlermelgungtitel,
+                JOptionPane.WARNING_MESSAGE);
 //          an die erste fehlerhafte Componenten wird der Focus gesetzt  
         list.get(0).requestFocusInWindow();
-//          ueber die fehlerhaften Komponenten wird iteriert und bei allen fehlerhaften Componenten wird der Hintergrund in der fehlerhaften Farbe gefaerbt 
+//          ueber die fehlerhaften Komponenten wird iteriert und bei allen
+//          fehlerhaften Componenten wird der Hintergrund in der fehlerhaften 
+//          Farbe gefaerbt 
         for (int i = 0; i <= list.size() - 1; i++) {
             list.get(i).setBackground(farbe);
         }
@@ -241,38 +285,40 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         list.clear();
     }
 
-    /**
-     * Methode, die beim Schließen des Fenster aufgerufen wird.
-     */
+
     /*
      * Historie:
      * 10.12.2014   Sen     angelegt
+     */
+    /**
+     * Methode, die beim Schließen des Fenster aufgerufen wird.
      */
     private void beendenEingabeNachfrage() {
 //        varibablen fuer Titel und Text der erzeugten Meldung
         String meldung = "Möchten Sie die Eingaben verwerfen?";
         String titel = "Eingaben verwerfen";
-//        Falls Titel des Fensters Artikel anlegen oder Artikel aendern ist wird eine Nachfrage gemacht  
+//        Falls Titel des Fensters Artikel anlegen oder Artikel
+//        aendern ist wird eine Nachfrage gemacht  
         if (this.getTitle().equals(ZK_ANLEGEN)) {
 //            zunaechst wird ueberprueft, ob alle Eingaben getaetigt wurden
             ueberpruefen();
-//            Falls anzahl fehlerhafter Componenten kleiner ist als max Anzahl von fehlerhaften Componenten
+//            Falls anzahl fehlerhafter Componenten kleiner ist als max Anzahl
+//            von fehlerhaften Componenten
 //            heist dass, dass Eingaben getaetigt wurden            
             if (fehlerhafteComponenten.size() < anzahlFehlerhafterComponenten) {
-                int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                int antwort = JOptionPane.showConfirmDialog(null, meldung,
+                        titel, JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
                 if (antwort == JOptionPane.YES_OPTION) {
                     this.setVisible(false);
-//                    zuruecksetzen();
-//                    jB_ZurueckActionPerformed(null);
                     zurueckInsHauptmenue();
                 } else {
                     fehlerhafteComponenten.clear();
                 }
-//            keine Eingaben getaetigt, direkt Fenster schließen                 
+//            keine Eingaben getaetigt, direkt Fenster schließen
             } else {
                 this.setVisible(false);
                 zurueckInsHauptmenue();
-//                zuruecksetzen();
             }
         }
     }
@@ -689,15 +735,16 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    /*
+     * Historie:
+     * 03.12.2014   Sen     angelegt
+     */
+
     /**
      * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
      * in standard gefärbt.
      *
      * @param evt
-     */
-    /*
-     * Historie:
-     * 03.12.2014   Sen     angelegt
      */
     private void jCB_AuftragsartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCB_AuftragsartActionPerformed
         if (this.getTitle().equals(ZK_ANZEIGEN)) {
@@ -707,15 +754,18 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
             if (jCB_Auftragsart.getSelectedIndex() != 0) {
                 jCB_Auftragsart.setBackground(JCB_FARBE_STANDARD);
             }
-            if (((String) jCB_Auftragsart.getSelectedItem()).equals(TERMINAUFTRAG)) {
+            if (((String) jCB_Auftragsart.getSelectedItem())
+                    .equals(TERMINAUFTRAG)) {
                 jSP_LieferzeitSOFORT.setEnabled(false);
                 jSP_LieferzeitSOFORT.setValue(1);
                 jSP_SperrzeitWUNSCH.setEnabled(true);
-            } else if (((String) jCB_Auftragsart.getSelectedItem()).equals(SOFORTAUFTRAG)) {
+            } else if (((String) jCB_Auftragsart.getSelectedItem())
+                    .equals(SOFORTAUFTRAG)) {
                 jSP_SperrzeitWUNSCH.setEnabled(false);
                 jSP_SperrzeitWUNSCH.setValue(1);
                 jSP_LieferzeitSOFORT.setEnabled(true);
-            } else if (((String) jCB_Auftragsart.getSelectedItem()).equals(BESTELLAUFTRAG)) {
+            } else if (((String) jCB_Auftragsart.getSelectedItem())
+                    .equals(BESTELLAUFTRAG)) {
                 jSP_SperrzeitWUNSCH.setEnabled(false);
                 jSP_SperrzeitWUNSCH.setValue(1);
                 jSP_LieferzeitSOFORT.setEnabled(false);
@@ -728,120 +778,132 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
             }
         }
     }//GEN-LAST:event_jCB_AuftragsartActionPerformed
+    /*
+     * Historie:
+     * 03.12.2014   Sen     angelegt
+     */
+
     /**
      * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
      * in standard gefärbt.
      *
      * @param evt
-     */
-    /*
-     * Historie:
-     * 03.12.2014   Sen     angelegt
      */
     private void jSP_Skontozeit1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jSP_Skontozeit1PropertyChange
         jSP_Skontozeit1.setBackground(JTF_FARBE_STANDARD);
     }//GEN-LAST:event_jSP_Skontozeit1PropertyChange
+    /*
+     * Historie:
+     * 03.12.2014   Sen     angelegt
+     */
+
     /**
      * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
      * in standard gefärbt.
      *
      * @param evt
-     */
-    /*
-     * Historie:
-     * 03.12.2014   Sen     angelegt
      */
     private void jSP_Skontozeit2PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jSP_Skontozeit2PropertyChange
         jSP_Skontozeit2.setBackground(JTF_FARBE_STANDARD);
     }//GEN-LAST:event_jSP_Skontozeit2PropertyChange
+    /*
+     * Historie:
+     * 03.12.2014   Sen     angelegt
+     */
+
     /**
      * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
      * in standard gefärbt.
      *
      * @param evt
-     */
-    /*
-     * Historie:
-     * 03.12.2014   Sen     angelegt
      */
     private void jCB_Skonto1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCB_Skonto1ActionPerformed
         if (jCB_Skonto1.getSelectedIndex() != 0) {
             jCB_Skonto1.setBackground(JCB_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jCB_Skonto1ActionPerformed
+    /*
+     * Historie:
+     * 03.12.2014   Sen     angelegt
+     */
+
     /**
      * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
      * in standard gefärbt.
      *
      * @param evt
-     */
-    /*
-     * Historie:
-     * 03.12.2014   Sen     angelegt
      */
     private void jCB_Skonto2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCB_Skonto2ActionPerformed
         if (jCB_Skonto2.getSelectedIndex() != 0) {
             jCB_Skonto2.setBackground(JCB_FARBE_STANDARD);
         }
     }//GEN-LAST:event_jCB_Skonto2ActionPerformed
+    /*
+     * Historie:
+     * 03.12.2014   Sen     angelegt
+     */
+
     /**
      * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
      * in standard gefärbt.
      *
      * @param evt
-     */
-    /*
-     * Historie:
-     * 03.12.2014   Sen     angelegt
      */
     private void jSP_Mahnzeit1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jSP_Mahnzeit1PropertyChange
         jSP_Mahnzeit1.setBackground(JTF_FARBE_STANDARD);
     }//GEN-LAST:event_jSP_Mahnzeit1PropertyChange
+    /*
+     * Historie:
+     * 03.12.2014   Sen     angelegt
+     */
+
     /**
      * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
      * in standard gefärbt.
      *
      * @param evt
-     */
-    /*
-     * Historie:
-     * 03.12.2014   Sen     angelegt
      */
     private void jSP_Mahnzeit2PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jSP_Mahnzeit2PropertyChange
         jSP_Mahnzeit2.setBackground(JTF_FARBE_STANDARD);
     }//GEN-LAST:event_jSP_Mahnzeit2PropertyChange
+    /*
+     * Historie:
+     * 03.12.2014   Sen     angelegt
+     */
+
     /**
      * Methode prüft, ob Eingabe getätigt wurde. Falls ja, wird der Hintergrund
      * in standard gefärbt.
      *
      * @param evt
      */
-    /*
-     * Historie:
-     * 03.12.2014   Sen     angelegt
-     */
     private void jSP_Mahnzeit3PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jSP_Mahnzeit3PropertyChange
         jSP_Mahnzeit3.setBackground(JTF_FARBE_STANDARD);
     }//GEN-LAST:event_jSP_Mahnzeit3PropertyChange
-    /**
-     * Methode für das Speichern der Daten. Falls die Sicht Aritkel anlegen
-     * geoeffnet ist, wird eine Artikel angelegt. Ist Sicht Artikel aendern
-     * geoffnet, wird der Artikel ueberschieben
-     */
     /*
      * Historie:
      * 21.12.2014   Sen     angelegt
      * 02.01.2015   Sen     Funtkion fuer Sicht Artikel anlegen implementiert
      * 10.01.2015   Sen     Funtkion fuer Sicht Artikel aendern implementiert
      */
+
+    /**
+     * Methode für das Speichern der Daten. Falls die Sicht Aritkel anlegen
+     * geoeffnet ist, wird eine Artikel angelegt. Ist Sicht Artikel aendern
+     * geoffnet, wird der Artikel ueberschieben
+     */
     private void jB_SpeichernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SpeichernActionPerformed
 //      Variablen fuer die Meldung und den Titel
-        String meldung = "Liefer- und Sperrzeit sowie Skonto- und Mahnzeiten sind alle standardmäßig auf 1 Tag gesetzt.\nMöchten Sie nun speichern?"
-                + " Klicken Sie auf Nein, wenn Sie die Eingaben bearbeiten möchten.";
+        String meldung = "Liefer- und Sperrzeit sowie Skonto- und Mahnzeiten"
+                + " sind alle standardmäßig auf 1 Tag gesetzt."
+                + "\nMöchten Sie nun speichern?"
+                + " Klicken Sie auf Nein, wenn Sie die Eingaben bearbeiten"
+                + " möchten.";
         String titel = "Zahlungskondititon speichern";
 //      zunaechst werdne die Eingaben ueberprueft.    
         ueberpruefen();
-//      falls fehlerhafteComponenten leer ist (es sind keine fehlerhaften Componenten verfuegbar), 
+//      falls fehlerhafteComponenten leer ist
+//      (es sind keine fehlerhaften Componenten verfuegbar), 
 //      werden die Eingaben in die entsprechenden Variablen gespeichert
         if (fehlerhafteComponenten.isEmpty()) {
             String auftragsart = (String) jCB_Auftragsart.getSelectedItem();
@@ -858,108 +920,140 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
 
             try {
 //                einzel- und bestelltwert sowie die mwst und die bestandsmenge
-//                muessen geparst werden, da die dao Methode int und double Typen moechte
-//                Skonto und Mahnzeiten aus jSpinner mussen geholt werdne
+//                muessen geparst werden, da die dao Methode int und double
+//                Typen moechte Skonto und Mahnzeiten aus jSpinner mussen
+//                geholt werdne
                 zknr = nf.parse(jTF_ZahlungskonditionID.getText()).longValue();
-                lieferzeitSOFORT = ((Number) jSP_LieferzeitSOFORT.getValue()).intValue();
-                sperrzeitWunsch = ((Number) jSP_SperrzeitWUNSCH.getValue()).intValue();
-                skonto1 = nf.parse((String) jCB_Skonto1.getSelectedItem()).doubleValue();
-                skonto2 = nf.parse((String) jCB_Skonto2.getSelectedItem()).doubleValue();
+                lieferzeitSOFORT = ((Number) jSP_LieferzeitSOFORT.getValue())
+                        .intValue();
+                sperrzeitWunsch = ((Number) jSP_SperrzeitWUNSCH.getValue())
+                        .intValue();
+                skonto1 = nf.parse((String) jCB_Skonto1.getSelectedItem())
+                        .doubleValue();
+                skonto2 = nf.parse((String) jCB_Skonto2.getSelectedItem())
+                        .doubleValue();
                 skontozeit1 = ((Number) jSP_Skontozeit1.getValue()).intValue();
                 skontozeit2 = ((Number) jSP_Skontozeit2.getValue()).intValue();
                 mahnzeit1 = ((Number) jSP_Mahnzeit1.getValue()).intValue();
                 mahnzeit2 = ((Number) jSP_Mahnzeit2.getValue()).intValue();
                 mahnzeit3 = ((Number) jSP_Mahnzeit3.getValue()).intValue();
 //              Ueberpruefung, ob Mahnzeiten stimmen  
-                if (mahnzeit3 > mahnzeit2 && mahnzeit2 > mahnzeit1 && skontozeit2 > skontozeit1) {
-//                Ueberpruefung in welche Sicht wir sind
+                if (mahnzeit3 > mahnzeit2 && mahnzeit2 > mahnzeit1
+                        && skontozeit2 > skontozeit1) {
+//                  Ueberpruefung in welche Sicht wir sind
                     if (this.getTitle().equals(ZK_ANLEGEN)) {
-//                  Sicht ZK anlegen
-//                  pruefung, ob irgendein Mahn oder skontozeit veraendert wurde, das wuede bedeuten
-//                  dass der benutzer das Aendern der Mahn Skontozeiten nicht vergessen hat
-                        if (lieferzeitSOFORT != 1 || sperrzeitWunsch != 1 || skontozeit1 != 1 || skontozeit2 != 1 || mahnzeit1 != 1 || mahnzeit2 != 1 || mahnzeit3 != 1) {
-//                veraendern--> neue ZK wird in datenbank geschrieben                        
+//                      Sicht ZK anlegen
+//                      pruefung, ob irgendein Mahn oder skontozeit veraendert
+//                      wurde, das wuede bedeuten
+//                      dass der benutzer das Aendern der Mahn Skontozeiten 
+//                      nicht vergessen hat
+                        if (lieferzeitSOFORT != 1 || sperrzeitWunsch != 1
+                                || skontozeit1 != 1 || skontozeit2 != 1
+                                || mahnzeit1 != 1 || mahnzeit2 != 1
+                                || mahnzeit3 != 1) {
+//                          veraendern--> neue ZK wird in datenbank geschrieben                        
                             this.dao.erstelleZahlungskondition(auftragsart, lieferzeitSOFORT,
                                     sperrzeitWunsch, skontozeit1, skontozeit2, skonto1,
                                     skonto2, mahnzeit1, mahnzeit2, mahnzeit3);
-//                      Meldung fuer die Statuszeile wird angepassz
-                            statuszeile = "Zahlungskondition mit der Zahlungskonditon-ID " + zknr + " wurde erfolgreich angelegt. ";
+//                          Meldung fuer die Statuszeile wird angepasst
+                            statuszeile = "Zahlungskondition mit der"
+                                    + " Zahlungskonditon-ID " + zknr
+                                    + " wurde erfolgreich angelegt. ";
                             this.hauptFenster.setStatusMeldung(statuszeile);
                             zuruecksetzen();
                         } else {
-//                        Kein Skonto und Mahnzeit geaendert, nachfrage ob so gespeichert werden soll
-                            int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+//                          Kein Skonto und Mahnzeit geaendert,
+//                          nachfrage ob so gespeichert werden soll
+                            int antwort = JOptionPane.showConfirmDialog(null,
+                                    meldung, titel, JOptionPane.YES_NO_OPTION,
+                                    JOptionPane.QUESTION_MESSAGE);
                             if (antwort == JOptionPane.YES_OPTION) {
-//                            Antowort ja, also speichern
+//                              Antowort ja, also speichern
                                 this.dao.erstelleZahlungskondition(auftragsart, lieferzeitSOFORT,
                                         sperrzeitWunsch, skontozeit1, skontozeit2, skonto1,
                                         skonto2, mahnzeit1, mahnzeit2, mahnzeit3);
                                 zuruecksetzen();
                             } else {
-//                            Antwort nein, ueberarbeiten
+//                              Antwort nein, ueberarbeiten
                                 fehlerhafteComponenten.clear();
                             }
                         }
                     } else {
-//                    Sicht ZK aendern: zunaechst ZK aus der Datenbank geladen.
+//                  Sicht ZK aendern: zunaechst ZK aus der Datenbank geladen.
 //                  Artikel aus Datenbank ist Variable ZKVorher  
-                        Zahlungskondition ZKVorher = this.dao.gibZahlungskonditionNachId(zknr);
+                        Zahlungskondition ZKVorher
+                                = this.dao.gibZahlungskonditionNachId(zknr);
 //                    Vergleich ZK erzeugen mit den Eingabedaten
-                        Zahlungskondition ZKNachher = new Zahlungskondition(auftragsart, lieferzeitSOFORT,
-                                sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2, mahnzeit1,
-                                mahnzeit2, mahnzeit3);
+                        Zahlungskondition ZKNachher
+                                = new Zahlungskondition(auftragsart,
+                                        lieferzeitSOFORT, sperrzeitWunsch,
+                                        skontozeit1, skontozeit2, skonto1,
+                                        skonto2, mahnzeit1, mahnzeit2,
+                                        mahnzeit3);
 //                    Pruefung ob ZkVorher gleich ist wie ZK nachher
                         if (ZKVorher.equals(ZKNachher)) {
 //                         Keine Veraenderung -> Meldung
-                            JOptionPane.showMessageDialog(null, "Es wurden keine Änderungen gemacht!", "Keine Änderungen", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null,
+                                    "Es wurden keine Änderungen gemacht!",
+                                    "Keine Änderungen",
+                                    JOptionPane.INFORMATION_MESSAGE);
                         } else {
-//                        Veraenderung: Abfrage, ob Änderungen gespeichert werden sollen
-                            int antwort = JOptionPane.showConfirmDialog(null, MELDUNG_AENDERUNGEN_SPEICHERN, ZK_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+//                          Veraenderung: Abfrage, ob Änderungen gespeichert
+//                          werden sollen
+                            int antwort = JOptionPane.showConfirmDialog(null,
+                                    MELDUNG_AENDERUNGEN_SPEICHERN, ZK_AENDERN,
+                                    JOptionPane.YES_NO_OPTION,
+                                    JOptionPane.QUESTION_MESSAGE);
                             if (antwort == JOptionPane.YES_OPTION) {
-//                     falls ja, wird der Artikel geaendert
-                                this.dao.aendereZahlungskondition(zknr, auftragsart, lieferzeitSOFORT,
-                                        sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2,
+//                              falls ja, wird der Artikel geaendert
+                                this.dao.aendereZahlungskondition(zknr,
+                                        auftragsart, lieferzeitSOFORT,
+                                        sperrzeitWunsch, skontozeit1,
+                                        skontozeit2, skonto1, skonto2,
                                         mahnzeit1, mahnzeit2, mahnzeit3);
-//                          Meldung fuer die Statuszeile wird angepassz
-                                statuszeile = "Zahlungskondition mit der Zahlungskonditon-ID " + zknr + " wurde erfolgreich geändert. ";
+//                              Meldung fuer die Statuszeile wird angepassz
+                                statuszeile = "Zahlungskondition mit der"
+                                        + " Zahlungskonditon-ID " + zknr
+                                        + " wurde erfolgreich geändert. ";
                                 this.hauptFenster.setStatusMeldung(statuszeile);
                                 zuruecksetzen(); // Formular zuruecksetzen
-                                this.setVisible(false); // diese Sicht ausblenden 
-//                            jB_ZurueckActionPerformed(null); // Button Zurueck Action ausführen
+                                this.setVisible(false); //diese Sicht ausblenden
                                 zurueckInsHauptmenue();
                             } else {
-//                          Nein button wird geklickt, keine Aktion nur fehlerhafte Komponenten müssen geleert werden
+//                              Nein button wird geklickt, keine Aktion nur 
+//                              fehlerhafte Komponenten müssen geleert werden
                                 fehlerhafteComponenten.clear();
                             }
                         }
                     }
                 } else {
 //                  Mahnzeiten stimmen nicht, also Fehlermeldung  
-                    JOptionPane.showMessageDialog(null, MELDUNG_SKONTO_MAHNZEITEN, TITEL_SKONTO_MAHNZEITEN, JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,
+                            MELDUNG_SKONTO_MAHNZEITEN, TITEL_SKONTO_MAHNZEITEN,
+                            JOptionPane.ERROR_MESSAGE);
                 }
 //          Fehler abfangen    
             } catch (ApplicationException e) {
-                JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, e.getMessage(),
+                        FEHLER, JOptionPane.ERROR_MESSAGE);
             } catch (ParseException | NullPointerException e) {
                 System.out.println(e.getMessage());
             }
 //          das Formular wird zurueckgesetzt  
         } else {
-////          fehlerhafteComponenten ist nicht leer (es sind fehlerhafte Componenten vorhanden)
-////          wird methode fuer das Markieren ausgefuehrt 
-//            JOptionPane.showMessageDialog(null, TEXT_PFLICHTFELDER, TITEL_PFLICHTFELDER, JOptionPane.ERROR_MESSAGE);
-////          an die erste fehlerhafte Componenten wird der Focus gesetzt  
-//            fehlerhafteComponenten.get(0).requestFocusInWindow();
-////          ueber die fehlerhaften Komponenten wird iteriert und bei allen fehlerhaften Componenten wird der Hintergrund in der fehlerhaften Farbe gefaerbt 
-//            for (int i = 0; i <= fehlerhafteComponenten.size() - 1; i++) {
-//                fehlerhafteComponenten.get(i).setBackground(FARBE_FEHLERHAFT);
-//            }
-////          ArrayList fue fehlerhafte Componenten wird geleert
-//            fehlerhafteComponenten.clear();
-            fehlEingabenMarkierung(fehlerhafteComponenten, TITEL_PFLICHTFELDER, MELDUNG_PFLICHTFELDER, FARBE_FEHLERHAFT);
+//          fehlerhafteComponenten ist nicht leer (es sind fehlerhafte
+//          Componenten vorhanden)
+//          wird methode fuer das Markieren ausgefuehrt 
+            fehlEingabenMarkierung(fehlerhafteComponenten,
+                    TITEL_PFLICHTFELDER, MELDUNG_PFLICHTFELDER,
+                    FARBE_FEHLERHAFT);
         }
     }//GEN-LAST:event_jB_SpeichernActionPerformed
 
+    /*
+     * Historie:
+     * 14.12.2014   Sen     angelegt
+     */
     /**
      * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird. Es wird von
      * der Guifactory die letzte aufgerufene Component abgefragt wodurch man die
@@ -967,22 +1061,14 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      *
      * @param evt Event, der ausgeloest wird
      */
-    /*
-     * Historie:
-     * 14.12.2014   Sen     angelegt
-     */
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
-//        c = null;   //Initialisierung der Componentspeichervariable
-//        //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-//        c = this.factory.zurueckButton();
-//        this.setVisible(false);// Internalframe wird nicht mehr dargestellt
-//        c.setVisible(true);// Übergebene Component wird sichtbar gemacht
         if (this.getTitle().equals(ZK_ANLEGEN)) {
             beendenEingabeNachfrage();
         } else if (this.getTitle().equals(ZK_AENDERN)) {
 //      zunaechst werdne die Eingaben ueberprueft.    
             ueberpruefen();
-//      falls fehlerhafteComponenten leer ist (es sind keine fehlerhaften Componenten verfuegbar), 
+//      falls fehlerhafteComponenten leer ist (es sind keine fehlerhaften
+//      Componenten verfuegbar), 
 //      werden die Eingaben in die entsprechenden Variablen gespeichert
             if (fehlerhafteComponenten.isEmpty()) {
                 String auftragsart = (String) jCB_Auftragsart.getSelectedItem();
@@ -999,63 +1085,83 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
 
                 try {
 //                einzel- und bestelltwert sowie die mwst und die bestandsmenge
-//                muessen geparst werden, da die dao Methode int und double Typen moechte
+//                muessen geparst werden, da die dao Methode int und double
+//                Typen moechte
 //                Skonto und Mahnzeiten aus jSpinner mussen geholt werdne
-                    zknr = nf.parse(jTF_ZahlungskonditionID.getText()).longValue();
-                    lieferzeitSOFORT = ((Number) jSP_LieferzeitSOFORT.getValue()).intValue();
-                    sperrzeitWunsch = ((Number) jSP_SperrzeitWUNSCH.getValue()).intValue();
-                    skonto1 = nf.parse((String) jCB_Skonto1.getSelectedItem()).doubleValue();
-                    skonto2 = nf.parse((String) jCB_Skonto2.getSelectedItem()).doubleValue();
-                    skontozeit1 = ((Number) jSP_Skontozeit1.getValue()).intValue();
-                    skontozeit2 = ((Number) jSP_Skontozeit2.getValue()).intValue();
+                    zknr = nf.parse(jTF_ZahlungskonditionID.getText())
+                            .longValue();
+                    lieferzeitSOFORT = ((Number) jSP_LieferzeitSOFORT
+                            .getValue()).intValue();
+                    sperrzeitWunsch = ((Number) jSP_SperrzeitWUNSCH
+                            .getValue()).intValue();
+                    skonto1 = nf.parse((String) jCB_Skonto1.getSelectedItem())
+                            .doubleValue();
+                    skonto2 = nf.parse((String) jCB_Skonto2.getSelectedItem())
+                            .doubleValue();
+                    skontozeit1 = ((Number) jSP_Skontozeit1.getValue())
+                            .intValue();
+                    skontozeit2 = ((Number) jSP_Skontozeit2.getValue())
+                            .intValue();
                     mahnzeit1 = ((Number) jSP_Mahnzeit1.getValue()).intValue();
                     mahnzeit2 = ((Number) jSP_Mahnzeit2.getValue()).intValue();
                     mahnzeit3 = ((Number) jSP_Mahnzeit3.getValue()).intValue();
-//                if (mahnzeit3 > mahnzeit2 && mahnzeit2 > mahnzeit1) {
 //                  ZK aus Datenbank ist Variable ZKVorher  
-                    Zahlungskondition ZKVorher = this.dao.gibZahlungskonditionNachId(zknr);
+                    Zahlungskondition ZKVorher
+                            = this.dao.gibZahlungskonditionNachId(zknr);
 //                    Vergleich ZK erzeugen mit den Eingabedaten
-                    Zahlungskondition ZKNachher = new Zahlungskondition(auftragsart, lieferzeitSOFORT,
-                            sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2, mahnzeit1,
-                            mahnzeit2, mahnzeit3);
+                    Zahlungskondition ZKNachher
+                            = new Zahlungskondition(auftragsart,
+                                    lieferzeitSOFORT,
+                                    sperrzeitWunsch, skontozeit1,
+                                    skontozeit2, skonto1, skonto2, mahnzeit1,
+                                    mahnzeit2, mahnzeit3);
 //                    Pruefung ob ZkVorher gleich ist wie ZK nachher
                     if (ZKVorher.equals(ZKNachher)) {
                         this.setVisible(false); // diese Sicht ausblenden 
                         zurueckInsHauptmenue();
                     } else {
-//                        Veraenderung: Abfrage, ob Änderungen gespeichert werden sollen
-                        int antwort = JOptionPane.showConfirmDialog(null, MELDUNG_AENDERUNGEN_SPEICHERN, ZK_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+//                Veraenderung: Abfrage, ob Änderungen gespeichert werden sollen
+                        int antwort = JOptionPane.showConfirmDialog(null,
+                                MELDUNG_AENDERUNGEN_SPEICHERN, ZK_AENDERN,
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE);
                         if (antwort == JOptionPane.YES_OPTION) {
 //                          Ueberpruefungob, Mahnzeiten stimmen  
-                            if (mahnzeit3 > mahnzeit2 && mahnzeit2 > mahnzeit1 && skontozeit2 > skontozeit1) {
+                            if (mahnzeit3 > mahnzeit2 && mahnzeit2 > mahnzeit1
+                                    && skontozeit2 > skontozeit1) {
 //                     falls ja, wird die ZK geaendert
-                                this.dao.aendereZahlungskondition(zknr, auftragsart, lieferzeitSOFORT,
-                                        sperrzeitWunsch, skontozeit1, skontozeit2, skonto1, skonto2,
+                                this.dao.aendereZahlungskondition(zknr,
+                                        auftragsart, lieferzeitSOFORT,
+                                        sperrzeitWunsch, skontozeit1,
+                                        skontozeit2, skonto1, skonto2,
                                         mahnzeit1, mahnzeit2, mahnzeit3);
 //                          Meldung fuer die Statuszeile wird angepassz
-                                statuszeile = "Zahlungskondition mit der Zahlungskonditon-ID " + zknr + " wurde erfolgreich geändert. ";
+                                statuszeile = "Zahlungskondition"
+                                        + " mit der Zahlungskonditon-ID "
+                                        + zknr + " wurde erfolgreich geändert.";
                                 this.hauptFenster.setStatusMeldung(statuszeile);
 
                                 zuruecksetzen(); // Formular zuruecksetzen
-                                this.setVisible(false); // diese Sicht ausblenden 
+                                this.setVisible(false); //diese Sicht ausblenden 
                                 zurueckInsHauptmenue();
                             } else {
 //                              Mahnzeiten stimmen nicht, also Fehlermeldung  
-                                JOptionPane.showMessageDialog(null, MELDUNG_SKONTO_MAHNZEITEN, TITEL_SKONTO_MAHNZEITEN, JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(null,
+                                        MELDUNG_SKONTO_MAHNZEITEN,
+                                        TITEL_SKONTO_MAHNZEITEN,
+                                        JOptionPane.ERROR_MESSAGE);
                             }
                         } else if (antwort == JOptionPane.CLOSED_OPTION) {
-//                                  das x wird geklickt, es soll nichts passieren
+//                                das x wird geklickt, es soll nichts passieren
                         } else {
                             this.setVisible(false); // diese Sicht ausblenden 
                             zurueckInsHauptmenue();
                         }
                     }
-//                } else {
-//                    JOptionPane.showMessageDialog(null, "Bitte überprüfen Sie die Mahnzeiten.\nMahnzeit 3 muss größer als Mahnzeit 2 sein und Mahnzeit 2 muss größer als Mahnzeit 1 sein!", "Mahnzeiten fehlerhaft", JOptionPane.INFORMATION_MESSAGE);
-//                }
 //          Fehler abfangen    
                 } catch (ApplicationException e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER,
+                            JOptionPane.ERROR_MESSAGE);
                 } catch (ParseException | NullPointerException e) {
                     System.out.println(e.getMessage());
                 }
@@ -1063,11 +1169,15 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
             } else {
 //                     etwas ist nicht gleich
 //                     Abfrage, ob Änderungen gespeichert werden sollen
-                int antwort = JOptionPane.showConfirmDialog(null, MELDUNG_AENDERUNGEN_SPEICHERN, ZK_AENDERN, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                int antwort = JOptionPane.showConfirmDialog(null,
+                        MELDUNG_AENDERUNGEN_SPEICHERN, ZK_AENDERN,
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
                 if (antwort == JOptionPane.YES_OPTION) {
-                    fehlEingabenMarkierung(fehlerhafteComponenten, TITEL_PFLICHTFELDER, MELDUNG_PFLICHTFELDER, FARBE_FEHLERHAFT);
+                    fehlEingabenMarkierung(fehlerhafteComponenten,
+                            TITEL_PFLICHTFELDER, MELDUNG_PFLICHTFELDER,
+                            FARBE_FEHLERHAFT);
                 } else {
-//                    zuruecksetzen(); // Formular zuruecksetzen
                     this.setVisible(false); // diese Sicht ausblenden 
                     zurueckInsHauptmenue();
                 }
@@ -1077,54 +1187,57 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
             zurueckInsHauptmenue();
         }
     }//GEN-LAST:event_jB_ZurueckActionPerformed
-    /**
-     * Methode, die das zurueckspringen in das Hauptmenue ermoeglicht.
-     */
+
     /*
      * Historie:
      * 03.02.2015   Sen     angelegt
      */
+    /**
+     * Methode, die das zurueckspringen in das Hauptmenue ermoeglicht.
+     */
     private void zurueckInsHauptmenue() {
         c = null;   //Initialisierung der Componentspeichervariable
-        //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
+//        Erhalten über GUIFactorymethode die letzte
+//        aufgerufene View und speichern diese in Variable
         c = this.factory.zurueckButton();
-        this.setVisible(false);// Internalframe wird nicht mehr dargestellt
-        c.setVisible(true);// Übergebene Component wird sichtbar gemacht
-//        this.setzeFormularZurueck();
+        this.setVisible(false); // Internalframe wird nicht mehr dargestellt
+        c.setVisible(true); // Übergebene Component wird sichtbar gemacht
     }
 
-    /**
-     * Methode fuer den Aufruf der Suche Maske
-     *
-     * @param evt Event der ausgeloest wird
-     */
     /*
      * Historie:
      * 15.01.2015   Sen     angelegt
      */
+    /**
+     * Methode fuer den Aufruf der Suche Maske.
+     *
+     * @param evt Event der ausgeloest wird
+     */
     private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
         this.hauptFenster.rufeSuche(this);
     }//GEN-LAST:event_jB_SuchenActionPerformed
-    /**
-     * Aktion die beim betätigen schliesen des Fenster ausgefuert wird
-     *
-     * @param evt automatisch generiert
-     */
+
     /*
      * Historie:
      * 07.12.2014   Sen     angelegt
      */
+    /**
+     * Aktion die beim betätigen schliesen des Fenster ausgefuert wird.
+     *
+     * @param evt automatisch generiert
+     */
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         beendenEingabeNachfrage();
     }//GEN-LAST:event_formInternalFrameClosing
+
+    /*
+     * Historie:
+     * 30.12.2014   Sen     angelegt
+     */
     /**
      * Methode fuer das Loeschen eines Artikel.
      *
      * @param evt Event der ausgeloest wird
-     */
-    /*
-     * Historie:
-     * 30.12.2014   Sen     angelegt
      */
     private void jB_LoeschenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_LoeschenActionPerformed
 //      Variablen fuer die Meldung und Titel  
@@ -1132,188 +1245,190 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         String titel = "Zahlungskondition löschen";
         try {
             long zknr = nf.parse(jTF_ZahlungskonditionID.getText()).longValue();
-            int antwort = JOptionPane.showConfirmDialog(null, meldung, titel, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int antwort = JOptionPane.showConfirmDialog(null, meldung, titel,
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (antwort == JOptionPane.YES_OPTION) {
                 this.dao.loescheZahlungskondition(zknr);
 //              Meldung fuer die Statuszeile wird angepasst
-                statuszeile = "Zahlungskondition mit der Zahlungskonditon-ID " + zknr + " wurde erfolgreich gelöscht. ";
+                statuszeile = "Zahlungskondition mit der Zahlungskonditon-ID "
+                        + zknr + " wurde erfolgreich gelöscht. ";
                 this.hauptFenster.setStatusMeldung(statuszeile);
 //                jB_ZurueckActionPerformed(evt);
                 zurueckInsHauptmenue();
             }
         } catch (ApplicationException e) {
 //          Es ist ein Fehler aufgetretetn, dieser wird ausgegeben  
-            JOptionPane.showMessageDialog(null, e.getMessage(), FEHLER, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.getMessage(),
+                    FEHLER, JOptionPane.ERROR_MESSAGE);
         } catch (ParseException | NullPointerException e) {
             System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_jB_LoeschenActionPerformed
-    /**
-     * Methode fuer den Button Anzeigen/AEnden
-     *
-     * @param evt Event der ausgeloest wird
-     */
+
     /*
      * Historie:
      * 17.01.2015   Sen     angelegt
      */
+    /**
+     * Methode fuer den Button Anzeigen/AEnden.
+     *
+     * @param evt Event der ausgeloest wird
+     */
     private void jB_AnzeigenAEndernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AnzeigenAEndernActionPerformed
-//        if (this.getTitle().equals(ZK_AENDERN)) {
-//            setzFormularInZKAnzeigenFuerButton();
-//        } else 
         if (this.getTitle().equals(ZK_ANZEIGEN)) {
             setzFormularInZKAEndernFuerButton();
         }
     }//GEN-LAST:event_jB_AnzeigenAEndernActionPerformed
-    /**
-     * getter Methode fuer die Sicht ZK aendern Einstieg
-     *
-     * @return textfield der ZK nummer
-     */
+
     /*
      * Historie:
      * 10.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht ZK aendern Einstieg.
+     *
+     * @return textfield der ZK nummer
      */
     public JTextField gibjTF_ZahlungskonditionID() {
         return jTF_ZahlungskonditionID;
     }
 
-    /**
-     * getter Methode fuer die Sicht ZK aendern Einstieg
-     *
-     * @return combobox der Auftragsart
-     */
     /*
      * Historie:
      * 10.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht ZK aendern Einstieg.
+     *
+     * @return combobox der Auftragsart
      */
     public JComboBox gibjCB_Auftragsart() {
         return jCB_Auftragsart;
     }
 
-    /**
-     * getter Methode fuer die Sicht ZK aendern Einstieg
-     *
-     * @return jspinner der lieferzeitSOFORT
-     */
     /*
      * Historie:
      * 10.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht ZK aendern Einstieg.
+     *
+     * @return jspinner der lieferzeitSOFORT
      */
     public JSpinner gibjSP_LieferzeitSOFORT() {
         return jSP_LieferzeitSOFORT;
     }
 
-    /**
-     * getter Methode fuer die Sicht ZK aendern Einstieg
-     *
-     * @return jspinner der SperrzeitWUNSCH
-     */
     /*
      * Historie:
      * 10.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht ZK aendern Einstieg.
+     *
+     * @return jspinner der SperrzeitWUNSCH
      */
     public JSpinner gibjSP_SperrzeitWUNSCH() {
         return jSP_SperrzeitWUNSCH;
     }
 
-    /**
-     * getter Methode fuer die Sicht ZK aendern Einstieg
-     *
-     * @return jspinner der Skontozeit 1
-     */
     /*
      * Historie:
      * 10.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht ZK aendern Einstieg.
+     *
+     * @return jspinner der Skontozeit 1
      */
     public JSpinner gibjSP_Skontozeit1() {
         return jSP_Skontozeit1;
     }
 
-    /**
-     * getter Methode fuer die Sicht ZK aendern Einstieg
-     *
-     * @return jspinner der Skontozeit 2
-     */
     /*
      * Historie:
      * 10.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht ZK aendern Einstieg.
+     *
+     * @return jspinner der Skontozeit 2
      */
     public JSpinner gibjSP_Skontozeit2() {
         return jSP_Skontozeit2;
     }
 
-    /**
-     * getter Methode fuer die Sicht ZK aendern Einstieg
-     *
-     * @return combobox der Skonto 1
-     */
     /*
      * Historie:
      * 10.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht ZK aendern Einstieg.
+     *
+     * @return combobox der Skonto 1
      */
     public JComboBox gibjCB_Skonto1() {
         return jCB_Skonto1;
     }
 
-    /**
-     * getter Methode fuer die Sicht ZK aendern Einstieg
-     *
-     * @return combobox der Skonto 2
-     */
     /*
      * Historie:
      * 10.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht ZK aendern Einstieg.
+     *
+     * @return combobox der Skonto 2
      */
     public JComboBox gibjCB_Skonto2() {
         return jCB_Skonto2;
     }
 
-    /**
-     * getter Methode fuer die Sicht ZK aendern Einstieg
-     *
-     * @return jspinner der mahnzeit 1
-     */
     /*
      * Historie:
      * 10.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht ZK aendern Einstieg.
+     *
+     * @return jspinner der mahnzeit 1
      */
     public JSpinner gibjSP_Mahnzeit1() {
         return jSP_Mahnzeit1;
     }
 
-    /**
-     * getter Methode fuer die Sicht ZK aendern Einstieg
-     *
-     * @return jspinner der mahnzeit 2
-     */
     /*
      * Historie:
      * 10.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht ZK aendern Einstieg.
+     *
+     * @return jspinner der mahnzeit 2
      */
     public JSpinner gibjSP_Mahnzeit2() {
         return jSP_Mahnzeit2;
     }
 
-    /**
-     * getter Methode fuer die Sicht ZK aendern Einstieg
-     *
-     * @return jspinner der mahnzeit 1
-     */
     /*
      * Historie:
      * 10.01.2015   Sen     angelegt
+     */
+    /**
+     * getter Methode fuer die Sicht ZK aendern Einstieg.
+     *
+     * @return jspinner der mahnzeit 1
      */
     public JSpinner gibjSP_Mahnzeit3() {
         return jSP_Mahnzeit3;
     }
 
-    /**
-     * Methode, die das Formular in die Sicht ZK anlegen aendert
-     */
     /*
      * Historie:
      * 9.01.2015   Sen     angelegt
+     */
+    /**
+     * Methode, die das Formular in die Sicht ZK anlegen aendert.
      */
     public void setzeFormularInZKAnlegen() {
         zuruecksetzen();
@@ -1331,42 +1446,44 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
 
         jB_Speichern.setEnabled(true);
         jB_AnzeigenAEndern.setEnabled(false);
-//        jB_AnzeigenAEndern.setText("Anzeigen/Ändern");
         jB_Loeschen.setEnabled(false);
         jB_Suchen.setEnabled(false);
-
-        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
+//      Übergibt der Referenz des Hauptfensters das Internaframe
+        this.hauptFenster.setComponent(this);
     }
 
-    /**
-     * Methode, die das Formular in die Sicht ZK aendern aendert
-     */
     /*
      * Historie:
      * 06.01.2015   Sen     angelegt
      * 08.01.2015   Terrasi implemtiereung der Referenzvariable "hauptfenster"
      */
+    /**
+     * Methode, die das Formular in die Sicht ZK aendern aendert.
+     */
     public void setzeFormularInZKAEndern() {
         zuruecksetzen();
         setzFormularInZKAEndernFuerButton();
-        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
+//      Übergibt der Referenz des Hauptfensters das Internaframe
+        this.hauptFenster.setComponent(this);
     }
 
-    /**
-     * Methode wird aufgerufen, wenn auf Button Anzeigen/Aendern geklickt wird,
-     * das Formular wird nicht zurueckgesetzt, deswegen musste eine extra
-     * Methode geschrieben werden
-     */
     /*
      * Historie:
      * 05.01.2015   Sen     angelegt
      */
+    /**
+     * Methode wird aufgerufen, wenn auf Button Anzeigen/Aendern geklickt wird,
+     * das Formular wird nicht zurueckgesetzt, deswegen musste eine extra
+     * Methode geschrieben werden.
+     */
     private void setzFormularInZKAEndernFuerButton() {
         this.setTitle(ZK_AENDERN);
         jCB_Auftragsart.setEnabled(false);
-        if (((String) jCB_Auftragsart.getSelectedItem()).equals(SOFORTAUFTRAG)) {
+        if (((String) jCB_Auftragsart.getSelectedItem())
+                .equals(SOFORTAUFTRAG)) {
             jSP_LieferzeitSOFORT.setEnabled(true);
-        } else if (((String) jCB_Auftragsart.getSelectedItem()).equals(TERMINAUFTRAG)) {
+        } else if (((String) jCB_Auftragsart.getSelectedItem())
+                .equals(TERMINAUFTRAG)) {
             jSP_SperrzeitWUNSCH.setEnabled(true);
         }
         jSP_Skontozeit1.setEnabled(true);
@@ -1379,28 +1496,31 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
 
         jB_Speichern.setEnabled(true);
         jB_AnzeigenAEndern.setEnabled(false);
-//        jB_AnzeigenAEndern.setText("Anzeigen");
         jB_Loeschen.setEnabled(true);
         jB_Suchen.setEnabled(false);
     }
 
-    /*----------------------------------------------------------*/
-    /* Datum Name Was */
-    /* 08.01.2015 Terrasi, implemtiereung der Referenzvariable "hauptfenster"*/
-    /*----------------------------------------------------------*/
+    /*
+     /* Datum Name Was */
+    /* 12.12.2014   Sen     angelegt
+     /* 08.01.2015 Terrasi, implemtiereung der Referenzvariable "hauptfenster"*/
+    /**
+     * Methode wird aufgerufen, wenn auf Sicht ZK Anzeigen aufgerufen wird.
+     */
     public void setzeFormularInZKAnzeigen() {
         zuruecksetzen();
         setzFormularInZKAnzeigenFuerButton();
-        this.hauptFenster.setComponent(this);//Übergibt der Referenz des Hauptfensters das Internaframe
+//      Übergibt der Referenz des Hauptfensters das Internaframe
+        this.hauptFenster.setComponent(this);
     }
 
-    /**
-     * Methode, die das Formular in die Sicht Artikel anzeigen aendert
-     */
     /*
      * Historie:
      * 06.01.2015   Sen     angelegt
      * 08.01.2015   Terrasi implemtiereung der Referenzvariable "hauptfenster"
+     */
+    /**
+     * Methode, die das Formular in die Sicht Artikel anzeigen aendert.
      */
     private void setzFormularInZKAnzeigenFuerButton() {
         this.setTitle(ZK_ANZEIGEN);
@@ -1417,20 +1537,19 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
 
         jB_Speichern.setEnabled(false);
         jB_AnzeigenAEndern.setEnabled(true);
-//        jB_AnzeigenAEndern.setText("Ändern");
         jB_Loeschen.setEnabled(false);
         jB_Suchen.setEnabled(true);
     }
 
-    /**
-     * setzeMethode, die aus der Suche aufgerufen wird. Es wird die Sicht ZK
-     * Anzeigen aufgerufen und der gesuchte ZK angezeigt
-     *
-     * @param zk ZK aus der Suche
-     */
     /*
      * Historie:
      * 17.01.2015   Sen     angelegt
+     */
+    /**
+     * setzeMethode, die aus der Suche aufgerufen wird. Es wird die Sicht ZK
+     * Anzeigen aufgerufen und der gesuchte ZK angezeigt.
+     *
+     * @param zk ZK aus der Suche
      */
     public void zeigeZKausSucheAn(Zahlungskondition zk) {
         setzeFormularInZKAnzeigen();
