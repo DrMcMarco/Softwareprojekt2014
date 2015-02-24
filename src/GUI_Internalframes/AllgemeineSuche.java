@@ -8,55 +8,63 @@ package GUI_Internalframes;
 import DAO.ApplicationException;
 import DTO.*;
 import Interfaces.*;
-import Interfaces.InterfaceJTreeFunction;
 import JFrames.GUIFactory;
 import JFrames.Start;
 import JFrames.StartAdmin;
 import java.awt.Color;
 import java.awt.Component;
-import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Luca Terrasi 10.12.2014 Terrasi,Erstellung 12.01.2015 Terrasi,
  * Implementierung der Anwendungslogik
  */
-public class AllgemeineSuche extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
+public class AllgemeineSuche extends javax.swing.JInternalFrame 
+    implements InterfaceViewsFunctionality {
 
-    /*
-     Speichervariablen
+    /**
+     * Konstante absteigend.
      */
-    private String suchKategorie;//Variable für den String aus der Combobox für Suchkategorien.
-    private String suchEingabe;//Varible die die Sucheingabe speichert.
-    private Collection<?> suchErgebnis; // Collection in der die gefunden Ergebnisse der Suche gespeichert werden.
+    private static final String ABSTEIGEND = "absteigend";
+    /**
+     * Konstante aufsteigend.
+     */
+    private static final String AUFSTEIGEND = "aufsteigend";
+    
+    /**
+     * Variable für den String aus der Combobox für Suchkategorien.
+     */
+    private String suchKategorie;
+    
+    /**
+     * Varible die die Sucheingabe speichert.
+     */
+    private String suchEingabe;
+    
+    /**
+     * Collection in der die gefunden Ergebnisse der Suche gespeichert werden.
+     */
+    private Collection<?> suchErgebnis;
+    
+    /**
+     * Legt die Sortierung fest.
+     */
     private String sortierung;
     
     /**
-     * 
+     * Komponente.
      */
     private Component comp;
-    private InterfaceMainView hauptFenster;
-    /*
-     Variablen die für die Suchkategorien 
+    
+    /**
+     * Das Hauptfenster.
      */
-    private final String auftragskopf = " Auftragskopf";
-    private final String auftragsposition = "Auftragsposition";
-    private final String artikel = "Artikel";
-    private final String artikelkategorie = "Artikelkategorie";
-    private final String anschrift = "Anschrift";
-    private final String status = "Status";
-    private final String geschaeftspartner = "Geschäftspartner";
-    private final String zahlungskondition = "Zahlungskondition";
-    private static final String ABSTEIGEND = "absteigend";
-    private static final String AUFSTEIGEND = "aufsteigend";
+    private InterfaceMainView hauptFenster;
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
@@ -66,7 +74,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
     /**
      * Konstruktor, Suchfenster wird erzeugt.
      *
-     * @param factory, übergebene GuiFactory
+     * @param factory übergebene GuiFactory
      * @param mainView Interface
      */
     public AllgemeineSuche(GUIFactory factory, InterfaceMainView mainView) {
@@ -84,20 +92,25 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         this.aufsteigend_jRadioButton.setSelected(true);
         this.absteigend_jRadioButton.setSelected(false);
         this.sortierung = AUFSTEIGEND;
-        
+        //Setze das Model für die Combobox
         Auswahl_jComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-                new String[] { "Auftragskopf", "Auftragsposition", 
+                new String[] {"Auftragskopf", "Auftragsposition", 
                     "Artikel", "Artikelkategorie", "Geschäftspartner", 
                     "Zahlungskondition", "Anschrift", "Status" }));
         
         this.buttonGroup1.add(this.aufsteigend_jRadioButton);
         this.buttonGroup1.add(this.absteigend_jRadioButton);
-//        this.hauptFenster.setFrame();
+
         // Variable erhält Wert aus der Combobox mit den Suchkategorien.
         suchKategorie = Auswahl_jComboBox.getSelectedItem().toString();
-        legende_jTextArea.setText(gibLegendeAusDB(suchKategorie));//Übergebae der Legende durch Methode gibLegendeAusDB.
+        //Übergebae der Legende durch Methode gibLegendeAusDB.
+        legende_jTextArea.setText(gibLegendeAusDB(suchKategorie));
     }
 
+    /**
+     * Setzt das Fenster, das die Suche aufgerufen hat.
+     * @param fenster Letztes Fenster.
+     */
     public void setzeFenster(Component fenster) {
         this.comp = fenster;
     }
@@ -290,13 +303,13 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
      * Methode die aufgerufen wird beim wählen einer Suchkategorie. Je nach
      * Suchkategorie wird eine passende Legende im in der Maske angezeigt.
      *
-     * @param evt
+     * @param evt ein Event
      */
     private void Auswahl_jComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Auswahl_jComboBoxActionPerformed
         // Variable erhält Wert aus der Combobox mit den Suchkategorien.
         suchKategorie = Auswahl_jComboBox.getSelectedItem().toString();
         
-        // Aufruf der gibLegendeAusDB-Methode und übergebn Rückgabewert an TextArea.
+        // Aufruf der Methode und übergebn Rückgabewert an TextArea.
         legende_jTextArea.setText(gibLegendeAusDB(suchKategorie));
         
         this.suchfeld_jTextField.setText("");
@@ -310,7 +323,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
      * Methode die anhand der eingegebenen Suchkriterien eine Suche startet und
      * das Ergebnis in der Ergebnistabelle der Maske anzeigt.
      *
-     * @param evt
+     * @param evt Ein Event
      */
     @SuppressWarnings("empty-statement")
     private void sucheStarten_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sucheStarten_jButtonActionPerformed
@@ -360,21 +373,29 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
         
     }//GEN-LAST:event_sucheStarten_jButtonActionPerformed
 
+    /**
+     * Setzt die Sortierung auf Aufsteigend.
+     * @param evt ein Event.
+     */
     private void aufsteigend_jRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aufsteigend_jRadioButtonActionPerformed
-//        if (this.aufsteigend_jRadioButton.isSelected()) {
-//            this.aufsteigend_jRadioButton.setSelected(true);
-//        }
-//        this.absteigend_jRadioButton.setSelected(false);
+        //Setze Sortierung auf Aufsteigend.
         this.sortierung = AUFSTEIGEND;
-        
-        
+
     }//GEN-LAST:event_aufsteigend_jRadioButtonActionPerformed
 
+    /**
+     * Setzt die Sortierung auf Absteigend.
+     * @param evt ein Event.
+     */
     private void absteigend_jRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_absteigend_jRadioButtonActionPerformed
-        //this.aufsteigend_jRadioButton.setSelected(false);
+        //Setzt die Sortierung auf Absteigend.
         this.sortierung = ABSTEIGEND;
     }//GEN-LAST:event_absteigend_jRadioButtonActionPerformed
 
+    /**
+     * Schließt die Suche.
+     * @param evt Ein Event.
+     */
     private void Zurück_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Zurück_jButtonActionPerformed
         this.setVisible(false);
         this.suchfeld_jTextField.setText("");
@@ -390,13 +411,14 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
      * die passenden Suchparameter
      * herauffindet und diese als String wieder zurückgibt.
      *
-     * @param suchkategorie, drie übergebene Suchkategorie
+     * @param suchkategorie drie übergebene Suchkategorie
      * @return String mit den aus der Datenbank gespeicherten Suchparametern.
      */
     public final String gibLegendeAusDB(String suchkategorie) {
         //Methodenvariable die die Suchparameter speichert.
         String parameter = "";
-        String ausgabelegende = "";// Variable die den Text enthält,
+        // Variable die den Text enthält,
+        String ausgabelegende = "";
         int count = 0;
         // der als Legende in der Maske ausgegeben wird.
         
@@ -417,7 +439,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
             }
             // Speichervariabel erhält Text für die Legende und 
             //die passenden Suchparameter.
-            ausgabelegende = "Suchbefehl für " + suchKategorie +":\n\n"
+            ausgabelegende = "Suchbefehl für " + suchKategorie + ":\n\n"
                     + parameter + "\n"
                     + "Vergleichsoperatoren: =>  <=  <>  =  <  >  \n\n"
                     + "Wildcards: ? * für die Textsuche. \n\n"
@@ -425,13 +447,16 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
                     + "oben im Suchfeld.\n\n"
                     + "Alle Suchabfragen sind durch  ;  zu trennen.";
         
-        } catch(ApplicationException | NullPointerException e) {
+        } catch (ApplicationException | NullPointerException e) {
             //Fehlerbehandlung 
             //einer ApplikationException oder einer NullpointerException
+            JOptionPane.showMessageDialog(null, "Die Suchattribute sind nicht"
+                    + "vorhanden!", 
+                            "Fehler", JOptionPane.WARNING_MESSAGE);
             
         }
-        
-        return ausgabelegende;//Rückgabe eines Strings.
+        //Rückgabe eines Strings.
+        return ausgabelegende;
     }
     
     /**
@@ -462,11 +487,12 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
     /* 12.01.2015 Terrasi, Implementierung */
     /*----------------------------------------------------------*/
     /**
-     * Schnittstellenmethode mit der auf vollständigkeit der Eingaben geprüft wird.
+     * Schnittstellenmethode mit der auf vollständigkeit 
+     * der Eingaben geprüft wird.
      */
     @Override
-        public void ueberpruefen() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void ueberpruefen() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /*----------------------------------------------------------*/
@@ -474,18 +500,21 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
     /* 12.01.2015 Terrasi, Implementierung */
     /*----------------------------------------------------------*/
     /**
-     * Schnittstellenmethode mit der die Richtigkeit der Eingabe beim Focuslost geprüft wird.
+     * Schnittstellenmethode mit der die Richtigkeit der Eingabe
+     * beim Focuslost geprüft wird.
      * 
-     * @param textfield, das zu übergeben JTextfield, indem der Focusgesetzt
+     * @param textfield das zu übergeben JTextfield, indem der Focusgesetzt
      * ist.
-     * @param syntax, String mit dem eine Eingabe auf das richtige Format hin
+     * @param syntax String mit dem eine Eingabe auf das richtige Format hin
      * geprüft wird.
-     * @param fehlermelgungtitel, Srting der den Titel der Fehlmeldung enthält.
-     * @param fehlermeldung, String der die Fehlmeldung enthält.
+     * @param fehlermelgungtitel Srting der den Titel der Fehlmeldung enthält.
+     * @param fehlermeldung String der die Fehlmeldung enthält.
      */
     @Override
-        public void ueberpruefungVonFocusLost(JTextField textfield, String syntax, String fehlermelgungtitel, String fehlermeldung) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void ueberpruefungVonFocusLost(JTextField textfield, 
+                String syntax, String fehlermelgungtitel, 
+                String fehlermeldung) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     /*----------------------------------------------------------*/
@@ -497,16 +526,17 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame implements Inter
      * farblich markiert werden und eine Nachricht aufruft, die den Benutzer
      * darauf hinweist alle Eingaben zu tätigen.
      *
-     * @param list, Arraylist in der die Components die keine Eingaben erhalten
+     * @param list Arraylist in der die Components die keine Eingaben erhalten
      * haben, gespeichert sind.
-     * @param fehlermelgungtitel, Srting der den Titel der Fehlmeldung enthält.
-     * @param fehlermeldung, String der die Fehlmeldung enthält.
-     * @param farbe, Color in der der Hintergrund der Components markiert werden
+     * @param fehlermelgungtitel Srting der den Titel der Fehlmeldung enthält.
+     * @param fehlermeldung String der die Fehlmeldung enthält.
+     * @param farbe Color in der der Hintergrund der Components markiert werden
      * soll
      */
     @Override
-        public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void fehlEingabenMarkierung(ArrayList<Component> list, 
+                String fehlermelgungtitel, String fehlermeldung, Color farbe) {
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
     
 

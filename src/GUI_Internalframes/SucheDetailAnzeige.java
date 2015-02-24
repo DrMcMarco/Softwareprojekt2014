@@ -6,7 +6,6 @@
 
 package GUI_Internalframes;
 
-import DAO.ApplicationException;
 import DTO.Anschrift;
 import DTO.Artikel;
 import DTO.Artikelkategorie;
@@ -16,16 +15,13 @@ import DTO.Geschaeftspartner;
 import DTO.Status;
 import DTO.Zahlungskondition;
 import Interfaces.InterfaceMainView;
-import JFrames.GUIFactory;
 import JFrames.Start;
 import JFrames.StartAdmin;
 import java.awt.Component;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -740,10 +736,11 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                 akListe = new ArrayList<>((Collection<? 
                                 extends Auftragskopf>) this.ergebnisDaten);
                 //Setze die Daten in die Eingabefelder der Maske
-                this.hauptFenster.gibAuftragskopfanlegenFenster().setStatusAnzeigen();
+                this.hauptFenster.gibAuftragskopfanlegenFenster()
+                        .setStatusAnzeigen();
                 this.hauptFenster.gibAuftragskopfanlegenFenster()
                         .setzeEingabeFuerSuche(akListe.get(
-                                this.Anzeige_jTable1.getSelectedRow()));              
+                                this.Anzeige_jTable1.getSelectedRow()));
                 
                 //Mach das Fenster sichtbar
                 this.hauptFenster.gibAuftragskopfanlegenFenster()
