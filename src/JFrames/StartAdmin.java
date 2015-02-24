@@ -1317,10 +1317,10 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
                 case "Zahlungskondition anzeigen Einstieg" :
                     tabellen = new String[] {"Zahlungskondition" };
                     break; 
-                case "Auftragsposition ändern" :
+                case "Auftragsposition ändern Einstieg" :
                     tabellen = new String[] {"Auftragskopf" };
                     break; 
-                case "Auftragsposition anzeigen" :
+                case "Auftragsposition anzeigen Einstieg" :
                     tabellen = new String[] {"Auftragskopf" };
                     break; 
                 case "Auftragskopf anzeigen Einstieg" :

@@ -604,7 +604,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
         auftragspositions_titel_jLabel.setText("Auftragspositionsdaten :");
 
         materialnummer_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        materialnummer_jLabel.setText("Materialnummer  :");
+        materialnummer_jLabel.setText("Artikel - ID         :");
 
         menge_jLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         menge_jLabel.setText("Menge              :");
@@ -1076,7 +1076,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                 zahlungskonditionen_jComboBox.setModel(
                         new DefaultComboBoxModel(
                                 zahlungskonditionFuerCombobox.toArray()));
-                // Zahlungskonditionscombobox auf enabled(false) setzen.
                 zahlungskonditionen_jComboBox.setEnabled(false);
             }
             // Speichervariable erhält vorgabewert von 0.0
@@ -1113,47 +1112,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                     calender.add(Calendar.DAY_OF_MONTH, sperrzeit);
                     // Neuberechnetes Datum wird gespeichert.
                     berechnetesLieferdatum = calender.getTime();
-                    // Es wird geprüft ob der Tag des Datums auf ein Wochenende
-                    // fällt.
-//                    if (gibMeldungaus) {
 
-//                        if (tagesformat.format(berechnetesLieferdatum).equals("So")
-//                                || tagesformat.format(berechnetesLieferdatum).
-//                                equals("Sa")) {
-//
-//                            //PopUp mit "JA/Nein"-Abfrage.
-//                            int antwort = JOptionPane.showConfirmDialog(
-//                                    rootPane, LIEFERUNGAMWOCHENENDE_TEXT,
-//                                    LIEFERUNGAMWOCHENENDE_TITEL,
-//                                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-//
-//                            // Falls verneint wird, wird Barauftrag ausgewählt und
-//                            // Skonto sowie Mahnzeiteneingabefelder erhalten einen 
-//                            // leeren String.
-//                            if (antwort == JOptionPane.NO_OPTION) {
-//                                auftragsart_jComboBox.setSelectedIndex(0);
-//                                auftragsart_jComboBoxActionPerformed(evt);
-//                                Skontozeit1_jTextField.setText("");
-//                                Skontozeit2_jTextField.setText("");
-//                                Mahnzeit1_jTextField.setText("");
-//                                Mahnzeit2_jTextField.setText("");
-//                                Mahnzeit3_jTextField.setText("");
-//                            } else {// Falls bejaht wird
-//                                // Methodenaufruf um Skonto-/Mahnzeit und neues
-//                                // Lieferdatum anzeigen zu lassen
-//                                gibSkontoUndMahnzeiten(zahlungskondition, false);
-//                            }
-//
-//                        } else { // Falls das Lieferdatum nicht auf ein Wochenende
-//                            // fällt.
-//
-//                            // Methodenaufruf um Skonto-/Mahnzeit und neues
-//                            // Lieferdatum anzeigen zu lassen
-//                            gibSkontoUndMahnzeiten(zahlungskondition, false);
-//
-//                        }assas
                     gibSkontoUndMahnzeiten(zahlungskondition, false);
-//                    }asa
+
                 } else if (auftragsart_jComboBox.getSelectedItem().
                         equals(TERMINAUFTRAG)) {//Falls es ein terminauftrag ist.
                     sperrzeit = zahlungskondition.getSperrzeitWunsch();
@@ -1163,45 +1124,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
 
                     berechnetesLieferdatum = calender.getTime();
 
-//                    if (gibMeldungaus) {
-//                        if (tagesformat.format(berechnetesLieferdatum).equals("So")
-//                                || tagesformat.format(berechnetesLieferdatum).
-//                                equals("Sa")) {
-//
-//                            int antwort = JOptionPane.showConfirmDialog(rootPane,
-//                                    LIEFERUNGAMWOCHENENDE_TEXT,
-//                                    LIEFERUNGAMWOCHENENDE_TITEL,
-//                                    JOptionPane.YES_NO_OPTION,
-//                                    JOptionPane.QUESTION_MESSAGE);
-//
-//                            //Falls bejaht wird, werden die Daten verworfen..
-//                            if (antwort == JOptionPane.NO_OPTION) {
-//                                lieferdatum_jFormattedTextField.
-//                                        requestFocusInWindow();
-//                                lieferdatum_jFormattedTextField.selectAll();
-//
-//                                Skontozeit1_jTextField.setText("");
-//                                Skontozeit2_jTextField.setText("");
-//                                Mahnzeit1_jTextField.setText("");
-//                                Mahnzeit2_jTextField.setText("");
-//                                Mahnzeit3_jTextField.setText("");
-//                            } else {
-//                                // Methodenaufruf um Skonto-/Mahnzeit und neues
-//                                // Lieferdatum anzeigen zu lassen
-//                                gibSkontoUndMahnzeiten(zahlungskondition, true);
-//                            }
-//                        gibSkontoUndMahnzeiten(zahlungskondition, false);
-//                        }
-//                    } else {
-                    // Methodenaufruf um Skonto-/Mahnzeit und neues
-                    // Lieferdatum anzeigen zu lassen
                     gibSkontoUndMahnzeiten(zahlungskondition, true);
-//                    }
 
                 }
 
-//                
-//                else
                 if (auftragsart_jComboBox.getSelectedItem().toString().
                         equals(BESTELLAUFTRAG)) {
 
@@ -1277,11 +1203,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                                     gibArtikelOhneLKZ(artikelid)).getVerkaufswert();
                             // Position den neuen Einzelwert übergeben
                             auftragspositionen.get(i).setEinzelwert(neuerWert);
-                            // Artikel-ID und dessen Menge werden in HashMap
-                            // gespeichert.
-//                            artikel.put(artikelid, auftragspositionen.get(i).
-//                                    getMenge());
-
+                            
                             // Summe der Position berechnen und speichern
                             summenWertFuerPos = auftragspositionen.get(i).
                                     getEinzelwert() * artikel.get(artikelid);
@@ -1311,12 +1233,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                 auftragswert_jTextField.setText(
                         String.valueOf(gesamtAuftragswert));
 
-//                // Speichervariable fr Gesamtauftragswert erhält den Wert 0
-//                gesamtAuftragswert = 0.00;
-
                 // Tabelle erhält das neue DefaulTableModel
                 auftragsposition_jTable.setModel(dtm);
-//                gibMeldungaus = true;
 
             }
         } catch (ApplicationException e) {// Fehlerbehandlung
@@ -1403,8 +1321,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
 
             //Speicher der materialnummer aus dem Eingabefeld 
             artikelnummer = Long.valueOf(materialnummer_jTextField.getText());
-            //
-//            GUIFactory.getDAO().gibArtikel(artikelnummer);
+
             if (auftragsart_jComboBox.getSelectedItem().toString().
                     equals(BESTELLAUFTRAG)) {
                 // Einkaufswert des Material wird ermittelt und gspeichert.
@@ -1432,7 +1349,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                 Iterator<Long> it = artikel.keySet().iterator();
 
                 int i = 0;// Indexvariable
-                // Schleife fr das durchinterieren der Schlsselwerte
+                // Schleife für das durchinterieren der Schlsselwerte
                 while (it.hasNext()) {
                     i++;// Indexvariable wird eins hochgezählt
                     // Falls Artikelnummern gleich sind
@@ -2186,12 +2103,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
             JOptionPane.showMessageDialog(null, e.getMessage(),
                     FEHLERMELDUNG_TITEL, JOptionPane.ERROR_MESSAGE);
         } catch (NumberFormatException e) {
-//            this.hauptFenster.setStatusMeldung("Bitte eine Materialnummer eingeben.");
             JOptionPane.showMessageDialog(null, FEHLERMELDUNGKEINEMATERIALNUMMER,
                     FEHLERMELDUNG_TITEL, JOptionPane.ERROR_MESSAGE);
         }
-//        JOptionPane.showMessageDialog(null, FEHLERMELDUNG_UNVOLLSTAENDIGAUFTRAGSPOSITION_TEXT,
-//                    FEHLERMELDUNG_TITEL, JOptionPane.ERROR_MESSAGE);
         fehlendeEingabenAuftragsposition.clear();
 
     }//GEN-LAST:event_NeuePosition_jButtonActionPerformed
@@ -2219,8 +2133,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                         && auftragstext_jTextArea.getText().equals("")
                         && lieferdatum_jFormattedTextField.getText().
                         equals(erfassungsdatum_auftragsposition_jFormattedTextField.getText())
-                        //                        && abschlussdatum_jFormattedTextField.getText().equals(
-                        //                                lieferdatum_jFormattedTextField.getText())
                         && materialnummer_jTextField.getText().equals("")
                         && menge_jTextField.getText().equals("")
                         && auftragsposition_jTable.getRowCount() == 0)) {
@@ -2437,7 +2349,9 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
 
                 Object[] neuesObj = new Object[]{i + 1,
                     auftragspositionen.get(i).getArtikel().getArtikelID(),
-                    auftragspositionen.get(i).getMenge(), summenWertFuerPos,
+                    artikel.get(
+                            auftragspositionen.get(i).getArtikel().
+                                    getArtikelID()), summenWertFuerPos,
                     gibDatumAlsString(abschlussdatum)};
 
                 dtm.addRow(neuesObj);
@@ -2491,33 +2405,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                 calender.add(Calendar.DAY_OF_MONTH, sperrzeit);
 
                 berechnetesLieferdatum = calender.getTime();
-//                if (tagesformat.format(berechnetesLieferdatum).equals("So")
-//                        || tagesformat.format(berechnetesLieferdatum).
-//                        equals("Sa")) {
-//
-//                    //PopUp mit "JA/Nein"-Abfrage.
-//                    int antwort = JOptionPane.showConfirmDialog(
-//                            rootPane, LIEFERUNGAMWOCHENENDE_TEXT,
-//                            LIEFERUNGAMWOCHENENDE_TITEL,
-//                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-//
-//                    // Falls verneint wird, wird Barauftrag ausgewählt und
-//                    // Skonto sowie Mahnzeiteneingabefelder erhalten einen 
-//                    // leeren String.
-//                    if (antwort == JOptionPane.NO_OPTION) {
-//                        auftragsart_jComboBox.setSelectedIndex(0);
-//                        auftragsart_jComboBoxActionPerformed(evt);
-//                        Skontozeit1_jTextField.setText("");
-//                        Skontozeit2_jTextField.setText("");
-//                        Mahnzeit1_jTextField.setText("");
-//                        Mahnzeit2_jTextField.setText("");
-//                        Mahnzeit3_jTextField.setText("");
-//                    } else {
-//
-//                        lieferdatum = berechnetesLieferdatum;
-//                    }
 
-//                }
                 lieferdatum = berechnetesLieferdatum;
 
                 lieferdatum_jFormattedTextField.setText(
@@ -2549,32 +2437,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                 calender.add(Calendar.DAY_OF_MONTH, sperrzeit);
 
                 berechnetesLieferdatum = calender.getTime();
-//                if (tagesformat.format(berechnetesLieferdatum).equals("So")
-//                        || tagesformat.format(berechnetesLieferdatum).
-//                        equals("Sa")) {
-//
-//                    //PopUp mit "JA/Nein"-Abfrage.
-//                    int antwort = JOptionPane.showConfirmDialog(
-//                            rootPane, LIEFERUNGAMWOCHENENDE_TEXT,
-//                            LIEFERUNGAMWOCHENENDE_TITEL,
-//                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-//
-//                    // Falls verneint wird, wird Barauftrag ausgewählt und
-//                    // Skonto sowie Mahnzeiteneingabefelder erhalten einen 
-//                    // leeren String.
-//                    if (antwort == JOptionPane.NO_OPTION) {
-//                        auftragsart_jComboBox.setSelectedIndex(0);
-//                        auftragsart_jComboBoxActionPerformed(evt);
-//                        Skontozeit1_jTextField.setText("");
-//                        Skontozeit2_jTextField.setText("");
-//                        Mahnzeit1_jTextField.setText("");
-//                        Mahnzeit2_jTextField.setText("");
-//                        Mahnzeit3_jTextField.setText("");
-//                    } else {
-//
-//                        lieferdatum = berechnetesLieferdatum;
-//                    }
-//                }
+
                 lieferdatum = berechnetesLieferdatum;
 
                 lieferdatum_jFormattedTextField.setText(
@@ -2591,29 +2454,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                         String.valueOf(zahlungskondition.getMahnzeit2()));
                 Mahnzeit3_jTextField.setText(
                         String.valueOf(zahlungskondition.getMahnzeit3()));
-            } //            else if ((auftragsart_jComboBox.getSelectedItem().
-            //                    equals(SOFORTAUFTRAG))) {
-            //                zahlungskondition = GUIFactory.getDAO().
-            //                        gibZahlungskonditionNachId(Long.parseLong(
-            //                                        zahlungskonditionen_jComboBox.
-            //                                        getSelectedItem().toString()));
-            //
-            //                lieferdatum = heute;
-            //                lieferdatum_jFormattedTextField.setText(format.format(heute));
-            //                lieferdatum_jFormattedTextField.setEnabled(true);
-            //
-            //                Skontozeit1_jTextField.setText(String.valueOf(
-            //                        zahlungskondition.getSkontozeit1()));
-            //                Skontozeit2_jTextField.setText(String.valueOf(
-            //                        zahlungskondition.getSkontozeit2()));
-            //                Mahnzeit1_jTextField.setText(String.valueOf(
-            //                        zahlungskondition.getMahnzeit1()));
-            //                Mahnzeit2_jTextField.setText(String.valueOf(
-            //                        zahlungskondition.getMahnzeit2()));
-            //                Mahnzeit3_jTextField.setText(String.valueOf(
-            //                        zahlungskondition.getMahnzeit3()));
-            //
-            //            } 
+            } 
             else {
                 lieferdatum = heute;
                 lieferdatum_jFormattedTextField.setText(format.format(heute));
@@ -2718,7 +2559,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
             fehlendeEingaben.add(lieferdatum_jFormattedTextField);
         }
 //        Eingabefelder für Auftragsposition werden in Variable 
-//         "fehlendeEingabenAuftragsposition" feestgehalten.
+//         "fehlendeEingabenAuftragsposition" festgehalten.
         if (materialnummer_jTextField.getText().equals("")) {
             fehlendeEingabenAuftragsposition.add(materialnummer_jTextField);
         }
@@ -2992,13 +2833,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
         this.artikel = artikel;
     }
 
-    /*----------------------------------------------------------*/
-    /* Datum Name Was */
-    /* 14.01.2015 Terrasi angelegt und dokumentiert*/
-    /*----------------------------------------------------------*/
-//    public void setAbschlussdatum(Date abschlussdatum) {
-//        this.abschlussdatum = abschlussdatum;
-//    }
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
@@ -3271,30 +3105,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                                                 auftragskopf.getAbschlussdatum())));
 
             }
-
-//            //Hasmap bekommt positionen
-//            artikel.clear();
-//
-//            dtm.setRowCount(0);
-//            for (int i = 0; i < auftragspositionen.size(); i++) {
-//
-//                artikel.put(auftragspositionen.get(i).getArtikel().
-//                        getArtikelID(),
-//                        auftragspositionen.get(i).getMenge());
-//
-//                summenWertFuerPos = auftragspositionen.get(i).getEinzelwert()
-//                        * auftragspositionen.get(i).getMenge();
-//
-//                Object[] neuesObj = new Object[]{i + 1,
-//                    auftragspositionen.get(i).getArtikel().getArtikelID(),
-//                    auftragspositionen.get(i).getMenge(), summenWertFuerPos,
-//                    gibDatumAlsString(heute)};
-//
-//                gesamtAuftragswert += summenWertFuerPos;
-//
-//                dtm.addRow(neuesObj);
-//
-//            }
 
             auftragsposition_jTable.setModel(dtm);
 
