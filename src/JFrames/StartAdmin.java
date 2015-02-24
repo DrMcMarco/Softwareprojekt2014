@@ -10,11 +10,14 @@ import GUI_Internalframes.*;
 import Hauptmenue.Hauptmenue_Admin;
 import Interfaces.InterfaceMainView;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.persistence.PersistenceException;
@@ -577,8 +580,16 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView{
      * @param evt
      */
     private void jMI_BenutzerhandbuchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_BenutzerhandbuchActionPerformed
-        JOptionPane.showMessageDialog(rootPane, "Benutzerhandbuch.", "Informationen",
-                JOptionPane.INFORMATION_MESSAGE);
+        
+        if (Desktop.isDesktopSupported()) {
+            try {
+                File pdf = new File("Benutzerhandbuch_SWP_GR3.pdf");
+                Desktop.getDesktop().open(pdf);
+            } catch (IOException e) {
+                
+            }
+        }
+        
     }//GEN-LAST:event_jMI_BenutzerhandbuchActionPerformed
 
     /*----------------------------------------------------------*/

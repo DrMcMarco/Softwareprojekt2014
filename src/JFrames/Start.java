@@ -7,6 +7,7 @@ import GUI_Internalframes.*;
 import Hauptmenue.Hauptmenue_User;
 import Interfaces.InterfaceMainView;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
@@ -14,6 +15,8 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -538,6 +541,14 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
      */
     private void jMI_BenutzerhandbuchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMI_BenutzerhandbuchActionPerformed
 
+        if (Desktop.isDesktopSupported()) {
+            try {
+                File pdf = new File("Benutzerhandbuch_SWP_GR3.pdf");
+                Desktop.getDesktop().open(pdf);
+            } catch (IOException e) {
+                
+            }
+        }
 
     }//GEN-LAST:event_jMI_BenutzerhandbuchActionPerformed
 

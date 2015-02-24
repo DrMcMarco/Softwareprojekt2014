@@ -70,7 +70,7 @@ public class DataAccessObject {
     private final EntityManager em;
     
     /**.
-     * Standartkonstruktor
+     * Standardkonstruktor
      */
     public DataAccessObject() {
         
@@ -90,10 +90,9 @@ public class DataAccessObject {
                 
                 //...soll ein Startskript ausgeführt werden das die Datenbank
                 //mit einigen Einträge füllt die für einen ordnungsgemäßen 
-                //Betrieb notwendig sind
-                
-                String[] commands = {"CMD", "/C", "start", "/B", "fillDatabase.bat"};          
-                ProcessBuilder pb = new ProcessBuilder(commands);
+                //Betrieb notwendig sind                
+                String[] befehl = {"CMD", "/C", "start", "/B", "fillDatabase.bat"};          
+                ProcessBuilder pb = new ProcessBuilder(befehl);
                 Process p = pb.start();
                 
             }
@@ -963,7 +962,7 @@ public class DataAccessObject {
         }   
     }
     
-    public void erstelleSteuereintrag(String Parameter, String Wert) 
+    private void erstelleSteuereintrag(String Parameter, String Wert) 
             throws ApplicationException {
         
         Steuertabelle st = em.find(Steuertabelle.class, Parameter);
@@ -2612,6 +2611,8 @@ public class DataAccessObject {
         //Persistente Abbildung des Auftrags holen
         Auftragskopf auftragskopf = em.find(Auftragskopf.class, Auftragsnummer);
         
+        em.merge(auftragskopf);
+        
         //Falls der Auftrag nicht existiert
         if (auftragskopf == null || auftragskopf.isLKZ()) {
             throw new ApplicationException("Fehler", 
@@ -3684,7 +3685,7 @@ public class DataAccessObject {
         Date vorSechsMonaten = cal.getTime();
         
         
-        for (int i = 6; i >= 1; i--) {
+        for (int i = 5; i >= 0; i--) {
             //Datum von vor sechs Monaten berechnet
             cal.add(Calendar.MONTH, -i);
             vorSechsMonaten = cal.getTime();
@@ -3728,7 +3729,7 @@ public class DataAccessObject {
         Date vorSechsMonaten = cal.getTime();
 
         
-        for (int i = 6; i >= 1; i--) {
+        for (int i = 5; i >= 0; i--) {
             //Datum von vor sechs Monaten berechnet
             cal.add(Calendar.MONTH, -i);
             vorSechsMonaten = cal.getTime();
@@ -3741,7 +3742,7 @@ public class DataAccessObject {
             cal = Calendar.getInstance();
         }
         cal = Calendar.getInstance();
-        for (int i = 6; i >= 1; i--) {
+        for (int i = 5; i >= 0; i--) {
             //Datum von vor sechs Monaten berechnet
             cal.add(Calendar.MONTH, -i);
             vorSechsMonaten = cal.getTime();
