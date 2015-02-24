@@ -132,7 +132,7 @@ public class Anmeldung extends javax.swing.JInternalFrame {
             }
         });
 
-        label1.setText("Bitte wenden Sie sich an einem Admin.");
+        label1.setText("Bitte wenden Sie sich an einen Admin.");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -187,7 +187,7 @@ public class Anmeldung extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
         );
 
         pack();
