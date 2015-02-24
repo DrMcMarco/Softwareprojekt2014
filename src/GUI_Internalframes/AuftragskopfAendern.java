@@ -54,7 +54,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
             + " Eingaben getätigt.";
     final String AUFTRAG_NICHT_GEFUNDEN = "Keine passender Auftrag in der "
             + "Datenbank.";
-    final String KEINE_EINGABE = "Bitte geben Sie eine Auftrags-ID ein.";
+    final String KEINE_EINGABE = "Bitte geben Sie eine Auftragskopf-ID ein.";
 
     // Konstanten für Farben
     Color warningfarbe = Color.YELLOW;
