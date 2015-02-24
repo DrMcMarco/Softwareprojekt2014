@@ -20,39 +20,72 @@ import javax.persistence.*;
 public class Auftragsposition implements java.io.Serializable {
     
     /**
-     * Verweis auf den Auftrag (Fremdschlüssel)
+     * Primärschlüssel, zusammen mit Artikel.
+     * Verweis auf den Auftrag (Fremdschlüssel).
      */
     @Id
     @ManyToOne
     @JoinColumn(name = "Auftrag")
     private Auftragskopf Auftrag;
     
+    /**
+     * Primärschlüssel, zusammen mit Auftrag.
+     * Verweis auf einen Artikel (Fremdschlüssel).
+     */
     @Id
     @ManyToOne
     @JoinColumn(name = "Artikel")
     private Artikel Artikel;
     
+    /**
+     * Nummer einer Position.
+     * Wird automatisch hochgezählt.
+     */
     private long Positionsnummer;
     
+    /**
+     * Bestellte Menge eines Artikel.
+     */
     private int Menge;
     
+    /**
+     * Wert einer Position.
+     * Einzelwert = Artikel-Einzelwert * Menge.
+     */
     private double Einzelwert;
     
+    /**
+     * Datum an dem die Position angelegt wurde.
+     */
     @Temporal(TemporalType.DATE)
     private Date Erfassungsdatum;
     
+    /**
+     * Gibt an ob die Position gelöscht ist oder nicht.
+     * Gelöschte Positionen haben keinen Einfluss mehr auf den Auftragswert.
+     */
     private boolean LKZ;
 
+    /**
+     * Standardkonstruktor.
+     */
     public Auftragsposition() {
     }
 
+    /**
+     * Konstruktor mit allen Attributen
+     * @param Auftrag Der Auftrag zu die die Position gehört
+     * @param Artikel Der Artikel der in dieser Position vermerkt werden soll
+     * @param Menge Die bestellte/eingekaufte Menge
+     * @param Einzelwert Der Wert der Position
+     * @param Erfassungsdatum Datum an dem die Position erstellt wird
+     */
     public Auftragsposition(Auftragskopf Auftrag, Artikel Artikel, int Menge, 
             double Einzelwert, Date Erfassungsdatum) {
         this.Auftrag = Auftrag;
         this.Artikel = Artikel;
         this.Menge = Menge;
         this.Einzelwert = Einzelwert;
-//        this.Einzelwert = Einzelwert * Menge;
         this.Erfassungsdatum = Erfassungsdatum;
         this.LKZ = false;
     }
@@ -85,9 +118,15 @@ public class Auftragsposition implements java.io.Serializable {
         return Menge;
     }
 
+    /**
+     * Setzt die Menge einer Position.
+     * Wenn die Menge geändert wird, wird auch der Einzelwert neu berechnet.
+     * @param Menge die neue Menge
+     */
     public void setMenge(int Menge) {
         this.Menge = Menge;
         
+        //Je nach Auftragsart muss der Einzelwert anders berechnet werden
         if (Auftrag instanceof Bestellauftragskopf) {
             this.Einzelwert = this.Artikel.getEinkaufswert() * this.Menge;
         } else {

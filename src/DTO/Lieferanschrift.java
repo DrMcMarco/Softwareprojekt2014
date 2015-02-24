@@ -6,9 +6,13 @@
 package DTO;
 import java.util.Date;
 import javax.persistence.*;
+
 /**
- *
- * @author Marco
+ * Spezialisierte Lieferanschriftklasse.
+ * Erbt von der Klasse Anschrift.
+ * Wird nicht in einer eigenen Tabelle sondern in "Anschrift" unter "Typ" als
+ * "Lieferanschrift" dargestellt.
+ * @author Marco Loewe
  */
 @Entity
 @DiscriminatorValue("Lieferanschrift")

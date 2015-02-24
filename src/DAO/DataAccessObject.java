@@ -251,6 +251,26 @@ public class DataAccessObject {
         
     }
 
+    /**
+     * Methode zur Erstellung eines Artikels mit Vorgänger.
+     * Diese Methode muss innerhalb einer Transaktion aufgerufen werden, da diese
+     * Methode selber keine Transaktion ausführt
+     * @param kategorie String für die Kategorie des Artikels
+     * @param artikeltext Name des Artikels
+     * @param bestelltext Zusätzlicher Text für die Bestellung
+     * @param verkaufswert Der Preis für den der Artikel verkauft wird
+     * @param einkaufswert Der Preis für den der Artikel eingekauft wird
+     * @param MwST Mehrwertsteuersatz des Artikels (in Prozent)
+     * @param Frei Menge an freiem Bestand
+     * @param Reserviert Menge an reserviertem Bestand
+     * @param Zulauf Menge an eingekauften aber noch nicht geliefertem Bestand
+     * @param Verkauft Menge an verkauften Bestand
+     * @param Vorgaenger Der Vorgänger des anzulegenden Artikels
+     * @throws ApplicationException wenn keine Kategorie übergeben wurde oder
+     *                              der Artikel nicht erstellt werden kann
+     * 
+     * @return der angelegte Artikel mit Vorgänger
+     */
     public Artikel erstelleArtikel(String kategorie, String artikeltext, 
         String bestelltext, double verkaufswert, double einkaufswert,
         int MwST, int Frei, int Reserviert, int Zulauf, int Verkauft,
@@ -264,6 +284,7 @@ public class DataAccessObject {
                     "Der Kategoriename existiert nicht!");
         }
         
+        //Erstelle Artikel mit Vorgänger
         Artikel item = new Artikel(cat, artikeltext, bestelltext,
                 verkaufswert, einkaufswert, MwST, Frei, Reserviert,
                 Zulauf, Verkauft, Vorgaenger);
@@ -962,17 +983,31 @@ public class DataAccessObject {
         }   
     }
     
+    /**
+     * Methode zur Erstellung von Steuereinträgen.
+     * Ist ein Parameter bereits in der Steuertabelle vorhanden, wird der 
+     * Wert überschrieben.
+     * @param Parameter Name des Parameters
+     * @param Wert Wert des Parameters
+     * @throws ApplicationException wenn bei der Erstellung des Eintrags ein
+     *                              Fehler auftritt
+     */
     private void erstelleSteuereintrag(String Parameter, String Wert) 
             throws ApplicationException {
         
+        //Suche den Steuerparameter anhand des Parameternames in der Datenbank
         Steuertabelle st = em.find(Steuertabelle.class, Parameter);
         
+        //Wurde der Eintrag nicht gefunden, soll ein neuer Eintrag erstellt
+        //werden. Wenn ein Eintrag gefunden wird, wird der alte Wert 
+        //überschrieben
         if (st == null) {
             st = new Steuertabelle(Parameter, Wert);
         } else {
             st.setWert(Wert);
         }
         
+        //Wenn bei der Erstellung des Eintrags ein Fehler auftritt
         if (st == null) {
             throw new ApplicationException(FEHLER_TITEL, 
                     "Der Eintrag konnte nicht erstellt werden.");
@@ -980,10 +1015,13 @@ public class DataAccessObject {
         
         try {
             
+            //Transaktion beginnen
             em.getTransaction().begin();
             
+            //Steuereintrag persistieren
             em.persist(st);
             
+            //Transaktion beenden
             em.getTransaction().commit();
             
         } catch (RollbackException re) {
@@ -1374,10 +1412,14 @@ public class DataAccessObject {
                         artikel.getFrei(), artikel.getReserviert(), 
                         artikel.getZulauf(), artikel.getVerkauft(), artikel);
                 
+                //Setze den neu erstellten Artikel als Nachfolger des alten
+                //Artikels
                 artikel.setNachfolger(neuerArtikel);
                 
             } else {
                 
+                //Haben sich die Werte für die Bewertung des Artikels nicht
+                //verändert, werden nur die anderen Werte überschrieben
                 artikel.setArtikeltext(Artikeltext);
                 artikel.setBestelltext(Bestelltext);
                 artikel.setKategorie(this.gibKategorie(Kategorie));
@@ -2465,6 +2507,19 @@ public class DataAccessObject {
         return item;
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 18.12.14   loe     angelegt                              */
+    /*----------------------------------------------------------*/
+    /**
+     * Gibt einen Artikel zurück auch wenn für diesen Artikel das
+     * Löschkennzeichen gesetzt ist.
+     * Wird genutzt um bereits gelöschte Artikel weiterhin in Aufträgen anzeigen
+     * zu können.
+     * @param Artikelnummer Artikelnummer des Artikels
+     * @return ein Artikel-Objekt
+     * @throws ApplicationException wenn kein Artikel gefunden werden kann
+     */
     public Artikel gibArtikelOhneLKZ(long Artikelnummer) throws ApplicationException {
         
         //Suche den Artikel mit der angegebenen ID aus der Datenbank

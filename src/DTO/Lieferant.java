@@ -6,9 +6,13 @@
 package DTO;
 
 import javax.persistence.*;
+
 /**
- *
- * @author Marco
+ * Spezialisierte Lieferatenklasse.
+ * Erbt von der Geschäftspartnerklasse.
+ * Wird nicht in einer eigenen Tabelle sondern in der Tabelle "Geschäftspartner"
+ * unter "Typ" als "Lieferant" dargestellt
+ * @author Marco Loewe
  */
 @Entity
 @DiscriminatorValue("Lieferant")

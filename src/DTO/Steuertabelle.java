@@ -7,20 +7,26 @@ package DTO;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
- *
- * @author Marco
+ * Entitätsklasse für die Steuertabelle.
+ * Diese Tabelle enthält einige Informationen über das Programm, z.B. wann das 
+ * Programm das letzte Mal gestartet wurde.
+ * @author Marco Loewe
  */
 @Entity
 public class Steuertabelle implements Serializable {
     
+    /**
+     * Name des Steuerparameters
+     */
     @Id
     private String Steuerparameter;
     
+    /**
+     * Wert des Steuerparameters
+     */
     private String Wert;
     
     public Steuertabelle() {
