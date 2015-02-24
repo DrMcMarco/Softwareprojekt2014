@@ -285,7 +285,6 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
             // Überprüft anhand des Framestitels, ob es das nächste Fenster
                 // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
                 if (this.getTitle().equals(auftragskopfAendern)) {
-                    this.auftragskopfAnlegen.setMeldungAus(false);
                     if (aKopf != null) {// Falls Auftragskopf vorhanden ist.
                         if (!(aKopf.getStatus().getStatus().
                                 equals("abgeschlossen"))) {//Status des Auftrags 
@@ -327,18 +326,12 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
                     // Hauptfenster macht übergebene Maske sichtbar.
                     this.hauptFenster.setFrame(this.auftragskopfAnlegen);
                 }
-            } else {// Falls keine eingabegetätigt worden ist.
-                // Fehlermeldung als PopUp
-//                JOptionPane.showMessageDialog(null,
-//                        FEHLERMELDUNG_UNVOLLSTAENDIG_TEXT,
-//                        FEHLER, JOptionPane.ERROR_MESSAGE);
+            } else {
                 
                 this.hauptFenster.setStatusMeldung(KEINE_EINGABE);
             }
         } catch (ApplicationException | NullPointerException e) {// Fehlerbehandlung.
             // Fehlermeldung als PopUp
-//            JOptionPane.showMessageDialog(null, e.getMessage(),
-//                    FEHLER, JOptionPane.ERROR_MESSAGE);
                 this.hauptFenster.setStatusMeldung(AUFTRAG_NICHT_GEFUNDEN);
                 auftragskopfID_jTextField.setText("");
         }
