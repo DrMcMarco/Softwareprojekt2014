@@ -214,7 +214,7 @@
             </Menu>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu1">
+        <Menu class="javax.swing.JMenu" name="statistik_jmn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Statistik"/>
           </Properties>
