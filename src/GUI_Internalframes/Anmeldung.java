@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GUI_Internalframes;
 
 import DAO.ApplicationException;
 import JFrames.Login;
 import JFrames.*;
-import GUI_Internalframes.*;
 import DTO.*;
 import javax.persistence.PersistenceException;
 import javax.swing.JOptionPane;
@@ -22,19 +16,39 @@ import javax.swing.JOptionPane;
  */
 public class Anmeldung extends javax.swing.JInternalFrame {
 
-    /*
-     Erzeugung von Varibalen für Objekte
+    /**
+     * Variable fuer die GuiFactory.
      */
-    GUIFactory factory;// erzeugung von GuiFactory.
-    Benutzer benutzer;// erzeugung eines Benutzers.
-    StartAdmin adminStart;//Erzuegung der Adminansicht.
-    Start userStart;// Erzeugung der Useransicht.
-    Login login;// Erzeugung des Anmeldefensters.
-
-    //Variablen für Meldungen
-    final String WILLKOMMENSMELDUNG = "Willkommen ";
-    final String FEHLERMELDUNGSTITEL = "Fehler";
-    final String KEINE_EINGABEN = "Bitte geben Sie den Benutzernamen und das Passwort ein.";
+    private GUIFactory factory;
+    /**
+     * Variable fuer das Erzeugen eines Benutzers.
+     */
+    private Benutzer benutzer;
+    /**
+     * Variable zur Erzuegung der Adminansicht.
+     */
+    private StartAdmin adminStart;
+    /**
+     * Variable zur Erzuegung der Useransicht.
+     */
+    private Start userStart;
+    /**
+     * Variable zur Erzuegung des Anmeldefensters.
+     */
+    private Login login;
+    /**
+     * Variable duer die Meldungen.
+     */
+    private final String WILLKOMMENSMELDUNG = "Willkommen ";
+    /**
+     * Variable duer die Meldungen.
+     */
+    private final String FEHLERMELDUNGSTITEL = "Fehler";
+    /**
+     * Variable duer die Meldungen.
+     */
+    private final String KEINE_EINGABEN = "Bitte geben Sie den "
+            + "Benutzernamen und das Passwort ein.";
 
     /**
      * Erstellt neues Hauptmenü.
@@ -44,18 +58,17 @@ public class Anmeldung extends javax.swing.JInternalFrame {
     public Anmeldung(Login test) {
         initComponents();
         this.login = test;
-        // Try-Block
+//         Try-Block
         try {
-            factory = new GUIFactory();// Erzeugung eines Guifactoryobjektes.
-            // Erzeugung eines DAO-Objektes.
-        } catch (PersistenceException e) {// Fehlerbehandlung falls bei der 
-            // Erzeugung etwas nicht funktioniert hat.
-
-            //Ausgabe einer Fehlermeldung
+            factory = new GUIFactory(); //Erzeugung eines Guifactoryobjektes.
+//             Erzeugung eines DAO-Objektes.
+        } catch (PersistenceException e) { //Fehlerbehandlung falls bei der 
+//            Erzeugung etwas nicht funktioniert hat.
+//            Ausgabe einer Fehlermeldung
             JOptionPane.showMessageDialog(null, e.getMessage(),
                     FEHLERMELDUNGSTITEL, JOptionPane.ERROR_MESSAGE);
         }
-        benutzer = new Benutzer();// Initialisierung eines Benutzers.
+        benutzer = new Benutzer(); //Initialisierung eines Benutzers.
 
     }
 
@@ -186,17 +199,22 @@ public class Anmeldung extends javax.swing.JInternalFrame {
      * @param evt
      */
     private void Anmelde_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Anmelde_buttonActionPerformed
-        try {//Try-Block, falls Benutzername oder Passwort nicht mit DB
-            // Einträgen übereinstimmen, wird der Fehler passend im Catchblock
-            // abgefangen.
+        try {
+//          Try-Block, falls Benutzername oder Passwort nicht mit DB
+//          Einträgen übereinstimmen, wird der Fehler passend im Catchblock
+//          abgefangen.
 
-            // Benutzer bekommt Daten von der DB.
-            // DAO-Methode prüft ob Benutzername und Passwort mit hinterlegten
-            // Daten in der DB übereinstimmen.Falls ja erhält das Benutzer-Objekt
-            // Daten von der DB.
-            if (!benutzername_jTextField.getText().equals("") && !passwort_jPasswordField.getPassword().equals("")) {
+//          Benutzer bekommt Daten von der DB.
+//          DAO-Methode prüft ob Benutzername und Passwort mit hinterlegten
+//          Daten in der DB übereinstimmen.Falls ja erhält das Benutzer-Objekt
+//          Daten von der DB.
+            if (!benutzername_jTextField.getText().equals("")
+                    && !passwort_jPasswordField.getPassword().equals("")) {
 
-                benutzer = GUIFactory.getDAO().login(benutzername_jTextField.getText(), new String(passwort_jPasswordField.getPassword()));
+                benutzer = GUIFactory.getDAO()
+                        .login(benutzername_jTextField.getText(),
+                                new String(passwort_jPasswordField
+                                        .getPassword()));
 
                 if (benutzer == null) {
                     throw new ApplicationException("Fehler",
@@ -204,30 +222,37 @@ public class Anmeldung extends javax.swing.JInternalFrame {
                 }
 
                 Anmelde_button.setEnabled(false);
-                if (benutzer.isIstAdmin()) {//Überprüfung ob der user ein Admin ist
-                    adminStart = new StartAdmin(this.login);// Initialisierung der Adminansicht.
+//                Überprüfung ob der user ein Admin ist
+                if (benutzer.isIstAdmin()) {
+//                     Initialisierung der Adminansicht.
+                    adminStart = new StartAdmin(this.login);
+//                           Übergabe einer Statusmeldung
                     adminStart.setStatusMeldung(WILLKOMMENSMELDUNG
-                            + benutzername_jTextField.getText());// Übergabe einer Statusmeldung
-                    adminStart.setVisible(true);// Adminansicht wird sichtbar.
-                    this.login.setVisible(false);//Anmeldefenster wird nicht mehr 
-                    //sichtbar dargestellt.
+                            + benutzername_jTextField.getText());
+//                    Adminansicht wird sichtbar.
+                    adminStart.setVisible(true);
+//                    Anmeldefenster wird nicht mehr sichtbar dargestellt.
+                    this.login.setVisible(false);
                 } else {
-                    userStart = new Start(this.login);// Initialisierung der Useransicht.
+//                     Initialisierung der Useransicht.
+                    userStart = new Start(this.login);
+//                     Übergabe einer Statusmeldung an die User ansicht.
                     userStart.setStatusMeldung(WILLKOMMENSMELDUNG
-                            + benutzername_jTextField.getText());// Übergabe einer Statusmeldung
-                    // an die User ansicht.
-                    userStart.setVisible(true);// Useransicht wird sichtbar.
-                    this.login.setVisible(false);//Anmeldefenster wird nicht mehr 
-                    //sichtbar dargestellt.
+                            + benutzername_jTextField.getText());
+//                     Useransicht wird sichtbar.
+                    userStart.setVisible(true);
+//                    Anmeldefenster wird nicht mehr
+                    this.login.setVisible(false);
+//                    sichtbar dargestellt.
                 }
             } else {
                 JOptionPane.showMessageDialog(null, KEINE_EINGABEN,
                         FEHLERMELDUNGSTITEL, JOptionPane.WARNING_MESSAGE);
             }
         } catch (ApplicationException e) {
-            // Fehlerausgabe falls Passwort oder Benutzernamen nicht in der
-            // DB vorhanden sind.
-            //Ausgabe einer Fehlermeldung
+//             Fehlerausgabe falls Passwort oder Benutzernamen nicht in der
+//             DB vorhanden sind.
+//            Ausgabe einer Fehlermeldung
             JOptionPane.showMessageDialog(null, e.getMessage(),
                     FEHLERMELDUNGSTITEL, JOptionPane.ERROR_MESSAGE);
 
@@ -241,7 +266,7 @@ public class Anmeldung extends javax.swing.JInternalFrame {
      * @param evt
      */
     private void benutzername_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_benutzername_jTextFieldFocusGained
-        benutzername_jTextField.selectAll();// Selektiert das Eingabefeld.
+        benutzername_jTextField.selectAll(); // Selektiert das Eingabefeld.
     }//GEN-LAST:event_benutzername_jTextFieldFocusGained
 
     /**
@@ -251,7 +276,7 @@ public class Anmeldung extends javax.swing.JInternalFrame {
      * @param evt
      */
     private void passwort_jPasswordFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwort_jPasswordFieldFocusGained
-        passwort_jPasswordField.selectAll();// Selektiert das Eingabefeld.
+        passwort_jPasswordField.selectAll(); // Selektiert das Eingabefeld.
     }//GEN-LAST:event_passwort_jPasswordFieldFocusGained
 
     /**
@@ -267,7 +292,11 @@ public class Anmeldung extends javax.swing.JInternalFrame {
             Anmelde_buttonActionPerformed(null);
         }
     }//GEN-LAST:event_passwort_jPasswordFieldKeyPressed
-
+    
+    /**
+     * 14.01.2015 Terrasi, Erstellung, 20.02.2015 SEN, Ueberarbeitet. Methode
+     * zum zuruecksetzen der Felder.
+     */
     public void zurueckSetzen() {
         Anmelde_button.setEnabled(true);
         benutzername_jTextField.setText("");
