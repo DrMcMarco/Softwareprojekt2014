@@ -35,8 +35,6 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
 
     ArrayList<Component> fehleingabefelder;
 
-    // Syntax
-    private static final String auftragskopfID_syntax = "|\\d{1,9}?";
 
     // Augabetexte für Meldungen
     final String FEHLER = "Fehler";
@@ -54,7 +52,8 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
             + "(z.B. 1 oder 999999999)\"";
     final String FEHLERMELDUNG_UNVOLLSTAENDIG_TEXT = "Es wurden nicht alle"
             + " Eingaben getätigt.";
-    final String AUFTRAG_NICHT_GEFUNDEN = "Keine passender Auftrag in der Datenbank.";
+    final String AUFTRAG_NICHT_GEFUNDEN = "Keine passender Auftrag in der "
+            + "Datenbank.";
     final String KEINE_EINGABE = "Bitte geben Sie eine Auftrags-ID ein.";
 
     // Konstanten für Farben
@@ -160,9 +159,6 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
             public void focusGained(java.awt.event.FocusEvent evt) {
                 auftragskopfID_jTextFieldFocusGained(evt);
             }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                auftragskopfID_jTextFieldFocusLost(evt);
-            }
         });
         auftragskopfID_jTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -231,26 +227,6 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 10.12.2014 Terrasi angelegt und dokumentiert*/
-    /* 18.02.2015 TER, getestet und freigegeben */
-    /*----------------------------------------------------------*/
-    /**
-     * Beim Focuslost des Eingabefeldes für die Auftragskopf-ID, wird auf die
-     * Richtigkeit der Eingabe geprüft und gibt gegebenen falls eine
-     * Fehlermeldung aus. Dabei springt man zurück in das Eingabefeld.
-     *
-     * @param evt
-     */
-    private void auftragskopfID_jTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_auftragskopfID_jTextFieldFocusLost
-        // Aufruf der Schnittstellenmethode für die Focuslostüberprüfung
-//        ueberpruefungVonFocusLost(auftragskopfID_jTextField,
-//                auftragskopfID_syntax,
-//                FEHLERMELDUNG_TITEL, FEHLERMELDUNG_AUFTRAGSKOPFID_TEXT);
-
-    }//GEN-LAST:event_auftragskopfID_jTextFieldFocusLost
-
-    /*----------------------------------------------------------*/
-    /* Datum Name Was */
-    /* 10.12.2014 Terrasi angelegt und dokumentiert*/
     /* 14.01.2015 Terrasi, implementierung der DAOMethode "gibAuftragskopf"
      und Logiküberarbeitung.*/
     /* 18.02.2015 TER, getestet und freigegeben */
@@ -293,7 +269,8 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
                             this.auftragskopfAnlegen.zuruecksetzen();
                             // Setzt das Internalframe in den Ändernmodus.
                             this.auftragskopfAnlegen.setStatusAender();
-                            //Übergabe des Auftrags an die AuftragskopfAnlege Maske.
+                            // Übergabe des Auftrags an die AuftragskopfAnlege 
+                            // Maske.
                             this.auftragskopfAnlegen.
                                     setzeEingabe(aKopf);
                             // Methode die bestimmte Eingabefelder leert
@@ -330,9 +307,11 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
                 
                 this.hauptFenster.setStatusMeldung(KEINE_EINGABE);
             }
-        } catch (ApplicationException | NullPointerException e) {// Fehlerbehandlung.
+        } catch (ApplicationException | 
+                NullPointerException e) {// Fehlerbehandlung.
             // Fehlermeldung als PopUp
                 this.hauptFenster.setStatusMeldung(AUFTRAG_NICHT_GEFUNDEN);
+                // Eingabefeld erhält leeren String
                 auftragskopfID_jTextField.setText("");
         }
     }//GEN-LAST:event_weiter_jButtonActionPerformed
@@ -381,7 +360,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
     /**
      * ActionPerformed für den Aufruf der Suche.
      *
-     * @param evt
+     * @param evt, Event
      */
     private void jB_SuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SuchenActionPerformed
         // Übergabe des Fenster an die "rufeSuche"-Methode.

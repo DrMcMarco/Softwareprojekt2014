@@ -42,16 +42,19 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
     final String FEHLER = "Fehler";
     final String FEHLENDEEINGABEN = "Fehlende Eingaben";
     final String FEHLERMELDUNG_TITEL = "Fehlerhafte Eingabe";
-    final String FEHLERMELDUNG_AUFTRAGSKOPFID_TEXT = "Bitte geben sie alle "
+    final String FEHLERMELDUNG_AUFTRAGSKOPFID_TEXT = "Bitte geben Sie alle "
             + "notwendigen Eingaben ein!";
     final String FEHLERMELDUNG_STATUS_TITEL = "Abgeschlossener Auftrag";
     final String FEHLERMMELDUNG_STATUSABGESCHLOSSEN_TEXT = "Der Auftrag ist "
             + "bereits abgeschlossen und kann nicht"
-            + "\nbearbeitet werden. ";
-    final String AUFTRAG_NICHT_GEFUNDEN = "Keine passender Auftrag in der Datenbank.";
-    final String KEINE_EINGABE = "Bitte geben Sie eine Auftragskopf-ID und die Auftragsposition-ID ein.";
+            + "\n bearbeitet werden. ";
+    final String AUFTRAG_NICHT_GEFUNDEN = "Keine passender Auftrag in der "
+            + "Datenbank.";
+    final String KEINE_EINGABE = "Bitte geben Sie eine Auftragskopf-ID und die"
+            + " Auftragsposition-ID ein.";
     final String KEINE_AUFTRAGSID = "Bitte geben Sie eine Auftragskopf-ID ein.";
-    final String KEINE_POSITIONSID = "Bitte geben Sie eine Auftragsposition-ID ein.";
+    final String KEINE_POSITIONSID = "Bitte geben Sie eine Auftragsposition-ID"
+            + " ein.";
 
 
     /*----------------------------------------------------------*/
@@ -278,13 +281,17 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
      */
     private void Weiter_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Weiter_jButtonActionPerformed
         // Klassenvariable
-        final String auftragspositionaendern = "Auftragsposition ändern Einstieg";
+        final String auftragspositionaendern
+                = "Auftragsposition ändern Einstieg";
+        Auftragskopf aKopf;
 //        Ueberpruefung, ob beide Felder leer sind
-        if (!auftragskopfID_jTextField.getText().equals("") && !AuftragspositionID_jTextField.getText().equals("")) {
+        if (!auftragskopfID_jTextField.getText().equals("")
+                && !AuftragspositionID_jTextField.getText().equals("")) {
             // Überprfung, ob auch alle Eingaben getätigt worden sind.
             ueberpruefen();
             try {// Try-Block
-                Auftragskopf aKopf = GUIFactory.getDAO().
+                // Auftragskopf wird mit DAO-MEthode gerufen und initialisiert
+                aKopf = GUIFactory.getDAO().
                         gibAuftragskopf(
                                 Long.parseLong(
                                         auftragskopfID_jTextField.getText()));
@@ -295,20 +302,23 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
                         gibAuftragsposition(Long.parseLong(
                                         auftragskopfID_jTextField.getText()),
                                 Long.parseLong(
-                                        AuftragspositionID_jTextField.getText()));
+                                        AuftragspositionID_jTextField.
+                                        getText()));
                 if (position != null) {//Wird geprüft ob eine Position vorhanden ist
 
                     if (this.getTitle().equals(auftragspositionaendern)) {
 
-                        // Überprüft anhand des Framestitels, ob es das nächste Fenster
-                        // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
+                        // Überprüft anhand des Framestitels, ob es das nächste 
+                        // Fenster im Anzeigen-/ oder im Ändernmodus anzeigen
+                        // soll.
                         if (!(aKopf.getStatus().getStatus().
                                 equals("abgeschlossen"))) {//Status des Auftrags 
                             // Setzt das Internalframe in den Ändernmodus.
                             this.auftragspositionAnzeigen.setStatusAender();
                             //Methode die bestimmte Eingabefelder leert
                             zuruecksetzen();
-                            this.auftragspositionAnzeigen.setzeEingaben(position);
+                            this.auftragspositionAnzeigen.setzeEingaben(
+                                    position);
                             // Fenster wird nicht mehr sichtbar.
                             this.setVisible(false);
                             // Hauptfenster macht übergebene Maske sichtbar.
@@ -325,6 +335,7 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
                             auftragskopfID_jTextField.requestFocusInWindow();
                         }
                     } else {//Falls Titel gleich "Auftragsposition anzeigen Einstieg"
+
                         // Setzt das Internalframe in den Anzeigenmodus.
                         this.auftragspositionAnzeigen.setStatusAnzeigen();
                         //Methode die bestimmte Eingabefelder leert
@@ -339,16 +350,12 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
 
                 }
             } catch (NumberFormatException e) {// Fehlerbehandlung.
-//            // Fehlermeldung als PopUp
-//            JOptionPane.showMessageDialog(null,
-//                    FEHLERMELDUNG_AUFTRAGSKOPFID_TEXT,
-//                    FEHLER, JOptionPane.ERROR_MESSAGE);
+                // Meldung wird an die Statuszeile übergeben.
                 this.hauptFenster.setStatusMeldung(KEINE_EINGABE);
             } catch (ApplicationException e) {// Fehlerbehandlung.
-//            // Fehlermeldung als PopUp
-//            JOptionPane.showMessageDialog(null, e.getMessage(),
-//                    FEHLER, JOptionPane.ERROR_MESSAGE);
+                // Meldung wird an die Statuszeile übergeben
                 this.hauptFenster.setStatusMeldung(AUFTRAG_NICHT_GEFUNDEN);
+                // Eingabefelder erhalten leeren String
                 auftragskopfID_jTextField.setText("");
                 AuftragspositionID_jTextField.setText("");
             } catch (NullPointerException e) {// Fehlerbehandlung.
@@ -356,22 +363,30 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
                 this.hauptFenster.setStatusMeldung(FEHLENDEEINGABEN);
             }
         } else {
-//            Ein oder beide Felder sind leer
-//            Ueberpruefung welches Feld leer ist
-            if (auftragskopfID_jTextField.getText().equals("") && AuftragspositionID_jTextField.getText().equals("")) {
-//                beide Felder sind leer, Fehlermeldung
+            // Ein oder beide Felder sind leer
+            // Ueberpruefung welches Feld leer ist
+            if (auftragskopfID_jTextField.getText().equals("")
+                    && AuftragspositionID_jTextField.getText().equals("")) {
+                //Beide Felder sind leer, Fehlermeldung
                 this.hauptFenster.setStatusMeldung(KEINE_EINGABE);
             } else if (AuftragspositionID_jTextField.getText().equals("")) {
-//                Auftragspoisitons-ID ist leer, entsprechende Fehlermeldung
+                // Auftragspoisitons-ID ist leer, entsprechende Fehlermeldung
                 this.hauptFenster.setStatusMeldung(KEINE_POSITIONSID);
             } else {
-//                Auftrags-ID ist leer, entsprechende Fehlermeldung
+                // Auftrags-ID ist leer, entsprechende Fehlermeldung
                 this.hauptFenster.setStatusMeldung(KEINE_AUFTRAGSID);
             }
         }
 
     }//GEN-LAST:event_Weiter_jButtonActionPerformed
 
+
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi, Dokumentation und Logik*/
+    /* 16.12.2014 Terrasi, Funktionsimplementierung im "Zurück"-Button */
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
      * Aktion die beim betätigen des Zurück-Buttons ausgeführt wird. Es wird von
      * der Guifactory die letzte aufgerufene Component abgefragt wodurch man die
@@ -381,7 +396,8 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
      */
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
         c = null;   //Initialisierung der Componentspeichervariable
-        //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
+        // Erhalten über GUIFactorymethode die letzte aufgerufene View und 
+        // speichern diese in Variable.
         c = this.factory.zurueckButton();
         this.setVisible(false);// Internalframe wird nicht mehr dargestellt
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package GUI_Internalframes;
 
 import DAO.ApplicationException;
@@ -17,7 +13,6 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import JFrames.*;
-import java.text.ParseException;
 import java.util.Calendar;
 
 /**
@@ -33,7 +28,8 @@ import java.util.Calendar;
 /* 17.01.2015 Terrasi, erstelln  von Setter-Methoden um Werte den Eingabefelder
  zu übergeben.*/
 /* 18.02.2015 TER, getestet und freigegeben */
-public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
+public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame 
+implements InterfaceViewsFunctionality {
 
     // Speichervariablen
     GUIFactory factory;
@@ -75,27 +71,32 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
 
     final String FEHLERMELDUNG_TITEL = "Fehlerhafte Eingabe";
 
-    final String FEHLERMELDUNG_MENGE_TEXT = "\"Die eingegebene Menge ist nicht gültig! "
+    final String FEHLERMELDUNG_MENGE_TEXT = "\"Die eingegebene Menge ist"
+            + " nicht gültig!"
             + "\\n Bitte geben Sie eine Menge ein. (z.B. 0 bis 999999999)\"";
 
     final String AENDERUNGVONDATEN__TITEL = "Änderung von Daten";
-    final String AENDERUNGVONDATEN_TEXT = "Es wurden Daten geändert. Wollen Sie wirklich"
+    final String AENDERUNGVONDATEN_TEXT = "Es wurden Daten geändert. Wollen "
+            + "Sie wirklich"
             + " die Daten überspeichern?";
 
-    final String ERFOLGREICHGEAENDERT_TEXT = "Die Position  wurde erfolgreich geändert.";
+    final String ERFOLGREICHGEAENDERT_TEXT = "Die Position wurde erfolgreich "
+            + "geändert.";
 
     final String KEINEAENDERUNG_TITEL = "Auftragsposition existiert bereits.";
-    final String KEINEAENDERUNG_TEXT = "Es sind keine Änderungen vorgenommen worden.";
+    final String KEINEAENDERUNG_TEXT = "Es sind keine Änderungen vorgenommen "
+            + "worden.";
 
     final String ERFOLGREICHGELOESCHT_TITEL = "Auftragsposition löschen";
-    final String ERFOLGREICHGELOESCHT_TEXT = "Auftragsposition wurde erfolgreich "
-            + "gelöscht";
+    final String ERFOLGREICHGELOESCHT_TEXT = "Auftragsposition wurde "
+            + "erfolgreich gelöscht";
 
     final String DATENVERWERFEN_TITEL = "Daten verwerfen";
     final String DATENVERWERFEN_TEXT = "Es wurden Daten eingegeben. Wollen Sie"
             + " diese Verwerfen ?";
 
-    final String KEINEEINGABE_TEXT = "Es wurde keine Eingabe getätigt. Bitte geben"
+    final String KEINEEINGABE_TEXT = "Es wurde keine Eingabe getätigt. Bitte "
+            + "geben"
             + "\n Sie die notwendige Eingabe ein.";
 
     final String POSITIONLOESCHEN_TITEL = "Position löschen";
@@ -104,7 +105,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
 
     final String FEHLERMELDUNG_STATUS_TITEL = "Abgeschlossener Auftrag";
     final String FEHLERMMELDUNG_STATUSABGESCHLOSSEN = "Der Auftrag ist "
-            + "bereits abgeschlossen und somit kann "
+            + "bereits abgeschlossen und somit kann"
             + "\n keine Position bearbeitet werden. ";
 
     /*----------------------------------------------------------*/
@@ -486,7 +487,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      */
     private void jB_AnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AnzeigenActionPerformed
         try {
-
+            // Prüfen ob der Auftrag der Position abgeschlossen ist.
             if ((GUIFactory.getDAO().gibAuftragskopf(
                     Long.parseLong(auftragskofID_jTextField.getText())).
                     getStatus().getStatus().equals("abgeschlossen"))) {
@@ -496,7 +497,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
                         FEHLERMMELDUNG_STATUSABGESCHLOSSEN,
                         FEHLERMELDUNG_STATUS_TITEL,
                         JOptionPane.WARNING_MESSAGE);
-            } else {
+            } else {// Falls Auftrag nicht abgeschlossen ist
                 this.setStatusAender();// Methode um den Modus zu wechseln.
             }
         } catch (ApplicationException e) {// Fehlerbehandlung.
@@ -610,11 +611,13 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
                 if (antwort == JOptionPane.YES_OPTION) {
 
                     // Aufruf der DAO-Methode um eine Position zu löschen
-                    GUIFactory.getDAO().loeschePositionTransaktion(Long.parseLong(dbAuftragspositionsID),
+                    GUIFactory.getDAO().loeschePositionTransaktion(
+                            Long.parseLong(dbAuftragspositionsID),
                             Long.parseLong(dbPositionsnummer));
                     // Methodenaufruf um Meldung in der Statuszeile 
                     // anzeigen zu lassen.
-                    this.hauptFenster.setStatusMeldung(ERFOLGREICHGELOESCHT_TEXT);
+                    this.hauptFenster.setStatusMeldung(
+                            ERFOLGREICHGELOESCHT_TEXT);
                     // ActionPerformed-Methode um ins Menü zurückzukehren.
                     jB_ZurueckActionPerformed(evt);
                 }
@@ -754,7 +757,8 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      * soll
      */
     @Override
-    public void fehlEingabenMarkierung(ArrayList<Component> list, String fehlermelgungtitel, String fehlermeldung, Color farbe) {
+    public void fehlEingabenMarkierung(ArrayList<Component> list, 
+            String fehlermelgungtitel, String fehlermeldung, Color farbe) {
         // Meldung die darauf hinweist das nicht alle Eingaben getätigt worden 
         // sind.
         JOptionPane.showMessageDialog(null, fehlermeldung,
@@ -933,7 +937,7 @@ public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame impleme
      * passenden Eingabefeldern wiedergibt. Die Daten der Position werden des
      * Weiteren in Speichervariablen abgelegt.
      *
-     * @param position positionen
+     * @param position, Eine Auftragsposition
      */
     public void setzeEingaben(Auftragsposition position) {
         // Übergeben der Positionsdaten an die jeweiligen Eingabefelder.

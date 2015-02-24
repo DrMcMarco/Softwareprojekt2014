@@ -21,7 +21,9 @@ import javax.swing.*;
 /* 08.01.2015  Terrasi, implementierung der Schnittstellenmethoden und 
  der Ändern/Anzeigen Funktion. */
 /* 10.03.2015 Terrasi,  getestet und freigegeben */
-public class User_andernEinstieg extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
+/* 18.02.2015 TER, getestet und freigegeben */
+public class User_andernEinstieg extends javax.swing.JInternalFrame
+        implements InterfaceViewsFunctionality {
 
     // Hilfsvariablen
     Component c;
@@ -30,7 +32,8 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
     InterfaceMainView hauptFenster;
 
     // Konstanten für Meldungen.
-    final String USER_NICHT_GEFUNDEN = "Keine passender Benutzer in der Datenbank.";
+    final String USER_NICHT_GEFUNDEN
+            = "Keine passender Benutzer in der Datenbank.";
     final String KEINE_EINGABE = "Bitte geben Sie einen Benutzernamen ein.";
     final String FEHLER = "Fehler bei Eingabe ";
 
@@ -188,8 +191,9 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
      */
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
         c = null;   //Initialisierung der Componentspeichervariable
-        //Erhalten über GUIFactorymethode die letzte aufgerufene View und speichern diese in Variable
-        c = this.factory.zurueckButton();
+        // Erhalten über GUIFactorymethode die letzte aufgerufene View 
+        // und speichern diese in Variable.
+        c = this.factory.zurueckButton();// Übergabe des Hauptmenüs
         this.setVisible(false);// Internalframe wird nicht mehr dargestellt
         c.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
@@ -199,7 +203,6 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
     /* 10.12.14 TER Erstellung */
     /* 16.02.14 TER Überarbeitung */
     /* 18.02.15 TER getestet und freigegeben */
-    /* 23.02.15 Sen Logik ueberarbeitet */
     /*----------------------------------------------------------*/
     /**
      * Weiter-Button Funktion.
@@ -212,16 +215,18 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
         try {
             //Initialisierung eines Benutzers.
             if (!BenutzerID_jTextField.getText().equals("")) {
-
-                benutzer = GUIFactory.getDAO().gibBenutzer(BenutzerID_jTextField.getText());
+                // Aufruf des Benutzers der in der DB hinterlegt ist.
+                benutzer = GUIFactory.getDAO().
+                        gibBenutzer(BenutzerID_jTextField.getText());
 
                 // Wird geprüft ob eseien Benutzer gibt.
                 if (benutzer != null) {
-                // Benutzer ist vorhanden und nund wird geprüft welche Maske die
+                    // Benutzer ist vorhanden und nund wird geprüft welche Maske die
                     // Funktion aufruft.
                     if (this.getTitle().equals(benutzerAendernEinstieg)) {
                         // Benutzername aus der DB wird im Eingabefeld angezeigt.
-                        this.userAnlegen.setBenutzername(benutzer.getBenutzername());
+                        this.userAnlegen.setBenutzername(
+                                benutzer.getBenutzername());
                         if (benutzer.isIstAdmin()) {//Falls Benutzer Admin ist.
                             // Ceckbox wird selektiert.
                             this.userAnlegen.setCheckBoxSelected(true);
@@ -231,11 +236,8 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
                         }
                         // Setzt das Internalframe in den Ändernmodus.
                         this.userAnlegen.setStatusAender();
-
-                        // Checkbox wird auf Enable false gesetzt.
-//                    naechste Zeile auskommentiert von Tahir
-//                    this.userAnlegen.setZustand(false);
-                        zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                        //Methode die bestimmte Eingabefelder leert
+                        zuruecksetzen();
                         this.setVisible(false);//Maske ist nicht mehr Sichtbar.
                         // Hauptfenster macht übergebene Maske sichtbar.
                         this.hauptFenster.setFrame(this.userAnlegen);
@@ -245,18 +247,19 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
                         // Setzt das Internalframe in den Anzeigenmodus.
                         this.userAnlegen.setStatusAnzeigen();
                         // Benutzername aus der DB wird im Eingabefeld angezeigt.
-                        this.userAnlegen.setBenutzername(benutzer.getBenutzername());
+                        this.userAnlegen.setBenutzername(
+                                benutzer.getBenutzername());
                         if (benutzer.isIstAdmin()) {//Falls Benutzer Admin ist.                       
                             // Ceckbox wird selektiert.
                             this.userAnlegen.setCheckBoxSelected(true);
                         } else {
                             // Checkbox wird nicht selektiert.
-                            this.userAnlegen.setCheckBoxSelected(false);//Checkbox wird nicht selektiert.
+                            this.userAnlegen.setCheckBoxSelected(false);
                         }
                         // Checkbox wird auf Enable false gesetzt.
                         this.userAnlegen.setZustand(false);
-//                    this.userAnlegen.setCheckBoxSelected(false);//Checkbox wird nicht selektiert.
-                        zuruecksetzen();//Methode die bestimmte Eingabefelder leert
+                        //Methode die bestimmte Eingabefelder leert
+                        zuruecksetzen();
                         this.setVisible(false);//Maske ist nicht mehr Sichtbar.
                         // Hauptfenster macht übergebene Maske sichtbar.
                         this.hauptFenster.setFrame(this.userAnlegen);
@@ -267,10 +270,9 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame implements I
                 this.hauptFenster.setStatusMeldung(KEINE_EINGABE);
             }
         } catch (ApplicationException e) {//Fehlerbehandlung "ApplicationException"
-            //Fehler wird als ein PopUp ausgegeben.
-//            JOptionPane.showMessageDialog(null, e.getMessage(),
-//                    FEHLENDEEINGABEN, JOptionPane.ERROR_MESSAGE);
+            //Fehler wird in der Statuszeile übergeben.
             this.hauptFenster.setStatusMeldung(USER_NICHT_GEFUNDEN);
+            // eingabefeld erhält leeren String
             BenutzerID_jTextField.setText("");
         }
     }//GEN-LAST:event_Weiter_jButtonActionPerformed
