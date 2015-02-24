@@ -11,10 +11,10 @@ import javax.swing.JOptionPane;
 /**
  *
  * @author Luca Terrasi
- *
- * 05.01.2015 Terrasi, Erstellung und Dokumentation
- *
  */
+/* 05.01.2015 Terrasi, Erstellung und Dokumentation*/
+/* 18.02.2015 TER, getestet  und freigegeben  */
+/* 18.02.2015 TER, getestet und freigegeben */
 public class Login extends javax.swing.JFrame {
 
     /**
@@ -39,18 +39,24 @@ public class Login extends javax.swing.JFrame {
      */
     private final String BEENDEN_MELDUNG_TYP = "Programm beenden";
 
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was */
+    /* 05.01.2015 Terrasi, Erstellung und Dokumentation /*
+     /* 18.02.2015 Sen     angelegt, Logik und Dokumentation*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
-     * Konstruktor.
+     * Konstruktor
      */
     public Login() {
         initComponents();
-//        Initialisierung
+        // Initialisierung
         anmeldung = new Anmeldung(this);
 
-//        Maske wird im Zentrum der Frame dargestellt
+        // Maske wird im Zentrum der Frame dargestellt
         setCenterJIF(anmeldung);
 
-//        Maske wird desktopdpane hinzugefügt
+        // Maske wird desktopdpane hinzugefügt
         desktopPane.add(anmeldung);
     }
 
@@ -104,19 +110,21 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     /*----------------------------------------------------------*/
     /* Datum      Name    Was */
-    /* 20.02.2015 Sen     angelegt, Logik und Dokumentation*/
+    /* 18.02.2015 Sen     angelegt, Logik und Dokumentation*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
+
     /**
-     * Methode zum Schliessen des Programms. 
+     * Methode zum Schliessen des Programms.
      *
      */
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-//         Erzeugen eine Meldung mit Abfrage
+        // Erzeugen eine Meldung mit Abfrage
         int antwort = JOptionPane.showConfirmDialog(rootPane, BEENDEN_MELDUNG,
                 BEENDEN_MELDUNG_TYP, JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
         if (antwort == JOptionPane.YES_OPTION) {
-//         Antwort ist ja, also schliessen  
+            // Antwort ist ja, also schliessen  
             System.exit(0);
         }
     }//GEN-LAST:event_formWindowClosing
@@ -141,9 +149,12 @@ public class Login extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 05.01.2015 Terrasi angelegt, Logik und Dokumentation*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
-     * 05.01.2015 Terrasi , Erstellung und Dokumentation
-     *
      * Methode mit der das Fenster geschlossen wird.
      *
      */
@@ -154,6 +165,7 @@ public class Login extends javax.swing.JFrame {
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 05.01.2015 Terrasi angelegt, Logik und Dokumentation*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Methode setCenterJIF Methode ermittelt das Zentrum der DesktopPane und
@@ -173,6 +185,7 @@ public class Login extends javax.swing.JFrame {
     /*----------------------------------------------------------*/
     /* Datum Name Was */
     /* 05.01.2015 Terrasi angelegt, Logik und Dokumentation*/
+    /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
      * Methode, um das Objekt der Anmeldung zu erhalten.

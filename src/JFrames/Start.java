@@ -28,7 +28,7 @@ import javax.swing.JOptionPane;
  * Daten anlegen,ändern oder sich anzeigen lassen kann.
  *
  */
- /*10.12.2014 Terrasi,Erstellung */
+/*10.12.2014 Terrasi,Erstellung */
 /*16.12.2014 Terrasi, Überarbeitung und Zuweisung
  * der Navigationsfunktion */
 /* 02.01.2015 Terrasi, Überarbeitung der  Navigationsfünktion */
@@ -106,9 +106,15 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     private static Timer timer;
 
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt */
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
     /**
-     * Start Methode.
-     * @param login Login klasse
+     * Konstruktor, Erzeugung
+     * 
+     * @param login, Loginklasse
      */
     public Start(Login login) {
         initComponents();
@@ -1021,24 +1027,64 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     }//GEN-LAST:event_jMI_ZKAnzeigenActionPerformed
 
     
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
+    /**
+     * ActionPerformed für Statistik ArtikelAbsatz
+     */
     private void artikel_absatz_mnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_artikel_absatz_mnActionPerformed
 
         this.statistikAnzeige.setzeChart(GUIFactory.getDAO().gibChartArtikelAbsatz());
     }//GEN-LAST:event_artikel_absatz_mnActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
+    /**
+     * ActionPerformed für Statistik UmsatzAuftragswert
+     */
     private void umsatz_mnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_umsatz_mnActionPerformed
 
         this.statistikAnzeige.setzeChart(GUIFactory.getDAO().gibChartUmsatzAuftragswert());
     }//GEN-LAST:event_umsatz_mnActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
+    /**
+     * ActionPerformed für Statistik ArtikelMenge
+     */
     private void artikel_verkauft_mnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_artikel_verkauft_mnActionPerformed
         this.statistikAnzeige.setzeChart(GUIFactory.getDAO().gibChartArtikelMenge());
     }//GEN-LAST:event_artikel_verkauft_mnActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
+    /**
+     * ActionPerformed für Statistik ArtikelkategorieAbsatz
+     */
     private void kat_umsatz_mnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kat_umsatz_mnActionPerformed
         this.statistikAnzeige.setzeChart(GUIFactory.getDAO().gibChartArtikelkategorieAbsatz());
     }//GEN-LAST:event_kat_umsatz_mnActionPerformed
 
+    /*----------------------------------------------------------*/
+    /* Datum Name Was */
+    /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
+    /* 18.02.2015 TER, getestet und freigegeben */
+    /*----------------------------------------------------------*/
+    /**
+     * ActionPerformed für Statistik UmsatzEinkaufAuftragswert
+     */
     private void umsatz_einkauf_mnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_umsatz_einkauf_mnActionPerformed
         this.statistikAnzeige.setzeChart(GUIFactory.getDAO().gibChartUmsatzEinkaufAuftragswert());
     }//GEN-LAST:event_umsatz_einkauf_mnActionPerformed
@@ -1101,7 +1147,6 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode
-     * 
      */
     @Override
     public void rufeSuche(JInternalFrame comp) {
@@ -1117,7 +1162,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode
-     * 
+     * @return letzteAnzeige
      */
     @Override
     public JInternalFrame gibLetzteAnzeige() {
@@ -1131,6 +1176,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode
+     * @return, Titels des letzten InternalFrames.
      */
     @Override
     public String gibTitel() {
@@ -1144,6 +1190,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode
+     * @return artikelanlegen
      */
     @Override
     public ArtikelAnlegen gibArtikelAnlegenFenster() {
@@ -1157,6 +1204,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode
+     * @return auftragskopfanlegen
      */
     @Override
     public AuftragskopfAnlegen gibAuftragskopfanlegenFenster() {
@@ -1170,6 +1218,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode
+     * @return geschaeftspartneranlegen
      */
     @Override
     public GeschaeftspartnerAnlegen gibGeschaeftspartneranlegenFenster() {
@@ -1183,6 +1232,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode
+     * @return zahlungskonditionaendern
      */
     @Override
     public ZahlungskonditionenAEndernEinstieg gibZkAendernEinstieg() {
@@ -1196,6 +1246,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode
+     * @return geschaeftspartneraendern
      */
     @Override
     public GeschaeftspartnerAEndernEinstieg gibGeschaeftspartnerAendernEinstieg() {
@@ -1209,6 +1260,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode
+     * @return artikelaendern
      */
     @Override
     public ArtikelAEndernEinstieg gibArtikelaendernEinstieg() {
@@ -1222,6 +1274,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode
+     * @return auftragskopfaendern
      */
     @Override
     public AuftragskopfAendern gibAkAendernEinstieg() {
@@ -1235,6 +1288,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode
+     * @return auftragsspositionaender
      */
     @Override
     public AuftragspositionAendern gibPositionAendernEinstieg() {
@@ -1248,6 +1302,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode
+     * @return zahlungskonditionanlegen
      */
     @Override
     public ZahlungskonditionAnlegen gibZkAnlegen() {
@@ -1261,6 +1316,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /*----------------------------------------------------------*/
     /**
      * Schnittstellenmethode
+     * @return auftragspositionanzeigen
      */
     @Override
     public AuftragspositionAnzeigen gibApAnzeigen() {
@@ -1269,7 +1325,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
-    /* 10.12.2014 Terrasi angelegt und Logik implementiert*/
+    /* 08.12.2014 SCH angelegt und Logik implementiert*/
     /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
