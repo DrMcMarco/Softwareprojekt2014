@@ -93,7 +93,6 @@ public class DataAccessObject {
                 String[] befehl = {"CMD", "/C", "start", "/B", "fillDatabase.bat"};          
                 ProcessBuilder pb = new ProcessBuilder(befehl);
                 Process p = pb.start();
-                
             }
             
             //Erstelle bzw. überschreibe den Eintrag "Letztes Programmstart"
@@ -1572,6 +1571,7 @@ public class DataAccessObject {
                     
                     //Wenn der Auftrag bereits freigegeben ist, soll nur der 
                     //Auftragstext sowie der Status ändernbar sein
+                    ak.setLieferdatum(Lieferdatum);
                     ak.setAuftragstext(Auftragstext);
                     this.setzeAuftragsstatus(ak, this.gibStatusPerName(Status));
                     
@@ -3070,8 +3070,7 @@ public class DataAccessObject {
         //allen Verkaufsaufträgen die abgeschlossen und nicht gelöscht sind
         //Zudem werden nur die zehn größten Umsätze ausgewählt
         Query abfrage = em.createNativeQuery("select a.ARTIKELTEXT, sum(ap.EINZELWERT) \n" +
-                            "from ROOT.ARTIKEL as a, ROOT.AUFTRAGSPOSITION as ap, " +
-                            "root.AUFTRAGSKOPF as ak, root.STATUS as s\n" +
+                            "from ROOT.ARTIKEL as a, ROOT.AUFTRAGSPOSITION as ap, root.AUFTRAGSKOPF as ak, root.STATUS as s\n" +
                             "where ap.AUFTRAG = ak.AUFTRAGSKOPFID and\n" +
                             "      ap.Artikel = a.Artikelid and\n" +
                             "      ak.STATUS = s.STATUSID and\n" +
@@ -3144,8 +3143,7 @@ public class DataAccessObject {
         //Kategorie für alle Verkaufsaufträge die abgeschlossen und nicht 
         //gelöscht sind
         Query abfrage = this.em.createNativeQuery("select kat.KATEGORIENAME, sum(ap.EINZELWERT)\n" +
-                                  "from root.AUFTRAGSKOPF as ak, root.AUFTRAGSPOSITION as ap, " +
-                                  "root.ARTIKEL as a, root.ARTIKELKATEGORIE as kat, root.STATUS as s\n" +
+                                  "from root.AUFTRAGSKOPF as ak, root.AUFTRAGSPOSITION as ap, root.ARTIKEL as a, root.ARTIKELKATEGORIE as kat, root.STATUS as s\n" +
                                   "where ap.AUFTRAG = ak.AUFTRAGSKOPFID and\n" +
                                   "      ap.ARTIKEL = a.ARTIKELID and\n" +
                                   "      a.KATEGORIE = kat.KATEGORIEID and\n" +

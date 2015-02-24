@@ -341,11 +341,11 @@ public abstract class Auftragskopf implements Serializable {
         ap.setArtikel(artikel);
         ap.setMenge(Menge);
         
-        if (this instanceof Bestellauftragskopf) {
-            ap.setEinzelwert(artikel.getEinkaufswert() * Menge);
-        } else {
-            ap.setEinzelwert(artikel.getVerkaufswert() * Menge);
-        }
+//        if (this instanceof Bestellauftragskopf) {
+//            ap.setEinzelwert(artikel.getEinkaufswert() * Menge);
+//        } else {
+//            ap.setEinzelwert(artikel.getVerkaufswert() * Menge);
+//        }
 
         ap.setErfassungsdatum(this.Erfassungsdatum);
         //Wert der Position zum Gesamtwert hinzufügen
