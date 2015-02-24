@@ -2,7 +2,10 @@ package JFrames;
 
 import GUI_Internalframes.Anmeldung;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.Dimension;
+import java.io.File;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 
 /**
@@ -62,6 +65,8 @@ public class Login extends javax.swing.JFrame {
 
         desktopPane = new javax.swing.JDesktopPane();
         menuBar = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -69,6 +74,19 @@ public class Login extends javax.swing.JFrame {
                 formWindowClosing(evt);
             }
         });
+
+        jMenu1.setText("Hilfe");
+
+        jMenuItem1.setText("Benutzerhandbuch");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        menuBar.add(jMenu1);
+
         setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -79,7 +97,7 @@ public class Login extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 649, Short.MAX_VALUE)
         );
 
         pack();
@@ -102,6 +120,26 @@ public class Login extends javax.swing.JFrame {
             System.exit(0);
         }
     }//GEN-LAST:event_formWindowClosing
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        
+        //Prüfe ob die Klasse Desktop für die aktuelle Plattform unterstützt 
+        //wird
+        if (Desktop.isDesktopSupported()) {
+            //Wenn ja, versuche das Benutzerhandbuch über die Klasse Desktop zu
+            //öffnen. Es muss eine Anwendung zur Darstellung von PDF-Dateien auf
+            //dem System vorhanden sein
+            try {
+                File pdf = new File("Benutzerhandbuch_SWP_GR3.pdf");
+                Desktop.getDesktop().open(pdf);
+            //Wenn die Datei nicht gefunden werden kann    
+            } catch (IOException e) {
+                
+            }
+        }
+        
+        
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * 05.01.2015 Terrasi , Erstellung und Dokumentation
@@ -183,6 +221,8 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane desktopPane;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuBar menuBar;
     // End of variables declaration//GEN-END:variables
 
