@@ -1380,6 +1380,8 @@ public class DataAccessObject {
                     "Der Artikel konnte nicht gefunden werden");
         }
         
+        //Wenn der Einkaufswert bzw. der Verkaufswert null oder negativ ist
+        //soll ein entsprechende Fehlermeldung ausgegeben werden
         if (Einkaufswert <= 0 || Verkaufswert <= 0) {
             throw new ApplicationException(FEHLER_TITEL,
                     "Der Einkaufswert bzw. Verkaufswert kann nicht null "
@@ -1564,13 +1566,13 @@ public class DataAccessObject {
                 
                 break;
             case "freigegeben":
-                //TODO: Weitere Attribute? + Fehlerbehandelung
+                
                 try {
                     //Transaktion starten
                     em.getTransaction().begin();
                     
                     //Wenn der Auftrag bereits freigegeben ist, soll nur der 
-                    //Auftragstext sowie der Status ändernbar sein
+                    //Auftragstext, der Status und das Lieferdatum änderbar sein
                     //aenderePositionen() wird ausgeführt um den Einzelwert der
                     //Positionen und des Auftrags neu zu berechnen,
                     //die Positionen werden nicht mehr verändert
@@ -2626,8 +2628,11 @@ public class DataAccessObject {
     public Geschaeftspartner gibGeschaeftspartner(long GeschaeftspartnerID) 
             throws ApplicationException {
         
+        //Suche den Geschäftspartner anhand der Geschäftspartner-ID in
+        //der Datenbank
         Geschaeftspartner gp = em.find(Geschaeftspartner.class, GeschaeftspartnerID);
         
+        //Wenn Geschäftspartner nicht existiert oder bereits gelöscht wurde
         if (gp == null || gp.isLKZ()) {
             throw new ApplicationException("Fehler", 
                     "Der Geschäftspartner konnte nicht gefunden werden");
@@ -2693,6 +2698,7 @@ public class DataAccessObject {
         //Persistente Abbildung des Auftrags holen
         Auftragskopf auftragskopf = em.find(Auftragskopf.class, Auftragsnummer);
         
+        //Damit die Entity wieder vom Entity-Manager gemanaged wird
         em.merge(auftragskopf);
         
         //Falls der Auftrag nicht existiert
@@ -2779,6 +2785,10 @@ public class DataAccessObject {
         
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 13.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
     /**
      * Ermittelt dich nächste Auftrags ID und gibt diese zurück
      * @return die nächste Auftrags ID
@@ -2823,7 +2833,8 @@ public class DataAccessObject {
      */
     public Auftragsposition gibAuftragsposition(long AuftragskopfID, 
             long Positionsnummer) throws ApplicationException {
-           
+        
+        //Suche den Auftragskopf anhand der AuftragskopfID in der Datenbank
         Auftragskopf ak = em.find(Auftragskopf.class, AuftragskopfID);
         
         //Prüfen ob beide vorhanden sind
@@ -2974,8 +2985,10 @@ public class DataAccessObject {
     public Benutzer gibBenutzer(String Benutzername) 
             throws ApplicationException {
         
+        //Suche den Benutzer anhand des Benutzernames in der Datenbank
         Benutzer benutzer = em.find(Benutzer.class, Benutzername);
         
+        //Wenn der Benutzer nicht gefunden werden kann
         if (benutzer == null) {
             throw new ApplicationException("Fehler", 
                     "Der Benutzer konnte nicht gefunden werden.");
@@ -2998,10 +3011,14 @@ public class DataAccessObject {
     public List<Zahlungskondition> gibZahlungskonditionenFürAuftragsart(String Auftragsart) 
             throws ApplicationException {
         
+        //Selektiere alle Zahlungskonditionen für die übergebene Auftragsart
+        //und die nicht gelöscht sind
         List<Zahlungskondition> ergebnis = em.createQuery("SELECT ST FROM "
                         + "Zahlungskondition ST WHERE ST.Auftragsart LIKE '" 
                         + Auftragsart + "' AND ST.LKZ = false").getResultList();
         
+        //Sollten keine Zahlungskonditionen gefunden werden wird eine
+        //entsprechende Fehlermeldung ausgegeben
         if (ergebnis.isEmpty()) {
             throw new ApplicationException("Fehler", 
                     "Für diese Auftragsart gibt es keine Zahlungskonditionen");
@@ -3010,6 +3027,10 @@ public class DataAccessObject {
         return ergebnis;
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 10.12.14   sch     angelegt                              */
+    /*----------------------------------------------------------*/
     /**
      * Gibt alle Aufträge der letzten sechs Monate zurück.
      * Wird für die Statistik benutzt.
@@ -3038,6 +3059,10 @@ public class DataAccessObject {
         return umsatz;
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 10.12.14   sch     angelegt                              */
+    /*----------------------------------------------------------*/
     /**
      * Gibt alle Aufträge der letzten sechs Monate zurück.
      * Wird für die Statistik benutzt.
@@ -3068,7 +3093,7 @@ public class DataAccessObject {
     
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
-    /* 18.02.15   loe     angelegt                              */
+    /* 10.12.14   loe     angelegt                              */
     /*----------------------------------------------------------*/
     /**
      * Gibt die zehn größten Umsätze pro Artikel zurück.
@@ -3107,7 +3132,7 @@ public class DataAccessObject {
     
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
-    /* 18.02.15   loe     angelegt                              */
+    /* 10.12.14   loe     angelegt                              */
     /*----------------------------------------------------------*/
     /**
      * Gibt die zehn am meisten verkauften Artikel zurück.
@@ -3141,7 +3166,7 @@ public class DataAccessObject {
     
     /*----------------------------------------------------------*/
     /* Datum      Name    Was                                   */
-    /* 18.02.15   loe     angelegt                              */
+    /* 10.12.14   loe     angelegt                              */
     /*----------------------------------------------------------*/
     /**
      * Gibt den Umsatz pro Kategorie für alle Kategorien an.
@@ -3648,11 +3673,14 @@ public class DataAccessObject {
         //Suche den Auftragskopf anhand der ID in der Datenbank
         Auftragskopf ak = em.find(Auftragskopf.class, AuftragsID);
         
+        //Wenn der Auftrag nicht gefunden werden kann
         if (ak == null) {
             throw new ApplicationException(FEHLER_TITEL, 
                     "Der Auftrag konnte nicht gefunden werden.");
         }
         
+        //Wenn der Auftrag nur noch eine Position enthält, kann die Position
+        //nicht gelöscht werden
         if (ak.getPositionsliste().size() == 1) {
             throw new ApplicationException(FEHLER_TITEL, 
                     "Der Auftrag muss mindestens eine Auftragsposition "
@@ -3682,11 +3710,17 @@ public class DataAccessObject {
         //Setze das Löschkennzeichen
         ap.setLKZ(true);
         
+        //Berechne den Auftragswert neu
         ak.berechneAuftragswert();
         
+        //Persistiere den Auftrag mit den Positionen
         em.persist(ak);
     }
     
+    /*----------------------------------------------------------*/
+    /* Datum      Name    Was                                   */
+    /* 12.01.15   loe     angelegt                              */
+    /*----------------------------------------------------------*/
     /**
      * Setzt das Löschkennzeichen für eine Auftragsposition.
      * Führt die Methode loeschePosition innerhalb einer Transaktion aus, da diese
@@ -3992,12 +4026,18 @@ public class DataAccessObject {
                     "Der angegebene Benutzer wurde nicht gefunden");
         }
         
-        //Eingegebenes Passwort(als MD5 Hash) stimmt nicht dem Passwort in der 
-        //Datenbank (ebenfalls MD5 Hash) überein
+        //Wenn das Passwort in der Datenbank (als MD5 Hash) mit dem übergebenen
+        //Passwort (ebenfalls MD5 Hash) übereinstimmt...
         if(benutzer.getPasswort().equals(erstelleHash(password))) {
+            //...wird der Steuereintrag über den "Letzten Benutzer"
+            //aktualisiert
             this.erstelleSteuereintrag("Letzter Benutzer", username);
+            //und es wird ein Benutzer-OBjekt zurückgegeben.
+            //Damit ist der Benutzer angemeldet.
             return benutzer;
         } else {
+            //Ansonsten wird null zurückgegeben, damit ist der Login 
+            //fehlgeschlagen
             return null;
         }
     }
