@@ -18,10 +18,20 @@ import javax.persistence.*;
 @DiscriminatorValue("Kunde")
 public class Kunde extends Geschaeftspartner {
     
+    /**
+     * Standardkonstrukor, generiert.
+     */
     public Kunde() {
         
     }
     
+    /**
+     * Generiert.
+     * @param Lieferadresse Lieferanschrift des Kunden
+     * @param Rechnungsadresse Rechnungsanschrift des Kunden
+     * @param Kreditlimit Kreditlimit des Kunden
+     * @param LKZ gibt an ob der Kunde gelöscht ist oder nicht
+     */
     public Kunde(Anschrift Lieferadresse, Anschrift Rechnungsadresse, 
             double Kreditlimit, boolean LKZ) {
         super(Lieferadresse, Rechnungsadresse, Kreditlimit, LKZ);

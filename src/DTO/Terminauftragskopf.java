@@ -20,7 +20,7 @@ import javax.persistence.*;
 public class Terminauftragskopf extends Auftragskopf {
     
     /**
-     * Standardkonstruktor
+     * Standardkonstruktor, generiert.
      */
     public Terminauftragskopf() {
         

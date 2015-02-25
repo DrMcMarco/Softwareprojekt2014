@@ -18,6 +18,9 @@ import javax.persistence.*;
 @DiscriminatorValue("Lieferant")
 public class Lieferant extends Geschaeftspartner {
     
+    /**
+     * Standardkonstruktor, generiert.
+     */
     public Lieferant() {
         
     }

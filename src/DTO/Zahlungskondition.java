@@ -78,9 +78,26 @@ public class Zahlungskondition implements Serializable {
      */
     private boolean LKZ;
 
+    /**
+     * Standardkonstruktor, generiert.
+     */
     public Zahlungskondition() {
+        
     }
 
+    /**
+     * Generiert.
+     * @param Auftragsart Auftragsart
+     * @param LieferzeitSofort Lieferzeit Sofortauftrag
+     * @param SperrzeitWunsch Lieferzeit Terminauftrag
+     * @param Skontozeit1 Skontozeit 1
+     * @param Skontozeit2 Skontozeit 2
+     * @param Skonto1 Skonto 1
+     * @param Skonto2 Skonto 2
+     * @param Mahnzeit1 Mahnzeit 1
+     * @param Mahnzeit2 Mahnzeit 2
+     * @param Mahnzeit3 Mahnzeit 3
+     */
     public Zahlungskondition(String Auftragsart, int LieferzeitSofort, 
             int SperrzeitWunsch, int Skontozeit1, int Skontozeit2, 
             double Skonto1, double Skonto2, int Mahnzeit1, int Mahnzeit2, 
@@ -98,31 +115,57 @@ public class Zahlungskondition implements Serializable {
         this.LKZ = false;
     }
 
+    /**
+     * Generiert.
+     * @return ZahlungskonditionsID
+     */
     public long getZahlungskonditionID() {
         return ZahlungskonditionID;
     }
 
+    /**
+     * Generiert.
+     * @return Auftragsart
+     */
     public String getAuftragsart() {
         return Auftragsart;
     }
 
+    /**
+     * Generiert.
+     * @param Auftragsart die neue Auftragsart 
+     */
     public void setAuftragsart(String Auftragsart) {
         this.Auftragsart = Auftragsart;
     }
     
 
+    /**
+     * Generiert.
+     * @return Lieferzeit
+     */
     public int getLieferzeitSofort() {
         return LieferzeitSofort;
     }
 
+    /**
+     * Generiert
+     * @param LieferzeitSofort 
+     */
     public void setLieferzeitSofort(int LieferzeitSofort) {
         this.LieferzeitSofort = LieferzeitSofort;
     }
 
+    /**
+     * Generiert.
+     */
     public int getSperrzeitWunsch() {
         return SperrzeitWunsch;
     }
 
+    /**
+     * Generiert
+     */
     public void setSperrzeitWunsch(int SperrzeitWunsch) {
         this.SperrzeitWunsch = SperrzeitWunsch;
     }

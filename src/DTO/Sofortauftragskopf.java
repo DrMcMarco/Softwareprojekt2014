@@ -19,6 +19,9 @@ import javax.persistence.*;
 @DiscriminatorValue("Sofortauftrag")
 public class Sofortauftragskopf extends Auftragskopf {
     
+    /**
+     * Standardkonstruktor, generiert.
+     */
     public Sofortauftragskopf() {
         
     }
