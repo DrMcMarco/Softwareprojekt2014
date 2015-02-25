@@ -6,7 +6,6 @@
 
 package GUI_Internalframes;
 
-import java.awt.BorderLayout;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 

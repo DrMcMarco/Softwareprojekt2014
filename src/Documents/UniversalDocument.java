@@ -62,7 +62,7 @@ public class UniversalDocument extends PlainDocument {
      * @param offs offset
      * @param s erlaubte Zeichen
      * @param a AttributeSet
-     * @throws BadLocationException
+     * @throws BadLocationException Wirft eine Exception
      */
     @Override
     public void insertString(int offs, String s, AttributeSet a)
