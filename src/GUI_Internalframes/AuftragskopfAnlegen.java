@@ -147,7 +147,8 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
             + "Bitte geben Sie die benötigten Eingaben für den Auftragskopf "
             + "in die markierten Eingabefelder ein.";
 
-    private final String FEHLERMELDUNG_UNVOLLSTAENDIGAUFTRAGSPOSITION_TEXT = "Es wurden "
+    private final String FEHLERMELDUNG_UNVOLLSTAENDIGAUFTRAGSPOSITION_TEXT = "Es "
+            + "wurden "
             + "nicht alle Eingaben getätigt.\n"
             + "Bitte geben Sie die benötigten Eingaben für eine Auftragsposition"
             + " in die markierten Eingabefelder ein.";
@@ -157,29 +158,32 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
             + " zum Auftragskopf angelegt "
             + "\n werden. Bitte geben Sie alle notwendigen  Eingaben ein.";
 
-    private final String FEHLERMELDUNGMENGE_TEXT = "Bitte eine gültige Menge eingeben";
+    private final String FEHLERMELDUNGMENGE_TEXT = "Bitte eine gültige Menge "
+            + "eingeben";
 
-    private final String FEHLERMELDUNG_LIEFERDATUM_VOR_SPERRZEIT_TEXT = "Lieferdatum"
+    private final String FEHLERMELDUNG_LIEFERDATUM_VOR_SPERRZEIT_TEXT
+            = "Lieferdatum"
             + " muss bei einem Terminauftrag "
             + "\n mindestens ";
 
-    private final String FEHLERMELDUNGMATERIAL_TEXT = "Die eingegebene Materialnummer "
+    private final String FEHLERMELDUNGMATERIAL_TEXT = "Die eingegebene "
+            + "Materialnummer "
             + "ist nicht richtig! "
             + "\nBitte geben Sie eine gültige Materialnummer, die aus acht "
             + "Ziffern besteht, ein. (z.B. 1234567)";
 
-    private final String FEHLERMELDUNGKEINEPOSITIONGEWAEHLT = 
-            " Bitte eine Position "
+    private final String FEHLERMELDUNGKEINEPOSITIONGEWAEHLT
+            = " Bitte eine Position "
             + "wählen.";
 
-    private final String FEHLERMELDUNGKEINEMATERIALNUMMER = 
-            "Bitte eine Materialnummer "
+    private final String FEHLERMELDUNGKEINEMATERIALNUMMER
+            = "Bitte eine Materialnummer "
             + "eingeben.";
 
     private final String FEHLERMELDUNG_KEINEZAHLUNGSKONDITION_TITEL = "Keine "
             + "Zahlungskondition vorhanden.";
-    private final String FEHLERMELDUNG_KEINEZAHLUNGSKONDITION_TEXT = 
-            "Die Auftragsart "
+    private final String FEHLERMELDUNG_KEINEZAHLUNGSKONDITION_TEXT
+            = "Die Auftragsart "
             + "besitzt keine Zahlungskondition."
             + "\n Bitte legen Sie mindestens eine Zahlungskondition für die "
             + "Auftragsart an,"
@@ -1476,6 +1480,16 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                     // Falls mindestens eine Auftragsposition vorhanden ist.
                     if (auftragspositionen.isEmpty() == false) {
 
+                        // Aufruf des Geschäftspartner. Falls es der
+                        // Geschäftspartner nicht gültig ist oder
+                        // ein Kunde ist und der Auftrag ein 
+                        // Bestellauftrag sein sollte,
+                        // wird dieser Fall dann von der Exception 
+                        // behandelt.
+                        GUIFactory.getDAO().gibGeschaeftspartner(
+                                Long.valueOf(
+                                        geschaeftspartner_jTextField.getText()));
+
                         // Speichern der Eingaben in Variablen
                         typ = auftragsart_jComboBox.getSelectedItem().toString();
                         auftragsText = auftragstext_jTextArea.getText();
@@ -1516,16 +1530,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
 
                                 // Wird geprüft ob Fenster das "Auftragskopf anlegen"-Fenster ist.
                                 if (this.getTitle().equals("Auftragskopf anlegen")) {
-
-                                    // Aufruf des Geschäftspartner. Falls es der
-                                    // Geschäftspartner nicht gültig ist oder
-                                    // ein Kunde ist und der Auftrag ein 
-                                    // Bestellauftrag sein sollte,
-                                    // wird dieser Fall dann von der Exception 
-                                    // behandelt.
-                                    GUIFactory.getDAO().gibGeschaeftspartner(
-                                            Long.valueOf(
-                                                    geschaeftspartner_jTextField.getText()));
 
                                     // Falls Auftragsart Barauftrag ist.
                                     if (auftragsart_jComboBox.getSelectedIndex() == 0) {
@@ -1664,7 +1668,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                                             zurueckInsHauptmenue();
                                             // Meldung an Statuszeile übergeben.
                                             this.hauptFenster.setzeStatusMeldung(
-                                                            ERFOLGREICHGEAENDERT_TEXT);
+                                                    ERFOLGREICHGEAENDERT_TEXT);
                                         } else {// Falls Frage mit NEIN beantwortet wird.
                                             gespeichert = false;
                                         }
@@ -1831,7 +1835,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                                         zurueckInsHauptmenue();
                                         // Meldung an Statuszeile übergeben.
                                         this.hauptFenster.setzeStatusMeldung(
-                                                        ERFOLGREICHGEAENDERT_TEXT);
+                                                ERFOLGREICHGEAENDERT_TEXT);
                                     } else {// Falls Frage mit NEIN beantwortet wird.
                                         gespeichert = false;
                                     }
@@ -1956,6 +1960,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
             if (!lieferdatum_jFormattedTextField.getText().equals("")) {
                 if (lieferdatum.before(heute)) {//Datum liegt in der Vergangenheit
 
+                    formularOK = false;
                     //Ausgabe eine Fehlermeldung
                     JOptionPane.showMessageDialog(null,
                             FEHLERMELDUNG_LIEFERDATUM_TEXT,
@@ -1968,6 +1973,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                         equals(TERMINAUFTRAG)
                         && lieferdatum.before(berechnetesLieferdatum)) {// Falls Datum vor dem berechnetem Datum liegt.
 
+                    formularOK = false;
                     //Ausgabe eine Fehlermeldung
                     JOptionPane.showMessageDialog(null,
                             FEHLERMELDUNG_LIEFERDATUM_VOR_SPERRZEIT_TEXT
@@ -1980,21 +1986,6 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                     // Fokus in Iengabefeld setzen.
                     lieferdatum_jFormattedTextField.requestFocusInWindow();
                     lieferdatum_jFormattedTextField.selectAll();
-
-                } else if (tagesformat.format(lieferdatum).equals("So")
-                        || tagesformat.format(lieferdatum).equals("Sa")) {// Falls Datum auf ein Wochenendtag fällt.
-                    int antwort = JOptionPane.showConfirmDialog(rootPane,
-                            LIEFERUNGAMWOCHENENDE_TEXT,
-                            LIEFERUNGAMWOCHENENDE_TITEL,
-                            JOptionPane.YES_NO_OPTION,
-                            JOptionPane.QUESTION_MESSAGE);
-
-                    //Falls bejaht wird, werden die Daten verworfen.
-                    if (antwort == JOptionPane.NO_OPTION) {// Antwort NEIN.
-
-                        lieferdatum_jFormattedTextField.requestFocusInWindow();
-                        lieferdatum_jFormattedTextField.selectAll();
-                    }
 
                 }
 
@@ -3500,12 +3491,12 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
             this.lieferdatum_jFormattedTextField.
                     setText(String.valueOf(gibDatumAlsString(
                                             auftragskopf.getLieferdatum())));
-           
+
             if (auftragskopf.getAbschlussdatum() == null) {// Falls kein Abschlussdatum vorhanden ist.
                 this.abschlussdatum_jFormattedTextField.
                         setText("");
             } else {// Datum vorhanden.
-                
+
                 this.abschlussdatum_jFormattedTextField.
                         setText(String.valueOf(gibDatumAlsString(
                                                 auftragskopf.getAbschlussdatum())));
@@ -3539,7 +3530,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
             auftragsposition_jTable.setModel(dtm);// Übergabe eines DefaultTableModels
             // bergabe des Auftragswertes
             auftragswert_jTextField.setText(String.valueOf(gesamtAuftragswert));
-            
+
             gesamtAuftragswert = 0.00;
             summenWertFuerPos = 0.00;
 
@@ -3583,7 +3574,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
             }
             // Übergabe des Lieferdatums aus der DB.
             dbLieferdatum = gibDatumAlsString(kopf.getLieferdatum());
-            
+
             if (kopf.getAbschlussdatum() == null) {// Falls kein Abschlussdatum vrhanden ist.
                 dbAbschlussdatum = "";
             } else {
