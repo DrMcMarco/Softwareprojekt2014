@@ -4,6 +4,7 @@ insert into benutzer values ('admin', '21232f297a57a5a743894a0e4a801fc3', 1);
 
 insert into artikelkategorie values(1, 'Testkategorie', 'Kategorie 1', 'Kommentar', 0);
 insert into artikelkategorie values(2, 'Testkategorie2', 'Kategorie 2', 'Kommentar2', 0);
+insert into artikelkategorie values(3, 'Testkategorie3', 'Kategorie 3', 'Kommentar3', 0);
 
 insert into status values(1, 0, 'erfasst');
 insert into status values(2, 0, 'freigegeben');
