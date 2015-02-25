@@ -165,6 +165,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      */
     @Override
     public void ueberpruefen() {
+//      Falls die Auftragsart nicht ausgewaehlt ist, wird die Componente in
+//      ArrayList fehlerhafteComponenten hinzugefuegt und so weiter.  
         if (jCB_Auftragsart.getSelectedIndex() == 0) {
             fehlerhafteComponenten.add(jCB_Auftragsart);
         }
@@ -190,6 +192,8 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
     @Override
     public final void zuruecksetzen() {
         try {
+//          Die naechste freie ZK ID wird aus der Datenbank geladen und die 
+//          Felder in den Anfangszustand zurueckgesetzt.  
             zknummer = this.dao.gibNaechsteZahlungskonditionID();
             jTF_ZahlungskonditionID.requestFocus();
             jTF_ZahlungskonditionID.setText("" + zknummer);
@@ -746,13 +750,20 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      * @param evt
      */
     private void jCB_AuftragsartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCB_AuftragsartActionPerformed
+//      Falls der Titel des Fenster ZK Anzeigen ist, werden beide Eingabe
+//      nicht aktiviert.  
         if (this.getTitle().equals(ZK_ANZEIGEN)) {
             jSP_SperrzeitWUNSCH.setEnabled(false);
             jSP_LieferzeitSOFORT.setEnabled(false);
         } else {
+//          Falls Titel ZK Anlegen oder ZK Aendern wird der Hintergrund 
+//          der Combobox der Auftragsart in normal gefaerbt, falls Eingabe
+//          gemacht wurde.  
             if (jCB_Auftragsart.getSelectedIndex() != 0) {
                 jCB_Auftragsart.setBackground(JCB_FARBE_STANDARD);
             }
+//          Wenn Terminauftrag ausgeawhlt, wird Lieferzeit SOFORT nicht 
+//          aktiviert.  
             if (((String) jCB_Auftragsart.getSelectedItem())
                     .equals(TERMINAUFTRAG)) {
                 jSP_LieferzeitSOFORT.setEnabled(false);
@@ -760,11 +771,15 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                 jSP_SperrzeitWUNSCH.setEnabled(true);
             } else if (((String) jCB_Auftragsart.getSelectedItem())
                     .equals(SOFORTAUFTRAG)) {
+//          Wenn Sofortauftrag ausgeawhlt, wird Sperrzeit WUNSCH nicht 
+//          aktiviert.                 
                 jSP_SperrzeitWUNSCH.setEnabled(false);
                 jSP_SperrzeitWUNSCH.setValue(1);
                 jSP_LieferzeitSOFORT.setEnabled(true);
             } else if (((String) jCB_Auftragsart.getSelectedItem())
                     .equals(BESTELLAUFTRAG)) {
+//          Wenn Bestellauftrag ausgeawhlt, wird Lieferzeit Sofort und
+//          Sperrzeit WUNSCH nicht aktiviert.                 
                 jSP_SperrzeitWUNSCH.setEnabled(false);
                 jSP_SperrzeitWUNSCH.setValue(1);
                 jSP_LieferzeitSOFORT.setEnabled(false);
@@ -1427,7 +1442,9 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      * Methode, die das Formular in die Sicht ZK anlegen aendert.
      */
     public void setzeFormularInZKAnlegen() {
+//      Formular wird zurueckgesetzt. 
         zuruecksetzen();
+//      Titel wird geaendert und entsprechende Eingabefelder werden aktiviert   
         this.setTitle(ZK_ANLEGEN);
         jCB_Auftragsart.setEnabled(true);
         jSP_LieferzeitSOFORT.setEnabled(true);
@@ -1439,7 +1456,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         jSP_Mahnzeit1.setEnabled(true);
         jSP_Mahnzeit2.setEnabled(true);
         jSP_Mahnzeit3.setEnabled(true);
-
+//      Button werden auch entsprechend aktiviert oder nicht aktiviert.
         jB_Speichern.setEnabled(true);
         jB_AnzeigenAEndern.setEnabled(false);
         jB_Loeschen.setEnabled(false);
@@ -1457,7 +1474,9 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      * Methode, die das Formular in die Sicht ZK aendern aendert.
      */
     public void setzeFormularInZKAEndern() {
+//      Formular wird zurueckgestzt  
         zuruecksetzen();
+//      Entsprechende Methode wird aufgerufen 
         setzFormularInZKAEndernFuerButton();
 //      Übergibt der Referenz des Hauptfensters das Internaframe
         this.hauptFenster.setzeComponent(this);
@@ -1473,6 +1492,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      * Methode geschrieben werden.
      */
     private void setzFormularInZKAEndernFuerButton() {
+//      Titel wird gesetzt.  
         this.setTitle(ZK_AENDERN);
         jCB_Auftragsart.setEnabled(false);
         if (((String) jCB_Auftragsart.getSelectedItem())
@@ -1482,6 +1502,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                 .equals(TERMINAUFTRAG)) {
             jSP_SperrzeitWUNSCH.setEnabled(true);
         }
+//      Eingabefelder werden aktiviert oder entsprechend nicht aktiviert.
         jSP_Skontozeit1.setEnabled(true);
         jSP_Skontozeit2.setEnabled(true);
         jCB_Skonto1.setEnabled(true);
@@ -1489,7 +1510,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         jSP_Mahnzeit1.setEnabled(true);
         jSP_Mahnzeit2.setEnabled(true);
         jSP_Mahnzeit3.setEnabled(true);
-
+//      Buttons auch.
         jB_Speichern.setEnabled(true);
         jB_AnzeigenAEndern.setEnabled(false);
         jB_Loeschen.setEnabled(true);
@@ -1504,7 +1525,9 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      * Methode wird aufgerufen, wenn auf Sicht ZK Anzeigen aufgerufen wird.
      */
     public void setzeFormularInZKAnzeigen() {
+//      Formular wird zurueckgestzt.  
         zuruecksetzen();
+//      Entsprechende Methode wird aufgerufen.  
         setzFormularInZKAnzeigenFuerButton();
 //      Übergibt der Referenz des Hauptfensters das Internaframe
         this.hauptFenster.setzeComponent(this);
@@ -1519,7 +1542,9 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      * Methode, die das Formular in die Sicht Artikel anzeigen aendert.
      */
     private void setzFormularInZKAnzeigenFuerButton() {
+//      Titel wird gesetzt.  
         this.setTitle(ZK_ANZEIGEN);
+//      Buttons werden entsprechend ausgeawaehlt oder nicht ausgewaehlt.  
         jCB_Auftragsart.setEnabled(false);
         jSP_LieferzeitSOFORT.setEnabled(false);
         jSP_SperrzeitWUNSCH.setEnabled(false);
@@ -1530,7 +1555,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         jSP_Mahnzeit1.setEnabled(false);
         jSP_Mahnzeit2.setEnabled(false);
         jSP_Mahnzeit3.setEnabled(false);
-
+//      Buttons auch.
         jB_Speichern.setEnabled(false);
         jB_AnzeigenAEndern.setEnabled(true);
         jB_Loeschen.setEnabled(false);
@@ -1548,7 +1573,9 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      * @param zk ZK aus der Suche
      */
     public void zeigeZKausSucheAn(Zahlungskondition zk) {
+//      Formular wird in Zustand ZK Anzeigen geaendert 
         setzeFormularInZKAnzeigen();
+//      ZK Daten aus der Suche weerden in die Felder hinzugefuegt.  
         jTF_ZahlungskonditionID.setText("" + zk.getZahlungskonditionID());
         jCB_Auftragsart.setSelectedItem(zk.getAuftragsart());
         jSP_LieferzeitSOFORT.setValue(zk.getLieferzeitSofort());

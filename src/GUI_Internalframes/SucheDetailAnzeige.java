@@ -433,6 +433,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(Anzeige_jTable1);
 
         jToolBar1.setRollover(true);
+        jToolBar1.setEnabled(false);
 
         Zurueck_jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI_Internalframes/Zurück.PNG"))); // NOI18N
         Zurueck_jButton1.setFocusable(false);

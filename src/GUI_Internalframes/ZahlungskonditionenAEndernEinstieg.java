@@ -226,6 +226,7 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
      * @param evt automatisch generiert
      */
     private void jB_EnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_EnterActionPerformed
+//      Eingabe wird geholt  
         String eingabe = jTF_Zahlungskondition_ID.getText();
         long zknr;
         try {
@@ -345,6 +346,7 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
      * @param zk ZK Obkjekt, aus dem die ZK nummer gelesen wird
      */
     public void setzeGP_IDAusSuche(Zahlungskondition zk) {
+//      ZK ID aus der Suche wird in das Eingabefeld ZK ID hinzugefuegt.       
         jTF_Zahlungskondition_ID.setText("" + zk.getZahlungskonditionID());
     }
 

@@ -48,6 +48,9 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
      */
     private final String KEINE_ARTIKELNR_EINGEGEBEN
             = "Bitte geben Sie eine Artikel-ID ein.";
+    /**
+     * Variablen fuer die Fehlermeldungen.
+     */
     private final String KEINE_ARTIKEL_IN_DATENBANK
             = "Kein passender Artikel in der Datenbank.";
 
@@ -210,6 +213,7 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
      * @param evt automatisch generiert
      */
     private void jB_EnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_EnterActionPerformed
+//      Eingabe holen  
         String artikelnummer = jTF_Artikel_ID.getText();
         long artikelnr;
         try {

@@ -222,7 +222,7 @@ public class Start extends javax.swing.JFrame implements SchnittstelleHauptfenst
         jMI_ZKAnlegen = new javax.swing.JMenuItem();
         jMI_ZKAEndern = new javax.swing.JMenuItem();
         jMI_ZKAnzeigen = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
+        statistik_jmn = new javax.swing.JMenu();
         umsatz_mn = new javax.swing.JMenuItem();
         umsatz_einkauf_mn = new javax.swing.JMenuItem();
         artikel_absatz_mn = new javax.swing.JMenuItem();
@@ -407,7 +407,7 @@ public class Start extends javax.swing.JFrame implements SchnittstelleHauptfenst
 
         menuBar.add(jM_Navigation);
 
-        jMenu1.setText("Statistik");
+        statistik_jmn.setText("Statistik");
 
         umsatz_mn.setText("Gesamt Umsatz");
         umsatz_mn.addActionListener(new java.awt.event.ActionListener() {
@@ -415,7 +415,7 @@ public class Start extends javax.swing.JFrame implements SchnittstelleHauptfenst
                 umsatz_mnActionPerformed(evt);
             }
         });
-        jMenu1.add(umsatz_mn);
+        statistik_jmn.add(umsatz_mn);
 
         umsatz_einkauf_mn.setText("Umsatz-Einkauf Vergleich");
         umsatz_einkauf_mn.addActionListener(new java.awt.event.ActionListener() {
@@ -423,7 +423,7 @@ public class Start extends javax.swing.JFrame implements SchnittstelleHauptfenst
                 umsatz_einkauf_mnActionPerformed(evt);
             }
         });
-        jMenu1.add(umsatz_einkauf_mn);
+        statistik_jmn.add(umsatz_einkauf_mn);
 
         artikel_absatz_mn.setText("Artikel Umsatz");
         artikel_absatz_mn.addActionListener(new java.awt.event.ActionListener() {
@@ -431,7 +431,7 @@ public class Start extends javax.swing.JFrame implements SchnittstelleHauptfenst
                 artikel_absatz_mnActionPerformed(evt);
             }
         });
-        jMenu1.add(artikel_absatz_mn);
+        statistik_jmn.add(artikel_absatz_mn);
 
         artikel_verkauft_mn.setText("Artikel Verkaufsmenge");
         artikel_verkauft_mn.addActionListener(new java.awt.event.ActionListener() {
@@ -439,7 +439,7 @@ public class Start extends javax.swing.JFrame implements SchnittstelleHauptfenst
                 artikel_verkauft_mnActionPerformed(evt);
             }
         });
-        jMenu1.add(artikel_verkauft_mn);
+        statistik_jmn.add(artikel_verkauft_mn);
 
         kat_umsatz_mn.setText("Kategorie Umsatz");
         kat_umsatz_mn.addActionListener(new java.awt.event.ActionListener() {
@@ -447,9 +447,9 @@ public class Start extends javax.swing.JFrame implements SchnittstelleHauptfenst
                 kat_umsatz_mnActionPerformed(evt);
             }
         });
-        jMenu1.add(kat_umsatz_mn);
+        statistik_jmn.add(kat_umsatz_mn);
 
-        menuBar.add(jMenu1);
+        menuBar.add(statistik_jmn);
 
         jM_Logout.setText("Logout");
         jM_Logout.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
@@ -1537,9 +1537,9 @@ public class Start extends javax.swing.JFrame implements SchnittstelleHauptfenst
     private javax.swing.JMenu jM_Logout;
     private javax.swing.JMenu jM_Navigation;
     private javax.swing.JMenu jM_ZKVerwalten;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem kat_umsatz_mn;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenu statistik_jmn;
     private javax.swing.JTextField statusMeldung_jTextField;
     private javax.swing.JMenuItem umsatz_einkauf_mn;
     private javax.swing.JMenuItem umsatz_mn;

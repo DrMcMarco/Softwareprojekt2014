@@ -332,17 +332,23 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame
         StartAdmin framestartadmin = null;
         String s = "";
         try {
+            //Prüfe ob die suche vom benutzer aufgerufen wurde
             framestart = (Start) this.hauptFenster;
             try {
-            
+                //Starte suchabfrage
                 suchErgebnis = GUIFactory.getDAO().suchAbfrage(suchEingabe, 
                         suchKategorie, this.sortierung);
+                //Setze das ergebnis in die detailsicht
                 framestart.detailSuche.setzeDaten(suchErgebnis);
+                //Setze die sucheingabe in die detailsicht
                 framestart.detailSuche.setzeSucheingabe(suchEingabe, 
                         this.sortierung);
+                //Setze die Tabelle
                 framestart.detailSuche.setzeTabelle(suchKategorie);
+                //Setze das fenster
                 framestart.detailSuche.setzeFenster(framestart.getComponent());
-                framestart.setzeFrame(framestart.detailSuche);
+                //Setze das fenster im meinframe
+                framestart.setFrame(framestart.detailSuche);
                 this.setVisible(false);
             } catch (Exception e) { //Fehlerbehandlung 
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Fehler", 
@@ -351,17 +357,22 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame
         } catch (ClassCastException e) {
  
         }
+        //Wenn die suche vom admin aufgerufen wird.
         if (framestart == null) {
             framestartadmin = (StartAdmin) this.hauptFenster;
             try {
-            
+                //Starte suchabfrage
                 suchErgebnis = GUIFactory.getDAO().suchAbfrage(suchEingabe, 
                         suchKategorie, this.sortierung);
+                //Setze das ergebnis in die detailsicht
                 framestartadmin.detailSuche.setzeDaten(suchErgebnis);
+                //Setze die sucheingabe in die detailsicht
                 framestartadmin.detailSuche.setzeSucheingabe(suchEingabe, 
                         this.sortierung);
+                //Setze die Tabelle
                 framestartadmin.detailSuche.setzeTabelle(suchKategorie);
-                framestartadmin.setzeFrame(framestartadmin.detailSuche);
+                //Setze das fenster im meinframe
+                framestartadmin.setFrame(framestartadmin.detailSuche);
                 this.setVisible(false);
             } catch (Exception e) { //Fehlerbehandlung 
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Fehler", 
