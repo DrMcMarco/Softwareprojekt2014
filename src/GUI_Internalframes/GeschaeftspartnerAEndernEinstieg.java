@@ -409,6 +409,7 @@ public class GeschaeftspartnerAEndernEinstieg
      * @param geschaeftspartner GP Obkjekt, aus dem die gp nummer gelesen wird
      */
     public void setzeGP_IDAusSuche(Geschaeftspartner geschaeftspartner) {
+//      ID aus Suche wird in das Eingabefeld Geschaeftspartner ID hinzugefuegt.  
         jTF_Geschaeftspartner_ID.setText(""
                 + geschaeftspartner.getGeschaeftspartnerID());
     }

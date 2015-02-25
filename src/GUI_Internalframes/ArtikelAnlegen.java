@@ -224,9 +224,12 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame
      */
     @Override
     public void ueberpruefen() {
+//      Falls der Artikelname nicht eingegeben, wird die Componente in die 
+//      ArrayList fehlerhafte Componenten hinzugefuegt.  
         if (jTF_Artikelname.getText().equals("")) {
             fehlerhafteComponenten.add(jTF_Artikelname);
         }
+//      Wie vorher.  
         if (jTA_Artikelbeschreibung.getText().equals("")) {
             fehlerhafteComponenten.add(jTA_Artikelbeschreibung);
         }
@@ -258,6 +261,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame
     @Override
     public final void zuruecksetzen() {
         try {
+//          die naechste freie ID wird aus der Datenbank geladen und alle
+//          Felder werden zurueckgestetzt.  
             artikelnummer = this.dao.gibNaechsteArtikelnummer();
             jTF_Artikelnummer.setText("" + artikelnummer);
             jTF_Artikelname.setText("");
@@ -388,14 +393,16 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame
                         meldung, titel, JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
                 if (antwort == JOptionPane.YES_OPTION) {
+//                  Antwort ist ja 
                     zuruecksetzen();
                     this.setVisible(false);
                     zurueckInsHauptmenue();
                 } else {
+//                  Antwort nein, also passiert nichts.  
                     fehlerhafteComponenten.clear();
                 }
             } else {
-//            keine Eingaben getaetigt, direkt Fenster schließen 
+//              keine Eingaben getaetigt, direkt Fenster schließen 
                 zuruecksetzen();
                 this.setVisible(false);
                 zurueckInsHauptmenue();
@@ -842,8 +849,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame
 //      Componenten verfuegbar), 
 //      werden die Eingaben in die entsprechenden Variablen gespeichert
             if (fehlerhafteComponenten.isEmpty()) {
-//                  Sicht Artikel aendern ist geoffnet,
-//                  also wird zunaechst der Artikel aus der Datenbank geladen.
+//              Sicht Artikel aendern ist geoffnet,
+//              also wird zunaechst der Artikel aus der Datenbank geladen.
                 long artikelnr;
                 String artikelname;
                 String artikelbeschreibung;
@@ -972,6 +979,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame
      * in standard gefärbt.
      */
     private void jTF_ArtikelnameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_ArtikelnameFocusLost
+//      Falls Eingabe gemacht wurde, wird der Hintergrund in normal gefaerbt.  
         if (!jTF_Artikelname.getText().equals("")) {
             jTF_Artikelname.setBackground(JTF_FARBE_STANDARD);
         }
@@ -986,6 +994,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame
      * in standard gefärbt.
      */
     private void jCB_KategorieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCB_KategorieActionPerformed
+//      Falls Eingabe gemacht wurde, wird der Hintergrund in normal gefaerbt.         
         if (jCB_Kategorie.getSelectedIndex() != 0) {
             jCB_Kategorie.setBackground(JCB_FARBE_STANDARD);
         }
@@ -1027,6 +1036,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame
      * in standard gefärbt.
      */
     private void jCB_MwSTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCB_MwSTActionPerformed
+//      Falls Eingabe gemacht wurde, wird der Hintergrund in normal gefaerbt.         
         if (jCB_MwST.getSelectedIndex() != 0) {
             jCB_MwST.setBackground(JCB_FARBE_STANDARD);
         }
@@ -1041,6 +1051,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame
      * in standard gefärbt.
      */
     private void jTF_Bestandsmenge_FREIFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_Bestandsmenge_FREIFocusLost
+//      Falls Eingabe gemacht wurde, wird der Hintergrund in normal gefaerbt.         
         if (!jTF_Bestandsmenge_FREI.getText().equals("")) {
             jTF_Bestandsmenge_FREI.setBackground(JTF_FARBE_STANDARD);
         }
@@ -1055,6 +1066,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame
      * in standard gefärbt.
      */
     private void jTA_ArtikelbeschreibungFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTA_ArtikelbeschreibungFocusLost
+//      Falls Eingabe gemacht wurde, wird der Hintergrund in normal gefaerbt.         
         if (!jTA_Artikelbeschreibung.getText().equals("")) {
             jTA_Artikelbeschreibung.setBackground(JTF_FARBE_STANDARD);
         }
@@ -1245,6 +1257,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame
         String text = "Soll der Artikel wirklich gelöscht werden?";
 //      erst wenn das Formular ok ist, wird die Loeschen Aktion durchgefuehrt 
         if (formularOK) {
+//          Ueberprufung, ob Titel Artikel aendern ist.  
             if (this.getTitle().equals(ARTIKEL_AENDERN)) {
                 try {
 //                 Artikel wird aus Datenbank geladen, 
@@ -1500,8 +1513,11 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame
      * Methode, die das Formular in die Sicht Artikel anlegen aendert.
      */
     public void setzeFormularInArtikelAnlegen() {
+//      Zunaechst wird das Formular zurueckgesetzt.  
         zuruecksetzen();
+//      Titel wird gesetzt.  
         this.setTitle(ARTIKEL_ANLEGEN);
+//      Alle Eingabefelder werden aktiviert.  
         jTF_Artikelname.setEnabled(true);
         jTA_Artikelbeschreibung.setEnabled(true);
         jCB_Kategorie.setEnabled(true);
@@ -1531,7 +1547,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame
      * Methode, die das Formular in die Sicht Artikel aendern aendert.
      */
     public void setzeFormularInArtikelAEndern() {
-        zuruecksetzen();
+//      Formular wird zurueckgesetzt.   
+        zuruecksetzen();  
         setzFormularInArtikelAEndernFuerButton();
 //      Übergibt der Referenz des Hauptfensters das Internaframe
         this.hauptFenster.setComponent(this);
@@ -1547,6 +1564,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame
      * Methode geschrieben werden.
      */
     private void setzFormularInArtikelAEndernFuerButton() {
+//      Titel wird gesetzt und die Eingabefelder werden zurueckgestzt.  
         this.setTitle(ARTIKEL_AENDERN);
         jTF_Artikelname.setEnabled(true);
         jTA_Artikelbeschreibung.setEnabled(true);
@@ -1623,6 +1641,8 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame
      * @param artikel artikel aus der Suche
      */
     public void zeigeArtikelAusSucheAn(Artikel artikel) {
+//      Das Formular wird in Artikel anzeigen gesetzt und der Artikel aus der
+//      Suche wird in die Felder gefuellt.  
         setzeFormularInArtikelAnzeigen();
         jTF_Artikelnummer.setText("" + artikel.getArtikelID());
         jTF_Artikelname.setText(artikel.getArtikeltext());

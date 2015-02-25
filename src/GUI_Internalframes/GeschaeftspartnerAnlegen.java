@@ -279,6 +279,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      */
     @Override
     public void ueberpruefen() {
+//      Falls die Anrede nicht ausgewaehlt ist, wird die Componente in die
+//      ArrayList fehlerhafteComponten hinzugefuegt und so.  
         if (jCB_Anrede.getSelectedIndex() == 0) {
             fehlerhafteComponenten.add(jCB_Anrede);
         }
@@ -315,6 +317,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         if (jTF_OrtRechnungsanschrift.getText().equals("")) {
             fehlerhafteComponenten.add(jTF_OrtRechnungsanschrift);
         }
+//      Wenn checkbox WieAnschrift nicht gesetzt ist werden die Felder 
+//      der Lieferanschrift auch ueberprueft.  
         if (!jCHB_WieAnschrift.isSelected()) {
             if (jTF_StrasseLieferanschrift.getText().equals("")) {
                 fehlerhafteComponenten.add(jTF_StrasseLieferanschrift);
@@ -344,6 +348,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
     @Override
     public void zuruecksetzen() {
         try {
+//          Die naechste freie GP ID wird aus der Datenbank geladen und die 
+//          Eingabefelder und die Hintergrundfarben zurueckgesetzt.  
             geschaeftspartnerNr = this.dao.gibNaechsteGeschaeftpartnerID();
             jTF_GeschaeftspartnerID.setText("" + geschaeftspartnerNr);
             jCHB_Kunde.setSelected(false);
@@ -1125,6 +1131,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * Methode, um den Typ des Geschäftspartners zu wählen in standard gefärbt.
      */
     private void jCHB_KundeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCHB_KundeActionPerformed
+//      Falls checkbox Kunde selektiert wird, wird die Selektion der Checkbox
+//      fuer den Lieferanten ausgeschaltet.  
         if (jCHB_Kunde.isSelected()) {
             jCHB_Lieferant.setSelected(false);
         }
@@ -1138,6 +1146,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * Methode, um den Typ des Geschäftspartners zu wählen. in standard gefärbt.
      */
     private void jCHB_LieferantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCHB_LieferantActionPerformed
+//      Falls checkbox Lieferant selektiert wird, wird die Selektion der Checkbox
+//      fuer den Kunde ausgeschaltet.        
         if (jCHB_Lieferant.isSelected()) {
             jCHB_Kunde.setSelected(false);
         }
@@ -1378,7 +1388,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
             } else {
 //            fehlerhafteComponenten ist nicht leer (es sind 
 //            fehlerhafte Componenten vorhanden)
-//          wird methode fuer das Markieren ausgefuehrt
+//            wird methode fuer das Markieren ausgefuehrt
                 fehlEingabenMarkierung(fehlerhafteComponenten,
                         MELDUNG_PFLICHTFELDER_TITEL, MELDUNG_PFLICHTFELDER_TEXT,
                         FARBE_FEHLERHAFT);
@@ -1398,6 +1408,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * in standard gefärbt.
      */
     private void jCB_AnredeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCB_AnredeActionPerformed
+//      Wenn Anrede ausgewaehlt ist, wird der Hintergrund in normal gsetzt.  
         if (jCB_Anrede.getSelectedIndex() != 0) {
             jCB_Anrede.setBackground(JCB_FARBE_STANDARD);
         }
@@ -1412,6 +1423,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * in standard gefärbt.
      */
     private void jTF_NameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_NameFocusLost
+//      Wenn der Name eingegeben wurde, wird der Hintergrund in normal gesetzt.  
         if (!jTF_Name.getText().equals("")) {
             jTF_Name.setBackground(JTF_FARBE_STANDARD);
         }
@@ -1441,6 +1453,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      *
      */
     private void jTF_TelefonFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_TelefonFocusLost
+//      Meldung wird erzeugt und die zustaendige Methode aufgerufen.  
         String meldung = "Die eingegebene Telefonnummer ist nicht"
                 + " richtig!\nBitte geben Sie eine richtige Telefonnummer"
                 + " ein. (z.B. 01771234567)";
@@ -1458,6 +1471,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      *
      */
     private void jTF_FaxFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_FaxFocusLost
+//      Meldung wird erzeugt und die zustaendige Methode aufgerufen.          
         String meldung = "Die eingegebene Faxnummer ist nicht richtig!\nBitte "
                 + "geben Sie eine richtige Faxnummer ein. (z.B. 0234123123)";
         ueberpruefungVonFocusLost(jTF_Fax, PRUEFUNG_TELEFON,
@@ -1567,6 +1581,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * in standard gefärbt. Bei Fehleingaben wird eine Meldung ausgegeben.
      */
     private void jTF_EMailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_EMailFocusLost
+//      Meldung wird erzeugt und die zustaendige Methode aufgerufen.          
         String meldung = "Die eingegebene e-Mail Adresse ist nicht "
                 + "gültig!\nBitte geben Sie eine gültige e-Mail"
                 + " Adresse ein. (z.B. max.mustermann@w-hs.de)";
@@ -1618,6 +1633,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * in standard gefärbt.
      */
     private void jTF_StrasseRechnungsanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_StrasseRechnungsanschriftFocusLost
+//      Falls Eingaben gemacht wurde, wird der Hintergrund in normal gefaerbt.      
         if (!jTF_StrasseRechnungsanschrift.getText().equals("")) {
             jTF_StrasseRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
         }
@@ -1632,6 +1648,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * in standard gefärbt.
      */
     private void jTF_StrasseLieferanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_StrasseLieferanschriftFocusLost
+//      Falls Eingaben gemacht wurde, wird der Hintergrund in normal gefaerbt.        
         if (!jTF_StrasseLieferanschrift.getText().equals("")) {
             jTF_StrasseLieferanschrift.setBackground(JTF_FARBE_STANDARD);
         }
@@ -1646,6 +1663,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * in standard gefärbt. Bei Fehleingaben wird eine Meldung ausgegeben.
      */
     private void jTF_HausnummerRechnungsanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_HausnummerRechnungsanschriftFocusLost
+//      Meldung wird erzeugt und die zustaendige Methode aufgerufen.
         String meldung = "Die eingegebene Hausnummer ist nicht richtig!\nSie"
                 + " können eine maximal dreistellige Hausnummer gefolgt"
                 + " von\neinem optionalen Buchstaben eingeben."
@@ -1664,6 +1682,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * 29.11.2014   Sen     angelegt
      */
     private void jTF_HausnummerLieferanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_HausnummerLieferanschriftFocusLost
+//      Meldung wird erzeugt und die zustaendige Methode aufgerufen.
         String meldung = "Die eingegebene Hausnummer ist nicht "
                 + "richtig!\nSie können eine maximal dreistellige Hausnummer"
                 + " gefolgt von\neinem optionalen Buchstaben eingeben."
@@ -1681,6 +1700,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * in standard gefärbt. Bei Fehleingaben wird eine Meldung ausgegeben.
      */
     private void jTF_PLZRechnungsanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_PLZRechnungsanschriftFocusLost
+//      Meldung wird erzeugt und die zustaendige Methode aufgerufen.
         String meldung = "Die eingegebene Postleitzahl ist nicht "
                 + "richtig!\nBitte geben Sie eine fünfstellige "
                 + "Postleitzahl ein. (z.B. 45968)";
@@ -1697,6 +1717,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * in standard gefärbt. Bei Fehleingaben wird eine Meldung ausgegeben.
      */
     private void jTF_PLZLieferanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_PLZLieferanschriftFocusLost
+//      Meldung wird erzeugt und die zustaendige Methode aufgerufen.
         String meldung = "Die eingegebene Postleitzahl ist nicht "
                 + "richtig!\nBitte geben Sie eine fünfstellige Postleitzahl"
                 + " ein. (z.B. 45968)";
@@ -1713,6 +1734,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * in standard gefärbt.
      */
     private void jTF_OrtRechnungsanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_OrtRechnungsanschriftFocusLost
+//      Falls Eingaben gemacht wurde, wird der Hintergrund in normal gefaerbt.       
         if (!jTF_OrtRechnungsanschrift.getText().equals("")) {
             jTF_OrtRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
         }
@@ -1727,6 +1749,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * in standard gefärbt.
      */
     private void jTF_OrtLieferanschriftFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTF_OrtLieferanschriftFocusLost
+//      Falls Eingaben gemacht wurde, wird der Hintergrund in normal gefaerbt.        
         if (!jTF_OrtLieferanschrift.getText().equals("")) {
             jTF_OrtLieferanschrift.setBackground(JTF_FARBE_STANDARD);
         }
@@ -2490,6 +2513,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * Methode, die das Formular in die Sicht GP anlegen aendert.
      */
     public void setzeFormularInGPAnlegen() {
+//      Formular wird zurueckgesetzt.  
         zuruecksetzen();
         this.setTitle(GP_ANLEGEN);
 //      benoetigte felder werden auf enabled true gesetzt
@@ -2530,6 +2554,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * Methode, die das Formular in die Sicht GP aendern aendert.
      */
     public void setzeFormularInGPAEndern() {
+//      Formular wird zurueckgestezt und die entsprechende Methode aufgerufen.
         zuruecksetzen();
         setzeFormularInGPAEndernFuerButton();
 //        Übergibt der Referenz des Hauptfensters das Internaframe
@@ -2547,8 +2572,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * Methode geschrieben werden.
      */
     private void setzeFormularInGPAEndernFuerButton() {
+//      Titel wird gesetzt.  
         this.setTitle(GP_AENDERN);
-
+//      Allle Felder werden zurueckgesetzt
         jCHB_Kunde.setEnabled(false);
         jCHB_Lieferant.setEnabled(false);
         jCB_Anrede.setEnabled(true);
@@ -2608,8 +2634,9 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * Methode geschrieben werden.
      */
     private void setzeFormularInGPAnzeigenFuerButton() {
+//      Titel wird geaendert  
         this.setTitle(GP_ANZEIGEN);
-
+//      alle Felder werden zurueckgesetzt.
         jCHB_Kunde.setEnabled(false);
         jCHB_Lieferant.setEnabled(false);
         jCB_Anrede.setEnabled(false);
@@ -2647,6 +2674,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      *
      */
     public void setzeAnschrift(Anschrift anschriftDaten) {
+//      Die Anschriftsdaten aus der Suche werden in die Eingabefelder fuer die
+//      Anschrift hinzugefuegt.  
         this.jTF_StrasseRechnungsanschrift.setText(anschriftDaten.getStrasse());
         this.jTF_StrasseRechnungsanschrift.setBackground(JTF_FARBE_STANDARD);
         this.jTF_HausnummerRechnungsanschrift.
@@ -2669,6 +2698,8 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * @param gp artikel aus der Suche
      */
     public void zeigeGPausSucheAN(Geschaeftspartner gp) {
+//      Formular wird in Zustand GP Anzeigen versetzt und die Eingaben aus der
+//      Suche werden in die Felder hinzugefuegt.  
         setzeFormularInGPAnzeigen();
         Anschrift la = gp.getLieferadresse();
         Anschrift ra = gp.getRechnungsadresse();
