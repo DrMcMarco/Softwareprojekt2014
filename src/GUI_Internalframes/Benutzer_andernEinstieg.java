@@ -4,8 +4,8 @@ import DAO.ApplicationException;
 import DTO.Benutzer;
 import JFrames.GUIFactory;
 import java.awt.Component;
-import Interfaces.InterfaceViewsFunctionality;
-import Interfaces.InterfaceMainView;
+import Interfaces.SchnittstelleFensterFunktionen;
+import Interfaces.SchnittstelleHauptfenster;
 import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -22,23 +22,24 @@ import javax.swing.*;
  der Ändern/Anzeigen Funktion. */
 /* 10.03.2015 Terrasi,  getestet und freigegeben */
 /* 18.02.2015 TER, getestet und freigegeben */
-public class User_andernEinstieg extends javax.swing.JInternalFrame
-        implements InterfaceViewsFunctionality {
+public class Benutzer_andernEinstieg extends javax.swing.JInternalFrame
+        implements SchnittstelleFensterFunktionen {
 
     // Hilfsvariablen
-    Component c;
+    Component letzteComponente;
     GUIFactory factory;
-    User_anlegen userAnlegen;
-    InterfaceMainView hauptFenster;
+    Benutzer_anlegen userAnlegen;
+    SchnittstelleHauptfenster hauptFenster;
 
     // Konstanten für Meldungen.
-    final String USER_NICHT_GEFUNDEN
+    private final String USER_NICHT_GEFUNDEN
             = "Keine passender Benutzer in der Datenbank.";
-    final String KEINE_EINGABE = "Bitte geben Sie einen Benutzernamen ein.";
-    final String FEHLER = "Fehler bei Eingabe ";
+    private final String KEINE_EINGABE = "Bitte geben Sie einen Benutzernamen "
+            + "ein.";
+    private final String FEHLER = "Fehler bei Eingabe ";
 
     // Speichervariablen
-    ArrayList<Component> fehleingabefelder; // Liste für Fehleingaben.
+    private ArrayList<Component> fehleingabefelder; // Liste für Fehleingaben.
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
@@ -52,8 +53,8 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame
      * @param user, Übergabe eines Useranlegenobjektes.
      * @param main, Übergabe eines InterfaceMainViewobjektes
      */
-    public User_andernEinstieg(GUIFactory factory, User_anlegen user,
-            InterfaceMainView main) {
+    public Benutzer_andernEinstieg(GUIFactory factory, Benutzer_anlegen user,
+            SchnittstelleHauptfenster main) {
         initComponents();
         //Übergabe der Parameter.
         this.factory = factory;
@@ -191,12 +192,12 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame
      * @param evt
      */
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
-        c = null;   //Initialisierung der Componentspeichervariable
+        letzteComponente = null;   //Initialisierung der Componentspeichervariable
         // Erhalten über GUIFactorymethode die letzte aufgerufene View 
         // und speichern diese in Variable.
-        c = this.factory.zurueckButton();// Übergabe des Hauptmenüs
+        letzteComponente = this.factory.zurueckButton();// Übergabe des Hauptmenüs
         this.setVisible(false);// Internalframe wird nicht mehr dargestellt
-        c.setVisible(true);// Übergebene Component wird sichtbar gemacht
+        letzteComponente.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
     /*----------------------------------------------------------*/
@@ -226,53 +227,53 @@ public class User_andernEinstieg extends javax.swing.JInternalFrame
                     // Funktion aufruft.
                     if (this.getTitle().equals(benutzerAendernEinstieg)) {
                         // Benutzername aus der DB wird im Eingabefeld angezeigt.
-                        this.userAnlegen.setBenutzername(
+                        this.userAnlegen.setsetzeBenutzername(
                                 benutzer.getBenutzername());
                         if (benutzer.isIstAdmin()) {//Falls Benutzer Admin ist.
                             // Ceckbox wird selektiert.
-                            this.userAnlegen.setCheckBoxSelected(true);
+                            this.userAnlegen.setzeCheckBoxSelected(true);
                         } else {
                             // Checkbox wird nicht selektiert.
-                            this.userAnlegen.setCheckBoxSelected(false);
+                            this.userAnlegen.setzeCheckBoxSelected(false);
                         }
                         // Setzt das Internalframe in den Ändernmodus.
-                        this.userAnlegen.setStatusAender();
+                        this.userAnlegen.setzeStatusAender();
                         //Methode die bestimmte Eingabefelder leert
                         zuruecksetzen();
                         this.setVisible(false);//Maske ist nicht mehr Sichtbar.
                         // Hauptfenster macht übergebene Maske sichtbar.
-                        this.hauptFenster.setFrame(this.userAnlegen);
+                        this.hauptFenster.setzeFrame(this.userAnlegen);
 
                     } else {// Falls Maske nicht "Benutzer ändern Einstieg" ist.
 
                         // Setzt das Internalframe in den Anzeigenmodus.
-                        this.userAnlegen.setStatusAnzeigen();
+                        this.userAnlegen.setzeStatusAnzeigen();
                         // Benutzername aus der DB wird im Eingabefeld angezeigt.
-                        this.userAnlegen.setBenutzername(
+                        this.userAnlegen.setsetzeBenutzername(
                                 benutzer.getBenutzername());
                         if (benutzer.isIstAdmin()) {//Falls Benutzer Admin ist.                       
                             // Ceckbox wird selektiert.
-                            this.userAnlegen.setCheckBoxSelected(true);
+                            this.userAnlegen.setzeCheckBoxSelected(true);
                         } else {
                             // Checkbox wird nicht selektiert.
-                            this.userAnlegen.setCheckBoxSelected(false);
+                            this.userAnlegen.setzeCheckBoxSelected(false);
                         }
                         // Checkbox wird auf Enable false gesetzt.
-                        this.userAnlegen.setZustand(false);
+                        this.userAnlegen.setzeZustand(false);
                         //Methode die bestimmte Eingabefelder leert
                         zuruecksetzen();
                         this.setVisible(false);//Maske ist nicht mehr Sichtbar.
                         // Hauptfenster macht übergebene Maske sichtbar.
-                        this.hauptFenster.setFrame(this.userAnlegen);
+                        this.hauptFenster.setzeFrame(this.userAnlegen);
                     }
                 }
             } else {
 
-                this.hauptFenster.setStatusMeldung(KEINE_EINGABE);
+                this.hauptFenster.setzeStatusMeldung(KEINE_EINGABE);
             }
         } catch (ApplicationException e) {//Fehlerbehandlung "ApplicationException"
             //Fehler wird in der Statuszeile übergeben.
-            this.hauptFenster.setStatusMeldung(USER_NICHT_GEFUNDEN);
+            this.hauptFenster.setzeStatusMeldung(USER_NICHT_GEFUNDEN);
             // eingabefeld erhält leeren String
             BenutzerID_jTextField.setText("");
         }

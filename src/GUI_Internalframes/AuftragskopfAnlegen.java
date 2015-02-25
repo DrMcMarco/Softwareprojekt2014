@@ -57,13 +57,13 @@ import javax.swing.table.DefaultTableModel;
 /* 17.01.2015 Terrasi, Überarbeitung der ladeZahlungskonditionen-Methode.*/
 /* 18.02.2015 TER, getestet und freigegeben */
 public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
-        implements InterfaceViewsFunctionality {
+        implements SchnittstelleFensterFunktionen {
 
     // Speichervariablen.
     Component letzteComponent;
     GUIFactory factory;
     DataAccessObject dao;
-    InterfaceMainView hauptFenster;
+    SchnittstelleHauptfenster hauptFenster;
 
     DefaultTableModel dtm;// Variable für Tabelle.
 
@@ -79,13 +79,13 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
     private Date berechnetesLieferdatum;
 
     // ArrayList für Eingabefelder des Auftragkopfes.
-    ArrayList<Component> fehlendeEingaben;
+    private ArrayList<Component> fehlendeEingaben;
 
     // ArrayList für die Eingabefelder der Auftragsposition.
-    ArrayList<Component> fehlendeEingabenAuftragsposition;
-    Double gesamtAuftragswert = 0.00;// Variable für  Auftragswert
-    Double einzelwert = 0.00;// Variable für Einzelwert
-    Double summenWertFuerPos = 0.00;//Variable für die Summe der Positionswerte.
+    private ArrayList<Component> fehlendeEingabenAuftragsposition;
+    private Double gesamtAuftragswert = 0.00;// Variable für  Auftragswert
+    private Double einzelwert = 0.00;// Variable für Einzelwert
+    private Double summenWertFuerPos = 0.00;//Variable für die Summe der Positionswerte.
     private Collection<Zahlungskondition> zahlungskondditionAusDatenbank;
     private ArrayList<String> zahlungskonditionFuerCombobox = new ArrayList<>();
 
@@ -98,7 +98,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
 
     // Variablen für die erzeugung der Spalten und Zeilen für die
     // Auftragspositinstabelle. 
-    Vector spaltenNamen;
+    private Vector spaltenNamen;
 
     // Speichervariablen für Datenbankdaten.
     private Auftragskopf kopf;
@@ -110,10 +110,10 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
     private String dbLieferdatum;
     private String dbAbschlussdatum;
 
-    HashMap<Long, Integer> dbAuftragspositionen = new HashMap<>();
+    private HashMap<Long, Integer> dbAuftragspositionen = new HashMap<>();
     private ArrayList<Auftragsposition> auftragspositionen = new ArrayList<>();
 
-    Auftragsposition position; // Objekt Erzeugung für die Positionstabelle.
+    private Auftragsposition position; // Objekt Erzeugung für die Positionstabelle.
 
     // Variable, um zu pruefen, ob alle Eingaben, wenn welche gemacht wurden, ok
     // sind.
@@ -127,109 +127,103 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
 
     // Konstanten für Farben
     Color warningfarbe = Color.YELLOW;
-    Color hintergrundfarbe = Color.WHITE;
+    private Color hintergrundfarbe = Color.WHITE;
 
     // Syntax
     private static final String MATERIALNUMMER_SYNTAX = "|\\d{1,9}?";
 
     // Augabetexte für Meldungen.
-    final String FEHLERMELDUNG_TITEL = "Fehlerhafte Eingabe";
-    final String FEHLERMELDUNG_UNVOLLSTAENDIG_TITEL = "Fehlerhafte Eingabe";
+    private final String FEHLERMELDUNG_TITEL = "Fehlerhafte Eingabe";
+    private final String FEHLERMELDUNG_UNVOLLSTAENDIG_TITEL = "Fehlerhafte Eingabe";
 
-    final String FEHLERMELDUNG_LIEFERDATUM_TEXT = "Das Lieferdatum darf nicht "
+    private final String FEHLERMELDUNG_LIEFERDATUM_TEXT = "Das Lieferdatum darf nicht "
             + "in der Vergangenheit liegen.\n"
             + "Bitte überprüfen Sie ihr Lieferdatum";
-    final String FEHLERMELDUNG_ABSCHLUSSDATUM_TEXT = "Das Abschlussdatum darf "
-            + "nicht in der Vergangenheit liegen.\n"
-            + "Bitte überprüfen Sie ihr Abschlussdatum";
-    final String FEHLERMELDUNG_ABSCHLUSSDATUMVORLIEFERDATUM_TEXT = "Das "
-            + "Abschlussdatum darf vor dem Lieferdatum liegen.\n"
-            + "Bitte überprüfen Sie ihr Abschlussdatum";
 
-    final String FEHLERMELDUNG_UNGUELTIGESDATUM_TEXT = "Üngültigesdatum."
+    private final String FEHLERMELDUNG_UNGUELTIGESDATUM_TEXT = "Üngültigesdatum."
             + " Bitte geben Sie eine gültiges Datum ein. (z.B 01.01.2016)";
-    final String FEHLERMELDUNG_UNVOLLSTAENDIGAUFTRAGSKOPF_TEXT = "Es wurden "
+    private final String FEHLERMELDUNG_UNVOLLSTAENDIGAUFTRAGSKOPF_TEXT = "Es wurden "
             + "nicht alle Eingaben getätigt.\n"
             + "Bitte geben Sie die benötigten Eingaben für den Auftragskopf "
             + "in die markierten Eingabefelder ein.";
 
-    final String FEHLERMELDUNG_UNVOLLSTAENDIGAUFTRAGSPOSITION_TEXT = "Es wurden "
+    private final String FEHLERMELDUNG_UNVOLLSTAENDIGAUFTRAGSPOSITION_TEXT = "Es wurden "
             + "nicht alle Eingaben getätigt.\n"
             + "Bitte geben Sie die benötigten Eingaben für eine Auftragsposition"
             + " in die markierten Eingabefelder ein.";
 
-    final String FEHLERMELDUNG_UNVOLLSTAENDIG_KEINEPOSITIONZUMKOPF_TEXT = "Es"
+    private final String FEHLERMELDUNG_UNVOLLSTAENDIG_KEINEPOSITIONZUMKOPF_TEXT = "Es"
             + " muss mindestens eine Auftragsposition"
             + " zum Auftragskopf angelegt "
             + "\n werden. Bitte geben Sie alle notwendigen  Eingaben ein.";
 
-    final String FEHLERMELDUNGMENGE_TEXT = "Bitte eine gültige Menge eingeben";
+    private final String FEHLERMELDUNGMENGE_TEXT = "Bitte eine gültige Menge eingeben";
 
-    final String FEHLERMELDUNG_LIEFERDATUM_VOR_SPERRZEIT_TEXT = "Lieferdatum"
+    private final String FEHLERMELDUNG_LIEFERDATUM_VOR_SPERRZEIT_TEXT = "Lieferdatum"
             + " muss bei einem Terminauftrag "
             + "\n mindestens ";
 
-    final String FEHLERMELDUNGMATERIAL_TEXT = "Die eingegebene Materialnummer "
+    private final String FEHLERMELDUNGMATERIAL_TEXT = "Die eingegebene Materialnummer "
             + "ist nicht richtig! "
             + "\nBitte geben Sie eine gültige Materialnummer, die aus acht "
             + "Ziffern besteht, ein. (z.B. 1234567)";
-    final String FEHLERMELDUNGGESCHAEFTSPARTNERID_TEXT = "Keine Gültige "
-            + "Geschäftspartner-ID. \n"
-            + " Bitte geben Sie eine gültige Geschäftspartner-ID ein.";
 
-    final String FEHLERMELDUNGKEINEPOSITIONGEWAEHLT = " Bitte eine Position "
+    private final String FEHLERMELDUNGKEINEPOSITIONGEWAEHLT = 
+            " Bitte eine Position "
             + "wählen.";
 
-    final String FEHLERMELDUNGKEINEMATERIALNUMMER = "Bitte eine Materialnummer "
+    private final String FEHLERMELDUNGKEINEMATERIALNUMMER = 
+            "Bitte eine Materialnummer "
             + "eingeben.";
 
-    final String FEHLERMELDUNG_KEINEZAHLUNGSKONDITION_TITEL = "Keine "
+    private final String FEHLERMELDUNG_KEINEZAHLUNGSKONDITION_TITEL = "Keine "
             + "Zahlungskondition vorhanden.";
-    final String FEHLERMELDUNG_KEINEZAHLUNGSKONDITION_TEXT = "Die Auftragsart "
+    private final String FEHLERMELDUNG_KEINEZAHLUNGSKONDITION_TEXT = 
+            "Die Auftragsart "
             + "besitzt keine Zahlungskondition."
             + "\n Bitte legen Sie mindestens eine Zahlungskondition für die "
             + "Auftragsart an,"
             + "\n oder whlen Sie eine andere Auftragsart aus.";
 
 //Ausgaben bei Systemmeldungen.
-    final String ERFOLGREICHEANMELDUNG = "Ihr Auftrags wurde erfolgreich "
+    private final String ERFOLGREICHEANMELDUNG = "Ihr Auftrags wurde erfolgreich "
             + "angelegt.";
-    final String ERFOLGREICHESLOESCHEN = "Der Auftrag wurde erfolgreich"
+    private final String ERFOLGREICHESLOESCHEN = "Der Auftrag wurde erfolgreich"
             + " gelöscht.";
-    final String LOESCHENMELDUNG = "Sind Sie sicher, dass sie den Auftrag"
+    private final String LOESCHENMELDUNG = "Sind Sie sicher, dass sie den Auftrag"
             + " löschen möchten ?";
-    final String LOESCHEN_TITEL = "Löschen eines Auftrags";
-    final String ERFOLGREICHGEAENDERT_TEXT = "Der Auftrag wurde erfolgreich"
+    private final String LOESCHEN_TITEL = "Löschen eines Auftrags";
+    private final String ERFOLGREICHGEAENDERT_TEXT = "Der Auftrag wurde erfolgreich"
             + " geändert.";
     final String ERFOLGREICHGEAENDERT_TITEL = "Auftrag geändert";
 
-    final String LIEFERUNGAMWOCHENENDE_TITEL = "Lieferdatum an "
+    private final String LIEFERUNGAMWOCHENENDE_TITEL = "Lieferdatum an "
             + "einem Wochenende.";
-    final String LIEFERUNGAMWOCHENENDE_TEXT = "Das Lieferdatum fällt "
+    private final String LIEFERUNGAMWOCHENENDE_TEXT = "Das Lieferdatum fällt "
             + "auf ein Wochende."
             + " Wollen Sie das Lieferdatum beibehalten?";
 
-    final String AENDERUNGVONDATEN_TEXT = "Es wurden Daten geändert. "
+    private final String AENDERUNGVONDATEN_TEXT = "Es wurden Daten geändert. "
             + "Wollen sie wirklich"
             + "die Daten überspeichern?";
-    final String AENDERUNGVONDATEN_TITEL = "Änderung von Daten";
-    final String KEINEAENDERUNGEN_Titel = "Auftragskopf bereits angelegt";
-    final String KEINEAENDERUNGEN_TEXT = "Der Auftrag existiert bereits.";
-    final String DATENVERWERFEN_TITEL = "Daten verwerfen";
-    final String DATENVERWERFEN_TEXT = "Es wurden Daten eingegeben. Wollen Sie"
+    private final String AENDERUNGVONDATEN_TITEL = "Änderung von Daten";
+    private final String KEINEAENDERUNGEN_Titel = "Auftragskopf bereits angelegt";
+    private final String KEINEAENDERUNGEN_TEXT = "Der Auftrag existiert bereits.";
+    private final String DATENVERWERFEN_TITEL = "Daten verwerfen";
+    private final String DATENVERWERFEN_TEXT = "Es wurden Daten eingegeben. Wollen Sie"
             + "diese Verwerfen ?";
 
-    final String FEHLERMELDUNG_STATUS_TITEL = "Abgeschlossener Auftrag";
-    final String FEHLERMMELDUNG_STATUSABGESCHLOSSEN = "Der Auftrag ist "
+    private final String FEHLERMELDUNG_STATUS_TITEL = "Abgeschlossener Auftrag";
+    private final String FEHLERMMELDUNG_STATUSABGESCHLOSSEN = "Der Auftrag ist "
             + "bereits abgeschlossen und kann nicht"
             + "\n bearbeitet werden. ";
 
-    final String FEHLERMELDUNG_KEINAUFTRAG_TITEL = "Fehler beim Aufruf "
+    private final String FEHLERMELDUNG_KEINAUFTRAG_TITEL = "Fehler beim Aufruf "
             + "des Auftrags.";
 
     // Variable für die Erzeugung der Spaltenüberschriften der 
     // Auftragspositionstabelle.
-    final String[] tabelle = {"Positionsnummer", "Materialnummer", "Menge",
+    private final String[] tabelle = {"Positionsnummer", "Materialnummer", "Menge",
         "Einzelwert", "Erfassungsdatum"};
 
     /*----------------------------------------------------------*/
@@ -243,7 +237,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
      * @param factory, Übergabe eines GUIFactoryobjektes.
      * @param mainView, Übergabe eines InterfaceMainViewobjektes.
      */
-    public AuftragskopfAnlegen(GUIFactory factory, InterfaceMainView mainView) {
+    public AuftragskopfAnlegen(GUIFactory factory, SchnittstelleHauptfenster mainView) {
         initComponents();
         // Übergabe der Parameter.
         this.factory = factory;
@@ -263,7 +257,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
         } catch (ParseException e) {// Fehlerbehandlung
             // Methodenaufruf um Meldung in der Statuszeile 
             // anzeigen zu lassen.
-            this.hauptFenster.setStatusMeldung(e.getMessage());
+            this.hauptFenster.setzeStatusMeldung(e.getMessage());
         }
 
         //Initialisierung der Speichervariablen
@@ -1556,8 +1550,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                                                 "erfasst", null, lieferdatum);
                                     }
                                     // Meldung an Statuszeile übergeben.
-                                    this.hauptFenster.
-                                            setStatusMeldung(ERFOLGREICHEANMELDUNG);
+                                    this.hauptFenster.setzeStatusMeldung(ERFOLGREICHEANMELDUNG);
 
                                     // Methode die bestimmte Eingabefelder leert
                                     zuruecksetzen();
@@ -1670,8 +1663,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                                             // Zurück ins Hauptmenü sprigen.
                                             zurueckInsHauptmenue();
                                             // Meldung an Statuszeile übergeben.
-                                            this.hauptFenster.
-                                                    setStatusMeldung(
+                                            this.hauptFenster.setzeStatusMeldung(
                                                             ERFOLGREICHGEAENDERT_TEXT);
                                         } else {// Falls Frage mit NEIN beantwortet wird.
                                             gespeichert = false;
@@ -1725,8 +1717,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                                             "erfasst", null, lieferdatum);
                                 }
                                 // Meldung an Statuszeile übergeben.
-                                this.hauptFenster.
-                                        setStatusMeldung(ERFOLGREICHEANMELDUNG);
+                                this.hauptFenster.setzeStatusMeldung(ERFOLGREICHEANMELDUNG);
 
                                 // Methode die bestimmte Eingabefelder leert
                                 zuruecksetzen();
@@ -1839,8 +1830,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                                         // Zurück ins Hauptmenü sprigen.
                                         zurueckInsHauptmenue();
                                         // Meldung an Statuszeile übergeben.
-                                        this.hauptFenster.
-                                                setStatusMeldung(
+                                        this.hauptFenster.setzeStatusMeldung(
                                                         ERFOLGREICHGEAENDERT_TEXT);
                                     } else {// Falls Frage mit NEIN beantwortet wird.
                                         gespeichert = false;
@@ -2350,7 +2340,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
 
                 } else {// Falls Auftrag nicht abgeshlossen ist.
                     //Button in Ändernstatus setzen.
-                    this.setStatusAenderButton();
+                    this.setzeStatusAenderButton();
                     // Eingaben des Auftrags mit Methode in die passenden
                     // Eingabefelder übergeben.
                     setzeEingabe(GUIFactory.getDAO().gibAuftragskopf(
@@ -2400,7 +2390,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                             Long.parseLong(auftragskopfID_jTextField.getText()));
 
                     // Meldung wird an Statuszeile übergeben.
-                    this.hauptFenster.setStatusMeldung(ERFOLGREICHESLOESCHEN);
+                    this.hauptFenster.setzeStatusMeldung(ERFOLGREICHESLOESCHEN);
 
                     zurueckInsHauptmenue();// Zurück ins Hauptmenü springen.
                 }
@@ -2749,7 +2739,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
                     GUIFactory.getDAO().gibNaechsteAuftragsID()));
         } catch (ParseException e) {// Fehlerbehandlung.
             // Meldung an Statuszeile übergeben.
-            this.hauptFenster.setStatusMeldung(e.getMessage());
+            this.hauptFenster.setzeStatusMeldung(e.getMessage());
         }
     }
 
@@ -2873,7 +2863,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
      * Methode mit der das Internalframe nicht mehr als Anzeigefenster
      * dargestellt wird, sondern als Fenster in dem man Daten ändern kann.
      */
-    public void setStatusAender() {
+    public void setzeStatusAender() {
         // Titel wird gesetzt.
         this.setTitle("Auftragskopf ändern");
         zuruecksetzen();// Eingabefelder werden zurück gesetzt.
@@ -2914,7 +2904,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
         NeuePosition_jButton.setEnabled(true);
         positionLoeschen_jButton.setEnabled(true);
         //Übergabe des Fenster an das Hauptfenster.
-        this.hauptFenster.setComponent(this);
+        this.hauptFenster.setzeComponent(this);
     }
 
     /*----------------------------------------------------------*/
@@ -2927,7 +2917,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
      * Methode mit der das Internalframe nicht mehr als Anzeigefenster
      * dargestellt wird, sondern als Fenster, indem man Daten ändern kann.
      */
-    public void setStatusAenderButton() {
+    public void setzeStatusAenderButton() {
         this.setTitle("Auftragskopf ändern");
         // Komponenten werden auf Enabled gesetzt oder nicht.
         this.geschaeftspartner_jTextField.setEnabled(true);
@@ -2965,7 +2955,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
         NeuePosition_jButton.setEnabled(true);
         positionLoeschen_jButton.setEnabled(true);
         //Übergabe des Fenster an das Hauptfenster.
-        this.hauptFenster.setComponent(this);
+        this.hauptFenster.setzeComponent(this);
     }
 
     /*----------------------------------------------------------*/
@@ -2978,7 +2968,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
      * Methode mit der das Internalframe wieder als Anzeigefenster dargestellt
      * wird. Dadurch sind keine Eingaben möglich.
      */
-    public void setStatusAnzeigen() {
+    public void setzeStatusAnzeigen() {
         this.setTitle("Auftragskopf anzeigen");
         // Komponenten werden auf Enabled gesetzt oder nicht.
         this.geschaeftspartner_jTextField.setEnabled(false);
@@ -3004,7 +2994,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
         NeuePosition_jButton.setEnabled(false);
         positionLoeschen_jButton.setEnabled(false);
         //Übergabe des Fenster an das Hauptfenster.
-        this.hauptFenster.setComponent(this);
+        this.hauptFenster.setzeComponent(this);
     }
 
     /*----------------------------------------------------------*/
@@ -3016,7 +3006,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
      * Methode mit der das Internalframe als Anlegenfenster dargestellt wird um
      * einen Auftragskopf alegen zu können.
      */
-    public void setStatusAnlegen() {
+    public void setzeStatusAnlegen() {
         this.setTitle("Auftragskopf anlegen");
         zuruecksetzen();// Zurücksetzen des Formulars.
         // Komponenten werden auf Enabled gesetzt oder nicht.
@@ -3047,7 +3037,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
         NeuePosition_jButton.setEnabled(true);
         positionLoeschen_jButton.setEnabled(true);
         //Übergabe des Fenster an das Hauptfenster.
-        this.hauptFenster.setComponent(this);
+        this.hauptFenster.setzeComponent(this);
     }
 
     /*----------------------------------------------------------*/
@@ -3449,7 +3439,7 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
 
             }
             if (this.getTitle().equals("Auftragskopf anzeigen")) {
-                setStatusAnzeigen();
+                setzeStatusAnzeigen();
             }
 
         } catch (ApplicationException | ParseException e) {// Fehlerbehandlung.
@@ -3601,11 +3591,11 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
             }
             // Prüfung welcher in welchem Status das Fenster angezeigt werden soll.
             if (this.getTitle().equals("Auftragskopf anzeigen")) {
-                setStatusAnzeigen();
+                setzeStatusAnzeigen();
             } else if (this.getTitle().equals("Auftragskopf ändern")) {
-                setStatusAenderButton();
+                setzeStatusAenderButton();
             } else {
-                setStatusAnlegen();
+                setzeStatusAnlegen();
             }
 
         } catch (ApplicationException e) {// Fehlerbehandlung.

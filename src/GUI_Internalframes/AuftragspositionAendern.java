@@ -24,36 +24,36 @@ import javax.swing.JTextField;
  *  von weiteren Funktion sowie die Suche.*/
 /* 18.02.2015 Terrasi, getestet und freigegeben */
 public class AuftragspositionAendern extends javax.swing.JInternalFrame
-        implements InterfaceViewsFunctionality {
+        implements SchnittstelleFensterFunktionen {
 
     // Speichervariablen
-    Component c;
+    Component letzteComponente;
     GUIFactory factory;
     AuftragspositionAnzeigen auftragspositionAnzeigen;
-    InterfaceMainView hauptFenster;
+    SchnittstelleHauptfenster hauptFenster;
 
-    ArrayList<Component> fehlendeEingaben;// ArrayList für Eingabefelder
+    private ArrayList<Component> fehlendeEingaben;// ArrayList für Eingabefelder
 
     // Konstanten für Farben    
-    final Color warningfarbe = Color.YELLOW;
-    final Color hintergrundfarbe = Color.WHITE;
+    private final Color warningfarbe = Color.YELLOW;
+    private final Color hintergrundfarbe = Color.WHITE;
 
     // Augabetexte für Meldungen
-    final String FEHLER = "Fehler";
-    final String FEHLENDEEINGABEN = "Fehlende Eingaben";
-    final String FEHLERMELDUNG_TITEL = "Fehlerhafte Eingabe";
-    final String FEHLERMELDUNG_AUFTRAGSKOPFID_TEXT = "Bitte geben Sie alle "
+    private final String FEHLER = "Fehler";
+    private final String FEHLENDEEINGABEN = "Fehlende Eingaben";
+    private final String FEHLERMELDUNG_TITEL = "Fehlerhafte Eingabe";
+    private final String FEHLERMELDUNG_AUFTRAGSKOPFID_TEXT = "Bitte geben Sie alle "
             + "notwendigen Eingaben ein!";
-    final String FEHLERMELDUNG_STATUS_TITEL = "Abgeschlossener Auftrag";
-    final String FEHLERMMELDUNG_STATUSABGESCHLOSSEN_TEXT = "Der Auftrag ist "
+    private final String FEHLERMELDUNG_STATUS_TITEL = "Abgeschlossener Auftrag";
+    private final String FEHLERMMELDUNG_STATUSABGESCHLOSSEN_TEXT = "Der Auftrag ist "
             + "bereits abgeschlossen und kann nicht"
             + "\n bearbeitet werden. ";
-    final String AUFTRAG_NICHT_GEFUNDEN = "Keine passender Auftrag in der "
+    private final String AUFTRAG_NICHT_GEFUNDEN = "Keine passender Auftrag in der "
             + "Datenbank.";
-    final String KEINE_EINGABE = "Bitte geben Sie eine Auftragskopf-ID und die"
+    private final String KEINE_EINGABE = "Bitte geben Sie eine Auftragskopf-ID und die"
             + " Positionsnummer ein.";
-    final String KEINE_AUFTRAGSID = "Bitte geben Sie eine Auftragskopf-ID ein.";
-    final String KEINE_POSITIONSID = "Bitte geben Sie eine Positionsnummer"
+    private final String KEINE_AUFTRAGSID = "Bitte geben Sie eine Auftragskopf-ID ein.";
+    private final String KEINE_POSITIONSID = "Bitte geben Sie eine Positionsnummer"
             + " ein.";
 
 
@@ -74,7 +74,7 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
      */
     public AuftragspositionAendern(GUIFactory factory,
             AuftragspositionAnzeigen positionAnzeigenView,
-            InterfaceMainView mainView) {
+            SchnittstelleHauptfenster mainView) {
         initComponents();
 
         // Übergabe der Parameter.
@@ -316,7 +316,7 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
                         if (!(aKopf.getStatus().getStatus().
                                 equals("abgeschlossen"))) {//Status des Auftrags 
                             // Setzt das Internalframe in den Ändernmodus.
-                            this.auftragspositionAnzeigen.setStatusAender();
+                            this.auftragspositionAnzeigen.setzeStatusAender();
                             //Methode die bestimmte Eingabefelder leert
                             zuruecksetzen();
                             this.auftragspositionAnzeigen.setzeEingaben(
@@ -324,7 +324,7 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
                             // Fenster wird nicht mehr sichtbar.
                             this.setVisible(false);
                             // Hauptfenster macht übergebene Maske sichtbar.
-                            this.hauptFenster.setFrame(
+                            this.hauptFenster.setzeFrame(
                                     this.auftragspositionAnzeigen);
                         } else {
                             // Fehlermeldung als PopUp
@@ -339,30 +339,30 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
                     } else {//Falls Titel gleich "Auftragsposition anzeigen Einstieg"
 
                         // Setzt das Internalframe in den Anzeigenmodus.
-                        this.auftragspositionAnzeigen.setStatusAnzeigen();
+                        this.auftragspositionAnzeigen.setzeStatusAnzeigen();
                         //Methode die bestimmte Eingabefelder leert
                         zuruecksetzen();
                         this.auftragspositionAnzeigen.setzeEingaben(position);
                         // Fenster wird nicht mehr sichtbar.
                         this.setVisible(false);
                         // Hauptfenster macht übergebene Maske sichtbar.
-                        this.hauptFenster.setFrame(
+                        this.hauptFenster.setzeFrame(
                                 this.auftragspositionAnzeigen);
                     }
 
                 }
             } catch (NumberFormatException e) {// Fehlerbehandlung.
                 // Meldung wird an die Statuszeile übergeben.
-                this.hauptFenster.setStatusMeldung(KEINE_EINGABE);
+                this.hauptFenster.setzeStatusMeldung(KEINE_EINGABE);
             } catch (ApplicationException e) {// Fehlerbehandlung.
                 // Meldung wird an die Statuszeile übergeben
-                this.hauptFenster.setStatusMeldung(AUFTRAG_NICHT_GEFUNDEN);
+                this.hauptFenster.setzeStatusMeldung(AUFTRAG_NICHT_GEFUNDEN);
                 // Eingabefelder erhalten leeren String
                 auftragskopfID_jTextField.setText("");
                 AuftragspositionID_jTextField.setText("");
             } catch (NullPointerException e) {// Fehlerbehandlung.
                 // Fehlermeldung als PopUp
-                this.hauptFenster.setStatusMeldung(FEHLENDEEINGABEN);
+                this.hauptFenster.setzeStatusMeldung(FEHLENDEEINGABEN);
             }
         } else {
             // Ein oder beide Felder sind leer
@@ -370,13 +370,13 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
             if (auftragskopfID_jTextField.getText().equals("")
                     && AuftragspositionID_jTextField.getText().equals("")) {
                 //Beide Felder sind leer, Fehlermeldung
-                this.hauptFenster.setStatusMeldung(KEINE_EINGABE);
+                this.hauptFenster.setzeStatusMeldung(KEINE_EINGABE);
             } else if (AuftragspositionID_jTextField.getText().equals("")) {
                 // Auftragspoisitons-ID ist leer, entsprechende Fehlermeldung
-                this.hauptFenster.setStatusMeldung(KEINE_POSITIONSID);
+                this.hauptFenster.setzeStatusMeldung(KEINE_POSITIONSID);
             } else {
                 // Auftrags-ID ist leer, entsprechende Fehlermeldung
-                this.hauptFenster.setStatusMeldung(KEINE_AUFTRAGSID);
+                this.hauptFenster.setzeStatusMeldung(KEINE_AUFTRAGSID);
             }
         }
 
@@ -397,12 +397,12 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
      * @param evt
      */
     private void jB_ZurueckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ZurueckActionPerformed
-        c = null;   //Initialisierung der Componentspeichervariable
+        letzteComponente = null;   //Initialisierung der Componentspeichervariable
         // Erhalten über GUIFactorymethode die letzte aufgerufene View und 
         // speichern diese in Variable.
-        c = this.factory.zurueckButton();
+        letzteComponente = this.factory.zurueckButton();
         this.setVisible(false);// Internalframe wird nicht mehr dargestellt
-        c.setVisible(true);// Übergebene Component wird sichtbar gemacht
+        letzteComponente.setVisible(true);// Übergebene Component wird sichtbar gemacht
     }//GEN-LAST:event_jB_ZurueckActionPerformed
 
     /*----------------------------------------------------------*/
@@ -568,7 +568,7 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
      *
      * @param auftragskopf, Auftragskopfobjekt wird übergeben
      */
-    public void setAuftragskopfID_jTextField(Auftragskopf auftragskopf) {
+    public void setzeAuftragskopfID_jTextField(Auftragskopf auftragskopf) {
         // Eingabefeld erhält ID vom Auftragskopfobjekt.
         this.auftragskopfID_jTextField.
                 setText(String.valueOf(auftragskopf.getAuftragskopfID()));
@@ -586,7 +586,7 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
      *
      * @param position , Auftragskopfobjekt wird übergeben
      */
-    public void setAuftragspositionID_jTextField(Auftragsposition position) {
+    public void setzeAuftragspositionID_jTextField(Auftragsposition position) {
         // Eingabefeld erhält Positionsnummer von Auftragsposition.
         this.AuftragspositionID_jTextField.
                 setText(String.valueOf(position.getPositionsnummer()));

@@ -14,7 +14,7 @@ import DTO.Auftragsposition;
 import DTO.Geschaeftspartner;
 import DTO.Status;
 import DTO.Zahlungskondition;
-import Interfaces.InterfaceMainView;
+import Interfaces.SchnittstelleHauptfenster;
 import JFrames.Start;
 import JFrames.StartAdmin;
 import java.awt.Component;
@@ -54,7 +54,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
     /**
      * Zur View Kontrolle.
      */
-    private InterfaceMainView hauptFenster;
+    private SchnittstelleHauptfenster hauptFenster;
     
     /**
      * Ergebnis Daten aus der Suche.
@@ -80,7 +80,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
      * Creates new form SucheDetailAnzeige.
      * @param mainView view
      */
-    public SucheDetailAnzeige(InterfaceMainView mainView) {
+    public SucheDetailAnzeige(SchnittstelleHauptfenster mainView) {
         initComponents();
         this.hauptFenster = mainView;
         this.Positionanzeige_jTable2.setVisible(false);
@@ -567,7 +567,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         
         try {
             framestart = (Start) this.hauptFenster;
-            framestart.setFrame(framestart.suche);
+            framestart.setzeFrame(framestart.suche);
             this.position_jPanel1.setVisible(false);
             this.Positionanzeige_jTable2.setVisible(false);
             this.setVisible(false);
@@ -576,7 +576,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
         }
         if (framestart == null) {
             framestartadmin = (StartAdmin) this.hauptFenster;
-            framestartadmin.setFrame(framestartadmin.suche);
+            framestartadmin.setzeFrame(framestartadmin.suche);
             this.position_jPanel1.setVisible(false);
             this.Positionanzeige_jTable2.setVisible(false);
             this.setVisible(false);
@@ -737,7 +737,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                                 extends Auftragskopf>) this.ergebnisDaten);
                 //Setze die Daten in die Eingabefelder der Maske
                 this.hauptFenster.gibAuftragskopfanlegenFenster()
-                        .setStatusAnzeigen();
+                        .setzeStatusAnzeigen();
                 this.hauptFenster.gibAuftragskopfanlegenFenster()
                         .setzeEingabeFuerSuche(akListe.get(
                                 this.Anzeige_jTable1.getSelectedRow()));
@@ -1130,7 +1130,7 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                     //Setze in der View entsprechend das Feld mit den 
                     //Informationen
                     this.hauptFenster.gibAkAendernEinstieg()
-                            .setAuftragskopfID_jTextField(akListe.get(
+                            .setzeAuftragskopfID_jTextField(akListe.get(
                                     this.Anzeige_jTable1.getSelectedRow()));
                     //Schließe die Suche
                     this.setVisible(false);
@@ -1241,11 +1241,11 @@ public class SucheDetailAnzeige extends javax.swing.JInternalFrame {
                     //Setze in der View entsprechend das Feld mit den 
                     //Informationen
                     this.hauptFenster.gibPositionAendernEinstieg()
-                            .setAuftragskopfID_jTextField(akListe.get(
+                            .setzeAuftragskopfID_jTextField(akListe.get(
                                     this.Anzeige_jTable1.getSelectedRow()));
                     
                     this.hauptFenster.gibPositionAendernEinstieg()
-                            .setAuftragspositionID_jTextField(akListe.get(
+                            .setzeAuftragspositionID_jTextField(akListe.get(
                                     this.Anzeige_jTable1.getSelectedRow())
                                     .getPositionsliste().get(
                                             this.Positionanzeige_jTable2

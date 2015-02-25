@@ -42,7 +42,7 @@ public class Login extends javax.swing.JFrame {
     /*----------------------------------------------------------*/
     /* Datum      Name    Was */
     /* 05.01.2015 Terrasi, Erstellung und Dokumentation /*
-     /* 18.02.2015 Sen     angelegt, Logik und Dokumentation*/
+    /* 18.02.2015 Sen     angelegt, Logik und Dokumentation*/
     /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
@@ -130,7 +130,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        
+
         //Prüfe ob die Klasse Desktop für die aktuelle Plattform unterstützt 
         //wird
         if (Desktop.isDesktopSupported()) {
@@ -140,13 +140,13 @@ public class Login extends javax.swing.JFrame {
             try {
                 File pdf = new File("Benutzerhandbuch_SWP_GR3.pdf");
                 Desktop.getDesktop().open(pdf);
-            //Wenn die Datei nicht gefunden werden kann    
+                //Wenn die Datei nicht gefunden werden kann    
             } catch (IOException e) {
-                
+
             }
         }
-        
-        
+
+
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /*----------------------------------------------------------*/

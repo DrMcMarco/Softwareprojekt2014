@@ -25,7 +25,7 @@ import javax.swing.JTextField;
  * Implementierung der Anwendungslogik
  */
 public class AllgemeineSuche extends javax.swing.JInternalFrame 
-    implements InterfaceViewsFunctionality {
+    implements SchnittstelleFensterFunktionen {
 
     /**
      * Konstante absteigend.
@@ -64,7 +64,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame
     /**
      * Das Hauptfenster.
      */
-    private InterfaceMainView hauptFenster;
+    private SchnittstelleHauptfenster hauptFenster;
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
@@ -77,7 +77,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame
      * @param factory übergebene GuiFactory
      * @param mainView Interface
      */
-    public AllgemeineSuche(GUIFactory factory, InterfaceMainView mainView) {
+    public AllgemeineSuche(GUIFactory factory, SchnittstelleHauptfenster mainView) {
         initComponents();
         suchErgebnis = new ArrayList<>(); //Initialisierung der Collection.
         try {
@@ -342,7 +342,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame
                         this.sortierung);
                 framestart.detailSuche.setzeTabelle(suchKategorie);
                 framestart.detailSuche.setzeFenster(framestart.getComponent());
-                framestart.setFrame(framestart.detailSuche);
+                framestart.setzeFrame(framestart.detailSuche);
                 this.setVisible(false);
             } catch (Exception e) { //Fehlerbehandlung 
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Fehler", 
@@ -361,7 +361,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame
                 framestartadmin.detailSuche.setzeSucheingabe(suchEingabe, 
                         this.sortierung);
                 framestartadmin.detailSuche.setzeTabelle(suchKategorie);
-                framestartadmin.setFrame(framestartadmin.detailSuche);
+                framestartadmin.setzeFrame(framestartadmin.detailSuche);
                 this.setVisible(false);
             } catch (Exception e) { //Fehlerbehandlung 
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Fehler", 

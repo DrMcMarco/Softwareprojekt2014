@@ -14,7 +14,7 @@ import javax.swing.JTextField;
  */
 /* 10.12.2014 Terrasi, Erstellung und Dokumentation */
 /* 18.02.2015 TER, getestet und freigegeben */
-public interface InterfaceViewsFunctionality {
+public interface SchnittstelleFensterFunktionen {
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */

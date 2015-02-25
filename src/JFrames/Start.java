@@ -4,7 +4,7 @@ import DAO.DataAccessObject;
 import DAO.Parser;
 import GUI_Internalframes.*;
 import Hauptmenue.Hauptmenue_User;
-import Interfaces.InterfaceMainView;
+import Interfaces.SchnittstelleHauptfenster;
 import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -36,14 +36,14 @@ import javax.swing.JOptionPane;
 /* 08.01.2015 Terrasi, Anwendungslogik überarbeitet und alle Komponenten */
 /* 18.02.2015 Sen, Tastenkuerzel hinzugefuegt zusammengefügt.*/
 /* 18.02.2015 TER, getestet und freigegeben */
-public class Start extends javax.swing.JFrame implements InterfaceMainView {
+public class Start extends javax.swing.JFrame implements SchnittstelleHauptfenster {
 
     /**
      * Definition der Attribute
      */
     GUIFactory factory;
     DataAccessObject dao;
-    Parser parser;
+    
     // Erzeugung von variablen für die einzelnen Masken.
     public Hauptmenue_User hauptmenueuser;
     public AllgemeineSuche suche;
@@ -70,9 +70,9 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
 
 
     //Hilfsvariablen
-    Dimension desktopSize;//Speichervariable für die Größe der DesktopPane.
-    Dimension jInternalFrameSize;//Speichervariable für die Größe des InternalFrames.
-    JInternalFrame c;// Speichervariable für Components.
+    private Dimension desktopSize;//Speichervariable für die Größe der DesktopPane.
+    private Dimension jInternalFrameSize;//Speichervariable für die Größe des InternalFrames.
+    private JInternalFrame letzteComponente;// Speichervariable für Components.
     private JInternalFrame letzteAnzeige;
     //Stringvariablen für die einzelnen Meldungen die ausgegeben werden können.
     private final String BEENDEN_MELDUNG = "Wollen sie sich wirklich abmelden?";
@@ -121,12 +121,11 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
         // Try-Block
         try {
             factory = new GUIFactory();// Erzeugung eines Guifactoryobjektes.
-            // Erzeugung eines DAO-Objektes.
         } catch (PersistenceException e) {// Fehlerbehandlung falls bei der 
             // Erzeugung entwas nicht funktioniert hat.
         }
         
-        c = null; // Initialisierung der Hilfsvariable für die Components.
+        letzteComponente = null; // Initialisierung der Hilfsvariable für die Components.
         this.letzteAnzeige = null;
 
         this.logInFester = login;
@@ -156,8 +155,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
         statistikAnzeige = new StatistikAnzeige();
         
         
-        // Aufruf der setCenterJIF-Methode
-        setCenterJIF(hauptmenueuser);
+        // Aufruf der setzeCenterJIF-Methode
+        setzeCenterJIF(hauptmenueuser);
         
         // Zuweisung der Masken an die Hauptansicht
         desktopPane.add(hauptmenueuser);
@@ -599,10 +598,10 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
         this.suche.setVisible(false);
         this.detailSuche.setVisible(false);
 
-        auftragskopfanlegen.setStatusAnlegen();
+        auftragskopfanlegen.setzeStatusAnlegen();
 
-        setCenterJIF(auftragskopfanlegen);
-        setComponent(auftragskopfanlegen);
+        setzeCenterJIF(auftragskopfanlegen);
+        setzeComponent(auftragskopfanlegen);
     }//GEN-LAST:event_jMI_AuftragskopfAnlegenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -631,8 +630,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
 
         auftragskopfaendern.zuruecksetzen();
         auftragskopfaendern.setTitle(AUFTRAGSKOPF_AENDERN_EINSTIEG);
-        setCenterJIF(auftragskopfaendern);
-        setComponent(auftragskopfaendern);
+        setzeCenterJIF(auftragskopfaendern);
+        setzeComponent(auftragskopfaendern);
     }//GEN-LAST:event_jMI_AuftragkopfAEndernActionPerformed
 
     /*----------------------------------------------------------*/
@@ -662,8 +661,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
 
         auftragskopfaendern.zuruecksetzen();
         auftragskopfaendern.setTitle(AUFTRAGSKOPF_ANZEIGEN_EINSTIEG);
-        setCenterJIF(auftragskopfaendern);
-        setComponent(auftragskopfaendern);
+        setzeCenterJIF(auftragskopfaendern);
+        setzeComponent(auftragskopfaendern);
     }//GEN-LAST:event_jMI_AuftragskopfAnzeigenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -694,8 +693,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
 
         auftragsspositionaender.zuruecksetzen();
         auftragsspositionaender.setTitle(AUFTRAGSPOSITION_AENDERN_EINSTIEG);
-        setCenterJIF(auftragsspositionaender);
-        setComponent(auftragsspositionaender);
+        setzeCenterJIF(auftragsspositionaender);
+        setzeComponent(auftragsspositionaender);
     }//GEN-LAST:event_jMI_AuftragsposAEndernActionPerformed
 
     /*----------------------------------------------------------*/
@@ -726,8 +725,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
 
         auftragsspositionaender.zuruecksetzen();
         auftragsspositionaender.setTitle(AUFTRAGSPOSITION_ANZEIGEN_EINSTIEG);
-        setCenterJIF(auftragsspositionaender);
-        setComponent(auftragsspositionaender);
+        setzeCenterJIF(auftragsspositionaender);
+        setzeComponent(auftragsspositionaender);
     }//GEN-LAST:event_jMI_AuftragsposAnzeigenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -758,8 +757,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
         this.detailSuche.setVisible(false);
 
         artikelanlegen.setzeFormularInArtikelAnlegen();
-        setCenterJIF(artikelanlegen);
-        setComponent(artikelanlegen);
+        setzeCenterJIF(artikelanlegen);
+        setzeComponent(artikelanlegen);
     }//GEN-LAST:event_jMI_ArtikelAnlegenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -791,8 +790,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
         artikelaendern.setTitle(ARTIKEL_AENDERN_EINSTIEG);
         artikelaendern.zuruecksetzen();
         artikelanlegen.setzeFormularInArtikelAEndern();
-        setCenterJIF(artikelaendern);
-        setComponent(artikelaendern);
+        setzeCenterJIF(artikelaendern);
+        setzeComponent(artikelaendern);
         artikelaendern.gibjTF_Artikel_ID().requestFocusInWindow();
     }//GEN-LAST:event_jMI_ArtikelAEndernActionPerformed
 
@@ -825,8 +824,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
         artikelaendern.setTitle(ARTIKEL_ANZEIGEN_EINSTIEG);
         artikelaendern.zuruecksetzen();
         artikelanlegen.setzeFormularInArtikelAnzeigen();
-        setCenterJIF(artikelaendern);
-        setComponent(artikelaendern);
+        setzeCenterJIF(artikelaendern);
+        setzeComponent(artikelaendern);
     }//GEN-LAST:event_jMI_ArtikelAnzeigenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -856,8 +855,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
         this.detailSuche.setVisible(false);
 
         geschaeftspartneranlegen.setzeFormularInGPAnlegen();
-        setCenterJIF(geschaeftspartneranlegen);
-        setComponent(geschaeftspartneranlegen);
+        setzeCenterJIF(geschaeftspartneranlegen);
+        setzeComponent(geschaeftspartneranlegen);
     }//GEN-LAST:event_jMI_GPAnlegenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -889,8 +888,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
         geschaeftspartneraendern.setTitle(GP_AENDERN_EINSTIEG);
         geschaeftspartneraendern.zuruecksetzen();
         geschaeftspartneranlegen.setzeFormularInGPAEndern();
-        setCenterJIF(geschaeftspartneraendern);
-        setComponent(geschaeftspartneraendern);
+        setzeCenterJIF(geschaeftspartneraendern);
+        setzeComponent(geschaeftspartneraendern);
     }//GEN-LAST:event_jMI_GPAEndernActionPerformed
 
     /*----------------------------------------------------------*/
@@ -923,8 +922,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
         geschaeftspartneraendern.setTitle(GP_ANZEIGEN_EINSTIEG);
         geschaeftspartneraendern.zuruecksetzen();
         geschaeftspartneranlegen.setzeFormularInGPAnzeigen();
-        setCenterJIF(geschaeftspartneraendern);
-        setComponent(geschaeftspartneraendern);
+        setzeCenterJIF(geschaeftspartneraendern);
+        setzeComponent(geschaeftspartneraendern);
     }//GEN-LAST:event_jMI_GPAnzeigenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -955,8 +954,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
         this.detailSuche.setVisible(false);
 
         zahlungskonditionanlegen.setzeFormularInZKAnlegen();
-        setCenterJIF(zahlungskonditionanlegen);
-        setComponent(zahlungskonditionanlegen);
+        setzeCenterJIF(zahlungskonditionanlegen);
+        setzeComponent(zahlungskonditionanlegen);
     }//GEN-LAST:event_jMI_ZKAnlegenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -990,8 +989,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
         zahlungskonditionaendern.setTitle(ZK_AENDERN_EINSTIEG);
         zahlungskonditionaendern.zuruecksetzen();
         zahlungskonditionanlegen.setzeFormularInZKAEndern();
-        setCenterJIF(zahlungskonditionaendern);
-        setComponent(zahlungskonditionaendern);
+        setzeCenterJIF(zahlungskonditionaendern);
+        setzeComponent(zahlungskonditionaendern);
     }//GEN-LAST:event_jMI_ZKAEndernActionPerformed
 
     /*----------------------------------------------------------*/
@@ -1022,8 +1021,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
         zahlungskonditionaendern.setTitle(ZK_AZEIGEN_EINSTIEG);
         zahlungskonditionaendern.zuruecksetzen();
         zahlungskonditionanlegen.setzeFormularInZKAnzeigen();
-        setCenterJIF(zahlungskonditionaendern);
-        setComponent(zahlungskonditionaendern);
+        setzeCenterJIF(zahlungskonditionaendern);
+        setzeComponent(zahlungskonditionaendern);
     }//GEN-LAST:event_jMI_ZKAnzeigenActionPerformed
 
     
@@ -1096,13 +1095,13 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
-     * Methode setCenterJIF Methode ermittelt das Zentrum der DesktopPane und
-     * setzt das übergebene Internalframe auf die ermittelten Koordinaten.
+     * Methode setzeCenterJIF Methode ermittelt das Zentrum der DesktopPane und
+ setzt das übergebene Internalframe auf die ermittelten Koordinaten.
      *
      * @param jif ,übergebenes InternalFrame
      */
     @Override
-    public void setCenterJIF(JInternalFrame jif) {
+    public void setzeCenterJIF(JInternalFrame jif) {
         desktopSize = desktopPane.getSize();
         jInternalFrameSize = jif.getSize();
         int width = (desktopSize.width - jInternalFrameSize.width) / 2;
@@ -1121,7 +1120,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
      * @param component eine komponente
      */
     @Override
-    public void setFrame(Component component) {
+    public void setzeFrame(Component component) {
         component.setVisible(true);
     }
     
@@ -1423,8 +1422,8 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
      * @param component eine Komponente
      */
     @Override
-    public void setComponent(JInternalFrame component) {
-        c = component;
+    public void setzeComponent(JInternalFrame component) {
+        letzteComponente = component;
     }
 
     
@@ -1441,7 +1440,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
     @Override
     public JInternalFrame getComponent() {
         
-        return c;
+        return letzteComponente;
     }
 
     
@@ -1458,7 +1457,7 @@ public class Start extends javax.swing.JFrame implements InterfaceMainView {
      * soll.
      */
     @Override
-    public void setStatusMeldung(String status) {
+    public void setzeStatusMeldung(String status) {
         // Erzeugung eines Peeptons.
         Toolkit.getDefaultToolkit().beep();
 

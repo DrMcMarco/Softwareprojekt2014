@@ -3,7 +3,7 @@ package JFrames;
 import DAO.DataAccessObject;
 import GUI_Internalframes.*;
 import Hauptmenue.Hauptmenue_Admin;
-import Interfaces.InterfaceMainView;
+import Interfaces.SchnittstelleHauptfenster;
 import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -36,7 +36,7 @@ import javax.swing.JOptionPane;
 /* 08.01.2015 Terrasi, Anwendungslogik überarbeitet und alle Komponenten */
 /* 18.02.2015 Sen, Tastenkuerzel hinzugefuegt zusammengefügt.*/
 /* 18.02.2015 TER, getestet und freigegeben */
-public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView {
+public class StartAdmin extends javax.swing.JFrame implements SchnittstelleHauptfenster {
 
     /**
      * Definition der Attribute
@@ -63,17 +63,17 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
     public ZahlungskonditionAnlegen zahlungskonditionanlegen;
     public ZahlungskonditionenAEndernEinstieg zahlungskonditionaendern;
 
-    public User_anlegen useranlegen;
-    public User_andernEinstieg useraendern;
+    public Benutzer_anlegen useranlegen;
+    public Benutzer_andernEinstieg useraendern;
 
     public StatistikAnzeige statistikAnzeige;
 
     public Login logInFester;
     private static Timer timer;
     //Hilfsvariablen
-    Dimension desktopSize;//Speichervariable für die Größe der DesktopPane.
-    Dimension jInternalFrameSize;//Speichervariable für die Größe des InternalFrames.
-    JInternalFrame c;// Speichervariable für Components.
+    private Dimension desktopSize;//Speichervariable für die Größe der DesktopPane.
+    private Dimension jInternalFrameSize;//Speichervariable für die Größe des InternalFrames.
+    private JInternalFrame letzteComponente;// Speichervariable für Components.
     private JInternalFrame letzteAnzeige;
     //Stringvariablen für die einzelnen Meldungen die ausgegeben werden können.
     private final String Beenden_Meldung = "Wollen sie sich wirklich abmelden?";
@@ -125,12 +125,11 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
         // Try-Block
         try {
             factory = new GUIFactory();// Erzeugung eines Guifactoryobjektes.
-            //dao = new DataAccessObject();// Erzeugung eines DAO-Objektes.
         } catch (PersistenceException e) {// Fehlerbehandlung falls bei der 
             // Wenn bei Erzeugung entwas nicht funktioniert hat.
         }
 
-        c = null; // Initialisierung der Hilfsvariable für die Components.
+        letzteComponente = null; // Initialisierung der Hilfsvariable für die Components.
 
         this.logInFester = login;
 
@@ -153,11 +152,11 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
         geschaeftspartneraendern = new GeschaeftspartnerAEndernEinstieg(factory, geschaeftspartneranlegen, this);
         zahlungskonditionanlegen = new ZahlungskonditionAnlegen(factory, this);
         zahlungskonditionaendern = new ZahlungskonditionenAEndernEinstieg(factory, zahlungskonditionanlegen, this);
-        useranlegen = new User_anlegen(factory, this);
-        useraendern = new User_andernEinstieg(factory, useranlegen, this);
+        useranlegen = new Benutzer_anlegen(factory, this);
+        useraendern = new Benutzer_andernEinstieg(factory, useranlegen, this);
         statistikAnzeige = new StatistikAnzeige();
-        // Aufruf der setCenterJIF-Methode
-        setCenterJIF(hauptmenueadmin);
+        // Aufruf der setzeCenterJIF-Methode
+        setzeCenterJIF(hauptmenueadmin);
 
         // Zuweisung der Masken an die Hauptansicht
         desktopPane.add(hauptmenueadmin);
@@ -623,10 +622,10 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
         this.suche.setVisible(false);
         this.detailSuche.setVisible(false);
 
-        auftragskopfanlegen.setStatusAnlegen();
+        auftragskopfanlegen.setzeStatusAnlegen();
 
-        setCenterJIF(auftragskopfanlegen);
-        setComponent(auftragskopfanlegen);
+        setzeCenterJIF(auftragskopfanlegen);
+        setzeComponent(auftragskopfanlegen);
     }//GEN-LAST:event_jMI_AuftragskopfAnlegenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -656,8 +655,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
 
         auftragskopfaendern.zuruecksetzen();
         auftragskopfaendern.setTitle(AUFTRAGSKOPF_AENDERN_EINSTIEG);
-        setCenterJIF(auftragskopfaendern);
-        setComponent(auftragskopfaendern);
+        setzeCenterJIF(auftragskopfaendern);
+        setzeComponent(auftragskopfaendern);
     }//GEN-LAST:event_jMI_AuftragkopfAEndernActionPerformed
 
     /*----------------------------------------------------------*/
@@ -706,8 +705,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
 
         auftragsspositionaender.zuruecksetzen();
         auftragsspositionaender.setTitle(AUFTRAGSPOSITION_AENDERN_EINSTIEG);
-        setCenterJIF(auftragsspositionaender);
-        setComponent(auftragsspositionaender);
+        setzeCenterJIF(auftragsspositionaender);
+        setzeComponent(auftragsspositionaender);
     }//GEN-LAST:event_jMI_AuftragsposAEndernActionPerformed
 
     /*----------------------------------------------------------*/
@@ -737,8 +736,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
 
         auftragsspositionaender.zuruecksetzen();
         auftragsspositionaender.setTitle(AUFTRAGSPOSITION_ANZEIGEN_EINSTIEG);
-        setCenterJIF(auftragsspositionaender);
-        setComponent(auftragsspositionaender);
+        setzeCenterJIF(auftragsspositionaender);
+        setzeComponent(auftragsspositionaender);
     }//GEN-LAST:event_jMI_AuftragsposAnzeigenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -766,8 +765,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
         this.detailSuche.setVisible(false);
 
         artikelanlegen.setzeFormularInArtikelAnlegen();
-        setCenterJIF(artikelanlegen);
-        setComponent(artikelanlegen);
+        setzeCenterJIF(artikelanlegen);
+        setzeComponent(artikelanlegen);
     }//GEN-LAST:event_jMI_ArtikelAnlegenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -797,8 +796,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
         artikelaendern.setTitle(ARTIKEL_AENDERN_EINSTIEG);
         artikelaendern.zuruecksetzen();
         artikelanlegen.setzeFormularInArtikelAEndern();
-        setCenterJIF(artikelaendern);
-        setComponent(artikelaendern);
+        setzeCenterJIF(artikelaendern);
+        setzeComponent(artikelaendern);
     }//GEN-LAST:event_jMI_ArtikelAEndernActionPerformed
 
     /*----------------------------------------------------------*/
@@ -829,8 +828,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
         artikelaendern.setTitle(ARTIKEL_ANZEIGEN_EINSTIEG);
         artikelaendern.zuruecksetzen();
         artikelanlegen.setzeFormularInArtikelAnzeigen();
-        setCenterJIF(artikelaendern);
-        setComponent(artikelaendern);
+        setzeCenterJIF(artikelaendern);
+        setzeComponent(artikelaendern);
     }//GEN-LAST:event_jMI_ArtikelAnzeigenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -860,8 +859,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
 
         auftragskopfaendern.zuruecksetzen();
         auftragskopfaendern.setTitle(AUFTRAGSKOPF_ANZEIGEN_EINSTIEG);
-        setCenterJIF(auftragskopfaendern);
-        setComponent(auftragskopfaendern);
+        setzeCenterJIF(auftragskopfaendern);
+        setzeComponent(auftragskopfaendern);
     }//GEN-LAST:event_jMI_AuftragskopfAnzeigenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -889,8 +888,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
         this.detailSuche.setVisible(false);
 
         geschaeftspartneranlegen.setzeFormularInGPAnlegen();
-        setCenterJIF(geschaeftspartneranlegen);
-        setComponent(geschaeftspartneranlegen);
+        setzeCenterJIF(geschaeftspartneranlegen);
+        setzeComponent(geschaeftspartneranlegen);
     }//GEN-LAST:event_jMI_GPAnlegenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -920,8 +919,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
         geschaeftspartneraendern.setTitle(GP_AENDERN_EINSTIEG);
         geschaeftspartneraendern.zuruecksetzen();
         geschaeftspartneranlegen.setzeFormularInGPAEndern();
-        setCenterJIF(geschaeftspartneraendern);
-        setComponent(geschaeftspartneraendern);
+        setzeCenterJIF(geschaeftspartneraendern);
+        setzeComponent(geschaeftspartneraendern);
     }//GEN-LAST:event_jMI_GPAEndernActionPerformed
 
     /*----------------------------------------------------------*/
@@ -952,8 +951,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
         geschaeftspartneraendern.setTitle(GP_ANZEIGEN_EINSTIEG);
         geschaeftspartneraendern.zuruecksetzen();
         geschaeftspartneranlegen.setzeFormularInGPAnzeigen();
-        setCenterJIF(geschaeftspartneraendern);
-        setComponent(geschaeftspartneraendern);
+        setzeCenterJIF(geschaeftspartneraendern);
+        setzeComponent(geschaeftspartneraendern);
     }//GEN-LAST:event_jMI_GPAnzeigenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -982,8 +981,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
         this.detailSuche.setVisible(false);
 
         zahlungskonditionanlegen.setzeFormularInZKAnlegen();
-        setCenterJIF(zahlungskonditionanlegen);
-        setComponent(zahlungskonditionanlegen);
+        setzeCenterJIF(zahlungskonditionanlegen);
+        setzeComponent(zahlungskonditionanlegen);
     }//GEN-LAST:event_jMI_ZKAnlegenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -1014,8 +1013,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
         zahlungskonditionaendern.setTitle(ZK_AENDERN_EINSTIEG);
         zahlungskonditionaendern.zuruecksetzen();
         zahlungskonditionanlegen.setzeFormularInZKAEndern();
-        setCenterJIF(zahlungskonditionaendern);
-        setComponent(zahlungskonditionaendern);
+        setzeCenterJIF(zahlungskonditionaendern);
+        setzeComponent(zahlungskonditionaendern);
     }//GEN-LAST:event_jMI_ZKAEndernActionPerformed
 
     /*----------------------------------------------------------*/
@@ -1044,8 +1043,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
         zahlungskonditionaendern.setTitle(ZK_AZEIGEN_EINSTIEG);
         zahlungskonditionaendern.zuruecksetzen();
         zahlungskonditionanlegen.setzeFormularInZKAnzeigen();
-        setCenterJIF(zahlungskonditionaendern);
-        setComponent(zahlungskonditionaendern);
+        setzeCenterJIF(zahlungskonditionaendern);
+        setzeComponent(zahlungskonditionaendern);
     }//GEN-LAST:event_jMI_ZKAnzeigenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -1074,9 +1073,9 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
         this.suche.setVisible(false);
         this.detailSuche.setVisible(false);
 
-        useranlegen.setStatusAnlegen();
-        setCenterJIF(useranlegen);
-        setComponent(useranlegen);
+        useranlegen.setzeStatusAnlegen();
+        setzeCenterJIF(useranlegen);
+        setzeComponent(useranlegen);
     }//GEN-LAST:event_jMI_BenutzerAnlegenActionPerformed
 
     /*----------------------------------------------------------*/
@@ -1106,8 +1105,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
 
         useraendern.zuruecksetzen();
         useraendern.setTitle(BENUTZER_AENDERN_EINSTIEG);
-        setCenterJIF(useraendern);
-        setComponent(useraendern);
+        setzeCenterJIF(useraendern);
+        setzeComponent(useraendern);
     }//GEN-LAST:event_jMI_BenutzerÄndernActionPerformed
 
     /*----------------------------------------------------------*/
@@ -1137,8 +1136,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
 
         useraendern.zuruecksetzen();
         useraendern.setTitle(BENUTZER_ANZEIGEN_EINSTIEG);
-        setCenterJIF(useraendern);
-        setComponent(useraendern);
+        setzeCenterJIF(useraendern);
+        setzeComponent(useraendern);
     }//GEN-LAST:event_jMI_BenutzerAnzeigenActionPerformed
 
 
@@ -1216,14 +1215,14 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
     /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
-     * Schnittstellenmethode setCenterJIF, Methode ermittelt das Zentrum der
-     * DesktopPane und setzt das übergebene Internalframe auf die ermittelten
-     * Koordinaten.
+     * Schnittstellenmethode setzeCenterJIF, Methode ermittelt das Zentrum der
+ DesktopPane und setzt das übergebene Internalframe auf die ermittelten
+ Koordinaten.
      *
      * @param jif ,übergebenes InternalFrame
      */
     @Override
-    public void setCenterJIF(JInternalFrame jif) {
+    public void setzeCenterJIF(JInternalFrame jif) {
         desktopSize = desktopPane.getSize();
         jInternalFrameSize = jif.getSize();
         int width = (desktopSize.width - jInternalFrameSize.width) / 2;
@@ -1243,7 +1242,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
      * @param component eine komponente
      */
     @Override
-    public void setFrame(Component component) {
+    public void setzeFrame(Component component) {
         component.setVisible(true);
     }
 
@@ -1258,8 +1257,8 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
      * @param component Setzende Komponente
      */
     @Override
-    public void setComponent(JInternalFrame component) {
-        c = component;
+    public void setzeComponent(JInternalFrame component) {
+        letzteComponente = component;
     }
 
     /*----------------------------------------------------------*/
@@ -1272,7 +1271,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
      */
     @Override
     public JInternalFrame getComponent() {
-        return c;
+        return letzteComponente;
     }
 
     /*----------------------------------------------------------*/
@@ -1288,7 +1287,7 @@ public class StartAdmin extends javax.swing.JFrame implements InterfaceMainView 
      * soll.
      */
     @Override
-    public void setStatusMeldung(String status) {
+    public void setzeStatusMeldung(String status) {
         // Erzeugung eines Peeptons.
         Toolkit.getDefaultToolkit().beep();
 

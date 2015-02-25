@@ -29,26 +29,26 @@ import java.util.Calendar;
  zu übergeben.*/
 /* 18.02.2015 TER, getestet und freigegeben */
 public class AuftragspositionAnzeigen extends javax.swing.JInternalFrame 
-implements InterfaceViewsFunctionality {
+implements SchnittstelleFensterFunktionen {
 
     // Speichervariablen
     GUIFactory factory;
-    InterfaceMainView hauptFenster;
+    SchnittstelleHauptfenster hauptFenster;
     Component letzteComponent;
-    String mengenAngabe;
+    private String mengenAngabe;
 
     // Speichervariablen für Datenbankdaten.
-    Auftragsposition dbPosition;
+    private Auftragsposition dbPosition;
 
-    String dbAuftragspositionsID;
-    String dbPositionsnummer;
-    String dbMaterialnummer;
-    String dbMenge;
-    String dbEinzelwert;
-    String dbErfassungsdatum;
+    private String dbAuftragspositionsID;
+    private String dbPositionsnummer;
+    private String dbMaterialnummer;
+    private String dbMenge;
+    private String dbEinzelwert;
+    private String dbErfassungsdatum;
 
     // ArrayList für Eingabefelder des Auftragkopfes.
-    ArrayList<Component> fehlendeEingaben;
+    private ArrayList<Component> fehlendeEingaben;
 
     // Hilfsvariablen
     public Date heute;// heutiges Datum
@@ -61,50 +61,53 @@ implements InterfaceViewsFunctionality {
 
     // Konstanten für Farben
     final Color warningfarbe = Color.YELLOW;
-    final Color hintergrundfarbe = Color.WHITE;
+    private final Color hintergrundfarbe = Color.WHITE;
 
     // Syntax
     private static final String menge_syntax = "|\\d{1,9}?";
 
     // Augabetexte für Meldungen
-    final String FEHLER = "Fehler";
+    private final String FEHLER = "Fehler";
 
-    final String FEHLERMELDUNG_TITEL = "Fehlerhafte Eingabe";
+    private final String FEHLERMELDUNG_TITEL = "Fehlerhafte Eingabe";
 
-    final String FEHLERMELDUNG_MENGE_TEXT = "\"Die eingegebene Menge ist"
+    private final String FEHLERMELDUNG_MENGE_TEXT = "\"Die eingegebene Menge ist"
             + " nicht gültig!"
             + "\\n Bitte geben Sie eine Menge ein. (z.B. 0 bis 999999999)\"";
 
-    final String AENDERUNGVONDATEN__TITEL = "Änderung von Daten";
-    final String AENDERUNGVONDATEN_TEXT = "Es wurden Daten geändert. Wollen "
+    private final String AENDERUNGVONDATEN__TITEL = "Änderung von Daten";
+    private final String AENDERUNGVONDATEN_TEXT = "Es wurden Daten geändert. Wollen "
             + "Sie wirklich"
             + " die Daten überspeichern?";
 
-    final String ERFOLGREICHGEAENDERT_TEXT = "Die Position wurde erfolgreich "
+    private final String ERFOLGREICHGEAENDERT_TEXT = "Die Position wurde "
+            + "erfolgreich "
             + "geändert.";
 
-    final String KEINEAENDERUNG_TITEL = "Auftragsposition existiert bereits.";
-    final String KEINEAENDERUNG_TEXT = "Es sind keine Änderungen vorgenommen "
+    private final String KEINEAENDERUNG_TITEL = "Auftragsposition existiert bereits.";
+    private final String KEINEAENDERUNG_TEXT = "Es sind keine Änderungen vorgenommen "
             + "worden.";
 
-    final String ERFOLGREICHGELOESCHT_TITEL = "Auftragsposition löschen";
-    final String ERFOLGREICHGELOESCHT_TEXT = "Auftragsposition wurde "
+    private final String ERFOLGREICHGELOESCHT_TITEL = "Auftragsposition löschen";
+    private final String ERFOLGREICHGELOESCHT_TEXT = "Auftragsposition wurde "
             + "erfolgreich gelöscht";
 
-    final String DATENVERWERFEN_TITEL = "Daten verwerfen";
-    final String DATENVERWERFEN_TEXT = "Es wurden Daten eingegeben. Wollen Sie"
+    private final String DATENVERWERFEN_TITEL = "Daten verwerfen";
+    private final String DATENVERWERFEN_TEXT = "Es wurden Daten eingegeben."
+            + " Wollen Sie"
             + " diese Verwerfen ?";
 
-    final String KEINEEINGABE_TEXT = "Es wurde keine Eingabe getätigt. Bitte "
+    private final String KEINEEINGABE_TEXT = "Es wurde keine Eingabe getätigt. "
+            + "Bitte "
             + "geben"
             + "\n Sie die notwendige Eingabe ein.";
 
-    final String POSITIONLOESCHEN_TITEL = "Position löschen";
-    final String POSITIONLOESCHEN_TEXT = "Wollen Sie die Auftragsposition "
+    private final String POSITIONLOESCHEN_TITEL = "Position löschen";
+    private final String POSITIONLOESCHEN_TEXT = "Wollen Sie die Auftragsposition "
             + "wirklich löschen?";
 
-    final String FEHLERMELDUNG_STATUS_TITEL = "Abgeschlossener Auftrag";
-    final String FEHLERMMELDUNG_STATUSABGESCHLOSSEN = "Der Auftrag ist "
+    private final String FEHLERMELDUNG_STATUS_TITEL = "Abgeschlossener Auftrag";
+    private final String FEHLERMMELDUNG_STATUSABGESCHLOSSEN = "Der Auftrag ist "
             + "bereits abgeschlossen und somit kann"
             + "\n keine Position bearbeitet werden. ";
 
@@ -119,7 +122,7 @@ implements InterfaceViewsFunctionality {
      * @param factory, Übergabe eines GUIFactoryobjektes.
      * @param mainView, Übergabe eines InterfaceMainViewobjektes.
      */
-    public AuftragspositionAnzeigen(GUIFactory factory, InterfaceMainView mainView) {
+    public AuftragspositionAnzeigen(GUIFactory factory, SchnittstelleHauptfenster mainView) {
         initComponents();
         // Übergabe der Parameter.
         this.factory = factory;
@@ -501,7 +504,7 @@ implements InterfaceViewsFunctionality {
                         FEHLERMELDUNG_STATUS_TITEL,
                         JOptionPane.WARNING_MESSAGE);
             } else {// Falls Auftrag nicht abgeschlossen ist
-                this.setStatusAender();// Methode um den Modus zu wechseln.
+                this.setzeStatusAender();// Methode um den Modus zu wechseln.
             }
         } catch (ApplicationException e) {// Fehlerbehandlung.
             // Fehlermeldung als PopUp
@@ -561,7 +564,7 @@ implements InterfaceViewsFunctionality {
                         jB_ZurueckActionPerformed(evt);
                         // Methodenaufruf um Meldung in der Statuszeile 
                         // anzeigen zu lassen.
-                        this.hauptFenster.setStatusMeldung(
+                        this.hauptFenster.setzeStatusMeldung(
                                 ERFOLGREICHGEAENDERT_TEXT);
                     } else {
                         gespeichert = false;// Speichervariable auf false setzen
@@ -619,7 +622,7 @@ implements InterfaceViewsFunctionality {
                             Long.parseLong(dbPositionsnummer));
                     // Methodenaufruf um Meldung in der Statuszeile 
                     // anzeigen zu lassen.
-                    this.hauptFenster.setStatusMeldung(
+                    this.hauptFenster.setzeStatusMeldung(
                             ERFOLGREICHGELOESCHT_TEXT);
                     // ActionPerformed-Methode um ins Menü zurückzukehren.
                     jB_ZurueckActionPerformed(evt);
@@ -789,7 +792,7 @@ implements InterfaceViewsFunctionality {
      * Methode mit der das Internalframe nicht mehr als Anzeigefenster
      * dargestellt wird, sondern als Fenster in dem man Daten ändern kann.
      */
-    public void setStatusAender() {
+    public void setzeStatusAender() {
         this.setTitle("Auftragsposition ändern"); // Setzen des Fenstertitels
 
         // Componenten werden auf Enabled gesetzt mit false oder true.
@@ -806,7 +809,7 @@ implements InterfaceViewsFunctionality {
         jB_Suchen.setEnabled(false);
 
         // Hauptfenster macht übergebene Maske sichtbar.
-        this.hauptFenster.setComponent(this);
+        this.hauptFenster.setzeComponent(this);
     }
 
     /*----------------------------------------------------------*/
@@ -818,7 +821,7 @@ implements InterfaceViewsFunctionality {
     /**
      * Methode mit der das Internalframe im Anzeigenmodus dargestellt wird.
      */
-    public void setStatusAnzeigen() {
+    public void setzeStatusAnzeigen() {
         this.setTitle("Auftragsposition anzeigen");// Setzen des Fenstertitels
         // Componenten werden auf Enabled gesetzt mit false oder true.
         this.auftragskofID_jTextField.setEnabled(false);
@@ -832,7 +835,7 @@ implements InterfaceViewsFunctionality {
         jB_Loeschen.setEnabled(false);
         jB_Suchen.setEnabled(false);
         // Hauptfenster macht übergebene Maske sichtbar.
-        this.hauptFenster.setComponent(this);
+        this.hauptFenster.setzeComponent(this);
     }
 
     /*----------------------------------------------------------*/
@@ -845,7 +848,7 @@ implements InterfaceViewsFunctionality {
      *
      * @param position, Auftragsposition
      */
-    public void setAuftragspositionsID_jTextField(Auftragsposition position) {
+    public void setzeAuftragspositionsID_jTextField(Auftragsposition position) {
         // ID von Position wird in Eingabefeld gesetzt.
         this.auftragskofID_jTextField.setText(String.valueOf(
                 position.getAuftrag().getAuftragskopfID()));
@@ -861,7 +864,7 @@ implements InterfaceViewsFunctionality {
      *
      * @param position, Auftragsposition
      */
-    public void setEinzelwert_jTextField(Auftragsposition position) {
+    public void setzeEinzelwert_jTextField(Auftragsposition position) {
         // Einzelwert der Position wird in das Eingabefeld gesetzt.
         this.einzelwert_jTextField.setText(String.valueOf(
                 position.getEinzelwert()));
@@ -877,7 +880,7 @@ implements InterfaceViewsFunctionality {
      *
      * @param position, Auftragsposition
      */
-    public void setErfassungsdatum_jTextField(Auftragsposition position) {
+    public void setzeErfassungsdatum_jTextField(Auftragsposition position) {
         // Datum der Position wird in das Eingabefeld gesetzt.
         this.erfassungsdatum_jTextField.setText(
                 gibDatumAlsString(position.getErfassungsdatum()));
@@ -893,7 +896,7 @@ implements InterfaceViewsFunctionality {
      *
      * @param position, Auftragsposition
      */
-    public void setMaterialnummer_jTextField(Auftragsposition position) {
+    public void setzeMaterialnummer_jTextField(Auftragsposition position) {
         // Artikel ID der Position wird in das Eingabefeld gesetzt.
         this.materialnummer_jTextField.setText(
                 String.valueOf(position.getArtikel().getArtikelID()));
@@ -909,7 +912,7 @@ implements InterfaceViewsFunctionality {
      *
      * @param position, Auftragsposition
      */
-    public void setMenge_jTextField(Auftragsposition position) {
+    public void setzeMenge_jTextField(Auftragsposition position) {
         // Menge der Position wird in das Eingabefeld gesetzt.
         this.menge_jTextField.setText(String.valueOf(position.getMenge()));
     }
@@ -924,7 +927,7 @@ implements InterfaceViewsFunctionality {
      *
      * @param position, Auftragsposition
      */
-    public void setPositionsnummer_jTextField(Auftragsposition position) {
+    public void setzePositionsnummer_jTextField(Auftragsposition position) {
         // Positionsnummer der Position wird in das Eingabefeld gesetzt.
         this.positionsnummer_jTextField.setText(
                 String.valueOf(position.getPositionsnummer()));

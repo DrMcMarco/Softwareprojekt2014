@@ -23,7 +23,7 @@ import javax.swing.JInternalFrame;
 /* 05.01.2015 Terrasi, Erstellung. */
 /* 18.02.2015 TER, getestet und freigegeben */
 
-public interface InterfaceMainView {
+public interface SchnittstelleHauptfenster {
     
     /*----------------------------------------------------------*/
     /* Datum Name Was */
@@ -36,7 +36,7 @@ public interface InterfaceMainView {
      * darstellt wird..
      * @param jif , Component die im plaziert und dargestellt werden soll.
      */
-    public void setCenterJIF(JInternalFrame jif);
+    public void setzeCenterJIF(JInternalFrame jif);
     
     
     /*----------------------------------------------------------*/
@@ -51,7 +51,7 @@ public interface InterfaceMainView {
      * um sie gegebenenfalls im laufe der Durchführung wiederverwenden
      * zu können.
      */
-    public void setComponent(JInternalFrame component);
+    public void setzeComponent(JInternalFrame component);
     
     
     /*----------------------------------------------------------*/
@@ -75,7 +75,7 @@ public interface InterfaceMainView {
      * Methode die einen String  der Statuszeile eines Hauptfenster übergibt.
      *@param status , der anzuzeigende String 
      */ 
-    public void setStatusMeldung(String status);
+    public void setzeStatusMeldung(String status);
     
     
     /*----------------------------------------------------------*/
@@ -87,7 +87,7 @@ public interface InterfaceMainView {
      * Methode mit der ein Component übergeben wird.
      * @param component Component die übergeben wird.
      */
-    public void setFrame(Component component);
+    public void setzeFrame(Component component);
     
     /*----------------------------------------------------------*/
     /* Datum Name Was */

@@ -13,8 +13,8 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import Interfaces.InterfaceMainView;
-import Interfaces.InterfaceViewsFunctionality;
+import Interfaces.SchnittstelleHauptfenster;
+import Interfaces.SchnittstelleFensterFunktionen;
 
 /**
  * GUI Klasse für Zahlungskontion (ZK) verwalten. Diese Klasse beinhaltet alle
@@ -26,7 +26,7 @@ import Interfaces.InterfaceViewsFunctionality;
  *
  * @author Tahir
  */
-public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
+public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame implements SchnittstelleFensterFunktionen {
 
     /**
      * Variable, die für die Navigation benoetigt wird, in ihr wird gespeichert,
@@ -46,7 +46,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      * anmeldet, dann waere unser StartFenster die StartAdmin. Falls sich ein
      * User anmeldet, ist unser StartFenster Start.
      */
-    private InterfaceMainView hauptFenster;
+    private SchnittstelleHauptfenster hauptFenster;
     /**
      * Varibale fue die ZK nummer.
      */
@@ -142,7 +142,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
      * @param mainView beinhaltet das Objekt des StartFenster
      */
     public ZahlungskonditionAnlegen(GUIFactory factory,
-            InterfaceMainView mainView) {
+            SchnittstelleHauptfenster mainView) {
         initComponents();
         this.hauptFenster = mainView;
         this.nf = NumberFormat.getInstance();
@@ -958,7 +958,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                             statuszeile = "Zahlungskondition mit der"
                                     + " Zahlungskonditon-ID " + zknr
                                     + " wurde erfolgreich angelegt. ";
-                            this.hauptFenster.setStatusMeldung(statuszeile);
+                            this.hauptFenster.setzeStatusMeldung(statuszeile);
                             zuruecksetzen();
                         } else {
 //                          Kein Skonto und Mahnzeit geaendert,
@@ -1014,7 +1014,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                                 statuszeile = "Zahlungskondition mit der"
                                         + " Zahlungskonditon-ID " + zknr
                                         + " wurde erfolgreich geändert. ";
-                                this.hauptFenster.setStatusMeldung(statuszeile);
+                                this.hauptFenster.setzeStatusMeldung(statuszeile);
                                 zuruecksetzen(); // Formular zuruecksetzen
                                 this.setVisible(false); //diese Sicht ausblenden
                                 zurueckInsHauptmenue();
@@ -1137,7 +1137,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
                                 statuszeile = "Zahlungskondition"
                                         + " mit der Zahlungskonditon-ID "
                                         + zknr + " wurde erfolgreich geändert.";
-                                this.hauptFenster.setStatusMeldung(statuszeile);
+                                this.hauptFenster.setzeStatusMeldung(statuszeile);
 
                                 zuruecksetzen(); // Formular zuruecksetzen
                                 this.setVisible(false); //diese Sicht ausblenden 
@@ -1249,7 +1249,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
 //              Meldung fuer die Statuszeile wird angepasst
                 statuszeile = "Zahlungskondition mit der Zahlungskonditon-ID "
                         + zknr + " wurde erfolgreich gelöscht. ";
-                this.hauptFenster.setStatusMeldung(statuszeile);
+                this.hauptFenster.setzeStatusMeldung(statuszeile);
 //                jB_ZurueckActionPerformed(evt);
                 zurueckInsHauptmenue();
             }
@@ -1445,7 +1445,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         jB_Loeschen.setEnabled(false);
         jB_Suchen.setEnabled(false);
 //      Übergibt der Referenz des Hauptfensters das Internaframe
-        this.hauptFenster.setComponent(this);
+        this.hauptFenster.setzeComponent(this);
     }
 
     /*
@@ -1460,7 +1460,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         zuruecksetzen();
         setzFormularInZKAEndernFuerButton();
 //      Übergibt der Referenz des Hauptfensters das Internaframe
-        this.hauptFenster.setComponent(this);
+        this.hauptFenster.setzeComponent(this);
     }
 
     /*
@@ -1507,7 +1507,7 @@ public class ZahlungskonditionAnlegen extends javax.swing.JInternalFrame impleme
         zuruecksetzen();
         setzFormularInZKAnzeigenFuerButton();
 //      Übergibt der Referenz des Hauptfensters das Internaframe
-        this.hauptFenster.setComponent(this);
+        this.hauptFenster.setzeComponent(this);
     }
 
     /*

@@ -234,7 +234,7 @@ public class Anmeldung extends javax.swing.JInternalFrame {
 //                     Initialisierung der Adminansicht.
                     adminStart = new StartAdmin(this.login);
 //                           Übergabe einer Statusmeldung
-                    adminStart.setStatusMeldung(WILLKOMMENSMELDUNG
+                    adminStart.setzeStatusMeldung(WILLKOMMENSMELDUNG
                             + benutzername_jTextField.getText());
 //                    Adminansicht wird sichtbar.
                     adminStart.setVisible(true);
@@ -244,7 +244,7 @@ public class Anmeldung extends javax.swing.JInternalFrame {
 //                     Initialisierung der Useransicht.
                     userStart = new Start(this.login);
 //                     Übergabe einer Statusmeldung an die User ansicht.
-                    userStart.setStatusMeldung(WILLKOMMENSMELDUNG
+                    userStart.setzeStatusMeldung(WILLKOMMENSMELDUNG
                             + benutzername_jTextField.getText());
 //                     Useransicht wird sichtbar.
                     userStart.setVisible(true);

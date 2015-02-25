@@ -4,8 +4,8 @@ import DAO.ApplicationException;
 import DTO.*;
 import DAO.DataAccessObject;
 import Documents.UniversalDocument;
-import Interfaces.InterfaceMainView;
-import Interfaces.InterfaceViewsFunctionality;
+import Interfaces.SchnittstelleHauptfenster;
+import Interfaces.SchnittstelleFensterFunktionen;
 import JFrames.GUIFactory;
 import java.awt.Color;
 import java.awt.Component;
@@ -37,7 +37,7 @@ import javax.swing.text.MaskFormatter;
  * @author Tahir
  *
  */
-public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame implements InterfaceViewsFunctionality {
+public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame implements SchnittstelleFensterFunktionen {
 
     /**
      * Variable, die für die Navigation benoetigt wird, in ihr wird gespeichert,
@@ -57,7 +57,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * anmeldet, dann waere unser StartFenster die StartAdmin. Falls sich ein
      * User anmeldet, ist unser StartFenster Start.
      */
-    private InterfaceMainView hauptFenster;
+    private SchnittstelleHauptfenster hauptFenster;
     /**
      * Variable fuer das aktuelle Datum.
      */
@@ -196,7 +196,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
      * @param mainView beinhaltet das Objekt des StartFenster
      */
     public GeschaeftspartnerAnlegen(GUIFactory factory,
-            InterfaceMainView mainView) {
+            SchnittstelleHauptfenster mainView) {
         initComponents();
         fehlerhafteComponenten = new ArrayList<>();
 //        factory und die dao werden gesetzt
@@ -1254,7 +1254,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                             STATUSZEILE = "Geschäftspartner mit der"
                                     + " Geschäftspartner-ID " + gpnr
                                     + " wurde erfolgreich angelegt. ";
-                            this.hauptFenster.setStatusMeldung(STATUSZEILE);
+                            this.hauptFenster.setzeStatusMeldung(STATUSZEILE);
                             zuruecksetzen();
                         } else {
 //                  Sicht GP aendern ist geoffnet, also wird zunaechst der GP
@@ -1346,7 +1346,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                                             + " Geschäftspartner-ID " + gpnr
                                             + " wurde erfolgreich geändert. ";
                                     this.hauptFenster
-                                            .setStatusMeldung(STATUSZEILE);
+                                            .setzeStatusMeldung(STATUSZEILE);
                                     zuruecksetzen(); // Formular zuruecksetzen
                                     this.setVisible(false); 
 //                                Änderung am 03.02.2015
@@ -2051,7 +2051,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                                             + " Geschäftspartner-ID " + gpnr
                                             + " wurde erfolgreich geändert. ";
                                     this.hauptFenster
-                                            .setStatusMeldung(STATUSZEILE);
+                                            .setzeStatusMeldung(STATUSZEILE);
                                     this.setVisible(false);
                                     zurueckInsHauptmenue();
                                 } else if (antwort == JOptionPane.CLOSED_OPTION) {
@@ -2164,7 +2164,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
                     STATUSZEILE = "Geschäftspartner mit der "
                             + "Geschäftspartner-ID " + gpnr
                             + " wurde erfolgreich gelöscht. ";
-                    this.hauptFenster.setStatusMeldung(STATUSZEILE);
+                    this.hauptFenster.setzeStatusMeldung(STATUSZEILE);
                     zurueckInsHauptmenue();
                 }
             } catch (ApplicationException e) {
@@ -2518,7 +2518,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
 //        jB_AnzeigenAEndern.setText("Anzeigen/Ändern");
         jB_Loeschen.setEnabled(false);
 //      Übergibt der Referenz des Hauptfensters das Internaframe
-        this.hauptFenster.setComponent(this);
+        this.hauptFenster.setzeComponent(this);
     }
 
     /*
@@ -2533,7 +2533,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         zuruecksetzen();
         setzeFormularInGPAEndernFuerButton();
 //        Übergibt der Referenz des Hauptfensters das Internaframe
-        this.hauptFenster.setComponent(this);
+        this.hauptFenster.setzeComponent(this);
     }
 
     /*
@@ -2594,7 +2594,7 @@ public class GeschaeftspartnerAnlegen extends javax.swing.JInternalFrame impleme
         zuruecksetzen();
         setzeFormularInGPAnzeigenFuerButton();
 //      Übergibt der Referenz des Hauptfensters das Internaframe
-        this.hauptFenster.setComponent(this);
+        this.hauptFenster.setzeComponent(this);
     }
 
     /*

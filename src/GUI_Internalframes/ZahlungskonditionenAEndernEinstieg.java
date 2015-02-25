@@ -37,7 +37,7 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
      * anmeldet, dann waere unser StartFenster die StartAdmin. Falls sich ein
      * User anmeldet, ist unser StartFenster Start.
      */
-    private InterfaceMainView hauptFenster;
+    private SchnittstelleHauptfenster hauptFenster;
     /**
      * Number Formatter wird benoetigt fuer das Parsen der Eingaben, sowie das
      * Anzeigen von Preisen.
@@ -75,7 +75,7 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
      * @param mainViev beinhaltet das Objekt des StartFenster
      */
     public ZahlungskonditionenAEndernEinstieg(GUIFactory factory, 
-            ZahlungskonditionAnlegen zk, InterfaceMainView mainViev) {
+            ZahlungskonditionAnlegen zk, SchnittstelleHauptfenster mainViev) {
         initComponents();
         this.factory = factory;
         this.zk = zk;
@@ -263,12 +263,12 @@ public class ZahlungskonditionenAEndernEinstieg extends javax.swing.JInternalFra
             zk.setVisible(true);
             this.setVisible(false);
             zuruecksetzen();
-            this.hauptFenster.setComponent(zk);
+            this.hauptFenster.setzeComponent(zk);
 //            entsprechende Fehlermeldungen werden in der Statuszeile angezeigt
         } catch (ParseException ex) {
-            this.hauptFenster.setStatusMeldung(KEINE_ZKNR_EINGEGEBEN);
+            this.hauptFenster.setzeStatusMeldung(KEINE_ZKNR_EINGEGEBEN);
         } catch (ApplicationException ex) {
-            this.hauptFenster.setStatusMeldung(KEINE_ZK_IN_DATENBANK);
+            this.hauptFenster.setzeStatusMeldung(KEINE_ZK_IN_DATENBANK);
             jTF_Zahlungskondition_ID.setText("");
         } catch (NullPointerException e) {
         }

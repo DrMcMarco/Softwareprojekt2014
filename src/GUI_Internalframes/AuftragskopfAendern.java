@@ -25,24 +25,24 @@ import java.util.Date;
  eines Auftrags. */
 /* 18.02.2015 TER, getestet und freigegeben */
 public class AuftragskopfAendern extends javax.swing.JInternalFrame
-        implements InterfaceViewsFunctionality {
+        implements SchnittstelleFensterFunktionen {
 
     // Speichervariablen
     Component letzteComponent;
     GUIFactory factory;
-    InterfaceMainView hauptFenster;
+    SchnittstelleHauptfenster hauptFenster;
     AuftragskopfAnlegen auftragskopfAnlegen;
 
     ArrayList<Component> fehleingabefelder;
 
 
     // Augabetexte für Meldungen
-    final String FEHLER = "Fehler";
+    private final String FEHLER = "Fehler";
 
-    final String FEHLERMELDUNG_TITEL = "Fehlerhafte Eingabe";
+    private final String FEHLERMELDUNG_TITEL = "Fehlerhafte Eingabe";
 
-    final String FEHLERMELDUNG_STATUS_TITEL = "Abgeschlossener Auftrag";
-    final String FEHLERMMELDUNG_STATUSABGESCHLOSSEN_TEXT = "Der Auftrag ist "
+    private final String FEHLERMELDUNG_STATUS_TITEL = "Abgeschlossener Auftrag";
+    private final String FEHLERMMELDUNG_STATUSABGESCHLOSSEN_TEXT = "Der Auftrag ist "
             + "bereits abgeschlossen und kann nicht"
             + "\n bearbeitet werden. ";
 
@@ -52,13 +52,13 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
             + "(z.B. 1 oder 999999999)\"";
     final String FEHLERMELDUNG_UNVOLLSTAENDIG_TEXT = "Es wurden nicht alle"
             + " Eingaben getätigt.";
-    final String AUFTRAG_NICHT_GEFUNDEN = "Keine passender Auftrag in der "
+    private final String AUFTRAG_NICHT_GEFUNDEN = "Keine passender Auftrag in der "
             + "Datenbank.";
-    final String KEINE_EINGABE = "Bitte geben Sie eine Auftragskopf-ID ein.";
+    private final String KEINE_EINGABE = "Bitte geben Sie eine Auftragskopf-ID ein.";
 
     // Konstanten für Farben
     Color warningfarbe = Color.YELLOW;
-    Color hintergrundfarbe = Color.WHITE;
+    private Color hintergrundfarbe = Color.WHITE;
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
@@ -73,7 +73,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
      * @param mainView, Übergabe eines InterfaceMainViewobjektes.
      */
     public AuftragskopfAendern(GUIFactory factory,
-            AuftragskopfAnlegen auftragsKopf, InterfaceMainView mainView) {
+            AuftragskopfAnlegen auftragsKopf, SchnittstelleHauptfenster mainView) {
         initComponents();
         // Übergabe der Parameter.
         this.factory = factory;
@@ -270,7 +270,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
                             // Maske AuftragsKopfAnlegen zurücksetzen
                             this.auftragskopfAnlegen.zuruecksetzen();
                             // Setzt das Internalframe in den Ändernmodus.
-                            this.auftragskopfAnlegen.setStatusAender();
+                            this.auftragskopfAnlegen.setzeStatusAender();
                             // Übergabe des Auftrags an die AuftragskopfAnlege 
                             // Maske.
                             this.auftragskopfAnlegen.
@@ -280,7 +280,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
                             // Fenster wird nicht mehr sichtbar gemacht.
                             this.setVisible(false);
                             // Hauptfenster macht übergebene Maske sichtbar.
-                            this.hauptFenster.setFrame(this.auftragskopfAnlegen);
+                            this.hauptFenster.setzeFrame(this.auftragskopfAnlegen);
                         } else {
                             // Fehlermeldung als PopUp
                             JOptionPane.showMessageDialog(null,
@@ -297,22 +297,22 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
                     this.auftragskopfAnlegen.
                             setzeEingabe(aKopf);
                     // Setzt das Internalframe in den Anzeigenmodus.
-                    this.auftragskopfAnlegen.setStatusAnzeigen();
+                    this.auftragskopfAnlegen.setzeStatusAnzeigen();
                     //Methode die bestimmte Eingabefelder leert
                     zuruecksetzen();
                     // Fenster wird nicht mehr sichtbar gemacht.
                     this.setVisible(false);
                     // Hauptfenster macht übergebene Maske sichtbar.
-                    this.hauptFenster.setFrame(this.auftragskopfAnlegen);
+                    this.hauptFenster.setzeFrame(this.auftragskopfAnlegen);
                 }
             } else {
                 
-                this.hauptFenster.setStatusMeldung(KEINE_EINGABE);
+                this.hauptFenster.setzeStatusMeldung(KEINE_EINGABE);
             }
         } catch (ApplicationException | 
                 NullPointerException e) {// Fehlerbehandlung.
             // Fehlermeldung als PopUp
-                this.hauptFenster.setStatusMeldung(AUFTRAG_NICHT_GEFUNDEN);
+                this.hauptFenster.setzeStatusMeldung(AUFTRAG_NICHT_GEFUNDEN);
                 // Eingabefeld erhält leeren String
                 auftragskopfID_jTextField.setText("");
         }
@@ -528,7 +528,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
      *
      * @param auftragskopf, Auftragskopf
      */
-    public void setAuftragskopfID_jTextField(Auftragskopf auftragskopf) {
+    public void setzeAuftragskopfID_jTextField(Auftragskopf auftragskopf) {
         //  Auftragskopf-ID des Auftragskopf wird in das Eingabefeld gesetzt.
         this.auftragskopfID_jTextField.setText(
                 String.valueOf(auftragskopf.getAuftragskopfID()));

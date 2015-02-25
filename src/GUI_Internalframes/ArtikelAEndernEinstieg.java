@@ -3,7 +3,7 @@ package GUI_Internalframes;
 import DAO.ApplicationException;
 import DTO.Artikel;
 import Documents.UniversalDocument;
-import Interfaces.InterfaceMainView;
+import Interfaces.SchnittstelleHauptfenster;
 import JFrames.*;
 import java.awt.Component;
 import java.text.NumberFormat;
@@ -33,7 +33,7 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
      * anmeldet, dann waere unser StartFenster die StartAdmin. Falls sich ein
      * User anmeldet, ist unser StartFenster Start.
      */
-    private InterfaceMainView hauptFenster;
+    private SchnittstelleHauptfenster hauptFenster;
     /**
      * Referenzvaribale der Sicht Artikel anlegen.
      */
@@ -60,7 +60,7 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
      * @param mainView beinhaltet das Objekt des StartFenster
      */
     public ArtikelAEndernEinstieg(GUIFactory factory,
-            ArtikelAnlegen artikelAnlegen, InterfaceMainView mainView) {
+            ArtikelAnlegen artikelAnlegen, SchnittstelleHauptfenster mainView) {
         initComponents();
         this.factory = factory;
         this.artikelAnlegen = artikelAnlegen;
@@ -242,12 +242,12 @@ public class ArtikelAEndernEinstieg extends javax.swing.JInternalFrame {
             artikelAnlegen.setVisible(true);
             this.setVisible(false);
             zuruecksetzen();
-            this.hauptFenster.setComponent(artikelAnlegen);
+            this.hauptFenster.setzeComponent(artikelAnlegen);
 //            entsprechende Fehlermeldungen werden in der Statuszeile angezeigt
         } catch (ParseException ex) {
-            this.hauptFenster.setStatusMeldung(KEINE_ARTIKELNR_EINGEGEBEN);
+            this.hauptFenster.setzeStatusMeldung(KEINE_ARTIKELNR_EINGEGEBEN);
         } catch (ApplicationException ex) {
-            this.hauptFenster.setStatusMeldung(KEINE_ARTIKEL_IN_DATENBANK);
+            this.hauptFenster.setzeStatusMeldung(KEINE_ARTIKEL_IN_DATENBANK);
             zuruecksetzen();
         } catch (NullPointerException e) {
         }

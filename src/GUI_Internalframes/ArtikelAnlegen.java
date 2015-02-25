@@ -11,8 +11,8 @@ import JFrames.*;
 import DAO.*;
 import DTO.Artikel;
 import DTO.Artikelkategorie;
-import Interfaces.InterfaceMainView;
-import Interfaces.InterfaceViewsFunctionality;
+import Interfaces.SchnittstelleHauptfenster;
+import Interfaces.SchnittstelleFensterFunktionen;
 import java.util.Collection;
 import java.util.Iterator;
 import javax.swing.DefaultComboBoxModel;
@@ -32,7 +32,7 @@ import javax.swing.JTextField;
  *
  */
 public class ArtikelAnlegen extends javax.swing.JInternalFrame
-        implements InterfaceViewsFunctionality {
+        implements SchnittstelleFensterFunktionen {
 
     /**
      * Variable, die für die Navigation benoetigt wird, in ihr wird gespeichert,
@@ -52,7 +52,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame
      * anmeldet, dann waere unser StartFenster die StartAdmin. Falls sich ein
      * User anmeldet, ist unser StartFenster Start.
      */
-    private InterfaceMainView hauptFenster;
+    private SchnittstelleHauptfenster hauptFenster;
     /**
      * Varibale fue die Artikelnummer.
      */
@@ -157,7 +157,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame
      * @param factory beinhaltet das factory Obejekt
      * @param mainView beinhaltet das Objekt des StartFenster
      */
-    public ArtikelAnlegen(GUIFactory factory, InterfaceMainView mainView) {
+    public ArtikelAnlegen(GUIFactory factory, SchnittstelleHauptfenster mainView) {
         initComponents();
         this.hauptFenster = mainView;
 //        factory und die dao werden gesetzt
@@ -887,7 +887,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame
 //              Meldung fuer die Statuszeile wird angepasst
                         statuszeile = "Artikel mit der Artikel-ID "
                                 + artikelnr + " wurde erfolgreich angelegt.";
-                        this.hauptFenster.setStatusMeldung(statuszeile);
+                        this.hauptFenster.setzeStatusMeldung(statuszeile);
 //              das Formular wird zurueckgesetzt  
                         zuruecksetzen();
                     } else {
@@ -926,7 +926,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame
                                 statuszeile = "Artikel mit der Artikel-ID "
                                         + artikelnr
                                         + " wurde erfolgreich geändert.";
-                                this.hauptFenster.setStatusMeldung(statuszeile);
+                                this.hauptFenster.setzeStatusMeldung(statuszeile);
                                 this.dao.aendereArtikel(artikelnr, kategorie,
                                         artikelname, artikelbeschreibung,
                                         einzelwert,
@@ -1150,7 +1150,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame
                                             + artikelnr
                                             + " wurde erfolgreich geändert. ";
                                     this.hauptFenster
-                                            .setStatusMeldung(statuszeile);
+                                            .setzeStatusMeldung(statuszeile);
 //                                  falls ja, wird der Artikel geaendert
                                     this.dao.aendereArtikel(artikelnr,
                                             kategorie, artikelname,
@@ -1260,7 +1260,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame
 //                      Meldung fuer die Statuszeile wird angepasst
                         statuszeile = "Artikel mit der Artikel-ID "
                                 + artikelnr + " wurde erfolgreich gelöscht. ";
-                        this.hauptFenster.setStatusMeldung(statuszeile);
+                        this.hauptFenster.setzeStatusMeldung(statuszeile);
 //                    jB_ZurueckActionPerformed(evt);
                         zurueckInsHauptmenue();
                     }
@@ -1514,7 +1514,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame
         jB_Loeschen.setEnabled(false);
 
 //      Übergibt der Referenz des Hauptfensters das Internaframe
-        this.hauptFenster.setComponent(this);
+        this.hauptFenster.setzeComponent(this);
 //      setzt die Bestandsmengen  
         jTF_Bestandsmenge_FREI.setText("0");
         jTF_Bestandsmenge_RES.setText("0");
@@ -1534,7 +1534,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame
         zuruecksetzen();
         setzFormularInArtikelAEndernFuerButton();
 //      Übergibt der Referenz des Hauptfensters das Internaframe
-        this.hauptFenster.setComponent(this);
+        this.hauptFenster.setzeComponent(this);
     }
 
     /*
@@ -1572,7 +1572,7 @@ public class ArtikelAnlegen extends javax.swing.JInternalFrame
         zuruecksetzen();
         setzFormularInArtikelAnzeigenFuerButton();
 //      Übergibt der Referenz des Hauptfensters das Internaframe
-        this.hauptFenster.setComponent(this);
+        this.hauptFenster.setzeComponent(this);
     }
 
     /*

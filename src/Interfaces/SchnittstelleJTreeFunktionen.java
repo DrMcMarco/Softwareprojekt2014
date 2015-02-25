@@ -8,7 +8,7 @@ import javax.swing.JInternalFrame;
  */
 /* 10.12.2014 Terrasi, Erstellung. */
 /* 18.02.2015 TER, getestet und freigegeben */
-public interface InterfaceJTreeFunction {
+public interface SchnittstelleJTreeFunktionen {
 
     
     /*----------------------------------------------------------*/
@@ -23,7 +23,7 @@ public interface InterfaceJTreeFunction {
      * @param node, Stringvariable
      *
      */
-    public void openJtreeNodes(String node);
+    public void oeffneJtreeZweige(String node);
 
     /*----------------------------------------------------------*/
     /* Datum Name Was */
@@ -31,10 +31,10 @@ public interface InterfaceJTreeFunction {
     /* 18.02.2015 TER, getestet und freigegeben */
     /*----------------------------------------------------------*/
     /**
-     * Schnittstellenmethode setComponentVisible die verwendet werden soll um
-     * einzelne Frames sichtbar zu machen.
+     * Schnittstellenmethode setzeComponenteSichtbar die verwendet werden soll um
+ einzelne Frames sichtbar zu machen.
      *
      * @param frame ein Fenster.
      */
-    public void setComponentVisible(JInternalFrame frame);
+    public void setzeComponenteSichtbar(JInternalFrame frame);
 }

@@ -4,7 +4,7 @@ import DAO.ApplicationException;
 import DTO.Anschrift;
 import DTO.Geschaeftspartner;
 import Documents.UniversalDocument;
-import Interfaces.InterfaceMainView;
+import Interfaces.SchnittstelleHauptfenster;
 import JFrames.GUIFactory;
 import java.awt.Component;
 import java.text.NumberFormat;
@@ -45,7 +45,7 @@ public class GeschaeftspartnerAEndernEinstieg
      * anmeldet, dann waere unser StartFenster die StartAdmin. Falls sich ein
      * User anmeldet, ist unser StartFenster Start.
      */
-    private InterfaceMainView hauptFenster;
+    private SchnittstelleHauptfenster hauptFenster;
     /**
      * Variablen fuer die Fehlermeldungen
      */
@@ -66,7 +66,7 @@ public class GeschaeftspartnerAEndernEinstieg
      * @param mainView beinhaltet das Objekt des StartFenster
      */
     public GeschaeftspartnerAEndernEinstieg(GUIFactory factory,
-            GeschaeftspartnerAnlegen gp, InterfaceMainView mainView) {
+            GeschaeftspartnerAnlegen gp, SchnittstelleHauptfenster mainView) {
         initComponents();
         this.factory = factory;
         this.g = gp;
@@ -286,12 +286,12 @@ public class GeschaeftspartnerAEndernEinstieg
             g.setVisible(true);
             this.setVisible(false);
             zuruecksetzen();
-            this.hauptFenster.setComponent(g);
+            this.hauptFenster.setzeComponent(g);
 //            entsprechende Fehlermeldungen werden in der Statuszeile angezeigt
         } catch (ParseException e) {
-            this.hauptFenster.setStatusMeldung(KEINE_GPNR_EINGEGEBEN);
+            this.hauptFenster.setzeStatusMeldung(KEINE_GPNR_EINGEGEBEN);
         } catch (ApplicationException e) {
-            this.hauptFenster.setStatusMeldung(KEINE_GP_IN_DATENBANK);
+            this.hauptFenster.setzeStatusMeldung(KEINE_GP_IN_DATENBANK);
             zuruecksetzen();
         } catch (NullPointerException e) {
         }
