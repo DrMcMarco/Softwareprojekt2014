@@ -40,42 +40,81 @@ public class Status implements Serializable {
     @OneToMany(mappedBy = "Status")
     private ArrayList<Auftragskopf> Auftragsliste;
 
+    /**
+     * Standardkonstruktor, generiert.
+     */
     public Status() {
     }
 
+    /**
+     * Generiert.
+     * @param Status Name des Status
+     */
     public Status(String Status) {
         this.Status = Status;
         this.LKZ = false;
     }
 
+    /**
+     * Generiert.
+     * @return Status-ID
+     */
     public long getStatusID() {
         return StatusID;
     }
 
+    /**
+     * Generiert.
+     * @return Statusname
+     */
     public String getStatus() {
         return Status;
     }
 
+    /**
+     * Generiert.
+     * @param Status der neue Status
+     */
     public void setStatus(String Status) {
         this.Status = Status;
     }
 
+    /**
+     * Generiert.
+     * @return Auftragsliste
+     */
     public ArrayList<Auftragskopf> getAuftragsliste() {
         return Auftragsliste;
     }
 
+    /**
+     * Generiert.
+     * @param Auftragsliste neue Auftragsliste
+     */
     public void setAuftragsliste(ArrayList<Auftragskopf> Auftragsliste) {
         this.Auftragsliste = Auftragsliste;
     }
 
+    /**
+     * Generiert.
+     * @return das Löschkennzeichen
+     */
     public boolean isLKZ() {
         return LKZ;
     }
 
+    /**
+     * Generiert.
+     * @param LKZ das neue Löschkennzeichen 
+     */
     public void setLKZ(boolean LKZ) {
         this.LKZ = LKZ;
     }
 
+    /**
+     * Generiert.
+     * @return den Hashcode
+     */
     @Override
     public int hashCode() {
         int hash = 7;
@@ -84,6 +123,11 @@ public class Status implements Serializable {
         return hash;
     }
 
+    /**
+     * Gerneriert.
+     * @param obj das andere Objekt
+     * @return Ob beide Objekte gleich sind
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

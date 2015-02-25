@@ -19,6 +19,9 @@ import javax.persistence.*;
 @DiscriminatorValue("Rechnungsanschrift")
 public class Rechnungsanschrift extends Anschrift {
     
+    /**
+     * Standardkonstruktor, generiert.
+     */
     public Rechnungsanschrift() {
         
     }

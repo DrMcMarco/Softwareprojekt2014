@@ -29,27 +29,51 @@ public class Steuertabelle implements Serializable {
      */
     private String Wert;
     
+    /**
+     * Standardkonstruktor, generiert.
+     */
     public Steuertabelle() {
         
     }
 
+    /**
+     * Generiert.
+     * @param Parameter Name des Parameters
+     * @param Wert Wert des Parameters
+     */
     public Steuertabelle(String Parameter, String Wert) {
         this.Steuerparameter = Parameter;
         this.Wert = Wert;
     }
-
+    
+    /**
+     * Generiert.
+     * @return Name des Steuerparameters
+     */
     public String getParameter() {
         return Steuerparameter;
     }
 
+    /**
+     * Generiert.
+     * @param Parameter der neue Parameter 
+     */
     public void setParameter(String Parameter) {
         this.Steuerparameter = Parameter;
     }
 
+    /**
+     * Generiert.
+     * @return der Wert des Parameters
+     */
     public String getWert() {
         return Wert;
     }
 
+    /**
+     * Generiert.
+     * @param Wert der neue Wert
+     */
     public void setWert(String Wert) {
         this.Wert = Wert;
     } 

@@ -18,10 +18,29 @@ import javax.persistence.*;
 @DiscriminatorValue("Lieferanschrift")
 public class Lieferanschrift extends Anschrift {
     
+    /**
+     * Standardkonstruktor, generiert.
+     */
     public Lieferanschrift() {
         
     }
     
+    /**
+     * Generiert.
+     * @param Name Name
+     * @param Vorname Vorname
+     * @param Titel Anrede
+     * @param Strasse Straße
+     * @param Hausnummer Hausnummer
+     * @param PLZ Postleitzahl
+     * @param Ort Ort
+     * @param Staat Staat
+     * @param Telefon Telefon
+     * @param FAX Faxnummer
+     * @param Email Email
+     * @param Geburtsdatum Geburtsdatum
+     * @param Erfassungsdatum Erfassungsdatum
+     */
     public Lieferanschrift(String Name, String Vorname, String Titel, 
             String Strasse, String Hausnummer, String PLZ, String Ort, 
             String Staat, String Telefon, String FAX, String Email, 
