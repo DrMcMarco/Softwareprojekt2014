@@ -348,7 +348,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame
                 //Setze das fenster
                 framestart.detailSuche.setzeFenster(framestart.getComponent());
                 //Setze das fenster im meinframe
-                framestart.setFrame(framestart.detailSuche);
+                framestart.setzeFrame(framestart.detailSuche);
                 this.setVisible(false);
             } catch (Exception e) { //Fehlerbehandlung 
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Fehler", 
@@ -372,7 +372,7 @@ public class AllgemeineSuche extends javax.swing.JInternalFrame
                 //Setze die Tabelle
                 framestartadmin.detailSuche.setzeTabelle(suchKategorie);
                 //Setze das fenster im meinframe
-                framestartadmin.setFrame(framestartadmin.detailSuche);
+                framestartadmin.setzeFrame(framestartadmin.detailSuche);
                 this.setVisible(false);
             } catch (Exception e) { //Fehlerbehandlung 
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Fehler", 
