@@ -276,11 +276,11 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
 
         // Zuweisung der Documents an die Eingabefelder
         geschaeftspartner_jTextField.setDocument(
-                new UniversalDocument("1234567890", false));
+                new UniversalDocument("1234567890", false, 10));
         menge_jTextField.setDocument(
-                new UniversalDocument("1234567890", false));
+                new UniversalDocument("1234567890", false, 10));
         materialnummer_jTextField.setDocument(
-                new UniversalDocument("1234567890", false));
+                new UniversalDocument("1234567890", false, 10));
 
         // Radiobuttons und deren Zuweisung in eine Radiobuttongroup. 
         // Es wird immer ein Radiobutton selektiert.         

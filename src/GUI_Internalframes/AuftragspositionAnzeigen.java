@@ -38,8 +38,9 @@ implements SchnittstelleFensterFunktionen {
     private String mengenAngabe;
 
     // Speichervariablen für Datenbankdaten.
-    private Auftragsposition dbPosition;
 
+    Auftragsposition dbPosition;
+    
     private String dbAuftragspositionsID;
     private String dbPositionsnummer;
     private String dbMaterialnummer;
@@ -88,7 +89,7 @@ implements SchnittstelleFensterFunktionen {
     private final String KEINEAENDERUNG_TEXT = "Es sind keine Änderungen vorgenommen "
             + "worden.";
 
-    private final String ERFOLGREICHGELOESCHT_TITEL = "Auftragsposition löschen";
+    final String ERFOLGREICHGELOESCHT_TITEL = "Auftragsposition löschen";
     private final String ERFOLGREICHGELOESCHT_TEXT = "Auftragsposition wurde "
             + "erfolgreich gelöscht";
 
@@ -138,15 +139,15 @@ implements SchnittstelleFensterFunktionen {
 
         // Zuweisung der Documents an die Eingabefelder
         auftragskofID_jTextField.setDocument(
-                new UniversalDocument("0123456789", false));
+                new UniversalDocument("0123456789", false, 10));
         positionsnummer_jTextField.setDocument(
-                new UniversalDocument("0123456789", false));
+                new UniversalDocument("0123456789", false, 10));
         materialnummer_jTextField.setDocument(
-                new UniversalDocument("0123456789", false));
+                new UniversalDocument("0123456789", false, 10));
         menge_jTextField.setDocument(
-                new UniversalDocument("0123456789", false));
+                new UniversalDocument("0123456789", false, 10));
         einzelwert_jTextField.setDocument(
-                new UniversalDocument("0123456789,.", false));
+                new UniversalDocument("0123456789,.", false, 10));
 
     }
 
