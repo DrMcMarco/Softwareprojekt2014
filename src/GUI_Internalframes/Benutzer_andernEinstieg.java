@@ -36,7 +36,7 @@ public class Benutzer_andernEinstieg extends javax.swing.JInternalFrame
             = "Keine passender Benutzer in der Datenbank.";
     private final String KEINE_EINGABE = "Bitte geben Sie einen Benutzernamen "
             + "ein.";
-    private final String FEHLER = "Fehler bei Eingabe ";
+    final String FEHLER = "Fehler bei Eingabe ";
 
     // Speichervariablen
     private ArrayList<Component> fehleingabefelder; // Liste für Fehleingaben.

@@ -35,14 +35,13 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
     private ArrayList<Component> fehlendeEingaben;// ArrayList für Eingabefelder
 
     // Konstanten für Farben    
-    private final Color warningfarbe = Color.YELLOW;
     private final Color hintergrundfarbe = Color.WHITE;
 
     // Augabetexte für Meldungen
-    private final String FEHLER = "Fehler";
+    final String FEHLER = "Fehler";
     private final String FEHLENDEEINGABEN = "Fehlende Eingaben";
-    private final String FEHLERMELDUNG_TITEL = "Fehlerhafte Eingabe";
-    private final String FEHLERMELDUNG_AUFTRAGSKOPFID_TEXT = "Bitte geben Sie alle "
+    final String FEHLERMELDUNG_TITEL = "Fehlerhafte Eingabe";
+    final String FEHLERMELDUNG_AUFTRAGSKOPFID_TEXT = "Bitte geben Sie alle "
             + "notwendigen Eingaben ein!";
     private final String FEHLERMELDUNG_STATUS_TITEL = "Abgeschlossener Auftrag";
     private final String FEHLERMMELDUNG_STATUSABGESCHLOSSEN_TEXT = "Der Auftrag ist "
@@ -87,9 +86,9 @@ public class AuftragspositionAendern extends javax.swing.JInternalFrame
 
         // Zuweisung der Documents an die Eingabefelder
         auftragskopfID_jTextField.setDocument(new UniversalDocument(
-                "0123456789", false));
+                "0123456789", false, 10));
         AuftragspositionID_jTextField.setDocument(new UniversalDocument(
-                "0123456789", false));
+                "0123456789", false, 10));
     }
 
     /**

@@ -35,12 +35,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
 
     ArrayList<Component> fehleingabefelder;
 
-
     // Augabetexte für Meldungen
-    private final String FEHLER = "Fehler";
-
-    private final String FEHLERMELDUNG_TITEL = "Fehlerhafte Eingabe";
-
     private final String FEHLERMELDUNG_STATUS_TITEL = "Abgeschlossener Auftrag";
     private final String FEHLERMMELDUNG_STATUSABGESCHLOSSEN_TEXT = "Der Auftrag ist "
             + "bereits abgeschlossen und kann nicht"
@@ -85,7 +80,7 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
 
         // Zuweisung der Documents an die Eingabefelder
         auftragskopfID_jTextField.setDocument(
-                new UniversalDocument("0123456789", false));
+                new UniversalDocument("0123456789", false, 10));
     }
 
     /**
@@ -253,14 +248,14 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
             // Wird geprüft ob eine Eingabe getätigt worden ist.
             if (!(auftragskopfID_jTextField.getText().equals(""))) {
 
-            // Initialisieirung eines Auftragskopfes mit der DAO-Methode
+                // Initialisieirung eines Auftragskopfes mit der DAO-Methode
                 // "gibAuftragskopf".
                 aKopf = GUIFactory.getDAO().
                         gibAuftragskopf(
                                 Long.parseLong(
                                         auftragskopfID_jTextField.getText()));
 
-            // Überprüft anhand des Framestitels, ob es das nächste Fenster
+                // Überprüft anhand des Framestitels, ob es das nächste Fenster
                 // im Anzeigen-/ oder im Ändernmodus anzeigen soll.
                 if (this.getTitle().equals(auftragskopfAendern)) {
                     if (aKopf != null) {// Falls Auftragskopf vorhanden ist.
@@ -306,15 +301,15 @@ public class AuftragskopfAendern extends javax.swing.JInternalFrame
                     this.hauptFenster.setzeFrame(this.auftragskopfAnlegen);
                 }
             } else {
-                
+
                 this.hauptFenster.setzeStatusMeldung(KEINE_EINGABE);
             }
-        } catch (ApplicationException | 
+        } catch (ApplicationException |
                 NullPointerException e) {// Fehlerbehandlung.
             // Fehlermeldung als PopUp
-                this.hauptFenster.setzeStatusMeldung(AUFTRAG_NICHT_GEFUNDEN);
-                // Eingabefeld erhält leeren String
-                auftragskopfID_jTextField.setText("");
+            this.hauptFenster.setzeStatusMeldung(AUFTRAG_NICHT_GEFUNDEN);
+            // Eingabefeld erhält leeren String
+            auftragskopfID_jTextField.setText("");
         }
     }//GEN-LAST:event_weiter_jButtonActionPerformed
 
