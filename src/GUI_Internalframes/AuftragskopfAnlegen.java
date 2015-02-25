@@ -2429,13 +2429,14 @@ public class AuftragskopfAnlegen extends javax.swing.JInternalFrame
             // Schleife um über alle Position zu interieren.
             for (int i = 0; i < auftragspositionen.size(); i++) {
 
-                if (auftragsart_jComboBox.getSelectedItem().equals("Bestellauftrag")) {
+                if (auftragsart_jComboBox.getSelectedItem().
+                        equals("Bestellauftrag")) {// Falls Auftragsart Bestellauftrag ist
                     // Neue Summe für die Position berechnen.
                     summenWertFuerPos = auftragspositionen.get(i).
                             getArtikel().getEinkaufswert()
                             * artikel.get(auftragspositionen.get(i).
                                     getArtikel().getArtikelID());
-                } else {
+                } else {// Alle anderen Auftragsarten
                     summenWertFuerPos = auftragspositionen.get(i).
                             getArtikel().getVerkaufswert()
                             * artikel.get(auftragspositionen.get(i).
