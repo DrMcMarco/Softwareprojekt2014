@@ -93,6 +93,7 @@ public class DataAccessObject {
                 String[] befehl = {"CMD", "/C", "start", "/B", "fillDatabase.bat"};          
                 ProcessBuilder pb = new ProcessBuilder(befehl);
                 Process p = pb.start();
+                this.erstelleSteuereintrag("Installationsdatum", new Date().toString());
             }
             
             //Erstelle bzw. überschreibe den Eintrag "Letztes Programmstart"
@@ -3437,6 +3438,8 @@ public class DataAccessObject {
                     "Der Auftrag ist bereits mit einem Löschlennzeichen versehen.");
         }
         
+        //Wenn der Auftrag freigegeben ist, müssen Reservierungen und Zuläufe
+        //rückgängig gemacht werden
         if (ak.getStatus().getStatus().equals("freigegeben")) {
             if (ak instanceof Bestellauftragskopf) {
                 this.setzeArtikelBestand(ak.getPositionsliste(), "RueckgaengigBestellung");
