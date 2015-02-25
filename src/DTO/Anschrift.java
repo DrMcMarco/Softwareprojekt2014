@@ -100,12 +100,33 @@ public abstract class Anschrift implements Serializable {
      */
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date Erfassungsdatum;
-    
+    /**
+     * Generiert.
+     */
     private boolean LKZ;
 
+    /**
+     * Leerer Konstruktur
+     */
     public Anschrift() {
     }
 
+    /**
+     * Generiert.
+     * @param Name Name
+     * @param Vorname Vorname
+     * @param Titel Titel
+     * @param Strasse Strasse
+     * @param Hausnummer Hausnummer
+     * @param PLZ PLZ
+     * @param Ort Ort
+     * @param Staat Staat
+     * @param Telefon Telefon
+     * @param FAX FAX
+     * @param Email Email
+     * @param Geburtsdatum Geburtsdatum
+     * @param Erfassungsdatum  Erfassungsdatum
+     */
     public Anschrift(String Name, String Vorname,
             String Titel, String Strasse, String Hausnummer, String PLZ,
             String Ort, String Staat, String Telefon, String FAX, String Email,
@@ -126,122 +147,242 @@ public abstract class Anschrift implements Serializable {
         this.LKZ = false;
     }
 
+    /**
+     * Generiert.
+     * @return id
+     */
     public long getAnschriftID() {
         return AnschriftID;
     }
 
+    /**
+     * Generiert.
+     * @return name
+     */
     public String getName() {
         return Name;
     }
 
+    /**
+     * Generiert.
+     * @param Name name
+     */
     public void setName(String Name) {
         this.Name = Name;
     }
 
+    /**
+     * Generiert.
+     * @return vname
+     */
     public String getVorname() {
         return Vorname;
     }
 
+    /**
+     * Generiert.
+     * @param Vorname vname
+     */
     public void setVorname(String Vorname) {
         this.Vorname = Vorname;
     }
 
+    /**
+     * Generiert.
+     * @return titel
+     */
     public String getTitel() {
         return Titel;
     }
 
+    /**
+     * Generiert.
+     * @param Titel titel
+     */
     public void setTitel(String Titel) {
         this.Titel = Titel;
     }
 
+    /**
+     * Generiert.
+     * @return strasse
+     */
     public String getStrasse() {
         return Strasse;
     }
 
+    /**
+     * Generiert.
+     * @param Strasse strasse
+     */
     public void setStrasse(String Strasse) {
         this.Strasse = Strasse;
     }
 
+    /**
+     * Generiert.
+     * @return hausnr
+     */
     public String getHausnummer() {
         return Hausnummer;
     }
 
+    /**
+     * Generiert.
+     * @param Hausnummer hsnr
+     */
     public void setHausnummer(String Hausnummer) {
         this.Hausnummer = Hausnummer;
     }
 
+    /**
+     * Generiert.
+     * @return plz
+     */
     public String getPLZ() {
         return PLZ;
     }
 
+    /**
+     * Generiert.
+     * @param PLZ 
+     */
     public void setPLZ(String PLZ) {
         this.PLZ = PLZ;
     }
 
+    /**
+     * Generiert.
+     * @return ort
+     */
     public String getOrt() {
         return Ort;
     }
 
+    /**
+     * Generiert.
+     * @param Ort ort
+     */
     public void setOrt(String Ort) {
         this.Ort = Ort;
     }
 
+    /**
+     * Generiert.
+     * @return staat
+     */
     public String getStaat() {
         return Staat;
     }
 
+    /**
+     * Generiert.
+     * @param Staat staat
+     */
     public void setStaat(String Staat) {
         this.Staat = Staat;
     }
 
+    /**
+     * Generiert.
+     * @return telefon
+     */
     public String getTelefon() {
         return Telefon;
     }
 
+    /**
+     * Generiert.
+     * @param Telefon telefon
+     */
     public void setTelefon(String Telefon) {
         this.Telefon = Telefon;
     }
 
+    /**
+     * Generiert.
+     * @return fax
+     */
     public String getFAX() {
         return FAX;
     }
 
+    /**
+     * Generiert.
+     * @param FAX fax
+     */
     public void setFAX(String FAX) {
         this.FAX = FAX;
     }
 
+    /**
+     * Generiert.
+     * @return email
+     */
     public String getEmail() {
         return Email;
     }
 
+    /**
+     * Generiert.
+     * @param Email email
+     */
     public void setEmail(String Email) {
         this.Email = Email;
     }
 
+    /**
+     * Generiert.
+     * @return datum
+     */
     public Date getGeburtsdatum() {
         return Geburtsdatum;
     }
 
+    /**
+     * Generiert.
+     * @param Geburtsdatum gebdatum
+     */
     public void setGeburtsdatum(Date Geburtsdatum) {
         this.Geburtsdatum = Geburtsdatum;
     }
 
+    /**
+     * Generiert.
+     * @return datum
+     */
     public Date getErfassungsdatum() {
         return Erfassungsdatum;
     }
 
+    /**
+     * Generiert.
+     * @param Erfassungsdatum erfassungsdatum
+     */
     public void setErfassungsdatum(Date Erfassungsdatum) {
         this.Erfassungsdatum = Erfassungsdatum;
     }
 
+    /**
+     * Generiert.
+     * @return ob gelöscht
+     */
     public boolean isLKZ() {
         return LKZ;
     }
 
+    /**
+     * Generiert.
+     * @param LKZ lkz
+     */
     public void setLKZ(boolean LKZ) {
         this.LKZ = LKZ;
     }
 
+    /**
+     * Generiert.
+     * @return hashcode
+     */
     @Override
     public int hashCode() {
         int hash = 5;
@@ -263,6 +404,11 @@ public abstract class Anschrift implements Serializable {
         return hash;
     }
 
+    /**
+     * Generiert.
+     * @param obj Ein Objekt.
+     * @return Wahr oder Falsch.
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -311,9 +457,19 @@ public abstract class Anschrift implements Serializable {
         return true;
     }
     
+    /**
+     * Generiert.
+     * @return Tostring
+     */
     @Override
     public String toString() {
-        return "Anschrift{" + "AnschriftID=" + AnschriftID + ", Name=" + Name + ", Vorname=" + Vorname + ", Titel=" + Titel + ", Strasse=" + Strasse + ", Hausnummer=" + Hausnummer + ", PLZ=" + PLZ + ", Ort=" + Ort + ", Staat=" + Staat + ", Telefon=" + Telefon + ", FAX=" + FAX + ", Email=" + Email + ", Geburtsdatum=" + Geburtsdatum + ", Erfassungsdatum=" + Erfassungsdatum + '}';
+        return "Anschrift{" + "AnschriftID=" + AnschriftID 
+                + ", Name=" + Name + ", Vorname=" + Vorname + ", Titel=" 
+                + Titel + ", Strasse=" + Strasse + ", Hausnummer=" + Hausnummer 
+                + ", PLZ=" + PLZ + ", Ort=" + Ort + ", Staat=" + Staat 
+                + ", Telefon=" + Telefon + ", FAX=" + FAX + ", Email=" 
+                + Email + ", Geburtsdatum=" + Geburtsdatum 
+                + ", Erfassungsdatum=" + Erfassungsdatum + '}';
     }
     
     

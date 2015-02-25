@@ -111,6 +111,19 @@ public class Artikel implements Serializable {
     public Artikel() {
     }
 
+    /**
+     * Konstruktur.
+     * @param Kategorie Kategorie
+     * @param Artikeltext Artikeltext
+     * @param Bestelltext Bestelltext
+     * @param Verkaufswert Verkaufswert
+     * @param Einkaufswert Einkaufswert
+     * @param MwST MwST
+     * @param Frei Frei
+     * @param Reserviert Reserviert
+     * @param Zulauf Zulauf
+     * @param Verkauft Verkauft
+     */
     public Artikel(Artikelkategorie Kategorie, String Artikeltext, 
             String Bestelltext, double Verkaufswert, double Einkaufswert, 
             int MwST, int Frei, int Reserviert, int Zulauf, int Verkauft) {
@@ -148,119 +161,236 @@ public class Artikel implements Serializable {
         this.Nachfolger = null;
     }
 
+    /**
+     * Generiert.
+     * @return id
+     */
     public long getArtikelID() {
         return ArtikelId;
     }
 
+    /**
+     * Generiert.
+     * @param ArtikelID id
+     */
     public void setArtikelID(long ArtikelID) {
         this.ArtikelId = ArtikelID;
     }
 
+    /**
+     * Generiert.
+     * @return kat
+     */
     public Artikelkategorie getKategorie() {
         return Kategorie;
     }
 
+    /**
+     * Generiert.
+     * @param Kategorie kat
+     */
     public void setKategorie(Artikelkategorie Kategorie) {
         this.Kategorie = Kategorie;
     }
 
+    /**
+     * Generiert.
+     * @return text
+     */
     public String getArtikeltext() {
         return Artikeltext;
     }
 
+    /**
+     * Generiert.
+     * @param Artikeltext text
+     */
     public void setArtikeltext(String Artikeltext) {
         this.Artikeltext = Artikeltext;
     }
 
+    /**
+     * Generiert.
+     * @return text
+     */
     public String getBestelltext() {
         return Bestelltext;
     }
 
+    /**
+     * Generiert.
+     * @param Bestelltext text
+     */
     public void setBestelltext(String Bestelltext) {
         this.Bestelltext = Bestelltext;
     }
 
+    /**
+     * Generiert.
+     * @return wert
+     */
     public double getVerkaufswert() {
         return Verkaufswert;
     }
 
+    /**
+     * Generiert.
+     * @param Verkaufswert wert
+     */
     public void setVerkaufswert(double Verkaufswert) {
         this.Verkaufswert = Verkaufswert;
     }
 
+    /**
+     * Generiert.
+     * @return wert
+     */
     public double getEinkaufswert() {
         return Einkaufswert;
     }
 
+    /**
+     * Generiert.
+     * @param Einkaufswert wert
+     */
     public void setEinkaufswert(double Einkaufswert) {
         this.Einkaufswert = Einkaufswert;
     }
 
+    /**
+     * Generiert.
+     * @return mwst
+     */
     public int getMwST() {
         return MwST;
     }
 
+    /**
+     * Generiert.
+     * @param mwst
+     */
     public void setMwST(int MwST) {
         this.MwST = MwST;
     }
 
+    /**
+     * Generiert.
+     * @return frei
+     */
     public int getFrei() {
         return Frei;
     }
 
+    /**
+     * Generiert.
+     * @param Frei frei
+     */
     public void setFrei(int Frei) {
         this.Frei = Frei;
     }
 
+    /**
+     * Generiert.
+     * @return reserviert
+     */
     public int getReserviert() {
         return Reserviert;
     }
 
+    /**
+     * Generiert.
+     * @param Reserviert reserv
+     */
     public void setReserviert(int Reserviert) {
         this.Reserviert = Reserviert;
     }
 
+    /**
+     * Generiert.
+     * @return zulauf
+     */
     public int getZulauf() {
         return Zulauf;
     }
 
+    /**
+     * Generiert.
+     * @param Zulauf zulauf
+     */
     public void setZulauf(int Zulauf) {
         this.Zulauf = Zulauf;
     }
 
+    /**
+     * Generiert.
+     * @return verkauft
+     */
     public int getVerkauft() {
         return Verkauft;
     }
 
+    /**
+     * Generiert.
+     * @param Verkauft verkauft
+     */
     public void setVerkauft(int Verkauft) {
         this.Verkauft = Verkauft;
     }
 
+    /**
+     * Generiert.
+     * @return lkz
+     */
     public boolean isLKZ() {
         return LKZ;
     }
 
+    /**
+     * Generiert.
+     * @param LKZ lkz
+     */
     public void setLKZ(boolean LKZ) {
         this.LKZ = LKZ;
     }
 
+    /**
+     * Generiert.
+     * @return vorg
+     */
     public Artikel getVorgaenger() {
         return Vorgaenger;
     }
 
+    /**
+     * Generiert.
+     * @param Vorgaenger vorg
+     */
     public void setVorgaenger(Artikel Vorgaenger) {
         this.Vorgaenger = Vorgaenger;
     }
 
+    /**
+     * Generiert.
+     * @return nachf
+     */
     public Artikel getNachfolger() {
         return Nachfolger;
     }
 
+    /**
+     * Generiert.
+     * @param Nachfolger nachf
+     */
     public void setNachfolger(Artikel Nachfolger) {
         this.Nachfolger = Nachfolger;
     }
 
 
+    /**
+     * Generiert.
+     * @param obj obj
+     * @return wahr oder falsch
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -319,6 +449,10 @@ public class Artikel implements Serializable {
 
     
 
+    /**
+     * Generiert.
+     * @return tostring
+     */
     @Override
     public String toString() {
         return "Artikel{" + "ArtikelID=" + ArtikelId + ", Kategorie=" + 
